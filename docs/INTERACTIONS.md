@@ -6,40 +6,46 @@ This document details the interaction system, including object types, behaviors,
 
 Ashworth Manor uses a **diegetic interaction system** where all player interactions occur within the game world rather than through abstract UI elements. When a player interacts with an object, the response feels like examining something in the physical space.
 
+The interaction system is implemented in GDScript across `player_controller.gd` (input/raycast), `interaction_manager.gd` (puzzle logic), and `ui_overlay.gd` (document display).
+
 ## Interaction Flow
 
 ```
 Player Tap
     │
     ▼
-Ray Cast (scene.pick)
+PlayerController raycast (collision layers)
     │
-    ▼
-Check mesh.metadata
+    ├─► Layer 1 (walkable floor)
+    │       │
+    │       ▼
+    │   Move to position
     │
-    ├─► interactable: true
+    ├─► Layer 3 (interactable Area3D)
     │       │
     │       ▼
-    │   handleInteraction(id, type)
+    │   Emit interacted(object_id, object_type, data)
     │       │
     │       ▼
-    │   Get object data
+    │   InteractionManager._on_interacted()
     │       │
     │       ▼
-    │   Set activeInteraction state
+    │   Match object_type → handle logic
     │       │
     │       ▼
-    │   Render overlay (Game.tsx)
+    │   UIOverlay.show_document(title, content)
     │
-    ├─► walkable: true
-    │       │
-    │       ▼
-    │   walkTo(pickResult.pickedPoint)
-    │
-    └─► transition: true
+    └─► Layer 4 (connection Area3D)
             │
             ▼
-        handleTransition(targetRoom)
+        Emit door_tapped(target_room)
+            │
+            ▼
+        InteractionManager._on_door_tapped()
+            │
+            ├─► Check locked/key_id
+            ├─► Check ending conditions
+            └─► RoomManager.transition_to()
 ```
 
 ## Interactable Object Types
@@ -47,30 +53,7 @@ Check mesh.metadata
 ### Paintings
 
 **Purpose**: Environmental storytelling, family history
-
-**Visual**: Flat rectangle attached to wall
-```typescript
-mesh = MeshBuilder.CreatePlane('painting', {
-  width: item.scale.x,
-  height: item.scale.y
-}, this.scene);
-```
-
-**Data Structure**:
-```typescript
-{
-  id: 'foyer_painting',
-  type: 'painting',
-  position: { x: 0, y: 3, z: -6.5 },
-  rotation: { x: 0, y: 0, z: 0 },
-  scale: { x: 3, y: 2, z: 0.1 },
-  data: {
-    title: 'Lord Ashworth',
-    content: 'The patriarch stares down with hollow eyes...'
-  }
-}
-```
-
+**Visual**: GLB picture frame model (picture_blank.glb variants) or CSGBox3D on wall
 **Interaction Result**: Overlay showing title and description
 
 ---
@@ -78,30 +61,7 @@ mesh = MeshBuilder.CreatePlane('painting', {
 ### Notes
 
 **Purpose**: Direct narrative exposition, diary entries, letters
-
-**Visual**: Small rectangle (paper-sized)
-```typescript
-mesh = MeshBuilder.CreatePlane('note', {
-  width: 0.3,
-  height: 0.4
-}, this.scene);
-```
-
-**Data Structure**:
-```typescript
-{
-  id: 'parlor_note',
-  type: 'note',
-  position: { x: 2, y: 0.8, z: 2 },
-  rotation: { x: -0.2, y: 0.5, z: 0 },
-  scale: { x: 1, y: 1, z: 1 },
-  data: {
-    title: 'Torn Diary Page',
-    content: 'The children have been hearing whispers from the attic again...'
-  }
-}
-```
-
+**Visual**: GLB page model (page0.glb etc.) or small CSGBox3D
 **Interaction Result**: Overlay with aged paper styling, italic text
 
 ---
@@ -109,30 +69,7 @@ mesh = MeshBuilder.CreatePlane('note', {
 ### Photos
 
 **Purpose**: Visual clues, family documentation
-
-**Visual**: Small rectangle with slight depth
-```typescript
-mesh = MeshBuilder.CreatePlane('photo', {
-  width: 0.3,
-  height: 0.4
-}, this.scene);
-```
-
-**Data Structure**:
-```typescript
-{
-  id: 'guest_photo',
-  type: 'photo',
-  position: { x: 0, y: 1.5, z: 3.5 },
-  rotation: { x: 0, y: Math.PI, z: 0 },
-  scale: { x: 0.5, y: 0.4, z: 0.1 },
-  data: {
-    title: 'Unknown Guest',
-    content: 'A woman in white stands at the attic window...'
-  }
-}
-```
-
+**Visual**: Small GLB or CSGBox3D
 **Interaction Result**: Description of photograph contents
 
 ---
@@ -140,21 +77,7 @@ mesh = MeshBuilder.CreatePlane('photo', {
 ### Mirrors
 
 **Purpose**: Atmospheric unease, self-reflection themes
-
-**Visual**: Rectangular plane with reflective material
-```typescript
-mesh = MeshBuilder.CreatePlane('mirror', {
-  width: item.scale.x,
-  height: item.scale.y
-}, this.scene);
-```
-
-**Material**:
-```typescript
-mat.diffuseColor = new Color3(0.5, 0.5, 0.55);
-mat.specularColor = new Color3(0.8, 0.8, 0.8);
-```
-
+**Visual**: CSGBox3D with reflective StandardMaterial3D
 **Interaction Result**: Eerie observation about reflection
 
 ---
@@ -162,16 +85,7 @@ mat.specularColor = new Color3(0.8, 0.8, 0.8);
 ### Clocks
 
 **Purpose**: Time symbolism, frozen moment
-
-**Visual**: 3D box representing grandfather clock
-```typescript
-mesh = MeshBuilder.CreateBox('clock', {
-  width: item.scale.x * 0.6,
-  height: item.scale.y,
-  depth: item.scale.z
-}, this.scene);
-```
-
+**Visual**: CSGBox3D representing grandfather clock
 **Interaction Result**: Description noting time (always 3:33 AM)
 
 ---
@@ -179,209 +93,81 @@ mesh = MeshBuilder.CreateBox('clock', {
 ### Switches
 
 **Purpose**: Environmental control, agency
-
-**Visual**: Small box on wall
-```typescript
-mesh = MeshBuilder.CreateBox('switch', {
-  width: 0.08,
-  height: 0.12,
-  depth: 0.03
-}, this.scene);
-```
-
-**Interaction Result**: Toggles associated light source
-```typescript
-case 'switch':
-  const lightId = `${sceneManager.getCurrentRoom()}_0`;
-  sceneManager.toggleLight(lightId);
-  break;
-```
+**Visual**: Small CSGBox3D on wall
+**Interaction Result**: Toggles associated light via GameManager.toggle_light()
 
 ---
 
 ### Boxes/Containers
 
 **Purpose**: Item discovery, locked progression
+**Visual**: GLB model (treasure.glb, drawers.glb) or CSGBox3D
 
-**Visual**: 3D box
-```typescript
-mesh = MeshBuilder.CreateBox('box', {
-  width: item.scale.x,
-  height: item.scale.y,
-  depth: item.scale.z
-}, this.scene);
-```
-
-**Data Structure**:
-```typescript
-{
-  id: 'jewelry_box',
-  type: 'box',
-  position: { x: -3, y: 1, z: 4 },
-  rotation: { x: 0, y: 0.3, z: 0 },
-  scale: { x: 0.4, y: 0.25, z: 0.3 },
-  data: { 
-    locked: true, 
-    keyId: 'jewelry_key',
-    content: 'Inside you find...'
-  }
-}
-```
-
-**Interaction Logic**:
-```typescript
-case 'box':
-  if (data?.locked && data?.keyId) {
-    if (gameState.inventory.includes(data.keyId)) {
-      // Unlock and show contents
-      setActiveInteraction({
-        type: 'box',
-        title: 'Unlocked',
-        content: data.content || 'The box opens with a click.',
-      });
-    } else {
-      // Show locked message
-      setActiveInteraction({
-        type: 'locked',
-        content: 'The box is locked. You need a key.',
-      });
-    }
-  } else {
-    // Open and possibly find item
-    if (data?.itemFound) {
-      setGameState(prev => ({
-        ...prev,
-        inventory: [...prev.inventory, data.itemFound]
-      }));
-    }
-  }
-  break;
-```
-
----
-
-### Ladders
-
-**Purpose**: Vertical room transitions
-
-**Visual**: Rectangular indicator
-```typescript
-mesh = MeshBuilder.CreateBox('ladder', {
-  width: 1,
-  height: 0.2,
-  depth: 1
-}, this.scene);
-```
-
-**Data Structure**:
-```typescript
-{
-  id: 'cellar_ladder',
-  type: 'ladder',
-  position: { x: 3, y: 1.5, z: 4 },
-  rotation: { x: 0, y: 0, z: 0 },
-  scale: { x: 1, y: 1, z: 1 },
-  data: { 
-    targetRoom: 'storage_basement', 
-    targetFloor: -1 
-  }
-}
-```
-
-**Interaction Result**: Room transition
-
----
-
-### Stairs
-
-**Purpose**: Floor-level transitions
-
-**Visual**: Floor indicator
-```typescript
-mesh = MeshBuilder.CreateBox('stairs', {
-  width: 1,
-  height: 0.2,
-  depth: 1
-}, this.scene);
-```
-
-**Interaction Result**: Room transition with fade
-
----
-
-## Hover Feedback
-
-### Visual Glow Effect
-
-```typescript
-// Register hover actions
-mesh.actionManager = new ActionManager(this.scene);
-
-mesh.actionManager.registerAction(
-  new ExecuteCodeAction(ActionManager.OnPointerOverTrigger, () => {
-    if (mat) {
-      mat.emissiveColor = mat.diffuseColor.scale(0.4);  // Brighter
-    }
-  })
-);
-
-mesh.actionManager.registerAction(
-  new ExecuteCodeAction(ActionManager.OnPointerOutTrigger, () => {
-    if (mat) {
-      mat.emissiveColor = mat.diffuseColor.scale(0.15);  // Normal
-    }
-  })
-);
-```
-
-### Interaction Flash
-
-```typescript
-private handleInteraction(id: string, type: string): void {
-  // Visual feedback - brief glow
-  const mesh = this.interactableMeshes.get(id);
-  if (mesh && mesh.material instanceof StandardMaterial) {
-    const originalEmissive = mesh.material.emissiveColor.clone();
-    mesh.material.emissiveColor = new Color3(0.8, 0.3, 0.2);
+**Interaction Logic** (in interaction_manager.gd):
+```gdscript
+func _handle_box(object_id: String, data: Dictionary) -> void:
+    var locked: bool = data.get("locked", false)
+    var key_id: String = data.get("key_id", "")
+    var item_found: String = data.get("item_found", "")
     
-    setTimeout(() => {
-      if (mesh.material instanceof StandardMaterial) {
-        mesh.material.emissiveColor = originalEmissive;
-      }
-    }, 200);
-  }
-}
+    if locked and not key_id.is_empty():
+        if GameManager.has_item(key_id):
+            # Unlock — keys are NOT consumed
+            GameManager.give_item(item_found)
+            _show("Unlocked", data.get("item_content", ""))
+        else:
+            _show("Locked", "It's locked. You need a key.")
+    else:
+        if not item_found.is_empty():
+            GameManager.give_item(item_found)
+        _show(data.get("title", ""), data.get("content", ""))
 ```
 
 ---
 
-## Interaction Overlay (Game.tsx)
+### Dolls (Special Multi-Step)
 
-### Structure
+**Purpose**: Key puzzle item (porcelain doll contains hidden_key)
+**Visual**: GLB model (doll1.glb)
+**Interaction Logic**: Multi-step -- first examine, then extract key (requires reading Elizabeth's letter first), then becomes pickable for counter-ritual
 
-```tsx
-<motion.div
-  className="relative max-w-sm mx-4 p-6 md:p-8"
-  style={{
-    background: 'linear-gradient(135deg, #D4C4A8 0%, #C9B896 50%, #BFA882 100%)',
-    boxShadow: '0 10px 40px rgba(0,0,0,0.5), inset 0 0 50px rgba(139, 69, 19, 0.1)',
-  }}
->
-  {/* Paper texture overlay */}
-  <div className="absolute inset-0 opacity-30 pointer-events-none"
-    style={{ backgroundImage: 'noise texture' }}
-  />
-  
-  {/* Aged edges */}
-  <div className="absolute inset-0 pointer-events-none"
-    style={{ boxShadow: 'inset 0 0 30px rgba(101, 67, 33, 0.4)' }}
-  />
-  
-  {/* Content */}
-  <h3 className="font-cinzel">{title}</h3>
-  <p className="font-serif">{content}</p>
-</motion.div>
-```
+---
+
+### Ritual (Counter-Ritual Sequence)
+
+**Purpose**: True ending trigger in Hidden Chamber
+**Visual**: Floor circle Area3D
+**Interaction Logic**: 3-step sequence requiring all 6 components:
+1. Place the doll
+2. Pour blessed water
+3. Read from the Binding Book
+
+---
+
+### Locked Doors
+
+**Purpose**: Gated progression
+**Visual**: GLB door model with Area3D
+**Interaction Logic**: Check key_id against inventory, transition if unlocked
+
+---
+
+### Room Transitions (Connections)
+
+**Purpose**: Move between rooms
+**Visual**: Area3D at doorways, stairs, ladders, paths
+**Data**: RoomConnection resource with target_scene_path, conn_type, locked, key_id
+**Result**: RoomManager.transition_to() with fade timing based on conn_type
+
+---
+
+## Interaction Overlay (UIOverlay)
+
+The UIOverlay (scripts/ui_overlay.gd) renders document content as a diegetic overlay on a CanvasLayer:
+- Aged paper background with Victorian styling
+- Title in serif font (Cinzel)
+- Content in serif body font
+- Tap anywhere to dismiss
 
 ### Styling by Type
 
@@ -395,141 +181,97 @@ private handleInteraction(id: string, type: string): void {
 
 ---
 
-## Metadata Schema
+## Data Schema
 
-### Interactable Mesh Metadata
+### InteractableData Resource (interactable_data.gd)
 
-```typescript
-mesh.metadata = {
-  interactable: true,      // Flag for interaction system
-  id: string,              // Unique identifier
-  type: string,            // Interaction type
-  data: {                  // Type-specific data
-    title?: string,
-    content?: string,
-    locked?: boolean,
-    keyId?: string,
-    targetRoom?: string,
-    targetFloor?: number,
-    itemFound?: string,
-  }
-};
+```gdscript
+class_name InteractableData
+extends Resource
+
+@export var object_id: String
+@export var object_type: String    # note, painting, photo, mirror, clock, switch, box, doll, ritual, locked_door, observation
+@export var title: String
+@export var content: String
+@export var locked: bool = false
+@export var key_id: String
+@export var item_found: String
+@export var on_read_flags: PackedStringArray
+@export var extra_data: Dictionary
 ```
 
-### Walkable Mesh Metadata
+### RoomConnection Resource (room_connection.gd)
 
-```typescript
-floor.metadata = {
-  walkable: true,
-  roomId: string,
-};
+```gdscript
+class_name RoomConnection
+extends Resource
+
+@export var target_scene_path: String   # e.g. "res://scenes/rooms/ground_floor/parlor.tscn"
+@export var conn_type: String           # door, stairs, ladder, path
+@export var locked: bool = false
+@export var key_id: String
 ```
 
-### Transition Mesh Metadata
+### Collision Layers
 
-```typescript
-indicator.metadata = {
-  transition: boolean,     // false if locked
-  targetRoom: string,
-  targetFloor: number,
-  locked: boolean,
-  keyId?: string,
-};
-```
+| Layer | Purpose |
+|-------|---------|
+| 1 | Walkable (floor CSGBox3D) |
+| 2 | Walls (wall/ceiling CSGBox3D) |
+| 3 | Interactables (Area3D in "interactables" group) |
+| 4 | Connections (Area3D in "connections" group) |
 
 ---
 
 ## Adding New Interaction Types
 
-### Step 1: Define Type
+### Step 1: Add Match Case
 
-In `houseLayout.ts`, add to `Interactable['type']` union:
-```typescript
-type: 'painting' | 'switch' | 'mirror' | ... | 'new_type';
+In `interaction_manager.gd::_on_interacted()`:
+```gdscript
+match object_type:
+    # ... existing types ...
+    "new_type":
+        _handle_new_type(object_id, object_data)
 ```
 
-### Step 2: Create Geometry
+### Step 2: Create Handler
 
-In `SceneManager.createInteractables()`:
-```typescript
-case 'new_type':
-  mesh = MeshBuilder.CreateSomething('new_type', {
-    // dimensions
-  }, this.scene);
-  break;
+```gdscript
+func _handle_new_type(object_id: String, data: Dictionary) -> void:
+    var title: String = data.get("title", "")
+    var content: String = data.get("content", "")
+    # Custom logic here
+    _show(title, content)
 ```
 
-### Step 3: Add Color
+### Step 3: Add to Room Scene
 
-In `SceneManager.getInteractableColor()`:
-```typescript
-'new_type': new Color3(r, g, b),
-```
-
-### Step 4: Handle Interaction
-
-In `Game.tsx handleInteraction()`:
-```typescript
-case 'new_type':
-  setActiveInteraction({
-    type: 'new_type',
-    title: data?.title,
-    content: data?.content,
-  });
-  // Additional logic
-  break;
-```
-
-### Step 5: Style Overlay
-
-In `Game.tsx` overlay render, handle any special styling for the new type.
+In the room .tscn, add an Area3D:
+- Add to group "interactables"
+- Set meta "interactable" with an InteractableData resource
+- Set object_type to "new_type"
+- Add CollisionShape3D child
 
 ---
 
 ## State Tracking
 
-### Interaction History
+All state is managed through GameManager (autoload singleton):
 
-```typescript
-// Track in GameState
-interactedObjects: string[];
+```gdscript
+# Interaction history
+GameManager.mark_interacted(object_id)
 
-// Update on interaction
-setGameState(prev => ({
-  ...prev,
-  interactedObjects: prev.interactedObjects.includes(id) 
-    ? prev.interactedObjects 
-    : [...prev.interactedObjects, id]
-}));
-```
+# Inventory
+GameManager.give_item(item_id)
+GameManager.has_item(item_id)
+GameManager.remove_item(item_id)
 
-### Light Toggle State
+# Story flags
+GameManager.set_flag(flag_name)
+GameManager.has_flag(flag_name)
 
-```typescript
-// Track in GameState
-lightsToggled: Record<string, boolean>;
-
-// Update on switch interaction
-setGameState(prev => ({
-  ...prev,
-  lightsToggled: {
-    ...prev.lightsToggled,
-    [lightId]: !prev.lightsToggled[lightId]
-  }
-}));
-```
-
-### Inventory
-
-```typescript
-// Track in GameState
-inventory: string[];
-
-// Add item when found
-if (data?.itemFound) {
-  setGameState(prev => ({
-    ...prev,
-    inventory: [...prev.inventory, data.itemFound]
-  }));
-}
+# Light toggles
+GameManager.toggle_light(light_id)
 ```
