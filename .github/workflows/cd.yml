@@ -1,0 +1,42 @@
+name: CD
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and Validate on Push
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.6.2
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Import assets
+        run: godot --headless --import 2>&1 || true
+
+      - name: Validate all scripts
+        run: |
+          godot --headless --quit 2>&1 | tee /tmp/godot_output.txt
+          if grep -qi "parser error\|compile error" /tmp/godot_output.txt; then
+            echo "::error::GDScript compilation errors"
+            exit 1
+          fi
+
+      - name: Build main scene
+        run: |
+          timeout 60 godot --headless --script scenes/build_main.gd 2>&1 | tee /tmp/build.txt
+          grep -q "BUILT:" /tmp/build.txt || exit 1
+
+      - name: Verify room count
+        run: |
+          count=$(find scenes/rooms -name "*.tscn" -type f | wc -l)
+          echo "Room scenes: $count"
+          [ "$count" -ge 20 ] || exit 1

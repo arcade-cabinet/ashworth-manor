@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate Godot Project
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.6.2
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Import assets
+        run: |
+          godot --headless --import 2>&1 || true
+          echo "Import complete"
+
+      - name: Validate scripts (parse check)
+        run: |
+          godot --headless --quit 2>&1 | tee /tmp/godot_output.txt
+          if grep -qi "parser error\|compile error" /tmp/godot_output.txt; then
+            echo "::error::GDScript compilation errors found"
+            grep -i "parser error\|compile error" /tmp/godot_output.txt
+            exit 1
+          fi
+          echo "All scripts compile clean"
+
+      - name: Build main scene
+        run: |
+          timeout 60 godot --headless --script scenes/build_main.gd 2>&1 | tee /tmp/build_output.txt
+          if ! grep -q "BUILT:" /tmp/build_output.txt; then
+            echo "::error::Main scene build failed"
+            exit 1
+          fi
+          echo "Main scene built successfully"
+
+      - name: Verify room scene files exist
+        run: |
+          EXPECTED=20
+          ACTUAL=$(find scenes/rooms -name "*.tscn" -type f | wc -l)
+          echo "Room scenes found: $ACTUAL / $EXPECTED expected"
+          if [ "$ACTUAL" -lt "$EXPECTED" ]; then
+            echo "::error::Expected $EXPECTED room scenes, found $ACTUAL"
+            exit 1
+          fi
+
+      - name: Verify critical assets
+        run: |
+          for asset in \
+            "assets/shared/structure/floor0.glb" \
+            "assets/shared/decor/chandelier.glb" \
+            "assets/shared/furniture/master_bed.glb" \
+            "assets/attic/storage/doll1.glb" \
+            "assets/audio/loops/Moonlight Loop1.ogg" \
+            "assets/shared/textures/wall0_texture.png"; do
+            if [ ! -f "$asset" ]; then
+              echo "::error::Critical asset missing: $asset"
+              exit 1
+            fi
+          done
+          echo "All critical assets present"
+
+      - name: Verify room registry
+        run: |
+          grep -oE '"res://scenes/rooms/[^"]*"' scripts/room_manager.gd | tr -d '"' | sort -u | while read path; do
+            relpath="${path#res://}"
+            if [ ! -f "$relpath" ]; then
+              echo "::error::Room registry references missing scene: $path"
+              exit 1
+            fi
+          done
+          echo "Room registry valid"
