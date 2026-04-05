@@ -1,219 +1,322 @@
-[gd_scene format=3 uid="uid://bhxdjt54ja2nc"]
+[gd_scene format=3 uid="uid://cvdjtyn5g8n06"]
 
-[ext_resource type="Script" uid="uid://dju1o7yp5wn6v" path="res://scripts/room_base.gd" id="1_hpwxl"]
-[ext_resource type="Texture2D" uid="uid://dwvivocpnif14" path="res://assets/shared/textures/floor1_texture.png" id="2_5sifv"]
-[ext_resource type="Texture2D" uid="uid://qhcgbgmald61" path="res://assets/shared/textures/ceiling2_texture.png" id="3_x61uj"]
-[ext_resource type="Texture2D" uid="uid://nkihuqdcq23k" path="res://assets/shared/textures/wall3_texture.png" id="4_61gur"]
-[ext_resource type="PackedScene" uid="uid://clhmuugrt7jdk" path="res://assets/shared/furniture/bookcase.glb" id="5_56p0t"]
-[ext_resource type="PackedScene" uid="uid://bpuyx1p106xg7" path="res://assets/shared/furniture/study_desk.glb" id="6_pbfmf"]
-[ext_resource type="PackedScene" uid="uid://syucqsv8qwi3" path="res://assets/shared/furniture/chair.glb" id="7_e5eeo"]
-[ext_resource type="PackedScene" uid="uid://b76mrgjfxgp2e" path="res://assets/shared/decor/statue.glb" id="8_qmfhd"]
-[ext_resource type="PackedScene" uid="uid://bbvaqvrsbbuhg" path="res://assets/shared/items/openbook0.glb" id="9_0hs0d"]
-[ext_resource type="PackedScene" uid="uid://bigw4yxei2pbu" path="res://assets/shared/items/page5.glb" id="10_m4dmi"]
-[ext_resource type="PackedScene" uid="uid://dh0yvey8yaesm" path="res://assets/shared/items/candle2.glb" id="11_gl0y8"]
-[ext_resource type="PackedScene" uid="uid://bpiylf5uxhpfd" path="res://assets/upper_floor/library/books_scrolls.glb" id="12_5iav8"]
-[ext_resource type="PackedScene" uid="uid://cufa16goqaj1t" path="res://assets/upper_floor/library/ancient_artifact_mx_1.glb" id="13_eqkd8"]
-[ext_resource type="PackedScene" uid="uid://vlosh2q7snxn" path="res://assets/upper_floor/library/gear_mx_1.glb" id="14_1sbkm"]
-[ext_resource type="PackedScene" uid="uid://d2wktafwioy4l" path="res://assets/upper_floor/library/gear_mx_2.glb" id="15_3qijc"]
-[ext_resource type="PackedScene" uid="uid://dy05wckdluxyi" path="res://assets/upper_floor/library/map_mx_1.glb" id="16_1x1gr"]
-[ext_resource type="PackedScene" uid="uid://bcgghxtsu0htq" path="res://assets/shared/decor/candle_holder.glb" id="17_6vkwu"]
+[ext_resource type="Script" path="res://scripts/room_base.gd" id="1"]
+[ext_resource type="PackedScene" path="res://assets/shared/structure/wall_3.glb" id="2"]
+[ext_resource type="PackedScene" path="res://assets/shared/structure/floor1.glb" id="3"]
+[ext_resource type="PackedScene" path="res://assets/shared/structure/cieling2.glb" id="4"]
+[ext_resource type="PackedScene" path="res://assets/shared/structure/doorway3.glb" id="5"]
+[ext_resource type="PackedScene" path="res://assets/shared/structure/door.glb" id="6"]
+[ext_resource type="PackedScene" path="res://assets/shared/furniture/bookcase.glb" id="7"]
+[ext_resource type="PackedScene" path="res://assets/shared/furniture/study_desk.glb" id="8"]
+[ext_resource type="PackedScene" path="res://assets/shared/furniture/chair.glb" id="9"]
+[ext_resource type="PackedScene" path="res://assets/shared/decor/candle_holder.glb" id="10"]
+[ext_resource type="PackedScene" path="res://assets/shared/items/candle2.glb" id="11"]
+[ext_resource type="PackedScene" path="res://assets/shared/items/openbook0.glb" id="12"]
+[ext_resource type="PackedScene" path="res://assets/shared/items/page5.glb" id="13"]
+[ext_resource type="PackedScene" path="res://assets/upper_floor/library/books_scrolls.glb" id="14"]
+[ext_resource type="PackedScene" path="res://assets/upper_floor/library/ancient_artifact_mx_1.glb" id="15"]
+[ext_resource type="PackedScene" path="res://assets/upper_floor/library/map_mx_1.glb" id="16"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7htcy"]
-albedo_color = Color(0.5, 0.38, 0.28, 1)
-albedo_texture = ExtResource("2_5sifv")
-roughness = 0.7
-uv1_scale = Vector3(6, 7.5, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(8, 0.2, 8)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pk7du"]
-albedo_color = Color(0.45, 0.35, 0.25, 1)
-albedo_texture = ExtResource("3_x61uj")
-roughness = 0.85
-uv1_scale = Vector3(6, 7.5, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallN"]
+size = Vector3(8, 2.4, 0.2)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ijsmw"]
-albedo_color = Color(0.5, 0.38, 0.28, 1)
-albedo_texture = ExtResource("4_61gur")
-roughness = 0.8
-uv1_scale = Vector3(5, 2, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallS"]
+size = Vector3(8, 2.4, 0.2)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2yakc"]
-albedo_color = Color(0.5, 0.38, 0.28, 1)
-albedo_texture = ExtResource("4_61gur")
-roughness = 0.8
-uv1_scale = Vector3(5, 2, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallE"]
+size = Vector3(0.2, 2.4, 8)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eb77x"]
-albedo_color = Color(0.5, 0.38, 0.28, 1)
-albedo_texture = ExtResource("4_61gur")
-roughness = 0.8
-uv1_scale = Vector3(5, 2, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallW"]
+size = Vector3(0.2, 2.4, 8)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b3c2o"]
-albedo_color = Color(0.5, 0.38, 0.28, 1)
-albedo_texture = ExtResource("4_61gur")
-roughness = 0.8
-uv1_scale = Vector3(5, 2, 1)
-texture_filter = 0
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_hpwxl"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact1"]
 size = Vector3(1.5, 1.5, 1.5)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_5sifv"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact2"]
 size = Vector3(1.5, 1.5, 1.5)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_x61uj"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact3"]
 size = Vector3(1.5, 1.5, 1.5)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_61gur"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_conn1"]
 size = Vector3(2, 3, 1)
 
-[node name="Library" type="Node3D" unique_id=222816238]
-script = ExtResource("1_hpwxl")
+[node name="Library" type="Node3D"]
+script = ExtResource("1")
 room_id = "library"
 room_name = "Library"
 audio_loop = "Value Loop1"
-spawn_position = Vector3(0, 0, -6)
-spawn_rotation_y = 180.0
+ambient_darkness = 0.55
+spawn_position = Vector3(2, 0, 0)
+spawn_rotation_y = 270.0
 
-[node name="Geometry" type="Node3D" parent="." unique_id=975958482]
+[node name="Geometry" type="Node3D" parent="."]
 
-[node name="Floor" type="CSGBox3D" parent="Geometry" unique_id=1944473933]
+; --- Floor 4x4 grid (8m x 8m), tiles at X=-3,-1,1,3 Z=-3,-1,1,3 ---
+[node name="Floor_0_0" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3)
+
+[node name="Floor_1_0" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3)
+
+[node name="Floor_2_0" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -3)
+
+[node name="Floor_3_0" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -3)
+
+[node name="Floor_0_1" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -1)
+
+[node name="Floor_1_1" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
+
+[node name="Floor_2_1" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)
+
+[node name="Floor_3_1" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -1)
+
+[node name="Floor_0_2" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 1)
+
+[node name="Floor_1_2" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+
+[node name="Floor_2_2" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+
+[node name="Floor_3_2" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
+
+[node name="Floor_0_3" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 3)
+
+[node name="Floor_1_3" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 3)
+
+[node name="Floor_2_3" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 3)
+
+[node name="Floor_3_3" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 3)
+
+; --- Ceiling 4x4 grid at Y=2.4 ---
+[node name="Ceil_0_0" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.4, -3)
+
+[node name="Ceil_1_0" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2.4, -3)
+
+[node name="Ceil_2_0" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.4, -3)
+
+[node name="Ceil_3_0" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2.4, -3)
+
+[node name="Ceil_0_1" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.4, -1)
+
+[node name="Ceil_1_1" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2.4, -1)
+
+[node name="Ceil_2_1" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.4, -1)
+
+[node name="Ceil_3_1" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2.4, -1)
+
+[node name="Ceil_0_2" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.4, 1)
+
+[node name="Ceil_1_2" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2.4, 1)
+
+[node name="Ceil_2_2" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.4, 1)
+
+[node name="Ceil_3_2" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2.4, 1)
+
+[node name="Ceil_0_3" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.4, 3)
+
+[node name="Ceil_1_3" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2.4, 3)
+
+[node name="Ceil_2_3" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.4, 3)
+
+[node name="Ceil_3_3" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2.4, 3)
+
+; --- North wall (facing -Z at Z=4), 4 panels rotated 180 ---
+[node name="Wall_N_0" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -3, 0, 4)
+
+[node name="Wall_N_1" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -1, 0, 4)
+
+[node name="Wall_N_2" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 1, 0, 4)
+
+[node name="Wall_N_3" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 3, 0, 4)
+
+; --- South wall (facing +Z at Z=-4), no rotation ---
+[node name="Wall_S_0" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -4)
+
+[node name="Wall_S_1" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -4)
+
+[node name="Wall_S_2" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -4)
+
+[node name="Wall_S_3" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -4)
+
+; --- East wall (facing -X at X=4), rotated -90 ---
+[node name="Wall_E_0" type="Node3D" parent="Geometry" instance=ExtResource("5")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4, 0, 1)
+
+[node name="Door_E" type="Node3D" parent="Geometry" instance=ExtResource("6")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4, 0, 1)
+
+[node name="Wall_E_1" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4, 0, -1)
+
+[node name="Wall_E_2" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4, 0, -3)
+
+[node name="Wall_E_3" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4, 0, 3)
+
+; --- West wall (facing +X at X=-4), rotated 90 ---
+[node name="Wall_W_0" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4, 0, -3)
+
+[node name="Wall_W_1" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4, 0, -1)
+
+[node name="Wall_W_2" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4, 0, 1)
+
+[node name="Wall_W_3" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4, 0, 3)
+
+; --- Floor collision ---
+[node name="FloorCollision" type="StaticBody3D" parent="Geometry"]
+collision_layer = 1
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/FloorCollision"]
+shape = SubResource("BoxShape3D_floor")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
-use_collision = true
-size = Vector3(12, 0.2, 15)
-material = SubResource("StandardMaterial3D_7htcy")
 
-[node name="Ceiling" type="CSGBox3D" parent="Geometry" unique_id=1715720779]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.1, 0)
-use_collision = true
+; --- Wall collision ---
+[node name="WallN" type="StaticBody3D" parent="Geometry"]
 collision_layer = 2
-size = Vector3(12, 0.2, 15)
-material = SubResource("StandardMaterial3D_pk7du")
 
-[node name="WallNorth" type="CSGBox3D" parent="Geometry" unique_id=1137872587]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 7.5)
-use_collision = true
+[node name="Shape" type="CollisionShape3D" parent="Geometry/WallN"]
+shape = SubResource("BoxShape3D_wallN")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 4)
+
+[node name="WallS" type="StaticBody3D" parent="Geometry"]
 collision_layer = 2
-size = Vector3(12, 4, 0.3)
-material = SubResource("StandardMaterial3D_ijsmw")
 
-[node name="WallSouth" type="CSGBox3D" parent="Geometry" unique_id=2123858631]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -7.5)
-use_collision = true
+[node name="Shape" type="CollisionShape3D" parent="Geometry/WallS"]
+shape = SubResource("BoxShape3D_wallS")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -4)
+
+[node name="WallE" type="StaticBody3D" parent="Geometry"]
 collision_layer = 2
-size = Vector3(12, 4, 0.3)
-material = SubResource("StandardMaterial3D_2yakc")
 
-[node name="WallEast" type="CSGBox3D" parent="Geometry" unique_id=1752301821]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 0)
-use_collision = true
+[node name="Shape" type="CollisionShape3D" parent="Geometry/WallE"]
+shape = SubResource("BoxShape3D_wallE")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.2, 0)
+
+[node name="WallW" type="StaticBody3D" parent="Geometry"]
 collision_layer = 2
-size = Vector3(0.3, 4, 15)
-material = SubResource("StandardMaterial3D_eb77x")
 
-[node name="WallWest" type="CSGBox3D" parent="Geometry" unique_id=69193095]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, 0)
-use_collision = true
-collision_layer = 2
-size = Vector3(0.3, 4, 15)
-material = SubResource("StandardMaterial3D_b3c2o")
+[node name="Shape" type="CollisionShape3D" parent="Geometry/WallW"]
+shape = SubResource("BoxShape3D_wallW")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.2, 0)
 
-[node name="Models" type="Node3D" parent="." unique_id=1936468448]
+[node name="Models" type="Node3D" parent="."]
 
-[node name="BookcaseW1" type="Node3D" parent="Models" unique_id=1407288254 instance=ExtResource("5_56p0t")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.5, 0, -5)
+[node name="BookcaseN1" type="Node3D" parent="Models" instance=ExtResource("7")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -2, 0, 3.5)
 
-[node name="BookcaseW2" type="Node3D" parent="Models" unique_id=1751692620 instance=ExtResource("5_56p0t")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.5, 0, 0)
+[node name="BookcaseN2" type="Node3D" parent="Models" instance=ExtResource("7")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 3.5)
 
-[node name="BookcaseW3" type="Node3D" parent="Models" unique_id=101812887 instance=ExtResource("5_56p0t")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.5, 0, 5)
+[node name="BookcaseN3" type="Node3D" parent="Models" instance=ExtResource("7")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 2, 0, 3.5)
 
-[node name="BookcaseE1" type="Node3D" parent="Models" unique_id=1285543361 instance=ExtResource("5_56p0t")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.5, 0, -5)
+[node name="BookcaseW" type="Node3D" parent="Models" instance=ExtResource("7")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5, 0, 0)
 
-[node name="BookcaseE2" type="Node3D" parent="Models" unique_id=1593086937 instance=ExtResource("5_56p0t")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.5, 0, 0)
+[node name="StudyDesk" type="Node3D" parent="Models" instance=ExtResource("8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
 
-[node name="BookcaseE3" type="Node3D" parent="Models" unique_id=710754771 instance=ExtResource("5_56p0t")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.5, 0, 5)
+[node name="DeskChair" type="Node3D" parent="Models" instance=ExtResource("9")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -1, 0, -1.2)
 
-[node name="BookcaseN1" type="Node3D" parent="Models" unique_id=2017981973 instance=ExtResource("5_56p0t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 7)
+[node name="DeskCandle" type="Node3D" parent="Models" instance=ExtResource("11")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.85, 0)
 
-[node name="BookcaseN2" type="Node3D" parent="Models" unique_id=50891452 instance=ExtResource("5_56p0t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 7)
+[node name="SconceSouth1" type="Node3D" parent="Models" instance=ExtResource("10")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, -3.7)
 
-[node name="StudyDesk" type="Node3D" parent="Models" unique_id=240116784 instance=ExtResource("6_pbfmf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+[node name="SconceSouth2" type="Node3D" parent="Models" instance=ExtResource("10")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, -3.7)
 
-[node name="DeskChair" type="Node3D" parent="Models" unique_id=1861202979 instance=ExtResource("7_e5eeo")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -3)
+[node name="BindingBook" type="Node3D" parent="Models" instance=ExtResource("12")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.85, 0)
 
-[node name="Globe" type="Node3D" parent="Models" unique_id=972676115 instance=ExtResource("8_qmfhd")]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 5, 0, 6.5)
+[node name="FamilyTree" type="Node3D" parent="Models" instance=ExtResource("13")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 3.7)
 
-[node name="BindingBook" type="Node3D" parent="Models" unique_id=1753366208 instance=ExtResource("9_0hs0d")]
-transform = Transform3D(0.9659258, 0, 0.25881904, 0, 1, 0, -0.25881904, 0, 0.9659258, -0.5, 0.85, -0.5)
+[node name="BooksScrolls" type="Node3D" parent="Models" instance=ExtResource("14")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
 
-[node name="FamilyTree" type="Node3D" parent="Models" unique_id=1248113116 instance=ExtResource("10_m4dmi")]
-transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 4.5, 2.5, 7.2)
+[node name="Globe" type="Node3D" parent="Models" instance=ExtResource("15")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -3.2, 0, 3.2)
 
-[node name="DeskCandle" type="Node3D" parent="Models" unique_id=1012704005 instance=ExtResource("11_gl0y8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.85, -0.8)
+[node name="WallMap" type="Node3D" parent="Models" instance=ExtResource("16")]
+transform = Transform3D(0, 0, -1, 0, 3, 0, 3, 0, 0, 3.7, 1.5, -1)
 
-[node name="ScrollPile" type="Node3D" parent="Models" unique_id=1841136318 instance=ExtResource("12_5iav8")]
-transform = Transform3D(0.4330127, 0, 0.25, 0, 0.5, 0, -0.25, 0, 0.4330127, -3, 0.85, -1)
+[node name="Lighting" type="Node3D" parent="."]
 
-[node name="OccultArtifact" type="Node3D" parent="Models" unique_id=1628224842 instance=ExtResource("13_eqkd8")]
-transform = Transform3D(2.1213202, 0, 2.1213202, 0, 3, 0, -2.1213202, 0, 2.1213202, -5.2, 1.5, 2)
-
-[node name="MysteryGear1" type="Node3D" parent="Models" unique_id=393026037 instance=ExtResource("14_1sbkm")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 5.2, 1.8, -3)
-
-[node name="MysteryGear2" type="Node3D" parent="Models" unique_id=70466539 instance=ExtResource("15_3qijc")]
-transform = Transform3D(-1.3113416e-07, 0, 3, 0, 3, 0, -3, 0, -1.3113416e-07, 5.2, 1.2, 2)
-
-[node name="StarChart" type="Node3D" parent="Models" unique_id=1661943400 instance=ExtResource("16_1x1gr")]
-transform = Transform3D(-1.3113416e-07, 0, 3, 0, 3, 0, -3, 0, -1.3113416e-07, -5.2, 2.2, -2)
-
-[node name="SconceW" type="Node3D" parent="Models" unique_id=385947617 instance=ExtResource("17_6vkwu")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.5, 3, -3)
-
-[node name="SconceE" type="Node3D" parent="Models" unique_id=1860820076 instance=ExtResource("17_6vkwu")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.5, 3, -3)
-
-[node name="Lighting" type="Node3D" parent="." unique_id=1994830017]
-
-[node name="SconceWLight" type="OmniLight3D" parent="Lighting" unique_id=840799491]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 3, -3)
-light_color = Color(1, 0.7, 0.4, 1)
-light_energy = 2.0
-omni_range = 7.0
-metadata/flickering = true
-
-[node name="SconceELight" type="OmniLight3D" parent="Lighting" unique_id=929003924]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 3, -3)
-light_color = Color(1, 0.7, 0.4, 1)
-light_energy = 2.0
-omni_range = 7.0
-metadata/flickering = true
-
-[node name="DeskCandleLight" type="OmniLight3D" parent="Lighting" unique_id=1682194350]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 1.5, -0.8)
+[node name="DeskCandleLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 1.5, 0)
 light_color = Color(1, 0.85, 0.55, 1)
 light_energy = 2.5
+shadow_enabled = true
+omni_range = 6.0
 metadata/flickering = true
 
-[node name="Interactables" type="Node3D" parent="." unique_id=1321337491]
+[node name="SconceLight1" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2.2, -3.5)
+light_color = Color(1, 0.7, 0.3, 1)
+light_energy = 1.5
+omni_range = 5.0
+metadata/flickering = true
 
-[node name="library_globe" type="Area3D" parent="Interactables" unique_id=540548111]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, 6.5)
+[node name="SconceLight2" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2.2, -3.5)
+light_color = Color(1, 0.7, 0.3, 1)
+light_energy = 1.5
+omni_range = 5.0
+metadata/flickering = true
+
+[node name="Interactables" type="Node3D" parent="."]
+
+[node name="library_globe" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 0.8, 3.2)
 collision_layer = 4
 collision_mask = 0
 metadata/id = "library_globe"
@@ -224,11 +327,11 @@ metadata/data = {
 "locked": false
 }
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/library_globe" unique_id=1247461368]
-shape = SubResource("BoxShape3D_hpwxl")
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/library_globe"]
+shape = SubResource("BoxShape3D_interact1")
 
-[node name="binding_book" type="Area3D" parent="Interactables" unique_id=735639098]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.85, -0.5)
+[node name="binding_book" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.85, 0)
 collision_layer = 4
 collision_mask = 0
 metadata/id = "binding_book"
@@ -241,11 +344,11 @@ metadata/data = {
 "title": "Rituals of Binding"
 }
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/binding_book" unique_id=1660638208]
-shape = SubResource("BoxShape3D_5sifv")
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/binding_book"]
+shape = SubResource("BoxShape3D_interact2")
 
-[node name="family_tree" type="Area3D" parent="Interactables" unique_id=1662326102]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 2.5, 7.2)
+[node name="family_tree" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 3.7)
 collision_layer = 4
 collision_mask = 0
 metadata/id = "family_tree"
@@ -255,16 +358,16 @@ metadata/data = {
 "title": "Family Tree"
 }
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/family_tree" unique_id=2112806717]
-shape = SubResource("BoxShape3D_x61uj")
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/family_tree"]
+shape = SubResource("BoxShape3D_interact3")
 
-[node name="Connections" type="Node3D" parent="." unique_id=357924758]
+[node name="Connections" type="Node3D" parent="."]
 
-[node name="to_upper_hallway" type="Area3D" parent="Connections" unique_id=1871436086]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.5, 0)
+[node name="to_upper_hallway" type="Area3D" parent="Connections"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.2, 1)
 collision_layer = 8
 collision_mask = 0
 metadata/target_room = "upper_hallway"
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_upper_hallway" unique_id=1493057402]
-shape = SubResource("BoxShape3D_61gur")
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_upper_hallway"]
+shape = SubResource("BoxShape3D_conn1")
