@@ -362,7 +362,7 @@ collision_layer = 4
 collision_mask = 0
 metadata/id = "porcelain_doll"
 metadata/type = "doll"
-metadata/data = {"title": "Porcelain Doll", "content": "A porcelain doll in a white dress. The face is cracked but the eyes are intact — glass, blue, following you. The dress matches Elizabeth's in the portrait.", "item_id": "porcelain_doll", "first_content": "A porcelain doll in a white dress. The face is cracked but the eyes are intact — glass, blue, following you.", "second_content": "You turn the doll over. Something rattles inside. You squeeze — the crack in the face widens. Inside the hollow head: a small brass key.", "requires_flag": "read_elizabeth_letter", "on_second_flags": "found_hidden_key", "pickable_after_key": true}
+metadata/data = {"title": "Porcelain Doll", "content": "A porcelain doll in a white dress. The face is cracked but the eyes are intact — glass, blue, following you. The dress matches Elizabeth's in the portrait.", "item_id": "porcelain_doll", "first_content": "A porcelain doll in a white dress. The face is cracked but the eyes are intact — glass, blue, following you.", "second_content": "You turn the doll over. Something rattles inside. You squeeze — the crack in the face widens. Inside the hollow head: a small brass key.", "requires_flag": "read_elizabeth_letter", "on_second_flags": "found_hidden_key", "pickable_after_key": true, "item_found": "hidden_key"}
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Interactables/porcelain_doll"]
 shape = SubResource("BoxShape3D_i01")

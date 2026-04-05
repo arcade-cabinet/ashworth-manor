@@ -1,5 +1,5 @@
 extends Node
-## res://scripts/interaction_manager.gd — Full puzzle logic, endings, room transitions
+## res://scripts/interaction_manager.gd -- Full puzzle logic, endings, room transitions
 
 var _player: Node = null
 var _room_manager: Node = null
@@ -25,10 +25,10 @@ func _connect_signals() -> void:
 func _on_interacted(object_id: String, object_type: String, object_data: Dictionary) -> void:
 	GameManager.mark_interacted(object_id)
 
-	# Set flags from on_read_flags array
-	var on_read_flags: Array = object_data.get("on_read_flags", [])
+	# Set flags from on_read_flags (handles both String and Array)
+	var on_read_flags: Array = _to_array(object_data.get("on_read_flags", []))
 	for flag_name in on_read_flags:
-		if flag_name is String:
+		if flag_name is String and not flag_name.is_empty():
 			GameManager.set_flag(flag_name)
 
 	match object_type:
@@ -61,7 +61,6 @@ func _handle_document(_object_id: String, object_type: String, data: Dictionary)
 			"observation": title = "Observation"
 	_show(title, content)
 
-	# Handle pickable documents (like the Binding Book)
 	var pickable: bool = data.get("pickable", false)
 	var item_id: String = data.get("item_id", "")
 	if pickable and not item_id.is_empty() and not GameManager.has_item(item_id):
@@ -77,7 +76,6 @@ func _handle_switch(data: Dictionary) -> void:
 
 
 # === BOXES (keys, locked containers) ===
-# room_data uses: locked, key_id, item_found, content, gives_also
 
 func _handle_box(object_id: String, data: Dictionary) -> void:
 	var locked: bool = data.get("locked", false)
@@ -88,13 +86,11 @@ func _handle_box(object_id: String, data: Dictionary) -> void:
 
 	if locked and not key_id.is_empty():
 		if GameManager.has_item(key_id):
-			# Unlock — keys are NOT consumed (realistic)
 			GameManager.set_flag(object_id + "_unlocked")
 			if not item_found.is_empty():
 				GameManager.give_item(item_found)
 			if not gives_also.is_empty():
 				GameManager.give_item(gives_also)
-			# Show detailed content if available
 			var item_content: String = data.get("item_content", content)
 			var item_title: String = data.get("item_title", "Unlocked")
 			_show(item_title, item_content)
@@ -102,7 +98,6 @@ func _handle_box(object_id: String, data: Dictionary) -> void:
 			var msg: String = data.get("message_locked", "It's locked. You need a key.")
 			_show("Locked", msg)
 	else:
-		# Not locked — give item on first interaction
 		if not item_found.is_empty() and not GameManager.has_flag(object_id + "_looted"):
 			GameManager.give_item(item_found)
 			GameManager.set_flag(object_id + "_looted")
@@ -127,33 +122,32 @@ func _handle_locked_door(data: Dictionary) -> void:
 
 
 # === PORCELAIN DOLL (special multi-step puzzle) ===
-# room_data uses: first_content, second_content, requires_flag, item_found,
-#                 on_first_flags, on_second_flags, pickable_after_key, item_id
 
-func _handle_doll(object_id: String, data: Dictionary) -> void:
+func _handle_doll(_object_id: String, data: Dictionary) -> void:
 	var first_content: String = data.get("first_content", "A porcelain doll stares back.")
 	var second_content: String = data.get("second_content", "")
 	var requires_flag: String = data.get("requires_flag", "")
 	var item_found: String = data.get("item_found", "")
 
-	# First interaction — examine the doll
+	# First interaction -- examine the doll
 	if not GameManager.has_flag("examined_doll"):
-		var on_first: Array = data.get("on_first_flags", [])
+		GameManager.set_flag("examined_doll")
+		var on_first: Array = _to_array(data.get("on_first_flags", []))
 		for f in on_first:
-			GameManager.set_flag(f)
+			if f is String and not f.is_empty():
+				GameManager.set_flag(f)
 		_show("Porcelain Doll", first_content)
 		return
 
-	# Second interaction — requires reading Elizabeth's letter first
+	# Second interaction -- requires reading Elizabeth's letter first
 	if not requires_flag.is_empty() and GameManager.has_flag(requires_flag):
 		if not item_found.is_empty() and not GameManager.has_item(item_found):
-			# Extract the hidden key
-			var on_second: Array = data.get("on_second_flags", [])
+			var on_second: Array = _to_array(data.get("on_second_flags", []))
 			for f in on_second:
-				GameManager.set_flag(f)
+				if f is String and not f.is_empty():
+					GameManager.set_flag(f)
 			GameManager.give_item(item_found)
 			_show("Porcelain Doll", second_content)
-			# Make doll itself pickable for the counter-ritual
 			var pickable_after: bool = data.get("pickable_after_key", false)
 			var doll_item_id: String = data.get("item_id", "")
 			if pickable_after and not doll_item_id.is_empty():
@@ -163,27 +157,24 @@ func _handle_doll(object_id: String, data: Dictionary) -> void:
 			_show("Porcelain Doll", "The doll sits quietly. Empty now.")
 			return
 
-	# Fallback — haven't read the letter yet
+	# Fallback -- haven't read the letter yet
 	_show("Porcelain Doll", first_content)
 
 
 # === COUNTER-RITUAL (3-step sequence in Hidden Chamber) ===
 
 func _handle_ritual(data: Dictionary) -> void:
-	# Once ritual has started (step 1+), don't re-check prerequisites
 	var ritual_started: bool = GameManager.has_flag("ritual_step_1")
 	if not ritual_started and not GameManager.can_perform_ritual():
-		_show("", data.get("description", "Something is missing. You haven't found the whole truth yet."))
+		_show("", data.get("description", "Something is missing."))
 		return
 
-	# Step 1: Place the doll
 	if not GameManager.has_flag("ritual_step_1"):
 		if GameManager.has_item("porcelain_doll"):
 			GameManager.set_flag("ritual_step_1")
 			_show("", "You place the doll in the center of Elizabeth's drawings. The candles flicker.")
 		return
 
-	# Step 2: Pour blessed water
 	if not GameManager.has_flag("ritual_step_2"):
 		if GameManager.has_item("blessed_water"):
 			GameManager.set_flag("ritual_step_2")
@@ -191,18 +182,15 @@ func _handle_ritual(data: Dictionary) -> void:
 			_show("", "Water flows over the doll's cracked face. The drawings on the walls seem to shift.")
 		return
 
-	# Step 3: Read from the Binding Book — completes the ritual
 	if not GameManager.has_flag("ritual_step_3"):
 		if GameManager.has_item("binding_book"):
 			GameManager.set_flag("ritual_step_3")
 			GameManager.set_flag("counter_ritual_complete")
 			GameManager.set_flag("freed_elizabeth")
-			# Hide any existing document overlay before showing ending
 			var overlay: Control = _find_node("UIOverlay")
 			if overlay and overlay.has_method("hide_document"):
 				overlay.hide_document()
 			_show("", "\"Elizabeth Ashworth. Born in light. Free.\"\n\nThe doll cracks open. Light pours from inside. The drawings fade.\n\n\"Thank you.\"")
-			# Trigger freedom ending after delay
 			get_tree().create_timer(6.0).timeout.connect(
 				func():
 					if overlay and overlay.has_method("hide_document"):
@@ -218,7 +206,6 @@ func _on_door_tapped(target_room: String) -> void:
 	if target_room.is_empty():
 		return
 
-	# Check lock state from live Connection Area3D nodes in the current room scene
 	var conn_type: String = "door"
 	if _room_manager and _room_manager.has_method("get_current_room"):
 		var room = _room_manager.get_current_room()
@@ -235,7 +222,6 @@ func _on_door_tapped(target_room: String) -> void:
 								return
 						break
 
-	# Check ending conditions when leaving mansion → front gate
 	if target_room == "front_gate" and GameManager.current_room != "front_gate":
 		if GameManager.has_flag("counter_ritual_complete"):
 			_transition_with_type(target_room, conn_type)
@@ -252,6 +238,23 @@ func _on_door_tapped(target_room: String) -> void:
 
 
 # === HELPERS ===
+
+func _to_array(value) -> Array:
+	if value is Array:
+		return value
+	if value is String:
+		if value.is_empty():
+			return []
+		if "," in value:
+			var parts: Array = []
+			for part in value.split(","):
+				var trimmed: String = part.strip_edges()
+				if not trimmed.is_empty():
+					parts.append(trimmed)
+			return parts
+		return [value]
+	return []
+
 
 func _transition_to(room_id: String) -> void:
 	_transition_with_type(room_id, "door")
@@ -270,7 +273,6 @@ func _show(title: String, content: String) -> void:
 
 
 func _scene_path_to_id(path: String) -> String:
-	# "res://scenes/rooms/ground_floor/parlor.tscn" → "parlor"
 	if _room_manager and _room_manager.has_method("_scene_path_to_room_id"):
 		return _room_manager._scene_path_to_room_id(path)
 	return path.get_file().get_basename()

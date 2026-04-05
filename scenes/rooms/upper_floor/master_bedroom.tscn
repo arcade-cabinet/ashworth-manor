@@ -227,7 +227,7 @@ collision_layer = 4
 collision_mask = 0
 metadata/id = "diary_lord"
 metadata/type = "note"
-metadata/data = {"title": "Lord Ashworth's Diary", "content": "'December 23. The binding is nearly complete. Victoria says I'm mad. But I've seen what Elizabeth can do — moving objects, speaking to the dead, knowing things no child should know. If the ritual fails, we lose everything.'", "on_read_flags": "read_ashworth_diary"}
+metadata/data = {"title": "Lord Ashworth's Diary", "content": "'December 23. The binding is nearly complete. Victoria says I'm mad. But I've seen what Elizabeth can do — moving objects, speaking to the dead, knowing things no child should know. If the ritual fails, we lose everything.'", "on_read_flags": "read_ashworth_diary,knows_key_location"}
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Interactables/diary_lord"]
 shape = SubResource("BoxShape3D_i00")
