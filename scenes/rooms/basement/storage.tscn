@@ -1,0 +1,167 @@
+[gd_scene format=3 uid="uid://dwum3fjif3bvv"]
+
+[ext_resource type="Script" uid="uid://dju1o7yp5wn6v" path="res://scripts/room_base.gd" id="1_xyxop"]
+[ext_resource type="Texture2D" uid="uid://o073hamgr1o3" path="res://assets/shared/textures/floor3_texture.png" id="2_8vhvv"]
+[ext_resource type="Texture2D" uid="uid://qhcgbgmald61" path="res://assets/shared/textures/ceiling2_texture.png" id="3_v143f"]
+[ext_resource type="Texture2D" uid="uid://br2ys4b4p338o" path="res://assets/shared/textures/wall6_texture.png" id="4_vxdyk"]
+[ext_resource type="PackedScene" uid="uid://bsxhs7bhl1w32" path="res://assets/shared/decor/rubbish.glb" id="5_c1fbq"]
+[ext_resource type="PackedScene" uid="uid://ctdb5yfmw65fn" path="res://assets/shared/decor/picture_blank_003.glb" id="6_23k74"]
+[ext_resource type="PackedScene" uid="uid://di3l0ae572hsx" path="res://assets/shared/items/candle0.glb" id="7_pwcik"]
+[ext_resource type="PackedScene" uid="uid://crxgmy7qxytp" path="res://assets/basement/storage/crates_barrels.glb" id="8_2jeaf"]
+[ext_resource type="PackedScene" uid="uid://d2cfxh7ofrqhc" path="res://assets/basement/storage/cage.glb" id="9_vje54"]
+[ext_resource type="PackedScene" uid="uid://boofrx4f0r8tk" path="res://assets/basement/storage/ladder.glb" id="10_431jj"]
+[ext_resource type="PackedScene" uid="uid://qyv15w45qtlo" path="res://assets/basement/storage/wooden_crate_1.glb" id="11_ycybs"]
+[ext_resource type="PackedScene" uid="uid://dycjiu5bol2if" path="res://assets/basement/storage/wooden_crate_2_a.glb" id="12_wexjk"]
+[ext_resource type="PackedScene" uid="uid://h3iknllgw58r" path="res://assets/basement/storage/shelf_1.glb" id="13_828sl"]
+[ext_resource type="PackedScene" uid="uid://c1kotk882fti2" path="res://assets/basement/storage/old_mattress_mx_1.glb" id="14_n44w0"]
+[ext_resource type="PackedScene" uid="uid://h6j3ivu220pw" path="res://assets/basement/storage/bucket_mx_3.glb" id="15_do2o1"]
+[ext_resource type="PackedScene" uid="uid://cxcor4vhllt3q" path="res://assets/basement/storage/debris_bricks_mx_1.glb" id="16_cl2r0"]
+[ext_resource type="PackedScene" uid="uid://dxbfxy4pgxxfh" path="res://assets/basement/storage/lamp_mx_2_off.glb" id="17_6mfif"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6bu7b"]
+albedo_color = Color(0.35, 0.3, 0.28, 1)
+albedo_texture = ExtResource("2_8vhvv")
+roughness = 0.9
+uv1_scale = Vector3(6, 6, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2n88t"]
+albedo_color = Color(0.35, 0.28, 0.22, 1)
+albedo_texture = ExtResource("3_v143f")
+roughness = 0.9
+uv1_scale = Vector3(6, 6, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fmth8"]
+albedo_color = Color(0.38, 0.32, 0.28, 1)
+albedo_texture = ExtResource("4_vxdyk")
+roughness = 0.95
+uv1_scale = Vector3(5, 1.5, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xtxul"]
+albedo_color = Color(0.38, 0.32, 0.28, 1)
+albedo_texture = ExtResource("4_vxdyk")
+roughness = 0.95
+uv1_scale = Vector3(5, 1.5, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e6jwy"]
+albedo_color = Color(0.38, 0.32, 0.28, 1)
+albedo_texture = ExtResource("4_vxdyk")
+roughness = 0.95
+uv1_scale = Vector3(5, 1.5, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ulvk2"]
+albedo_color = Color(0.38, 0.32, 0.28, 1)
+albedo_texture = ExtResource("4_vxdyk")
+roughness = 0.95
+uv1_scale = Vector3(5, 1.5, 1)
+texture_filter = 0
+
+[node name="StorageBasement" type="Node3D" unique_id=1262102158]
+script = ExtResource("1_xyxop")
+room_id = "storage_basement"
+room_name = "Storage Basement"
+audio_loop = "Echoes at Dusk Loop1"
+ambient_darkness = 0.75
+spawn_position = Vector3(0, 0, -5)
+spawn_rotation_y = 180.0
+
+[node name="Geometry" type="Node3D" parent="." unique_id=224206709]
+
+[node name="Floor" type="CSGBox3D" parent="Geometry" unique_id=1183285224]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+use_collision = true
+size = Vector3(12, 0.2, 12)
+material = SubResource("StandardMaterial3D_6bu7b")
+
+[node name="Ceiling" type="CSGBox3D" parent="Geometry" unique_id=1958334572]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(12, 0.2, 12)
+material = SubResource("StandardMaterial3D_2n88t")
+
+[node name="WallNorth" type="CSGBox3D" parent="Geometry" unique_id=393575595]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 6)
+use_collision = true
+collision_layer = 2
+size = Vector3(12, 3, 0.3)
+material = SubResource("StandardMaterial3D_fmth8")
+
+[node name="WallSouth" type="CSGBox3D" parent="Geometry" unique_id=293538887]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -6)
+use_collision = true
+collision_layer = 2
+size = Vector3(12, 3, 0.3)
+material = SubResource("StandardMaterial3D_xtxul")
+
+[node name="WallEast" type="CSGBox3D" parent="Geometry" unique_id=1692283889]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.5, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(0.3, 3, 12)
+material = SubResource("StandardMaterial3D_e6jwy")
+
+[node name="WallWest" type="CSGBox3D" parent="Geometry" unique_id=1240726867]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.5, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(0.3, 3, 12)
+material = SubResource("StandardMaterial3D_ulvk2")
+
+[node name="Models" type="Node3D" parent="." unique_id=579126359]
+
+[node name="PiledFurniture" type="Node3D" parent="Models" unique_id=159646931 instance=ExtResource("5_c1fbq")]
+transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, 4, 0, 4)
+
+[node name="ScratchedPortrait" type="Node3D" parent="Models" unique_id=1565508193 instance=ExtResource("6_23k74")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.5, 1.8, 0)
+
+[node name="SingleCandle" type="Node3D" parent="Models" unique_id=862828058 instance=ExtResource("7_pwcik")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.8, 3)
+
+[node name="StorageCrates" type="Node3D" parent="Models" unique_id=168328419 instance=ExtResource("8_2jeaf")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 4, 0, -3)
+
+[node name="IronCage" type="Node3D" parent="Models" unique_id=488688818 instance=ExtResource("9_vje54")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
+
+[node name="CellarLadder" type="Node3D" parent="Models" unique_id=1110958424 instance=ExtResource("10_431jj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 5)
+
+[node name="Crate1" type="Node3D" parent="Models" unique_id=611689038 instance=ExtResource("11_ycybs")]
+transform = Transform3D(0.9659258, 0, 0.25881904, 0, 1, 0, -0.25881904, 0, 0.9659258, 3, 0, 0)
+
+[node name="Crate2" type="Node3D" parent="Models" unique_id=1960253113 instance=ExtResource("12_wexjk")]
+transform = Transform3D(0.9848077, 0, -0.17364818, 0, 1, 0, 0.17364818, 0, 0.9848077, 2, 0, -1)
+
+[node name="WallShelf" type="Node3D" parent="Models" unique_id=28967486 instance=ExtResource("13_828sl")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5, 0, 3)
+
+[node name="ServantBed" type="Node3D" parent="Models" unique_id=1984206938 instance=ExtResource("14_n44w0")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -3, 0, -3)
+
+[node name="DripBucket" type="Node3D" parent="Models" unique_id=1297335554 instance=ExtResource("15_do2o1")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 1, 0, 4)
+
+[node name="FallenBricks" type="Node3D" parent="Models" unique_id=1559845893 instance=ExtResource("16_cl2r0")]
+transform = Transform3D(2.1213202, 0, 2.1213202, 0, 3, 0, -2.1213202, 0, 2.1213202, -1, 0, 5)
+
+[node name="DeadLantern" type="Node3D" parent="Models" unique_id=1753593242 instance=ExtResource("17_6mfif")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0.8, 2)
+
+[node name="Lighting" type="Node3D" parent="." unique_id=1878074376]
+
+[node name="SingleCandleLight" type="OmniLight3D" parent="Lighting" unique_id=1197942157]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.5, 3)
+light_color = Color(1, 0.8, 0.4, 1)
+light_energy = 2.5
+omni_range = 8.0
+metadata/flickering = true
+
+[node name="Interactables" type="Node3D" parent="." unique_id=2106436919]
+
+[node name="Connections" type="Node3D" parent="." unique_id=1446399073]

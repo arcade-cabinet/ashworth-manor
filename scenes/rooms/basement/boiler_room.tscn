@@ -1,0 +1,188 @@
+[gd_scene format=3 uid="uid://bc8ossfdu8a0n"]
+
+[ext_resource type="Script" uid="uid://dju1o7yp5wn6v" path="res://scripts/room_base.gd" id="1_k1vnj"]
+[ext_resource type="Texture2D" uid="uid://to4wnv10cwsh" path="res://assets/shared/textures/floor4_texture.png" id="2_moycq"]
+[ext_resource type="Texture2D" uid="uid://qhcgbgmald61" path="res://assets/shared/textures/ceiling2_texture.png" id="3_fs5pi"]
+[ext_resource type="Texture2D" uid="uid://cogy8xhsi2pv2" path="res://assets/shared/textures/wall8_texture.png" id="4_2170g"]
+[ext_resource type="PackedScene" uid="uid://bel1ju74umsgm" path="res://assets/shared/decor/fireplace.glb" id="5_mt0km"]
+[ext_resource type="PackedScene" uid="uid://bpuyx1p106xg7" path="res://assets/shared/furniture/study_desk.glb" id="6_hjyu5"]
+[ext_resource type="PackedScene" uid="uid://dqq52ghmomiq8" path="res://assets/shared/items/page2.glb" id="7_ct4hg"]
+[ext_resource type="PackedScene" uid="uid://bjf7n26u8llm5" path="res://assets/basement/boiler_room/pipes_hr_1.glb" id="8_8726e"]
+[ext_resource type="PackedScene" uid="uid://coxucvcejune1" path="res://assets/basement/boiler_room/pipes_hr_1_elbow_1.glb" id="9_e8ua5"]
+[ext_resource type="PackedScene" uid="uid://bs17ob73w0jh1" path="res://assets/basement/boiler_room/Pipe_V1_Straight.glb" id="10_nrget"]
+[ext_resource type="PackedScene" uid="uid://8wqlmmrpan4d" path="res://assets/basement/boiler_room/Valve.glb" id="11_sf6jm"]
+[ext_resource type="PackedScene" uid="uid://d20btvcy7b5hm" path="res://assets/basement/boiler_room/Machinery_1.glb" id="12_f3sgq"]
+[ext_resource type="PackedScene" uid="uid://ba2y5a8chkqdn" path="res://assets/basement/boiler_room/metal_barrel_hr_1.glb" id="13_jgfru"]
+[ext_resource type="PackedScene" uid="uid://dp5xb0cw3lsuf" path="res://assets/basement/boiler_room/metal_barrel_hr_2.glb" id="14_iqb56"]
+[ext_resource type="PackedScene" uid="uid://u0mohd0hp4ps" path="res://assets/basement/boiler_room/toolbox.glb" id="15_duuoy"]
+[ext_resource type="PackedScene" uid="uid://cxrqc50xs7hpp" path="res://assets/basement/boiler_room/wrench_mx_1.glb" id="16_vl1ry"]
+[ext_resource type="PackedScene" uid="uid://blacosgbe207w" path="res://assets/basement/boiler_room/hammer_mx_1.glb" id="17_qltqv"]
+[ext_resource type="PackedScene" uid="uid://c4kc62htqsy8p" path="res://assets/basement/boiler_room/gear_mx_4.glb" id="18_sljdx"]
+[ext_resource type="PackedScene" uid="uid://su7w6np2o0tb" path="res://assets/basement/boiler_room/gear_mx_5.glb" id="19_562fr"]
+[ext_resource type="PackedScene" uid="uid://dro3gw6x0miwi" path="res://assets/basement/boiler_room/mask_mx_2.glb" id="20_w2b1h"]
+[ext_resource type="PackedScene" uid="uid://nc5pytgh20xr" path="res://assets/basement/boiler_room/jerrycan.glb" id="21_gmqod"]
+[ext_resource type="PackedScene" uid="uid://6nvdetb4mawf" path="res://assets/basement/boiler_room/electrical_equipment_1.glb" id="22_66p2n"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nblk7"]
+albedo_color = Color(0.35, 0.35, 0.38, 1)
+albedo_texture = ExtResource("2_moycq")
+roughness = 0.6
+uv1_scale = Vector3(4.5, 6, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bonbp"]
+albedo_color = Color(0.28, 0.24, 0.22, 1)
+albedo_texture = ExtResource("3_fs5pi")
+roughness = 0.9
+uv1_scale = Vector3(4.5, 6, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_me7f2"]
+albedo_color = Color(0.42, 0.3, 0.25, 1)
+albedo_texture = ExtResource("4_2170g")
+roughness = 0.9
+uv1_scale = Vector3(4, 2, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ores0"]
+albedo_color = Color(0.42, 0.3, 0.25, 1)
+albedo_texture = ExtResource("4_2170g")
+roughness = 0.9
+uv1_scale = Vector3(4, 2, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5pgg2"]
+albedo_color = Color(0.42, 0.3, 0.25, 1)
+albedo_texture = ExtResource("4_2170g")
+roughness = 0.9
+uv1_scale = Vector3(4, 2, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eok0r"]
+albedo_color = Color(0.42, 0.3, 0.25, 1)
+albedo_texture = ExtResource("4_2170g")
+roughness = 0.9
+uv1_scale = Vector3(4, 2, 1)
+texture_filter = 0
+
+[node name="BoilerRoom" type="Node3D" unique_id=1125858630]
+script = ExtResource("1_k1vnj")
+room_id = "boiler_room"
+room_name = "Boiler Room"
+audio_loop = "Insufficient Loop1"
+ambient_darkness = 0.7
+spawn_position = Vector3(0, 0, -5)
+spawn_rotation_y = 180.0
+
+[node name="Geometry" type="Node3D" parent="." unique_id=887586416]
+
+[node name="Floor" type="CSGBox3D" parent="Geometry" unique_id=505642525]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+use_collision = true
+size = Vector3(9, 0.2, 12)
+material = SubResource("StandardMaterial3D_nblk7")
+
+[node name="Ceiling" type="CSGBox3D" parent="Geometry" unique_id=881864915]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.1, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(9, 0.2, 12)
+material = SubResource("StandardMaterial3D_bonbp")
+
+[node name="WallNorth" type="CSGBox3D" parent="Geometry" unique_id=1027000783]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 6)
+use_collision = true
+collision_layer = 2
+size = Vector3(9, 4, 0.3)
+material = SubResource("StandardMaterial3D_me7f2")
+
+[node name="WallSouth" type="CSGBox3D" parent="Geometry" unique_id=192133725]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -6)
+use_collision = true
+collision_layer = 2
+size = Vector3(9, 4, 0.3)
+material = SubResource("StandardMaterial3D_ores0")
+
+[node name="WallEast" type="CSGBox3D" parent="Geometry" unique_id=540494593]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 2, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(0.3, 4, 12)
+material = SubResource("StandardMaterial3D_5pgg2")
+
+[node name="WallWest" type="CSGBox3D" parent="Geometry" unique_id=1752151073]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 2, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(0.3, 4, 12)
+material = SubResource("StandardMaterial3D_eok0r")
+
+[node name="Models" type="Node3D" parent="." unique_id=1530140838]
+
+[node name="Boiler" type="Node3D" parent="Models" unique_id=2008597761 instance=ExtResource("5_mt0km")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 5)
+
+[node name="WorkDesk" type="Node3D" parent="Models" unique_id=240116784 instance=ExtResource("6_hjyu5")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3, 0, -3)
+
+[node name="MaintenanceLog" type="Node3D" parent="Models" unique_id=387394537 instance=ExtResource("7_ct4hg")]
+transform = Transform3D(0.9659258, -0.022557564, 0.25783417, 0, 0.9961947, 0.08715574, -0.25881904, -0.08418597, 0.9622502, -3, 0.85, -3)
+
+[node name="PipeCluster" type="Node3D" parent="Models" unique_id=1448515556 instance=ExtResource("8_8726e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2.5, 0)
+
+[node name="PipeElbow" type="Node3D" parent="Models" unique_id=72867951 instance=ExtResource("9_e8ua5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2.5, 3)
+
+[node name="VerticalPipe" type="Node3D" parent="Models" unique_id=1155809790 instance=ExtResource("10_nrget")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 3, 4, 0, 4)
+
+[node name="PipeValve" type="Node3D" parent="Models" unique_id=385064192 instance=ExtResource("11_sf6jm")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 3.5, 1.5, 2)
+
+[node name="Machinery" type="Node3D" parent="Models" unique_id=207647823 instance=ExtResource("12_f3sgq")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -3, 0, 4)
+
+[node name="MetalBarrel1" type="Node3D" parent="Models" unique_id=495989626 instance=ExtResource("13_jgfru")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -4)
+
+[node name="MetalBarrel2" type="Node3D" parent="Models" unique_id=1277178079 instance=ExtResource("14_iqb56")]
+transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, 3.5, 0, -3)
+
+[node name="Toolbox" type="Node3D" parent="Models" unique_id=1316489795 instance=ExtResource("15_duuoy")]
+transform = Transform3D(0.9396926, 0, -0.34202012, 0, 1, 0, 0.34202012, 0, 0.9396926, -2, 0, -4)
+
+[node name="Wrench1" type="Node3D" parent="Models" unique_id=28902543 instance=ExtResource("16_vl1ry")]
+transform = Transform3D(2.1213202, 0, 2.1213202, 0, 3, 0, -2.1213202, 0, 2.1213202, -3.5, 0.86, -2.5)
+
+[node name="Hammer" type="Node3D" parent="Models" unique_id=760253914 instance=ExtResource("17_qltqv")]
+transform = Transform3D(2.598076, 0, -1.5, 0, 3, 0, 1.5, 0, 2.598076, -2.5, 0.86, -3.5)
+
+[node name="LooseGear1" type="Node3D" parent="Models" unique_id=658682286 instance=ExtResource("18_sljdx")]
+transform = Transform3D(3, 0, 0, 0, -1.3113416e-07, -3, 0, 3, -1.3113416e-07, 1, 0, -2)
+
+[node name="LooseGear2" type="Node3D" parent="Models" unique_id=491920468 instance=ExtResource("19_562fr")]
+transform = Transform3D(2.1213202, 2.1213202, -9.2725855e-08, 0, -1.3113416e-07, -3, -2.1213202, 2.1213202, -9.2725855e-08, -1, 0, 1)
+
+[node name="StrangeMask" type="Node3D" parent="Models" unique_id=417667832 instance=ExtResource("20_w2b1h")]
+transform = Transform3D(-1.3113416e-07, 0, 3, 0, 3, 0, -3, 0, -1.3113416e-07, -4, 2, 2)
+
+[node name="Jerrycan" type="Node3D" parent="Models" unique_id=1310914832 instance=ExtResource("21_gmqod")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -5)
+
+[node name="ElectricalPanel" type="Node3D" parent="Models" unique_id=1820188870 instance=ExtResource("22_66p2n")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4, 0, 0)
+
+[node name="Lighting" type="Node3D" parent="." unique_id=1081251379]
+
+[node name="BoilerFire" type="OmniLight3D" parent="Lighting" unique_id=851701147]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 5)
+light_color = Color(1, 0.4, 0.15, 1)
+light_energy = 4.0
+shadow_enabled = true
+omni_range = 12.0
+metadata/flickering = true
+
+[node name="Interactables" type="Node3D" parent="." unique_id=878081986]
+
+[node name="Connections" type="Node3D" parent="." unique_id=294789067]
