@@ -2,7 +2,7 @@
 
 Every GLB model, texture, and audio loop mapped to its room, puzzle, or scene element.
 
-**Total Assets**: 116 mansion GLBs + 3 horror GLBs + 6 prop GLBs + 67 mansion textures + 100 horror textures + 36 audio loops = **328 assets**
+**Total Assets**: 376 GLBs + 596 PNGs (textures + Godot imports) + 36 audio loops = **1000+ files** across named room directories
 
 ---
 
@@ -466,15 +466,46 @@ All mansion GLBs have embedded textures. The separate PNGs are for:
 
 ## Asset Paths (Godot)
 
+Assets are organized by floor and room name, mirroring the scene hierarchy:
+
 ```
 assets/
-├── models/
-│   ├── mansion/     116 GLBs — all interior structure + furniture
-│   ├── horror/      3 GLBs — doll1, doll2, bloodwraith
-│   └── props/       6 GLBs — bat, books, bottles, crates, nature, treasure
-├── textures/
-│   ├── *.png        67 mansion textures
-│   └── horror/      100 horror textures (512×512)
+├── ground_floor/
+│   ├── foyer/           # GLBs + textures for the foyer
+│   ├── parlor/
+│   ├── dining_room/
+│   └── kitchen/
+├── upper_floor/
+│   ├── hallway/
+│   ├── master_bedroom/
+│   ├── library/
+│   └── guest_room/
+├── basement/
+│   ├── storage/
+│   └── boiler_room/
+├── deep_basement/
+│   └── wine_cellar/
+├── attic/
+│   ├── stairwell/
+│   ├── storage/
+│   └── hidden_chamber/
+├── grounds/
+│   ├── front_gate/
+│   ├── garden/
+│   ├── chapel/
+│   ├── greenhouse/
+│   ├── carriage_house/
+│   └── family_crypt/
+├── shared/              # Models shared across rooms
+│   ├── structure/       # Walls, floors, ceilings, stairs, doorways
+│   ├── furniture/       # Beds, tables, chairs, bookcases, etc.
+│   ├── decor/           # Chandeliers, rugs, picture frames, statues
+│   ├── items/           # Candles, pages, plates, mugs, books
+│   └── textures/        # Shared wall/floor/ceiling textures
+├── horror/
+│   ├── models/          # Dolls, bloodwraith
+│   ├── textures/        # 100 horror textures (512x512)
+│   └── flesh_fbx/       # Source FBX files
 └── audio/
-    └���─ loops/       36 OGG loops
+    └── loops/           # 36 OGG ambient loops
 ```

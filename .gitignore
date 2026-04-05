@@ -28,3 +28,4 @@ vite.config.*
 vitest.config.*
 components.json
 server/
+.plugged/

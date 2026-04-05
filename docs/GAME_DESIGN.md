@@ -200,26 +200,18 @@ Story unfolds through discovered documents:
 - Smaller rooms: Focused, intense atmosphere
 - Transition spaces: Brief, build anticipation
 
-## Audio Design (Future)
+## Audio Design (Implemented)
 
-### Ambient Layers
-- Room-specific ambience
-- Fire crackle near fireplaces
-- Clock ticking
-- Distant creaks
-- Wind through windows
+### Room Ambient Loops
+Each of the 20 rooms has an assigned OGG ambient loop from the Lonely Nightmare pack. AudioManager crossfades between loops on room transitions using dual AudioStreamPlayer nodes.
 
-### Interaction Sounds
-- Paper rustling (notes)
-- Wood creaking (doors)
-- Metal clicking (switches)
-- Footsteps on different surfaces
-
-### Music
-- Minimal, diegetic where possible
-- Music box in parlor
-- Piano that plays itself (upper floor)
-- Silence as a tool
+### Event-Triggered Audio
+Special audio triggers override room loops for key events:
+- Document reading, mirror interactions, sealed doors
+- Elizabeth awareness (global tension increase)
+- Music box event in Parlor
+- Counter-ritual progression (3-step sequence)
+- Freedom ending (dawn/release)
 
 ## Difficulty & Accessibility
 
@@ -241,6 +233,23 @@ Story unfolds through discovered documents:
 - No reliance on color alone
 - Text on readable backgrounds
 
+## Implemented Features
+
+### Expanded Mansion (20 Rooms)
+The full estate includes 14 interior rooms across 5 floors plus 6 exterior grounds:
+- **Ground Floor**: Foyer, Parlor, Dining Room, Kitchen
+- **Upper Floor**: Hallway, Master Bedroom, Library, Guest Room
+- **Basement**: Storage, Boiler Room
+- **Deep Basement**: Wine Cellar
+- **Attic**: Stairwell, Storage, Hidden Chamber
+- **Grounds**: Front Gate, Garden, Chapel, Greenhouse, Carriage House, Family Crypt
+
+### Multiple Endings (3 Endings)
+Three endings based on player progress:
+- **Freedom**: Complete counter-ritual (6 components), free Elizabeth
+- **Escape**: Leave with full knowledge but without freeing her
+- **Joined**: Attempt to leave without understanding, or linger too long
+
 ## Future Considerations
 
 ### Enemy System (Not Yet Implemented)
@@ -248,18 +257,4 @@ The environment-first approach means enemies come later:
 - Presence should be felt before seen
 - Movement patterns tied to player actions
 - Safe rooms as relief points
-- No combat—avoidance only
-
-### Expanded Mansion (IMPLEMENTED)
-Exterior grounds are now part of the game:
-- Front Gate & Drive (prologue/epilogue)
-- Estate Chapel (blessed water)
-- Greenhouse (gate key, lily, Lady's journal)
-- Carriage House (cellar key)
-- Family Crypt (jewelry key, missing grave)
-
-### Multiple Endings (IMPLEMENTED)
-Three endings based on player progress:
-- **Freedom**: Complete counter-ritual (6 components), free Elizabeth
-- **Escape**: Leave with full knowledge but without freeing her
-- **Joined**: Attempt to leave without understanding, or linger too long
+- No combat -- avoidance only

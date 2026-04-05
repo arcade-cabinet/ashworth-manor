@@ -108,7 +108,7 @@ Each room scene contains:
 
 ## Status
 
-- [ ] Risk 1: Room scene template + instancing
-- [ ] Main Build: 20 room scenes
-- [ ] Master script alignment verification
+- [x] Risk 1: Room scene template + instancing
+- [x] Main Build: 20 room scenes
+- [x] Master script alignment verification
 - [ ] Presentation video

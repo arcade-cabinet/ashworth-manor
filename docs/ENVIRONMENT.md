@@ -45,7 +45,9 @@ This document details the mansion layout, room specifications, and environmental
 
 ### Total Room Count: 20
 - **Interior**: 14 rooms across 5 floors
-- **Exterior**: 6 areas (Front Gate, Hedge Garden, Chapel, Greenhouse, Carriage House, Crypt)
+- **Exterior**: 6 areas (Front Gate, Garden, Chapel, Greenhouse, Carriage House, Family Crypt)
+
+Each room is a standalone `.tscn` scene file in `scenes/rooms/{floor}/{room}.tscn`.
 
 ## Floor Specifications
 
@@ -276,12 +278,6 @@ Wine Cellar ◄──────── Storage ◄────────► A
 | Deep Basement | Isolation | Minimal | Can't escape |
 | Attic | Revelation | Variable | Understanding horror |
 
-## Sound Design Notes (Future)
+## Audio Design (Implemented)
 
-Each area should have distinct audio:
-
-- **Ground Floor**: Clock ticking, distant settling
-- **Upper Floor**: Floorboard creaks, whispers
-- **Basement**: Dripping, pipe groans
-- **Deep Basement**: Complete silence, then...
-- **Attic**: Wind, scratching, music box melody
+Each room has an assigned OGG ambient loop. See ASSETS.md for the full audio loop assignment table. AudioManager crossfades between loops on room transitions.
