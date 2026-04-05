@@ -36,3 +36,8 @@ func _plugging() -> void:
 	# Robust save system with encryption, nested data, error handling
 	# Replaces our basic JSON write
 	plug("AdamKormos/SaveMadeEasy")
+
+	# === TESTING ===
+	# Unit + integration testing framework for Godot 4
+	# Run via editor or CLI: godot --headless -s addons/gdUnit4/bin/GdUnitCmdTool.gd
+	plug("MikeSchulze/gdUnit4", {"include": ["addons/gdUnit4/"]})

@@ -537,11 +537,15 @@ func _on_screen_changed(new_screen: String) -> void:
 		_landing_panel.visible = false
 
 
-func _on_room_loaded(room_id: String) -> void:
-	var room_data_script = load("res://scripts/room_data.gd")
-	var data: Dictionary = room_data_script.get_room(room_id)
-	var room_name: String = data.get("name", room_id)
-	show_room_name(room_name)
+func _on_room_loaded(_room_id: String) -> void:
+	# Read room_name from the live room scene's exported var
+	var rm: Node = _find_node("RoomManager")
+	if rm and rm.has_method("get_current_room"):
+		var room = rm.get_current_room()
+		if room and "room_name" in room:
+			show_room_name(room.room_name)
+			return
+	show_room_name(_room_id.replace("_", " ").capitalize())
 
 
 func _on_item_acquired(item_id: String) -> void:

@@ -119,24 +119,13 @@ func get_current_room() -> RoomBase:
 
 
 func get_current_room_data() -> Dictionary:
-	# Compatibility shim for interaction_manager
+	# Returns basic metadata from the live room scene's exports
 	if _current_room == null:
 		return {}
-	var connections: Array = []
-	for area in _current_room.get_connections():
-		var conn_res = area.get_meta("connection") if area.has_meta("connection") else null
-		if conn_res is RoomConnection:
-			connections.append({
-				"target_room": _scene_path_to_room_id(conn_res.target_scene_path),
-				"type": conn_res.conn_type,
-				"locked": conn_res.locked,
-				"key_id": conn_res.key_id,
-			})
 	return {
 		"room_id": _current_room.room_id,
 		"room_name": _current_room.room_name,
 		"audio_loop": _current_room.audio_loop,
-		"connections": connections,
 	}
 
 

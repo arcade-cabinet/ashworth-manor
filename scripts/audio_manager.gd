@@ -54,12 +54,15 @@ func _recursive_find(node: Node, target_name: String) -> Node:
 	return null
 
 
-func _on_room_loaded(room_id: String) -> void:
-	var room_data_script = load("res://scripts/room_data.gd")
-	var data: Dictionary = room_data_script.get_room(room_id)
-	var loop_name: String = data.get("audio_loop", "")
-	if not loop_name.is_empty():
-		play_room_loop(loop_name)
+func _on_room_loaded(_room_id: String) -> void:
+	# Read audio_loop from the live room scene's exported var (room_base.gd)
+	var rm: Node = _find_node("RoomManager")
+	if rm and rm.has_method("get_current_room"):
+		var room = rm.get_current_room()
+		if room and "audio_loop" in room:
+			var loop_name: String = room.audio_loop
+			if not loop_name.is_empty():
+				play_room_loop(loop_name)
 
 
 func play_room_loop(loop_name: String) -> void:

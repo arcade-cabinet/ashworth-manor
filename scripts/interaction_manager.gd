@@ -218,20 +218,22 @@ func _on_door_tapped(target_room: String) -> void:
 	if target_room.is_empty():
 		return
 
-	# Find the connection data to check lock state and get transition type
+	# Check lock state from live Connection Area3D nodes in the current room scene
 	var conn_type: String = "door"
-	if _room_manager and _room_manager.has_method("get_current_room_data"):
-		var room_data: Dictionary = _room_manager.get_current_room_data()
-		var connections: Array = room_data.get("connections", [])
-		for conn in connections:
-			if conn.get("target_room", "") == target_room:
-				conn_type = conn.get("type", "door")
-				var locked: bool = conn.get("locked", false)
-				var key_id: String = conn.get("key_id", "")
-				if locked and not key_id.is_empty() and not GameManager.has_item(key_id):
-					_show("Locked", "This passage is locked. You need the %s." % key_id.replace("_", " "))
-					return
-				break
+	if _room_manager and _room_manager.has_method("get_current_room"):
+		var room = _room_manager.get_current_room()
+		if room and room.has_method("get_connections"):
+			for area in room.get_connections():
+				var conn_res = area.get_meta("connection") if area.has_meta("connection") else null
+				if conn_res is RoomConnection:
+					var target_id: String = _scene_path_to_id(conn_res.target_scene_path)
+					if target_id == target_room:
+						conn_type = conn_res.conn_type
+						if conn_res.locked and not conn_res.key_id.is_empty():
+							if not GameManager.has_item(conn_res.key_id):
+								_show("Locked", "This passage is locked. You need the %s." % conn_res.key_id.replace("_", " "))
+								return
+						break
 
 	# Check ending conditions when leaving mansion → front gate
 	if target_room == "front_gate" and GameManager.current_room != "front_gate":
@@ -265,6 +267,13 @@ func _transition_with_type(room_id: String, conn_type: String) -> void:
 func _show(title: String, content: String) -> void:
 	if _ui_overlay and _ui_overlay.has_method("show_document"):
 		_ui_overlay.show_document(title, content)
+
+
+func _scene_path_to_id(path: String) -> String:
+	# "res://scenes/rooms/ground_floor/parlor.tscn" → "parlor"
+	if _room_manager and _room_manager.has_method("_scene_path_to_room_id"):
+		return _room_manager._scene_path_to_room_id(path)
+	return path.get_file().get_basename()
 
 
 func _find_node(node_name: String) -> Node:

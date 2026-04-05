@@ -65,6 +65,7 @@ After the player has entered the mansion and explored the ground floor, the grou
 | Area | Access | Purpose |
 |------|--------|---------|
 | Front Gate & Drive | Always (game start) | Prologue |
+| Garden | After exploring ground floor | Atmosphere, connects to Crypt path |
 | Carriage House | After visiting Wine Cellar (cellar key clue) | Contains cellar_key |
 | Chapel | After entering Attic (elizabeth_aware flag) | Contains blessed_water |
 | Greenhouse | After Chapel visit | Contains gate_key for Crypt |
