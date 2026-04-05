@@ -170,7 +170,9 @@ func _handle_doll(object_id: String, data: Dictionary) -> void:
 # === COUNTER-RITUAL (3-step sequence in Hidden Chamber) ===
 
 func _handle_ritual(data: Dictionary) -> void:
-	if not GameManager.can_perform_ritual():
+	# Once ritual has started (step 1+), don't re-check prerequisites
+	var ritual_started: bool = GameManager.has_flag("ritual_step_1")
+	if not ritual_started and not GameManager.can_perform_ritual():
 		_show("", data.get("description", "Something is missing. You haven't found the whole truth yet."))
 		return
 
@@ -195,10 +197,17 @@ func _handle_ritual(data: Dictionary) -> void:
 			GameManager.set_flag("ritual_step_3")
 			GameManager.set_flag("counter_ritual_complete")
 			GameManager.set_flag("freed_elizabeth")
+			# Hide any existing document overlay before showing ending
+			var overlay: Control = _find_node("UIOverlay")
+			if overlay and overlay.has_method("hide_document"):
+				overlay.hide_document()
 			_show("", "\"Elizabeth Ashworth. Born in light. Free.\"\n\nThe doll cracks open. Light pours from inside. The drawings fade.\n\n\"Thank you.\"")
-			# Trigger freedom ending after player dismisses the document
+			# Trigger freedom ending after delay
 			get_tree().create_timer(6.0).timeout.connect(
-				func(): GameManager.trigger_ending("freedom")
+				func():
+					if overlay and overlay.has_method("hide_document"):
+						overlay.hide_document()
+					GameManager.trigger_ending("freedom")
 			)
 		return
 

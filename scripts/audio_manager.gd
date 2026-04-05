@@ -13,19 +13,23 @@ var _crossfade_tween: Tween = null
 
 
 func _ready() -> void:
-	_ambient_current = AudioStreamPlayer.new()
-	_ambient_current.name = "AmbientCurrent"
+	# Use scene-built players if present, otherwise create new ones
+	_ambient_current = get_node_or_null("AmbientCurrent")
+	if _ambient_current == null:
+		_ambient_current = AudioStreamPlayer.new()
+		_ambient_current.name = "AmbientCurrent"
+		add_child(_ambient_current)
 	_ambient_current.bus = &"Master"
 	_ambient_current.volume_db = AMBIENT_BASE_DB
-	add_child(_ambient_current)
 
-	_ambient_next = AudioStreamPlayer.new()
-	_ambient_next.name = "AmbientNext"
+	_ambient_next = get_node_or_null("AmbientNext")
+	if _ambient_next == null:
+		_ambient_next = AudioStreamPlayer.new()
+		_ambient_next.name = "AmbientNext"
+		add_child(_ambient_next)
 	_ambient_next.bus = &"Master"
 	_ambient_next.volume_db = SILENCE_DB
-	add_child(_ambient_next)
 
-	# Connect to RoomManager.room_loaded if available
 	call_deferred("_connect_room_manager")
 
 

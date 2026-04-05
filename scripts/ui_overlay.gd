@@ -39,7 +39,7 @@ func _connect_signals() -> void:
 		room_mgr.room_loaded.connect(_on_room_loaded)
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if _is_document_open:
 		if event is InputEventMouseButton:
 			var mb: InputEventMouseButton = event as InputEventMouseButton

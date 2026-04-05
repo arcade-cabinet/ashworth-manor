@@ -45,6 +45,13 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# Block input when document overlay is open or game is paused
+	var ui: Control = get_node_or_null("/root/Main/UILayer/UIOverlay")
+	if ui and ui.get("_is_document_open") == true:
+		return
+	if get_tree().paused:
+		return
+
 	# Touch begin
 	if event is InputEventScreenTouch:
 		var touch: InputEventScreenTouch = event as InputEventScreenTouch
