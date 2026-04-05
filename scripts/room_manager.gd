@@ -1,27 +1,42 @@
 extends Node3D
-## res://scripts/room_manager.gd — Loads/unloads rooms, places models, lights, interactables
+## res://scripts/room_manager.gd — Scene-based room instancing with fade transitions
 
 signal room_loaded(room_id: String)
 signal room_transition_started
 signal room_transition_finished
 
-const WALL_THICKNESS: float = 0.3
-const FLOOR_THICKNESS: float = 0.2
 const FADE_DURATION: float = 0.6
 
+var _current_room: RoomBase = null
 var _current_room_id: String = ""
 var _room_container: Node3D = null
-var _flickering_lights: Array[Dictionary] = []
-var _elapsed_time: float = 0.0
 var _fade_rect: ColorRect = null
 var _fade_layer: CanvasLayer = null
 var _is_transitioning: bool = false
 
-# Collision layers
-const LAYER_WALKABLE: int = 1
-const LAYER_WALL: int = 2
-const LAYER_INTERACTABLE: int = 3
-const LAYER_DOOR: int = 4
+# Room registry: room_id → scene path
+var _room_registry: Dictionary = {
+	"front_gate": "res://scenes/rooms/grounds/front_gate.tscn",
+	"garden": "res://scenes/rooms/grounds/garden.tscn",
+	"chapel": "res://scenes/rooms/grounds/chapel.tscn",
+	"greenhouse": "res://scenes/rooms/grounds/greenhouse.tscn",
+	"carriage_house": "res://scenes/rooms/grounds/carriage_house.tscn",
+	"family_crypt": "res://scenes/rooms/grounds/family_crypt.tscn",
+	"foyer": "res://scenes/rooms/ground_floor/foyer.tscn",
+	"parlor": "res://scenes/rooms/ground_floor/parlor.tscn",
+	"dining_room": "res://scenes/rooms/ground_floor/dining_room.tscn",
+	"kitchen": "res://scenes/rooms/ground_floor/kitchen.tscn",
+	"upper_hallway": "res://scenes/rooms/upper_floor/hallway.tscn",
+	"master_bedroom": "res://scenes/rooms/upper_floor/master_bedroom.tscn",
+	"library": "res://scenes/rooms/upper_floor/library.tscn",
+	"guest_room": "res://scenes/rooms/upper_floor/guest_room.tscn",
+	"storage_basement": "res://scenes/rooms/basement/storage.tscn",
+	"boiler_room": "res://scenes/rooms/basement/boiler_room.tscn",
+	"wine_cellar": "res://scenes/rooms/deep_basement/wine_cellar.tscn",
+	"attic_stairs": "res://scenes/rooms/attic/stairwell.tscn",
+	"attic_storage": "res://scenes/rooms/attic/storage.tscn",
+	"hidden_room": "res://scenes/rooms/attic/hidden_chamber.tscn",
+}
 
 
 func _ready() -> void:
@@ -31,13 +46,122 @@ func _ready() -> void:
 	_setup_fade_overlay()
 
 
-func _process(delta: float) -> void:
-	_elapsed_time += delta
-	for entry in _flickering_lights:
-		var light: Light3D = entry["light"]
-		var base_energy: float = entry["base_energy"]
-		if is_instance_valid(light):
-			light.light_energy = base_energy * (0.85 + sin(_elapsed_time * 2.5) * 0.04 + sin(_elapsed_time * 4.3) * 0.02)
+func load_room(room_id: String) -> void:
+	var scene_path: String = _room_registry.get(room_id, "")
+	if scene_path.is_empty():
+		push_warning("RoomManager: Unknown room '%s'" % room_id)
+		return
+	if not ResourceLoader.exists(scene_path):
+		push_warning("RoomManager: Scene not found '%s'" % scene_path)
+		return
+
+	_clear_current_room()
+
+	var scene: PackedScene = load(scene_path)
+	if scene == null:
+		push_warning("RoomManager: Failed to load '%s'" % scene_path)
+		return
+
+	var room_instance = scene.instantiate()
+	_room_container.add_child(room_instance)
+
+	# Get room metadata from RoomBase script
+	if room_instance is RoomBase:
+		_current_room = room_instance
+		_current_room_id = room_instance.room_id
+	else:
+		_current_room = null
+		_current_room_id = room_id
+
+	GameManager.current_room = _current_room_id
+	GameManager.mark_visited(_current_room_id)
+	room_loaded.emit(_current_room_id)
+
+
+func transition_to(room_id: String, conn_type: String = "door") -> void:
+	if _is_transitioning:
+		return
+	_is_transitioning = true
+	room_transition_started.emit()
+
+	var fade_in: float = FADE_DURATION
+	var hold: float = 0.15
+	var fade_out: float = FADE_DURATION
+
+	match conn_type:
+		"stairs":
+			fade_in = 0.8
+			hold = 0.3
+			fade_out = 0.8
+		"ladder":
+			fade_in = 1.0
+			hold = 0.4
+			fade_out = 1.0
+		"path":
+			fade_in = 0.5
+			hold = 0.1
+			fade_out = 0.5
+
+	var tween: Tween = create_tween()
+	tween.tween_property(_fade_rect, "modulate:a", 1.0, fade_in)
+	tween.tween_callback(_perform_room_switch.bind(room_id))
+	tween.tween_interval(hold)
+	tween.tween_property(_fade_rect, "modulate:a", 0.0, fade_out)
+	tween.tween_callback(_on_transition_complete)
+
+
+func get_current_room_id() -> String:
+	return _current_room_id
+
+
+func get_current_room() -> RoomBase:
+	return _current_room
+
+
+func get_current_room_data() -> Dictionary:
+	# Compatibility shim for interaction_manager
+	if _current_room == null:
+		return {}
+	var connections: Array = []
+	for area in _current_room.get_connections():
+		var conn_res = area.get_meta("connection") if area.has_meta("connection") else null
+		if conn_res is RoomConnection:
+			connections.append({
+				"target_room": _scene_path_to_room_id(conn_res.target_scene_path),
+				"type": conn_res.conn_type,
+				"locked": conn_res.locked,
+				"key_id": conn_res.key_id,
+			})
+	return {
+		"room_id": _current_room.room_id,
+		"room_name": _current_room.room_name,
+		"audio_loop": _current_room.audio_loop,
+		"connections": connections,
+	}
+
+
+# --- Private ---
+
+func _perform_room_switch(room_id: String) -> void:
+	load_room(room_id)
+	# Reposition player
+	var player: Node = get_node_or_null("/root/Main/PlayerController")
+	if player and _current_room:
+		player.global_position = _current_room.spawn_position
+		player.rotation_degrees.y = _current_room.spawn_rotation_y
+		player.velocity = Vector3.ZERO
+
+
+func _on_transition_complete() -> void:
+	_is_transitioning = false
+	room_transition_finished.emit()
+
+
+func _clear_current_room() -> void:
+	_current_room = null
+	for child in _room_container.get_children():
+		_room_container.remove_child(child)
+		child.queue_free()
 
 
 func _setup_fade_overlay() -> void:
@@ -55,381 +179,10 @@ func _setup_fade_overlay() -> void:
 	_fade_layer.add_child(_fade_rect)
 
 
-func load_room(room_id: String) -> void:
-	var room_data_script = load("res://scripts/room_data.gd")
-	var data: Dictionary = room_data_script.get_room(room_id)
-	if data.is_empty():
-		push_warning("RoomManager: Unknown room '%s'" % room_id)
-		return
-
-	_clear_current_room()
-	_current_room_id = room_id
-
-	var dimensions: Vector3 = data.get("dimensions", Vector3(10, 4, 10))
-	var is_exterior: bool = data.get("is_exterior", false)
-
-	if not is_exterior:
-		_build_room_geometry(dimensions, data)
-	else:
-		_build_floor_only(dimensions, data)
-
-	_place_models(data.get("models", []))
-	_create_lights(data.get("lights", []))
-	_create_interactables(data.get("interactables", []))
-	_create_connections(data.get("connections", []), dimensions)
-
-	GameManager.current_room = room_id
-	GameManager.mark_visited(room_id)
-	room_loaded.emit(room_id)
-
-
-func transition_to(room_id: String, conn_type: String = "door") -> void:
-	if _is_transitioning:
-		return
-	_is_transitioning = true
-	room_transition_started.emit()
-
-	# Determine transition style based on connection type
-	var fade_in_time: float = FADE_DURATION
-	var hold_time: float = 0.15
-	var fade_out_time: float = FADE_DURATION
-
-	match conn_type:
-		"stairs":
-			fade_in_time = 0.8  # Slower — climbing/descending stairs
-			hold_time = 0.3
-			fade_out_time = 0.8
-		"ladder":
-			fade_in_time = 1.0  # Even slower — ladder is precarious
-			hold_time = 0.4
-			fade_out_time = 1.0
-		"path":
-			fade_in_time = 0.5  # Quick outdoor walk
-			hold_time = 0.1
-			fade_out_time = 0.5
-
-	var tween: Tween = create_tween()
-	tween.tween_property(_fade_rect, "modulate:a", 1.0, fade_in_time)
-	tween.tween_callback(_perform_room_switch.bind(room_id))
-	tween.tween_interval(hold_time)
-	tween.tween_property(_fade_rect, "modulate:a", 0.0, fade_out_time)
-	tween.tween_callback(_on_transition_complete)
-
-
-func get_current_room_id() -> String:
-	return _current_room_id
-
-
-func get_current_room_data() -> Dictionary:
-	var room_data_script = load("res://scripts/room_data.gd")
-	return room_data_script.get_room(_current_room_id)
-
-
-# --- Private ---
-
-func _perform_room_switch(room_id: String) -> void:
-	load_room(room_id)
-	# Reposition the player inside the new room
-	var player: Node = get_node_or_null("/root/Main/PlayerController")
-	if player:
-		player.global_position = Vector3(0, 1, -3)
-		player.velocity = Vector3.ZERO
-
-
-func _on_transition_complete() -> void:
-	_is_transitioning = false
-	room_transition_finished.emit()
-
-
-func _clear_current_room() -> void:
-	_flickering_lights.clear()
-	for child in _room_container.get_children():
-		_room_container.remove_child(child)
-		child.queue_free()
-
-
-func _build_room_geometry(dimensions: Vector3, room_data: Dictionary = {}) -> void:
-	var w: float = dimensions.x
-	var h: float = dimensions.y
-	var d: float = dimensions.z
-
-	# Get texture paths from room data (fallback to defaults)
-	var wall_tex_path: String = room_data.get("wall_texture", "")
-	var floor_tex_path: String = room_data.get("floor_texture", "")
-	var ceiling_tex_path: String = room_data.get("ceiling_texture", "")
-	var wall_color: Color = room_data.get("wall_color", Color(0.45, 0.18, 0.15))
-	var floor_color: Color = room_data.get("floor_color", Color(0.3, 0.22, 0.15))
-	var ceiling_color: Color = room_data.get("ceiling_color", Color(0.35, 0.3, 0.25))
-
-	# Floor
-	var floor_box: CSGBox3D = CSGBox3D.new()
-	floor_box.name = "Floor"
-	floor_box.size = Vector3(w, FLOOR_THICKNESS, d)
-	floor_box.position = Vector3(0, -FLOOR_THICKNESS / 2.0, 0)
-	floor_box.use_collision = true
-	floor_box.collision_layer = LAYER_WALKABLE
-	floor_box.collision_mask = 0
-	floor_box.material = _create_textured_material(floor_tex_path, floor_color, w, d)
-	_room_container.add_child(floor_box)
-
-	# Ceiling
-	var ceiling_box: CSGBox3D = CSGBox3D.new()
-	ceiling_box.name = "Ceiling"
-	ceiling_box.size = Vector3(w, FLOOR_THICKNESS, d)
-	ceiling_box.position = Vector3(0, h + FLOOR_THICKNESS / 2.0, 0)
-	ceiling_box.use_collision = true
-	ceiling_box.collision_layer = LAYER_WALL
-	ceiling_box.collision_mask = 0
-	ceiling_box.material = _create_textured_material(ceiling_tex_path, ceiling_color, w, d)
-	_room_container.add_child(ceiling_box)
-
-	# Walls
-	var wall_defs: Array[Dictionary] = [
-		{"name": "WallNorth", "size": Vector3(w, h, WALL_THICKNESS), "pos": Vector3(0, h / 2.0, d / 2.0), "tile_w": w, "tile_h": h},
-		{"name": "WallSouth", "size": Vector3(w, h, WALL_THICKNESS), "pos": Vector3(0, h / 2.0, -d / 2.0), "tile_w": w, "tile_h": h},
-		{"name": "WallEast", "size": Vector3(WALL_THICKNESS, h, d), "pos": Vector3(w / 2.0, h / 2.0, 0), "tile_w": d, "tile_h": h},
-		{"name": "WallWest", "size": Vector3(WALL_THICKNESS, h, d), "pos": Vector3(-w / 2.0, h / 2.0, 0), "tile_w": d, "tile_h": h},
-	]
-	for def in wall_defs:
-		var wall: CSGBox3D = CSGBox3D.new()
-		wall.name = def["name"]
-		wall.size = def["size"]
-		wall.position = def["pos"]
-		wall.use_collision = true
-		wall.collision_layer = LAYER_WALL
-		wall.collision_mask = 0
-		wall.material = _create_textured_material(wall_tex_path, wall_color, def["tile_w"], def["tile_h"])
-		_room_container.add_child(wall)
-
-
-func _build_floor_only(dimensions: Vector3, room_data: Dictionary = {}) -> void:
-	var w: float = dimensions.x
-	var d: float = dimensions.z
-	var floor_tex: String = room_data.get("floor_texture", "")
-	var floor_color: Color = room_data.get("floor_color", Color(0.25, 0.22, 0.2))
-
-	var floor_box: CSGBox3D = CSGBox3D.new()
-	floor_box.name = "Floor"
-	floor_box.size = Vector3(w, FLOOR_THICKNESS, d)
-	floor_box.position = Vector3(0, -FLOOR_THICKNESS / 2.0, 0)
-	floor_box.use_collision = true
-	floor_box.collision_layer = LAYER_WALKABLE
-	floor_box.collision_mask = 0
-	floor_box.material = _create_textured_material(floor_tex, floor_color, w, d)
-	_room_container.add_child(floor_box)
-
-
-func _create_dark_material(base_color: Color) -> StandardMaterial3D:
-	var mat: StandardMaterial3D = StandardMaterial3D.new()
-	mat.albedo_color = base_color
-	mat.roughness = 0.95
-	mat.metallic = 0.0
-	return mat
-
-
-func _create_room_material(base_color: Color, roughness_val: float = 0.8) -> StandardMaterial3D:
-	var mat: StandardMaterial3D = StandardMaterial3D.new()
-	mat.albedo_color = base_color
-	mat.roughness = roughness_val
-	mat.metallic = 0.0
-	return mat
-
-
-func _create_textured_material(tex_path: String, tint_color: Color, tile_w: float, tile_h: float) -> StandardMaterial3D:
-	var mat: StandardMaterial3D = StandardMaterial3D.new()
-	mat.albedo_color = tint_color
-
-	if not tex_path.is_empty() and ResourceLoader.exists(tex_path):
-		var tex: Texture2D = load(tex_path)
-		if tex:
-			mat.albedo_texture = tex
-			mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST  # PSX nearest filtering
-			# Tile texture every 2 meters for proper scale
-			var tiles_x: float = maxf(1.0, tile_w / 2.0)
-			var tiles_y: float = maxf(1.0, tile_h / 2.0)
-			mat.uv1_scale = Vector3(tiles_x, tiles_y, 1.0)
-			# Tint blends with texture
-			mat.albedo_color = tint_color.lerp(Color.WHITE, 0.6)
-
-	mat.roughness = 0.85
-	mat.metallic = 0.0
-	return mat
-
-
-func _place_models(models: Array) -> void:
-	for model_def in models:
-		var path: String = model_def.get("path", "")
-		if path.is_empty():
-			continue
-		if not ResourceLoader.exists(path):
-			push_warning("RoomManager: Model not found at '%s'" % path)
-			continue
-		var scene: PackedScene = load(path)
-		if scene == null:
-			push_warning("RoomManager: Failed to load scene '%s'" % path)
-			continue
-		var model = scene.instantiate()
-		model.position = model_def.get("pos", Vector3.ZERO)
-		model.rotation_degrees = model_def.get("rot", Vector3.ZERO)
-		var base_scale: Vector3 = model_def.get("scale", Vector3.ONE)
-
-		# Auto-scale small props from supplemental packs to be visible
-		# Mansion pack models are ~1-7m, Mega Pack II props are ~0.1-0.3m
-		var mesh = _find_mesh_instance(model)
-		if mesh:
-			var aabb: AABB = mesh.get_aabb()
-			var max_dim: float = maxf(aabb.size.x, maxf(aabb.size.y, aabb.size.z))
-			if max_dim < 0.5 and base_scale == Vector3.ONE:
-				# Prop is tiny — scale up to at least 0.5m visible size
-				var scale_factor: float = 0.6 / max_dim
-				base_scale = Vector3.ONE * scale_factor
-
-		model.scale = base_scale
-		_room_container.add_child(model)
-
-
-func _find_mesh_instance(node: Node) -> MeshInstance3D:
-	if node is MeshInstance3D:
-		return node
-	for child in node.get_children():
-		var found = _find_mesh_instance(child)
-		if found:
-			return found
-	return null
-
-
-func _create_lights(lights: Array) -> void:
-	# Light intensity multiplier — room_data values designed for atmospheric darkness,
-	# need boost to be visible with the WorldEnvironment ambient level
-	const INTENSITY_MULT: float = 3.0
-
-	for light_def in lights:
-		var light_type: String = light_def.get("type", "omni")
-		var light: Light3D = null
-
-		if light_type == "omni":
-			var omni: OmniLight3D = OmniLight3D.new()
-			omni.omni_range = light_def.get("range", 8.0) * 1.5
-			omni.omni_attenuation = 1.2
-			light = omni
-		elif light_type == "spot":
-			var spot: SpotLight3D = SpotLight3D.new()
-			spot.spot_range = light_def.get("range", 10.0) * 1.5
-			spot.spot_angle = 50.0
-			spot.spot_attenuation = 1.0
-			light = spot
-		elif light_type == "directional":
-			var dir_light: DirectionalLight3D = DirectionalLight3D.new()
-			dir_light.rotation_degrees = Vector3(-45, -30, 0)
-			light = dir_light
-		else:
-			continue
-
-		light.position = light_def.get("pos", Vector3.ZERO)
-		light.light_color = light_def.get("color", Color.WHITE)
-		var base_intensity: float = light_def.get("intensity", 1.0) * INTENSITY_MULT
-		light.light_energy = base_intensity
-		light.shadow_enabled = light_type != "omni"  # Only directional/spot cast shadows (perf)
-
-		var light_name: String = "Light_%d" % _room_container.get_child_count()
-		light.name = light_name
-		_room_container.add_child(light)
-
-		var flickering: bool = light_def.get("flickering", false)
-		if flickering:
-			_flickering_lights.append({
-				"light": light,
-				"base_energy": base_intensity,
-			})
-
-
-func _create_interactables(interactables: Array) -> void:
-	for inter_def in interactables:
-		var inter_id: String = inter_def.get("id", "")
-		var inter_type: String = inter_def.get("type", "")
-		var inter_pos: Vector3 = inter_def.get("pos", Vector3.ZERO)
-		var inter_data: Dictionary = inter_def.get("data", {})
-
-		var area: Area3D = Area3D.new()
-		area.name = "Interactable_%s" % inter_id
-		area.position = inter_pos
-		area.collision_layer = LAYER_INTERACTABLE
-		area.collision_mask = 0
-		area.set_meta("id", inter_id)
-		area.set_meta("type", inter_type)
-		area.set_meta("data", inter_data)
-
-		var shape: CollisionShape3D = CollisionShape3D.new()
-		var box_shape: BoxShape3D = BoxShape3D.new()
-		box_shape.size = Vector3(1.0, 1.0, 1.0)
-		shape.shape = box_shape
-		area.add_child(shape)
-
-		# Subtle glow marker for interactable objects
-		# A tiny emissive sphere that pulses — players can spot interactables
-		var marker := MeshInstance3D.new()
-		marker.name = "InteractGlow"
-		var sphere := SphereMesh.new()
-		sphere.radius = 0.06
-		sphere.height = 0.12
-		marker.mesh = sphere
-		var glow_mat := StandardMaterial3D.new()
-		glow_mat.emission_enabled = true
-		glow_mat.emission = Color(0.9, 0.7, 0.3)
-		glow_mat.emission_energy_multiplier = 2.0
-		glow_mat.albedo_color = Color(0.8, 0.6, 0.2)
-		glow_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		glow_mat.albedo_color.a = 0.6
-		marker.set_surface_override_material(0, glow_mat)
-		marker.position = Vector3(0, -0.3, 0)  # Slightly below center
-		area.add_child(marker)
-
-		_room_container.add_child(area)
-
-
-func _create_connections(connections: Array, dimensions: Vector3) -> void:
-	for conn_def in connections:
-		var target_room: String = conn_def.get("target_room", "")
-		var conn_type: String = conn_def.get("type", "door")
-		var conn_pos: Vector3 = conn_def.get("pos", Vector3.ZERO)
-		var locked: bool = conn_def.get("locked", false)
-		var key_id: String = conn_def.get("key_id", "")
-		var direction: String = conn_def.get("direction", "")
-
-		var area: Area3D = Area3D.new()
-		area.name = "Connection_%s_%s" % [direction, target_room]
-		area.position = conn_pos
-		area.collision_layer = LAYER_DOOR
-		area.collision_mask = 0
-		area.set_meta("target_room", target_room)
-		area.set_meta("type", conn_type)
-		area.set_meta("locked", locked)
-		area.set_meta("key_id", key_id)
-		area.set_meta("direction", direction)
-
-		var shape: CollisionShape3D = CollisionShape3D.new()
-		var box_shape: BoxShape3D = BoxShape3D.new()
-		box_shape.size = Vector3(2.0, 3.0, 1.0)
-		shape.shape = box_shape
-		area.add_child(shape)
-
-		# Door/transition visual indicator — subtle floor arrow
-		var door_marker := MeshInstance3D.new()
-		door_marker.name = "DoorMarker"
-		var plane := PlaneMesh.new()
-		plane.size = Vector2(0.6, 0.6)
-		door_marker.mesh = plane
-		var door_mat := StandardMaterial3D.new()
-		door_mat.emission_enabled = true
-		if locked:
-			door_mat.emission = Color(0.8, 0.2, 0.1)  # Red for locked
-		else:
-			door_mat.emission = Color(0.3, 0.6, 0.9)  # Blue for open
-		door_mat.emission_energy_multiplier = 1.5
-		door_mat.albedo_color = Color(0, 0, 0, 0)
-		door_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		door_marker.set_surface_override_material(0, door_mat)
-		door_marker.position = Vector3(0, 0.02, 0)  # Just above floor
-		area.add_child(door_marker)
-
-		_room_container.add_child(area)
+func _scene_path_to_room_id(path: String) -> String:
+	# Convert "res://scenes/rooms/ground_floor/parlor.tscn" → "parlor"
+	var filename: String = path.get_file().get_basename()
+	for rid in _room_registry:
+		if _room_registry[rid] == path:
+			return rid
+	return filename

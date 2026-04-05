@@ -1,86 +1,114 @@
-# Game Plan: Ashworth Manor
+# Game Plan: Ashworth Manor — Architecture Redesign
 
 ## Game Description
 
-Mobile-first PSX-style Victorian haunted house exploration game. First-person, tap-to-walk, swipe-to-look. 19 rooms across 5 interior floors + 5 exterior grounds areas. The player discovers the truth about Elizabeth Ashworth, a child imprisoned in the attic by her family and bound to the house through an occult ritual. Complete puzzle chain (6 puzzles), inventory system, 3 endings (Freedom/Escape/Joined), 36 audio loops, 125 GLB models, PSX retro shader. All assets pre-made — no AI content generation.
+PSX-style Victorian haunted house exploration. 20 rooms, 6 puzzles, 3 endings, 663+ assets. Redesign from monolithic room_data.gd to proper Godot scene-based architecture where each room is its own .tscn file.
 
 ## Risk Tasks
 
-### 1. PSX Retro Shader
-- **Why isolated:** Custom shader combining vertex snapping, affine texture warping, color depth reduction, and low-resolution rendering. Shaders fail silently — wrong syntax produces default materials. The PS1 look is the entire visual identity.
-- **Verify:** Visible vertex jitter on model edges, texture warping on large surfaces, reduced color banding effect, render at lower internal resolution then upscale. No magenta/default materials.
-
-### 2. Touch-to-Walk + Swipe-to-Look System
-- **Why isolated:** Custom input handling must distinguish taps from swipes, handle raycast floor picking for pathfinding, smooth camera rotation with inertia, and work with Godot's 3D picking system. Touch/mouse hybrid is tricky — tap threshold vs swipe threshold.
-- **Verify:** Single tap on floor → character walks to that point smoothly. Swipe → camera rotates horizontally (full 360°) and vertically (limited ±45°). Tap on interactable → raycast hits correctly. No jitter, no stuck states. Works with both touch and mouse.
+### 1. Room Scene Template + RoomManager Instancing
+- **Why isolated:** The entire game depends on rooms loading/unloading correctly. Scene instancing with proper metadata, collision layers, and signal connections must work before any room content matters.
+- **Verify:** RoomManager can load any room .tscn by path, instance it, connect interactable signals, free it, load another. Fade transition works. Player repositioned. Audio crossfade triggers.
 
 ## Main Build
 
-Build the complete exploration game:
+**Architecture overhaul:**
 
-**Core Systems:**
-- Room manager (load/unload 19 rooms by ID, fade transitions)
-- First-person camera with PSX FOV
-- Interaction system (raycast → object metadata → overlay)
-- Inventory system (items, keys, flags)
-- Game state manager (visited rooms, interacted objects, flags, inventory)
-- Save/load to JSON (auto-save on room transition)
-- Audio manager (per-room ambient loops, crossfade on transition)
-- Document overlay (diegetic aged-paper style, tap to dismiss)
-- Room name display (fade in/out on entry)
-- Pause menu (resume, inventory, save, quit)
+1. **Room base script** (`scripts/room_base.gd`) — extends Node3D, exported vars for room metadata:
+   - `@export var room_id: String`
+   - `@export var room_name: String`
+   - `@export var audio_loop: String`
+   - `@export var ambient_darkness: float`
+   - `@export var connections: Array[Dictionary]` (stored as .tres)
+   - `@export var is_exterior: bool`
+   - Auto-registers interactable Area3D children (group "interactables")
+   - Auto-registers connection Area3D children (group "connections")
 
-**All 19 Rooms (GLB models placed per ASSETS.md):**
-- Ground Floor: Foyer, Parlor, Dining Room, Kitchen
-- Upper Floor: Hallway, Master Bedroom, Library, Guest Room
-- Basement: Storage, Boiler Room
-- Deep Basement: Wine Cellar
-- Attic: Stairwell, Storage, Hidden Chamber
-- Grounds: Front Gate, Chapel, Greenhouse, Carriage House, Family Crypt
+2. **Room connection resource** (`scripts/room_connection.tres` template) — custom Resource:
+   - `target_room_path: String` (res://scenes/rooms/foyer.tscn)
+   - `type: String` (door/stairs/ladder/path)
+   - `locked: bool`
+   - `key_id: String`
 
-**All 6 Puzzles:**
-- Attic Key (diary → globe → key → door)
-- Hidden Key (doll interaction sequence → key → hidden chamber)
-- Cellar Key (carriage house portrait → key → wine cellar box)
-- Jewelry Key (crypt flagstone → key → jewelry box → locket)
-- Gate Key (greenhouse pot → key → crypt gate)
-- Counter-Ritual (6 components → 3 steps in Hidden Chamber)
+3. **Interactable resource** (`scripts/interactable_data.tres` template) — custom Resource:
+   - `object_id: String`
+   - `object_type: String` (note/painting/box/doll/ritual/etc)
+   - `title: String`
+   - `content: String`
+   - `locked: bool`, `key_id: String`, `item_found: String`
+   - `on_read_flags: PackedStringArray`
+   - `extra_data: Dictionary`
 
-**3 Endings:**
-- Freedom (counter-ritual complete → dawn sequence)
-- Escape (leave with knowledge → every window lit)
-- Joined (can't leave → Elizabeth in mirrors → "Welcome home")
+4. **20 room scenes** — each built via Godot MCP or scene builders:
+   ```
+   scenes/rooms/
+   ├── ground_floor/
+   │   ├── foyer.tscn
+   │   ├── parlor.tscn
+   │   ├── dining_room.tscn
+   │   └── kitchen.tscn
+   ├── upper_floor/
+   │   ├── hallway.tscn
+   │   ├── master_bedroom.tscn
+   │   ├── library.tscn
+   │   └── guest_room.tscn
+   ├── basement/
+   │   ├── storage.tscn
+   │   └── boiler_room.tscn
+   ├── deep_basement/
+   │   └── wine_cellar.tscn
+   ├── attic/
+   │   ├── stairwell.tscn
+   │   ├── storage.tscn
+   │   └── hidden_chamber.tscn
+   └── grounds/
+       ├── front_gate.tscn
+       ├── garden.tscn
+       ├── chapel.tscn
+       ├── greenhouse.tscn
+       ├── carriage_house.tscn
+       └── family_crypt.tscn
+   ```
 
-**Landing Screen:**
-- Atmospheric title with particle dust
-- New Game / Continue buttons
-- Victorian serif typography
+5. **Refactored RoomManager** — simplified to scene instancing:
+   - `transition_to(scene_path: String, conn_type: String)`
+   - Instances PackedScene, adds to tree, frees previous
+   - Reads room_base exports for metadata
+   - Finds children in "interactables" and "connections" groups
+
+6. **Refactored InteractionManager** — reads interactable_data from Area3D metadata instead of raw dictionaries
+
+7. **Delete room_data.gd** — no longer needed
+
+Each room scene contains:
+- CSGBox3D geometry with TEXTURED materials (actual .png textures from assets/)
+- GLB model instances placed as composed tableaux
+- OmniLight3D / SpotLight3D nodes with proper warm colors
+- Area3D nodes for interactables (with InteractableData resource)
+- Area3D nodes for connections (with RoomConnection resource)
+
+**Per-room composition** — each room built as a Myst-style tableau:
+- Macro: room shape, dominant light source, atmosphere
+- Meso: furniture arrangement, traffic flow, focal points
+- Micro: props that tell stories (half-eaten meal, dropped letter, broken glass)
 
 - **Verify:**
-  - Tap on floor → character walks smoothly to destination
-  - Swipe rotates camera correctly (H: 360°, V: ±45°)
-  - Tap on interactable → correct overlay appears
-  - Room transitions fade to black, load new room, fade in
-  - Room name displays on entry
-  - Inventory items persist across rooms
-  - Keys unlock correct doors/boxes
-  - All puzzle chains completable in sequence
-  - All 3 endings triggerable with correct conditions
-  - Audio loops play per-room, crossfade on transition
-  - PSX shader active on all surfaces
-  - All GLB models visible, correctly placed, no magenta
-  - Save/load preserves full game state
-  - Document overlay readable, tap to dismiss
-  - No clipping, no missing geometry, no stuck states
-  - Gameplay flow matches MASTER_SCRIPT.md
-  - **Presentation video:** ~30s cinematic MP4 showcasing gameplay
-    - Write test/presentation.gd (SceneTree script), ~900 frames at 30 FPS
-    - **3D:** smooth camera work through multiple rooms, good PSX lighting
-    - Output: screenshots/presentation/gameplay.mp4
+  - Each room .tscn loads independently without errors
+  - Room transitions work between all connected rooms
+  - Interactables fire correct signals with correct data
+  - Textures visible on walls/floors/ceilings — no flat dark boxes
+  - Room scale feels like a mansion (high ceilings, wide spaces)
+  - Objects composed as scenes (spatial relationships tell stories)
+  - All 6 puzzle items in correct rooms
+  - All 3 endings triggerable
+  - PSX shader active
+  - Audio loops play per room
+  - No magenta/missing textures
+  - **Presentation video:** 30s cinematic tour
 
 ## Status
 
-- [x] Risk 1: PSX Retro Shader — screen-space post-process (posterize + downscale + dither)
-- [x] Risk 2: Touch-to-Walk + Swipe-to-Look — raycast floor picking + camera rotation
-- [x] Main Build — 20 rooms, 6 puzzles, 3 endings, audio, save/load, all verified
-- [x] Presentation Video — 30s MP4 at screenshots/presentation/gameplay.mp4 — final cinematic MP4
+- [ ] Risk 1: Room scene template + instancing
+- [ ] Main Build: 20 room scenes
+- [ ] Master script alignment verification
+- [ ] Presentation video
