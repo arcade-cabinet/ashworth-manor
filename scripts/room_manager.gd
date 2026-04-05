@@ -69,9 +69,9 @@ func load_room(room_id: String) -> void:
 	var is_exterior: bool = data.get("is_exterior", false)
 
 	if not is_exterior:
-		_build_room_geometry(dimensions)
+		_build_room_geometry(dimensions, data)
 	else:
-		_build_floor_only(dimensions)
+		_build_floor_only(dimensions, data)
 
 	_place_models(data.get("models", []))
 	_create_lights(data.get("lights", []))
@@ -148,12 +148,20 @@ func _clear_current_room() -> void:
 		child.queue_free()
 
 
-func _build_room_geometry(dimensions: Vector3) -> void:
+func _build_room_geometry(dimensions: Vector3, room_data: Dictionary = {}) -> void:
 	var w: float = dimensions.x
 	var h: float = dimensions.y
 	var d: float = dimensions.z
 
-	# Floor — dark wood/marble tone, reflects candlelight
+	# Get texture paths from room data (fallback to defaults)
+	var wall_tex_path: String = room_data.get("wall_texture", "")
+	var floor_tex_path: String = room_data.get("floor_texture", "")
+	var ceiling_tex_path: String = room_data.get("ceiling_texture", "")
+	var wall_color: Color = room_data.get("wall_color", Color(0.45, 0.18, 0.15))
+	var floor_color: Color = room_data.get("floor_color", Color(0.3, 0.22, 0.15))
+	var ceiling_color: Color = room_data.get("ceiling_color", Color(0.35, 0.3, 0.25))
+
+	# Floor
 	var floor_box: CSGBox3D = CSGBox3D.new()
 	floor_box.name = "Floor"
 	floor_box.size = Vector3(w, FLOOR_THICKNESS, d)
@@ -161,10 +169,10 @@ func _build_room_geometry(dimensions: Vector3) -> void:
 	floor_box.use_collision = true
 	floor_box.collision_layer = LAYER_WALKABLE
 	floor_box.collision_mask = 0
-	floor_box.material = _create_room_material(Color(0.15, 0.12, 0.1), 0.7)
+	floor_box.material = _create_textured_material(floor_tex_path, floor_color, w, d)
 	_room_container.add_child(floor_box)
 
-	# Ceiling — slightly lighter so it catches chandelier glow
+	# Ceiling
 	var ceiling_box: CSGBox3D = CSGBox3D.new()
 	ceiling_box.name = "Ceiling"
 	ceiling_box.size = Vector3(w, FLOOR_THICKNESS, d)
@@ -172,16 +180,15 @@ func _build_room_geometry(dimensions: Vector3) -> void:
 	ceiling_box.use_collision = true
 	ceiling_box.collision_layer = LAYER_WALL
 	ceiling_box.collision_mask = 0
-	ceiling_box.material = _create_room_material(Color(0.12, 0.1, 0.09), 0.8)
+	ceiling_box.material = _create_textured_material(ceiling_tex_path, ceiling_color, w, d)
 	_room_container.add_child(ceiling_box)
 
-	# Walls: north (+Z), south (-Z), east (+X), west (-X)
-	# Victorian walls — deep red/brown that catches warm candlelight
+	# Walls
 	var wall_defs: Array[Dictionary] = [
-		{"name": "WallNorth", "size": Vector3(w, h, WALL_THICKNESS), "pos": Vector3(0, h / 2.0, d / 2.0)},
-		{"name": "WallSouth", "size": Vector3(w, h, WALL_THICKNESS), "pos": Vector3(0, h / 2.0, -d / 2.0)},
-		{"name": "WallEast", "size": Vector3(WALL_THICKNESS, h, d), "pos": Vector3(w / 2.0, h / 2.0, 0)},
-		{"name": "WallWest", "size": Vector3(WALL_THICKNESS, h, d), "pos": Vector3(-w / 2.0, h / 2.0, 0)},
+		{"name": "WallNorth", "size": Vector3(w, h, WALL_THICKNESS), "pos": Vector3(0, h / 2.0, d / 2.0), "tile_w": w, "tile_h": h},
+		{"name": "WallSouth", "size": Vector3(w, h, WALL_THICKNESS), "pos": Vector3(0, h / 2.0, -d / 2.0), "tile_w": w, "tile_h": h},
+		{"name": "WallEast", "size": Vector3(WALL_THICKNESS, h, d), "pos": Vector3(w / 2.0, h / 2.0, 0), "tile_w": d, "tile_h": h},
+		{"name": "WallWest", "size": Vector3(WALL_THICKNESS, h, d), "pos": Vector3(-w / 2.0, h / 2.0, 0), "tile_w": d, "tile_h": h},
 	]
 	for def in wall_defs:
 		var wall: CSGBox3D = CSGBox3D.new()
@@ -191,13 +198,15 @@ func _build_room_geometry(dimensions: Vector3) -> void:
 		wall.use_collision = true
 		wall.collision_layer = LAYER_WALL
 		wall.collision_mask = 0
-		wall.material = _create_room_material(Color(0.25, 0.15, 0.12), 0.85)
+		wall.material = _create_textured_material(wall_tex_path, wall_color, def["tile_w"], def["tile_h"])
 		_room_container.add_child(wall)
 
 
-func _build_floor_only(dimensions: Vector3) -> void:
+func _build_floor_only(dimensions: Vector3, room_data: Dictionary = {}) -> void:
 	var w: float = dimensions.x
 	var d: float = dimensions.z
+	var floor_tex: String = room_data.get("floor_texture", "")
+	var floor_color: Color = room_data.get("floor_color", Color(0.25, 0.22, 0.2))
 
 	var floor_box: CSGBox3D = CSGBox3D.new()
 	floor_box.name = "Floor"
@@ -206,7 +215,7 @@ func _build_floor_only(dimensions: Vector3) -> void:
 	floor_box.use_collision = true
 	floor_box.collision_layer = LAYER_WALKABLE
 	floor_box.collision_mask = 0
-	floor_box.material = _create_room_material(Color(0.18, 0.16, 0.14), 0.9)
+	floor_box.material = _create_textured_material(floor_tex, floor_color, w, d)
 	_room_container.add_child(floor_box)
 
 
@@ -222,6 +231,27 @@ func _create_room_material(base_color: Color, roughness_val: float = 0.8) -> Sta
 	var mat: StandardMaterial3D = StandardMaterial3D.new()
 	mat.albedo_color = base_color
 	mat.roughness = roughness_val
+	mat.metallic = 0.0
+	return mat
+
+
+func _create_textured_material(tex_path: String, tint_color: Color, tile_w: float, tile_h: float) -> StandardMaterial3D:
+	var mat: StandardMaterial3D = StandardMaterial3D.new()
+	mat.albedo_color = tint_color
+
+	if not tex_path.is_empty() and ResourceLoader.exists(tex_path):
+		var tex: Texture2D = load(tex_path)
+		if tex:
+			mat.albedo_texture = tex
+			mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST  # PSX nearest filtering
+			# Tile texture every 2 meters for proper scale
+			var tiles_x: float = maxf(1.0, tile_w / 2.0)
+			var tiles_y: float = maxf(1.0, tile_h / 2.0)
+			mat.uv1_scale = Vector3(tiles_x, tiles_y, 1.0)
+			# Tint blends with texture
+			mat.albedo_color = tint_color.lerp(Color.WHITE, 0.6)
+
+	mat.roughness = 0.85
 	mat.metallic = 0.0
 	return mat
 

@@ -11,21 +11,25 @@
 background_mode = 1
 background_color = Color(0.02, 0.01, 0.02, 1)
 ambient_light_source = 2
-ambient_light_color = Color(0.12, 0.1, 0.15, 1)
-ambient_light_energy = 1.2
+ambient_light_color = Color(0.15, 0.1, 0.08, 1)
+ambient_light_energy = 1.5
 tonemap_mode = 2
-tonemap_white = 2.0
+tonemap_exposure = 1.2
+tonemap_white = 2.5
+ssao_enabled = true
+ssao_radius = 2.0
+ssao_intensity = 1.5
 glow_enabled = true
-glow_intensity = 0.5
-glow_bloom = 0.3
+glow_intensity = 0.6
+glow_bloom = 0.4
 glow_blend_mode = 2
+glow_hdr_threshold = 0.8
 fog_enabled = true
-fog_light_color = Color(0.08, 0.06, 0.1, 1)
-fog_density = 0.005
+fog_light_color = Color(0.1, 0.06, 0.04, 1)
+fog_density = 0.003
 adjustment_enabled = true
-adjustment_brightness = 0.95
-adjustment_contrast = 1.1
-adjustment_saturation = 0.85
+adjustment_contrast = 1.15
+adjustment_saturation = 0.9
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_trceg"]
 radius = 0.3
@@ -37,56 +41,56 @@ shader_parameter/color_depth = 15.0
 shader_parameter/resolution_scale = 0.5
 shader_parameter/dither_strength = 0.25
 
-[node name="Main" type="Node3D" unique_id=634658146]
+[node name="Main" type="Node3D" unique_id=2077919730]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1102080824]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1824902936]
 environment = SubResource("Environment_eb6dy")
 
-[node name="RoomManager" type="Node3D" parent="." unique_id=1786248049]
+[node name="RoomManager" type="Node3D" parent="." unique_id=794480481]
 script = ExtResource("1_tefeu")
 
-[node name="PlayerController" type="CharacterBody3D" parent="." unique_id=488056686]
+[node name="PlayerController" type="CharacterBody3D" parent="." unique_id=1441473632]
 collision_mask = 3
 script = ExtResource("2_o6xl0")
 
-[node name="CollisionShape" type="CollisionShape3D" parent="PlayerController" unique_id=1899947191]
+[node name="CollisionShape" type="CollisionShape3D" parent="PlayerController" unique_id=1251400726]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
 shape = SubResource("CapsuleShape3D_trceg")
 
-[node name="Camera3D" type="Camera3D" parent="PlayerController" unique_id=1671939256]
+[node name="Camera3D" type="Camera3D" parent="PlayerController" unique_id=71278469]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 current = true
 near = 0.1
 far = 100.0
 
-[node name="AudioManager" type="Node" parent="." unique_id=1622404276]
+[node name="AudioManager" type="Node" parent="." unique_id=1103124396]
 script = ExtResource("3_tipki")
 
-[node name="AmbientCurrent" type="AudioStreamPlayer" parent="AudioManager" unique_id=2050966613]
+[node name="AmbientCurrent" type="AudioStreamPlayer" parent="AudioManager" unique_id=626952983]
 volume_db = -6.0
 
-[node name="AmbientNext" type="AudioStreamPlayer" parent="AudioManager" unique_id=1156995340]
+[node name="AmbientNext" type="AudioStreamPlayer" parent="AudioManager" unique_id=418473267]
 volume_db = -80.0
 
-[node name="SFXPlayer" type="AudioStreamPlayer" parent="AudioManager" unique_id=1627444542]
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="AudioManager" unique_id=210947035]
 
-[node name="InteractionManager" type="Node" parent="." unique_id=1246789008]
+[node name="InteractionManager" type="Node" parent="." unique_id=379668201]
 script = ExtResource("4_85g3d")
 
-[node name="PSXLayer" type="CanvasLayer" parent="." unique_id=2105877342]
+[node name="PSXLayer" type="CanvasLayer" parent="." unique_id=638742618]
 layer = 2
 
-[node name="PSXEffect" type="ColorRect" parent="PSXLayer" unique_id=2049126355]
+[node name="PSXEffect" type="ColorRect" parent="PSXLayer" unique_id=1361047739]
 material = SubResource("ShaderMaterial_a8y0u")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="UILayer" type="CanvasLayer" parent="." unique_id=1397736211]
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=1764318671]
 layer = 5
 
-[node name="UIOverlay" type="Control" parent="UILayer" unique_id=404038753]
+[node name="UIOverlay" type="Control" parent="UILayer" unique_id=1253351759]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

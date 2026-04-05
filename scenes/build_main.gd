@@ -14,24 +14,30 @@ func _initialize() -> void:
 	env.background_mode = Environment.BG_COLOR
 	env.background_color = Color(0.02, 0.01, 0.02)
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.ambient_light_color = Color(0.12, 0.1, 0.15)
-	env.ambient_light_energy = 1.2
+	env.ambient_light_color = Color(0.15, 0.1, 0.08)  # Warm amber ambient (candlelit Victorian)
+	env.ambient_light_energy = 1.5
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
-	env.tonemap_white = 2.0
-	# Fog for atmosphere
+	env.tonemap_white = 2.5
+	env.tonemap_exposure = 1.2
+	# Fog — warm dust, not cold purple
 	env.fog_enabled = true
-	env.fog_light_color = Color(0.08, 0.06, 0.1)
-	env.fog_density = 0.005
-	# Bloom for light glow
+	env.fog_light_color = Color(0.1, 0.06, 0.04)  # Warm brown dust
+	env.fog_density = 0.003
+	# Bloom — candle glow
 	env.glow_enabled = true
-	env.glow_intensity = 0.5
-	env.glow_bloom = 0.3
+	env.glow_intensity = 0.6
+	env.glow_bloom = 0.4
 	env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SOFTLIGHT
-	# Vignette-like adjustment via color correction
+	env.glow_hdr_threshold = 0.8
+	# SSAO for depth in enclosed rooms
+	env.ssao_enabled = true
+	env.ssao_radius = 2.0
+	env.ssao_intensity = 1.5
+	# Color adjustment — warmer, more saturated
 	env.adjustment_enabled = true
-	env.adjustment_brightness = 0.95
-	env.adjustment_contrast = 1.1
-	env.adjustment_saturation = 0.85
+	env.adjustment_brightness = 1.0
+	env.adjustment_contrast = 1.15
+	env.adjustment_saturation = 0.9
 	world_env.environment = env
 	root.add_child(world_env)
 
