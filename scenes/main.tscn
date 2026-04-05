@@ -1,0 +1,87 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/room_manager.gd" id="1_tbgi4"]
+[ext_resource type="Script" path="res://scripts/player_controller.gd" id="2_tefeu"]
+[ext_resource type="Script" path="res://scripts/audio_manager.gd" id="3_o6xl0"]
+[ext_resource type="Script" path="res://scripts/interaction_manager.gd" id="4_tipki"]
+[ext_resource type="Script" path="res://scripts/ui_overlay.gd" id="5_85g3d"]
+
+[sub_resource type="Environment" id="Environment_choun"]
+background_mode = 1
+background_color = Color(0.02, 0.01, 0.02, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.08, 0.03, 0.03, 1)
+ambient_light_energy = 0.3
+tonemap_mode = 2
+tonemap_white = 2.0
+glow_enabled = true
+glow_bloom = 0.2
+glow_blend_mode = 2
+fog_enabled = true
+fog_light_color = Color(0.05, 0.02, 0.02, 1)
+fog_density = 0.015
+adjustment_enabled = true
+adjustment_brightness = 0.95
+adjustment_contrast = 1.1
+adjustment_saturation = 0.85
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ya4ey"]
+radius = 0.3
+height = 1.7
+
+[node name="Main" type="Node3D" unique_id=1941461650]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1795120305]
+environment = SubResource("Environment_choun")
+
+[node name="RoomManager" type="Node3D" parent="." unique_id=580351211]
+script = ExtResource("1_tbgi4")
+
+[node name="PlayerController" type="CharacterBody3D" parent="." unique_id=2069670461]
+collision_mask = 3
+script = ExtResource("2_tefeu")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="PlayerController" unique_id=3373357]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+shape = SubResource("CapsuleShape3D_ya4ey")
+
+[node name="Camera3D" type="Camera3D" parent="PlayerController" unique_id=823101375]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+current = true
+near = 0.1
+far = 100.0
+
+[node name="AudioManager" type="Node" parent="." unique_id=2093115988]
+script = ExtResource("3_o6xl0")
+
+[node name="AmbientCurrent" type="AudioStreamPlayer" parent="AudioManager" unique_id=708533762]
+volume_db = -6.0
+
+[node name="AmbientNext" type="AudioStreamPlayer" parent="AudioManager" unique_id=132657134]
+volume_db = -80.0
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="AudioManager" unique_id=244345508]
+
+[node name="InteractionManager" type="Node" parent="." unique_id=59529625]
+script = ExtResource("4_tipki")
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=1594307260]
+layer = 5
+
+[node name="UIOverlay" type="Control" parent="UILayer" unique_id=1462990161]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource("5_85g3d")
+
+[node name="FadeLayer" type="CanvasLayer" parent="." unique_id=2017446044]
+layer = 10
+
+[node name="FadeRect" type="ColorRect" parent="FadeLayer" unique_id=34846854]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0)

@@ -1,0 +1,30 @@
+# Claude Code
+.claude
+CLAUDE.md
+
+# Godot
+.godot
+*.import
+
+# Pipeline artifacts
+screenshots
+.vqa.log
+
+# Original pack archives (preserved outside project)
+_packs/
+
+# OS
+.DS_Store
+
+# Node/BabylonJS prototype (legacy)
+node_modules/
+dist/
+src/
+index.html
+package.json
+pnpm-lock.yaml
+tsconfig*.json
+vite.config.*
+vitest.config.*
+components.json
+server/
