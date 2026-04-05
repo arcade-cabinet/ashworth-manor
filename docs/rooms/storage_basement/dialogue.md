@@ -1,0 +1,38 @@
+# Storage Basement — Dialogue
+
+```
+~ scratched_portrait
+if GameManager.has_flag("knows_full_truth")
+	Elizabeth's face, destroyed. Lord Ashworth did this himself — the scratches match the frantic handwriting in his diary.
+	
+	He couldn't bear to look at what he'd done to her.
+else
+	A stern-looking family stands before the mansion. Four figures — but the youngest child's face has been scratched out.
+	
+	Not carefully removed. Gouged. With something sharp. Whoever did this wasn't erasing a mistake. They were destroying a memory.
+do GameManager.set_flag("seen_scratched_portrait")
+do GameManager.set_flag("knows_fourth_child_erased")
+
+
+~ storage_mirror
+if GameManager.has_flag("elizabeth_aware")
+	Both halves of your reflection are looking at the same spot now. Behind you. To the left.
+	
+	You don't turn around.
+else
+	Cracked down the center. Your reflection splits into two — each half at a slightly different angle.
+	
+	Two of you. One looking left, one looking right. Neither looking where you expect.
+
+
+~ storage_covered
+	Shapes under white sheets. Chairs, a rocking horse, a crib. Children's furniture — but not from three children.
+	
+	This is a fourth set. Elizabeth's things. Stored, not destroyed. Someone couldn't bring themselves to burn it.
+
+
+~ storage_trunk
+	Locked without a keyhole — sealed with wax and iron bands.
+	
+	Whatever is inside was meant to stay inside forever. The wax bears a sigil you've seen in the binding book.
+```

@@ -1,0 +1,69 @@
+# Master Bedroom — Dialogue
+
+```
+~ diary_lord
+	She won't stop crying. Even after we locked her away, I hear her sobbing through the walls. My wife says I'm mad, but I know what I hear.
+	
+	The attic key is hidden in the library globe. No one must find her.
+do GameManager.set_flag("read_ashworth_diary")
+do GameManager.set_flag("knows_key_location")
+
+
+~ bedroom_mirror
+if GameManager.has_flag("found_hidden_chamber")
+	Your reflection doesn't match your expression. It looks... sad. Pitying.
+	
+	As if it knows something you haven't accepted yet.
+elif GameManager.has_flag("entered_attic")
+	In the mirror — movement behind you. You spin. Nothing.
+	
+	But the mirror shows an empty room for one beat too long before matching reality.
+else
+	Your reflection stares back from tarnished glass.
+	
+	Was it always a fraction of a second late?
+do GameManager.set_flag("examined_bedroom_mirror")
+
+
+~ jewelry_box
+if GameManager.has_item("jewelry_key")
+	Inside: a tarnished silver locket on a fine chain. The inscription reads: "Our Elizabeth, born in light."
+	
+	Inside the locket: a miniature portrait of an infant with pale eyes. Behind the portrait, wrapped in tissue — a tiny lock of golden hair tied with white ribbon.
+else
+	An ornate wooden box with a heart-shaped lock. It won't open.
+	
+	The wood is warm — warmer than the room.
+
+
+~ bedroom_bed
+if GameManager.has_flag("has_mothers_confession")
+	He slept alone. She slept in the parlor — or didn't sleep at all.
+	
+	Two people living in the same house, consumed by the same guilt, unable to face each other.
+else
+	Unmade on one side — Lord Ashworth's. The sheets are tangled, the pillow dented.
+	
+	Lady Ashworth's side is pristine, untouched. She didn't sleep here. Not for a long time.
+
+
+~ bedroom_book
+	Open to a page about "childhood afflictions of the mind."
+	
+	Several passages underlined: "confinement is the only cure," "the afflicted child must be isolated," "no recovery has been documented."
+	
+	The margins are filled with Lord Ashworth's frantic handwriting.
+do GameManager.set_flag("read_afflictions_book")
+
+
+~ bedroom_wardrobe
+	Ajar. Men's clothing on the left — formal suits, worn at the elbows. Women's clothing on the right — all black.
+	
+	The mourning dress from Lady Ashworth's portrait hangs at the front. She wore nothing else.
+
+
+~ bedroom_broken_bottle
+	Shattered glass on the floor. The label is too damaged to read, but the smell — sharp, medicinal.
+	
+	Laudanum? He was self-medicating. Trying to sleep through the crying.
+```

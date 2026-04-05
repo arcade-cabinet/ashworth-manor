@@ -1,0 +1,25 @@
+# Carriage House — Dialogue
+
+```
+~ carriage_portrait
+if GameManager.has_flag("read_wine_note")
+	"The key is with the portrait." This is what they meant — not the one in the foyer.
+	
+	The cellar key, hidden with the spare portrait.
+else
+	Another portrait of Lord Ashworth. Why store a duplicate out here?
+	
+	Behind the backing, taped to the frame — a small iron key.
+
+
+~ carriage_mattress
+	Someone slept here. Not in the house — here, in the carriage house.
+	
+	A servant who refused to sleep under the same roof as whatever was in the attic.
+
+
+~ carriage_boards
+	Boards with nails driven through them. Used to seal something — windows? The attic?
+	
+	Some of these nails are bent. Someone pulled the boards off again.
+```
