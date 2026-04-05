@@ -32,6 +32,8 @@ var _touch_index: int = -1
 var _mouse_dragging: bool = false
 
 
+var _walk_marker: MeshInstance3D = null
+
 func _ready() -> void:
 	floor_snap_length = 0.5
 	up_direction = Vector3.UP
@@ -42,6 +44,24 @@ func _ready() -> void:
 	_camera.current = true
 	_camera.fov = 70.0
 	add_child(_camera)
+
+	# Walk target marker — subtle floor indicator
+	_walk_marker = MeshInstance3D.new()
+	_walk_marker.name = "WalkMarker"
+	var marker_mesh := TorusMesh.new()
+	marker_mesh.inner_radius = 0.1
+	marker_mesh.outer_radius = 0.2
+	_walk_marker.mesh = marker_mesh
+	var marker_mat := StandardMaterial3D.new()
+	marker_mat.emission_enabled = true
+	marker_mat.emission = Color(0.7, 0.6, 0.4)
+	marker_mat.emission_energy_multiplier = 2.0
+	marker_mat.albedo_color = Color(0, 0, 0, 0)
+	marker_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	_walk_marker.set_surface_override_material(0, marker_mat)
+	_walk_marker.rotation_degrees.x = 90  # Flat on floor
+	_walk_marker.visible = false
+	get_parent().call_deferred("add_child", _walk_marker)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -105,6 +125,8 @@ func _physics_process(delta: float) -> void:
 			_is_walking = false
 			velocity.x = 0.0
 			velocity.z = 0.0
+			if _walk_marker:
+				_walk_marker.visible = false
 		else:
 			var dir: Vector3 = to_target.normalized()
 			velocity.x = dir.x * MOVE_SPEED
@@ -112,6 +134,11 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = 0.0
 		velocity.z = 0.0
+
+	# Pulse the walk marker
+	if _walk_marker and _walk_marker.visible:
+		var pulse: float = 0.7 + sin(Time.get_ticks_msec() / 300.0) * 0.3
+		_walk_marker.scale = Vector3(pulse, pulse, pulse)
 
 	move_and_slide()
 
@@ -181,6 +208,10 @@ func _handle_tap(screen_pos: Vector2) -> void:
 		_target_position = floor_result["position"]
 		_target_position.y = global_position.y
 		_is_walking = true
+		# Show walk marker at target
+		if _walk_marker:
+			_walk_marker.global_position = floor_result["position"] + Vector3(0, 0.05, 0)
+			_walk_marker.visible = true
 
 
 

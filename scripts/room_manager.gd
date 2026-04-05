@@ -335,6 +335,25 @@ func _create_interactables(interactables: Array) -> void:
 		shape.shape = box_shape
 		area.add_child(shape)
 
+		# Subtle glow marker for interactable objects
+		# A tiny emissive sphere that pulses — players can spot interactables
+		var marker := MeshInstance3D.new()
+		marker.name = "InteractGlow"
+		var sphere := SphereMesh.new()
+		sphere.radius = 0.06
+		sphere.height = 0.12
+		marker.mesh = sphere
+		var glow_mat := StandardMaterial3D.new()
+		glow_mat.emission_enabled = true
+		glow_mat.emission = Color(0.9, 0.7, 0.3)
+		glow_mat.emission_energy_multiplier = 2.0
+		glow_mat.albedo_color = Color(0.8, 0.6, 0.2)
+		glow_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		glow_mat.albedo_color.a = 0.6
+		marker.set_surface_override_material(0, glow_mat)
+		marker.position = Vector3(0, -0.3, 0)  # Slightly below center
+		area.add_child(marker)
+
 		_room_container.add_child(area)
 
 
@@ -363,5 +382,24 @@ func _create_connections(connections: Array, dimensions: Vector3) -> void:
 		box_shape.size = Vector3(2.0, 3.0, 1.0)
 		shape.shape = box_shape
 		area.add_child(shape)
+
+		# Door/transition visual indicator — subtle floor arrow
+		var door_marker := MeshInstance3D.new()
+		door_marker.name = "DoorMarker"
+		var plane := PlaneMesh.new()
+		plane.size = Vector2(0.6, 0.6)
+		door_marker.mesh = plane
+		var door_mat := StandardMaterial3D.new()
+		door_mat.emission_enabled = true
+		if locked:
+			door_mat.emission = Color(0.8, 0.2, 0.1)  # Red for locked
+		else:
+			door_mat.emission = Color(0.3, 0.6, 0.9)  # Blue for open
+		door_mat.emission_energy_multiplier = 1.5
+		door_mat.albedo_color = Color(0, 0, 0, 0)
+		door_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		door_marker.set_surface_override_material(0, door_mat)
+		door_marker.position = Vector3(0, 0.02, 0)  # Just above floor
+		area.add_child(door_marker)
 
 		_room_container.add_child(area)

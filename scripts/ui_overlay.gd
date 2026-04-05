@@ -26,6 +26,34 @@ func _ready() -> void:
 	_build_ending_overlay()
 	call_deferred("_connect_signals")
 
+	# Title flicker timer
+	_flicker_time = 0.0
+
+
+var _flicker_time: float = 0.0
+
+func _process(delta: float) -> void:
+	# Title text subtle flicker (candlelight effect)
+	if _landing_panel and _landing_panel.visible:
+		_flicker_time += delta
+		var title_label: Label = _landing_panel.get_node_or_null("@VBoxContainer@3/TitleLabel") if _landing_panel.has_node("@VBoxContainer@3/TitleLabel") else null
+		if title_label == null:
+			# Try finding by name
+			title_label = _find_child_by_name(_landing_panel, "TitleLabel")
+		if title_label:
+			var flicker: float = 0.9 + sin(_flicker_time * 3.0) * 0.05 + sin(_flicker_time * 7.3) * 0.03
+			title_label.modulate.a = flicker
+
+
+func _find_child_by_name(node: Node, target: String) -> Node:
+	if node.name == target:
+		return node
+	for child in node.get_children():
+		var found: Node = _find_child_by_name(child, target)
+		if found:
+			return found
+	return null
+
 
 func _connect_signals() -> void:
 	if GameManager.has_signal("screen_changed"):
@@ -67,48 +95,108 @@ func _build_landing_screen() -> void:
 	_landing_panel.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_landing_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 
+	# Dark vignette background
 	var bg := ColorRect.new()
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	bg.color = Color(0.02, 0.01, 0.02)
 	_landing_panel.add_child(bg)
 
+	# Radial vignette overlay for depth
+	var vignette := ColorRect.new()
+	vignette.set_anchors_preset(Control.PRESET_FULL_RECT)
+	vignette.color = Color(0, 0, 0, 0)
+	vignette.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_landing_panel.add_child(vignette)
+
 	var center := VBoxContainer.new()
 	center.set_anchors_preset(Control.PRESET_CENTER)
-	center.position = Vector2(-200, -150)
-	center.custom_minimum_size = Vector2(400, 300)
+	center.position = Vector2(-250, -180)
+	center.custom_minimum_size = Vector2(500, 360)
 	center.alignment = BoxContainer.ALIGNMENT_CENTER
-	center.add_theme_constant_override("separation", 20)
+	center.add_theme_constant_override("separation", 16)
 	_landing_panel.add_child(center)
 
+	# Decorative line above title
+	var line_top := HSeparator.new()
+	line_top.custom_minimum_size = Vector2(300, 2)
+	line_top.add_theme_color_override("separator", Color(0.4, 0.3, 0.2, 0.5))
+	center.add_child(line_top)
+
 	var title := Label.new()
+	title.name = "TitleLabel"
 	title.text = "ASHWORTH MANOR"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 48)
+	title.add_theme_font_size_override("font_size", 52)
 	title.add_theme_color_override("font_color", TEXT_COLOR)
 	center.add_child(title)
 
 	var subtitle := Label.new()
 	subtitle.text = "Est. 1847 — Abandoned 1891"
 	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	subtitle.add_theme_font_size_override("font_size", 18)
-	subtitle.add_theme_color_override("font_color", Color(0.6, 0.5, 0.4))
+	subtitle.add_theme_font_size_override("font_size", 16)
+	subtitle.add_theme_color_override("font_color", Color(0.5, 0.4, 0.3))
 	center.add_child(subtitle)
 
+	# Decorative line below subtitle
+	var line_bot := HSeparator.new()
+	line_bot.custom_minimum_size = Vector2(300, 2)
+	line_bot.add_theme_color_override("separator", Color(0.4, 0.3, 0.2, 0.5))
+	center.add_child(line_bot)
+
 	var spacer := Control.new()
-	spacer.custom_minimum_size = Vector2(0, 40)
+	spacer.custom_minimum_size = Vector2(0, 30)
 	center.add_child(spacer)
+
+	# Styled buttons
+	var btn_style := StyleBoxFlat.new()
+	btn_style.bg_color = Color(0.08, 0.06, 0.05)
+	btn_style.border_color = Color(0.4, 0.3, 0.2, 0.6)
+	btn_style.border_width_bottom = 1
+	btn_style.border_width_top = 1
+	btn_style.border_width_left = 1
+	btn_style.border_width_right = 1
+	btn_style.corner_radius_top_left = 2
+	btn_style.corner_radius_top_right = 2
+	btn_style.corner_radius_bottom_left = 2
+	btn_style.corner_radius_bottom_right = 2
+	btn_style.content_margin_top = 12.0
+	btn_style.content_margin_bottom = 12.0
+
+	var btn_hover := StyleBoxFlat.new()
+	btn_hover.bg_color = Color(0.15, 0.1, 0.08)
+	btn_hover.border_color = Color(0.6, 0.45, 0.3, 0.8)
+	btn_hover.border_width_bottom = 1
+	btn_hover.border_width_top = 1
+	btn_hover.border_width_left = 1
+	btn_hover.border_width_right = 1
+	btn_hover.corner_radius_top_left = 2
+	btn_hover.corner_radius_top_right = 2
+	btn_hover.corner_radius_bottom_left = 2
+	btn_hover.corner_radius_bottom_right = 2
+	btn_hover.content_margin_top = 12.0
+	btn_hover.content_margin_bottom = 12.0
 
 	var new_btn := Button.new()
 	new_btn.text = "New Game"
-	new_btn.custom_minimum_size = Vector2(200, 50)
+	new_btn.custom_minimum_size = Vector2(280, 0)
 	new_btn.add_theme_font_size_override("font_size", 22)
+	new_btn.add_theme_color_override("font_color", TEXT_COLOR)
+	new_btn.add_theme_color_override("font_hover_color", Color(1.0, 0.85, 0.6))
+	new_btn.add_theme_stylebox_override("normal", btn_style)
+	new_btn.add_theme_stylebox_override("hover", btn_hover)
+	new_btn.add_theme_stylebox_override("pressed", btn_hover)
 	new_btn.pressed.connect(_on_new_game)
 	center.add_child(new_btn)
 
 	var cont_btn := Button.new()
 	cont_btn.text = "Continue"
-	cont_btn.custom_minimum_size = Vector2(200, 50)
+	cont_btn.custom_minimum_size = Vector2(280, 0)
 	cont_btn.add_theme_font_size_override("font_size", 22)
+	cont_btn.add_theme_color_override("font_color", TEXT_COLOR)
+	cont_btn.add_theme_color_override("font_hover_color", Color(1.0, 0.85, 0.6))
+	cont_btn.add_theme_stylebox_override("normal", btn_style)
+	cont_btn.add_theme_stylebox_override("hover", btn_hover)
+	cont_btn.add_theme_stylebox_override("pressed", btn_hover)
 	cont_btn.pressed.connect(_on_continue)
 	cont_btn.visible = GameManager.has_save()
 	cont_btn.name = "ContinueBtn"
@@ -280,6 +368,22 @@ func _build_pause_menu() -> void:
 	resume_btn.process_mode = Node.PROCESS_MODE_ALWAYS
 	vbox.add_child(resume_btn)
 
+	# Inventory section
+	var inv_label := Label.new()
+	inv_label.name = "InventoryLabel"
+	inv_label.text = "Inventory: (empty)"
+	inv_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	inv_label.add_theme_font_size_override("font_size", 14)
+	inv_label.add_theme_color_override("font_color", Color(0.6, 0.5, 0.4))
+	inv_label.autowrap_mode = TextServer.AUTOWRAP_WORD
+	inv_label.custom_minimum_size = Vector2(200, 40)
+	inv_label.process_mode = Node.PROCESS_MODE_ALWAYS
+	vbox.add_child(inv_label)
+
+	var sep := HSeparator.new()
+	sep.process_mode = Node.PROCESS_MODE_ALWAYS
+	vbox.add_child(sep)
+
 	var save_btn := Button.new()
 	save_btn.text = "Save Game"
 	save_btn.custom_minimum_size = Vector2(200, 40)
@@ -304,6 +408,20 @@ func _toggle_pause() -> void:
 	get_tree().paused = is_paused
 	_pause_panel.visible = is_paused
 	GameManager.current_screen = GameManager.Screen.PAUSED if is_paused else GameManager.Screen.GAME
+
+	# Update inventory display
+	if is_paused:
+		var inv_label: Label = _find_child_by_name(_pause_panel, "InventoryLabel")
+		if inv_label:
+			if GameManager.inventory.is_empty():
+				inv_label.text = "Inventory: (empty)"
+			else:
+				var items: String = ""
+				for item_id in GameManager.inventory:
+					if not items.is_empty():
+						items += ", "
+					items += item_id.replace("_", " ").capitalize()
+				inv_label.text = "Inventory: " + items
 
 
 func _on_resume() -> void:
