@@ -129,6 +129,11 @@ func get_current_room_data() -> Dictionary:
 
 func _perform_room_switch(room_id: String) -> void:
 	load_room(room_id)
+	# Reposition the player inside the new room
+	var player: Node = get_node_or_null("/root/Main/PlayerController")
+	if player:
+		player.global_position = Vector3(0, 1, -3)
+		player.velocity = Vector3.ZERO
 
 
 func _on_transition_complete() -> void:
@@ -227,36 +232,65 @@ func _place_models(models: Array) -> void:
 		var model = scene.instantiate()
 		model.position = model_def.get("pos", Vector3.ZERO)
 		model.rotation_degrees = model_def.get("rot", Vector3.ZERO)
-		model.scale = model_def.get("scale", Vector3.ONE)
+		var base_scale: Vector3 = model_def.get("scale", Vector3.ONE)
+
+		# Auto-scale small props from supplemental packs to be visible
+		# Mansion pack models are ~1-7m, Mega Pack II props are ~0.1-0.3m
+		var mesh = _find_mesh_instance(model)
+		if mesh:
+			var aabb: AABB = mesh.get_aabb()
+			var max_dim: float = maxf(aabb.size.x, maxf(aabb.size.y, aabb.size.z))
+			if max_dim < 0.5 and base_scale == Vector3.ONE:
+				# Prop is tiny — scale up to at least 0.5m visible size
+				var scale_factor: float = 0.6 / max_dim
+				base_scale = Vector3.ONE * scale_factor
+
+		model.scale = base_scale
 		_room_container.add_child(model)
 
 
+func _find_mesh_instance(node: Node) -> MeshInstance3D:
+	if node is MeshInstance3D:
+		return node
+	for child in node.get_children():
+		var found = _find_mesh_instance(child)
+		if found:
+			return found
+	return null
+
+
 func _create_lights(lights: Array) -> void:
+	# Light intensity multiplier — room_data values designed for atmospheric darkness,
+	# need boost to be visible with the WorldEnvironment ambient level
+	const INTENSITY_MULT: float = 3.0
+
 	for light_def in lights:
 		var light_type: String = light_def.get("type", "omni")
 		var light: Light3D = null
 
 		if light_type == "omni":
 			var omni: OmniLight3D = OmniLight3D.new()
-			omni.omni_range = light_def.get("range", 8.0)
-			omni.omni_attenuation = 1.5
+			omni.omni_range = light_def.get("range", 8.0) * 1.5
+			omni.omni_attenuation = 1.2
 			light = omni
 		elif light_type == "spot":
 			var spot: SpotLight3D = SpotLight3D.new()
-			spot.spot_range = light_def.get("range", 10.0)
-			spot.spot_angle = 45.0
-			spot.spot_attenuation = 1.2
+			spot.spot_range = light_def.get("range", 10.0) * 1.5
+			spot.spot_angle = 50.0
+			spot.spot_attenuation = 1.0
 			light = spot
 		elif light_type == "directional":
 			var dir_light: DirectionalLight3D = DirectionalLight3D.new()
+			dir_light.rotation_degrees = Vector3(-45, -30, 0)
 			light = dir_light
 		else:
 			continue
 
 		light.position = light_def.get("pos", Vector3.ZERO)
 		light.light_color = light_def.get("color", Color.WHITE)
-		light.light_energy = light_def.get("intensity", 1.0)
-		light.shadow_enabled = true
+		var base_intensity: float = light_def.get("intensity", 1.0) * INTENSITY_MULT
+		light.light_energy = base_intensity
+		light.shadow_enabled = light_type != "omni"  # Only directional/spot cast shadows (perf)
 
 		var light_name: String = "Light_%d" % _room_container.get_child_count()
 		light.name = light_name
@@ -266,7 +300,7 @@ func _create_lights(lights: Array) -> void:
 		if flickering:
 			_flickering_lights.append({
 				"light": light,
-				"base_energy": light.light_energy,
+				"base_energy": base_intensity,
 			})
 
 

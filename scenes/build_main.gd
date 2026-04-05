@@ -14,18 +14,18 @@ func _initialize() -> void:
 	env.background_mode = Environment.BG_COLOR
 	env.background_color = Color(0.02, 0.01, 0.02)
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.ambient_light_color = Color(0.08, 0.03, 0.03)
-	env.ambient_light_energy = 0.3
+	env.ambient_light_color = Color(0.12, 0.1, 0.15)
+	env.ambient_light_energy = 1.2
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	env.tonemap_white = 2.0
 	# Fog for atmosphere
 	env.fog_enabled = true
-	env.fog_light_color = Color(0.05, 0.02, 0.02)
-	env.fog_density = 0.015
+	env.fog_light_color = Color(0.08, 0.06, 0.1)
+	env.fog_density = 0.005
 	# Bloom for light glow
 	env.glow_enabled = true
-	env.glow_intensity = 0.3
-	env.glow_bloom = 0.2
+	env.glow_intensity = 0.5
+	env.glow_bloom = 0.3
 	env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SOFTLIGHT
 	# Vignette-like adjustment via color correction
 	env.adjustment_enabled = true
@@ -116,19 +116,8 @@ func _initialize() -> void:
 
 	root.add_child(ui_layer)
 
-	# --- Fade overlay (CanvasLayer for room transitions) ---
-	var fade_layer := CanvasLayer.new()
-	fade_layer.name = "FadeLayer"
-	fade_layer.layer = 10
-
-	var fade_rect := ColorRect.new()
-	fade_rect.name = "FadeRect"
-	fade_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
-	fade_rect.color = Color(0, 0, 0, 0)
-	fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	fade_layer.add_child(fade_rect)
-
-	root.add_child(fade_layer)
+	# NOTE: FadeLayer is created by RoomManager._setup_fade_overlay() at runtime
+	# Do NOT add a second one here
 
 	# --- Set ownership chain ---
 	set_owner_on_new_nodes(root, root)

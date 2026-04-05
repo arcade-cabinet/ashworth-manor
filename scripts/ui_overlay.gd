@@ -125,7 +125,9 @@ func _on_new_game() -> void:
 		room_mgr.load_room("front_gate")
 	var player: Node = _find_node("PlayerController")
 	if player and player.has_method("set_room_position"):
-		player.set_room_position(Vector3(0, 0, -10))
+		player.set_room_position(Vector3(0, 0, -12))
+		# Face the mansion (Y=180 looks along +Z in Godot)
+		player.rotation_degrees.y = 180.0
 
 
 func _on_continue() -> void:
