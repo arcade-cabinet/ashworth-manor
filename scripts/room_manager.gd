@@ -83,17 +83,36 @@ func load_room(room_id: String) -> void:
 	room_loaded.emit(room_id)
 
 
-func transition_to(room_id: String) -> void:
+func transition_to(room_id: String, conn_type: String = "door") -> void:
 	if _is_transitioning:
 		return
 	_is_transitioning = true
 	room_transition_started.emit()
 
+	# Determine transition style based on connection type
+	var fade_in_time: float = FADE_DURATION
+	var hold_time: float = 0.15
+	var fade_out_time: float = FADE_DURATION
+
+	match conn_type:
+		"stairs":
+			fade_in_time = 0.8  # Slower — climbing/descending stairs
+			hold_time = 0.3
+			fade_out_time = 0.8
+		"ladder":
+			fade_in_time = 1.0  # Even slower — ladder is precarious
+			hold_time = 0.4
+			fade_out_time = 1.0
+		"path":
+			fade_in_time = 0.5  # Quick outdoor walk
+			hold_time = 0.1
+			fade_out_time = 0.5
+
 	var tween: Tween = create_tween()
-	tween.tween_property(_fade_rect, "modulate:a", 1.0, FADE_DURATION)
+	tween.tween_property(_fade_rect, "modulate:a", 1.0, fade_in_time)
 	tween.tween_callback(_perform_room_switch.bind(room_id))
-	tween.tween_interval(0.15)
-	tween.tween_property(_fade_rect, "modulate:a", 0.0, FADE_DURATION)
+	tween.tween_interval(hold_time)
+	tween.tween_property(_fade_rect, "modulate:a", 0.0, fade_out_time)
 	tween.tween_callback(_on_transition_complete)
 
 
