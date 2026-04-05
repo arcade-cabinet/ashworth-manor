@@ -75,6 +75,12 @@ func load_room(room_id: String) -> void:
 
 	GameManager.current_room = _current_room_id
 	GameManager.mark_visited(_current_room_id)
+
+	# Set narrative flags based on room entry
+	if _current_room_id in ["attic_stairs", "attic_storage", "hidden_room"]:
+		GameManager.set_flag("elizabeth_aware")
+		GameManager.set_flag("entered_attic")
+
 	room_loaded.emit(_current_room_id)
 
 
