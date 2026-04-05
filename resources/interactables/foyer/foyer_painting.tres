@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "foyer_painting"
+object_type = "painting"
+title = "Lord Ashworth"
+content = "The patriarch stares down with hollow eyes. His hand rests on a book titled 'Rites of Passage'."
+on_read_flags = PackedStringArray()
