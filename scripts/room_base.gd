@@ -18,6 +18,22 @@ var _elapsed_time: float = 0.0
 @export var boundary_size: Vector3 = Vector3.ZERO  # If set, creates invisible walls
 
 func _ready() -> void:
+	# Some scenes set metadata instead of exports — sync them
+	if room_id.is_empty() and has_meta("room_id"):
+		room_id = get_meta("room_id")
+	if room_name.is_empty() and has_meta("room_name"):
+		room_name = get_meta("room_name")
+	if audio_loop.is_empty() and has_meta("audio_loop"):
+		audio_loop = get_meta("audio_loop")
+	if has_meta("ambient_darkness"):
+		ambient_darkness = get_meta("ambient_darkness")
+	if has_meta("is_exterior"):
+		is_exterior = get_meta("is_exterior")
+	if has_meta("spawn_position"):
+		spawn_position = get_meta("spawn_position")
+	if has_meta("spawn_rotation_y"):
+		spawn_rotation_y = get_meta("spawn_rotation_y")
+
 	_find_flickering_lights(self)
 	if boundary_size != Vector3.ZERO and is_exterior:
 		_create_boundary_walls()
