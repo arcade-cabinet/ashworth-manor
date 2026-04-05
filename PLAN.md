@@ -83,4 +83,4 @@ Build the complete exploration game:
 - [x] Risk 1: PSX Retro Shader — screen-space post-process (posterize + downscale + dither)
 - [x] Risk 2: Touch-to-Walk + Swipe-to-Look — raycast floor picking + camera rotation
 - [x] Main Build — 20 rooms, 6 puzzles, 3 endings, audio, save/load, all verified
-- [ ] Presentation Video — final cinematic MP4
+- [x] Presentation Video — 30s MP4 at screenshots/presentation/gameplay.mp4 — final cinematic MP4
