@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scripts/player_controller.gd" id="2_o6xl0"]
 [ext_resource type="Script" path="res://scripts/audio_manager.gd" id="3_tipki"]
 [ext_resource type="Script" path="res://scripts/interaction_manager.gd" id="4_85g3d"]
-[ext_resource type="Shader" path="res://shaders/psx_post.gdshader" id="5_choun"]
+[ext_resource type="Shader" path="res://shaders/psx_dither.gdshader" id="5_choun"]
 [ext_resource type="Script" path="res://scripts/ui_overlay.gd" id="6_ya4ey"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eb6dy"]
@@ -59,9 +59,8 @@ height = 1.7
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jbj1t"]
 shader = ExtResource("5_choun")
-shader_parameter/color_depth = 15.0
-shader_parameter/resolution_scale = 0.5
-shader_parameter/dither_strength = 0.25
+shader_parameter/color_depth = 5
+shader_parameter/dithering = true
 
 [node name="Main" type="Node3D" unique_id=364664206]
 

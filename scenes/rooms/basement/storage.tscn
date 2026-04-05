@@ -72,6 +72,28 @@ size = Vector3(2, 3, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_vxdyk"]
 size = Vector3(2, 3, 1)
 
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i00"]
+size = Vector3(1.0, 1.0, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i01"]
+size = Vector3(1.5, 2.0, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i02"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i03"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c04"]
+size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c05"]
+size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c06"]
+size = Vector3(2, 3, 1)
+
 [node name="StorageBasement" type="Node3D" unique_id=1262102158]
 script = ExtResource("1_xyxop")
 room_id = "storage_basement"
@@ -174,49 +196,81 @@ light_energy = 2.5
 omni_range = 8.0
 metadata/flickering = true
 
-[node name="Interactables" type="Node3D" parent="." unique_id=2106436919]
 
-[node name="scratched_portrait" type="Area3D" parent="Interactables" unique_id=1631475044]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1.8, 0)
+[node name="Interactables" type="Node3D" parent="."]
+
+[node name="scratched_portrait" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.2, 2)
 collision_layer = 4
 collision_mask = 0
 metadata/id = "scratched_portrait"
 metadata/type = "photo"
-metadata/data = {
-"content": "A stern-looking family. The youngest child's face has been scratched out.",
-"title": "Family Portrait"
-}
+metadata/data = {"title": "Scratched Portrait", "content": "A portrait, face destroyed. Gouged with something sharp — a key? A nail? The nameplate below is intact: 'Elizabeth Ashworth, age 8.' This is her. Was her.", "on_read_flags": "examined_scratched_portrait"}
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/scratched_portrait" unique_id=952615762]
-shape = SubResource("BoxShape3D_xyxop")
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/scratched_portrait"]
+shape = SubResource("BoxShape3D_i00")
 
-[node name="Connections" type="Node3D" parent="." unique_id=1446399073]
+[node name="storage_mirror" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.5, 3)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "storage_mirror"
+metadata/type = "mirror"
+metadata/data = {"title": "Covered Mirror", "content": "A full-length mirror, covered with a sheet. You pull the sheet aside. The reflection is wrong — the room behind you in the mirror has more light than the room you're standing in."}
 
-[node name="to_kitchen" type="Area3D" parent="Connections" unique_id=654845146]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -6)
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/storage_mirror"]
+shape = SubResource("BoxShape3D_i01")
+
+[node name="storage_covered" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -2)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "storage_covered"
+metadata/type = "observation"
+metadata/data = {"title": "Covered Furniture", "content": "Shapes under dust sheets. A child's rocking horse, a small writing desk, a toy chest. Elizabeth's furniture. Removed from the attic after the binding. Hidden down here."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/storage_covered"]
+shape = SubResource("BoxShape3D_i02")
+
+[node name="storage_trunk" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.4, -3)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "storage_trunk"
+metadata/type = "observation"
+metadata/data = {"title": "Storage Trunk", "content": "A heavy trunk, padlocked. You can't open it. Through a crack: fabric. White. A child's nightgown? Stained dark at the hem."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/storage_trunk"]
+shape = SubResource("BoxShape3D_i03")
+
+[node name="Connections" type="Node3D" parent="."]
+
+[node name="to_kitchen" type="Area3D" parent="Connections"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -5)
 collision_layer = 8
 collision_mask = 0
 metadata/target_room = "kitchen"
 metadata/type = "stairs"
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_kitchen" unique_id=844269127]
-shape = SubResource("BoxShape3D_8vhvv")
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_kitchen"]
+shape = SubResource("BoxShape3D_c04")
 
-[node name="to_boiler_room" type="Area3D" parent="Connections" unique_id=1480711790]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.5, 0)
+[node name="to_boiler_room" type="Area3D" parent="Connections"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.5, 0)
 collision_layer = 8
 collision_mask = 0
 metadata/target_room = "boiler_room"
+metadata/type = "door"
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_boiler_room" unique_id=529478844]
-shape = SubResource("BoxShape3D_v143f")
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_boiler_room"]
+shape = SubResource("BoxShape3D_c05")
 
-[node name="to_wine_cellar" type="Area3D" parent="Connections" unique_id=506678198]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.5, 5)
+[node name="to_wine_cellar" type="Area3D" parent="Connections"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.5, 0)
 collision_layer = 8
 collision_mask = 0
 metadata/target_room = "wine_cellar"
 metadata/type = "ladder"
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_wine_cellar" unique_id=298161119]
-shape = SubResource("BoxShape3D_vxdyk")
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_wine_cellar"]
+shape = SubResource("BoxShape3D_c06")

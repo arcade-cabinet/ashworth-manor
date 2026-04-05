@@ -31,6 +31,19 @@ size = Vector3(2, 3, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_conn2"]
 size = Vector3(2, 3, 1)
 
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i00"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i01"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c02"]
+size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c03"]
+size = Vector3(2, 3, 1)
+
 [node name="AtticStairwell" type="Node3D"]
 script = ExtResource("1")
 room_id = "attic_stairs"
@@ -150,25 +163,49 @@ light_energy = 1.5
 spot_range = 6.0
 spot_angle = 30.0
 
+
 [node name="Interactables" type="Node3D" parent="."]
+
+[node name="stairwell_debris" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "stairwell_debris"
+metadata/type = "observation"
+metadata/data = {"title": "Debris", "content": "Plaster has fallen from the walls, exposing lath beneath. On the exposed wood: tally marks. Hundreds of them. Someone counting days."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/stairwell_debris"]
+shape = SubResource("BoxShape3D_i00")
+
+[node name="stairwell_wall" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.5, 2)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "stairwell_wall"
+metadata/type = "observation"
+metadata/data = {"title": "Wall Writing", "content": "Scratched into the plaster, barely visible: 'I CAN HEAR THEM BUT THEY CANT HEAR ME.' No punctuation. Written with a fingernail."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/stairwell_wall"]
+shape = SubResource("BoxShape3D_i01")
 
 [node name="Connections" type="Node3D" parent="."]
 
 [node name="to_upper_hallway" type="Area3D" parent="Connections"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -3)
 collision_layer = 8
 collision_mask = 0
 metadata/target_room = "upper_hallway"
 metadata/type = "stairs"
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_upper_hallway"]
-shape = SubResource("BoxShape3D_conn1")
+shape = SubResource("BoxShape3D_c02")
 
 [node name="to_attic_storage" type="Area3D" parent="Connections"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 3)
 collision_layer = 8
 collision_mask = 0
 metadata/target_room = "attic_storage"
+metadata/type = "door"
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_attic_storage"]
-shape = SubResource("BoxShape3D_conn2")
+shape = SubResource("BoxShape3D_c03")

@@ -64,6 +64,12 @@ size = Vector3(2, 3, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_4trxl"]
 size = Vector3(2, 3, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_mail1"]
+size = Vector3(1.0, 0.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_strs1"]
+size = Vector3(2.0, 1.5, 1.5)
+
 [node name="Foyer" type="Node3D" unique_id=1790628957]
 script = ExtResource("1_7ylsf")
 room_id = "foyer"
@@ -563,105 +569,123 @@ light_energy = 1.5
 omni_range = 4.0
 metadata/flickering = true
 
-[node name="Interactables" type="Node3D" parent="." unique_id=311096515]
 
-[node name="foyer_painting" type="Area3D" parent="Interactables" unique_id=406343227 groups=["interactables"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 10)
+[node name="Interactables" type="Node3D" parent="."]
+
+[node name="foyer_painting" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -4.5)
 collision_layer = 4
 collision_mask = 0
 metadata/id = "foyer_painting"
 metadata/type = "painting"
-metadata/data = {
-"content": "The patriarch stares down with hollow eyes. His hand rests on a book titled 'Rites of Passage'.",
-"title": "Lord Ashworth"
-}
+metadata/data = {"title": "Lord Ashworth", "content": "The patriarch stares down with hollow eyes. His hand rests on a book titled 'Rites of Passage.' The oil paint has darkened with age, but the eyes remain vivid \u2014 as if they were painted last."}
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/foyer_painting" unique_id=319774198]
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/foyer_painting"]
 shape = SubResource("BoxShape3D_7ylsf")
 
-[node name="grandfather_clock" type="Area3D" parent="Interactables" unique_id=115071481]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.5, 7)
-collision_layer = 4
-collision_mask = 0
-metadata/id = "grandfather_clock"
-metadata/type = "clock"
-metadata/data = {
-"content": "The hands point to 3:33. The pendulum hangs motionless."
-}
-
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/grandfather_clock" unique_id=2031688483]
-shape = SubResource("BoxShape3D_objxd")
-
-[node name="foyer_mirror" type="Area3D" parent="Interactables" unique_id=1685893077]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 2.5, -5)
+[node name="foyer_mirror" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, 3)
 collision_layer = 4
 collision_mask = 0
 metadata/id = "foyer_mirror"
 metadata/type = "mirror"
-metadata/data = {
-"content": "Your reflection stares back. For a moment, you could swear it moved independently."
-}
+metadata/data = {"title": "Mirror", "content": "Your reflection stares back from a full-length mirror in an ornate dark wood frame. The silver is tarnished. For a moment, you could swear it moved independently."}
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/foyer_mirror" unique_id=798503487]
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/foyer_mirror"]
 shape = SubResource("BoxShape3D_01rv7")
 
-[node name="entry_switch" type="Area3D" parent="Interactables" unique_id=594771842]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 1.3, -7)
+[node name="grandfather_clock" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, -4)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "grandfather_clock"
+metadata/type = "clock"
+metadata/data = {"title": "Grandfather Clock", "content": "The hands point to 3:33. The pendulum hangs motionless. No ticking breaks the silence. The moon phase dial shows a full moon. December 24th, 1891."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/grandfather_clock"]
+shape = SubResource("BoxShape3D_objxd")
+
+[node name="entry_switch" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 1.3, -5)
 collision_layer = 4
 collision_mask = 0
 metadata/id = "entry_switch"
 metadata/type = "switch"
-metadata/data = {
-"controls_light": "ChandelierLight"
-}
+metadata/data = {"controls_light": "foyer_chandelier"}
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/entry_switch" unique_id=769505593]
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/entry_switch"]
 shape = SubResource("BoxShape3D_72p37")
 
-[node name="Connections" type="Node3D" parent="." unique_id=1683794300]
+[node name="foyer_mail" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.9, -4)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "foyer_mail"
+metadata/type = "observation"
+metadata/data = {"title": "Unopened Letters", "content": "A stack of letters on the hall table. Addressed to Lord Ashworth. Postmarked November and December 1891. None opened. He stopped reading his mail."}
 
-[node name="to_parlor" type="Area3D" parent="Connections" unique_id=1449888473]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 10)
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/foyer_mail"]
+shape = SubResource("BoxShape3D_mail1")
+
+[node name="foyer_stairs" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -2)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "foyer_stairs"
+metadata/type = "observation"
+metadata/data = {"title": "Grand Staircase", "content": "The staircase sweeps upward into shadow. Carved banisters wound with wooden vines. A carpet runner, faded crimson, muffles imagined footsteps. The upper floor is dark."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/foyer_stairs"]
+shape = SubResource("BoxShape3D_strs1")
+
+[node name="Connections" type="Node3D" parent="."]
+
+[node name="to_parlor" type="Area3D" parent="Connections"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 5)
 collision_layer = 8
 collision_mask = 0
 metadata/target_room = "parlor"
+metadata/type = "door"
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_parlor" unique_id=1018360161]
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_parlor"]
 shape = SubResource("BoxShape3D_uc4xk")
 
-[node name="to_dining_room" type="Area3D" parent="Connections" unique_id=380206919]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1.5, 0)
+[node name="to_dining_room" type="Area3D" parent="Connections"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.5, 0)
 collision_layer = 8
 collision_mask = 0
 metadata/target_room = "dining_room"
+metadata/type = "door"
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_dining_room" unique_id=852270129]
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_dining_room"]
 shape = SubResource("BoxShape3D_mqqpi")
 
-[node name="to_kitchen" type="Area3D" parent="Connections" unique_id=1968307736]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1.5, 0)
+[node name="to_kitchen" type="Area3D" parent="Connections"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.5, 0)
 collision_layer = 8
 collision_mask = 0
 metadata/target_room = "kitchen"
+metadata/type = "door"
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_kitchen" unique_id=1371907190]
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_kitchen"]
 shape = SubResource("BoxShape3D_s1vhv")
 
-[node name="to_upper_hallway" type="Area3D" parent="Connections" unique_id=929669341]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, 8)
+[node name="to_upper_hallway" type="Area3D" parent="Connections"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.5, -2)
 collision_layer = 8
 collision_mask = 0
 metadata/target_room = "upper_hallway"
 metadata/type = "stairs"
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_upper_hallway" unique_id=2080063769]
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_upper_hallway"]
 shape = SubResource("BoxShape3D_4tkh8")
 
-[node name="to_front_gate" type="Area3D" parent="Connections" unique_id=1504002161]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -10)
+[node name="to_front_gate" type="Area3D" parent="Connections"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -5)
 collision_layer = 8
 collision_mask = 0
 metadata/target_room = "front_gate"
+metadata/type = "door"
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_front_gate" unique_id=356263778]
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_front_gate"]
 shape = SubResource("BoxShape3D_4trxl")

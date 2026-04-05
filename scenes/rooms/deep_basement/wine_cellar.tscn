@@ -39,6 +39,22 @@ size = Vector3(1.5, 1.5, 1.5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_conn1"]
 size = Vector3(2, 3, 1)
 
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i00"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i01"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i02"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i03"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c04"]
+size = Vector3(2, 3, 1)
+
 [node name="WineCellar" type="Node3D"]
 script = ExtResource("1")
 room_id = "wine_cellar"
@@ -289,21 +305,19 @@ light_energy = 3.0
 omni_range = 7.0
 metadata/flickering = true
 
+
 [node name="Interactables" type="Node3D" parent="."]
 
 [node name="wine_note" type="Area3D" parent="Interactables"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.5, -3.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.5, -4)
 collision_layer = 4
 collision_mask = 0
 metadata/id = "wine_note"
 metadata/type = "note"
-metadata/data = {
-"content": "The 1872 Bordeaux has been moved to the hidden alcove. The key is with the portrait.",
-"title": "Inventory List - 1887"
-}
+metadata/data = {"title": "Wine Ledger", "content": "A cellar inventory. The last entry is circled: '1 btl. Chateau Margaux 1858 — opened Dec 24.' Below, in different handwriting: 'The blood of the grape for the blood of the lamb.'", "on_read_flags": "read_wine_note"}
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Interactables/wine_note"]
-shape = SubResource("BoxShape3D_interact1")
+shape = SubResource("BoxShape3D_i00")
 
 [node name="wine_box" type="Area3D" parent="Interactables"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.5, -3)
@@ -311,15 +325,32 @@ collision_layer = 4
 collision_mask = 0
 metadata/id = "wine_box"
 metadata/type = "box"
-metadata/data = {
-"content": "Inside: Lady Ashworth's confession letter.",
-"item_found": "mothers_confession",
-"key_id": "cellar_key",
-"locked": true
-}
+metadata/data = {"title": "Locked Wine Crate", "content": "A heavy wooden crate, locked with a padlock. Through the slats you can see paper — not bottles. Documents. Someone hid something here that wasn't wine.", "locked": true, "key_id": "cellar_key", "item_found": "mothers_confession"}
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Interactables/wine_box"]
-shape = SubResource("BoxShape3D_interact2")
+shape = SubResource("BoxShape3D_i01")
+
+[node name="wine_racks" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 0)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "wine_racks"
+metadata/type = "observation"
+metadata/data = {"title": "Wine Racks", "content": "Rows of bottles, coated in dust. But one rack is different — the bottles have been moved. Recently. Fingerprints in the dust. Small fingerprints."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/wine_racks"]
+shape = SubResource("BoxShape3D_i02")
+
+[node name="wine_footprints" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 3)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "wine_footprints"
+metadata/type = "observation"
+metadata/data = {"title": "Footprints", "content": "In the dust on the floor: footprints. Small, bare feet. They lead from the ladder to the wine racks and back. Over and over. A child pacing."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/wine_footprints"]
+shape = SubResource("BoxShape3D_i03")
 
 [node name="Connections" type="Node3D" parent="."]
 
@@ -331,4 +362,4 @@ metadata/target_room = "storage_basement"
 metadata/type = "ladder"
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_storage_basement"]
-shape = SubResource("BoxShape3D_conn1")
+shape = SubResource("BoxShape3D_c04")

@@ -18,12 +18,25 @@
 [ext_resource type="PackedScene" path="res://assets/grounds/front_gate/luggage_mp_1.glb" id="16"]
 [ext_resource type="PackedScene" path="res://assets/grounds/front_gate/rocks.glb" id="17"]
 [ext_resource type="PackedScene" path="res://assets/grounds/front_gate/nature.glb" id="18"]
+[ext_resource type="PackedScene" path="res://assets/grounds/front_gate/lamp_mx_1_b_on.glb" id="19"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
 size = Vector3(20, 0.2, 20)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_interact1"]
 size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact2"]
+size = Vector3(1.5, 1.0, 1.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact3"]
+size = Vector3(2.0, 1.0, 1.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact4"]
+size = Vector3(3.0, 3.0, 1.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact5"]
+size = Vector3(1.0, 2.0, 1.0)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_conn1"]
 size = Vector3(2, 3, 1)
@@ -148,6 +161,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 8)
 [node name="DriveHedge" type="Node3D" parent="Models" instance=ExtResource("18")]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -8, 0, 0)
 
+[node name="GateLampModel" type="Node3D" parent="Models" instance=ExtResource("19")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -10)
+
 [node name="Lighting" type="Node3D" parent="."]
 
 [node name="Moonlight" type="DirectionalLight3D" parent="Lighting"]
@@ -171,13 +187,54 @@ collision_layer = 4
 collision_mask = 0
 metadata/id = "gate_plaque"
 metadata/type = "note"
-metadata/data = {
-"content": "ASHWORTH MANOR — Est. 1847",
-"title": "Gate Plaque"
-}
+metadata/data = {"title": "Ashworth Manor", "content": "ASHWORTH MANOR \u2014 Est. 1847. The iron lettering is green with verdigris. Below, in smaller script barely legible: 'Abandon memory, all ye who enter.'"}
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Interactables/gate_plaque"]
 shape = SubResource("BoxShape3D_interact1")
+
+[node name="gate_luggage" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.3, -7)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "gate_luggage"
+metadata/type = "observation"
+metadata/data = {"title": "Abandoned Suitcase", "content": "A leather traveling case, clasps still fastened. Packed but never carried beyond the gate. The luggage tag reads: 'H. Pierce \u2014 London.' The ink has run in the rain."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/gate_luggage"]
+shape = SubResource("BoxShape3D_interact2")
+
+[node name="gate_bench" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.5, -5)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "gate_bench"
+metadata/type = "observation"
+metadata/data = {"title": "Stone Bench", "content": "Cold stone. Snow has settled in the seat \u2014 undisturbed for decades. Someone sat here once, looking at the house, deciding whether to go in."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/gate_bench"]
+shape = SubResource("BoxShape3D_interact3")
+
+[node name="iron_gate" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -10)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "iron_gate"
+metadata/type = "observation"
+metadata/data = {"title": "The Gate", "content": "Iron bars, rusted open. The lock is broken \u2014 not from outside. Someone burst through from within. The hinges scream when the wind catches them."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/iron_gate"]
+shape = SubResource("BoxShape3D_interact4")
+
+[node name="gate_lamp" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2.5, -10)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "gate_lamp"
+metadata/type = "observation"
+metadata/data = {"title": "Gas Lamp", "content": "Still lit. After over a century, the gas lamp by the gate still burns. The flame doesn't flicker like fire \u2014 it pulses, like breathing."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/gate_lamp"]
+shape = SubResource("BoxShape3D_interact5")
 
 [node name="Connections" type="Node3D" parent="."]
 
@@ -186,6 +243,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 10)
 collision_layer = 8
 collision_mask = 0
 metadata/target_room = "foyer"
+metadata/type = "path"
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_foyer"]
 shape = SubResource("BoxShape3D_conn1")

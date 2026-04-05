@@ -31,6 +31,25 @@ size = Vector3(2, 3, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_conn2"]
 size = Vector3(2, 3, 1)
 
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i00"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i01"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i02"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c03"]
+size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c04"]
+size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c05"]
+size = Vector3(2, 3, 1)
+
 [node name="Garden" type="Node3D"]
 script = ExtResource("1")
 room_id = "garden"
@@ -141,54 +160,70 @@ light_color = Color(0.5, 0.6, 0.8, 1)
 light_energy = 1.0
 omni_range = 8.0
 
+
 [node name="Interactables" type="Node3D" parent="."]
 
-[node name="frozen_fountain" type="Area3D" parent="Interactables"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -6)
+[node name="garden_fountain" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 collision_layer = 4
 collision_mask = 0
-metadata/id = "frozen_fountain"
-metadata/type = "painting"
-metadata/data = {
-"content": "The water is frozen solid. Beneath the ice, something glints — a child's ring.",
-"title": "The Fountain"
-}
+metadata/id = "garden_fountain"
+metadata/type = "observation"
+metadata/data = {"title": "Fountain", "content": "A stone fountain, dry. The basin is cracked. In the center: a cherub, wings broken. The face has been worn smooth by weather — or deliberately erased."}
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/frozen_fountain"]
-shape = SubResource("BoxShape3D_interact1")
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/garden_fountain"]
+shape = SubResource("BoxShape3D_i00")
 
-[node name="gazebo_bench" type="Area3D" parent="Interactables"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 6)
+[node name="garden_gazebo" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -3)
 collision_layer = 4
 collision_mask = 0
-metadata/id = "gazebo_bench"
-metadata/type = "note"
-metadata/data = {
-"content": "Scratched into the bench: a crude drawing of a girl and a doll. 'LIZZY + DOLLY BEST FRENDS'",
-"title": "Scratched Drawing"
-}
+metadata/id = "garden_gazebo"
+metadata/type = "observation"
+metadata/data = {"title": "Garden Gazebo", "content": "A gazebo, rotting. The benches inside are covered in moss. Carved into one bench: 'E.A. + C.A.' — Elizabeth and her brother Charles. Before everything."}
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/gazebo_bench"]
-shape = SubResource("BoxShape3D_interact2")
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/garden_gazebo"]
+shape = SubResource("BoxShape3D_i01")
+
+[node name="garden_beds" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.1, 3)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "garden_beds"
+metadata/type = "observation"
+metadata/data = {"title": "Garden Beds", "content": "Dead flower beds. But one: white lilies, alive, blooming in December. Impossible. The soil around them is warm to the touch."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/garden_beds"]
+shape = SubResource("BoxShape3D_i02")
 
 [node name="Connections" type="Node3D" parent="."]
 
 [node name="to_front_gate" type="Area3D" parent="Connections"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1.5, 0)
 collision_layer = 8
 collision_mask = 0
 metadata/target_room = "front_gate"
 metadata/type = "path"
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_front_gate"]
-shape = SubResource("BoxShape3D_conn1")
+shape = SubResource("BoxShape3D_c03")
 
-[node name="to_family_crypt" type="Area3D" parent="Connections"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 12)
+[node name="to_chapel" type="Area3D" parent="Connections"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -8)
 collision_layer = 8
 collision_mask = 0
-metadata/target_room = "family_crypt"
+metadata/target_room = "chapel"
 metadata/type = "path"
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_family_crypt"]
-shape = SubResource("BoxShape3D_conn2")
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_chapel"]
+shape = SubResource("BoxShape3D_c04")
+
+[node name="to_greenhouse" type="Area3D" parent="Connections"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1.5, 0)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "greenhouse"
+metadata/type = "path"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_greenhouse"]
+shape = SubResource("BoxShape3D_c05")

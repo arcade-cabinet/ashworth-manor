@@ -39,6 +39,25 @@ size = Vector3(1.5, 1.5, 1.5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_conn1"]
 size = Vector3(2, 3, 1)
 
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i00"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i01"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i02"]
+size = Vector3(1.5, 2.0, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i03"]
+size = Vector3(3.0, 0.5, 3.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i04"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c05"]
+size = Vector3(2, 3, 1)
+
 [node name="HiddenChamber" type="Node3D"]
 script = ExtResource("1")
 room_id = "hidden_room"
@@ -192,35 +211,41 @@ light_energy = 1.5
 omni_range = 4.0
 metadata/flickering = true
 
+
 [node name="Interactables" type="Node3D" parent="."]
 
-[node name="final_note" type="Area3D" parent="Interactables"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 2.5)
+[node name="elizabeth_final_note" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 2.5)
 collision_layer = 4
 collision_mask = 0
-metadata/id = "final_note"
+metadata/id = "elizabeth_final_note"
 metadata/type = "note"
-metadata/data = {
-"content": "I understand now. The doll showed me. I was never sick — they were afraid of what I could see. The house has eyes. The walls have ears. And now I am part of it forever. Find me. Free me. Or join me.",
-"on_read_flags": ["knows_full_truth", "read_final_note"],
-"title": "Elizabeth's Last Words"
-}
+metadata/data = {"title": "Elizabeth's Final Words", "content": "'They bound me here with blood and salt and words I didn't understand. Father said it was for my own good. Mother held me down. Helena drew the circle. I forgive them. But I cannot leave.'", "on_read_flags": "read_final_note,knows_full_truth"}
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/final_note"]
-shape = SubResource("BoxShape3D_interact1")
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/elizabeth_final_note"]
+shape = SubResource("BoxShape3D_i00")
+
+[node name="chamber_drawings" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 1.5, 0)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "chamber_drawings"
+metadata/type = "observation"
+metadata/data = {"title": "Wall Drawings", "content": "The walls are covered in drawings. Charcoal on plaster. A house. A family. A girl alone. A circle. The same images, repeated hundreds of times. A child trying to understand what was done to her."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/chamber_drawings"]
+shape = SubResource("BoxShape3D_i01")
 
 [node name="hidden_mirror" type="Area3D" parent="Interactables"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -2.7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 1.5, 0)
 collision_layer = 4
 collision_mask = 0
 metadata/id = "hidden_mirror"
 metadata/type = "mirror"
-metadata/data = {
-"content": "In the mirror, behind you, stands a girl in white. When you turn, nothing is there."
-}
+metadata/data = {"title": "Chamber Mirror", "content": "A mirror, cracked but whole. In it: a girl in white. Not behind you — she's in the mirror. She raises one hand. Slowly. She presses her palm against the glass. From the other side."}
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Interactables/hidden_mirror"]
-shape = SubResource("BoxShape3D_interact2")
+shape = SubResource("BoxShape3D_i02")
 
 [node name="ritual_circle" type="Area3D" parent="Interactables"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
@@ -228,20 +253,30 @@ collision_layer = 4
 collision_mask = 0
 metadata/id = "ritual_circle"
 metadata/type = "ritual"
-metadata/data = {
-"description": "A circle drawn on the floor in the center of Elizabeth's drawings."
-}
+metadata/data = {"title": "Ritual Circle", "content": "A circle drawn on the floor in something dark and permanent. Salt at the cardinal points. Candle stubs. The circle is unbroken — that's what keeps her here.", "steps": 3}
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Interactables/ritual_circle"]
-shape = SubResource("BoxShape3D_interact3")
+shape = SubResource("BoxShape3D_i03")
+
+[node name="chamber_artifact" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -2)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "chamber_artifact"
+metadata/type = "observation"
+metadata/data = {"title": "Ritual Implements", "content": "A brass bowl. A silver knife. A leather journal open to the binding ritual. The implements of Elizabeth's imprisonment, laid out with surgical precision."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/chamber_artifact"]
+shape = SubResource("BoxShape3D_i04")
 
 [node name="Connections" type="Node3D" parent="."]
 
 [node name="to_attic_storage" type="Area3D" parent="Connections"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.5, 0)
 collision_layer = 8
 collision_mask = 0
 metadata/target_room = "attic_storage"
+metadata/type = "door"
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_attic_storage"]
-shape = SubResource("BoxShape3D_conn1")
+shape = SubResource("BoxShape3D_c05")

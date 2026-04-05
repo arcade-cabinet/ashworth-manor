@@ -39,6 +39,19 @@ size = Vector3(1.5, 1.5, 1.5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_conn1"]
 size = Vector3(2, 3, 1)
 
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i00"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i01"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i02"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c03"]
+size = Vector3(2, 3, 1)
+
 [node name="Greenhouse" type="Node3D"]
 script = ExtResource("1")
 room_id = "greenhouse"
@@ -290,45 +303,50 @@ light_color = Color(0.6, 0.7, 0.5, 1)
 light_energy = 2.0
 omni_range = 10.0
 
+
 [node name="Interactables" type="Node3D" parent="."]
 
-[node name="greenhouse_gate_key" type="Area3D" parent="Interactables"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.5, 3)
+[node name="greenhouse_pot" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.3, 2)
 collision_layer = 4
 collision_mask = 0
-metadata/id = "greenhouse_gate_key"
+metadata/id = "greenhouse_pot"
 metadata/type = "box"
-metadata/data = {
-"content": "Inside the pot, buried in dry soil, you find an iron gate key.",
-"item_found": "gate_key",
-"locked": false
-}
+metadata/data = {"title": "Cracked Pot", "content": "A large clay pot, cracked open. Inside the soil: not roots — a key. Iron, ornate, heavy. It was buried here deliberately. Planted like a seed.", "item_found": "gate_key"}
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/greenhouse_gate_key"]
-shape = SubResource("BoxShape3D_interact1")
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/greenhouse_pot"]
+shape = SubResource("BoxShape3D_i00")
 
-[node name="white_lily" type="Area3D" parent="Interactables"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 3)
+[node name="greenhouse_dead" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.5, 0)
 collision_layer = 4
 collision_mask = 0
-metadata/id = "white_lily"
-metadata/type = "painting"
-metadata/data = {
-"content": "Among the dead plants, a single white lily blooms. It should not be alive.",
-"title": "The White Lily"
-}
+metadata/id = "greenhouse_dead"
+metadata/type = "observation"
+metadata/data = {"title": "Dead Plants", "content": "Everything is dead. Dried stalks, crumbled leaves, soil turned to dust. Except one corner: a single white lily, growing from a crack in the floor. Alive. Impossible."}
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/white_lily"]
-shape = SubResource("BoxShape3D_interact2")
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/greenhouse_dead"]
+shape = SubResource("BoxShape3D_i01")
+
+[node name="greenhouse_glass" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -3)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "greenhouse_glass"
+metadata/type = "observation"
+metadata/data = {"title": "Broken Panes", "content": "Half the glass panes are shattered. Through the gaps: cold air, moonlight. On the remaining panes, from inside: handprints. Small. Pressed flat against the glass."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/greenhouse_glass"]
+shape = SubResource("BoxShape3D_i02")
 
 [node name="Connections" type="Node3D" parent="."]
 
-[node name="to_front_gate" type="Area3D" parent="Connections"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -4)
+[node name="to_garden" type="Area3D" parent="Connections"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1.5, 0)
 collision_layer = 8
 collision_mask = 0
-metadata/target_room = "front_gate"
+metadata/target_room = "garden"
 metadata/type = "path"
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_front_gate"]
-shape = SubResource("BoxShape3D_conn1")
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_garden"]
+shape = SubResource("BoxShape3D_c03")

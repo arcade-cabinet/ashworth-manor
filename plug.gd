@@ -3,12 +3,11 @@ extends "res://addons/gd-plug/plug.gd"
 
 func _plugging() -> void:
 	# === PSX RENDERING ===
-	# Proper PS1 vertex snapping, affine texture mapping, color depth, dithering
-	# Replaces our basic screen-space post-process with per-material PSX accuracy
+	# Screen-space dithering + color depth reduction (NO per-material shaders)
 	plug("AnalogFeelings/godot-psx")
 
 	# === DIALOGUE / DOCUMENT SYSTEM ===
-	# Branching dialogue manager with editor — replaces hardcoded string overlays
+	# Branching dialogue manager with editor -- replaces hardcoded string overlays
 	# Can hold all narrative content (diary entries, notes, paintings) as resources
 	plug("nathanhoad/godot_dialogue_manager")
 
@@ -28,7 +27,7 @@ func _plugging() -> void:
 	plug("synalice/shaky-camera-3d")
 
 	# === QUEST / PUZZLE TRACKING ===
-	# Resource-based quest system — tracks puzzle chain progress properly
+	# Resource-based quest system -- tracks puzzle chain progress properly
 	# Replaces our flag-based system with structured quest state
 	plug("shomykohai/quest-system")
 
@@ -36,6 +35,23 @@ func _plugging() -> void:
 	# Robust save system with encryption, nested data, error handling
 	# Replaces our basic JSON write
 	plug("AdamKormos/SaveMadeEasy")
+
+	# === MATERIAL FOOTSTEPS ===
+	# Surface-based footstep sounds (marble, wood, stone, metal, etc.)
+	# Reads surface metadata from floor meshes
+	plug("COOKIE-POLICE/godot-material-footsteps")
+
+	# === PHANTOM CAMERA ===
+	# Priority-based camera system for inspection views and cinematics
+	# Smooth transitions between exploration and object inspection cameras
+	plug("ramokz/phantom-camera", {"include": ["addons/phantom_camera/"]})
+
+	# === LIMBO AI / HSM ===
+	# Hierarchical State Machine for game phases and Elizabeth AI behavior
+	# NOTE: LimboAI is a GDExtension -- download prebuilt from GitHub releases
+	# https://github.com/limbonaut/limboai/releases
+	# Place .gdextension + .dylib/.so files in addons/limboai/
+	# plug("limbonaut/limboai")  # Cannot install via gd-plug (GDExtension)
 
 	# === TESTING ===
 	# Unit + integration testing framework for Godot 4

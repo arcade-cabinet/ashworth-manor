@@ -1,11 +1,17 @@
 extends Node3D
-## res://scripts/room_manager.gd — Scene-based room instancing with fade transitions
+## res://scripts/room_manager.gd -- Scene-based room instancing with psx_fade dither transitions
 
 signal room_loaded(room_id: String)
 signal room_transition_started
 signal room_transition_finished
 
-const FADE_DURATION: float = 0.6
+# Transition durations by connection type
+const FADE_DURATIONS: Dictionary = {
+	"door": 0.6,
+	"stairs": 0.8,
+	"ladder": 1.0,
+	"path": 0.5,
+}
 
 var _current_room: RoomBase = null
 var _current_room_id: String = ""
@@ -14,7 +20,7 @@ var _fade_rect: ColorRect = null
 var _fade_layer: CanvasLayer = null
 var _is_transitioning: bool = false
 
-# Room registry: room_id → scene path
+# Room registry: room_id -> scene path
 var _room_registry: Dictionary = {
 	"front_gate": "res://scenes/rooms/grounds/front_gate.tscn",
 	"garden": "res://scenes/rooms/grounds/garden.tscn",
@@ -90,29 +96,21 @@ func transition_to(room_id: String, conn_type: String = "door") -> void:
 	_is_transitioning = true
 	room_transition_started.emit()
 
-	var fade_in: float = FADE_DURATION
+	var duration: float = FADE_DURATIONS.get(conn_type, 0.6)
 	var hold: float = 0.15
-	var fade_out: float = FADE_DURATION
-
 	match conn_type:
 		"stairs":
-			fade_in = 0.8
 			hold = 0.3
-			fade_out = 0.8
 		"ladder":
-			fade_in = 1.0
 			hold = 0.4
-			fade_out = 1.0
-		"path":
-			fade_in = 0.5
-			hold = 0.1
-			fade_out = 0.5
 
+	# Animate psx_fade shader alpha: 0 -> 255 (fade out) -> hold -> 255 -> 0 (fade in)
+	var shader_mat: ShaderMaterial = _fade_rect.material as ShaderMaterial
 	var tween: Tween = create_tween()
-	tween.tween_property(_fade_rect, "modulate:a", 1.0, fade_in)
+	tween.tween_method(_set_fade_alpha.bind(shader_mat), 0, 255, duration)
 	tween.tween_callback(_perform_room_switch.bind(room_id))
 	tween.tween_interval(hold)
-	tween.tween_property(_fade_rect, "modulate:a", 0.0, fade_out)
+	tween.tween_method(_set_fade_alpha.bind(shader_mat), 255, 0, duration)
 	tween.tween_callback(_on_transition_complete)
 
 
@@ -125,7 +123,6 @@ func get_current_room() -> RoomBase:
 
 
 func get_current_room_data() -> Dictionary:
-	# Returns basic metadata from the live room scene's exports
 	if _current_room == null:
 		return {}
 	return {
@@ -137,9 +134,12 @@ func get_current_room_data() -> Dictionary:
 
 # --- Private ---
 
+func _set_fade_alpha(value: int, shader_mat: ShaderMaterial) -> void:
+	shader_mat.set_shader_parameter("alpha", value)
+
+
 func _perform_room_switch(room_id: String) -> void:
 	load_room(room_id)
-	# Reposition player
 	var player: Node = get_node_or_null("/root/Main/PlayerController")
 	if player and _current_room:
 		player.global_position = _current_room.spawn_position
@@ -165,17 +165,23 @@ func _setup_fade_overlay() -> void:
 	_fade_layer.layer = 10
 	add_child(_fade_layer)
 
+	# Use psx_fade shader for dithered room transitions
+	var fade_shader: Shader = load("res://shaders/psx_fade.gdshader")
+	var fade_material: ShaderMaterial = ShaderMaterial.new()
+	fade_material.shader = fade_shader
+	fade_material.set_shader_parameter("alpha", 0)
+	fade_material.set_shader_parameter("fadeToWhite", false)
+
 	_fade_rect = ColorRect.new()
 	_fade_rect.name = "FadeRect"
+	_fade_rect.material = fade_material
 	_fade_rect.color = Color.BLACK
-	_fade_rect.modulate.a = 0.0
 	_fade_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_fade_layer.add_child(_fade_rect)
 
 
 func _scene_path_to_room_id(path: String) -> String:
-	# Convert "res://scenes/rooms/ground_floor/parlor.tscn" → "parlor"
 	var filename: String = path.get_file().get_basename()
 	for rid in _room_registry:
 		if _room_registry[rid] == path:

@@ -37,6 +37,22 @@ size = Vector3(1.5, 1.5, 1.5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_conn1"]
 size = Vector3(2, 3, 1)
 
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i00"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i01"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i02"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i03"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c04"]
+size = Vector3(2, 3, 1)
+
 [node name="FamilyCrypt" type="Node3D"]
 script = ExtResource("1")
 room_id = "family_crypt"
@@ -221,45 +237,63 @@ light_energy = 2.0
 omni_range = 5.0
 metadata/flickering = true
 
+
 [node name="Interactables" type="Node3D" parent="."]
 
-[node name="missing_plaque" type="Area3D" parent="Interactables"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 2.7)
+[node name="crypt_flagstone" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.1, 2)
 collision_layer = 4
 collision_mask = 0
-metadata/id = "missing_plaque"
-metadata/type = "painting"
-metadata/data = {
-"content": "Three memorial plaques: Charles, Margaret, William. But the wall has space for four. The fourth section is bare stone. Elizabeth was erased even from death.",
-"title": "The Blank Wall"
-}
-
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/missing_plaque"]
-shape = SubResource("BoxShape3D_interact1")
-
-[node name="loose_flagstone" type="Area3D" parent="Interactables"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, -1)
-collision_layer = 4
-collision_mask = 0
-metadata/id = "loose_flagstone"
+metadata/id = "crypt_flagstone"
 metadata/type = "box"
-metadata/data = {
-"content": "Beneath the loose flagstone: a tiny brass key with a heart-shaped bow. A note: 'I could not wear it any longer. Forgive me, Elizabeth.'",
-"item_found": "jewelry_key",
-"locked": false
-}
+metadata/data = {"title": "Loose Flagstone", "content": "A flagstone that rocks when you step on it. Beneath it: a small space. Inside: a tiny key on a velvet ribbon. The ribbon is embroidered: 'For my darling.'", "item_found": "jewelry_key"}
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/loose_flagstone"]
-shape = SubResource("BoxShape3D_interact2")
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/crypt_flagstone"]
+shape = SubResource("BoxShape3D_i00")
+
+[node name="crypt_graves" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "crypt_graves"
+metadata/type = "observation"
+metadata/data = {"title": "Family Graves", "content": "Stone sarcophagi. Lord Edmund Ashworth, d. 1892. Lady Victoria Ashworth, d. 1892. Helena Pierce — no dates. And one small sarcophagus, unmarked. Elizabeth's. Empty."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/crypt_graves"]
+shape = SubResource("BoxShape3D_i01")
+
+[node name="crypt_note" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.8, 2)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "crypt_note"
+metadata/type = "note"
+metadata/data = {"title": "Crypt Inscription", "content": "Carved above the unmarked sarcophagus: 'Here lies no one. She was never here. She was never anywhere.' The family's final lie."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/crypt_note"]
+shape = SubResource("BoxShape3D_i02")
+
+[node name="crypt_bones" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.1, -2)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "crypt_bones"
+metadata/type = "observation"
+metadata/data = {"title": "Scattered Remains", "content": "Animal bones arranged in a circle on the floor. A ritual performed here — not the binding, something earlier. A test. Practice. They rehearsed before doing it to their daughter."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/crypt_bones"]
+shape = SubResource("BoxShape3D_i03")
 
 [node name="Connections" type="Node3D" parent="."]
 
 [node name="to_garden" type="Area3D" parent="Connections"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -5)
 collision_layer = 8
 collision_mask = 0
 metadata/target_room = "garden"
 metadata/type = "path"
+metadata/locked = true
+metadata/key_id = "gate_key"
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_garden"]
-shape = SubResource("BoxShape3D_conn1")
+shape = SubResource("BoxShape3D_c04")
