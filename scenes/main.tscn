@@ -41,56 +41,56 @@ shader_parameter/color_depth = 15.0
 shader_parameter/resolution_scale = 0.5
 shader_parameter/dither_strength = 0.25
 
-[node name="Main" type="Node3D" unique_id=2077919730]
+[node name="Main" type="Node3D" unique_id=1444950889]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1824902936]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=413224733]
 environment = SubResource("Environment_eb6dy")
 
-[node name="RoomManager" type="Node3D" parent="." unique_id=794480481]
+[node name="RoomManager" type="Node3D" parent="." unique_id=69533330]
 script = ExtResource("1_tefeu")
 
-[node name="PlayerController" type="CharacterBody3D" parent="." unique_id=1441473632]
+[node name="PlayerController" type="CharacterBody3D" parent="." unique_id=1500683222]
 collision_mask = 3
 script = ExtResource("2_o6xl0")
 
-[node name="CollisionShape" type="CollisionShape3D" parent="PlayerController" unique_id=1251400726]
+[node name="CollisionShape" type="CollisionShape3D" parent="PlayerController" unique_id=1907208973]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
 shape = SubResource("CapsuleShape3D_trceg")
 
-[node name="Camera3D" type="Camera3D" parent="PlayerController" unique_id=71278469]
+[node name="Camera3D" type="Camera3D" parent="PlayerController" unique_id=267644050]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 current = true
 near = 0.1
 far = 100.0
 
-[node name="AudioManager" type="Node" parent="." unique_id=1103124396]
+[node name="AudioManager" type="Node" parent="." unique_id=1818474941]
 script = ExtResource("3_tipki")
 
-[node name="AmbientCurrent" type="AudioStreamPlayer" parent="AudioManager" unique_id=626952983]
+[node name="AmbientCurrent" type="AudioStreamPlayer" parent="AudioManager" unique_id=540469515]
 volume_db = -6.0
 
-[node name="AmbientNext" type="AudioStreamPlayer" parent="AudioManager" unique_id=418473267]
+[node name="AmbientNext" type="AudioStreamPlayer" parent="AudioManager" unique_id=844150402]
 volume_db = -80.0
 
-[node name="SFXPlayer" type="AudioStreamPlayer" parent="AudioManager" unique_id=210947035]
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="AudioManager" unique_id=860128869]
 
-[node name="InteractionManager" type="Node" parent="." unique_id=379668201]
+[node name="InteractionManager" type="Node" parent="." unique_id=1624172891]
 script = ExtResource("4_85g3d")
 
-[node name="PSXLayer" type="CanvasLayer" parent="." unique_id=638742618]
+[node name="PSXLayer" type="CanvasLayer" parent="." unique_id=2014727251]
 layer = 2
 
-[node name="PSXEffect" type="ColorRect" parent="PSXLayer" unique_id=1361047739]
+[node name="PSXEffect" type="ColorRect" parent="PSXLayer" unique_id=2112810358]
 material = SubResource("ShaderMaterial_a8y0u")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="UILayer" type="CanvasLayer" parent="." unique_id=1764318671]
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=1342457415]
 layer = 5
 
-[node name="UIOverlay" type="Control" parent="UILayer" unique_id=1253351759]
+[node name="UIOverlay" type="Control" parent="UILayer" unique_id=1553939603]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
