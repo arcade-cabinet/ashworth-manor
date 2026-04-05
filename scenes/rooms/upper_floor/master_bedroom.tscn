@@ -60,6 +60,18 @@ roughness = 0.85
 uv1_scale = Vector3(5, 2, 1)
 texture_filter = 0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_w1cvl"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7ufj7"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6pgg7"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ex7hn"]
+size = Vector3(2, 3, 1)
+
 [node name="MasterBedroom" type="Node3D" unique_id=908222667]
 script = ExtResource("1_w1cvl")
 room_id = "master_bedroom"
@@ -180,4 +192,58 @@ omni_range = 10.0
 
 [node name="Interactables" type="Node3D" parent="." unique_id=226607563]
 
+[node name="diary_lord" type="Area3D" parent="Interactables" unique_id=173136518]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.9, 6)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "diary_lord"
+metadata/type = "note"
+metadata/data = {
+"content": "She won't stop crying... The attic key is hidden in the library globe. No one must find her.",
+"on_read_flags": ["read_ashworth_diary", "knows_key_location"],
+"title": "Lord Ashworth's Diary"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/diary_lord" unique_id=1105801748]
+shape = SubResource("BoxShape3D_w1cvl")
+
+[node name="bedroom_mirror" type="Area3D" parent="Interactables" unique_id=2073576675]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2, 0)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "bedroom_mirror"
+metadata/type = "mirror"
+metadata/data = {
+"content": "Your reflection appears a heartbeat too late."
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/bedroom_mirror" unique_id=788784857]
+shape = SubResource("BoxShape3D_7ufj7")
+
+[node name="jewelry_box" type="Area3D" parent="Interactables" unique_id=1620078842]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 7)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "jewelry_box"
+metadata/type = "box"
+metadata/data = {
+"content": "Inside: a tarnished silver locket with a lock of golden hair.",
+"gives_also": "lock_of_hair",
+"item_found": "elizabeths_locket",
+"key_id": "jewelry_key",
+"locked": true
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/jewelry_box" unique_id=1279158258]
+shape = SubResource("BoxShape3D_6pgg7")
+
 [node name="Connections" type="Node3D" parent="." unique_id=1845044794]
+
+[node name="to_upper_hallway" type="Area3D" parent="Connections" unique_id=292451616]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 1.5, 0)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "upper_hallway"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_upper_hallway" unique_id=1577720339]
+shape = SubResource("BoxShape3D_ex7hn")

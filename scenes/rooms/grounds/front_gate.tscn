@@ -25,6 +25,15 @@
 albedo_color = Color(0.22, 0.22, 0.25, 1)
 roughness = 0.95
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_064sn"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_laf7g"]
+size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8pyhu"]
+size = Vector3(2, 3, 1)
+
 [node name="FrontGate" type="Node3D" unique_id=1013364532]
 script = ExtResource("1_064sn")
 room_id = "front_gate"
@@ -119,4 +128,37 @@ metadata/flickering = true
 
 [node name="Interactables" type="Node3D" parent="." unique_id=51018371]
 
+[node name="gate_plaque" type="Area3D" parent="Interactables" unique_id=2026713650]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.5, -20)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "gate_plaque"
+metadata/type = "note"
+metadata/data = {
+"content": "ASHWORTH MANOR — Est. 1847",
+"title": "Gate Plaque"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/gate_plaque" unique_id=1727513524]
+shape = SubResource("BoxShape3D_064sn")
+
 [node name="Connections" type="Node3D" parent="." unique_id=597228613]
+
+[node name="to_foyer" type="Area3D" parent="Connections" unique_id=1414728427]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 20)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "foyer"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_foyer" unique_id=2086523875]
+shape = SubResource("BoxShape3D_laf7g")
+
+[node name="to_garden" type="Area3D" parent="Connections" unique_id=552581052]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1.5, 0)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "garden"
+metadata/type = "path"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_garden" unique_id=2124774862]
+shape = SubResource("BoxShape3D_8pyhu")

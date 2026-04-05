@@ -1240,6 +1240,12 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_grtqt")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_j7voh"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fmsto"]
+size = Vector3(2, 3, 1)
+
 [node name="CarriageHouse" type="Node3D" unique_id=1908349130]
 script = ExtResource("1_j7voh")
 metadata/room_id = "carriage_house"
@@ -1428,4 +1434,29 @@ omni_range = 8.0
 
 [node name="Interactables" type="Node3D" parent="." unique_id=887082596]
 
+[node name="carriage_portrait" type="Area3D" parent="Interactables" unique_id=673832396]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 5)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "carriage_portrait"
+metadata/type = "box"
+metadata/data = {
+"content": "Behind the portrait's backing, taped to the frame, you find a small iron key.",
+"item_found": "cellar_key",
+"locked": false
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/carriage_portrait" unique_id=1338007265]
+shape = SubResource("BoxShape3D_j7voh")
+
 [node name="Connections" type="Node3D" parent="." unique_id=936307099]
+
+[node name="to_front_gate" type="Area3D" parent="Connections" unique_id=1949127118]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.5, 0)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "front_gate"
+metadata/type = "path"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_front_gate" unique_id=1304999775]
+shape = SubResource("BoxShape3D_fmsto")

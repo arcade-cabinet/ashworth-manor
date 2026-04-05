@@ -840,6 +840,18 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_y3vro")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_3oati"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n1nrb"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8q0w6"]
+size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pi5gx"]
+size = Vector3(2, 3, 1)
+
 [node name="HedgeGarden" type="Node3D" unique_id=1502621823]
 script = ExtResource("1_3oati")
 metadata/room_id = "garden"
@@ -1036,4 +1048,52 @@ light_energy = 1.2
 
 [node name="Interactables" type="Node3D" parent="." unique_id=895654761]
 
+[node name="frozen_fountain" type="Area3D" parent="Interactables" unique_id=2021982831]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -6)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "frozen_fountain"
+metadata/type = "painting"
+metadata/data = {
+"content": "The water is frozen solid. Beneath the ice, something glints — a child's ring.",
+"title": "The Fountain"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/frozen_fountain" unique_id=371675772]
+shape = SubResource("BoxShape3D_3oati")
+
+[node name="gazebo_bench" type="Area3D" parent="Interactables" unique_id=519196632]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -3)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "gazebo_bench"
+metadata/type = "note"
+metadata/data = {
+"content": "Scratched into the bench: a crude drawing of a girl and a doll. 'LIZZY + DOLLY BEST FRENDS'",
+"title": "Scratched Drawing"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/gazebo_bench" unique_id=1711425113]
+shape = SubResource("BoxShape3D_n1nrb")
+
 [node name="Connections" type="Node3D" parent="." unique_id=1361551377]
+
+[node name="to_front_gate" type="Area3D" parent="Connections" unique_id=548787316]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -16)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "front_gate"
+metadata/type = "path"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_front_gate" unique_id=181552208]
+shape = SubResource("BoxShape3D_8q0w6")
+
+[node name="to_family_crypt" type="Area3D" parent="Connections" unique_id=372285340]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 16)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "family_crypt"
+metadata/type = "path"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_family_crypt" unique_id=389854585]
+shape = SubResource("BoxShape3D_pi5gx")

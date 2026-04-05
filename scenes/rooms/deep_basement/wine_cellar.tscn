@@ -57,6 +57,15 @@ roughness = 0.95
 uv1_scale = Vector3(5, 1.5, 1)
 texture_filter = 0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_c0ebd"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_b4cvp"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iw4xp"]
+size = Vector3(2, 3, 1)
+
 [node name="WineCellar" type="Node3D" unique_id=2018493413]
 script = ExtResource("1_c0ebd")
 room_id = "wine_cellar"
@@ -180,4 +189,44 @@ metadata/flickering = true
 
 [node name="Interactables" type="Node3D" parent="." unique_id=604256279]
 
+[node name="wine_note" type="Area3D" parent="Interactables" unique_id=956086221]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.5, -6)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "wine_note"
+metadata/type = "note"
+metadata/data = {
+"content": "The 1872 Bordeaux has been moved to the hidden alcove. The key is with the portrait.",
+"title": "Inventory List - 1887"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/wine_note" unique_id=146325250]
+shape = SubResource("BoxShape3D_c0ebd")
+
+[node name="wine_box" type="Area3D" parent="Interactables" unique_id=1443217485]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.5, -5)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "wine_box"
+metadata/type = "box"
+metadata/data = {
+"content": "Inside: Lady Ashworth's confession letter.",
+"item_found": "mothers_confession",
+"key_id": "cellar_key",
+"locked": true
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/wine_box" unique_id=1779221778]
+shape = SubResource("BoxShape3D_b4cvp")
+
 [node name="Connections" type="Node3D" parent="." unique_id=1636633271]
+
+[node name="to_storage_basement" type="Area3D" parent="Connections" unique_id=2090437180]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 7)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "storage_basement"
+metadata/type = "ladder"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_storage_basement" unique_id=560219910]
+shape = SubResource("BoxShape3D_iw4xp")

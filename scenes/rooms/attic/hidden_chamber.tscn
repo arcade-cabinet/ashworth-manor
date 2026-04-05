@@ -52,6 +52,18 @@ roughness = 0.9
 uv1_scale = Vector3(3, 1.5, 1)
 texture_filter = 0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_hp3le"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5cpm1"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8w0bi"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2c4df"]
+size = Vector3(2, 3, 1)
+
 [node name="HiddenChamber" type="Node3D" unique_id=1682967315]
 script = ExtResource("1_hp3le")
 room_id = "hidden_room"
@@ -153,4 +165,54 @@ metadata/flickering = true
 
 [node name="Interactables" type="Node3D" parent="." unique_id=1373977889]
 
+[node name="final_note" type="Area3D" parent="Interactables" unique_id=230403202]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 3)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "final_note"
+metadata/type = "note"
+metadata/data = {
+"content": "I understand now. The doll showed me. I was never sick — they were afraid of what I could see. The house has eyes. The walls have ears. And now I am part of it forever. Find me. Free me. Or join me.",
+"on_read_flags": ["knows_full_truth", "read_final_note"],
+"title": "Elizabeth's Last Words"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/final_note" unique_id=1359538208]
+shape = SubResource("BoxShape3D_hp3le")
+
+[node name="hidden_mirror" type="Area3D" parent="Interactables" unique_id=1258780421]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -4)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "hidden_mirror"
+metadata/type = "mirror"
+metadata/data = {
+"content": "In the mirror, behind you, stands a girl in white. When you turn, nothing is there."
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/hidden_mirror" unique_id=1922523423]
+shape = SubResource("BoxShape3D_5cpm1")
+
+[node name="ritual_circle" type="Area3D" parent="Interactables" unique_id=1069455190]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "ritual_circle"
+metadata/type = "ritual"
+metadata/data = {
+"description": "A circle drawn on the floor in the center of Elizabeth's drawings."
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/ritual_circle" unique_id=50582256]
+shape = SubResource("BoxShape3D_8w0bi")
+
 [node name="Connections" type="Node3D" parent="." unique_id=1030725726]
+
+[node name="to_attic_storage" type="Area3D" parent="Connections" unique_id=603524507]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.5, 0)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "attic_storage"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_attic_storage" unique_id=2109161399]
+shape = SubResource("BoxShape3D_2c4df")

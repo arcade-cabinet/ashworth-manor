@@ -578,6 +578,18 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_5e8se")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_fd1ij"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uctv1"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8xw20"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e21sj"]
+size = Vector3(2, 3, 1)
+
 [node name="Parlor" type="Node3D" unique_id=2115964539]
 script = ExtResource("1_fd1ij")
 room_id = "parlor"
@@ -755,4 +767,55 @@ metadata/flickering = true
 
 [node name="Interactables" type="Node3D" parent="." unique_id=2004961458]
 
+[node name="parlor_painting_1" type="Area3D" parent="Interactables" unique_id=1047861998]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 7.2)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "parlor_painting_1"
+metadata/type = "painting"
+metadata/data = {
+"content": "She wears a black mourning dress despite this being painted before any family deaths.",
+"title": "Lady Ashworth"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/parlor_painting_1" unique_id=232699974]
+shape = SubResource("BoxShape3D_fd1ij")
+
+[node name="parlor_note" type="Area3D" parent="Interactables" unique_id=1646252728]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.85, 1)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "parlor_note"
+metadata/type = "note"
+metadata/data = {
+"content": "The children have been hearing whispers from the attic again. I've locked the door but they say she still calls to them at night...",
+"title": "Torn Diary Page"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/parlor_note" unique_id=624230515]
+shape = SubResource("BoxShape3D_uctv1")
+
+[node name="music_box" type="Area3D" parent="Interactables" unique_id=654062337]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, -5)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "music_box"
+metadata/type = "box"
+metadata/data = {
+"content": "A delicate music box with a dancing ballerina. It doesn't play when opened.",
+"locked": false
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/music_box" unique_id=1309805326]
+shape = SubResource("BoxShape3D_8xw20")
+
 [node name="Connections" type="Node3D" parent="." unique_id=518339052]
+
+[node name="to_foyer" type="Area3D" parent="Connections" unique_id=1630605035]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -7.5)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "foyer"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_foyer" unique_id=1482506359]
+shape = SubResource("BoxShape3D_e21sj")

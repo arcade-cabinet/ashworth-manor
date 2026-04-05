@@ -811,6 +811,15 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_x5gv2")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_2fr6j"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fhypt"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4y5xn"]
+size = Vector3(2, 3, 1)
+
 [node name="FamilyCrypt" type="Node3D" unique_id=2110459581]
 script = ExtResource("1_2fr6j")
 metadata/room_id = "family_crypt"
@@ -977,4 +986,43 @@ spot_range = 8.0
 
 [node name="Interactables" type="Node3D" parent="." unique_id=1383012588]
 
+[node name="missing_plaque" type="Area3D" parent="Interactables" unique_id=1351696613]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 5)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "missing_plaque"
+metadata/type = "painting"
+metadata/data = {
+"content": "Three memorial plaques: Charles, Margaret, William. But the wall has space for four. The fourth section is bare stone. Elizabeth was erased even from death.",
+"title": "The Blank Wall"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/missing_plaque" unique_id=1797991190]
+shape = SubResource("BoxShape3D_2fr6j")
+
+[node name="loose_flagstone" type="Area3D" parent="Interactables" unique_id=1078335252]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, -1)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "loose_flagstone"
+metadata/type = "box"
+metadata/data = {
+"content": "Beneath the loose flagstone: a tiny brass key with a heart-shaped bow. A note: 'I could not wear it any longer. Forgive me, Elizabeth.'",
+"item_found": "jewelry_key",
+"locked": false
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/loose_flagstone" unique_id=1174347902]
+shape = SubResource("BoxShape3D_fhypt")
+
 [node name="Connections" type="Node3D" parent="." unique_id=681292805]
+
+[node name="to_garden" type="Area3D" parent="Connections" unique_id=1630824791]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -6)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "garden"
+metadata/type = "path"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_garden" unique_id=219753314]
+shape = SubResource("BoxShape3D_4y5xn")

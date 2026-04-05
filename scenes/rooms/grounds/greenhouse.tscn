@@ -1905,6 +1905,15 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_00h54")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_roiym"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h5pid"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yt4pb"]
+size = Vector3(2, 3, 1)
+
 [node name="Greenhouse" type="Node3D" unique_id=158231928]
 script = ExtResource("1_roiym")
 metadata/room_id = "greenhouse"
@@ -2160,4 +2169,43 @@ light_energy = 1.5
 
 [node name="Interactables" type="Node3D" parent="." unique_id=577503810]
 
+[node name="greenhouse_gate_key" type="Area3D" parent="Interactables" unique_id=1264241317]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.5, 6)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "greenhouse_gate_key"
+metadata/type = "box"
+metadata/data = {
+"content": "Inside the pot, buried in dry soil, you find an iron gate key.",
+"item_found": "gate_key",
+"locked": false
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/greenhouse_gate_key" unique_id=421534233]
+shape = SubResource("BoxShape3D_roiym")
+
+[node name="white_lily" type="Area3D" parent="Interactables" unique_id=5958961]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 6)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "white_lily"
+metadata/type = "painting"
+metadata/data = {
+"content": "Among the dead plants, a single white lily blooms. It should not be alive.",
+"title": "The White Lily"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/white_lily" unique_id=980469279]
+shape = SubResource("BoxShape3D_h5pid")
+
 [node name="Connections" type="Node3D" parent="." unique_id=1977361905]
+
+[node name="to_front_gate" type="Area3D" parent="Connections" unique_id=1676245976]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -8)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "front_gate"
+metadata/type = "path"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_front_gate" unique_id=1991139088]
+shape = SubResource("BoxShape3D_yt4pb")

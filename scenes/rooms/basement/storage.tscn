@@ -60,6 +60,18 @@ roughness = 0.95
 uv1_scale = Vector3(5, 1.5, 1)
 texture_filter = 0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_xyxop"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8vhvv"]
+size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v143f"]
+size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vxdyk"]
+size = Vector3(2, 3, 1)
+
 [node name="StorageBasement" type="Node3D" unique_id=1262102158]
 script = ExtResource("1_xyxop")
 room_id = "storage_basement"
@@ -164,4 +176,47 @@ metadata/flickering = true
 
 [node name="Interactables" type="Node3D" parent="." unique_id=2106436919]
 
+[node name="scratched_portrait" type="Area3D" parent="Interactables" unique_id=1631475044]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1.8, 0)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "scratched_portrait"
+metadata/type = "photo"
+metadata/data = {
+"content": "A stern-looking family. The youngest child's face has been scratched out.",
+"title": "Family Portrait"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/scratched_portrait" unique_id=952615762]
+shape = SubResource("BoxShape3D_xyxop")
+
 [node name="Connections" type="Node3D" parent="." unique_id=1446399073]
+
+[node name="to_kitchen" type="Area3D" parent="Connections" unique_id=654845146]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -6)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "kitchen"
+metadata/type = "stairs"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_kitchen" unique_id=844269127]
+shape = SubResource("BoxShape3D_8vhvv")
+
+[node name="to_boiler_room" type="Area3D" parent="Connections" unique_id=1480711790]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.5, 0)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "boiler_room"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_boiler_room" unique_id=529478844]
+shape = SubResource("BoxShape3D_v143f")
+
+[node name="to_wine_cellar" type="Area3D" parent="Connections" unique_id=506678198]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.5, 5)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "wine_cellar"
+metadata/type = "ladder"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_wine_cellar" unique_id=298161119]
+shape = SubResource("BoxShape3D_vxdyk")

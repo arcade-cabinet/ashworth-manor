@@ -60,6 +60,18 @@ roughness = 0.8
 uv1_scale = Vector3(5, 2, 1)
 texture_filter = 0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_hpwxl"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5sifv"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x61uj"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_61gur"]
+size = Vector3(2, 3, 1)
+
 [node name="Library" type="Node3D" unique_id=222816238]
 script = ExtResource("1_hpwxl")
 room_id = "library"
@@ -200,4 +212,59 @@ metadata/flickering = true
 
 [node name="Interactables" type="Node3D" parent="." unique_id=1321337491]
 
+[node name="library_globe" type="Area3D" parent="Interactables" unique_id=540548111]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, 6.5)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "library_globe"
+metadata/type = "box"
+metadata/data = {
+"content": "Inside the hollow globe, you find an old brass key labeled 'ATTIC'.",
+"item_found": "attic_key",
+"locked": false
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/library_globe" unique_id=1247461368]
+shape = SubResource("BoxShape3D_hpwxl")
+
+[node name="binding_book" type="Area3D" parent="Interactables" unique_id=735639098]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.85, -0.5)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "binding_book"
+metadata/type = "note"
+metadata/data = {
+"content": "To trap a spirit, one must first give it form. The doll shall be the vessel...",
+"item_id": "binding_book",
+"on_read_flags": ["knows_binding_ritual"],
+"pickable": true,
+"title": "Rituals of Binding"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/binding_book" unique_id=1660638208]
+shape = SubResource("BoxShape3D_5sifv")
+
+[node name="family_tree" type="Area3D" parent="Interactables" unique_id=1662326102]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 2.5, 7.2)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "family_tree"
+metadata/type = "note"
+metadata/data = {
+"content": "The tree shows four children... The fourth name has been scratched out: 'E_iza_eth'.",
+"title": "Family Tree"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/family_tree" unique_id=2112806717]
+shape = SubResource("BoxShape3D_x61uj")
+
 [node name="Connections" type="Node3D" parent="." unique_id=357924758]
+
+[node name="to_upper_hallway" type="Area3D" parent="Connections" unique_id=1871436086]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.5, 0)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "upper_hallway"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_upper_hallway" unique_id=1493057402]
+shape = SubResource("BoxShape3D_61gur")

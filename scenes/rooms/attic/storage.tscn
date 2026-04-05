@@ -61,6 +61,21 @@ roughness = 0.9
 uv1_scale = Vector3(6, 2, 1)
 texture_filter = 0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_53dws"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3e5en"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cqvpb"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cvnjy"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n50fe"]
+size = Vector3(2, 3, 1)
+
 [node name="AtticStorage" type="Node3D" unique_id=1410126702]
 script = ExtResource("1_53dws")
 room_id = "attic_storage"
@@ -174,4 +189,79 @@ metadata/flickering = true
 
 [node name="Interactables" type="Node3D" parent="." unique_id=1813609667]
 
+[node name="elizabeth_portrait" type="Area3D" parent="Interactables" unique_id=566363685]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 3, 0)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "elizabeth_portrait"
+metadata/type = "painting"
+metadata/data = {
+"content": "A young girl in white clutches a porcelain doll. Her eyes painted over in black. Plaque: 'Elizabeth Ashworth, 1880-1889. Beloved daughter. Forgotten by none.'",
+"on_read_flags": ["seen_elizabeth_portrait", "knows_elizabeth"],
+"title": "The Fourth Child"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/elizabeth_portrait" unique_id=793527473]
+shape = SubResource("BoxShape3D_53dws")
+
+[node name="porcelain_doll" type="Area3D" parent="Interactables" unique_id=1851265155]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.6, 3)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "porcelain_doll"
+metadata/type = "doll"
+metadata/data = {
+"first_content": "A porcelain doll with cracked features. Behind it: 'SHE NEVER LEFT'",
+"item_found": "hidden_key",
+"item_id": "porcelain_doll",
+"on_first_flags": ["examined_doll"],
+"on_second_flags": ["has_hidden_key"],
+"pickable_after_key": true,
+"requires_flag": "read_elizabeth_letter",
+"second_content": "Inside the hollow body, wrapped in a handkerchief, is a tarnished key."
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/porcelain_doll" unique_id=77968988]
+shape = SubResource("BoxShape3D_3e5en")
+
+[node name="elizabeth_letter" type="Area3D" parent="Interactables" unique_id=1190047297]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0.5, 3.5)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "elizabeth_letter"
+metadata/type = "note"
+metadata/data = {
+"content": "Dearest Mother, They say I'm sick but I feel fine. Father won't let me leave my room anymore. The doll talks to me now. She says I'll be here forever. I'm scared. - Your Elizabeth",
+"on_read_flags": ["read_elizabeth_letter"],
+"title": "Unsent Letter"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/elizabeth_letter" unique_id=660975190]
+shape = SubResource("BoxShape3D_cqvpb")
+
+[node name="hidden_door" type="Area3D" parent="Interactables" unique_id=1616292489]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1.5, -7)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "hidden_door"
+metadata/type = "locked_door"
+metadata/data = {
+"key_id": "hidden_key",
+"locked": true,
+"message_locked": "A door hidden behind old furniture. The lock is shaped like an open hand.",
+"target_room": "hidden_room"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/hidden_door" unique_id=1944682499]
+shape = SubResource("BoxShape3D_cvnjy")
+
 [node name="Connections" type="Node3D" parent="." unique_id=1090387572]
+
+[node name="to_attic_stairs" type="Area3D" parent="Connections" unique_id=1805313373]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -9)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "attic_stairs"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_attic_stairs" unique_id=1629110287]
+shape = SubResource("BoxShape3D_n50fe")

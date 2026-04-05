@@ -65,6 +65,12 @@ roughness = 0.9
 uv1_scale = Vector3(4, 2, 1)
 texture_filter = 0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_k1vnj"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_moycq"]
+size = Vector3(2, 3, 1)
+
 [node name="BoilerRoom" type="Node3D" unique_id=1125858630]
 script = ExtResource("1_k1vnj")
 room_id = "boiler_room"
@@ -185,4 +191,27 @@ metadata/flickering = true
 
 [node name="Interactables" type="Node3D" parent="." unique_id=878081986]
 
+[node name="maintenance_log" type="Area3D" parent="Interactables" unique_id=2000131425]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.85, -3)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "maintenance_log"
+metadata/type = "note"
+metadata/data = {
+"content": "Dec 15, 1891 - Strange sounds from the pipes again. The staff refuse to come down here after dark.",
+"title": "Maintenance Log"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/maintenance_log" unique_id=1824669516]
+shape = SubResource("BoxShape3D_k1vnj")
+
 [node name="Connections" type="Node3D" parent="." unique_id=294789067]
+
+[node name="to_storage_basement" type="Area3D" parent="Connections" unique_id=1796472049]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 1.5, 0)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "storage_basement"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_storage_basement" unique_id=35151368]
+shape = SubResource("BoxShape3D_moycq")

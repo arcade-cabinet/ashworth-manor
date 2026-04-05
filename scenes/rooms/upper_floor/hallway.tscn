@@ -54,6 +54,24 @@ roughness = 0.85
 uv1_scale = Vector3(8, 1.75, 1)
 texture_filter = 0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_3os20"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bbsnk"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ixcli"]
+size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vus07"]
+size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bkbnf"]
+size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_28qfv"]
+size = Vector3(2, 3, 1)
+
 [node name="UpperHallway" type="Node3D" unique_id=726401352]
 script = ExtResource("1_3os20")
 room_id = "upper_hallway"
@@ -151,4 +169,71 @@ omni_range = 8.0
 
 [node name="Interactables" type="Node3D" parent="." unique_id=697781952]
 
+[node name="children_painting" type="Area3D" parent="Interactables" unique_id=660701018]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7, 2, 0)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "children_painting"
+metadata/type = "painting"
+metadata/data = {
+"content": "Three children in white. The youngest holds a doll.",
+"title": "The Children"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/children_painting" unique_id=1959520746]
+shape = SubResource("BoxShape3D_3os20")
+
+[node name="attic_door" type="Area3D" parent="Interactables" unique_id=2011666965]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -11)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "attic_door"
+metadata/type = "locked_door"
+metadata/data = {
+"key_id": "attic_key",
+"locked": true,
+"message_locked": "The door is locked. You need a key.",
+"target_room": "attic_stairs"
+}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/attic_door" unique_id=861718392]
+shape = SubResource("BoxShape3D_bbsnk")
+
 [node name="Connections" type="Node3D" parent="." unique_id=121620494]
+
+[node name="to_foyer" type="Area3D" parent="Connections" unique_id=1276788046]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 12)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "foyer"
+metadata/type = "stairs"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_foyer" unique_id=450541913]
+shape = SubResource("BoxShape3D_ixcli")
+
+[node name="to_master_bedroom" type="Area3D" parent="Connections" unique_id=143428457]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.5, -4)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "master_bedroom"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_master_bedroom" unique_id=559740833]
+shape = SubResource("BoxShape3D_vus07")
+
+[node name="to_library" type="Area3D" parent="Connections" unique_id=1616038561]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.5, 4)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "library"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_library" unique_id=1825256925]
+shape = SubResource("BoxShape3D_bkbnf")
+
+[node name="to_guest_room" type="Area3D" parent="Connections" unique_id=543301435]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.5, 0)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "guest_room"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_guest_room" unique_id=1518261014]
+shape = SubResource("BoxShape3D_28qfv")

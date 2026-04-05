@@ -64,6 +64,12 @@ roughness = 0.9
 uv1_scale = Vector3(5, 1.75, 1)
 texture_filter = 0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_dxhac"]
+size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5qngr"]
+size = Vector3(2, 3, 1)
+
 [node name="Kitchen" type="Node3D" unique_id=1743510610]
 script = ExtResource("1_dxhac")
 room_id = "kitchen"
@@ -182,3 +188,22 @@ metadata/flickering = true
 [node name="Interactables" type="Node3D" parent="." unique_id=1627568811]
 
 [node name="Connections" type="Node3D" parent="." unique_id=1474294472]
+
+[node name="to_foyer" type="Area3D" parent="Connections" unique_id=1722177292]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.5, 0)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "foyer"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_foyer" unique_id=1254590843]
+shape = SubResource("BoxShape3D_dxhac")
+
+[node name="to_storage_basement" type="Area3D" parent="Connections" unique_id=825039648]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.5, -6)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "storage_basement"
+metadata/type = "stairs"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_storage_basement" unique_id=74281036]
+shape = SubResource("BoxShape3D_5qngr")

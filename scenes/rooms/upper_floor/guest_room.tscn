@@ -57,6 +57,9 @@ roughness = 0.85
 uv1_scale = Vector3(5, 1.75, 1)
 texture_filter = 0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_w0ivv"]
+size = Vector3(2, 3, 1)
+
 [node name="GuestRoom" type="Node3D" unique_id=1097420385]
 script = ExtResource("1_w0ivv")
 room_id = "guest_room"
@@ -158,3 +161,12 @@ omni_range = 10.0
 [node name="Interactables" type="Node3D" parent="." unique_id=1116871346]
 
 [node name="Connections" type="Node3D" parent="." unique_id=295392827]
+
+[node name="to_upper_hallway" type="Area3D" parent="Connections" unique_id=1563454362]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.5, 0)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "upper_hallway"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_upper_hallway" unique_id=2098114663]
+shape = SubResource("BoxShape3D_w0ivv")

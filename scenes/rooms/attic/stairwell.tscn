@@ -48,6 +48,12 @@ roughness = 0.9
 uv1_scale = Vector3(3, 1.5, 1)
 texture_filter = 0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_l4lln"]
+size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u2e3h"]
+size = Vector3(2, 3, 1)
+
 [node name="AtticStairwell" type="Node3D" unique_id=955488870]
 script = ExtResource("1_l4lln")
 room_id = "attic_stairs"
@@ -127,3 +133,22 @@ spot_angle = 30.0
 [node name="Interactables" type="Node3D" parent="." unique_id=727221267]
 
 [node name="Connections" type="Node3D" parent="." unique_id=1699687112]
+
+[node name="to_upper_hallway" type="Area3D" parent="Connections" unique_id=1934297745]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -4)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "upper_hallway"
+metadata/type = "stairs"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_upper_hallway" unique_id=1364838230]
+shape = SubResource("BoxShape3D_l4lln")
+
+[node name="to_attic_storage" type="Area3D" parent="Connections" unique_id=186116262]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 4)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "attic_storage"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_attic_storage" unique_id=2145589989]
+shape = SubResource("BoxShape3D_u2e3h")
