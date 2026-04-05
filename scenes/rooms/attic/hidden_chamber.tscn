@@ -1,0 +1,156 @@
+[gd_scene format=3 uid="uid://chjjqrfq17v4x"]
+
+[ext_resource type="Script" uid="uid://dju1o7yp5wn6v" path="res://scripts/room_base.gd" id="1_hp3le"]
+[ext_resource type="Texture2D" uid="uid://dj4g3a2qa754r" path="res://assets/shared/textures/floor2_texture.png" id="2_5cpm1"]
+[ext_resource type="Texture2D" uid="uid://cey1o580778c1" path="res://assets/horror/textures/wall/Horror_Wall_01-512x512.png" id="3_8w0bi"]
+[ext_resource type="PackedScene" uid="uid://b73iyd20v7xb8" path="res://assets/attic/hidden_chamber/doll2.glb" id="4_2c4df"]
+[ext_resource type="PackedScene" uid="uid://bc5r2e6ylxvaj" path="res://assets/attic/hidden_chamber/ritual_artifact.glb" id="5_7q2p0"]
+[ext_resource type="PackedScene" uid="uid://6uwdc6mjvd7q" path="res://assets/attic/hidden_chamber/mask_mx_4.glb" id="6_8v8ss"]
+[ext_resource type="PackedScene" uid="uid://d31g2w67g72e2" path="res://assets/attic/hidden_chamber/mask_mx_5_1.glb" id="7_ofyy0"]
+[ext_resource type="PackedScene" uid="uid://d0shqscsfrikv" path="res://assets/attic/hidden_chamber/ritual_bones.glb" id="8_bxn7s"]
+[ext_resource type="PackedScene" uid="uid://bh1wsspjukc38" path="res://assets/attic/hidden_chamber/glass_bottle_mx_3.glb" id="9_ch4tr"]
+[ext_resource type="PackedScene" uid="uid://dnftdwqkkuihp" path="res://assets/shared/items/candle_unlit2.glb" id="10_18hoe"]
+[ext_resource type="PackedScene" uid="uid://bljya83cqb5dv" path="res://assets/shared/items/page1.glb" id="11_nrwdo"]
+[ext_resource type="PackedScene" uid="uid://dxypojciqo1rt" path="res://assets/attic/hidden_chamber/lamp_mx_1_b_off.glb" id="12_mdgjv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nxkpy"]
+albedo_color = Color(0.35, 0.28, 0.22, 1)
+albedo_texture = ExtResource("2_5cpm1")
+roughness = 0.9
+uv1_scale = Vector3(4.5, 4.5, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ijdi0"]
+albedo_color = Color(0.25, 0.2, 0.18, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tsoe6"]
+albedo_color = Color(0.6, 0.5, 0.45, 1)
+albedo_texture = ExtResource("3_8w0bi")
+roughness = 0.9
+uv1_scale = Vector3(3, 1.5, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rej0v"]
+albedo_color = Color(0.6, 0.5, 0.45, 1)
+albedo_texture = ExtResource("3_8w0bi")
+roughness = 0.9
+uv1_scale = Vector3(3, 1.5, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ftpnb"]
+albedo_color = Color(0.6, 0.5, 0.45, 1)
+albedo_texture = ExtResource("3_8w0bi")
+roughness = 0.9
+uv1_scale = Vector3(3, 1.5, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0e6ww"]
+albedo_color = Color(0.6, 0.5, 0.45, 1)
+albedo_texture = ExtResource("3_8w0bi")
+roughness = 0.9
+uv1_scale = Vector3(3, 1.5, 1)
+texture_filter = 0
+
+[node name="HiddenChamber" type="Node3D" unique_id=1682967315]
+script = ExtResource("1_hp3le")
+room_id = "hidden_room"
+room_name = "Hidden Chamber"
+audio_loop = "I Can't Go On Loop1"
+ambient_darkness = 0.9
+spawn_rotation_y = 180.0
+
+[node name="Geometry" type="Node3D" parent="." unique_id=2136849535]
+
+[node name="Floor" type="CSGBox3D" parent="Geometry" unique_id=1075158089]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+use_collision = true
+size = Vector3(9, 0.2, 9)
+material = SubResource("StandardMaterial3D_nxkpy")
+
+[node name="Ceiling" type="CSGBox3D" parent="Geometry" unique_id=1383856336]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(9, 0.2, 9)
+material = SubResource("StandardMaterial3D_ijdi0")
+
+[node name="WallNorth" type="CSGBox3D" parent="Geometry" unique_id=1183669182]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 4.5)
+use_collision = true
+collision_layer = 2
+size = Vector3(9, 3, 0.3)
+material = SubResource("StandardMaterial3D_tsoe6")
+
+[node name="WallSouth" type="CSGBox3D" parent="Geometry" unique_id=1128935530]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -4.5)
+use_collision = true
+collision_layer = 2
+size = Vector3(9, 3, 0.3)
+material = SubResource("StandardMaterial3D_rej0v")
+
+[node name="WallEast" type="CSGBox3D" parent="Geometry" unique_id=369473607]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.5, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(0.3, 3, 9)
+material = SubResource("StandardMaterial3D_ftpnb")
+
+[node name="WallWest" type="CSGBox3D" parent="Geometry" unique_id=1914134964]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 1.5, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(0.3, 3, 9)
+material = SubResource("StandardMaterial3D_0e6ww")
+
+[node name="Models" type="Node3D" parent="." unique_id=1757339620]
+
+[node name="RitualDoll" type="Node3D" parent="Models" unique_id=1340733999 instance=ExtResource("4_2c4df")]
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0, 0.3, 0)
+
+[node name="RitualArtifact" type="Node3D" parent="Models" unique_id=1868445530 instance=ExtResource("5_7q2p0")]
+transform = Transform3D(2.1213202, 0, 2.1213202, 0, 3, 0, -2.1213202, 0, 2.1213202, -2, 0, 2)
+
+[node name="RitualMask1" type="Node3D" parent="Models" unique_id=1628934731 instance=ExtResource("6_8v8ss")]
+transform = Transform3D(-1.3113416e-07, 0, 3, 0, 3, 0, -3, 0, -1.3113416e-07, -4, 2, 0)
+
+[node name="RitualMask2" type="Node3D" parent="Models" unique_id=1936024247 instance=ExtResource("7_ofyy0")]
+transform = Transform3D(-1.3113416e-07, 0, -3, 0, 3, 0, 3, 0, -1.3113416e-07, 4, 2, 0)
+
+[node name="RitualBones" type="Node3D" parent="Models" unique_id=1267098675 instance=ExtResource("8_bxn7s")]
+transform = Transform3D(0.25980762, 0, 0.15, 0, 0.3, 0, -0.15, 0, 0.25980762, 1, 0, 1.5)
+
+[node name="RitualVessel" type="Node3D" parent="Models" unique_id=1131957037 instance=ExtResource("9_ch4tr")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -1, 0, -1)
+
+[node name="RitualCandle1" type="Node3D" parent="Models" unique_id=1224788732 instance=ExtResource("10_18hoe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 3)
+
+[node name="RitualCandle2" type="Node3D" parent="Models" unique_id=1333949828 instance=ExtResource("10_18hoe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 3)
+
+[node name="FinalNote" type="Node3D" parent="Models" unique_id=780701367 instance=ExtResource("11_nrwdo")]
+transform = Transform3D(1.2, 0, 0, 0, 1.159111, 0.31058288, 0, -0.31058288, 1.159111, 0, 0.5, 3)
+
+[node name="DeadRitualLamp" type="Node3D" parent="Models" unique_id=508191432 instance=ExtResource("12_mdgjv")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 3.5, 0, -3)
+
+[node name="Lighting" type="Node3D" parent="." unique_id=1100848982]
+
+[node name="RitualCandle1Light" type="OmniLight3D" parent="Lighting" unique_id=1701635667]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 3)
+light_color = Color(1, 0.85, 0.55, 1)
+light_energy = 1.5
+omni_range = 4.0
+metadata/flickering = true
+
+[node name="RitualCandle2Light" type="OmniLight3D" parent="Lighting" unique_id=213094787]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 3)
+light_color = Color(1, 0.85, 0.55, 1)
+light_energy = 1.5
+omni_range = 4.0
+metadata/flickering = true
+
+[node name="Interactables" type="Node3D" parent="." unique_id=1373977889]
+
+[node name="Connections" type="Node3D" parent="." unique_id=1030725726]
