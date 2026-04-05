@@ -773,27 +773,27 @@ FADE TO BLACK.
 ## Development Priority
 
 ### Phase 1: Complete Design (DONE)
-- [x] All 19 rooms/areas fully specified
+- [x] All 20 rooms/areas fully specified
 - [x] All 6 puzzles fully designed with solutions
 - [x] All 10+ items fully specified with locations
 - [x] All 3 endings fully scripted
 - [x] Complete puzzle dependency graph
-- [x] Grounds exterior with 5 areas
+- [x] Grounds exterior with 6 areas (including Garden)
 - [x] Audio loop assignments for every room
 - [x] Counter-ritual 3-step sequence designed
 
-### Phase 2: Godot Implementation
-- [ ] /godogen — Build complete game
-- [ ] All 19 rooms with GLB models placed
-- [ ] Touch controls (tap-to-walk, swipe-to-look)
-- [ ] Room transitions with fade
-- [ ] Interaction system (tap objects)
-- [ ] Inventory system
-- [ ] Save/load system
-- [ ] All puzzle logic
-- [ ] All audio loops integrated
-- [ ] All three ending sequences
-- [ ] PSX shader/post-processing
+### Phase 2: Godot Implementation (DONE)
+- [x] Scene-based architecture (20 .tscn room scenes)
+- [x] All 20 rooms with GLB models placed
+- [x] Touch controls (tap-to-walk, swipe-to-look)
+- [x] Room transitions with fade (timing per connection type)
+- [x] Interaction system (InteractableData resources on Area3D)
+- [x] Inventory system (GameManager autoload)
+- [x] Save/load system
+- [x] All puzzle logic (interaction_manager.gd)
+- [x] All audio loops integrated (audio_manager.gd with crossfade)
+- [x] All three ending sequences
+- [x] PSX shader/post-processing (screen-space on CanvasLayer)
 
 ### Phase 3: Visual QA
 - [ ] Screenshot every room
