@@ -35,13 +35,15 @@ func _process(delta: float) -> void:
 
 func get_interactables() -> Array[Area3D]:
 	var result: Array[Area3D] = []
-	_find_areas_in_group(self, "interactables", result)
+	# Find by collision layer 4 (layer 3) OR group "interactables"
+	_find_areas_by_layer_or_group(self, 4, "interactables", result)
 	return result
 
 
 func get_connections() -> Array[Area3D]:
 	var result: Array[Area3D] = []
-	_find_areas_in_group(self, "connections", result)
+	# Find by collision layer 8 (layer 4) OR group "connections"
+	_find_areas_by_layer_or_group(self, 8, "connections", result)
 	return result
 
 
@@ -55,11 +57,12 @@ func _find_flickering_lights(node: Node) -> void:
 		_find_flickering_lights(child)
 
 
-func _find_areas_in_group(node: Node, group_name: String, result: Array[Area3D]) -> void:
-	if node is Area3D and node.is_in_group(group_name):
-		result.append(node)
+func _find_areas_by_layer_or_group(node: Node, layer_mask: int, group_name: String, result: Array[Area3D]) -> void:
+	if node is Area3D:
+		if node.collision_layer == layer_mask or node.is_in_group(group_name):
+			result.append(node)
 	for child in node.get_children():
-		_find_areas_in_group(child, group_name, result)
+		_find_areas_by_layer_or_group(child, layer_mask, group_name, result)
 
 
 func _create_boundary_walls() -> void:
