@@ -1,0 +1,184 @@
+[gd_scene format=3 uid="uid://cwdhqxkldm3l3"]
+
+[ext_resource type="Script" uid="uid://dju1o7yp5wn6v" path="res://scripts/room_base.gd" id="1_dxhac"]
+[ext_resource type="Texture2D" uid="uid://dj4g3a2qa754r" path="res://assets/shared/textures/floor2_texture.png" id="2_5qngr"]
+[ext_resource type="Texture2D" uid="uid://qhcgbgmald61" path="res://assets/shared/textures/ceiling2_texture.png" id="3_um8ps"]
+[ext_resource type="Texture2D" uid="uid://nte4dpvuob5k" path="res://assets/shared/textures/wall7_texture.png" id="4_81ylj"]
+[ext_resource type="PackedScene" uid="uid://bel1ju74umsgm" path="res://assets/shared/decor/fireplace.glb" id="5_kig2j"]
+[ext_resource type="PackedScene" uid="uid://dcvuvmk446xi1" path="res://assets/shared/furniture/table.glb" id="6_vu1vy"]
+[ext_resource type="PackedScene" uid="uid://5kd5tdkgwhb4" path="res://assets/shared/furniture/drawers.glb" id="7_uc16w"]
+[ext_resource type="PackedScene" uid="uid://24fw7h75muu0" path="res://assets/ground_floor/kitchen/knife_block.glb" id="8_6xr26"]
+[ext_resource type="PackedScene" uid="uid://t5tcqp7trfxy" path="res://assets/ground_floor/kitchen/pan.glb" id="9_cl1ay"]
+[ext_resource type="PackedScene" uid="uid://qkwbste4eh8q" path="res://assets/ground_floor/kitchen/clean_plate.glb" id="10_efeta"]
+[ext_resource type="PackedScene" uid="uid://cis545v1ccabu" path="res://assets/ground_floor/kitchen/dirty_plate.glb" id="11_8juqo"]
+[ext_resource type="PackedScene" uid="uid://b4geljjgfjfk2" path="res://assets/ground_floor/kitchen/bowl_01.glb" id="12_1qxud"]
+[ext_resource type="PackedScene" uid="uid://cvi1id52521tj" path="res://assets/ground_floor/kitchen/bowl_02.glb" id="13_vjnha"]
+[ext_resource type="PackedScene" uid="uid://bqnqq1w160bf7" path="res://assets/ground_floor/kitchen/knife.glb" id="14_q7swo"]
+[ext_resource type="PackedScene" uid="uid://cht23iicspec5" path="res://assets/ground_floor/kitchen/fork.glb" id="15_yvroh"]
+[ext_resource type="PackedScene" uid="uid://dent8aa3p05v6" path="res://assets/ground_floor/kitchen/glass_of_water.glb" id="16_5jwsf"]
+[ext_resource type="PackedScene" uid="uid://bfckqvjkmbmo0" path="res://assets/ground_floor/kitchen/bucket_mx_1.glb" id="17_hqget"]
+[ext_resource type="PackedScene" uid="uid://djwkd5b26851p" path="res://assets/ground_floor/kitchen/rolling_pin_mx_1.glb" id="18_4wnvj"]
+[ext_resource type="PackedScene" uid="uid://dkysj0axmeqj2" path="res://assets/ground_floor/kitchen/soap_mx_1.glb" id="19_pde7a"]
+[ext_resource type="PackedScene" uid="uid://ipnarnuaamrh" path="res://assets/ground_floor/kitchen/wooden_board_3.glb" id="20_ui8y6"]
+[ext_resource type="PackedScene" uid="uid://bljya83cqb5dv" path="res://assets/shared/items/page1.glb" id="21_l00t6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gxqju"]
+albedo_color = Color(0.5, 0.45, 0.4, 1)
+albedo_texture = ExtResource("2_5qngr")
+roughness = 0.9
+uv1_scale = Vector3(6, 7.5, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_opabf"]
+albedo_color = Color(0.5, 0.4, 0.32, 1)
+albedo_texture = ExtResource("3_um8ps")
+roughness = 0.9
+uv1_scale = Vector3(6, 7.5, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xuabn"]
+albedo_color = Color(0.7, 0.62, 0.55, 1)
+albedo_texture = ExtResource("4_81ylj")
+roughness = 0.9
+uv1_scale = Vector3(5, 1.75, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i6iha"]
+albedo_color = Color(0.7, 0.62, 0.55, 1)
+albedo_texture = ExtResource("4_81ylj")
+roughness = 0.9
+uv1_scale = Vector3(5, 1.75, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_72wey"]
+albedo_color = Color(0.7, 0.62, 0.55, 1)
+albedo_texture = ExtResource("4_81ylj")
+roughness = 0.9
+uv1_scale = Vector3(5, 1.75, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vh8vq"]
+albedo_color = Color(0.7, 0.62, 0.55, 1)
+albedo_texture = ExtResource("4_81ylj")
+roughness = 0.9
+uv1_scale = Vector3(5, 1.75, 1)
+texture_filter = 0
+
+[node name="Kitchen" type="Node3D" unique_id=1743510610]
+script = ExtResource("1_dxhac")
+room_id = "kitchen"
+room_name = "Kitchen"
+audio_loop = "Without a Trace Loop1"
+ambient_darkness = 0.6
+spawn_position = Vector3(0, 0, -6)
+spawn_rotation_y = 180.0
+
+[node name="Geometry" type="Node3D" parent="." unique_id=1200984242]
+
+[node name="Floor" type="CSGBox3D" parent="Geometry" unique_id=1418730017]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+use_collision = true
+size = Vector3(12, 0.2, 15)
+material = SubResource("StandardMaterial3D_gxqju")
+
+[node name="Ceiling" type="CSGBox3D" parent="Geometry" unique_id=1939387340]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(12, 0.2, 15)
+material = SubResource("StandardMaterial3D_opabf")
+
+[node name="WallNorth" type="CSGBox3D" parent="Geometry" unique_id=453641322]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 7.5)
+use_collision = true
+collision_layer = 2
+size = Vector3(12, 3.5, 0.3)
+material = SubResource("StandardMaterial3D_xuabn")
+
+[node name="WallSouth" type="CSGBox3D" parent="Geometry" unique_id=1084075299]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, -7.5)
+use_collision = true
+collision_layer = 2
+size = Vector3(12, 3.5, 0.3)
+material = SubResource("StandardMaterial3D_i6iha")
+
+[node name="WallEast" type="CSGBox3D" parent="Geometry" unique_id=1929149701]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.75, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(0.3, 3.5, 15)
+material = SubResource("StandardMaterial3D_72wey")
+
+[node name="WallWest" type="CSGBox3D" parent="Geometry" unique_id=2050152652]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.75, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(0.3, 3.5, 15)
+material = SubResource("StandardMaterial3D_vh8vq")
+
+[node name="Models" type="Node3D" parent="." unique_id=1519770465]
+
+[node name="KitchenHearth" type="Node3D" parent="Models" unique_id=2008597761 instance=ExtResource("5_kig2j")]
+transform = Transform3D(-5.2453668e-08, 0, 1.2, 0, 1.2, 0, -1.2, 0, -5.2453668e-08, -5, 0, 5)
+
+[node name="WorkTable" type="Node3D" parent="Models" unique_id=490450287 instance=ExtResource("6_vu1vy")]
+transform = Transform3D(1.2, 0, 0, 0, 1, 0, 0, 0, 1.5, 0, 0, 0)
+
+[node name="StorageDrawers" type="Node3D" parent="Models" unique_id=942280123 instance=ExtResource("7_uc16w")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5, 0, 5)
+
+[node name="KnifeBlock" type="Node3D" parent="Models" unique_id=1141278338 instance=ExtResource("8_6xr26")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -0.5, 0.85, 0.3)
+
+[node name="Pan" type="Node3D" parent="Models" unique_id=222144977 instance=ExtResource("9_cl1ay")]
+transform = Transform3D(2.598076, 0, 1.5, 0, 3, 0, -1.5, 0, 2.598076, -4.5, 0.85, 5.5)
+
+[node name="CleanPlate" type="Node3D" parent="Models" unique_id=63635632 instance=ExtResource("10_efeta")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 4.5, 0.85, 3)
+
+[node name="DirtyPlate" type="Node3D" parent="Models" unique_id=1908572975 instance=ExtResource("11_8juqo")]
+transform = Transform3D(2.8977776, 0, 0.77645713, 0, 3, 0, -0.77645713, 0, 2.8977776, 0.5, 0.85, -0.5)
+
+[node name="Bowl1" type="Node3D" parent="Models" unique_id=1595570802 instance=ExtResource("12_1qxud")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 4.5, 0.85, 4)
+
+[node name="Bowl2" type="Node3D" parent="Models" unique_id=1621223232 instance=ExtResource("13_vjnha")]
+transform = Transform3D(2.1213202, 0, 2.1213202, 0, 3, 0, -2.1213202, 0, 2.1213202, 4.5, 0.85, 5)
+
+[node name="Knife" type="Node3D" parent="Models" unique_id=726084697 instance=ExtResource("14_q7swo")]
+transform = Transform3D(2.819078, 0, -1.0260603, 0, 3, 0, 1.0260603, 0, 2.819078, 0.3, 0.86, 0)
+
+[node name="Fork" type="Node3D" parent="Models" unique_id=1199994233 instance=ExtResource("15_yvroh")]
+transform = Transform3D(2.9544232, 0, 0.52094454, 0, 3, 0, -0.52094454, 0, 2.9544232, -0.3, 0.86, -0.2)
+
+[node name="WaterGlass" type="Node3D" parent="Models" unique_id=1994567246 instance=ExtResource("16_5jwsf")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 1, 0.85, 0.5)
+
+[node name="WaterBucket" type="Node3D" parent="Models" unique_id=1520823402 instance=ExtResource("17_hqget")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -4, 0, 3)
+
+[node name="RollingPin" type="Node3D" parent="Models" unique_id=1293895921 instance=ExtResource("18_4wnvj")]
+transform = Transform3D(2.1213202, 0, 2.1213202, 0, 3, 0, -2.1213202, 0, 2.1213202, -1, 0.86, 1)
+
+[node name="KitchenSoap" type="Node3D" parent="Models" unique_id=1533250166 instance=ExtResource("19_pde7a")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 3, 0.85, -4)
+
+[node name="CuttingBoard" type="Node3D" parent="Models" unique_id=171191790 instance=ExtResource("20_ui8y6")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.8, 0.86, -0.3)
+
+[node name="CooksNote" type="Node3D" parent="Models" unique_id=780701367 instance=ExtResource("21_l00t6")]
+transform = Transform3D(0.8660254, -0.04357787, 0.49809736, 0, 0.9961947, 0.08715574, -0.5, -0.07547908, 0.8627299, -0.5, 0.87, -1)
+
+[node name="Lighting" type="Node3D" parent="." unique_id=1344702772]
+
+[node name="HearthFire" type="OmniLight3D" parent="Lighting" unique_id=714219806]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 5)
+light_color = Color(1, 0.6, 0.3, 1)
+light_energy = 4.0
+shadow_enabled = true
+omni_range = 12.0
+metadata/flickering = true
+
+[node name="Interactables" type="Node3D" parent="." unique_id=1627568811]
+
+[node name="Connections" type="Node3D" parent="." unique_id=1474294472]
