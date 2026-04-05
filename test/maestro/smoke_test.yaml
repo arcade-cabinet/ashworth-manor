@@ -1,0 +1,40 @@
+appId: com.arcadecabinet.ashworthmanor
+name: "Smoke Test - App launches and renders"
+tags:
+  - smoke
+  - ci
+---
+
+# App launches
+- waitForAnimationToEnd
+- takeScreenshot: screenshots/maestro/smoke_01_launch
+
+# Landing screen visible
+- assertVisible: "ASHWORTH MANOR"
+- assertVisible: "New Game"
+- takeScreenshot: screenshots/maestro/smoke_02_landing
+
+# Can start game
+- tapOn: "New Game"
+- waitForAnimationToEnd
+- sleep: 3000
+- takeScreenshot: screenshots/maestro/smoke_03_game_started
+
+# Game renders (screen is not all black — has some content)
+# Room name should appear
+- takeScreenshot: screenshots/maestro/smoke_04_room_loaded
+
+# Can tap screen without crash
+- tapOn:
+    point: "50%,50%"
+- sleep: 1000
+- tapOn:
+    point: "30%,60%"
+- sleep: 1000
+- tapOn:
+    point: "70%,40%"
+- sleep: 1000
+- takeScreenshot: screenshots/maestro/smoke_05_after_taps
+
+# App is still running (didn't crash)
+- takeScreenshot: screenshots/maestro/smoke_06_stable

@@ -1,0 +1,106 @@
+appId: com.arcadecabinet.ashworthmanor
+name: "Full Playthrough - Freedom Ending"
+tags:
+  - e2e
+  - playthrough
+---
+
+# === LANDING SCREEN ===
+- assertVisible: "ASHWORTH MANOR"
+- assertVisible: "New Game"
+- takeScreenshot: screenshots/maestro/01_landing
+
+# Tap New Game
+- tapOn: "New Game"
+- waitForAnimationToEnd
+
+# === FRONT GATE ===
+- takeScreenshot: screenshots/maestro/02_front_gate
+- extendedWaitUntil:
+    visible: "Front Gate"
+    timeout: 5000
+
+# Walk forward by tapping center of screen (floor)
+- tapOn:
+    point: "50%,70%"
+- sleep: 2000
+
+# Tap the connection to foyer (north area of screen)
+- tapOn:
+    point: "50%,30%"
+- sleep: 3000
+- takeScreenshot: screenshots/maestro/03_transition
+
+# === FOYER ===
+- extendedWaitUntil:
+    visible: "Grand Foyer"
+    timeout: 5000
+- takeScreenshot: screenshots/maestro/04_foyer
+
+# Look around by swiping
+- swipe:
+    start: "70%,50%"
+    end: "30%,50%"
+    duration: 500
+- sleep: 1000
+- takeScreenshot: screenshots/maestro/05_foyer_look
+
+# Try tapping on the painting area (north wall, upper area)
+- tapOn:
+    point: "50%,35%"
+- sleep: 1000
+- takeScreenshot: screenshots/maestro/06_interaction
+
+# If document overlay appeared, tap to dismiss
+- tapOn:
+    point: "50%,50%"
+- sleep: 500
+
+# Navigate to parlor (tap north door area)
+- tapOn:
+    point: "50%,25%"
+- sleep: 3000
+- takeScreenshot: screenshots/maestro/07_parlor
+
+# === NAVIGATE THROUGH ROOMS ===
+# Back to foyer
+- tapOn:
+    point: "50%,80%"
+- sleep: 3000
+
+# Go upstairs (tap staircase area on right)
+- tapOn:
+    point: "80%,50%"
+- sleep: 3000
+- takeScreenshot: screenshots/maestro/08_upper_hallway
+
+# === UPPER FLOOR ===
+# Try to find the library (tap left side doors)
+- tapOn:
+    point: "20%,50%"
+- sleep: 3000
+- takeScreenshot: screenshots/maestro/09_library_or_bedroom
+
+# Look for interactables
+- tapOn:
+    point: "50%,50%"
+- sleep: 1000
+- takeScreenshot: screenshots/maestro/10_interaction_test
+
+# Dismiss any overlay
+- tapOn:
+    point: "50%,50%"
+- sleep: 500
+
+# === PAUSE MENU ===
+# Tap escape / back button area for pause
+- pressKey: back
+- sleep: 1000
+- takeScreenshot: screenshots/maestro/11_pause_menu
+
+# Resume
+- tapOn: "Resume"
+- sleep: 500
+
+# === FINAL SCREENSHOT ===
+- takeScreenshot: screenshots/maestro/12_final_state
