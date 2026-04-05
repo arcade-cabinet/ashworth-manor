@@ -1,0 +1,203 @@
+[gd_scene format=3 uid="uid://bhxdjt54ja2nc"]
+
+[ext_resource type="Script" uid="uid://dju1o7yp5wn6v" path="res://scripts/room_base.gd" id="1_hpwxl"]
+[ext_resource type="Texture2D" uid="uid://dwvivocpnif14" path="res://assets/shared/textures/floor1_texture.png" id="2_5sifv"]
+[ext_resource type="Texture2D" uid="uid://qhcgbgmald61" path="res://assets/shared/textures/ceiling2_texture.png" id="3_x61uj"]
+[ext_resource type="Texture2D" uid="uid://nkihuqdcq23k" path="res://assets/shared/textures/wall3_texture.png" id="4_61gur"]
+[ext_resource type="PackedScene" uid="uid://clhmuugrt7jdk" path="res://assets/shared/furniture/bookcase.glb" id="5_56p0t"]
+[ext_resource type="PackedScene" uid="uid://bpuyx1p106xg7" path="res://assets/shared/furniture/study_desk.glb" id="6_pbfmf"]
+[ext_resource type="PackedScene" uid="uid://syucqsv8qwi3" path="res://assets/shared/furniture/chair.glb" id="7_e5eeo"]
+[ext_resource type="PackedScene" uid="uid://b76mrgjfxgp2e" path="res://assets/shared/decor/statue.glb" id="8_qmfhd"]
+[ext_resource type="PackedScene" uid="uid://bbvaqvrsbbuhg" path="res://assets/shared/items/openbook0.glb" id="9_0hs0d"]
+[ext_resource type="PackedScene" uid="uid://bigw4yxei2pbu" path="res://assets/shared/items/page5.glb" id="10_m4dmi"]
+[ext_resource type="PackedScene" uid="uid://dh0yvey8yaesm" path="res://assets/shared/items/candle2.glb" id="11_gl0y8"]
+[ext_resource type="PackedScene" uid="uid://bpiylf5uxhpfd" path="res://assets/upper_floor/library/books_scrolls.glb" id="12_5iav8"]
+[ext_resource type="PackedScene" uid="uid://cufa16goqaj1t" path="res://assets/upper_floor/library/ancient_artifact_mx_1.glb" id="13_eqkd8"]
+[ext_resource type="PackedScene" uid="uid://vlosh2q7snxn" path="res://assets/upper_floor/library/gear_mx_1.glb" id="14_1sbkm"]
+[ext_resource type="PackedScene" uid="uid://d2wktafwioy4l" path="res://assets/upper_floor/library/gear_mx_2.glb" id="15_3qijc"]
+[ext_resource type="PackedScene" uid="uid://dy05wckdluxyi" path="res://assets/upper_floor/library/map_mx_1.glb" id="16_1x1gr"]
+[ext_resource type="PackedScene" uid="uid://bcgghxtsu0htq" path="res://assets/shared/decor/candle_holder.glb" id="17_6vkwu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7htcy"]
+albedo_color = Color(0.5, 0.38, 0.28, 1)
+albedo_texture = ExtResource("2_5sifv")
+roughness = 0.7
+uv1_scale = Vector3(6, 7.5, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pk7du"]
+albedo_color = Color(0.45, 0.35, 0.25, 1)
+albedo_texture = ExtResource("3_x61uj")
+roughness = 0.85
+uv1_scale = Vector3(6, 7.5, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ijsmw"]
+albedo_color = Color(0.5, 0.38, 0.28, 1)
+albedo_texture = ExtResource("4_61gur")
+roughness = 0.8
+uv1_scale = Vector3(5, 2, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2yakc"]
+albedo_color = Color(0.5, 0.38, 0.28, 1)
+albedo_texture = ExtResource("4_61gur")
+roughness = 0.8
+uv1_scale = Vector3(5, 2, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eb77x"]
+albedo_color = Color(0.5, 0.38, 0.28, 1)
+albedo_texture = ExtResource("4_61gur")
+roughness = 0.8
+uv1_scale = Vector3(5, 2, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b3c2o"]
+albedo_color = Color(0.5, 0.38, 0.28, 1)
+albedo_texture = ExtResource("4_61gur")
+roughness = 0.8
+uv1_scale = Vector3(5, 2, 1)
+texture_filter = 0
+
+[node name="Library" type="Node3D" unique_id=222816238]
+script = ExtResource("1_hpwxl")
+room_id = "library"
+room_name = "Library"
+audio_loop = "Value Loop1"
+spawn_position = Vector3(0, 0, -6)
+spawn_rotation_y = 180.0
+
+[node name="Geometry" type="Node3D" parent="." unique_id=975958482]
+
+[node name="Floor" type="CSGBox3D" parent="Geometry" unique_id=1944473933]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+use_collision = true
+size = Vector3(12, 0.2, 15)
+material = SubResource("StandardMaterial3D_7htcy")
+
+[node name="Ceiling" type="CSGBox3D" parent="Geometry" unique_id=1715720779]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.1, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(12, 0.2, 15)
+material = SubResource("StandardMaterial3D_pk7du")
+
+[node name="WallNorth" type="CSGBox3D" parent="Geometry" unique_id=1137872587]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 7.5)
+use_collision = true
+collision_layer = 2
+size = Vector3(12, 4, 0.3)
+material = SubResource("StandardMaterial3D_ijsmw")
+
+[node name="WallSouth" type="CSGBox3D" parent="Geometry" unique_id=2123858631]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -7.5)
+use_collision = true
+collision_layer = 2
+size = Vector3(12, 4, 0.3)
+material = SubResource("StandardMaterial3D_2yakc")
+
+[node name="WallEast" type="CSGBox3D" parent="Geometry" unique_id=1752301821]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(0.3, 4, 15)
+material = SubResource("StandardMaterial3D_eb77x")
+
+[node name="WallWest" type="CSGBox3D" parent="Geometry" unique_id=69193095]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(0.3, 4, 15)
+material = SubResource("StandardMaterial3D_b3c2o")
+
+[node name="Models" type="Node3D" parent="." unique_id=1936468448]
+
+[node name="BookcaseW1" type="Node3D" parent="Models" unique_id=1407288254 instance=ExtResource("5_56p0t")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.5, 0, -5)
+
+[node name="BookcaseW2" type="Node3D" parent="Models" unique_id=1751692620 instance=ExtResource("5_56p0t")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.5, 0, 0)
+
+[node name="BookcaseW3" type="Node3D" parent="Models" unique_id=101812887 instance=ExtResource("5_56p0t")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.5, 0, 5)
+
+[node name="BookcaseE1" type="Node3D" parent="Models" unique_id=1285543361 instance=ExtResource("5_56p0t")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.5, 0, -5)
+
+[node name="BookcaseE2" type="Node3D" parent="Models" unique_id=1593086937 instance=ExtResource("5_56p0t")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.5, 0, 0)
+
+[node name="BookcaseE3" type="Node3D" parent="Models" unique_id=710754771 instance=ExtResource("5_56p0t")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.5, 0, 5)
+
+[node name="BookcaseN1" type="Node3D" parent="Models" unique_id=2017981973 instance=ExtResource("5_56p0t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 7)
+
+[node name="BookcaseN2" type="Node3D" parent="Models" unique_id=50891452 instance=ExtResource("5_56p0t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 7)
+
+[node name="StudyDesk" type="Node3D" parent="Models" unique_id=240116784 instance=ExtResource("6_pbfmf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="DeskChair" type="Node3D" parent="Models" unique_id=1861202979 instance=ExtResource("7_e5eeo")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -3)
+
+[node name="Globe" type="Node3D" parent="Models" unique_id=972676115 instance=ExtResource("8_qmfhd")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 5, 0, 6.5)
+
+[node name="BindingBook" type="Node3D" parent="Models" unique_id=1753366208 instance=ExtResource("9_0hs0d")]
+transform = Transform3D(0.9659258, 0, 0.25881904, 0, 1, 0, -0.25881904, 0, 0.9659258, -0.5, 0.85, -0.5)
+
+[node name="FamilyTree" type="Node3D" parent="Models" unique_id=1248113116 instance=ExtResource("10_m4dmi")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 4.5, 2.5, 7.2)
+
+[node name="DeskCandle" type="Node3D" parent="Models" unique_id=1012704005 instance=ExtResource("11_gl0y8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.85, -0.8)
+
+[node name="ScrollPile" type="Node3D" parent="Models" unique_id=1841136318 instance=ExtResource("12_5iav8")]
+transform = Transform3D(0.4330127, 0, 0.25, 0, 0.5, 0, -0.25, 0, 0.4330127, -3, 0.85, -1)
+
+[node name="OccultArtifact" type="Node3D" parent="Models" unique_id=1628224842 instance=ExtResource("13_eqkd8")]
+transform = Transform3D(2.1213202, 0, 2.1213202, 0, 3, 0, -2.1213202, 0, 2.1213202, -5.2, 1.5, 2)
+
+[node name="MysteryGear1" type="Node3D" parent="Models" unique_id=393026037 instance=ExtResource("14_1sbkm")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 5.2, 1.8, -3)
+
+[node name="MysteryGear2" type="Node3D" parent="Models" unique_id=70466539 instance=ExtResource("15_3qijc")]
+transform = Transform3D(-1.3113416e-07, 0, 3, 0, 3, 0, -3, 0, -1.3113416e-07, 5.2, 1.2, 2)
+
+[node name="StarChart" type="Node3D" parent="Models" unique_id=1661943400 instance=ExtResource("16_1x1gr")]
+transform = Transform3D(-1.3113416e-07, 0, 3, 0, 3, 0, -3, 0, -1.3113416e-07, -5.2, 2.2, -2)
+
+[node name="SconceW" type="Node3D" parent="Models" unique_id=385947617 instance=ExtResource("17_6vkwu")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.5, 3, -3)
+
+[node name="SconceE" type="Node3D" parent="Models" unique_id=1860820076 instance=ExtResource("17_6vkwu")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.5, 3, -3)
+
+[node name="Lighting" type="Node3D" parent="." unique_id=1994830017]
+
+[node name="SconceWLight" type="OmniLight3D" parent="Lighting" unique_id=840799491]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 3, -3)
+light_color = Color(1, 0.7, 0.4, 1)
+light_energy = 2.0
+omni_range = 7.0
+metadata/flickering = true
+
+[node name="SconceELight" type="OmniLight3D" parent="Lighting" unique_id=929003924]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 3, -3)
+light_color = Color(1, 0.7, 0.4, 1)
+light_energy = 2.0
+omni_range = 7.0
+metadata/flickering = true
+
+[node name="DeskCandleLight" type="OmniLight3D" parent="Lighting" unique_id=1682194350]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 1.5, -0.8)
+light_color = Color(1, 0.85, 0.55, 1)
+light_energy = 2.5
+metadata/flickering = true
+
+[node name="Interactables" type="Node3D" parent="." unique_id=1321337491]
+
+[node name="Connections" type="Node3D" parent="." unique_id=357924758]

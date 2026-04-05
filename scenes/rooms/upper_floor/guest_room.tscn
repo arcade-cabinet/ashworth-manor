@@ -1,0 +1,160 @@
+[gd_scene format=3 uid="uid://bev473h7at5m4"]
+
+[ext_resource type="Script" uid="uid://dju1o7yp5wn6v" path="res://scripts/room_base.gd" id="1_w0ivv"]
+[ext_resource type="Texture2D" uid="uid://dwvivocpnif14" path="res://assets/shared/textures/floor1_texture.png" id="2_bfhap"]
+[ext_resource type="Texture2D" uid="uid://cg7nf55ts05r5" path="res://assets/shared/textures/ceiling1_texture.png" id="3_rdm8g"]
+[ext_resource type="Texture2D" uid="uid://k2e5t54ihclw" path="res://assets/shared/textures/wall1_texture.png" id="4_cty46"]
+[ext_resource type="PackedScene" uid="uid://bl8vr2fk48jq3" path="res://assets/shared/furniture/bed.glb" id="5_6gtyt"]
+[ext_resource type="PackedScene" uid="uid://5kd5tdkgwhb4" path="res://assets/shared/furniture/drawers.glb" id="6_yx6gp"]
+[ext_resource type="PackedScene" uid="uid://d1oue606ag7dg" path="res://assets/shared/items/candle_unlit0.glb" id="7_j8vup"]
+[ext_resource type="PackedScene" uid="uid://cr021abbhjyv0" path="res://assets/shared/structure/window.glb" id="8_r15fd"]
+[ext_resource type="PackedScene" uid="uid://dkl5ytnvck3by" path="res://assets/shared/decor/picture_blank_005.glb" id="9_16obe"]
+[ext_resource type="PackedScene" uid="uid://clv810yubhhtg" path="res://assets/shared/items/papers.glb" id="10_ox7lj"]
+[ext_resource type="PackedScene" uid="uid://bvmkrt5p5bo0" path="res://assets/upper_floor/guest_room/luggage_mp_1.glb" id="11_3ykie"]
+[ext_resource type="PackedScene" uid="uid://brevpyr2puttu" path="res://assets/upper_floor/guest_room/soap_mx_1.glb" id="12_n0bl8"]
+[ext_resource type="PackedScene" uid="uid://u5h8u3f5s60v" path="res://assets/upper_floor/guest_room/glass_bottle_mx_1.glb" id="13_5an6g"]
+[ext_resource type="PackedScene" uid="uid://c8m7krsyvufwf" path="res://assets/upper_floor/guest_room/lamp_mx_3_off.glb" id="14_t0peg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qcv1p"]
+albedo_color = Color(0.6, 0.48, 0.35, 1)
+albedo_texture = ExtResource("2_bfhap")
+roughness = 0.8
+uv1_scale = Vector3(6, 6, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b4c3a"]
+albedo_color = Color(0.75, 0.7, 0.62, 1)
+albedo_texture = ExtResource("3_rdm8g")
+roughness = 0.85
+uv1_scale = Vector3(6, 6, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7serb"]
+albedo_color = Color(0.55, 0.48, 0.42, 1)
+albedo_texture = ExtResource("4_cty46")
+roughness = 0.85
+uv1_scale = Vector3(5, 1.75, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7yrhq"]
+albedo_color = Color(0.55, 0.48, 0.42, 1)
+albedo_texture = ExtResource("4_cty46")
+roughness = 0.85
+uv1_scale = Vector3(5, 1.75, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h4ecb"]
+albedo_color = Color(0.55, 0.48, 0.42, 1)
+albedo_texture = ExtResource("4_cty46")
+roughness = 0.85
+uv1_scale = Vector3(5, 1.75, 1)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kipsf"]
+albedo_color = Color(0.55, 0.48, 0.42, 1)
+albedo_texture = ExtResource("4_cty46")
+roughness = 0.85
+uv1_scale = Vector3(5, 1.75, 1)
+texture_filter = 0
+
+[node name="GuestRoom" type="Node3D" unique_id=1097420385]
+script = ExtResource("1_w0ivv")
+room_id = "guest_room"
+room_name = "Guest Room"
+audio_loop = "Lost in Polaroids Loop1"
+ambient_darkness = 0.6
+spawn_position = Vector3(0, 0, -5)
+spawn_rotation_y = 180.0
+
+[node name="Geometry" type="Node3D" parent="." unique_id=250999928]
+
+[node name="Floor" type="CSGBox3D" parent="Geometry" unique_id=1116289419]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+use_collision = true
+size = Vector3(12, 0.2, 12)
+material = SubResource("StandardMaterial3D_qcv1p")
+
+[node name="Ceiling" type="CSGBox3D" parent="Geometry" unique_id=570215036]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(12, 0.2, 12)
+material = SubResource("StandardMaterial3D_b4c3a")
+
+[node name="WallNorth" type="CSGBox3D" parent="Geometry" unique_id=726959766]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 6)
+use_collision = true
+collision_layer = 2
+size = Vector3(12, 3.5, 0.3)
+material = SubResource("StandardMaterial3D_7serb")
+
+[node name="WallSouth" type="CSGBox3D" parent="Geometry" unique_id=755949887]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, -6)
+use_collision = true
+collision_layer = 2
+size = Vector3(12, 3.5, 0.3)
+material = SubResource("StandardMaterial3D_7yrhq")
+
+[node name="WallEast" type="CSGBox3D" parent="Geometry" unique_id=1612839164]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.75, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(0.3, 3.5, 12)
+material = SubResource("StandardMaterial3D_h4ecb")
+
+[node name="WallWest" type="CSGBox3D" parent="Geometry" unique_id=1515144523]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.75, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(0.3, 3.5, 12)
+material = SubResource("StandardMaterial3D_kipsf")
+
+[node name="Models" type="Node3D" parent="." unique_id=1099120380]
+
+[node name="GuestBed" type="Node3D" parent="Models" unique_id=2061576163 instance=ExtResource("5_6gtyt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+
+[node name="Bedside" type="Node3D" parent="Models" unique_id=942280123 instance=ExtResource("6_yx6gp")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -4, 0, 5)
+
+[node name="DeadCandle" type="Node3D" parent="Models" unique_id=972926456 instance=ExtResource("7_j8vup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.85, 5)
+
+[node name="GuestWindow" type="Node3D" parent="Models" unique_id=938493828 instance=ExtResource("8_r15fd")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.7, 2, 0)
+
+[node name="GuestPhoto" type="Node3D" parent="Models" unique_id=1402203264 instance=ExtResource("9_16obe")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.7, 2, 0)
+
+[node name="GuestLedger" type="Node3D" parent="Models" unique_id=774587909 instance=ExtResource("10_ox7lj")]
+transform = Transform3D(0.9848077, 0, -0.17364818, 0, 1, 0, 0.17364818, 0, 0.9848077, 3, 0.85, -3)
+
+[node name="HelenasLuggage" type="Node3D" parent="Models" unique_id=1538500762 instance=ExtResource("11_3ykie")]
+transform = Transform3D(2.8977776, 0, 0.77645713, 0, 3, 0, -0.77645713, 0, 2.8977776, 3, 0, 4)
+
+[node name="UntouchedToiletries" type="Node3D" parent="Models" unique_id=2054379152 instance=ExtResource("12_n0bl8")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -3.5, 0.85, 4)
+
+[node name="WaterCarafe" type="Node3D" parent="Models" unique_id=916778227 instance=ExtResource("13_5an6g")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -4.2, 0.85, 5.3)
+
+[node name="DeadLamp" type="Node3D" parent="Models" unique_id=317542182 instance=ExtResource("14_t0peg")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 4, 0.85, -4)
+
+[node name="Lighting" type="Node3D" parent="." unique_id=1673909160]
+
+[node name="WindowMoonlight" type="OmniLight3D" parent="Lighting" unique_id=1802022408]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.7, 2, 0)
+light_color = Color(0.6, 0.7, 0.9, 1)
+light_energy = 1.5
+omni_range = 8.0
+
+[node name="AmbientGlow" type="OmniLight3D" parent="Lighting" unique_id=689056099]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+light_color = Color(0.4, 0.35, 0.3, 1)
+light_energy = 0.8
+omni_range = 10.0
+
+[node name="Interactables" type="Node3D" parent="." unique_id=1116871346]
+
+[node name="Connections" type="Node3D" parent="." unique_id=295392827]
