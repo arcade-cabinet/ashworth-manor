@@ -1,172 +1,201 @@
 [gd_scene format=3 uid="uid://chjjqrfq17v4x"]
 
-[ext_resource type="Script" uid="uid://dju1o7yp5wn6v" path="res://scripts/room_base.gd" id="1_hp3le"]
-[ext_resource type="Texture2D" uid="uid://dj4g3a2qa754r" path="res://assets/shared/textures/floor2_texture.png" id="2_5cpm1"]
-[ext_resource type="Texture2D" uid="uid://cey1o580778c1" path="res://assets/horror/textures/wall/Horror_Wall_01-512x512.png" id="3_8w0bi"]
-[ext_resource type="PackedScene" uid="uid://b73iyd20v7xb8" path="res://assets/attic/hidden_chamber/doll2.glb" id="4_2c4df"]
-[ext_resource type="PackedScene" uid="uid://bc5r2e6ylxvaj" path="res://assets/attic/hidden_chamber/ritual_artifact.glb" id="5_7q2p0"]
-[ext_resource type="PackedScene" uid="uid://6uwdc6mjvd7q" path="res://assets/attic/hidden_chamber/mask_mx_4.glb" id="6_8v8ss"]
-[ext_resource type="PackedScene" uid="uid://d31g2w67g72e2" path="res://assets/attic/hidden_chamber/mask_mx_5_1.glb" id="7_ofyy0"]
-[ext_resource type="PackedScene" uid="uid://d0shqscsfrikv" path="res://assets/attic/hidden_chamber/ritual_bones.glb" id="8_bxn7s"]
-[ext_resource type="PackedScene" uid="uid://bh1wsspjukc38" path="res://assets/attic/hidden_chamber/glass_bottle_mx_3.glb" id="9_ch4tr"]
-[ext_resource type="PackedScene" uid="uid://dnftdwqkkuihp" path="res://assets/shared/items/candle_unlit2.glb" id="10_18hoe"]
-[ext_resource type="PackedScene" uid="uid://bljya83cqb5dv" path="res://assets/shared/items/page1.glb" id="11_nrwdo"]
-[ext_resource type="PackedScene" uid="uid://dxypojciqo1rt" path="res://assets/attic/hidden_chamber/lamp_mx_1_b_off.glb" id="12_mdgjv"]
+[ext_resource type="Script" path="res://scripts/room_base.gd" id="1"]
+[ext_resource type="PackedScene" path="res://assets/shared/structure/wall_7.glb" id="2"]
+[ext_resource type="PackedScene" path="res://assets/shared/structure/floor2.glb" id="3"]
+[ext_resource type="PackedScene" path="res://assets/attic/hidden_chamber/doll2.glb" id="4"]
+[ext_resource type="PackedScene" path="res://assets/attic/hidden_chamber/ritual_artifact.glb" id="5"]
+[ext_resource type="PackedScene" path="res://assets/attic/hidden_chamber/mask_mx_4.glb" id="6"]
+[ext_resource type="PackedScene" path="res://assets/attic/hidden_chamber/mask_mx_5_1.glb" id="7"]
+[ext_resource type="PackedScene" path="res://assets/attic/hidden_chamber/ritual_bones.glb" id="8"]
+[ext_resource type="PackedScene" path="res://assets/attic/hidden_chamber/glass_bottle_mx_3.glb" id="9"]
+[ext_resource type="PackedScene" path="res://assets/shared/items/candle_unlit2.glb" id="10"]
+[ext_resource type="PackedScene" path="res://assets/shared/items/page1.glb" id="11"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nxkpy"]
-albedo_color = Color(0.35, 0.28, 0.22, 1)
-albedo_texture = ExtResource("2_5cpm1")
-roughness = 0.9
-uv1_scale = Vector3(4.5, 4.5, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(6, 0.2, 6)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ijdi0"]
-albedo_color = Color(0.25, 0.2, 0.18, 1)
-roughness = 0.95
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallN"]
+size = Vector3(6, 2.4, 0.2)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tsoe6"]
-albedo_color = Color(0.6, 0.5, 0.45, 1)
-albedo_texture = ExtResource("3_8w0bi")
-roughness = 0.9
-uv1_scale = Vector3(3, 1.5, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallS"]
+size = Vector3(6, 2.4, 0.2)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rej0v"]
-albedo_color = Color(0.6, 0.5, 0.45, 1)
-albedo_texture = ExtResource("3_8w0bi")
-roughness = 0.9
-uv1_scale = Vector3(3, 1.5, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallE"]
+size = Vector3(0.2, 2.4, 6)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ftpnb"]
-albedo_color = Color(0.6, 0.5, 0.45, 1)
-albedo_texture = ExtResource("3_8w0bi")
-roughness = 0.9
-uv1_scale = Vector3(3, 1.5, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallW"]
+size = Vector3(0.2, 2.4, 6)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0e6ww"]
-albedo_color = Color(0.6, 0.5, 0.45, 1)
-albedo_texture = ExtResource("3_8w0bi")
-roughness = 0.9
-uv1_scale = Vector3(3, 1.5, 1)
-texture_filter = 0
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_hp3le"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact1"]
 size = Vector3(1.5, 1.5, 1.5)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_5cpm1"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact2"]
 size = Vector3(1.5, 1.5, 1.5)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_8w0bi"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact3"]
 size = Vector3(1.5, 1.5, 1.5)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_2c4df"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_conn1"]
 size = Vector3(2, 3, 1)
 
-[node name="HiddenChamber" type="Node3D" unique_id=1682967315]
-script = ExtResource("1_hp3le")
+[node name="HiddenChamber" type="Node3D"]
+script = ExtResource("1")
 room_id = "hidden_room"
 room_name = "Hidden Chamber"
 audio_loop = "I Can't Go On Loop1"
 ambient_darkness = 0.9
 spawn_rotation_y = 180.0
 
-[node name="Geometry" type="Node3D" parent="." unique_id=2136849535]
+[node name="Geometry" type="Node3D" parent="."]
 
-[node name="Floor" type="CSGBox3D" parent="Geometry" unique_id=1075158089]
+[node name="Floor_0_0" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2)
+
+[node name="Floor_1_0" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="Floor_2_0" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
+
+[node name="Floor_0_1" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="Floor_1_1" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Floor_2_1" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="Floor_0_2" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
+
+[node name="Floor_1_2" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="Floor_2_2" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
+
+[node name="Wall_N_0" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -2, 0, 3)
+
+[node name="Wall_N_1" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 3)
+
+[node name="Wall_N_2" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 2, 0, 3)
+
+[node name="Wall_S_0" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3)
+
+[node name="Wall_S_1" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+
+[node name="Wall_S_2" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -3)
+
+[node name="Wall_E_0" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 3, 0, -2)
+
+[node name="Wall_E_1" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 3, 0, 0)
+
+[node name="Wall_E_2" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 3, 0, 2)
+
+[node name="Wall_W_0" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3, 0, -2)
+
+[node name="Wall_W_1" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3, 0, 0)
+
+[node name="Wall_W_2" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3, 0, 2)
+
+[node name="FloorCollision" type="StaticBody3D" parent="Geometry"]
+collision_layer = 1
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/FloorCollision"]
+shape = SubResource("BoxShape3D_floor")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
-use_collision = true
-size = Vector3(9, 0.2, 9)
-material = SubResource("StandardMaterial3D_nxkpy")
 
-[node name="Ceiling" type="CSGBox3D" parent="Geometry" unique_id=1383856336]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0)
-use_collision = true
+[node name="WallN" type="StaticBody3D" parent="Geometry"]
 collision_layer = 2
-size = Vector3(9, 0.2, 9)
-material = SubResource("StandardMaterial3D_ijdi0")
 
-[node name="WallNorth" type="CSGBox3D" parent="Geometry" unique_id=1183669182]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 4.5)
-use_collision = true
+[node name="Shape" type="CollisionShape3D" parent="Geometry/WallN"]
+shape = SubResource("BoxShape3D_wallN")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 3)
+
+[node name="WallS" type="StaticBody3D" parent="Geometry"]
 collision_layer = 2
-size = Vector3(9, 3, 0.3)
-material = SubResource("StandardMaterial3D_tsoe6")
 
-[node name="WallSouth" type="CSGBox3D" parent="Geometry" unique_id=1128935530]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -4.5)
-use_collision = true
+[node name="Shape" type="CollisionShape3D" parent="Geometry/WallS"]
+shape = SubResource("BoxShape3D_wallS")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -3)
+
+[node name="WallE" type="StaticBody3D" parent="Geometry"]
 collision_layer = 2
-size = Vector3(9, 3, 0.3)
-material = SubResource("StandardMaterial3D_rej0v")
 
-[node name="WallEast" type="CSGBox3D" parent="Geometry" unique_id=369473607]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.5, 0)
-use_collision = true
+[node name="Shape" type="CollisionShape3D" parent="Geometry/WallE"]
+shape = SubResource("BoxShape3D_wallE")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.2, 0)
+
+[node name="WallW" type="StaticBody3D" parent="Geometry"]
 collision_layer = 2
-size = Vector3(0.3, 3, 9)
-material = SubResource("StandardMaterial3D_ftpnb")
 
-[node name="WallWest" type="CSGBox3D" parent="Geometry" unique_id=1914134964]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 1.5, 0)
-use_collision = true
-collision_layer = 2
-size = Vector3(0.3, 3, 9)
-material = SubResource("StandardMaterial3D_0e6ww")
+[node name="Shape" type="CollisionShape3D" parent="Geometry/WallW"]
+shape = SubResource("BoxShape3D_wallW")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.2, 0)
 
-[node name="Models" type="Node3D" parent="." unique_id=1757339620]
+[node name="Models" type="Node3D" parent="."]
 
-[node name="RitualDoll" type="Node3D" parent="Models" unique_id=1340733999 instance=ExtResource("4_2c4df")]
+[node name="RitualDoll" type="Node3D" parent="Models" instance=ExtResource("4")]
 transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0, 0.3, 0)
 
-[node name="RitualArtifact" type="Node3D" parent="Models" unique_id=1868445530 instance=ExtResource("5_7q2p0")]
-transform = Transform3D(2.1213202, 0, 2.1213202, 0, 3, 0, -2.1213202, 0, 2.1213202, -2, 0, 2)
+[node name="RitualArtifact" type="Node3D" parent="Models" instance=ExtResource("5")]
+transform = Transform3D(2.121, 0, 2.121, 0, 3, 0, -2.121, 0, 2.121, -1.5, 0, 1.5)
 
-[node name="RitualMask1" type="Node3D" parent="Models" unique_id=1628934731 instance=ExtResource("6_8v8ss")]
-transform = Transform3D(-1.3113416e-07, 0, 3, 0, 3, 0, -3, 0, -1.3113416e-07, -4, 2, 0)
+[node name="RitualMask1" type="Node3D" parent="Models" instance=ExtResource("6")]
+transform = Transform3D(0, 0, 3, 0, 3, 0, -3, 0, 0, -2.7, 1.8, 0)
 
-[node name="RitualMask2" type="Node3D" parent="Models" unique_id=1936024247 instance=ExtResource("7_ofyy0")]
-transform = Transform3D(-1.3113416e-07, 0, -3, 0, 3, 0, 3, 0, -1.3113416e-07, 4, 2, 0)
+[node name="RitualMask2" type="Node3D" parent="Models" instance=ExtResource("7")]
+transform = Transform3D(0, 0, -3, 0, 3, 0, 3, 0, 0, 2.7, 1.8, 0)
 
-[node name="RitualBones" type="Node3D" parent="Models" unique_id=1267098675 instance=ExtResource("8_bxn7s")]
-transform = Transform3D(0.25980762, 0, 0.15, 0, 0.3, 0, -0.15, 0, 0.25980762, 1, 0, 1.5)
+[node name="RitualBones" type="Node3D" parent="Models" instance=ExtResource("8")]
+transform = Transform3D(0.26, 0, 0.15, 0, 0.3, 0, -0.15, 0, 0.26, 0.8, 0, 1)
 
-[node name="RitualVessel" type="Node3D" parent="Models" unique_id=1131957037 instance=ExtResource("9_ch4tr")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -1, 0, -1)
+[node name="RitualVessel" type="Node3D" parent="Models" instance=ExtResource("9")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -0.8, 0, -0.8)
 
-[node name="RitualCandle1" type="Node3D" parent="Models" unique_id=1224788732 instance=ExtResource("10_18hoe")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 3)
+[node name="RitualCandle1" type="Node3D" parent="Models" instance=ExtResource("10")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
 
-[node name="RitualCandle2" type="Node3D" parent="Models" unique_id=1333949828 instance=ExtResource("10_18hoe")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 3)
+[node name="RitualCandle2" type="Node3D" parent="Models" instance=ExtResource("10")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
 
-[node name="FinalNote" type="Node3D" parent="Models" unique_id=780701367 instance=ExtResource("11_nrwdo")]
-transform = Transform3D(1.2, 0, 0, 0, 1.159111, 0.31058288, 0, -0.31058288, 1.159111, 0, 0.5, 3)
+[node name="FinalNote" type="Node3D" parent="Models" instance=ExtResource("11")]
+transform = Transform3D(1.2, 0, 0, 0, 1.159, 0.311, 0, -0.311, 1.159, 0, 0.5, 2.5)
 
-[node name="DeadRitualLamp" type="Node3D" parent="Models" unique_id=508191432 instance=ExtResource("12_mdgjv")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 3.5, 0, -3)
+[node name="Lighting" type="Node3D" parent="."]
 
-[node name="Lighting" type="Node3D" parent="." unique_id=1100848982]
-
-[node name="RitualCandle1Light" type="OmniLight3D" parent="Lighting" unique_id=1701635667]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 3)
+[node name="RitualCandle1Light" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 2)
 light_color = Color(1, 0.85, 0.55, 1)
 light_energy = 1.5
 omni_range = 4.0
 metadata/flickering = true
 
-[node name="RitualCandle2Light" type="OmniLight3D" parent="Lighting" unique_id=213094787]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 3)
+[node name="RitualCandle2Light" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 2)
 light_color = Color(1, 0.85, 0.55, 1)
 light_energy = 1.5
 omni_range = 4.0
 metadata/flickering = true
 
-[node name="Interactables" type="Node3D" parent="." unique_id=1373977889]
+[node name="Interactables" type="Node3D" parent="."]
 
-[node name="final_note" type="Area3D" parent="Interactables" unique_id=230403202]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 3)
+[node name="final_note" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 2.5)
 collision_layer = 4
 collision_mask = 0
 metadata/id = "final_note"
@@ -177,11 +206,11 @@ metadata/data = {
 "title": "Elizabeth's Last Words"
 }
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/final_note" unique_id=1359538208]
-shape = SubResource("BoxShape3D_hp3le")
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/final_note"]
+shape = SubResource("BoxShape3D_interact1")
 
-[node name="hidden_mirror" type="Area3D" parent="Interactables" unique_id=1258780421]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -4)
+[node name="hidden_mirror" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -2.7)
 collision_layer = 4
 collision_mask = 0
 metadata/id = "hidden_mirror"
@@ -190,10 +219,10 @@ metadata/data = {
 "content": "In the mirror, behind you, stands a girl in white. When you turn, nothing is there."
 }
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/hidden_mirror" unique_id=1922523423]
-shape = SubResource("BoxShape3D_5cpm1")
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/hidden_mirror"]
+shape = SubResource("BoxShape3D_interact2")
 
-[node name="ritual_circle" type="Area3D" parent="Interactables" unique_id=1069455190]
+[node name="ritual_circle" type="Area3D" parent="Interactables"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 collision_layer = 4
 collision_mask = 0
@@ -203,16 +232,16 @@ metadata/data = {
 "description": "A circle drawn on the floor in the center of Elizabeth's drawings."
 }
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/ritual_circle" unique_id=50582256]
-shape = SubResource("BoxShape3D_8w0bi")
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/ritual_circle"]
+shape = SubResource("BoxShape3D_interact3")
 
-[node name="Connections" type="Node3D" parent="." unique_id=1030725726]
+[node name="Connections" type="Node3D" parent="."]
 
-[node name="to_attic_storage" type="Area3D" parent="Connections" unique_id=603524507]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.5, 0)
+[node name="to_attic_storage" type="Area3D" parent="Connections"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.5, 0)
 collision_layer = 8
 collision_mask = 0
 metadata/target_room = "attic_storage"
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_attic_storage" unique_id=2109161399]
-shape = SubResource("BoxShape3D_2c4df")
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_attic_storage"]
+shape = SubResource("BoxShape3D_conn1")
