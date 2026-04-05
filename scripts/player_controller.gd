@@ -37,13 +37,19 @@ var _walk_marker: MeshInstance3D = null
 func _ready() -> void:
 	floor_snap_length = 0.5
 	up_direction = Vector3.UP
+	call_deferred("_connect_room_manager")
 
-	_camera = Camera3D.new()
-	_camera.name = "PlayerCamera"
+	# Use existing camera if scene builder created one, otherwise make new
+	_camera = get_node_or_null("Camera3D") as Camera3D
+	if _camera == null:
+		_camera = get_node_or_null("PlayerCamera") as Camera3D
+	if _camera == null:
+		_camera = Camera3D.new()
+		_camera.name = "PlayerCamera"
+		add_child(_camera)
 	_camera.position = Vector3(0, CAMERA_HEIGHT, 0)
 	_camera.current = true
 	_camera.fov = 70.0
-	add_child(_camera)
 
 	# Walk target marker — subtle floor indicator
 	_walk_marker = MeshInstance3D.new()
@@ -215,8 +221,26 @@ func _handle_tap(screen_pos: Vector2) -> void:
 
 
 
+func _connect_room_manager() -> void:
+	var rm: Node = get_node_or_null("/root/Main/RoomManager")
+	if rm and rm.has_signal("room_loaded"):
+		rm.room_loaded.connect(_on_room_loaded)
+
+
+func _on_room_loaded(_room_id: String) -> void:
+	var rm: Node = get_node_or_null("/root/Main/RoomManager")
+	if rm and rm.has_method("get_current_room"):
+		var room = rm.get_current_room()
+		if room and "spawn_position" in room:
+			set_room_position(room.spawn_position)
+			if "spawn_rotation_y" in room:
+				rotation_degrees.y = room.spawn_rotation_y
+
+
 func set_room_position(pos: Vector3) -> void:
 	global_position = pos
 	_target_position = Vector3.INF
 	_is_walking = false
 	velocity = Vector3.ZERO
+	if _walk_marker:
+		_walk_marker.visible = false

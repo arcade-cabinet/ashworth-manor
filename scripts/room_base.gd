@@ -15,9 +15,12 @@ var _flickering_lights: Array[Dictionary] = []
 var _elapsed_time: float = 0.0
 
 
+@export var boundary_size: Vector3 = Vector3.ZERO  # If set, creates invisible walls
+
 func _ready() -> void:
-	# Auto-find flickering lights
 	_find_flickering_lights(self)
+	if boundary_size != Vector3.ZERO and is_exterior:
+		_create_boundary_walls()
 
 
 func _process(delta: float) -> void:
@@ -57,3 +60,28 @@ func _find_areas_in_group(node: Node, group_name: String, result: Array[Area3D])
 		result.append(node)
 	for child in node.get_children():
 		_find_areas_in_group(child, group_name, result)
+
+
+func _create_boundary_walls() -> void:
+	# Invisible walls at the edges of exterior rooms to prevent walking into void
+	var w: float = boundary_size.x
+	var h: float = boundary_size.y if boundary_size.y > 0 else 6.0
+	var d: float = boundary_size.z
+	var defs: Array = [
+		["BoundaryN", Vector3(w, h, 0.3), Vector3(0, h / 2.0, d / 2.0)],
+		["BoundaryS", Vector3(w, h, 0.3), Vector3(0, h / 2.0, -d / 2.0)],
+		["BoundaryE", Vector3(0.3, h, d), Vector3(w / 2.0, h / 2.0, 0)],
+		["BoundaryW", Vector3(0.3, h, d), Vector3(-w / 2.0, h / 2.0, 0)],
+	]
+	for def in defs:
+		var body := StaticBody3D.new()
+		body.name = def[0]
+		body.position = def[2]
+		body.collision_layer = 2
+		body.collision_mask = 0
+		var col := CollisionShape3D.new()
+		var shape := BoxShape3D.new()
+		shape.size = def[1]
+		col.shape = shape
+		body.add_child(col)
+		add_child(body)
