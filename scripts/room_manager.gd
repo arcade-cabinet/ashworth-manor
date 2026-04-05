@@ -153,7 +153,7 @@ func _build_room_geometry(dimensions: Vector3) -> void:
 	var h: float = dimensions.y
 	var d: float = dimensions.z
 
-	# Floor
+	# Floor — dark wood/marble tone, reflects candlelight
 	var floor_box: CSGBox3D = CSGBox3D.new()
 	floor_box.name = "Floor"
 	floor_box.size = Vector3(w, FLOOR_THICKNESS, d)
@@ -161,10 +161,10 @@ func _build_room_geometry(dimensions: Vector3) -> void:
 	floor_box.use_collision = true
 	floor_box.collision_layer = LAYER_WALKABLE
 	floor_box.collision_mask = 0
-	floor_box.material = _create_dark_material(Color(0.06, 0.05, 0.05))
+	floor_box.material = _create_room_material(Color(0.15, 0.12, 0.1), 0.7)
 	_room_container.add_child(floor_box)
 
-	# Ceiling
+	# Ceiling — slightly lighter so it catches chandelier glow
 	var ceiling_box: CSGBox3D = CSGBox3D.new()
 	ceiling_box.name = "Ceiling"
 	ceiling_box.size = Vector3(w, FLOOR_THICKNESS, d)
@@ -172,10 +172,11 @@ func _build_room_geometry(dimensions: Vector3) -> void:
 	ceiling_box.use_collision = true
 	ceiling_box.collision_layer = LAYER_WALL
 	ceiling_box.collision_mask = 0
-	ceiling_box.material = _create_dark_material(Color(0.04, 0.03, 0.03))
+	ceiling_box.material = _create_room_material(Color(0.12, 0.1, 0.09), 0.8)
 	_room_container.add_child(ceiling_box)
 
 	# Walls: north (+Z), south (-Z), east (+X), west (-X)
+	# Victorian walls — deep red/brown that catches warm candlelight
 	var wall_defs: Array[Dictionary] = [
 		{"name": "WallNorth", "size": Vector3(w, h, WALL_THICKNESS), "pos": Vector3(0, h / 2.0, d / 2.0)},
 		{"name": "WallSouth", "size": Vector3(w, h, WALL_THICKNESS), "pos": Vector3(0, h / 2.0, -d / 2.0)},
@@ -190,7 +191,7 @@ func _build_room_geometry(dimensions: Vector3) -> void:
 		wall.use_collision = true
 		wall.collision_layer = LAYER_WALL
 		wall.collision_mask = 0
-		wall.material = _create_dark_material(Color(0.08, 0.06, 0.06))
+		wall.material = _create_room_material(Color(0.25, 0.15, 0.12), 0.85)
 		_room_container.add_child(wall)
 
 
@@ -205,7 +206,7 @@ func _build_floor_only(dimensions: Vector3) -> void:
 	floor_box.use_collision = true
 	floor_box.collision_layer = LAYER_WALKABLE
 	floor_box.collision_mask = 0
-	floor_box.material = _create_dark_material(Color(0.1, 0.08, 0.07))
+	floor_box.material = _create_room_material(Color(0.18, 0.16, 0.14), 0.9)
 	_room_container.add_child(floor_box)
 
 
@@ -213,6 +214,14 @@ func _create_dark_material(base_color: Color) -> StandardMaterial3D:
 	var mat: StandardMaterial3D = StandardMaterial3D.new()
 	mat.albedo_color = base_color
 	mat.roughness = 0.95
+	mat.metallic = 0.0
+	return mat
+
+
+func _create_room_material(base_color: Color, roughness_val: float = 0.8) -> StandardMaterial3D:
+	var mat: StandardMaterial3D = StandardMaterial3D.new()
+	mat.albedo_color = base_color
+	mat.roughness = roughness_val
 	mat.metallic = 0.0
 	return mat
 
