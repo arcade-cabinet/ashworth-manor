@@ -102,6 +102,26 @@ func _initialize() -> void:
 	interaction_mgr.set_script(load("res://scripts/interaction_manager.gd"))
 	root.add_child(interaction_mgr)
 
+	# --- PSX Post-Processing Layer ---
+	var psx_layer := CanvasLayer.new()
+	psx_layer.name = "PSXLayer"
+	psx_layer.layer = 2  # Below UI (layer 5) but above game
+
+	var psx_rect := ColorRect.new()
+	psx_rect.name = "PSXEffect"
+	psx_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	psx_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var psx_shader: Shader = load("res://shaders/psx_post.gdshader")
+	var psx_mat := ShaderMaterial.new()
+	psx_mat.shader = psx_shader
+	psx_mat.set_shader_parameter("color_depth", 15.0)
+	psx_mat.set_shader_parameter("resolution_scale", 0.5)
+	psx_mat.set_shader_parameter("dither_strength", 0.25)
+	psx_rect.material = psx_mat
+	psx_layer.add_child(psx_rect)
+
+	root.add_child(psx_layer)
+
 	# --- UILayer (CanvasLayer for all UI) ---
 	var ui_layer := CanvasLayer.new()
 	ui_layer.name = "UILayer"
