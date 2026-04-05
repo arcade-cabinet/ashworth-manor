@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "bedroom_broken_bottle"
+object_type = "observation"
+title = "Broken Bottle"
+content = "Shattered glass on the floor. The smell — sharp, medicinal. Laudanum? He was self-medicating."
+on_read_flags = PackedStringArray()

@@ -164,6 +164,7 @@ transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3, 0, 2)
 
 [node name="FloorCollision" type="StaticBody3D" parent="Geometry"]
 collision_layer = 1
+metadata/surface_type = "wood_parquet"
 
 [node name="Shape" type="CollisionShape3D" parent="Geometry/FloorCollision"]
 shape = SubResource("BoxShape3D_floor")
@@ -239,6 +240,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 light_color = Color(0.4, 0.35, 0.3, 1)
 light_energy = 0.8
 omni_range = 8.0
+metadata/flickering = true
 
 
 [node name="Interactables" type="Node3D" parent="."]

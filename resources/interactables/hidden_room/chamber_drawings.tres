@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "chamber_drawings"
+object_type = "observation"
+title = "Drawings"
+content = "Hundreds of drawings cover every inch of wall. The same girl, over and over. Black eyes. Written: 'THEY MADE ME THIS.' 'IT SEES EVERYTHING.'"
+on_read_flags = PackedStringArray()

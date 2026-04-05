@@ -7,5 +7,5 @@ script = ExtResource("1")
 object_id = "foyer_painting"
 object_type = "painting"
 title = "Lord Ashworth"
-content = "The patriarch stares down with hollow eyes. His hand rests on a book titled 'Rites of Passage'."
-on_read_flags = PackedStringArray()
+content = "The patriarch stares down with hollow eyes. His hand rests on a book titled 'Rites of Passage.' The oil paint has darkened with age, but the eyes remain vivid — as if they were painted last."
+on_read_flags = PackedStringArray("examined_foyer_painting")

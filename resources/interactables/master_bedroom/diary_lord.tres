@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "diary_lord"
+object_type = "note"
+title = "Lord Ashworth's Diary"
+content = "She won't stop crying. Even after we locked her away, I hear her sobbing through the walls. The attic key is hidden in the library globe. No one must find her."
+on_read_flags = PackedStringArray("read_ashworth_diary", "knows_key_location")

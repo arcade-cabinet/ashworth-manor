@@ -1,5 +1,5 @@
 extends SceneTree
-## E2E Playthrough Test — runs headless, exits with code 0 (pass) or 1 (fail)
+## E2E Playthrough Test -- runs headless, exits with code 0 (pass) or 1 (fail)
 ## Run: godot --headless --script test/e2e/run_e2e.gd
 
 var _main: Node = null
@@ -109,7 +109,7 @@ func _test_full_freedom_playthrough() -> void:
 	_test_name = "FREEDOM_ENDING"
 	_gm.new_game()
 
-	# ACT I — Ground Floor
+	# ACT I -- Ground Floor
 	_rm.load_room("front_gate")
 	_do_interact("gate_plaque")
 
@@ -132,7 +132,7 @@ func _test_full_freedom_playthrough() -> void:
 	_rm.load_room("wine_cellar")
 	_do_interact("wine_note")
 
-	# ACT II — Upper Floor
+	# ACT II -- Upper Floor
 	_rm.load_room("upper_hallway")
 	_do_interact("children_painting")
 
@@ -149,9 +149,9 @@ func _test_full_freedom_playthrough() -> void:
 	_do_interact("library_globe")
 	_assert("attic_key acquired", _gm.has_item("attic_key"))
 
-	# Grounds — collect ritual components
+	# Grounds -- collect ritual components
 	_rm.load_room("greenhouse")
-	_do_interact("greenhouse_gate_key")
+	_do_interact("greenhouse_pot")
 	_assert("gate_key acquired", _gm.has_item("gate_key"))
 
 	_rm.load_room("chapel")
@@ -163,7 +163,7 @@ func _test_full_freedom_playthrough() -> void:
 	_assert("cellar_key acquired", _gm.has_item("cellar_key"))
 
 	_rm.load_room("family_crypt")
-	_do_interact("loose_flagstone")
+	_do_interact("crypt_flagstone")
 	_assert("jewelry_key acquired", _gm.has_item("jewelry_key"))
 
 	# Open locked containers
@@ -175,7 +175,7 @@ func _test_full_freedom_playthrough() -> void:
 	_do_interact("jewelry_box")
 	_assert("lock_of_hair acquired", _gm.has_item("lock_of_hair"))
 
-	# ACT III — Attic
+	# ACT III -- Attic
 	_rm.load_room("attic_storage")
 	_assert("elizabeth_aware set", _gm.has_flag("elizabeth_aware"))
 
@@ -192,7 +192,7 @@ func _test_full_freedom_playthrough() -> void:
 
 	# Hidden Chamber
 	_rm.load_room("hidden_room")
-	_do_interact("final_note")
+	_do_interact("elizabeth_final_note")
 	_assert("knows_full_truth", _gm.has_flag("knows_full_truth"))
 
 	# PUZZLE 6: Counter-Ritual
@@ -209,9 +209,9 @@ func _test_full_freedom_playthrough() -> void:
 	_assert("counter_ritual_complete", _gm.has_flag("counter_ritual_complete"))
 	_assert("freed_elizabeth", _gm.has_flag("freed_elizabeth"))
 
-	print("[PASS] FREEDOM ENDING — Full playthrough complete")
+	print("[PASS] FREEDOM ENDING -- Full playthrough complete")
 	print("  Rooms visited: %d" % _gm.visited_rooms.size())
-	print("  Items collected: %d" % _gm.inventory.size())
+	print("  Items collected: %d" % _gm.get_inventory_items().size())
 	print("  Flags set: %d" % _gm.flags.size())
 
 
@@ -226,7 +226,7 @@ func _test_escape_ending() -> void:
 	_do_interact("porcelain_doll")
 	_do_interact("porcelain_doll")
 	_rm.load_room("hidden_room")
-	_do_interact("final_note")
+	_do_interact("elizabeth_final_note")
 
 	_assert("escape conditions met", _gm.check_escape_ending())
 	print("[PASS] ESCAPE ENDING conditions verified")
@@ -254,10 +254,10 @@ func _test_save_load() -> void:
 	_gm.save_game()
 
 	var saved_room: String = _gm.current_room
-	var saved_inventory: Array = _gm.inventory.duplicate()
+	var saved_items: Array[String] = _gm.get_inventory_items()
 
 	_gm.new_game()
-	_assert("inventory cleared", _gm.inventory.is_empty())
+	_assert("inventory cleared", _gm.get_inventory_items().is_empty())
 
 	var loaded: bool = _gm.load_game()
 	_assert("load succeeded", loaded)

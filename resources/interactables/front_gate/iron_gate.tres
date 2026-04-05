@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "iron_gate"
+object_type = "observation"
+title = "The Gate"
+content = "Iron bars, rusted open. The lock is broken — not from outside. Someone burst through from within. The hinges scream when the wind catches them."
+on_read_flags = PackedStringArray("examined_iron_gate")

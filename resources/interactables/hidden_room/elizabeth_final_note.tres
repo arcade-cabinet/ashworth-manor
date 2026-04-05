@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "elizabeth_final_note"
+object_type = "note"
+title = "Elizabeth's Last Words"
+content = "I was never sick — they were afraid of what I could see. The house has eyes. The walls have ears. And now I am part of it forever. Find me. Free me. Or join me."
+on_read_flags = PackedStringArray("knows_full_truth", "read_final_note")

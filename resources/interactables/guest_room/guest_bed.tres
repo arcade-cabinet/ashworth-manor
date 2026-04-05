@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "guest_bed"
+object_type = "observation"
+title = "Bed"
+content = "Perfectly made. Hospital corners. But the maids left weeks before Helena arrived."
+on_read_flags = PackedStringArray()

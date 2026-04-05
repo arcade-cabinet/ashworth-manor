@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "wine_footprints"
+object_type = "observation"
+title = "Footprints"
+content = "Footprints in the dust lead from the ladder to the wall. And stop. No return prints."
+on_read_flags = PackedStringArray()

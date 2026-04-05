@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "kitchen_cutting_board"
+object_type = "observation"
+title = "Cutting Board"
+content = "Vegetables half-chopped. Desiccated to husks. A knife rests mid-cut in what was once a turnip."
+on_read_flags = PackedStringArray()

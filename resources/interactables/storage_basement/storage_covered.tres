@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "storage_covered"
+object_type = "observation"
+title = "Dust Cloths"
+content = "Shapes under white sheets. A rocking horse, a crib. A fourth set. Elizabeth's things."
+on_read_flags = PackedStringArray()

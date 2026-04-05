@@ -1,5 +1,25 @@
 # Ashworth Manor — Godot 4.6 PSX Horror Exploration Game
 
+## READ THIS FIRST
+
+**All design decisions live in `docs/`.** Before writing ANY code, read the relevant doc:
+- **Master index:** [docs/INDEX.md](docs/INDEX.md) — links to every design doc, addon plan, and room spec
+- **Room specs:** `docs/floors/{floor}/{room}.md` — complete spec for each room (interactables, lighting, connections, events)
+- **Addon plans:** `docs/addons/{addon}-plan.md` — how each addon integrates, what it does, implementation steps
+- **Narrative:** `docs/NARRATIVE.md` — story, characters, document catalog
+- **Vision:** `docs/VISION.md` — design philosophy (Myst-inspired, no horror tricks)
+- **Art direction:** `docs/ART_DIRECTION.md` — colors, lighting, materials
+- **Puzzles:** `docs/puzzles/README.md` — all 6 puzzles with flowcharts
+- **Items:** `docs/items/README.md` — complete item catalog
+
+**DO NOT write a room scene without its room doc existing first.** Docs → Tests → Code.
+
+## Critical Rules
+
+1. **NO per-material shaders on PSX assets.** The GLBs and 596 texture PNGs are already PSX-quality. Only screen-space post-process (godot-psx `psx_dither.gdshader`) is used. See `docs/addons/shader-plan.md`.
+2. **Every room must feel alive.** No empty Interactables nodes. Every room has: interactable objects with narrative content, flickering lights, audio, connections, environmental storytelling. See room doc template in `docs/INDEX.md`.
+3. **Dialogue Manager for ALL text content.** Documents, observations, conditional text live in `.dialogue` files, NOT hardcoded strings. See `docs/addons/dialogue-plan.md`.
+
 ## Engine & Architecture
 
 - **Engine**: Godot 4.6.2 (Forward+)
@@ -32,8 +52,9 @@ assets/
   audio/loops/                    # 36 OGG ambient loops
   horror/{models,textures}/       # Horror-specific assets
 shaders/
-  psx.gdshader                   # Spatial PSX vertex snapping
-  psx_post.gdshader              # Screen-space PSX post-process
+  psx_dither.gdshader            # Screen-space PSX dither + color reduction (from godot-psx)
+  psx_fade.gdshader              # Dither-based room transition fade (from godot-psx)
+  # NO per-material shaders — PSX assets are already low-poly with baked textures
 test/
   e2e/run_e2e.gd                 # Headless E2E test (57 assertions)
 ```
@@ -181,6 +202,24 @@ on_read_flags = PackedStringArray()
 - E2E: `godot --headless --script test/e2e/run_e2e.gd` (57 assertions, exit 0=pass)
 - Maestro: Build APK, run flows on Android emulator
 - Visual QA: `/visual-qa` skill
+
+## Addons (via gd-plug)
+
+All addons managed in `plug.gd`. Each has a plan doc at `docs/addons/{name}-plan.md`.
+
+| Addon | Purpose | Plan |
+|-------|---------|------|
+| godot-psx | Screen-space dither + fade ONLY | [shader-plan.md](docs/addons/shader-plan.md) |
+| godot_dialogue_manager | Document/observation text system | [dialogue-plan.md](docs/addons/dialogue-plan.md) |
+| gloot | Resource-based inventory | [inventory-plan.md](docs/addons/inventory-plan.md) |
+| AdaptiSound | Layered adaptive audio | [audio-plan.md](docs/addons/audio-plan.md) |
+| shaky-camera-3d | Camera shake (horror moments only) | [camera-fx-plan.md](docs/addons/camera-fx-plan.md) |
+| quest-system | Puzzle progress tracking | [quest-plan.md](docs/addons/quest-plan.md) |
+| SaveMadeEasy | Encrypted save/load | [save-plan.md](docs/addons/save-plan.md) |
+| gdUnit4 | Testing framework | [testing-plan.md](docs/addons/testing-plan.md) |
+| godot-material-footsteps | Surface footstep sounds | [footsteps-plan.md](docs/addons/footsteps-plan.md) |
+| phantom-camera | Object inspection + cinematics | [phantom-camera-plan.md](docs/addons/phantom-camera-plan.md) |
+| limboai | HSM for game phases + Elizabeth | [state-machine-plan.md](docs/addons/state-machine-plan.md) |
 
 ## Room-by-Room Asset Mapping
 

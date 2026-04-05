@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "crypt_note"
+object_type = "note"
+title = "Lady's Note"
+content = "I hid the locket key here because I cannot bear to see her face. Forgive me, Elizabeth."
+on_read_flags = PackedStringArray()

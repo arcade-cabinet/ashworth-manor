@@ -195,6 +195,7 @@ shape = SubResource("BoxShape3D_5e20w")
 [node name="WNC" type="StaticBody3D" parent="Geometry" unique_id=1858789547]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -5)
 collision_layer = 2
+metadata/surface_type = "wood_parquet"
 
 [node name="S" type="CollisionShape3D" parent="Geometry/WNC" unique_id=568254630]
 shape = SubResource("BoxShape3D_vrqu6")

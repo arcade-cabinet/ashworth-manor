@@ -256,6 +256,7 @@ transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -5, 0, 3)
 
 [node name="FloorCollision" type="StaticBody3D" parent="Geometry"]
 collision_layer = 1
+metadata/surface_type = "rough_wood"
 
 [node name="Shape" type="CollisionShape3D" parent="Geometry/FloorCollision"]
 shape = SubResource("BoxShape3D_floor")

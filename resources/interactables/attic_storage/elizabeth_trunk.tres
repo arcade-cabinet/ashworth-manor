@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "elizabeth_trunk"
+object_type = "observation"
+title = "Trunk"
+content = "Elizabeth's trunk. Clothes for a nine-year-old, folded neatly by someone who cared."
+on_read_flags = PackedStringArray()

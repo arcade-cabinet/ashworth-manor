@@ -6,6 +6,12 @@
 [ext_resource type="Script" path="res://scripts/interaction_manager.gd" id="4_85g3d"]
 [ext_resource type="Shader" path="res://shaders/psx_dither.gdshader" id="5_choun"]
 [ext_resource type="Script" path="res://scripts/ui_overlay.gd" id="6_ya4ey"]
+[ext_resource type="Script" path="res://scripts/game_state_machine.gd" id="7_gsm01"]
+[ext_resource type="Script" path="res://scripts/elizabeth_presence.gd" id="8_eliz1"]
+[ext_resource type="Script" path="res://scripts/shake_profiles.gd" id="9_shak1"]
+[ext_resource type="Script" path="res://scripts/flashback_manager.gd" id="10_flas1"]
+[ext_resource type="Script" path="res://scripts/room_events.gd" id="11_revt1"]
+[ext_resource type="Script" path="res://scripts/quest_handler.gd" id="12_qhnd1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eb6dy"]
 sky_top_color = Color(0.02, 0.02, 0.06, 1)
@@ -97,6 +103,24 @@ volume_db = -80.0
 
 [node name="InteractionManager" type="Node" parent="." unique_id=1183332861]
 script = ExtResource("4_85g3d")
+
+[node name="GameStateMachine" type="Node" parent="."]
+script = ExtResource("7_gsm01")
+
+[node name="ElizabethPresence" type="Node" parent="."]
+script = ExtResource("8_eliz1")
+
+[node name="ShakeProfiles" type="Node" parent="."]
+script = ExtResource("9_shak1")
+
+[node name="FlashbackManager" type="Node" parent="."]
+script = ExtResource("10_flas1")
+
+[node name="RoomEvents" type="Node" parent="."]
+script = ExtResource("11_revt1")
+
+[node name="QuestHandler" type="Node" parent="."]
+script = ExtResource("12_qhnd1")
 
 [node name="PSXLayer" type="CanvasLayer" parent="." unique_id=134726030]
 layer = 2

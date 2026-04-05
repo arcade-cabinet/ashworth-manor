@@ -1,5 +1,6 @@
 extends CharacterBody3D
-## res://scripts/player_controller.gd — First-person controller with touch/mouse input
+## res://scripts/player_controller.gd -- First-person controller
+## Input in player_input.gd, camera in camera_controller.gd
 
 signal interacted(object_id: String, object_type: String, object_data: Dictionary)
 signal door_tapped(target_room: String)
@@ -8,8 +9,6 @@ const MOVE_SPEED: float = 3.0
 const STOP_DISTANCE: float = 0.3
 const GRAVITY: float = 9.8
 const SENSITIVITY: float = 0.003
-const TAP_THRESHOLD: float = 15.0
-const TAP_TIME_THRESHOLD: float = 0.3
 const CAMERA_HEIGHT: float = 1.7
 const PITCH_LIMIT: float = 45.0
 const LAYER_WALKABLE: int = 1
@@ -17,117 +16,81 @@ const LAYER_INTERACTABLE: int = 3
 const LAYER_DOOR: int = 4
 
 var _camera: Camera3D = null
+var _cam_ctrl: Node = null
+var _input_handler: Node = null
 var _yaw: float = 0.0
 var _pitch: float = 0.0
 var _target_position: Vector3 = Vector3.INF
 var _is_walking: bool = false
-
-# Touch tracking
-var _touch_start_pos: Vector2 = Vector2.ZERO
-var _touch_start_time: float = 0.0
-var _is_touching: bool = false
-var _touch_index: int = -1
-
-# Mouse drag tracking
-var _mouse_dragging: bool = false
-
-
 var _walk_marker: MeshInstance3D = null
+
 
 func _ready() -> void:
 	floor_snap_length = 0.5
 	up_direction = Vector3.UP
 	call_deferred("_connect_room_manager")
 
-	# Use existing camera if scene builder created one, otherwise make new
 	_camera = get_node_or_null("Camera3D") as Camera3D
 	if _camera == null:
-		_camera = get_node_or_null("PlayerCamera") as Camera3D
-	if _camera == null:
 		_camera = Camera3D.new()
-		_camera.name = "PlayerCamera"
+		_camera.name = "Camera3D"
 		add_child(_camera)
 	_camera.position = Vector3(0, CAMERA_HEIGHT, 0)
 	_camera.current = true
 	_camera.fov = 70.0
 
-	# Walk target marker — subtle floor indicator
+	_cam_ctrl = preload("res://scripts/camera_controller.gd").new()
+	_cam_ctrl.name = "CameraController"
+	add_child(_cam_ctrl)
+	_cam_ctrl.setup(_camera, self)
+
+	_input_handler = preload("res://scripts/player_input.gd").new()
+	_input_handler.name = "PlayerInput"
+	add_child(_input_handler)
+	_input_handler.tap_detected.connect(_handle_tap)
+	_input_handler.camera_drag.connect(_rotate_camera)
+
+	_build_walk_marker()
+
+
+func _build_walk_marker() -> void:
 	_walk_marker = MeshInstance3D.new()
 	_walk_marker.name = "WalkMarker"
-	var marker_mesh := TorusMesh.new()
-	marker_mesh.inner_radius = 0.1
-	marker_mesh.outer_radius = 0.2
-	_walk_marker.mesh = marker_mesh
-	var marker_mat := StandardMaterial3D.new()
-	marker_mat.emission_enabled = true
-	marker_mat.emission = Color(0.7, 0.6, 0.4)
-	marker_mat.emission_energy_multiplier = 2.0
-	marker_mat.albedo_color = Color(0, 0, 0, 0)
-	marker_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	_walk_marker.set_surface_override_material(0, marker_mat)
-	_walk_marker.rotation_degrees.x = 90  # Flat on floor
+	var mesh := TorusMesh.new()
+	mesh.inner_radius = 0.1
+	mesh.outer_radius = 0.2
+	_walk_marker.mesh = mesh
+	var mat := StandardMaterial3D.new()
+	mat.emission_enabled = true
+	mat.emission = Color(0.7, 0.6, 0.4)
+	mat.emission_energy_multiplier = 2.0
+	mat.albedo_color = Color(0, 0, 0, 0)
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	_walk_marker.set_surface_override_material(0, mat)
+	_walk_marker.rotation_degrees.x = 90
 	_walk_marker.visible = false
 	get_parent().call_deferred("add_child", _walk_marker)
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	# Block input when document overlay is open or game is paused
 	var ui: Control = get_node_or_null("/root/Main/UILayer/UIOverlay")
 	if ui and ui.get("_is_document_open") == true:
 		return
 	if get_tree().paused:
 		return
-
-	# Touch begin
-	if event is InputEventScreenTouch:
-		var touch: InputEventScreenTouch = event as InputEventScreenTouch
-		if touch.pressed:
-			_touch_start_pos = touch.position
-			_touch_start_time = Time.get_ticks_msec() / 1000.0
-			_is_touching = true
-			_touch_index = touch.index
-		else:
-			if _is_touching and touch.index == _touch_index:
-				var dist: float = touch.position.distance_to(_touch_start_pos)
-				var elapsed: float = (Time.get_ticks_msec() / 1000.0) - _touch_start_time
-				if dist < TAP_THRESHOLD and elapsed < TAP_TIME_THRESHOLD:
-					_handle_tap(touch.position)
-				_is_touching = false
-				_touch_index = -1
-
-	# Touch drag — camera rotation
-	if event is InputEventScreenDrag:
-		var drag: InputEventScreenDrag = event as InputEventScreenDrag
-		if _is_touching and drag.index == _touch_index:
-			_rotate_camera(drag.relative)
-
-	# Mouse input (desktop)
-	if event is InputEventMouseButton:
-		var mb: InputEventMouseButton = event as InputEventMouseButton
-		if mb.button_index == MOUSE_BUTTON_RIGHT:
-			_mouse_dragging = mb.pressed
-		elif mb.button_index == MOUSE_BUTTON_LEFT and mb.pressed:
-			_handle_tap(mb.position)
-
-	if event is InputEventMouseMotion:
-		var mm: InputEventMouseMotion = event as InputEventMouseMotion
-		if _mouse_dragging:
-			_rotate_camera(mm.relative)
+	_input_handler.handle_input(event)
 
 
 func _physics_process(delta: float) -> void:
-	# Gravity
 	if not is_on_floor():
 		velocity.y -= GRAVITY * delta
 	else:
 		velocity.y = 0.0
 
-	# Walk toward target
 	if _is_walking and _target_position != Vector3.INF:
 		var to_target: Vector3 = _target_position - global_position
 		to_target.y = 0.0
-		var dist: float = to_target.length()
-		if dist < STOP_DISTANCE:
+		if to_target.length() < STOP_DISTANCE:
 			_is_walking = false
 			velocity.x = 0.0
 			velocity.z = 0.0
@@ -141,11 +104,12 @@ func _physics_process(delta: float) -> void:
 		velocity.x = 0.0
 		velocity.z = 0.0
 
-	# Pulse the walk marker
 	if _walk_marker and _walk_marker.visible:
 		var pulse: float = 0.7 + sin(Time.get_ticks_msec() / 300.0) * 0.3
 		_walk_marker.scale = Vector3(pulse, pulse, pulse)
 
+	if _cam_ctrl:
+		_cam_ctrl.update_exploration_cam(global_position, _pitch, _yaw)
 	move_and_slide()
 
 
@@ -160,65 +124,46 @@ func _rotate_camera(relative: Vector2) -> void:
 func _handle_tap(screen_pos: Vector2) -> void:
 	if _camera == null:
 		return
-
 	var from: Vector3 = _camera.project_ray_origin(screen_pos)
 	var dir: Vector3 = _camera.project_ray_normal(screen_pos)
 	var to: Vector3 = from + dir * 100.0
-
-	var space_state: PhysicsDirectSpaceState3D = get_world_3d().direct_space_state
-	if space_state == null:
+	var space: PhysicsDirectSpaceState3D = get_world_3d().direct_space_state
+	if space == null:
 		return
 
-	# Check interactables first (layer 3)
-	var interactable_query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(from, to)
-	interactable_query.collision_mask = (1 << (LAYER_INTERACTABLE - 1))
-	interactable_query.collide_with_areas = true
-	interactable_query.collide_with_bodies = false
+	var hit: Dictionary = _raycast(space, from, to, 1 << (LAYER_INTERACTABLE - 1), true)
+	if not hit.is_empty() and hit["collider"] is Area3D:
+		var a: Area3D = hit["collider"] as Area3D
+		if a.has_meta("id"):
+			interacted.emit(a.get_meta("id"),
+				a.get_meta("type") if a.has_meta("type") else "",
+				a.get_meta("data") if a.has_meta("data") else {})
+			return
 
-	var interactable_result: Dictionary = space_state.intersect_ray(interactable_query)
-	if not interactable_result.is_empty():
-		var collider: Object = interactable_result["collider"]
-		if collider is Area3D:
-			var area: Area3D = collider as Area3D
-			if area.has_meta("id"):
-				var obj_id: String = area.get_meta("id")
-				var obj_type: String = area.get_meta("type") if area.has_meta("type") else ""
-				var obj_data: Dictionary = area.get_meta("data") if area.has_meta("data") else {}
-				interacted.emit(obj_id, obj_type, obj_data)
-				return
+	hit = _raycast(space, from, to, 1 << (LAYER_DOOR - 1), true)
+	if not hit.is_empty() and hit["collider"] is Area3D:
+		var a: Area3D = hit["collider"] as Area3D
+		if a.has_meta("target_room"):
+			door_tapped.emit(a.get_meta("target_room"))
+			return
 
-	# Check door/connection areas (layer 4)
-	var door_query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(from, to)
-	door_query.collision_mask = (1 << (LAYER_DOOR - 1))
-	door_query.collide_with_areas = true
-	door_query.collide_with_bodies = false
-
-	var door_result: Dictionary = space_state.intersect_ray(door_query)
-	if not door_result.is_empty():
-		var collider: Object = door_result["collider"]
-		if collider is Area3D:
-			var area: Area3D = collider as Area3D
-			if area.has_meta("target_room"):
-				var target: String = area.get_meta("target_room")
-				door_tapped.emit(target)
-				return
-
-	# Check floor (layer 1) — walk to point
-	var floor_query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(from, to)
-	floor_query.collision_mask = (1 << (LAYER_WALKABLE - 1))
-	floor_query.collide_with_areas = false
-	floor_query.collide_with_bodies = true
-
-	var floor_result: Dictionary = space_state.intersect_ray(floor_query)
-	if not floor_result.is_empty():
-		_target_position = floor_result["position"]
+	hit = _raycast(space, from, to, 1 << (LAYER_WALKABLE - 1), false)
+	if not hit.is_empty():
+		_target_position = hit["position"]
 		_target_position.y = global_position.y
 		_is_walking = true
-		# Show walk marker at target
 		if _walk_marker:
-			_walk_marker.global_position = floor_result["position"] + Vector3(0, 0.05, 0)
+			_walk_marker.global_position = hit["position"] + Vector3(0, 0.05, 0)
 			_walk_marker.visible = true
 
+
+func _raycast(space: PhysicsDirectSpaceState3D, from: Vector3, to: Vector3,
+		mask: int, areas: bool) -> Dictionary:
+	var q := PhysicsRayQueryParameters3D.create(from, to)
+	q.collision_mask = mask
+	q.collide_with_areas = areas
+	q.collide_with_bodies = not areas
+	return space.intersect_ray(q)
 
 
 func _connect_room_manager() -> void:

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "dining_vessel"
+object_type = "observation"
+title = "Serving Vessel"
+content = "A silver tureen, lid askew. Inside: desiccated remains of soup."
+on_read_flags = PackedStringArray()

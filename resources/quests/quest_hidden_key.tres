@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Quest" format=3]
+
+[ext_resource type="Script" path="res://addons/quest_system/quest_resource.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = 2
+quest_name = "Find the Hidden Key"
+quest_description = "Elizabeth's inner sanctum is locked. The key must be somewhere."
+quest_objective = "Find the hidden key to Elizabeth's chamber"

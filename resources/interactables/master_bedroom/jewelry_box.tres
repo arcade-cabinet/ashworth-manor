@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "jewelry_box"
+object_type = "box"
+title = "Jewelry Box"
+content = "An ornate wooden box with a heart-shaped lock. It won't open."
+locked = true
+key_id = "jewelry_key"
+item_found = "elizabeths_locket"
+gives_also = "lock_of_hair"
+on_read_flags = PackedStringArray()

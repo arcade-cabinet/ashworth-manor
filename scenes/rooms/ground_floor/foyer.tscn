@@ -427,6 +427,7 @@ shape = SubResource("BoxShape3D_h2c3d")
 [node name="WallCollN" type="StaticBody3D" parent="Geometry" unique_id=328815736]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 5.15)
 collision_layer = 2
+metadata/surface_type = "marble"
 collision_mask = 0
 
 [node name="@CollisionShape3D@61913" type="CollisionShape3D" parent="Geometry/WallCollN" unique_id=1045602721]

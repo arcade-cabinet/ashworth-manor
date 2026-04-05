@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "porcelain_doll"
+object_type = "doll"
+title = "Porcelain Doll"
+content = ""
+item_found = "hidden_key"
+on_read_flags = PackedStringArray()
+first_content = "A porcelain doll with cracked features. Its painted eyes seem to follow you. Behind it, scratched into the wood: 'SHE NEVER LEFT.'"
+second_content = "You turn the doll over. Inside the hollow body, wrapped in a child's handkerchief, is a tarnished key. The doll's cracked face seems to relax."
+requires_flag = "read_elizabeth_letter"
+on_first_flags = PackedStringArray("examined_doll")
+on_second_flags = PackedStringArray("has_hidden_key")
+pickable_after_key = true

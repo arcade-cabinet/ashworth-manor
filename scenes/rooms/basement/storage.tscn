@@ -104,6 +104,7 @@ spawn_position = Vector3(0, 0, -5)
 spawn_rotation_y = 180.0
 
 [node name="Geometry" type="Node3D" parent="." unique_id=224206709]
+metadata/surface_type = "stone"
 
 [node name="Floor" type="CSGBox3D" parent="Geometry" unique_id=1183285224]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)

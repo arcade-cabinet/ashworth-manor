@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "parlor_note"
+object_type = "note"
+title = "Torn Diary Page"
+content = "The children have been hearing whispers from the attic again. I've locked the door but they say she still calls to them at night..."
+on_read_flags = PackedStringArray("found_first_clue", "knows_attic_girl")

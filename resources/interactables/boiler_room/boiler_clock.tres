@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "boiler_clock"
+object_type = "clock"
+title = "Clock"
+content = "3:33. Even here. The industrial clock is spring mechanism, not pendulum. It shouldn't have stopped."
+on_read_flags = PackedStringArray("examined_boiler_clock")

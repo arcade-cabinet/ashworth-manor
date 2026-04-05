@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Quest" format=3]
+
+[ext_resource type="Script" path="res://addons/quest_system/quest_resource.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = 6
+quest_name = "Free Elizabeth"
+quest_description = "The truth is known. The ritual items are gathered. End this."
+quest_objective = "Perform the counter-ritual in the hidden chamber"

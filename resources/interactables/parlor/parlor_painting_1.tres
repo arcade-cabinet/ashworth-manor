@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "parlor_painting_1"
+object_type = "painting"
+title = "Lady Ashworth"
+content = "She wears a black mourning dress despite this being painted before any family deaths. Her expression is distant, resigned."
+on_read_flags = PackedStringArray("examined_lady_portrait")

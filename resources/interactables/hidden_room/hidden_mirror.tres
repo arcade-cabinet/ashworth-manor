@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "hidden_mirror"
+object_type = "mirror"
+title = "Mirror"
+content = "In the mirror, behind you, stands a girl in white. When you turn — nothing. But the mirror remembers."
+on_read_flags = PackedStringArray()

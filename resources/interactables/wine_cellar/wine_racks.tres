@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "wine_racks"
+object_type = "observation"
+title = "Wine Racks"
+content = "Most bottles covered in dust. But several gaps where bottles were recently removed."
+on_read_flags = PackedStringArray()

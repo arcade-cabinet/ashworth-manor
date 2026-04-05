@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "ritual_circle"
+object_type = "ritual"
+title = "Ritual Circle"
+content = "The circle drawn on the floor pulses faintly. The drawings converge on this point."
+on_read_flags = PackedStringArray()

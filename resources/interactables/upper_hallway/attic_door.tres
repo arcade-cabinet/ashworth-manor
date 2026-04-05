@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "attic_door"
+object_type = "locked_door"
+title = "Attic Door"
+content = "The door is locked. Heavy iron bands reinforce the wood."
+locked = true
+key_id = "attic_key"
+on_read_flags = PackedStringArray("knows_attic_locked")
+target_room = "attic_stairs"
+message_locked = "The door is locked. Heavy iron bands reinforce the wood. The lock is cold — colder than the air."

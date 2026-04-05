@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "gate_plaque"
+object_type = "note"
+title = "Ashworth Manor"
+content = "ASHWORTH MANOR — Est. 1847. The iron lettering is green with verdigris. Below, in smaller script barely legible: 'Abandon memory, all ye who enter.'"
+on_read_flags = PackedStringArray("examined_gate_plaque")

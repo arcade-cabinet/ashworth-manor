@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "chapel_glass"
+object_type = "observation"
+title = "Stained Glass"
+content = "Fragments of a saint's face. Deliberately smashed from inside."
+on_read_flags = PackedStringArray()

@@ -67,6 +67,7 @@ spawn_position = Vector3(0, 0, -6)
 spawn_rotation_y = 180.0
 
 [node name="Geometry" type="Node3D" parent="." unique_id=694616848]
+metadata/surface_type = "wood_parquet"
 
 [node name="Floor_0_0" type="Node3D" parent="Geometry" unique_id=246764445 instance=ExtResource("2_igkj2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3)

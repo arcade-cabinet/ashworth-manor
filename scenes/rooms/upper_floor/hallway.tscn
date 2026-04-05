@@ -288,6 +288,7 @@ shape = SubResource("BoxShape3D_s5aue")
 [node name="WallNorthCollision" type="StaticBody3D" parent="Geometry" unique_id=1195908041]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -5)
 collision_layer = 2
+metadata/surface_type = "carpet"
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Geometry/WallNorthCollision" unique_id=896748201]
 shape = SubResource("BoxShape3D_uvf6r")
@@ -333,6 +334,21 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -1.2, 0, -4)
 [node name="FramedNotice" parent="Models" unique_id=409472412 instance=ExtResource("11_gagw0")]
 transform = Transform3D(-1.3113416e-07, 0, -3, 0, 3, 0, 3, 0, -1.3113416e-07, 1.8, 1.8, -3)
 [node name="Lighting" type="Node3D" parent="." unique_id=1395082330]
+
+[node name="HallwayLamp1" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, 0)
+light_color = Color(1, 0.85, 0.6, 1)
+light_energy = 2.0
+shadow_enabled = true
+omni_range = 6.0
+metadata/flickering = true
+
+[node name="HallwayLamp2" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 4)
+light_color = Color(1, 0.85, 0.6, 1)
+light_energy = 1.5
+shadow_enabled = true
+omni_range = 5.0
 
 
 [node name="Interactables" type="Node3D" parent="."]

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "hallway_poster"
+object_type = "observation"
+title = "Framed Notice"
+content = "The third floor is closed for repairs. No staff or family are to enter. — Lord Ashworth, October 1887."
+on_read_flags = PackedStringArray("read_hallway_notice")

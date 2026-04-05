@@ -47,6 +47,9 @@ size = Vector3(2, 3, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_c04"]
 size = Vector3(2, 3, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_i03"]
+size = Vector3(1.5, 1.5, 1.5)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_c05"]
 size = Vector3(2, 3, 1)
 
@@ -100,6 +103,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 6)
 
 [node name="FloorCollision" type="StaticBody3D" parent="Geometry"]
 collision_layer = 1
+metadata/surface_type = "grass"
 
 [node name="Shape" type="CollisionShape3D" parent="Geometry/FloorCollision"]
 shape = SubResource("BoxShape3D_floor")
@@ -195,6 +199,17 @@ metadata/data = {"title": "Garden Beds", "content": "Dead flower beds. But one: 
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Interactables/garden_beds"]
 shape = SubResource("BoxShape3D_i02")
+
+[node name="garden_lily" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.2, 3)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "garden_lily"
+metadata/type = "observation"
+metadata/data = {"title": "White Lilies", "content": "White lilies, blooming in December. Each petal is perfect. The cold should have killed them weeks ago. Elizabeth's favorites."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/garden_lily"]
+shape = SubResource("BoxShape3D_i03")
 
 [node name="Connections" type="Node3D" parent="."]
 

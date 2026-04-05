@@ -13,6 +13,7 @@ extends Node3D
 
 var _flickering_lights: Array[Dictionary] = []
 var _elapsed_time: float = 0.0
+var _flicker_intensity: float = 1.0
 
 
 @export var boundary_size: Vector3 = Vector3.ZERO  # If set, creates invisible walls
@@ -46,7 +47,11 @@ func _process(delta: float) -> void:
 		var base_energy: float = entry["base_energy"]
 		if is_instance_valid(light):
 			var flicker: float = sin(_elapsed_time * 2.5) * 0.04 + sin(_elapsed_time * 4.3) * 0.02
-			light.light_energy = base_energy * (0.85 + flicker)
+			light.light_energy = base_energy * (0.85 + flicker * _flicker_intensity)
+
+
+func set_flicker_intensity(multiplier: float) -> void:
+	_flicker_intensity = multiplier
 
 
 func get_interactables() -> Array[Area3D]:

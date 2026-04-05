@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "dinner_photo"
+object_type = "photo"
+title = "Dinner Photograph"
+content = "A formal dinner photograph. Eight people arranged around this very table. Three of these guests would be dead within the week."
+on_read_flags = PackedStringArray("examined_dinner_photo")

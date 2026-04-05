@@ -175,6 +175,7 @@ transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4, 0, 2)
 
 [node name="FloorCollision" type="StaticBody3D" parent="Geometry"]
 collision_layer = 1
+metadata/surface_type = "dirt"
 
 [node name="Shape" type="CollisionShape3D" parent="Geometry/FloorCollision"]
 shape = SubResource("BoxShape3D_floor")
@@ -284,12 +285,12 @@ shape = SubResource("BoxShape3D_i02")
 
 [node name="Connections" type="Node3D" parent="."]
 
-[node name="to_garden" type="Area3D" parent="Connections"]
+[node name="to_front_gate" type="Area3D" parent="Connections"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -5)
 collision_layer = 8
 collision_mask = 0
-metadata/target_room = "garden"
+metadata/target_room = "front_gate"
 metadata/type = "path"
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_garden"]
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_front_gate"]
 shape = SubResource("BoxShape3D_c03")
