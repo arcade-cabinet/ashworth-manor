@@ -25,6 +25,12 @@ The Grounds serve three narrative purposes:
                     │   (stone, iron)    │
                     └────────┬───────────┘
                              │ path
+                    ┌────────┴───────────┐
+                    │    HEDGE GARDEN    │
+                    │  (modular maze,    │
+                    │   fountain, gazebo)│
+                    └────────┬───────────┘
+                             │ path
               ┌──────────────┼──────────────┐
               │              │              │
     ┌─────────┴──────┐  ┌───┴────────┐  ┌──┴──────────┐
@@ -57,10 +63,11 @@ The Grounds serve three narrative purposes:
 | Area ID | Name | Dimensions | Position | Access |
 |---------|------|------------|----------|--------|
 | `front_gate` | Front Gate & Drive | 20x30 | (0, 0, -40) | Game start |
+| `garden` | Hedge Garden | 24x24 | (0, 0, 20) | Behind mansion, path north |
 | `chapel` | Estate Chapel | 6x10x5 | (-20, 0, 10) | From grounds path |
 | `greenhouse` | Greenhouse | 8x12x4 | (20, 0, 10) | From grounds path |
 | `carriage_house` | Carriage House | 10x8x4 | (-15, 0, -25) | From front drive |
-| `family_crypt` | Family Crypt | 6x8x3.5 | (0, 0, 30) | Behind mansion, locked gate |
+| `family_crypt` | Family Crypt | 6x8x3.5 | (0, 0, 40) | Through garden, locked gate |
 
 ---
 
@@ -352,6 +359,92 @@ event_find_cellar_key:
     - set_flag: has_cellar_key
     - show_message: "Behind the portrait frame, you find an iron key."
     - play_sound: key_found
+```
+
+---
+
+## AREA: Hedge Garden
+
+**Room ID**: `garden`
+**Access**: Behind the mansion, through grounds path north
+**Purpose**: Explorable atmospheric space, connects mansion to crypt, environmental storytelling
+
+### Overview
+The formal garden of Ashworth Manor was Lady Ashworth's pride — a hedge maze in the Victorian fashion, with a central fountain, stone gazebo, flowerbeds, and ornamental columns. In December 1891, the hedges have grown wild, the fountain is frozen solid, and the flowerbeds are empty graves of soil. Snow covers everything. The garden is disorienting by design — paths that should lead somewhere loop back. The gazebo at the center offers a clear view of both the mansion (south) and the crypt (north). From the gazebo, you can see a figure standing at the crypt gate. When you arrive at the gate, no one is there.
+
+### Environment
+- **Modular hedges**: Straight sections (1x1 through 5x1), L-corners, T-junctions — overgrown, winter-dead
+- **Central fountain**: Round stone fountain, water frozen solid, ice cracked
+- **Gazebo**: Open-sided garden structure — Elizabeth used to play here
+- **Stone columns**: Ornamental pillars marking path intersections
+- **Benches**: Two garden benches — one has a child's drawing scratched into the wood
+- **Flowerbeds**: Empty soil plots, dead in winter
+- **Stone walls**: Low walls delineating garden sections
+- **Vases**: Ornamental garden vases, some toppled
+
+### Dimensions
+| Property | Value |
+|----------|-------|
+| Width | 24 units |
+| Depth | 24 units |
+| Position | (0, 0, 20) |
+
+### Lighting
+| ID | Type | Position | Color | Intensity | Flickering |
+|----|------|----------|-------|-----------|------------|
+| `garden_moonlight` | directional | above | (0.65, 0.7, 0.85) | 0.25 | No |
+
+### Interactables
+```yaml
+frozen_fountain:
+  id: frozen_fountain
+  type: painting
+  position: { x: 0, y: 0.8, z: 0 }
+  content:
+    title: "The Fountain"
+    text: "The water is frozen solid. Beneath the ice, something glints — a coin? No. A child's ring, too small for any adult hand. Thrown in for a wish that never came true."
+
+gazebo_bench:
+  id: gazebo_bench
+  type: note
+  position: { x: 0, y: 0.8, z: -3 }
+  content:
+    title: "Scratched Drawing"
+    text: "Scratched into the bench with a nail or stone: a crude drawing of a girl and a doll, holding hands. Below it, in a child's letters: 'LIZZY + DOLLY BEST FRENDS'. The spelling of a seven-year-old."
+
+garden_view_north:
+  id: garden_view_north
+  type: observation
+  position: { x: 0, y: 1.5, z: 10 }
+  content:
+    text: "Through the hedge gaps, you can see the iron gate of the family crypt. For a moment, someone was standing there. Now the space is empty."
+```
+
+### Narrative Function
+- **Transition space**: Creates physical and emotional distance between mansion and crypt
+- **Elizabeth's childhood**: The scratched drawing proves she played here, was a normal child before confinement
+- **The ring in the fountain**: A wish she made — likely to be free, to be loved, to be normal
+- **The figure at the crypt**: Elizabeth guiding the player north, toward the truth about her missing grave
+- **Disorientation**: The maze layout creates the Myst-like feeling of being lost in a beautiful but wrong space
+
+### Audio
+- **Primary**: "Subtle Changes Loop3.ogg" — shifting tension, organic
+- **Wind through hedges**: Environmental, constant
+
+### Connections
+```yaml
+connections:
+  - direction: south
+    target_room: front_gate
+    type: path
+    pos: { x: 0, y: 0, z: -12 }
+    locked: false
+  - direction: north
+    target_room: family_crypt
+    type: path
+    pos: { x: 0, y: 0, z: 12 }
+    locked: true
+    key_id: gate_key
 ```
 
 ---

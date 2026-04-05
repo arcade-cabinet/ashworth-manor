@@ -43,9 +43,9 @@ This document details the mansion layout, room specifications, and environmental
     └─────────────────────────────────────────────────────┘
 ```
 
-### Total Room Count: 19
+### Total Room Count: 20
 - **Interior**: 14 rooms across 5 floors
-- **Exterior**: 5 areas (Front Gate, Chapel, Greenhouse, Carriage House, Crypt)
+- **Exterior**: 6 areas (Front Gate, Hedge Garden, Chapel, Greenhouse, Carriage House, Crypt)
 
 ## Floor Specifications
 
