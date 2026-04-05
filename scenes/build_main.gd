@@ -11,33 +11,72 @@ func _initialize() -> void:
 	var world_env := WorldEnvironment.new()
 	world_env.name = "WorldEnvironment"
 	var env := Environment.new()
-	env.background_mode = Environment.BG_COLOR
-	env.background_color = Color(0.02, 0.01, 0.02)
-	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.ambient_light_color = Color(0.15, 0.1, 0.08)  # Warm amber ambient (candlelit Victorian)
-	env.ambient_light_energy = 1.5
+
+	# Night sky — deep dark blue, not black void
+	env.background_mode = Environment.BG_SKY
+	var sky := Sky.new()
+	var sky_mat := ProceduralSkyMaterial.new()
+	sky_mat.sky_top_color = Color(0.02, 0.02, 0.06)
+	sky_mat.sky_horizon_color = Color(0.04, 0.03, 0.06)
+	sky_mat.ground_bottom_color = Color(0.01, 0.01, 0.02)
+	sky_mat.ground_horizon_color = Color(0.03, 0.025, 0.05)
+	sky_mat.sun_angle_max = 1.0  # Tiny moon disc
+	sky_mat.sun_curve = 0.5
+	sky.sky_material = sky_mat
+	env.sky = sky
+
+	# Ambient from sky — natural fill instead of flat color
+	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
+	env.ambient_light_sky_contribution = 0.3
+	env.ambient_light_color = Color(0.12, 0.08, 0.06)
+	env.ambient_light_energy = 1.0
+
+	# Tonemap — filmic for warm highlights
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	env.tonemap_white = 2.5
-	env.tonemap_exposure = 1.2
-	# Fog — warm dust, not cold purple
+	env.tonemap_exposure = 1.0
+
+	# Volumetric fog — warm dust motes in candlelight
+	env.volumetric_fog_enabled = true
+	env.volumetric_fog_density = 0.015
+	env.volumetric_fog_albedo = Color(0.2, 0.15, 0.1)
+	env.volumetric_fog_emission = Color(0, 0, 0)
+	env.volumetric_fog_length = 30.0
+	env.volumetric_fog_anisotropy = 0.6  # Forward scatter toward light sources
+	env.volumetric_fog_ambient_inject = 0.1
+	env.volumetric_fog_gi_inject = 0.5
+
+	# Also standard fog for distant falloff
 	env.fog_enabled = true
-	env.fog_light_color = Color(0.1, 0.06, 0.04)  # Warm brown dust
-	env.fog_density = 0.003
-	# Bloom — candle glow
+	env.fog_light_color = Color(0.08, 0.05, 0.04)
+	env.fog_density = 0.008
+	env.fog_aerial_perspective = 0.3
+
+	# Bloom — warm candle glow bleeds
 	env.glow_enabled = true
-	env.glow_intensity = 0.6
-	env.glow_bloom = 0.4
+	env.glow_intensity = 0.8
+	env.glow_bloom = 0.3
 	env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SOFTLIGHT
-	env.glow_hdr_threshold = 0.8
-	# SSAO for depth in enclosed rooms
+	env.glow_hdr_threshold = 0.6
+	env.glow_hdr_scale = 2.0
+
+	# SSAO — deep corners and crevices
 	env.ssao_enabled = true
-	env.ssao_radius = 2.0
-	env.ssao_intensity = 1.5
-	# Color adjustment — warmer, more saturated
+	env.ssao_radius = 1.5
+	env.ssao_intensity = 3.0
+	env.ssao_detail = 0.7
+	env.ssao_light_affect = 0.2
+
+	# SSIL — indirect light bouncing off colored walls
+	env.ssil_enabled = true
+	env.ssil_radius = 4.0
+	env.ssil_intensity = 1.0
+
+	# Color adjustment — warm, slightly desaturated (Victorian muted palette)
 	env.adjustment_enabled = true
 	env.adjustment_brightness = 1.0
-	env.adjustment_contrast = 1.15
-	env.adjustment_saturation = 0.9
+	env.adjustment_contrast = 1.2
+	env.adjustment_saturation = 0.8
 	world_env.environment = env
 	root.add_child(world_env)
 
