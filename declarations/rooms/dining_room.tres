@@ -9,13 +9,13 @@
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
 [ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
 
-; === Responses ===
+; === Dinner Photo Responses (shared) ===
 
 [sub_resource type="Resource" id="resp_photo_truth"]
 script = ExtResource("3")
 condition = "knows_full_truth"
 title = "Dinner Party Photo"
-text = "The last dinner. December 23rd, 1891. Three guests dead within the week. And somewhere above them, behind a locked door, a child they'd all agreed to forget."
+text = "The last dinner. December 23rd, 1891. Three guests dead within the week. And somewhere above them, behind a locked door, a child they had all agreed to forget."
 set_state = {"examined_dinner_photo": true}
 
 [sub_resource type="Resource" id="resp_photo_log"]
@@ -32,19 +32,67 @@ title = "Dinner Party Photo"
 text = "A photograph of a dinner party. Eight guests, formal dress, candlelight. Everyone is smiling except Lord Ashworth, who stares directly at the camera. The date on the back: December 23rd, 1891."
 set_state = {"examined_dinner_photo": true}
 
-[sub_resource type="Resource" id="resp_chair_default"]
+; Photo thread variants
+[sub_resource type="Resource" id="resp_photo_captive"]
 script = ExtResource("3")
 condition = ""
-title = "Pushed Chair"
-text = "One chair pushed back from the table, angled as if someone stood suddenly. The plate is untouched. The napkin is on the floor. Whoever sat here left mid-course — or was taken."
-set_state = {"examined_pushed_chair": true}
+title = "Dinner Party Photo"
+text = "Eight guests at dinner. Everyone smiling. But look at the background -- the ceiling above them. Is that a shadow? A handprint on the plaster, directly above the table? She was there. Above them. Listening to them laugh while she sat in the dark. The photograph captured the party. It also captured her prison."
+set_state = {"examined_dinner_photo": true}
+
+[sub_resource type="Resource" id="resp_photo_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Dinner Party Photo"
+text = "Eight guests at dinner. Seven smiling. Victoria, at the far end of the table, is not smiling. She is looking at the empty chair -- the ninth place setting. Set but unused. She set a plate for Elizabeth every night. The servants knew not to clear it. Grief made visible in china and silverware."
+set_state = {"examined_dinner_photo": true}
+
+[sub_resource type="Resource" id="resp_photo_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Dinner Party Photo"
+text = "Eight guests at dinner. The candles in the photograph are all tilted the same direction -- toward Lord Ashworth's end of the table. Not from a draft. From her. She was pulling the flames. Testing her reach. Everyone in the photograph is smiling at the camera. The candles are looking at something else entirely."
+set_state = {"examined_dinner_photo": true}
+
+; === Wine Glass Responses (shared) ===
 
 [sub_resource type="Resource" id="resp_wine_default"]
 script = ExtResource("3")
 condition = ""
 title = "Wine Glass"
-text = "A single wine glass, still full. Dark red, almost black. After 130 years, it hasn't evaporated. The wine surface trembles faintly — as if something beneath the table breathes."
+text = "A single wine glass, still full. Dark red, almost black. After 130 years, it has not evaporated. The wine surface trembles faintly -- as if something beneath the table breathes."
 set_state = {"examined_wine_glass": true}
+
+; Wine glass thread variants
+[sub_resource type="Resource" id="resp_wine_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Wine Glass"
+text = "A full wine glass. The liquid is dark, still, preserved. Was it poisoned? In a house where a child is locked in the attic, the wine at the dinner table feels like evidence. Someone poured this glass and no one drank it. Someone knew what was in it. Or what was above them."
+set_state = {"examined_wine_glass": true}
+
+[sub_resource type="Resource" id="resp_wine_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Wine Glass"
+text = "A full wine glass. Untouched. Saved for someone who never came down to dinner. Victoria poured this glass -- you know it the way you know everything about grief in this house. She poured it for Elizabeth. Every night. And every night it sat untouched. And every morning she poured it out and set a fresh glass. The ritual of a mother who cannot let go."
+set_state = {"examined_wine_glass": true}
+
+[sub_resource type="Resource" id="resp_wine_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Wine Glass"
+text = "A full wine glass. The liquid trembles. Not from vibration -- from within. Small ripples pulse outward from the center at regular intervals. A heartbeat. The wine is not preserved. It is maintained. She is keeping it fresh. She is keeping everything in this room exactly as it was on the night of December 23rd, 1891. The whole room is a display case and she is the curator."
+set_state = {"examined_wine_glass": true}
+
+; === Chair, Candles, Bell (same all threads) ===
+
+[sub_resource type="Resource" id="resp_chair_default"]
+script = ExtResource("3")
+condition = ""
+title = "Pushed Chair"
+text = "One chair pushed back from the table, angled as if someone stood suddenly. The plate is untouched. The napkin is on the floor. Whoever sat here left mid-course -- or was taken."
+set_state = {"examined_pushed_chair": true}
 
 [sub_resource type="Resource" id="resp_candles_default"]
 script = ExtResource("3")
@@ -57,7 +105,7 @@ set_state = {"examined_dining_candles": true}
 script = ExtResource("3")
 condition = ""
 title = "Service Bell"
-text = "A small brass bell for summoning servants. You ring it. The sound is muffled — as if the air itself absorbs the vibration. No one is coming."
+text = "A small brass bell for summoning servants. You ring it. The sound is muffled -- as if the air itself absorbs the vibration. No one is coming."
 
 ; === Interactables ===
 
@@ -69,6 +117,7 @@ position = Vector3(-3.5, 2, 0)
 wall = "west"
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_photo_truth"), SubResource("resp_photo_log"), SubResource("resp_photo_default")])
+thread_responses = {"captive": [SubResource("resp_photo_captive")], "mourning": [SubResource("resp_photo_mourning")], "sovereign": [SubResource("resp_photo_sovereign")]}
 
 [sub_resource type="Resource" id="inter_chair"]
 script = ExtResource("2")
@@ -85,6 +134,7 @@ type = "observation"
 position = Vector3(-1, 1, -2)
 collision_size = Vector3(0.5, 0.5, 0.5)
 responses = Array[Resource]([SubResource("resp_wine_default")])
+thread_responses = {"captive": [SubResource("resp_wine_captive")], "mourning": [SubResource("resp_wine_mourning")], "sovereign": [SubResource("resp_wine_sovereign")]}
 
 [sub_resource type="Resource" id="inter_candles"]
 script = ExtResource("2")

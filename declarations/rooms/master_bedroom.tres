@@ -4,8 +4,245 @@
 [ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
 [ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
 [ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+[ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
+
+; === Diary Responses (shared/default) ===
+
+[sub_resource type="Resource" id="resp_diary_truth"]
+script = ExtResource("3")
+condition = "knows_full_truth"
+title = "Lord Ashworth's Diary"
+text = "You know everything now. The diary is just paper and ink. But you read it again anyway. 'I had no choice.' He wrote that seventeen times across six pages. He was trying to convince himself."
+set_state = {"read_ashworth_diary": true}
+
+[sub_resource type="Resource" id="resp_diary_default"]
+script = ExtResource("3")
+condition = ""
+title = "Lord Ashworth's Diary"
+text = "A leather-bound diary on the nightstand. The entries grow shorter and more agitated through November and December of 1891. The last entry, December 24th, is a single line: 'God forgive me for what I have done tonight.'"
+set_state = {"read_ashworth_diary": true}
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
+
+; CAPTIVE diary: Imprisonment, keys, control
+[sub_resource type="Resource" id="resp_diary_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Lord Ashworth's Diary"
+text = "The diary is chained to the nightstand with a small padlock. Even his own words are imprisoned. The November entries describe locks purchased, doors reinforced, windows boarded. December entries are shorter: 'The key is safe. She cannot reach it. The binding holds.' The final entry, December 24th: 'I have hidden the last key. No one will open that door again. God forgive me.'"
+set_state = {"read_ashworth_diary": true}
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
+
+; MOURNING diary: Grief, sleepless nights, guilt
+[sub_resource type="Resource" id="resp_diary_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Lord Ashworth's Diary"
+text = "The diary lies open on the pillow. He was reading his own words in bed, unable to sleep. The pages are warped from moisture -- not water. Tears. The November entries describe sleepless nights, the sound of crying through the ceiling. December entries: 'Victoria will not speak to me. Cook leaves my meals outside the door. The house grieves and I am the cause.' December 24th: 'I hear her still. I will always hear her.'"
+set_state = {"read_ashworth_diary": true}
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
+
+; SOVEREIGN diary: Fear, the unnatural, she is changing
+[sub_resource type="Resource" id="resp_diary_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Lord Ashworth's Diary"
+text = "The diary is on the floor, thrown there. Pages are torn out -- not carefully removed, ripped in panic. The surviving entries describe increasingly strange observations. November: 'The doors opened by themselves today. All of them. Simultaneously.' December: 'She does not need to touch things anymore. She looks at them and they MOVE.' December 15th: 'The house is hers now. I feel it in the foundations.' December 24th, the last page, written in the margins: 'She is not becoming something. She has BECOME it.'"
+set_state = {"read_ashworth_diary": true}
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
+
+; === Mirror Responses (shared/default) ===
+
+[sub_resource type="Resource" id="resp_mirror_aware"]
+script = ExtResource("3")
+condition = "elizabeth_aware"
+title = "Vanity Mirror"
+text = "The mirror shows the room behind you. But the bed is made in the reflection. The bed in reality is unmade. Two versions of the room. Two truths."
+set_state = {"examined_bedroom_mirror": true}
+
+[sub_resource type="Resource" id="resp_mirror_default"]
+script = ExtResource("3")
+condition = ""
+title = "Vanity Mirror"
+text = "A vanity mirror framed in dark walnut. The glass is old -- slightly warped, giving your reflection a dreamlike quality. Lady Ashworth sat here every morning. Her hairbrush still rests beside it, strands of grey caught in the bristles."
+set_state = {"examined_bedroom_mirror": true}
+
+; CAPTIVE mirror: Trapped, the reflection as prisoner
+[sub_resource type="Resource" id="resp_mirror_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Vanity Mirror"
+text = "The vanity mirror is cracked. A single fracture runs from top to bottom, splitting your reflection in two. One half shows you as you are. The other half shows you slightly behind -- as if the reflection is on a delay, trying to catch up, trapped behind the glass a moment longer than it should be. Lady Ashworth's hairbrush lies beside it. She stopped looking at herself."
+set_state = {"examined_bedroom_mirror": true}
+
+; MOURNING mirror: Aged, sad, time-worn
+[sub_resource type="Resource" id="resp_mirror_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Vanity Mirror"
+text = "The vanity mirror is clouded with age. Your reflection is soft, indistinct, as if seen through years of accumulated grief. Lady Ashworth's hairbrush lies beside it with grey hairs still tangled in the bristles. A small photograph is tucked into the frame -- a young girl with dark eyes, smiling. Someone has written on the back: 'Before.' Just that one word."
+set_state = {"examined_bedroom_mirror": true}
+
+; SOVEREIGN mirror: The mirror shows what SHE wants you to see
+[sub_resource type="Resource" id="resp_mirror_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Vanity Mirror"
+text = "The vanity mirror is perfectly clear. Impossibly clear for glass this old. Your reflection is sharp, detailed, every pore visible. But behind you, in the reflection, the bedroom door is open. You turn. The door is closed. You look back at the mirror. Open. Something wants you to go through that door. The mirror is not showing what IS. It is showing what should HAPPEN NEXT."
+set_state = {"examined_bedroom_mirror": true}
+
+; === Jewelry Box Responses (shared) ===
+
+[sub_resource type="Resource" id="resp_jewelry_key"]
+script = ExtResource("3")
+condition = "HAS jewelry_key"
+title = "Jewelry Box"
+text = "The key turns. Inside: Elizabeth's locket. A small oval of tarnished silver. You open it -- two photographs. Elizabeth on the left, barely seven. Victoria on the right, unsmiling. Between them, a lock of dark hair tied with white ribbon."
+set_state = {"found_elizabeth_locket": true}
+gives_item = "elizabeth_locket"
+play_sfx = "res://assets/audio/sfx/inventory/chest_open.ogg"
+
+[sub_resource type="Resource" id="resp_jewelry_locked"]
+script = ExtResource("3")
+condition = ""
+title = "Jewelry Box"
+text = "A jewelry box on the vanity. Rosewood, inlaid with mother-of-pearl. Locked. The keyhole is tiny -- this needs a specific key, not a skeleton key. Whatever is inside was meant to stay hidden."
+
+; === Bed Observation ===
+
+[sub_resource type="Resource" id="resp_bed_default"]
+script = ExtResource("3")
+condition = ""
+title = "Master Bed"
+text = "The bed is unmade. Sheets twisted, pillow dented. Whoever slept here last did not sleep well. A glass of water on the nightstand is untouched, a skin of dust on its surface."
+
+; === Interactables ===
+
+[sub_resource type="Resource" id="inter_diary"]
+script = ExtResource("2")
+id = "diary_lord"
+type = "note"
+position = Vector3(-4, 0.9, -4)
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_diary_truth"), SubResource("resp_diary_default")])
+thread_responses = {"captive": [SubResource("resp_diary_captive")], "mourning": [SubResource("resp_diary_mourning")], "sovereign": [SubResource("resp_diary_sovereign")]}
+
+[sub_resource type="Resource" id="inter_mirror"]
+script = ExtResource("2")
+id = "bedroom_mirror"
+type = "mirror"
+position = Vector3(4.5, 1.2, 0)
+wall = "east"
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_mirror_aware"), SubResource("resp_mirror_default")])
+thread_responses = {"captive": [SubResource("resp_mirror_captive")], "mourning": [SubResource("resp_mirror_mourning")], "sovereign": [SubResource("resp_mirror_sovereign")]}
+
+[sub_resource type="Resource" id="inter_jewelry"]
+script = ExtResource("2")
+id = "jewelry_box"
+type = "box"
+position = Vector3(4.5, 0.9, 0.5)
+collision_size = Vector3(1.0, 0.5, 0.5)
+locked = true
+key_id = "jewelry_key"
+locked_response_no_key = "The jewelry box is locked. The keyhole is tiny and ornate -- this needs a very specific key."
+locked_response_wrong_key = "This key is too large for the jewelry box. You need something smaller, more delicate."
+responses = Array[Resource]([SubResource("resp_jewelry_key"), SubResource("resp_jewelry_locked")])
+
+[sub_resource type="Resource" id="inter_bed"]
+script = ExtResource("2")
+id = "master_bed"
+type = "observation"
+position = Vector3(-2, 0.8, 0)
+collision_size = Vector3(2.0, 1.0, 2.0)
+responses = Array[Resource]([SubResource("resp_bed_default")])
+
+; === Lights ===
+
+[sub_resource type="Resource" id="light_window"]
+script = ExtResource("4")
+id = "bedroom_moonlight"
+type = "omni"
+position = Vector3(-4.5, 2, -4)
+color = Color(0.5, 0.6, 0.9, 1)
+energy = 0.8
+range = 6.0
+shadows = false
+flickering = false
+
+[sub_resource type="Resource" id="light_candle"]
+script = ExtResource("4")
+id = "bedroom_candle"
+type = "omni"
+position = Vector3(-4, 1.2, -4)
+color = Color(1.0, 0.8, 0.4, 1)
+energy = 0.6
+range = 3.0
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+; === Props ===
+
+[sub_resource type="Resource" id="prop_bed"]
+script = ExtResource("5")
+id = "master_bed_model"
+model = "res://assets/shared/furniture/master_bed.glb"
+position = Vector3(-2, 0, 0)
+
+[sub_resource type="Resource" id="prop_wardrobe"]
+script = ExtResource("5")
+id = "wardrobe"
+model = "res://assets/shared/furniture/wardrobe.glb"
+position = Vector3(-4.5, 0, 4)
+
+[sub_resource type="Resource" id="prop_chair"]
+script = ExtResource("5")
+id = "reading_chair"
+model = "res://assets/shared/furniture/chair.glb"
+position = Vector3(3, 0, -3)
+
+[sub_resource type="Resource" id="prop_nightstand"]
+script = ExtResource("5")
+id = "nightstand"
+model = "res://assets/shared/furniture/drawers.glb"
+position = Vector3(-4, 0, -4)
+scale = 0.6
+
+; === Entry Trigger ===
+
+[sub_resource type="Resource" id="act_visited"]
+script = ExtResource("7")
+set_state = {"visited_master_bedroom": true}
+
+[sub_resource type="Resource" id="act_show_name"]
+script = ExtResource("7")
+show_room_name = "Master Bedroom"
+
+[sub_resource type="Resource" id="trig_first_entry"]
+script = ExtResource("6")
+condition = "NOT visited_master_bedroom"
+once = true
+trigger_id = "bedroom_first_entry"
+actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name")])
+
+; === Ambient: Floorboard creak ===
+
+[sub_resource type="Resource" id="act_creak"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/wood_creak.ogg"
+
+[sub_resource type="Resource" id="ambient_creak"]
+script = ExtResource("8")
+event_id = "bedroom_creak"
+interval_min = 25.0
+interval_max = 50.0
+condition = ""
+actions = Array[Resource]([SubResource("act_creak")])
+
+; === Main Resource ===
 
 [resource]
 script = ExtResource("1")
@@ -28,11 +265,11 @@ reverb_bus = "Room"
 footstep_surface = "carpet"
 spawn_position = Vector3(4, 0, 0)
 spawn_rotation_y = 270.0
-interactables = Array[Resource]([])
-lights = Array[Resource]([])
-props = Array[Resource]([])
-on_entry = Array[Resource]([])
+interactables = Array[Resource]([SubResource("inter_diary"), SubResource("inter_mirror"), SubResource("inter_jewelry"), SubResource("inter_bed")])
+lights = Array[Resource]([SubResource("light_window"), SubResource("light_candle")])
+props = Array[Resource]([SubResource("prop_bed"), SubResource("prop_wardrobe"), SubResource("prop_chair"), SubResource("prop_nightstand")])
+on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
-ambient_events = Array[Resource]([])
+ambient_events = Array[Resource]([SubResource("ambient_creak")])
 conditional_events = Array[Resource]([])
 flashbacks = Array[Resource]([])

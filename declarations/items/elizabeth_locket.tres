@@ -6,7 +6,7 @@
 script = ExtResource("1")
 item_id = "elizabeth_locket"
 name = "Elizabeth's Locket"
-description = "A gold locket containing a lock of infant hair and a miniature portrait of a baby. The engraving reads 'E.A. — 1882'."
+description = "A gold locket containing a lock of infant hair and a miniature portrait of a baby. The engraving reads 'E.A. -- 1882'."
 category = "artifact"
 is_ritual_component = true
 is_consumable = false

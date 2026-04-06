@@ -23,21 +23,21 @@ set_state = {"examined_gate_plaque": true}
 script = ExtResource("3")
 condition = ""
 title = "Ashworth Manor"
-text = "ASHWORTH MANOR — Est. 1847. The iron lettering is green with verdigris. Below, in smaller script barely legible: 'Abandon memory, all ye who enter.'"
+text = "ASHWORTH MANOR -- Est. 1847. The iron lettering is green with verdigris. Below, in smaller script barely legible: 'Abandon memory, all ye who enter.'"
 set_state = {"examined_gate_plaque": true}
 
 [sub_resource type="Resource" id="resp_luggage_ledger"]
 script = ExtResource("3")
 condition = "read_guest_ledger"
 title = "Abandoned Suitcase"
-text = "Helena Pierce's suitcase. She arrived November 3rd, 1891. Her departure date was left blank. Now you know why — she never left the house alive."
+text = "Helena Pierce's suitcase. She arrived November 3rd, 1891. Her departure date was left blank. Now you know why -- she never left the house alive."
 set_state = {"found_helena_luggage": true}
 
 [sub_resource type="Resource" id="resp_luggage_default"]
 script = ExtResource("3")
 condition = ""
 title = "Abandoned Suitcase"
-text = "A leather traveling case, clasps still fastened. Packed but never carried beyond the gate. The luggage tag reads: 'H. Pierce — London.' The ink has run in the rain."
+text = "A leather traveling case, clasps still fastened. Packed but never carried beyond the gate. The luggage tag reads: 'H. Pierce -- London.' The ink has run in the rain."
 set_state = {"found_helena_luggage": true}
 
 [sub_resource type="Resource" id="resp_bench_truth"]
@@ -50,7 +50,7 @@ text = "The children sat here the night they fled. Charles, Margaret, William. T
 script = ExtResource("3")
 condition = ""
 title = "Stone Bench"
-text = "Cold stone. Snow has settled in the seat — undisturbed for decades. Someone sat here once, looking at the house, deciding whether to go in."
+text = "Cold stone. Snow has settled in the seat -- undisturbed for decades. Someone sat here once, looking at the house, deciding whether to go in."
 
 [sub_resource type="Resource" id="resp_gate_aware"]
 script = ExtResource("3")
@@ -63,7 +63,7 @@ set_state = {"examined_iron_gate": true}
 script = ExtResource("3")
 condition = ""
 title = "The Gate"
-text = "Iron bars, rusted open. The lock is broken — not from outside. Someone burst through from within. The hinges scream when the wind catches them."
+text = "Iron bars, rusted open. The lock is broken -- not from outside. Someone burst through from within. The hinges scream when the wind catches them."
 set_state = {"examined_iron_gate": true}
 
 [sub_resource type="Resource" id="resp_lamp_aware"]
@@ -76,7 +76,7 @@ text = "The lamp pulses in rhythm. You realize you've been breathing in sync wit
 script = ExtResource("3")
 condition = ""
 title = "Gas Lamp"
-text = "Still lit. After over a century, the gas lamp by the gate still burns. The flame doesn't flicker like fire — it pulses, like breathing."
+text = "Still lit. After over a century, the gas lamp by the gate still burns. The flame doesn't flicker like fire -- it pulses, like breathing."
 
 ; === Interactables ===
 

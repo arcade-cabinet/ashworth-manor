@@ -4,8 +4,99 @@
 [ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
 [ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
 [ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+
+; === Scratched Portrait Responses ===
+
+[sub_resource type="Resource" id="resp_portrait_default"]
+script = ExtResource("3")
+condition = ""
+title = "Scratched Portrait"
+text = "A portrait shoved behind crates in the basement. Lord Ashworth's face has been scratched out with something sharp -- the canvas torn in long, deliberate strokes. Someone hated this image enough to destroy it but could not bring themselves to burn it."
+set_state = {"examined_scratched_portrait": true}
+
+[sub_resource type="Resource" id="resp_portrait_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Scratched Portrait"
+text = "Lord Ashworth's portrait, hidden in the basement. His face is destroyed -- deep scratches through the canvas, the kind made by fingernails dragged in fury. The rest of the painting is untouched. Only the face. Only the jailer. Someone wanted to erase the man who held the keys."
+set_state = {"examined_scratched_portrait": true}
+
+[sub_resource type="Resource" id="resp_portrait_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Scratched Portrait"
+text = "Lord Ashworth's portrait, abandoned in the basement. The scratches across his face are not angry -- they are careful. Someone drew tears down his cheeks with a pin. Added lines of age. Made him look as tired and sad as he must have felt. Victoria did this. Not to destroy him but to make the portrait honest."
+set_state = {"examined_scratched_portrait": true}
+
+[sub_resource type="Resource" id="resp_portrait_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Scratched Portrait"
+text = "Lord Ashworth's portrait, stored in the basement. The scratches across the face form a pattern -- not random damage but deliberate marks. They look like the symbols from the ritual circle upstairs. Elizabeth scratched her own markings into her father's face. She did not erase him. She claimed him. Even the portrait belongs to the house now."
+set_state = {"examined_scratched_portrait": true}
+
+; === Cage Observation ===
+
+[sub_resource type="Resource" id="resp_cage_default"]
+script = ExtResource("3")
+condition = ""
+title = "Iron Cage"
+text = "An animal cage, large enough for a dog. Empty. The door hangs open. The lock is rusted shut in the open position. Whatever was kept here was released -- or escaped."
+
+; === Interactables ===
+
+[sub_resource type="Resource" id="inter_portrait"]
+script = ExtResource("2")
+id = "scratched_portrait"
+type = "painting"
+position = Vector3(-3.5, 1.5, -3)
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_portrait_default")])
+thread_responses = {"captive": [SubResource("resp_portrait_captive")], "mourning": [SubResource("resp_portrait_mourning")], "sovereign": [SubResource("resp_portrait_sovereign")]}
+
+[sub_resource type="Resource" id="inter_cage"]
+script = ExtResource("2")
+id = "basement_cage"
+type = "observation"
+position = Vector3(3, 0.5, 3)
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_cage_default")])
+
+; === Lights ===
+
+[sub_resource type="Resource" id="light_bulb"]
+script = ExtResource("4")
+id = "basement_bulb"
+type = "omni"
+position = Vector3(0, 2.5, 0)
+color = Color(1.0, 0.9, 0.6, 1)
+energy = 0.8
+range = 6.0
+shadows = true
+flickering = true
+flicker_pattern = "bulb"
+
+; === Entry Trigger ===
+
+[sub_resource type="Resource" id="act_visited"]
+script = ExtResource("7")
+set_state = {"visited_storage_basement": true}
+
+[sub_resource type="Resource" id="act_show_name"]
+script = ExtResource("7")
+show_room_name = "Storage Basement"
+
+[sub_resource type="Resource" id="trig_first_entry"]
+script = ExtResource("6")
+condition = "NOT visited_storage_basement"
+once = true
+trigger_id = "storage_basement_first_entry"
+actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name")])
+
+; === Main Resource ===
 
 [resource]
 script = ExtResource("1")
@@ -28,10 +119,10 @@ reverb_bus = "StoneCorridor"
 footstep_surface = "stone"
 spawn_position = Vector3(0, 0, 0)
 spawn_rotation_y = 0.0
-interactables = Array[Resource]([])
-lights = Array[Resource]([])
+interactables = Array[Resource]([SubResource("inter_portrait"), SubResource("inter_cage")])
+lights = Array[Resource]([SubResource("light_bulb")])
 props = Array[Resource]([])
-on_entry = Array[Resource]([])
+on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([])
 conditional_events = Array[Resource]([])

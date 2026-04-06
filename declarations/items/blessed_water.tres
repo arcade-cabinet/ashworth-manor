@@ -6,7 +6,7 @@
 script = ExtResource("1")
 item_id = "blessed_water"
 name = "Blessed Water"
-description = "Water from the chapel baptismal font. Cold as ice, clear as crystal. Elizabeth was never baptized — this water should have protected her."
+description = "Water from the chapel baptismal font. Cold as ice, clear as crystal. Elizabeth was never baptized -- this water should have protected her."
 category = "ritual_component"
 is_ritual_component = true
 is_consumable = true

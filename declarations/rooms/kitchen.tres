@@ -4,8 +4,142 @@
 [ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
 [ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
 [ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+[ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
+
+; === Cook's Note Responses ===
+
+[sub_resource type="Resource" id="resp_note_default"]
+script = ExtResource("3")
+condition = ""
+title = "Cook's Note"
+text = "A note in a rough hand, pinned to the pantry door. 'Gone to market. Back before dark. DO NOT go upstairs. DO NOT answer if she calls.' The last line is underlined twice."
+set_state = {"read_cook_note": true}
+
+; Cook's note thread variants
+[sub_resource type="Resource" id="resp_note_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Cook's Note"
+text = "A note in a rough hand, pinned to the pantry door. 'I cannot stay in this house another night. The rats whisper NAMES. Not squeaking -- whispering. They say Elizabeth. They say it through the walls, through the pipes, through the floor. I locked the cellar but I can still hear them. Whatever is up there, it is not just in the attic anymore. It is in the walls.'"
+set_state = {"read_cook_note": true}
+
+[sub_resource type="Resource" id="resp_note_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Cook's Note"
+text = "A note in a rough hand, pinned to the pantry door. 'The house feels sad today. I do not know how else to say it. The walls feel sad. The floors feel sad. The water from the pump tastes like tears. I made soup for the family but no one came to eat. I left a bowl outside the attic door. It was empty in the morning. Someone is eating. Someone is still alive up there.'"
+set_state = {"read_cook_note": true}
+
+[sub_resource type="Resource" id="resp_note_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Cook's Note"
+text = "A note in a rough hand, pinned to the pantry door. 'The kitchen knows when someone is hungry. I am not mad. I have worked kitchens for thirty years and I know what a stove does. This stove lights itself. The kettle fills itself. The pantry rearranges when I am not looking -- putting things I need at the front. It is HER. She is in the house the way heat is in a stove. Not visible. Not separate. Just there.'"
+set_state = {"read_cook_note": true}
+
+; === Hearth Responses ===
+
+[sub_resource type="Resource" id="resp_hearth_default"]
+script = ExtResource("3")
+condition = ""
+title = "Kitchen Hearth"
+text = "A large stone hearth, cold and dark. Soot stains the mantle. Iron hooks for pots hang empty. The flagstones around the base are uneven -- one is slightly raised, rocking when you step on it."
+
+; === Interactables ===
+
+[sub_resource type="Resource" id="inter_note"]
+script = ExtResource("2")
+id = "kitchen_note"
+type = "note"
+position = Vector3(-3.5, 1.5, 4)
+wall = "north"
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_note_default")])
+thread_responses = {"captive": [SubResource("resp_note_captive")], "mourning": [SubResource("resp_note_mourning")], "sovereign": [SubResource("resp_note_sovereign")]}
+
+[sub_resource type="Resource" id="inter_hearth"]
+script = ExtResource("2")
+id = "kitchen_hearth"
+type = "observation"
+position = Vector3(0, 0.5, -4.5)
+wall = "south"
+collision_size = Vector3(2.0, 1.5, 1.0)
+responses = Array[Resource]([SubResource("resp_hearth_default")])
+
+; === Lights ===
+
+[sub_resource type="Resource" id="light_hearth"]
+script = ExtResource("4")
+id = "kitchen_hearth_glow"
+type = "omni"
+position = Vector3(0, 0.5, -4.5)
+color = Color(1.0, 0.5, 0.2, 1)
+energy = 0.3
+range = 4.0
+shadows = false
+flickering = true
+flicker_pattern = "ember"
+
+[sub_resource type="Resource" id="light_window"]
+script = ExtResource("4")
+id = "kitchen_window"
+type = "omni"
+position = Vector3(-3.5, 2, 0)
+color = Color(0.6, 0.7, 0.9, 1)
+energy = 0.8
+range = 5.0
+shadows = false
+flickering = false
+
+; === Props ===
+
+[sub_resource type="Resource" id="prop_table"]
+script = ExtResource("5")
+id = "kitchen_table"
+model = "res://assets/shared/furniture/table.glb"
+position = Vector3(0, 0, 0)
+
+[sub_resource type="Resource" id="prop_shelves"]
+script = ExtResource("5")
+id = "kitchen_shelves"
+model = "res://assets/shared/furniture/bookcase.glb"
+position = Vector3(3.5, 0, 0)
+
+; === Entry Trigger ===
+
+[sub_resource type="Resource" id="act_visited"]
+script = ExtResource("7")
+set_state = {"visited_kitchen": true}
+
+[sub_resource type="Resource" id="act_show_name"]
+script = ExtResource("7")
+show_room_name = "Kitchen"
+
+[sub_resource type="Resource" id="trig_first_entry"]
+script = ExtResource("6")
+condition = "NOT visited_kitchen"
+once = true
+trigger_id = "kitchen_first_entry"
+actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name")])
+
+; === Ambient: Dripping ===
+
+[sub_resource type="Resource" id="act_drip"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/water_drip.ogg"
+
+[sub_resource type="Resource" id="ambient_drip"]
+script = ExtResource("8")
+event_id = "kitchen_drip"
+interval_min = 10.0
+interval_max = 25.0
+condition = ""
+actions = Array[Resource]([SubResource("act_drip")])
+
+; === Main Resource ===
 
 [resource]
 script = ExtResource("1")
@@ -26,13 +160,13 @@ ambient_loop = "res://assets/audio/loops/Without a Trace Loop1.ogg"
 tension_loop = "res://assets/audio/tension/tension_ground.wav"
 reverb_bus = "StoneCorridor"
 footstep_surface = "stone"
-spawn_position = Vector3(0, 0, 0)
-spawn_rotation_y = 0.0
-interactables = Array[Resource]([])
-lights = Array[Resource]([])
-props = Array[Resource]([])
-on_entry = Array[Resource]([])
+spawn_position = Vector3(3, 0, 0)
+spawn_rotation_y = 270.0
+interactables = Array[Resource]([SubResource("inter_note"), SubResource("inter_hearth")])
+lights = Array[Resource]([SubResource("light_hearth"), SubResource("light_window")])
+props = Array[Resource]([SubResource("prop_table"), SubResource("prop_shelves")])
+on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
-ambient_events = Array[Resource]([])
+ambient_events = Array[Resource]([SubResource("ambient_drip")])
 conditional_events = Array[Resource]([])
 flashbacks = Array[Resource]([])

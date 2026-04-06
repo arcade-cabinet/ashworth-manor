@@ -9,6 +9,14 @@
 [ext_resource type="Script" path="res://engine/declarations/elizabeth_transition.gd" id="7"]
 [ext_resource type="Script" path="res://engine/declarations/player_declaration.gd" id="8"]
 [ext_resource type="Script" path="res://engine/declarations/accessibility_decl.gd" id="9"]
+[ext_resource type="Resource" path="res://declarations/threads/captive.tres" id="10"]
+[ext_resource type="Resource" path="res://declarations/threads/mourning.tres" id="11"]
+[ext_resource type="Resource" path="res://declarations/threads/sovereign.tres" id="12"]
+[ext_resource type="Resource" path="res://declarations/endings/freedom.tres" id="13"]
+[ext_resource type="Resource" path="res://declarations/endings/forgiveness.tres" id="14"]
+[ext_resource type="Resource" path="res://declarations/endings/acceptance.tres" id="15"]
+[ext_resource type="Resource" path="res://declarations/endings/escape.tres" id="16"]
+[ext_resource type="Resource" path="res://declarations/endings/joined.tres" id="17"]
 
 ; === Room References (20 rooms) ===
 
@@ -732,7 +740,7 @@ starting_rotation_y = 180.0
 rooms = Array[Resource]([SubResource("room_front_gate"), SubResource("room_foyer"), SubResource("room_parlor"), SubResource("room_dining_room"), SubResource("room_kitchen"), SubResource("room_upper_hallway"), SubResource("room_master_bedroom"), SubResource("room_library"), SubResource("room_guest_room"), SubResource("room_storage_basement"), SubResource("room_boiler_room"), SubResource("room_wine_cellar"), SubResource("room_attic_stairs"), SubResource("room_attic_storage"), SubResource("room_hidden_chamber"), SubResource("room_garden"), SubResource("room_chapel"), SubResource("room_greenhouse"), SubResource("room_carriage_house"), SubResource("room_family_crypt")])
 connections = Array[Resource]([SubResource("conn_front_gate_to_foyer"), SubResource("conn_foyer_to_front_gate"), SubResource("conn_front_gate_to_garden"), SubResource("conn_garden_to_front_gate"), SubResource("conn_front_gate_to_carriage_house"), SubResource("conn_carriage_house_to_front_gate"), SubResource("conn_foyer_to_parlor"), SubResource("conn_parlor_to_foyer"), SubResource("conn_foyer_to_dining_room"), SubResource("conn_dining_room_to_foyer"), SubResource("conn_foyer_to_kitchen"), SubResource("conn_kitchen_to_foyer"), SubResource("conn_foyer_to_upper_hallway"), SubResource("conn_upper_hallway_to_foyer"), SubResource("conn_upper_hallway_to_master_bedroom"), SubResource("conn_master_bedroom_to_upper_hallway"), SubResource("conn_upper_hallway_to_library"), SubResource("conn_library_to_upper_hallway"), SubResource("conn_upper_hallway_to_guest_room"), SubResource("conn_guest_room_to_upper_hallway"), SubResource("conn_upper_hallway_to_attic_stairs"), SubResource("conn_attic_stairs_to_upper_hallway"), SubResource("conn_attic_stairs_to_attic_storage"), SubResource("conn_attic_storage_to_attic_stairs"), SubResource("conn_attic_storage_to_hidden_chamber"), SubResource("conn_hidden_chamber_to_attic_storage"), SubResource("conn_kitchen_to_storage_basement"), SubResource("conn_storage_basement_to_kitchen"), SubResource("conn_storage_basement_to_boiler_room"), SubResource("conn_boiler_room_to_storage_basement"), SubResource("conn_storage_basement_to_wine_cellar"), SubResource("conn_wine_cellar_to_storage_basement"), SubResource("conn_garden_to_chapel"), SubResource("conn_chapel_to_garden"), SubResource("conn_garden_to_greenhouse"), SubResource("conn_greenhouse_to_garden"), SubResource("conn_garden_to_family_crypt"), SubResource("conn_family_crypt_to_garden")])
 area_environments = {}
-macro_threads = Array[Resource]([])
+macro_threads = Array[Resource]([ExtResource("10"), ExtResource("11"), ExtResource("12")])
 junctions = Array[Resource]([])
 prng_seed = 0
 phases = Array[Resource]([SubResource("phase_exploration"), SubResource("phase_discovery"), SubResource("phase_horror"), SubResource("phase_resolution")])
@@ -740,6 +748,6 @@ phase_transitions = Array[Resource]([SubResource("pt_explore_to_discovery"), Sub
 elizabeth_states = Array[Resource]([SubResource("eliz_dormant"), SubResource("eliz_watching"), SubResource("eliz_active"), SubResource("eliz_confrontation")])
 elizabeth_transitions = Array[Resource]([SubResource("et_dormant_to_watching"), SubResource("et_watching_to_active"), SubResource("et_active_to_confrontation")])
 global_triggers = Array[Resource]([])
-endings = Array[Resource]([])
+endings = Array[Resource]([ExtResource("13"), ExtResource("14"), ExtResource("15"), ExtResource("16"), ExtResource("17")])
 player = SubResource("player_config")
 accessibility = SubResource("accessibility_config")

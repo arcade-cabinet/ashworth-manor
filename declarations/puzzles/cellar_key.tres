@@ -37,7 +37,7 @@ result_items = PackedStringArray("mothers_confession")
 script = ExtResource("3")
 interactable_id = "wine_note"
 room_id = "wine_cellar"
-clue_text = "The key is with the portrait — in the carriage house"
+clue_text = "The key is with the portrait -- in the carriage house"
 
 [resource]
 script = ExtResource("1")

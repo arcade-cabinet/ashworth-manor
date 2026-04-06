@@ -11,39 +11,92 @@
 [ext_resource type="Script" path="res://engine/declarations/conditional_event_decl.gd" id="9"]
 [ext_resource type="Script" path="res://engine/declarations/flashback_decl.gd" id="10"]
 
-; === Lady Portrait Responses ===
+; === Lady Portrait Responses (shared/default) ===
 
 [sub_resource type="Resource" id="resp_portrait_diary"]
 script = ExtResource("3")
 condition = "read_ashworth_diary"
 title = "Lady Ashworth"
-text = "Victoria Ashworth. She knew. The diary says 'my wife says I'm mad' — but she heard the crying too. She chose the mourning dress for this portrait. She was mourning Elizabeth before Elizabeth was gone."
+text = "Victoria Ashworth. She knew. The diary says 'my wife says I am mad' -- but she heard the crying too. She chose the mourning dress for this portrait. She was mourning Elizabeth before Elizabeth was gone."
 set_state = {"examined_lady_portrait": true}
 
 [sub_resource type="Resource" id="resp_portrait_default"]
 script = ExtResource("3")
 condition = ""
 title = "Lady Ashworth"
-text = "She wears a black mourning dress despite this being painted before any family deaths. Her expression is distant, resigned — as if she already knows what's coming. Her hands are folded in her lap. Hiding something? Or holding herself together?"
+text = "She wears a black mourning dress despite this being painted before any family deaths. Her expression is distant, resigned -- as if she already knows what is coming. Her hands are folded in her lap. Hiding something? Or holding herself together?"
 set_state = {"examined_lady_portrait": true}
 
-; === Diary Page Responses (CRITICAL) ===
+; === Lady Portrait Thread Variants ===
+; CAPTIVE: Complicit in imprisonment, guilt
+[sub_resource type="Resource" id="resp_portrait_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Lady Ashworth"
+text = "Her hands are folded tight in her lap. Not resting -- restraining. She is holding herself back from doing something. Opening a door, perhaps. Turning a key. Her mourning dress is not for the dead. It is for the daughter she helped lock away while she was still alive."
+set_state = {"examined_lady_portrait": true}
+
+; MOURNING: Preserved grief, a mother frozen in sorrow
+[sub_resource type="Resource" id="resp_portrait_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Lady Ashworth"
+text = "The mourning dress was not premature. Victoria Ashworth began grieving the moment the attic door closed. You can see it in the portrait -- the way the painter softened her jaw, blurred her eyes. He was painting a woman already dissolving into grief. She never stopped. The house kept her sorrow like amber keeps an insect."
+set_state = {"examined_lady_portrait": true}
+
+; SOVEREIGN: She feared what Elizabeth was becoming
+[sub_resource type="Resource" id="resp_portrait_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Lady Ashworth"
+text = "Look at her eyes. She is not looking at the painter. She is looking at the doorway behind the painter. At the ceiling above. At what she knows is up there, listening. Victoria Ashworth was not mourning her daughter. She was afraid of her. The mourning dress was armor against something she could not name."
+set_state = {"examined_lady_portrait": true}
+
+; === Diary Page Responses (CRITICAL -- sets emotional tone) ===
+; The default response is the shared version; thread_responses override entirely
 
 [sub_resource type="Resource" id="resp_diary_default"]
 script = ExtResource("3")
 condition = ""
 title = "Torn Diary Page"
-text = "The children have been hearing whispers from the attic again. I've locked the door but they say she still calls to them at night...\n\nThe handwriting is Lady Ashworth's — precise, controlled, trembling only at the edges."
+text = "The children have been hearing whispers from the attic again. I have locked the door but they say she still calls to them at night...\n\nThe handwriting is Lady Ashworth's -- precise, controlled, trembling only at the edges."
 set_state = {"found_first_clue": true, "knows_attic_girl": true}
 play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
 
-; === Music Box Responses ===
+; CAPTIVE diary: Imprisonment, the lock, control
+[sub_resource type="Resource" id="resp_diary_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Torn Diary Page"
+text = "I locked the door today. Edmund brought the new lock from Birmingham -- iron, heavy, the kind they use on warehouses. He says it is for her safety. For our safety.\n\nShe screamed for three hours. Then she stopped. The silence is worse.\n\nThe children ask why Elizabeth cannot come down for supper. I tell them she is ill. They do not believe me. They hear her at night. We all do.\n\nThe handwriting is Lady Ashworth's. The ink is smeared where tears fell."
+set_state = {"found_first_clue": true, "knows_attic_girl": true}
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
+
+; MOURNING diary: Grief, the crying, loss
+[sub_resource type="Resource" id="resp_diary_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Torn Diary Page"
+text = "I hear her crying again. Through the ceiling, through the plaster, through everything we have built between us. The sound is not loud. It is constant. Like rain on a window that never stops.\n\nEdmund says we must not open the door. He says the book explains what she has become. I do not care what the book says. She is my daughter and she is crying and I cannot go to her.\n\nThe house feels heavier today. As if the walls absorbed her grief and now it lives in the mortar.\n\nThe handwriting is Lady Ashworth's -- careful, measured, breaking apart word by word."
+set_state = {"found_first_clue": true, "knows_attic_girl": true}
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
+
+; SOVEREIGN diary: Fear, the unnatural, she is changing
+[sub_resource type="Resource" id="resp_diary_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Torn Diary Page"
+text = "She is doing it again.\n\nThe lamp in Elizabeth's room -- I watched through the keyhole. She was sitting perfectly still in the corner. Not moving. Not speaking. And the flame bent toward her. Not flickering from draft. BENDING. As if the fire wanted to be near her.\n\nThe mirror on the landing showed my face wrong this morning. Older. Frightened. I looked away and when I looked back it was normal. But Elizabeth was standing at the top of the attic stairs. Watching.\n\nShe is not ill. She is becoming something. And the house is helping her.\n\nThe handwriting is Lady Ashworth's -- rushed, uneven, the pen pressed hard enough to tear the paper."
+set_state = {"found_first_clue": true, "knows_attic_girl": true}
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
+
+; === Music Box Responses (shared/default) ===
 
 [sub_resource type="Resource" id="resp_music_aware"]
 script = ExtResource("3")
 condition = "elizabeth_aware AND visited_attic_storage"
 title = "Music Box"
-text = "The music box begins to play on its own. A lullaby you've never heard before. The ballerina turns, slow and deliberate. The mechanism was never jammed. It was waiting."
+text = "The music box begins to play on its own. A lullaby you have never heard before. The ballerina turns, slow and deliberate. The mechanism was never jammed. It was waiting."
 set_state = {"examined_music_box": true}
 play_sfx = "res://assets/audio/sfx/music_box/music_box_melody.ogg"
 
@@ -51,36 +104,61 @@ play_sfx = "res://assets/audio/sfx/music_box/music_box_melody.ogg"
 script = ExtResource("3")
 condition = ""
 title = "Music Box"
-text = "A delicate music box with a dancing ballerina. The mechanism is jammed — it doesn't play when you try to open it. Dust covers the hinges. Someone loved this once."
+text = "A delicate music box with a dancing ballerina. The mechanism is jammed -- it does not play when you try to open it. Dust covers the hinges. Someone loved this once."
 set_state = {"examined_music_box": true}
 
-; === Fireplace Responses ===
+; === Music Box Thread Variants ===
+; CAPTIVE: The box is jammed shut, locked, like everything else
+[sub_resource type="Resource" id="resp_music_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Music Box"
+text = "The music box is sealed shut. Not jammed -- sealed. Someone pressed the lid down and twisted the clasp until it bent. The ballerina is visible through a crack in the lacquer. She is mid-pirouette, frozen. One arm raised toward a partner who is not there. The mechanism makes a grinding sound when you try the key. Something is blocking it from inside."
+set_state = {"examined_music_box": true}
+
+; MOURNING: The box is broken, like a heart
+[sub_resource type="Resource" id="resp_music_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Music Box"
+text = "The music box opens easily but the mechanism is broken. The spring has snapped. The ballerina tilts on her pin, leaning to one side as if too tired to stand. Inside the lid, someone scratched two words with a pin: PLAY ME. The letters are small and desperate. A child's writing. The box will never play again. The spring cannot be repaired. Some broken things stay broken."
+set_state = {"examined_music_box": true}
+
+; SOVEREIGN: The box is waiting for the right moment
+[sub_resource type="Resource" id="resp_music_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Music Box"
+text = "The music box is intact. The mechanism works -- you can feel it resist and release when you turn the key. But it will not play. Not yet. The ballerina stands perfectly upright on her pin, facing you, as if making eye contact. The spring is wound tight. The teeth are aligned with the cylinder. Everything is ready. It is choosing not to play. It is waiting for something."
+set_state = {"examined_music_box": true}
+
+; === Fireplace Responses (same all threads) ===
 
 [sub_resource type="Resource" id="resp_fire_aware"]
 script = ExtResource("3")
 condition = "elizabeth_aware"
 title = "Fireplace"
-text = "The embers pulse. Not like dying coals — like breathing. In. Out. The same rhythm as the gate lamp. The same rhythm as the mirrors."
+text = "The embers pulse. Not like dying coals -- like breathing. In. Out. The same rhythm as the gate lamp. The same rhythm as the mirrors."
 
 [sub_resource type="Resource" id="resp_fire_default"]
 script = ExtResource("3")
 condition = ""
 title = "Fireplace"
-text = "Embers still glow faintly. After 130 years? The iron grate holds ash that should have gone cold a century ago. The warmth is real — you can feel it on your face."
+text = "Embers still glow faintly. After 130 years? The iron grate holds ash that should have gone cold a century ago. The warmth is real -- you can feel it on your face."
 
-; === Tea Service Responses ===
+; === Tea Service Responses (same all threads) ===
 
 [sub_resource type="Resource" id="resp_tea_ledger"]
 script = ExtResource("3")
 condition = "read_guest_ledger"
 title = "Tea Service"
-text = "Two cups — Lady Ashworth and Helena Pierce? The guest who arrived November 3rd and never left. Did they sit here, making small talk, while Elizabeth cried above them?"
+text = "Two cups -- Lady Ashworth and Helena Pierce? The guest who arrived November 3rd and never left. Did they sit here, making small talk, while Elizabeth cried above them?"
 
 [sub_resource type="Resource" id="resp_tea_default"]
 script = ExtResource("3")
 condition = ""
 title = "Tea Service"
-text = "Two cups. One used, one untouched. The teapot is empty. Dried leaves cling to the inside — someone made tea for two and only one person drank."
+text = "Two cups. One used, one untouched. The teapot is empty. Dried leaves cling to the inside -- someone made tea for two and only one person drank."
 
 ; === Interactables ===
 
@@ -93,6 +171,7 @@ wall = "west"
 collision_size = Vector3(1.5, 1.5, 1.5)
 model = "res://assets/shared/decor/picture_blank.glb"
 responses = Array[Resource]([SubResource("resp_portrait_diary"), SubResource("resp_portrait_default")])
+thread_responses = {"captive": [SubResource("resp_portrait_captive")], "mourning": [SubResource("resp_portrait_mourning")], "sovereign": [SubResource("resp_portrait_sovereign")]}
 
 [sub_resource type="Resource" id="inter_diary"]
 script = ExtResource("2")
@@ -101,6 +180,7 @@ type = "note"
 position = Vector3(2, 0.8, -3)
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_diary_default")])
+thread_responses = {"captive": [SubResource("resp_diary_captive")], "mourning": [SubResource("resp_diary_mourning")], "sovereign": [SubResource("resp_diary_sovereign")]}
 
 [sub_resource type="Resource" id="inter_music_box"]
 script = ExtResource("2")
@@ -109,6 +189,7 @@ type = "box"
 position = Vector3(-2, 0.8, -3)
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_music_aware"), SubResource("resp_music_default")])
+thread_responses = {"captive": [SubResource("resp_music_captive")], "mourning": [SubResource("resp_music_mourning")], "sovereign": [SubResource("resp_music_sovereign")]}
 
 [sub_resource type="Resource" id="inter_fireplace"]
 script = ExtResource("2")

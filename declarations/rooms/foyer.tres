@@ -11,7 +11,7 @@
 [ext_resource type="Script" path="res://engine/declarations/conditional_event_decl.gd" id="9"]
 [ext_resource type="Script" path="res://engine/declarations/flashback_decl.gd" id="10"]
 
-; === Painting Responses ===
+; === Painting Responses (shared/default) ===
 
 [sub_resource type="Resource" id="resp_painting_truth"]
 script = ExtResource("3")
@@ -24,30 +24,55 @@ set_state = {"examined_foyer_painting": true}
 script = ExtResource("3")
 condition = "read_ashworth_diary"
 title = "Lord Ashworth"
-text = "The patriarch who locked his daughter in the attic. His hand rests on 'Rites of Passage' — the book that started it all. The hollow eyes make sense now. That's not authority. That's guilt."
+text = "The patriarch who locked his daughter in the attic. His hand rests on 'Rites of Passage' -- the book that started it all. The hollow eyes make sense now. That is not authority. That is guilt."
 set_state = {"examined_foyer_painting": true}
 
 [sub_resource type="Resource" id="resp_painting_default"]
 script = ExtResource("3")
 condition = ""
 title = "Lord Ashworth"
-text = "The patriarch stares down with hollow eyes. His hand rests on a book titled 'Rites of Passage.' The oil paint has darkened with age, but the eyes remain vivid — as if they were painted last."
+text = "The patriarch stares down with hollow eyes. His hand rests on a book titled 'Rites of Passage.' The oil paint has darkened with age, but the eyes remain vivid -- as if they were painted last."
 set_state = {"examined_foyer_painting": true}
 
-; === Mirror Responses ===
+; === Painting Thread Variants ===
+; CAPTIVE: Iron authority, control, imprisonment
+[sub_resource type="Resource" id="resp_painting_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Lord Ashworth"
+text = "Iron authority radiates from the portrait. His posture says: I own everything in this house. His hand grips the book like a warden grips a set of keys. The front door behind you is locked. His doing, even now."
+set_state = {"examined_foyer_painting": true}
+
+; MOURNING: Faded grandeur, guilt preserved in oil
+[sub_resource type="Resource" id="resp_painting_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Lord Ashworth"
+text = "The portrait has yellowed with age. Edmund Ashworth looks tired -- not commanding, not proud. Just tired. His hand rests on the book but his fingers are slack. He was already mourning when this was painted. You can see it in the way the light avoids his eyes."
+set_state = {"examined_foyer_painting": true}
+
+; SOVEREIGN: The eyes that follow you are not his
+[sub_resource type="Resource" id="resp_painting_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Lord Ashworth"
+text = "The portrait watches you. Not in the way all portraits seem to watch -- this one TRACKS you. The eyes shift as you move. Edmund Ashworth's painted gaze was still and dead for a century. Something else is looking through them now."
+set_state = {"examined_foyer_painting": true}
+
+; === Mirror Responses (shared/default) ===
 
 [sub_resource type="Resource" id="resp_mirror_chamber"]
 script = ExtResource("3")
 condition = "found_hidden_chamber"
 title = "Mirror"
-text = "In the mirror, behind your reflection — a girl in white. Small. Pale. Eyes dark as ink. When you blink, she's gone. But the mirror is warm to the touch."
+text = "In the mirror, behind your reflection -- a girl in white. Small. Pale. Eyes dark as ink. When you blink, she is gone. But the mirror is warm to the touch."
 set_state = {"examined_foyer_mirror": true}
 
 [sub_resource type="Resource" id="resp_mirror_aware"]
 script = ExtResource("3")
 condition = "elizabeth_aware"
 title = "Mirror"
-text = "Your reflection stares back. It moved independently. You're sure of it this time. The delay is fractional — but real."
+text = "Your reflection stares back. It moved independently. You are sure of it this time. The delay is fractional -- but real."
 set_state = {"examined_foyer_mirror": true}
 
 [sub_resource type="Resource" id="resp_mirror_default"]
@@ -57,7 +82,32 @@ title = "Mirror"
 text = "Your reflection stares back from a full-length mirror in an ornate dark wood frame. The silver is tarnished. For a moment, you could swear it moved independently."
 set_state = {"examined_foyer_mirror": true}
 
-; === Clock Responses ===
+; === Mirror Thread Variants ===
+; CAPTIVE: Trapped reflection, the mirror as cage
+[sub_resource type="Resource" id="resp_mirror_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Mirror"
+text = "Your reflection looks back from behind the glass. Behind, not through. As if the mirror were a window into a room just like this one -- same furniture, same dust, same silence -- but locked. Your reflection raises its hand a half-second late. It is not copying you. It is trapped."
+set_state = {"examined_foyer_mirror": true}
+
+; MOURNING: Grief-aged reflection, time's weight visible
+[sub_resource type="Resource" id="resp_mirror_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Mirror"
+text = "The mirror shows you, but older. No -- not older. Sadder. The tarnish on the silver gives everything a sepia cast, as if the reflection belongs to a different century. Moisture beads on the glass. Not condensation. The mirror is weeping."
+set_state = {"examined_foyer_mirror": true}
+
+; SOVEREIGN: The mirror moves BEFORE you, she is watching
+[sub_resource type="Resource" id="resp_mirror_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Mirror"
+text = "Your reflection turns its head before you do. Not after -- BEFORE. It looked toward the stairs a full second before you thought to glance that way. The mirror is not reflecting you. It is showing you where to look. Someone is directing your attention through the glass."
+set_state = {"examined_foyer_mirror": true}
+
+; === Clock Responses (same all threads) ===
 
 [sub_resource type="Resource" id="resp_clock_allseen"]
 script = ExtResource("3")
@@ -73,7 +123,7 @@ title = "Grandfather Clock"
 text = "The hands point to 3:33. The pendulum hangs motionless. No ticking breaks the silence. The moon phase dial shows a full moon. December 24th, 1891."
 set_state = {"examined_foyer_clock": true}
 
-; === Mail Responses ===
+; === Mail Responses (same all threads) ===
 
 [sub_resource type="Resource" id="resp_mail_diary"]
 script = ExtResource("3")
@@ -89,13 +139,13 @@ title = "Unopened Letters"
 text = "A stack of letters on the hall table. Addressed to Lord Ashworth. Postmarked November and December 1891. None opened. He stopped reading his mail."
 set_state = {"found_unopened_mail": true}
 
-; === Stairs Responses ===
+; === Stairs Responses (same all threads) ===
 
 [sub_resource type="Resource" id="resp_stairs_attic"]
 script = ExtResource("3")
 condition = "entered_attic"
 title = "Grand Staircase"
-text = "The stairs feel different now. You know what's above the upper floor. What's above the ceiling. Who's been there this whole time."
+text = "The stairs feel different now. You know what is above the upper floor. What is above the ceiling. Who has been there this whole time."
 
 [sub_resource type="Resource" id="resp_stairs_default"]
 script = ExtResource("3")
@@ -114,6 +164,7 @@ wall = "south"
 collision_size = Vector3(1.5, 1.5, 1.5)
 model = "res://assets/shared/decor/picture_blank.glb"
 responses = Array[Resource]([SubResource("resp_painting_truth"), SubResource("resp_painting_diary"), SubResource("resp_painting_default")])
+thread_responses = {"captive": [SubResource("resp_painting_captive")], "mourning": [SubResource("resp_painting_mourning")], "sovereign": [SubResource("resp_painting_sovereign")]}
 
 [sub_resource type="Resource" id="inter_mirror"]
 script = ExtResource("2")
@@ -124,6 +175,7 @@ wall = "west"
 collision_size = Vector3(1.5, 1.5, 1.5)
 visual_effects = {"mirror_delay": 0.0}
 responses = Array[Resource]([SubResource("resp_mirror_chamber"), SubResource("resp_mirror_aware"), SubResource("resp_mirror_default")])
+thread_responses = {"captive": [SubResource("resp_mirror_captive")], "mourning": [SubResource("resp_mirror_mourning")], "sovereign": [SubResource("resp_mirror_sovereign")]}
 
 [sub_resource type="Resource" id="inter_clock"]
 script = ExtResource("2")

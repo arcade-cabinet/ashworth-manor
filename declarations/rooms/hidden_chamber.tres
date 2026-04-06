@@ -4,8 +4,187 @@
 [ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
 [ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
 [ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+
+; === Final Note Responses (shared/default) ===
+
+[sub_resource type="Resource" id="resp_note_default"]
+script = ExtResource("3")
+condition = ""
+title = "Elizabeth's Final Note"
+text = "A sheet of paper in the center of the ritual circle. Elizabeth's handwriting -- older now, steadier. This is not a child's desperate letter. This is a statement written with purpose."
+set_state = {"read_final_note": true, "knows_full_truth": true}
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_stinger_07_reveal.wav"
+
+; CAPTIVE: "Find me. Free me."
+[sub_resource type="Resource" id="resp_note_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Elizabeth's Final Note"
+text = "A sheet of paper pinned to the floor with an iron nail -- as if she feared someone would take it away. Elizabeth's handwriting, older now, pressed deep into the paper.\n\n'If you are reading this, you found me. I stopped screaming years ago. They locked me here because they were afraid. Find me. Free me. Break what they built to hold me. I have been caged long enough.'"
+set_state = {"read_final_note": true, "knows_full_truth": true}
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_stinger_07_reveal.wav"
+
+; MOURNING: "Forgive them. Forgive me."
+[sub_resource type="Resource" id="resp_note_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Elizabeth's Final Note"
+text = "A sheet of paper folded into a small square, resting in the exact center of the ritual circle. Placed with care. Elizabeth's handwriting, older now, gentle.\n\n'If you are reading this, you understand. They were not cruel. They were terrified. Forgive them. Forgive me. Let the grief go. It has lived in these walls long enough. Some things cannot be fixed. They can only be mourned. And then released.'"
+set_state = {"read_final_note": true, "knows_full_truth": true}
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_stinger_07_reveal.wav"
+
+; SOVEREIGN: "I chose this. Now you know why."
+[sub_resource type="Resource" id="resp_note_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Elizabeth's Final Note"
+text = "A sheet of paper floating at eye level in the center of the room. Not falling. Suspended. Elizabeth's handwriting, older now, confident.\n\n'If you are reading this, you are ready. They thought I was their victim. They were all wrong. I was never the thing that was done TO. I was the thing that was BECOMING. I am the house. The house is me. You cannot free me because I am already free. All you can do is understand. Welcome to my house.'"
+set_state = {"read_final_note": true, "knows_full_truth": true}
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_stinger_07_reveal.wav"
+
+; === Ritual Circle Responses ===
+
+[sub_resource type="Resource" id="resp_ritual_ready"]
+script = ExtResource("3")
+condition = "knows_full_truth AND HAS binding_book AND HAS blessed_water"
+title = "Ritual Circle"
+text = "The chalk lines pulse faintly. You have everything you need. The circle is waiting."
+set_state = {"ritual_circle_ready": true}
+
+[sub_resource type="Resource" id="resp_ritual_default"]
+script = ExtResource("3")
+condition = ""
+title = "Ritual Circle"
+text = "A circle drawn in chalk on the stone floor. Five points. Five symbols. The chalk is old but the lines are precise -- drawn by someone who knew exactly what they were doing. This is not a child's game. This is a binding circle."
+
+; Ritual thread variants
+[sub_resource type="Resource" id="resp_ritual_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Ritual Circle"
+text = "A binding circle drawn in chalk. The five symbols at each point correspond to the five elements described in 'Rites of Passage' -- the book told Edmund how to build this cage. Iron filings are mixed into the chalk at the cardinal points. The circle was designed to hold something inside it. To contain. To imprison. The chalk lines are cracked where she pushed against them from within."
+
+[sub_resource type="Resource" id="resp_ritual_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Ritual Circle"
+text = "A circle drawn in chalk on the stone floor. But this is not the original binding circle -- the original was erased, carefully, and this one drawn over it. The new symbols are softer. Not containment runes but grief markers. Elizabeth redrew the circle herself. She turned her prison into a memorial. A place to sit and remember. To process. To eventually forgive."
+
+[sub_resource type="Resource" id="resp_ritual_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Ritual Circle"
+text = "A circle drawn in chalk -- but the chalk lines are still wet. Fresh. Drawn moments ago, by no visible hand. The five symbols are not from the binding book. They are new. Elizabeth's own design. This is not a cage and not a memorial. It is an interface. A point of connection between what she was and what she has become. The floor vibrates beneath the chalk. The house is breathing."
+
+; === Chamber Drawings Responses ===
+
+[sub_resource type="Resource" id="resp_drawings_default"]
+script = ExtResource("3")
+condition = ""
+title = "Wall Drawings"
+text = "The walls are covered in drawings. Charcoal on stone. A child's drawings at first -- houses, flowers, a family. Then older: diagrams, symbols, things that look like blueprints of the house itself."
+
+; Drawing thread variants
+[sub_resource type="Resource" id="resp_drawings_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Wall Drawings"
+text = "The walls are covered in charcoal drawings. A child's hand at first -- a house with bars on the windows. A door with a lock bigger than the door. A girl, stick-figure, behind a wall. Then older drawings: maps of the house, exits marked with X, keys drawn over and over and over. She spent years mapping her prison. Looking for a way out. The last drawing is a door, standing open, with light pouring through."
+
+[sub_resource type="Resource" id="resp_drawings_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Wall Drawings"
+text = "The walls are covered in charcoal drawings. A child's hand at first -- a family standing together. Mother, father, four siblings, and one smaller figure slightly apart. Then older drawings: the same family, but the figures are further apart each time. The father turning away. The mother sitting alone. The siblings leaving one by one. The last drawing is a single figure in an empty room, surrounded by letters that were never sent. The charcoal is smudged with fingerprints. She touched these drawings. They were the only company she had."
+
+[sub_resource type="Resource" id="resp_drawings_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Wall Drawings"
+text = "The walls are covered in drawings. A child's hand at first -- houses, flowers. Then something changes. The lines become architectural. Precise. She drew the house from above -- floor plans, load-bearing walls, pipe routes, electrical paths. She mapped the entire building from a room she never left. Then the drawings become something else entirely: the house from the INSIDE. Not the rooms -- the bones. The joists, the mortar, the grain of every board. She drew what it felt like to BECOME the house. The last drawing is not a house at all. It is a face. Her face. And the walls ARE her face."
+
+; === Interactables ===
+
+[sub_resource type="Resource" id="inter_note"]
+script = ExtResource("2")
+id = "elizabeth_final_note"
+type = "note"
+position = Vector3(0, 0.5, 0)
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_note_default")])
+thread_responses = {"captive": [SubResource("resp_note_captive")], "mourning": [SubResource("resp_note_mourning")], "sovereign": [SubResource("resp_note_sovereign")]}
+
+[sub_resource type="Resource" id="inter_ritual"]
+script = ExtResource("2")
+id = "ritual_circle"
+type = "ritual"
+position = Vector3(0, 0.1, 0)
+collision_size = Vector3(3.0, 0.5, 3.0)
+responses = Array[Resource]([SubResource("resp_ritual_ready"), SubResource("resp_ritual_default")])
+thread_responses = {"captive": [SubResource("resp_ritual_captive")], "mourning": [SubResource("resp_ritual_mourning")], "sovereign": [SubResource("resp_ritual_sovereign")]}
+
+[sub_resource type="Resource" id="inter_drawings"]
+script = ExtResource("2")
+id = "chamber_drawings"
+type = "observation"
+position = Vector3(-2.5, 1.5, 0)
+wall = "west"
+collision_size = Vector3(1.0, 2.0, 3.0)
+responses = Array[Resource]([SubResource("resp_drawings_default")])
+thread_responses = {"captive": [SubResource("resp_drawings_captive")], "mourning": [SubResource("resp_drawings_mourning")], "sovereign": [SubResource("resp_drawings_sovereign")]}
+
+; === Lights ===
+
+[sub_resource type="Resource" id="light_circle"]
+script = ExtResource("4")
+id = "chamber_circle_glow"
+type = "omni"
+position = Vector3(0, 0.5, 0)
+color = Color(0.8, 0.7, 1.0, 1)
+energy = 0.6
+range = 4.0
+shadows = true
+flickering = true
+flicker_pattern = "candle"
+
+[sub_resource type="Resource" id="light_candle"]
+script = ExtResource("4")
+id = "chamber_candle"
+type = "omni"
+position = Vector3(2, 1, 2)
+color = Color(1.0, 0.7, 0.3, 1)
+energy = 0.4
+range = 3.0
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+; === Entry Trigger ===
+
+[sub_resource type="Resource" id="act_visited"]
+script = ExtResource("7")
+set_state = {"found_hidden_chamber": true, "visited_hidden_chamber": true}
+
+[sub_resource type="Resource" id="act_show_name"]
+script = ExtResource("7")
+show_room_name = "Hidden Chamber"
+
+[sub_resource type="Resource" id="act_stinger"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_stinger_07_reveal.wav"
+camera_shake = 0.1
+
+[sub_resource type="Resource" id="trig_first_entry"]
+script = ExtResource("6")
+condition = "NOT found_hidden_chamber"
+once = true
+trigger_id = "chamber_first_entry"
+actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name"), SubResource("act_stinger")])
+
+; === Main Resource ===
 
 [resource]
 script = ExtResource("1")
@@ -16,22 +195,22 @@ environment_preset = "attic"
 dimensions = Vector3(6, 3, 6)
 is_exterior = false
 wall_texture = "wall7_texture"
-floor_texture = "floor1_texture"
+floor_texture = "floor2_texture"
 ceiling_texture = "ceiling2_texture"
-wall_north = PackedStringArray()
+wall_north = PackedStringArray("wall", "wall", "wall")
 wall_south = PackedStringArray("wall", "doorway:hidden_chamber_to_attic_storage", "wall")
-wall_east = PackedStringArray()
-wall_west = PackedStringArray()
+wall_east = PackedStringArray("wall", "wall", "wall")
+wall_west = PackedStringArray("wall", "wall", "wall")
 ambient_loop = "res://assets/audio/loops/I Can't Go On Loop1.ogg"
 tension_loop = "res://assets/audio/tension/tension_attic.wav"
 reverb_bus = "SmallRoom"
 footstep_surface = "rough_wood"
 spawn_position = Vector3(0, 0, -2)
 spawn_rotation_y = 0.0
-interactables = Array[Resource]([])
-lights = Array[Resource]([])
+interactables = Array[Resource]([SubResource("inter_note"), SubResource("inter_ritual"), SubResource("inter_drawings")])
+lights = Array[Resource]([SubResource("light_circle"), SubResource("light_candle")])
 props = Array[Resource]([])
-on_entry = Array[Resource]([])
+on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([])
 conditional_events = Array[Resource]([])

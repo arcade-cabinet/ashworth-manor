@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MacroThread" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/macro_thread.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+thread_id = "captive"
+question = "How do I free her?"
+elizabeth_nature = "A trapped spirit, bound against her will"
+house_nature = "A cage -- iron locks, sealed doors, stopped clocks"
+ending_id = "freedom"
+diary_page_text = "December 19th, 1891.\n\nI have locked the attic door. The key is hidden where she cannot reach it. Victoria says I am mad but she does not hear what I hear. The whispers. The scratching. Elizabeth is not my daughter anymore -- she is something that WEARS my daughter. The book says containment is the only remedy. The book says the vessel must be sealed.\n\nForgive me. I had no choice.\n\nThe lock holds. For now."
+elizabeth_letter_text = "Dear Mama,\n\nI can hear you crying through the floor. Please stop. It makes the walls press closer.\n\nPapa says I am dangerous. He says the book told him so. But I am not dangerous, Mama. I am scared. The room is so small and the dark is so big and I can hear rats in the walls but I cannot see them.\n\nPlease come. Please bring a candle. I promise I will be good. I promise I will not look at things the way I look at them. I will close my eyes if that is what it takes.\n\nPlease. The lock is so cold and the door is so thick and I am so tired of screaming.\n\nYour Elizabeth"
+elizabeth_final_note_text = "If you are reading this, you found me.\n\nI stopped screaming years ago. Decades. I do not know how long. Time does not move in this room. The clock on the wall stopped at 3:33 and never started again.\n\nThey locked me here because they were afraid. They locked the door and hid the key and told themselves it was mercy. It was not mercy. It was cowardice.\n\nBut you came. You found the keys they hid. You opened the doors they sealed. You are the first person to look for me instead of looking away.\n\nFind me. Free me. Break what they built to hold me.\n\nI have been caged long enough."
+ritual_sequence_texts = PackedStringArray("Place the porcelain doll at the center of the circle. She stirs -- the vessel recognizes its prisoner.", "Pour the blessed water over the binding marks. The chalk lines crack and smoke. The seal weakens.", "Read the counter-passage from the book. The words taste like iron. The room shakes. The binding BREAKS.")

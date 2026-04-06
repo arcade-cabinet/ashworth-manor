@@ -4,8 +4,102 @@
 [ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
 [ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
 [ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+
+; === Baptismal Font Responses ===
+
+[sub_resource type="Resource" id="resp_font_default"]
+script = ExtResource("3")
+condition = ""
+title = "Baptismal Font"
+text = "A stone baptismal font. The water inside has not frozen despite the December cold. Clear, still, impossibly clean. Five Ashworth children were baptized here. Elizabeth was the fourth."
+set_state = {"examined_baptismal_font": true}
+gives_item = "blessed_water"
+
+[sub_resource type="Resource" id="resp_font_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Baptismal Font"
+text = "The baptismal font holds unfrozen water. Elizabeth was baptized in this font -- the same water, the same stone, the same words spoken over her head that were spoken over every Ashworth child. But the water did not cleanse what she had. It preserved it. The binding book says holy water can seal a vessel. Her father may have baptized her twice -- once as a child, once as a cage."
+set_state = {"examined_baptismal_font": true}
+gives_item = "blessed_water"
+
+[sub_resource type="Resource" id="resp_font_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Baptismal Font"
+text = "The baptismal font holds unfrozen water. Victoria brought white lilies here every Sunday -- the caretaker's log says so. She placed them at the font and prayed for Elizabeth. Not for healing. For forgiveness. She asked God to forgive what they had done to their daughter. The flowers are gone but the water remembers. It is warm to the touch."
+set_state = {"examined_baptismal_font": true}
+gives_item = "blessed_water"
+
+[sub_resource type="Resource" id="resp_font_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Baptismal Font"
+text = "The baptismal font holds unfrozen water. You lean over it and your reflection looks back -- but it is not your face. For one moment, half a heartbeat, a child's face looks up from the water. Dark eyes. A quiet smile. Then it is your face again. The water is not holy. It is HERS. She is in every liquid in this house -- the wine, the condensation, the pipes, the font. She is the water."
+set_state = {"examined_baptismal_font": true}
+gives_item = "blessed_water"
+
+; === Altar Observation ===
+
+[sub_resource type="Resource" id="resp_altar_default"]
+script = ExtResource("3")
+condition = ""
+title = "Altar"
+text = "A simple stone altar. A Bible lies open to Psalm 130: 'Out of the depths I cry to you, O Lord.' Someone chose this page. Someone wanted God to hear a cry from somewhere deep."
+
+; === Interactables ===
+
+[sub_resource type="Resource" id="inter_font"]
+script = ExtResource("2")
+id = "baptismal_font"
+type = "observation"
+position = Vector3(0, 0.8, -4)
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_font_default")])
+thread_responses = {"captive": [SubResource("resp_font_captive")], "mourning": [SubResource("resp_font_mourning")], "sovereign": [SubResource("resp_font_sovereign")]}
+
+[sub_resource type="Resource" id="inter_altar"]
+script = ExtResource("2")
+id = "chapel_altar"
+type = "observation"
+position = Vector3(0, 1, 5)
+collision_size = Vector3(2.0, 1.0, 1.0)
+responses = Array[Resource]([SubResource("resp_altar_default")])
+
+; === Lights ===
+
+[sub_resource type="Resource" id="light_window"]
+script = ExtResource("4")
+id = "chapel_stained_glass"
+type = "omni"
+position = Vector3(0, 4, 5)
+color = Color(0.8, 0.7, 1.0, 1)
+energy = 1.5
+range = 8.0
+shadows = true
+flickering = false
+
+; === Entry Trigger ===
+
+[sub_resource type="Resource" id="act_visited"]
+script = ExtResource("7")
+set_state = {"visited_chapel": true}
+
+[sub_resource type="Resource" id="act_show_name"]
+script = ExtResource("7")
+show_room_name = "Chapel"
+
+[sub_resource type="Resource" id="trig_first_entry"]
+script = ExtResource("6")
+condition = "NOT visited_chapel"
+once = true
+trigger_id = "chapel_first_entry"
+actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name")])
+
+; === Main Resource ===
 
 [resource]
 script = ExtResource("1")
@@ -18,20 +112,20 @@ is_exterior = true
 wall_texture = "wall6_texture"
 floor_texture = "floor2_texture"
 ceiling_texture = ""
-wall_north = PackedStringArray()
-wall_south = PackedStringArray()
-wall_east = PackedStringArray()
-wall_west = PackedStringArray()
+wall_north = PackedStringArray("wall", "wall", "wall", "wall")
+wall_south = PackedStringArray("wall", "wall", "wall", "wall")
+wall_east = PackedStringArray("wall", "wall", "wall", "wall", "wall", "wall")
+wall_west = PackedStringArray("wall", "wall", "wall", "wall", "wall", "wall")
 ambient_loop = "res://assets/audio/loops/Silent Voices Loop2.ogg"
 tension_loop = "res://assets/audio/tension/tension_exploration.wav"
 reverb_bus = "StoneCorridor"
 footstep_surface = "stone"
-spawn_position = Vector3(0, 0, 0)
+spawn_position = Vector3(0, 0, -5)
 spawn_rotation_y = 0.0
-interactables = Array[Resource]([])
-lights = Array[Resource]([])
+interactables = Array[Resource]([SubResource("inter_font"), SubResource("inter_altar")])
+lights = Array[Resource]([SubResource("light_window")])
 props = Array[Resource]([])
-on_entry = Array[Resource]([])
+on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([])
 conditional_events = Array[Resource]([])

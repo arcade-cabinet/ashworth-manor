@@ -4,8 +4,113 @@
 [ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
 [ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
 [ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+
+; === Guest Ledger Responses ===
+
+[sub_resource type="Resource" id="resp_ledger_default"]
+script = ExtResource("3")
+condition = ""
+title = "Guest Ledger"
+text = "A leather guest book. Most entries are perfunctory: 'Lovely stay, splendid hospitality.' The last entry is from Helena Pierce, November 3rd, 1891: 'Arrived for research on spiritual phenomena. Lord Ashworth most accommodating. The house is remarkable.' She never wrote a departure entry."
+set_state = {"read_guest_ledger": true}
+
+[sub_resource type="Resource" id="resp_ledger_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Guest Ledger"
+text = "Helena Pierce arrived November 3rd. Her entry: 'Lord Ashworth invited me to study the phenomena. He says his daughter is the source. He says she must be contained. I am here to determine if his methods are sound.' She was here to validate the imprisonment. A scientist confirming the cage. She never left. The last page of the ledger has been torn out."
+set_state = {"read_guest_ledger": true}
+
+[sub_resource type="Resource" id="resp_ledger_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Guest Ledger"
+text = "Helena Pierce arrived November 3rd. Her entry: 'The Ashworths are a family in mourning. I see it in everything -- the way Lady Ashworth stares at the ceiling, the way Lord Ashworth avoids the upper floors. They asked me to help their daughter. I do not think they mean medically.' She came to help. She could not. Another person who tried and failed to reach Elizabeth."
+set_state = {"read_guest_ledger": true}
+
+[sub_resource type="Resource" id="resp_ledger_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Guest Ledger"
+text = "Helena Pierce arrived November 3rd. Her entry: 'Something extraordinary is happening in this house. The girl has abilities I have only read about in folklore. She moved a teacup across the table without touching it. Lord Ashworth calls it dangerous. I call it remarkable.' Helena was not afraid. She was fascinated. Elizabeth let her watch. Showed her things. The guest ledger was their correspondence -- Helena asked questions in ink, and the answers appeared on the next page in a child's handwriting."
+set_state = {"read_guest_ledger": true}
+
+; === Bed Observation ===
+
+[sub_resource type="Resource" id="resp_bed_default"]
+script = ExtResource("3")
+condition = ""
+title = "Guest Bed"
+text = "The bed is made but not pristine. The pillow still holds an impression. Helena slept here for seven weeks before she vanished. Her valise is open at the foot of the bed -- half unpacked, as if she planned to stay longer."
+
+; === Interactables ===
+
+[sub_resource type="Resource" id="inter_ledger"]
+script = ExtResource("2")
+id = "guest_ledger"
+type = "note"
+position = Vector3(-3.5, 0.9, -3)
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_ledger_default")])
+thread_responses = {"captive": [SubResource("resp_ledger_captive")], "mourning": [SubResource("resp_ledger_mourning")], "sovereign": [SubResource("resp_ledger_sovereign")]}
+
+[sub_resource type="Resource" id="inter_bed"]
+script = ExtResource("2")
+id = "guest_bed"
+type = "observation"
+position = Vector3(2, 0.8, 0)
+collision_size = Vector3(2.0, 1.0, 2.0)
+responses = Array[Resource]([SubResource("resp_bed_default")])
+
+; === Lights ===
+
+[sub_resource type="Resource" id="light_window"]
+script = ExtResource("4")
+id = "guest_moonlight"
+type = "omni"
+position = Vector3(0, 2, 3.5)
+color = Color(0.5, 0.6, 0.9, 1)
+energy = 0.8
+range = 5.0
+shadows = false
+flickering = false
+
+; === Props ===
+
+[sub_resource type="Resource" id="prop_bed"]
+script = ExtResource("5")
+id = "guest_bed_model"
+model = "res://assets/shared/furniture/bed.glb"
+position = Vector3(2, 0, 0)
+
+[sub_resource type="Resource" id="prop_desk"]
+script = ExtResource("5")
+id = "guest_desk"
+model = "res://assets/shared/furniture/study_desk.glb"
+position = Vector3(-3.5, 0, -3)
+scale = 0.7
+
+; === Entry Trigger ===
+
+[sub_resource type="Resource" id="act_visited"]
+script = ExtResource("7")
+set_state = {"visited_guest_room": true}
+
+[sub_resource type="Resource" id="act_show_name"]
+script = ExtResource("7")
+show_room_name = "Guest Room"
+
+[sub_resource type="Resource" id="trig_first_entry"]
+script = ExtResource("6")
+condition = "NOT visited_guest_room"
+once = true
+trigger_id = "guest_room_first_entry"
+actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name")])
+
+; === Main Resource ===
 
 [resource]
 script = ExtResource("1")
@@ -28,10 +133,10 @@ reverb_bus = "Room"
 footstep_surface = "wood_parquet"
 spawn_position = Vector3(0, 0, -3)
 spawn_rotation_y = 0.0
-interactables = Array[Resource]([])
-lights = Array[Resource]([])
-props = Array[Resource]([])
-on_entry = Array[Resource]([])
+interactables = Array[Resource]([SubResource("inter_ledger"), SubResource("inter_bed")])
+lights = Array[Resource]([SubResource("light_window")])
+props = Array[Resource]([SubResource("prop_bed"), SubResource("prop_desk")])
+on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([])
 conditional_events = Array[Resource]([])

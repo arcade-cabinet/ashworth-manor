@@ -4,8 +4,266 @@
 [ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
 [ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
 [ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+[ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
+
+; === Globe Responses (shared) -- active on A-path, static on B-path ===
+
+[sub_resource type="Resource" id="resp_globe_diary"]
+script = ExtResource("3")
+condition = "read_ashworth_diary"
+title = "Globe"
+text = "The diary mentioned the globe. 'The key is inside the globe -- she will never think to look there.' You turn the northern hemisphere. It clicks. A hidden compartment opens. Inside: an iron key."
+set_state = {"found_attic_key_globe": true}
+gives_item = "attic_key"
+play_sfx = "res://assets/audio/sfx/inventory/key_find.ogg"
+
+[sub_resource type="Resource" id="resp_globe_default"]
+script = ExtResource("3")
+condition = ""
+title = "Globe"
+text = "A brass-framed globe on a mahogany stand. The northern hemisphere is slightly askew -- someone twisted it and did not put it back. The seam between the hemispheres is wider than it should be. Is there something inside?"
+
+; Globe thread variants
+[sub_resource type="Resource" id="resp_globe_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Globe"
+text = "The globe sits on its mahogany stand like a locked safe. The brass frame has scratch marks where someone tried to pry it open -- small fingers, desperate. The northern hemisphere is twisted slightly off center. This is where he hid it. One of the keys to her cage."
+
+[sub_resource type="Resource" id="resp_globe_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Globe"
+text = "A globe on a mahogany stand. Elizabeth used to spin it and point to where she wanted to travel. Victoria told you that. The globe has not moved since. Dust has settled in the grooves between continents. All those places she will never see."
+
+[sub_resource type="Resource" id="resp_globe_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Globe"
+text = "The globe turns on its own as you enter the room. A quarter rotation, slow, deliberate. It stops with England facing you. Ashworth Manor would be right... there. Under your fingertip. She is showing you where you are. She already knows."
+
+; === Binding Book Responses (shared) ===
+
+[sub_resource type="Resource" id="resp_book_truth"]
+script = ExtResource("3")
+condition = "knows_full_truth"
+title = "Rites of Passage"
+text = "The book that taught Edmund Ashworth how to bind his daughter. You have read it. You understand now what it means and what it costs. The pages feel heavier than paper should."
+set_state = {"examined_binding_book": true}
+
+[sub_resource type="Resource" id="resp_book_default"]
+script = ExtResource("3")
+condition = ""
+title = "Rites of Passage"
+text = "A leather-bound volume on the reading lectern. 'Rites of Passage: The Binding and Loosing of Spirits, 1743.' The pages are yellowed, the margins annotated in Edmund Ashworth's hand. Bookmarks at chapters titled 'Containment' and 'The Vessel.'"
+set_state = {"examined_binding_book": true}
+gives_item = "binding_book"
+
+; Binding book thread variants
+[sub_resource type="Resource" id="resp_book_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Rites of Passage"
+text = "The book lies open to the chapter on Containment. Edmund's annotations crowd the margins: 'This is the answer. The vessel must be sealed. The door must be locked. The binding must hold.' He underlined 'hold' three times. This book taught him how to build a cage for something that has no body. This book is the reason the attic door is locked."
+set_state = {"examined_binding_book": true}
+gives_item = "binding_book"
+
+[sub_resource type="Resource" id="resp_book_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Rites of Passage"
+text = "The book lies open to the chapter on Consequences. Edmund's annotations here are different -- shaky, blotted, written late at night. 'What have I done? The book said containment, not suffering. It said the vessel would sleep.' A dried flower pressed between the pages -- a white lily. Elizabeth's favorite. He put it here to remind himself she was still his daughter."
+set_state = {"examined_binding_book": true}
+gives_item = "binding_book"
+
+[sub_resource type="Resource" id="resp_book_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Rites of Passage"
+text = "The book lies open to the chapter on Awakening. Edmund did not annotate this chapter -- Elizabeth did. Her handwriting is in the margins, neat and precise. 'He thinks this chapter describes a disease. It describes an evolution.' And further down: 'The book is wrong about the vessel. The vessel is not a container. It is a cocoon.' She read the same book and understood it better than he ever did."
+set_state = {"examined_binding_book": true}
+gives_item = "binding_book"
+
+; === Family Tree Responses (shared) ===
+
+[sub_resource type="Resource" id="resp_tree_diary"]
+script = ExtResource("3")
+condition = "read_ashworth_diary"
+title = "Family Tree"
+text = "Five branches for five children. The fourth name -- Elizabeth -- has been scratched out so deeply the paper tore. Someone erased her from the family. The scratches look fresh. Recent. As if this happened after everything else."
+set_state = {"examined_family_tree": true}
+
+[sub_resource type="Resource" id="resp_tree_default"]
+script = ExtResource("3")
+condition = ""
+title = "Family Tree"
+text = "A framed family tree on the wall. 'The Ashworth Line, 1720-1891.' Five branches descend from Edmund and Victoria. Four names are legible. The fourth has been scratched out -- not with ink, but with something sharp. A nail? A pin? The paper beneath is torn."
+set_state = {"examined_family_tree": true}
+
+; Family tree thread variants
+[sub_resource type="Resource" id="resp_tree_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Family Tree"
+text = "The family tree has five branches. Four names. The fourth has been scratched away -- violently, with a sharp instrument, deep enough to tear through the backing. Someone did not just cross out Elizabeth's name. They tried to erase the fact that she existed. If there is no name there was no girl. If there was no girl there was no attic. If there was no attic there was no lock."
+set_state = {"examined_family_tree": true}
+
+[sub_resource type="Resource" id="resp_tree_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Family Tree"
+text = "The family tree has five branches. Four names. The fourth space is blank -- not scratched out, not erased. Blank. As if the calligrapher was told to leave it empty. As if the parents could not bring themselves to write her name. Below the blank space, someone has drawn a small flower in pencil. A lily. Victoria's hand. She could not write the name but she could not leave it empty either."
+set_state = {"examined_family_tree": true}
+
+[sub_resource type="Resource" id="resp_tree_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Family Tree"
+text = "The family tree has five branches. Four names. The fourth name has been scratched out -- but when you look closer, the scratches form letters. She scratched out her old name and wrote a new one over it. The strokes are too fine to read in this light. But they are deliberate. She renamed herself. She chose to become something the family tree had no category for."
+set_state = {"examined_family_tree": true}
+
+; === Gear Mechanism Responses (B-path puzzle) ===
+
+[sub_resource type="Resource" id="resp_gear_default"]
+script = ExtResource("3")
+condition = ""
+title = "Gear Mechanism"
+text = "A brass mechanism mounted on the wall beside the clock. Three gear housings sit empty -- the gears themselves are scattered on the desk below. A note pinned to the desk reads: 'The clock knows the combination. Time runs from small to large.'"
+
+; === Interactables ===
+
+[sub_resource type="Resource" id="inter_globe"]
+script = ExtResource("2")
+id = "library_globe"
+type = "observation"
+position = Vector3(-3, 0.9, 3)
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_globe_diary"), SubResource("resp_globe_default")])
+thread_responses = {"captive": [SubResource("resp_globe_captive")], "mourning": [SubResource("resp_globe_mourning")], "sovereign": [SubResource("resp_globe_sovereign")]}
+
+[sub_resource type="Resource" id="inter_book"]
+script = ExtResource("2")
+id = "binding_book"
+type = "note"
+position = Vector3(0, 1.2, 4.5)
+wall = "north"
+collision_size = Vector3(1.5, 1.5, 1.5)
+model = "res://assets/shared/items/books1.glb"
+responses = Array[Resource]([SubResource("resp_book_truth"), SubResource("resp_book_default")])
+thread_responses = {"captive": [SubResource("resp_book_captive")], "mourning": [SubResource("resp_book_mourning")], "sovereign": [SubResource("resp_book_sovereign")]}
+
+[sub_resource type="Resource" id="inter_tree"]
+script = ExtResource("2")
+id = "family_tree"
+type = "painting"
+position = Vector3(3.5, 2, 4.5)
+wall = "north"
+collision_size = Vector3(1.5, 1.5, 1.5)
+model = "res://assets/shared/decor/picture_blank.glb"
+responses = Array[Resource]([SubResource("resp_tree_diary"), SubResource("resp_tree_default")])
+thread_responses = {"captive": [SubResource("resp_tree_captive")], "mourning": [SubResource("resp_tree_mourning")], "sovereign": [SubResource("resp_tree_sovereign")]}
+
+[sub_resource type="Resource" id="inter_gears"]
+script = ExtResource("2")
+id = "library_gears"
+type = "observation"
+position = Vector3(3.5, 1.5, -4)
+wall = "south"
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_gear_default")])
+
+; === Lights ===
+
+[sub_resource type="Resource" id="light_desk"]
+script = ExtResource("4")
+id = "library_desk_lamp"
+type = "omni"
+position = Vector3(0, 1.5, 0)
+color = Color(1.0, 0.9, 0.6, 1)
+energy = 1.2
+range = 5.0
+shadows = true
+flickering = false
+
+[sub_resource type="Resource" id="light_window"]
+script = ExtResource("4")
+id = "library_moonlight"
+type = "omni"
+position = Vector3(-3.5, 2, -4)
+color = Color(0.5, 0.6, 0.9, 1)
+energy = 0.6
+range = 5.0
+shadows = false
+flickering = false
+
+; === Props ===
+
+[sub_resource type="Resource" id="prop_desk"]
+script = ExtResource("5")
+id = "study_desk"
+model = "res://assets/shared/furniture/study_desk.glb"
+position = Vector3(0, 0, 0)
+
+[sub_resource type="Resource" id="prop_bookcase_n"]
+script = ExtResource("5")
+id = "bookcase_north"
+model = "res://assets/shared/furniture/bookcase.glb"
+position = Vector3(-2, 0, 4.5)
+
+[sub_resource type="Resource" id="prop_bookcase_w"]
+script = ExtResource("5")
+id = "bookcase_west"
+model = "res://assets/shared/furniture/bookcase.glb"
+position = Vector3(-3.5, 0, 0)
+
+[sub_resource type="Resource" id="prop_chair"]
+script = ExtResource("5")
+id = "desk_chair"
+model = "res://assets/shared/furniture/chair.glb"
+position = Vector3(0, 0, -1)
+
+[sub_resource type="Resource" id="prop_globe_model"]
+script = ExtResource("5")
+id = "globe_model"
+model = "res://assets/shared/decor/picture_blank.glb"
+position = Vector3(-3, 0.5, 3)
+scale = 0.5
+
+; === Entry Trigger ===
+
+[sub_resource type="Resource" id="act_visited"]
+script = ExtResource("7")
+set_state = {"visited_library": true}
+
+[sub_resource type="Resource" id="act_show_name"]
+script = ExtResource("7")
+show_room_name = "Library"
+
+[sub_resource type="Resource" id="trig_first_entry"]
+script = ExtResource("6")
+condition = "NOT visited_library"
+once = true
+trigger_id = "library_first_entry"
+actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name")])
+
+; === Ambient: Page rustle ===
+
+[sub_resource type="Resource" id="act_rustle"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/paper_rustle.ogg"
+
+[sub_resource type="Resource" id="ambient_rustle"]
+script = ExtResource("8")
+event_id = "page_rustle"
+interval_min = 20.0
+interval_max = 40.0
+condition = ""
+actions = Array[Resource]([SubResource("act_rustle")])
+
+; === Main Resource ===
 
 [resource]
 script = ExtResource("1")
@@ -28,11 +286,11 @@ reverb_bus = "Room"
 footstep_surface = "wood_parquet"
 spawn_position = Vector3(0, 0, -4)
 spawn_rotation_y = 0.0
-interactables = Array[Resource]([])
-lights = Array[Resource]([])
-props = Array[Resource]([])
-on_entry = Array[Resource]([])
+interactables = Array[Resource]([SubResource("inter_globe"), SubResource("inter_book"), SubResource("inter_tree"), SubResource("inter_gears")])
+lights = Array[Resource]([SubResource("light_desk"), SubResource("light_window")])
+props = Array[Resource]([SubResource("prop_desk"), SubResource("prop_bookcase_n"), SubResource("prop_bookcase_w"), SubResource("prop_chair"), SubResource("prop_globe_model")])
+on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
-ambient_events = Array[Resource]([])
+ambient_events = Array[Resource]([SubResource("ambient_rustle")])
 conditional_events = Array[Resource]([])
 flashbacks = Array[Resource]([])

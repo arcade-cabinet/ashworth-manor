@@ -7,6 +7,6 @@ script = ExtResource("1")
 ending_id = "acceptance"
 trigger_condition = "counter_ritual_complete AND macro_thread == sovereign"
 trigger_room = "hidden_chamber"
-text_sequence = PackedStringArray("The ritual circle doesn't break. It transforms.", "Elizabeth rises. She is not freed. She is acknowledged.", "The house settles around her — not a prison, but a home.", "She chose this. You understand now. This was always her house.", "'Now you know,' she says. And the house is at peace.")
+text_sequence = PackedStringArray("The ritual circle doesn't break. It transforms.", "Elizabeth rises. She is not freed. She is acknowledged.", "The house settles around her -- not a prison, but a home.", "She chose this. You understand now. This was always her house.", "'Now you know,' she says. And the house is at peace.")
 timing = [3.0, 4.0, 3.0, 4.0, 5.0]
 stinger_sfx = "res://assets/audio/sfx/stinger/pl_horror_stinger_10_final.wav"
