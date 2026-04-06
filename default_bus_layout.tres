@@ -1,7 +1,6 @@
-[gd_resource type="AudioBusLayout" format=3]
+[gd_resource type="AudioBusLayout" format=3 uid="uid://b2n7xxhjybfkr"]
 
 [sub_resource type="AudioEffectReverb" id="reverb_hall"]
-room_size = 0.8
 damping = 0.3
 spread = 0.8
 dry = 0.7
@@ -16,7 +15,6 @@ wet = 0.25
 
 [sub_resource type="AudioEffectReverb" id="reverb_small"]
 room_size = 0.3
-damping = 0.5
 spread = 0.4
 dry = 0.8
 wet = 0.2
@@ -31,13 +29,11 @@ wet = 0.4
 [sub_resource type="AudioEffectReverb" id="reverb_dungeon"]
 room_size = 0.9
 damping = 0.15
-spread = 1.0
 dry = 0.55
 wet = 0.45
 
 [sub_resource type="AudioEffectReverb" id="reverb_wood"]
 room_size = 0.4
-damping = 0.5
 spread = 0.5
 dry = 0.8
 wet = 0.2
@@ -50,12 +46,6 @@ dry = 0.9
 wet = 0.1
 
 [resource]
-bus/0/name = &"Master"
-bus/0/solo = false
-bus/0/mute = false
-bus/0/bypass_fx = false
-bus/0/volume_db = 0.0
-bus/0/send = &""
 bus/1/name = &"Hall"
 bus/1/solo = false
 bus/1/mute = false

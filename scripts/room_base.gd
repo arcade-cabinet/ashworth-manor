@@ -19,7 +19,7 @@ var _flicker_intensity: float = 1.0
 @export var boundary_size: Vector3 = Vector3.ZERO  # If set, creates invisible walls
 
 func _ready() -> void:
-	# Some scenes set metadata instead of exports — sync them
+	# Some scenes set metadata instead of exports -- sync them
 	if room_id.is_empty() and has_meta("room_id"):
 		room_id = get_meta("room_id")
 	if room_name.is_empty() and has_meta("room_name"):

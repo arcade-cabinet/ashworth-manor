@@ -56,7 +56,7 @@ func _build() -> void:
 	center.add_child(_title_label)
 
 	var subtitle := Label.new()
-	subtitle.text = "Est. 1847 — Abandoned 1891"
+	subtitle.text = "Est. 1847 -- Abandoned 1891"
 	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	subtitle.add_theme_font_size_override("font_size", 16)
 	subtitle.add_theme_color_override("font_color", Color(0.5, 0.4, 0.3))

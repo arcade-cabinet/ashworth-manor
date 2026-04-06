@@ -1,5 +1,5 @@
 extends CanvasLayer
-## res://scripts/ui/document_balloon.gd — Victorian paper balloon for Dialogue Manager
+## res://scripts/ui/document_balloon.gd -- Victorian paper balloon for Dialogue Manager
 ## Aged paper aesthetic, typewriter text, tap-to-dismiss. No response menu needed.
 
 const PAPER_COLOR := Color("#D1C1A6")
@@ -109,7 +109,7 @@ func _apply_dialogue_line() -> void:
 		dialogue_label.type_out()
 		await dialogue_label.finished_typing
 
-	# No responses in our document system — just wait for tap
+	# No responses in our document system -- just wait for tap
 	is_waiting_for_input = true
 	dismiss_hint.visible = true
 	balloon.focus_mode = Control.FOCUS_ALL
@@ -147,7 +147,7 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 	if not is_waiting_for_input:
 		return
 
-	# Dismiss on tap (advance to next line — which will be null, ending dialogue)
+	# Dismiss on tap (advance to next line -- which will be null, ending dialogue)
 	get_viewport().set_input_as_handled()
 	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
 		next(dialogue_line.next_id)

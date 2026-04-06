@@ -116,7 +116,10 @@ func _update_tension_layer() -> void:
 		var tw: Tween = create_tween()
 		tw.tween_property(_tension_player, "volume_db", SILENCE_DB, 0.5)
 		return
-	var path: String = "res://assets/audio/loops/%s.ogg" % tension_loop
+	# Try WAV first (new packs), then OGG (legacy)
+	var path: String = "res://assets/audio/tension/%s.wav" % tension_loop
+	if not ResourceLoader.exists(path):
+		path = "res://assets/audio/tension/%s.ogg" % tension_loop
 	if not ResourceLoader.exists(path):
 		return
 	var stream: AudioStream = load(path)

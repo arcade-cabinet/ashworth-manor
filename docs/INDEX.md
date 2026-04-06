@@ -22,6 +22,9 @@ Every document in this game's design. Any agent working on this project reads th
 | [puzzles/README.md](./puzzles/README.md) | All 6 puzzles: flowcharts, flag chains, clue redundancy, counter-ritual |
 | [items/README.md](./items/README.md) | Complete item catalog: keys, documents, artifacts, ritual components |
 | [ADDON_EVALUATION.md](./ADDON_EVALUATION.md) | Master addon registry, rejected addons, interconnection diagram |
+| [INTERACTIVE_DOORS_PLAN.md](./INTERACTIVE_DOORS_PLAN.md) | Procedural door/window frames from retro textures, hinge animation, door types per room |
+| [AUDIO_WIRING_PLAN.md](./AUDIO_WIRING_PLAN.md) | How all 280 audio files connect to game systems — every SFX, when it plays, which script fires it |
+| [MAESTRO_E2E_PLAN.md](./MAESTRO_E2E_PLAN.md) | APK build → emulator → Maestro flows pipeline with MaestroHelper world-to-screen bridge |
 
 ---
 

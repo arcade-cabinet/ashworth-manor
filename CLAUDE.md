@@ -39,8 +39,21 @@ scripts/
   room_base.gd                   # Room root script (exports: room_id, audio_loop, etc)
   player_controller.gd           # First-person, tap-to-walk, swipe-to-look
   interaction_manager.gd         # Interaction dispatch, puzzle logic, endings
-  audio_manager.gd               # Per-room ambient loops, crossfade
-  ui_overlay.gd                  # All UI (needs decomposition)
+  audio_manager.gd               # Per-room ambient + tension layers, crossfade
+  ui_overlay.gd                  # Thin coordinator → delegates to ui/ submodules
+  ui/ui_landing.gd               # Landing screen (title, new game, continue)
+  ui/ui_document.gd              # Document overlay panel
+  ui/ui_pause.gd                 # Pause menu with inventory + quests
+  ui/ui_ending.gd                # Ending sequence overlay
+  ui/ui_room_name.gd             # Room name / notification toast
+  game_state_machine.gd          # LimboAI HSM (4 game phases)
+  elizabeth_presence.gd          # Elizabeth sub-HSM (4 presence states)
+  camera_controller.gd           # Phantom Camera + shake integration
+  flashback_manager.gd           # Horror model flashback sequences
+  room_events.gd                 # Entry events + ambient timed events
+  puzzle_handler.gd              # Box, locked_door, doll, ritual logic
+  shake_profiles.gd              # ShakyCamera3D event presets
+  quest_handler.gd               # Quest start/complete from flags
   interactable_data.gd           # Resource class for interactable metadata
   room_connection.gd             # Resource class for room transitions
 resources/
@@ -49,12 +62,26 @@ resources/
 assets/
   shared/{structure,furniture,decor,items,textures}/ # Mansion pack GLBs
   {floor}/{room}/                 # Room-specific props
-  audio/loops/                    # 36 OGG ambient loops
+  audio/loops/                    # 36 OGG ambient loops (mapped to rooms)
+  audio/tension/                  # 10 WAV tension layers (Dark Ambient pack, per floor)
+  audio/sfx/horror/               # 50 OGG horror SFX (whispers, doors, drones, screams)
+  audio/sfx/stinger/              # 20 WAV stinger music (phase transitions, endings)
+  audio/sfx/inventory/            # 36 OGG inventory SFX (pickup, chest, key, error)
+  audio/sfx/impact/               # 21 OGG impact SFX (click, heavy, stone, metal, wood)
+  audio/sfx/ambient/              # 40 OGG ambient SFX (wind, fire, dungeon, rain)
+  audio/sfx/music_box/            # 3 OGG music box melodies (Elizabeth's theme)
+  audio/sfx/echoes/               # 11 MP3 horror echoes (breath, ghost, bells, thunder)
+  audio/footsteps/{surface}/      # 36 WAV footsteps (9 surfaces x 4 variants)
+  audio/footsteps_extra/          # 17 OGG supplemental footsteps
+  fonts/                          # 19 TTF (Cinzel 7 weights + Cormorant 12 weights)
   horror/{models,textures}/       # Horror-specific assets
+  shared/textures/retro/          # 240 PNG door/window/shutter textures (Retro Textures 2)
 shaders/
   psx_dither.gdshader            # Screen-space PSX dither + color reduction (from godot-psx)
   psx_fade.gdshader              # Dither-based room transition fade (from godot-psx)
   # NO per-material shaders — PSX assets are already low-poly with baked textures
+dialogue/
+  {floor}/{room}.dialogue         # 20 dialogue files with conditional text per room
 test/
   e2e/run_e2e.gd                 # Headless E2E test (57 assertions)
 ```

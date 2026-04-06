@@ -36,3 +36,11 @@ android/build/assetPackInstallTime/build/
 android/build/src/instrumented/assets/.godot/
 *.apk
 *.aab
+# Source audio pack archives + extracted dirs (organized copies live in assets/audio/)
+PSX Footsteps SFX Foley Pack/
+*.zip
+Echoes of Horror - Free Sounds/
+Toys in the Attic */
+Cinzel/
+Cormorant/
+*.rar
