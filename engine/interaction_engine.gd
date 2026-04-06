@@ -30,7 +30,7 @@ func set_inventory(items: Array[String]) -> void:
 ## Process a player tap on an interactable.
 ## Returns the ResponseDecl shown, or null if interaction was blocked.
 func interact(decl: InteractableDecl) -> ResponseDecl:
-	# 1. Check thread_active — skip if wrong macro thread
+	# 1. Check thread_active -- skip if wrong macro thread
 	if not _is_active_on_thread(decl):
 		return null
 
@@ -133,7 +133,7 @@ func _handle_progressive(decl: InteractableDecl) -> ResponseDecl:
 			_execute_response(decl, step.response)
 			return step.response
 
-	# Past all steps — use fallback
+	# Past all steps -- use fallback
 	if decl.fallback_response:
 		return decl.fallback_response
 	return null

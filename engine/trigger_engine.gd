@@ -25,7 +25,7 @@ func load_global_triggers(triggers: Array[GlobalTrigger]) -> void:
 	_global_triggers = triggers
 
 
-## Called when entering a room — evaluate on_entry triggers.
+## Called when entering a room -- evaluate on_entry triggers.
 func on_room_enter(room_decl: RoomDeclaration) -> Array[ActionDecl]:
 	var executed: Array[ActionDecl] = []
 	for trigger in room_decl.on_entry:
@@ -37,7 +37,7 @@ func on_room_enter(room_decl: RoomDeclaration) -> Array[ActionDecl]:
 	return executed
 
 
-## Called when exiting a room — evaluate on_exit triggers.
+## Called when exiting a room -- evaluate on_exit triggers.
 func on_room_exit(room_decl: RoomDeclaration) -> Array[ActionDecl]:
 	var executed: Array[ActionDecl] = []
 	for trigger in room_decl.on_exit:
@@ -49,7 +49,7 @@ func on_room_exit(room_decl: RoomDeclaration) -> Array[ActionDecl]:
 	return executed
 
 
-## Called on every state change — evaluate global triggers.
+## Called on every state change -- evaluate global triggers.
 func on_state_changed() -> Array[ActionDecl]:
 	var executed: Array[ActionDecl] = []
 	for global_trigger in _global_triggers:
@@ -64,7 +64,7 @@ func on_state_changed() -> Array[ActionDecl]:
 	return executed
 
 
-## Called periodically — evaluate ambient events (timed periodic SFX).
+## Called periodically -- evaluate ambient events (timed periodic SFX).
 ## Returns actions that should fire based on elapsed time.
 func update_ambient_events(room_decl: RoomDeclaration, delta: float) -> Array[ActionDecl]:
 	var executed: Array[ActionDecl] = []

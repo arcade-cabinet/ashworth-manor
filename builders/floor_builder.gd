@@ -40,10 +40,10 @@ static func build(
 				tile.set_surface_override_material(0, mat)
 			floor_root.add_child(tile)
 
-	# Collision — single box for whole floor
+	# Collision -- single box for whole floor
 	var body := StaticBody3D.new()
 	body.name = "FloorCollision"
-	body.collision_layer = 1  # Layer 1 — Walkable floor
+	body.collision_layer = 1  # Layer 1 -- Walkable floor
 	body.collision_mask = 0
 
 	var shape := CollisionShape3D.new()

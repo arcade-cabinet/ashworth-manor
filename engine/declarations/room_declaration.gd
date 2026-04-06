@@ -1,14 +1,14 @@
 @tool
 class_name RoomDeclaration
 extends Resource
-## Complete room definition — geometry, interactables, lighting, audio, triggers.
+## Complete room definition -- geometry, interactables, lighting, audio, triggers.
 
 # Identity
 @export var room_id: String = ""
 @export var room_name: String = ""
 @export var floor_name: String = ""          # "ground_floor", "upper_floor", etc
 
-# Environment — references a key in WorldDeclaration.area_environments
+# Environment -- references a key in WorldDeclaration.area_environments
 @export var environment_preset: String = ""  # "grounds", "ground_floor", "upper_floor", "basement", "deep_basement", "attic"
 
 # Geometry
@@ -20,7 +20,7 @@ extends Resource
 @export var floor_texture: String = "floor0_texture"
 @export var ceiling_texture: String = "ceiling0_texture"
 
-# Wall layout — per side, what goes in each 2m segment
+# Wall layout -- per side, what goes in each 2m segment
 # Each segment: "wall" | "doorway:{connection_id}" | "window" | "window_boarded" | "window_shuttered"
 @export var wall_north: PackedStringArray = []
 @export var wall_south: PackedStringArray = []
@@ -37,7 +37,7 @@ extends Resource
 @export var spawn_position: Vector3 = Vector3.ZERO
 @export var spawn_rotation_y: float = 0.0
 
-# Interactables — declared inline, not separate files
+# Interactables -- declared inline, not separate files
 @export var interactables: Array[InteractableDecl] = []
 
 # Lighting

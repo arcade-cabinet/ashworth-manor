@@ -30,10 +30,10 @@ static func build(connection: Connection, height: float = 2.4) -> Node3D:
 	side_r.name = "SideRight"
 	stairs_root.add_child(side_r)
 
-	# Stair collision — ramp approximation
+	# Stair collision -- ramp approximation
 	var body := StaticBody3D.new()
 	body.name = "StairsCollision"
-	body.collision_layer = 1  # Layer 1 — Walkable
+	body.collision_layer = 1  # Layer 1 -- Walkable
 	body.collision_mask = 0
 
 	var shape := CollisionShape3D.new()

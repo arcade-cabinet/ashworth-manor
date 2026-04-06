@@ -1,7 +1,7 @@
 @tool
 class_name FlashbackDecl
 extends Resource
-## A horror flashback sequence — spawn model + PSX fade + stinger.
+## A horror flashback sequence -- spawn model + PSX fade + stinger.
 
 @export var flashback_id: String = ""
 @export var condition: String = ""           # State expression to trigger

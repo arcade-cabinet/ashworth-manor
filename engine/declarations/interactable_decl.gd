@@ -1,15 +1,15 @@
 @tool
 class_name InteractableDecl
 extends Resource
-## An interactive object in a room — painting, note, mirror, clock, switch, etc.
+## An interactive object in a room -- painting, note, mirror, clock, switch, etc.
 
 @export var id: String = ""
 @export var type: String = ""                # painting, note, mirror, clock, switch, box, doll, ritual, observation, photo
 @export var position: Vector3 = Vector3.ZERO
-@export var wall: String = ""                # "north", "south", "east", "west" — for wall-mounted objects
+@export var wall: String = ""                # "north", "south", "east", "west" -- for wall-mounted objects
 @export var collision_size: Vector3 = Vector3(1.5, 1.5, 1.5)
 
-# Thread visibility — which macro threads make this interactable active
+# Thread visibility -- which macro threads make this interactable active
 # Empty = always active (on all threads). "captive" = only on captive thread.
 @export var thread_active: PackedStringArray = []
 
@@ -21,7 +21,7 @@ extends Resource
 @export var model: String = ""               # GLB path for 3D model, empty for text-only
 @export var texture: String = ""             # For procedural visual (door/window texture)
 
-# Visual effects — per-phase rendering changes
+# Visual effects -- per-phase rendering changes
 @export var visual_effects: Dictionary = {}  # {"mirror_delay": 0.3, "emission_glow": 0.5}
 
 # === Simple interaction: single response set ===

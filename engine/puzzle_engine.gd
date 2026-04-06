@@ -84,7 +84,7 @@ func _complete_puzzle(puzzle: PuzzleDeclaration) -> void:
 	puzzle_completed.emit(puzzle.puzzle_id)
 
 
-## Validate puzzle dependency graph — no cycles, all prerequisites achievable.
+## Validate puzzle dependency graph -- no cycles, all prerequisites achievable.
 ## Returns array of error strings (empty = valid).
 func validate_dependency_graph() -> PackedStringArray:
 	var errors: PackedStringArray = []

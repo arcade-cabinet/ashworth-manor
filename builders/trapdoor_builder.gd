@@ -32,7 +32,7 @@ static func build(connection: Connection) -> Node3D:
 	# AnimatableBody3D for physics
 	var body := AnimatableBody3D.new()
 	body.name = "TrapdoorBody"
-	body.collision_layer = 1  # Layer 1 — Floor initially
+	body.collision_layer = 1  # Layer 1 -- Floor initially
 	body.collision_mask = 0
 	var shape := CollisionShape3D.new()
 	var box := BoxShape3D.new()
@@ -48,7 +48,7 @@ static func build(connection: Connection) -> Node3D:
 	# Connection Area3D below the hatch
 	var area := Area3D.new()
 	area.name = "TrapdoorArea"
-	area.collision_layer = 8  # Layer 4 — Connection
+	area.collision_layer = 8  # Layer 4 -- Connection
 	area.collision_mask = 0
 	area.set_meta("connection_id", connection.id)
 	area.set_meta("target_room", connection.to_room)

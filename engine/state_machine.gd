@@ -162,7 +162,7 @@ func evaluate(expression: String) -> bool:
 		var parts := expression.split(" < ", false, 1)
 		return _get_numeric(parts[0]) < _get_numeric(parts[1])
 
-	# Simple boolean check — variable name is truthy
+	# Simple boolean check -- variable name is truthy
 	var val = _state.get(expression.strip_edges(), false)
 	if val is bool:
 		return val

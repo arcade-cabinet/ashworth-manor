@@ -44,7 +44,7 @@ static func build(
 	# Ceiling collision for raycast blocking
 	var body := StaticBody3D.new()
 	body.name = "CeilingCollision"
-	body.collision_layer = 2  # Layer 2 — Walls/ceiling
+	body.collision_layer = 2  # Layer 2 -- Walls/ceiling
 	body.collision_mask = 0
 
 	var shape := CollisionShape3D.new()

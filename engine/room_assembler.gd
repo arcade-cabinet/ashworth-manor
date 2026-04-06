@@ -175,7 +175,7 @@ func _build_interactables(decls: Array[InteractableDecl], parent: Node3D) -> voi
 		var area := Area3D.new()
 		area.name = decl.id
 		area.position = decl.position
-		area.collision_layer = 4  # Layer 3 — Interactable
+		area.collision_layer = 4  # Layer 3 -- Interactable
 		area.collision_mask = 0
 
 		# Store full declaration as metadata
@@ -222,7 +222,7 @@ func _build_connection_areas(room_decl: RoomDeclaration, parent: Node3D) -> void
 				# Simple area trigger for outdoor paths
 				var area := Area3D.new()
 				area.name = "Path_%s" % conn.id
-				area.collision_layer = 8  # Layer 4 — Connection
+				area.collision_layer = 8  # Layer 4 -- Connection
 				area.collision_mask = 0
 				area.position = conn.position_in_from
 				area.set_meta("connection_id", conn.id)

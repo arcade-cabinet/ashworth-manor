@@ -33,14 +33,14 @@ static func build(
 			panel.rotation_degrees.y = _get_wall_rotation(direction)
 			wall_root.add_child(panel)
 		elif segment_type.begins_with("doorway:"):
-			# Doorway opening — leave gap, door_builder handles the door
+			# Doorway opening -- leave gap, door_builder handles the door
 			var lintel := _make_lintel(wall_texture_path)
 			lintel.position = _get_segment_position(direction, local_x, room_width, room_depth)
 			lintel.position.y = WALL_HEIGHT - 0.4
 			lintel.rotation_degrees.y = _get_wall_rotation(direction)
 			wall_root.add_child(lintel)
 		elif segment_type == "window" or segment_type == "window_boarded" or segment_type == "window_shuttered":
-			# Window opening — wall below and above, window_builder handles insert
+			# Window opening -- wall below and above, window_builder handles insert
 			var below := _make_half_panel(wall_texture_path, 0.9, 0.0)
 			below.position = _get_segment_position(direction, local_x, room_width, room_depth)
 			below.rotation_degrees.y = _get_wall_rotation(direction)
@@ -54,7 +54,7 @@ static func build(
 	# Collision for the entire wall
 	var collision_body := StaticBody3D.new()
 	collision_body.name = "WallCollision_%s" % direction.capitalize()
-	collision_body.collision_layer = 2  # Layer 2 — Walls
+	collision_body.collision_layer = 2  # Layer 2 -- Walls
 	collision_body.collision_mask = 0
 
 	var collision_shape := CollisionShape3D.new()

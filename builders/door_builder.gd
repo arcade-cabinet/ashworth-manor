@@ -37,10 +37,10 @@ static func build(connection: Connection) -> Node3D:
 	else:
 		_build_single_panel(door_root, frame_w, frame_h, connection.door_texture)
 
-	# Connection Area3D — player trigger zone
+	# Connection Area3D -- player trigger zone
 	var area := Area3D.new()
 	area.name = "DoorArea"
-	area.collision_layer = 8  # Layer 4 — Connection
+	area.collision_layer = 8  # Layer 4 -- Connection
 	area.collision_mask = 0
 	area.set_meta("connection_id", connection.id)
 	area.set_meta("target_room", connection.to_room)
@@ -115,7 +115,7 @@ static func _build_single_panel(parent: Node3D, width: float, height: float, tex
 	# AnimatableBody3D for physics-aware door
 	var body := AnimatableBody3D.new()
 	body.name = "DoorBody"
-	body.collision_layer = 2  # Layer 2 — Walls
+	body.collision_layer = 2  # Layer 2 -- Walls
 	body.collision_mask = 0
 	var shape := CollisionShape3D.new()
 	var box := BoxShape3D.new()

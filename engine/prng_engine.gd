@@ -65,7 +65,7 @@ func _resolve_junction(junction: JunctionDecl) -> String:
 		else:
 			return "B" if preferred == "A" else "A"
 
-	# No preference — pure random
+	# No preference -- pure random
 	return "A" if roll < 0.5 else "B"
 
 

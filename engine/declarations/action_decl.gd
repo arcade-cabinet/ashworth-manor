@@ -3,7 +3,7 @@ class_name ActionDecl
 extends Resource
 ## A single action executed by a trigger or response.
 
-# One of these is set — the action type
+# One of these is set -- the action type
 @export var set_state: Dictionary = {}       # Set state variables
 @export var play_sfx: String = ""            # Play sound effect
 @export var show_text: String = ""           # Show observation text

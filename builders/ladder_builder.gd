@@ -47,7 +47,7 @@ static func build(connection: Connection, height: float = 2.4) -> Node3D:
 	# Connection Area3D
 	var area := Area3D.new()
 	area.name = "LadderArea"
-	area.collision_layer = 8  # Layer 4 — Connection
+	area.collision_layer = 8  # Layer 4 -- Connection
 	area.collision_mask = 0
 	area.set_meta("connection_id", connection.id)
 	area.set_meta("target_room", connection.to_room)
