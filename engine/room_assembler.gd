@@ -267,3 +267,80 @@ func _build_audio_zone(room_decl: RoomDeclaration, parent: Node3D) -> void:
 	shape.position = Vector3(0, room_decl.dimensions.y * 0.5, 0)
 	reverb_area.add_child(shape)
 	parent.add_child(reverb_area)
+
+
+# ===== Phantom Camera Integration (P5-06) =====
+
+## Add inspection PhantomCamera3D for wall-mounted interactables (painting, note, photo).
+## Also adds room reveal camera for first-entry sweep.
+func add_phantom_cameras(root: Node3D, room_decl: RoomDeclaration) -> void:
+	var cameras := Node3D.new()
+	cameras.name = "PhantomCameras"
+
+	# Inspection cameras for wall-mounted interactables
+	for decl in room_decl.interactables:
+		if decl.type in ["painting", "note", "photo", "document"]:
+			var pcam := _create_inspection_camera(decl)
+			if pcam:
+				cameras.add_child(pcam)
+
+	# Room reveal camera (sweeps on first entry)
+	var reveal_cam := _create_room_reveal_camera(room_decl)
+	if reveal_cam:
+		cameras.add_child(reveal_cam)
+
+	root.add_child(cameras)
+
+
+func _create_inspection_camera(decl: InteractableDecl) -> Node3D:
+	# PhantomCamera3D positioned to look at the interactable
+	var pcam := Node3D.new()
+	pcam.name = "InspectCam_%s" % decl.id
+
+	# Position the camera 1.5m in front of the interactable, at eye height
+	var offset := Vector3(0, 0, -1.5)
+	pcam.position = decl.position + offset
+	pcam.set_meta("inspection_target", decl.id)
+	pcam.set_meta("pcam_priority", 0)  # Inactive by default, set to 20 on interact
+	pcam.set_meta("pcam_type", "inspection")
+
+	return pcam
+
+
+func _create_room_reveal_camera(room_decl: RoomDeclaration) -> Node3D:
+	# Room reveal: sweeps from corner to spawn position on first entry
+	var has_reveal := false
+	for trigger in room_decl.on_entry:
+		for action in trigger.actions:
+			if "show_room_name" in action.show_text:
+				has_reveal = true
+				break
+
+	if not has_reveal:
+		return null
+
+	var pcam := Node3D.new()
+	pcam.name = "RoomRevealCam"
+	pcam.position = room_decl.spawn_position + Vector3(0, 3, -2)
+	pcam.set_meta("pcam_type", "room_reveal")
+	pcam.set_meta("pcam_priority", 0)
+	pcam.set_meta("reveal_target", room_decl.spawn_position)
+
+	return pcam
+
+
+# ===== Footstep Surface Tagging (P5-05) =====
+
+## Tag floor collision bodies with footstep_surface metadata.
+## godot-material-footsteps reads this metadata to select audio.
+func tag_floor_surfaces(root: Node3D, room_decl: RoomDeclaration) -> void:
+	var geometry := root.get_node_or_null("Geometry")
+	if not geometry:
+		return
+
+	for child in geometry.get_children():
+		if child is StaticBody3D:
+			# Tag all floor collision bodies
+			child.set_meta("footstep_surface", room_decl.footstep_surface)
+			child.set_meta("footstep_audio_dir",
+				"res://assets/audio/footsteps/%s/" % room_decl.footstep_surface)

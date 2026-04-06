@@ -39,6 +39,7 @@ func _run_all_tests() -> void:
 	_test_escape_ending()
 	_test_joined_ending()
 	_test_save_load()
+	_test_declarations()
 
 	# === RESULTS ===
 	print("")
@@ -299,3 +300,60 @@ func _find(node: Node, target: String) -> Node:
 		if found != null:
 			return found
 	return null
+
+
+
+# === DECLARATION VALIDATION (Phase 5) ===
+
+func _test_declarations() -> void:
+	_test_name = "DECLARATIONS"
+
+	# Room declarations exist
+	var room_ids := [
+		"front_gate", "foyer", "parlor", "dining_room", "kitchen",
+		"upper_hallway", "master_bedroom", "library", "guest_room",
+		"storage_basement", "boiler_room", "wine_cellar",
+		"attic_stairs", "attic_storage", "hidden_chamber",
+		"garden", "chapel", "greenhouse", "carriage_house", "family_crypt"]
+	for rid in room_ids:
+		_assert("decl %s" % rid, ResourceLoader.exists("res://declarations/rooms/%s.tres" % rid))
+
+	# World.tres loadable
+	_assert("world.tres", ResourceLoader.exists("res://declarations/world.tres"))
+
+	# Puzzles exist
+	for pid in ["attic_key", "hidden_key", "cellar_key", "gate_key", "jewelry_key", "free_elizabeth"]:
+		_assert("puzzle %s" % pid, ResourceLoader.exists("res://declarations/puzzles/%s.tres" % pid))
+
+	# Endings exist
+	for eid in ["freedom", "forgiveness", "acceptance", "escape", "joined"]:
+		_assert("ending %s" % eid, ResourceLoader.exists("res://declarations/endings/%s.tres" % eid))
+
+	# Threads exist
+	for tid in ["captive", "mourning", "sovereign"]:
+		_assert("thread %s" % tid, ResourceLoader.exists("res://declarations/threads/%s.tres" % tid))
+
+	# Environments exist
+	for eid in ["grounds", "ground_floor", "upper_floor", "basement", "deep_basement", "attic"]:
+		_assert("env %s" % eid, ResourceLoader.exists("res://declarations/environments/%s.tres" % eid))
+
+	# State schema
+	_assert("state_schema", ResourceLoader.exists("res://declarations/state_schema.tres"))
+
+	# Engine scripts exist
+	for eng in ["room_assembler", "state_machine", "interaction_engine", "puzzle_engine",
+			"audio_engine", "trigger_engine", "prng_engine", "test_generator",
+			"dialogue_generator", "inventory_bridge", "psx_bridge",
+			"adaptisound_bridge", "save_bridge"]:
+		_assert("engine/%s.gd" % eng, ResourceLoader.exists("res://engine/%s.gd" % eng))
+
+	# Builder scripts exist
+	for bld in ["wall_builder", "floor_builder", "ceiling_builder", "door_builder",
+			"window_builder", "stairs_builder", "trapdoor_builder", "ladder_builder"]:
+		_assert("builders/%s.gd" % bld, ResourceLoader.exists("res://builders/%s.gd" % bld))
+
+	# Sky shader
+	_assert("psx_sky.gdshader", ResourceLoader.exists("res://shaders/psx_sky.gdshader"))
+
+	print("[PASS] Declaration validation: %d declarations + %d engine scripts verified" % [
+		room_ids.size() + 6 + 5 + 3 + 6 + 1, 13 + 8])

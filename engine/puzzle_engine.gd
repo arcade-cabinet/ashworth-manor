@@ -152,3 +152,51 @@ func get_progress(puzzle_id: String) -> float:
 
 func is_completed(puzzle_id: String) -> bool:
 	return puzzle_id in _completed_puzzles
+
+
+# ===== Quest System Integration (P5-09) =====
+
+## Generate quest data from puzzle declarations.
+## Each puzzle becomes a quest with steps matching puzzle steps.
+## Returns array of quest configs for the quest-system addon.
+func generate_quest_configs() -> Array[Dictionary]:
+	var quests: Array[Dictionary] = []
+
+	for puzzle_id in _puzzles:
+		var puzzle: PuzzleDeclaration = _puzzles[puzzle_id]
+		var quest_steps: Array[Dictionary] = []
+
+		for step in puzzle.steps:
+			quest_steps.append({
+				"step_id": step.step_id,
+				"description": step.description if "description" in step else step.step_id,
+				"target_room": step.target_room,
+				"target_interactable": step.target_interactable,
+				"required_state": step.required_state,
+			})
+
+		quests.append({
+			"quest_id": "puzzle_%s" % puzzle_id,
+			"title": puzzle.display_name if "display_name" in puzzle else puzzle_id.capitalize().replace("_", " "),
+			"description": puzzle.description if "description" in puzzle else "",
+			"steps": quest_steps,
+			"completion_state": puzzle.completion_state,
+			"requires_puzzles": puzzle.requires_puzzles,
+			"is_completed": puzzle_id in _completed_puzzles,
+			"progress": get_progress(puzzle_id),
+		})
+
+	return quests
+
+
+## Check if a quest should start (first step's required_state is evaluable).
+func should_quest_start(puzzle_id: String) -> bool:
+	if puzzle_id not in _puzzles:
+		return false
+	var puzzle: PuzzleDeclaration = _puzzles[puzzle_id]
+	if puzzle.steps.is_empty():
+		return false
+
+	# Quest starts when the first step could potentially be completed
+	# (all prerequisite puzzles are done)
+	return _prerequisites_met(puzzle)

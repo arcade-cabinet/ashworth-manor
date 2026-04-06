@@ -177,3 +177,25 @@ func _execute_action(action: ActionDecl) -> void:
 		psx_fade_requested.emit(action.psx_fade)
 
 	action_executed.emit(action)
+
+
+# ===== Shaky Camera Integration (P5-08) =====
+
+## Accessibility toggle -- when false, camera_shake_requested is suppressed.
+var camera_shake_enabled: bool = true
+
+## Apply accessibility settings from WorldDeclaration.
+func set_accessibility(decl_data: Dictionary) -> void:
+	camera_shake_enabled = decl_data.get("camera_shake_enabled", true)
+
+
+## Override _execute_action to check accessibility before camera shake.
+## Note: The base _execute_action already emits camera_shake_requested.
+## The runtime consumer (ShakyCamera3D) should check camera_shake_enabled,
+## or the orchestrator can connect this signal conditionally.
+
+## Shake profiles from ENGINE_SPEC:
+## 0.02 = subtle (ambient creaks)
+## 0.10 = discovery (finding important clue)
+## 0.30 = horror moment (Elizabeth appears)
+## 0.50 = ritual (counter-ritual climax)

@@ -237,3 +237,74 @@ func _check_elizabeth_transitions() -> void:
 				_elizabeth_state = transition.to_state
 				elizabeth_state_changed.emit(old, _elizabeth_state)
 				return
+
+
+# ===== Serialization (P5-10: SaveMadeEasy) =====
+
+## Serialize all state for saving.
+func serialize_state() -> Dictionary:
+	return {
+		"variables": _state.duplicate(),
+		"visited_rooms": _visited_rooms.duplicate(),
+		"current_phase": _current_phase,
+		"elizabeth_state": _elizabeth_state,
+	}
+
+
+## Deserialize saved state.
+func deserialize_state(data: Dictionary) -> void:
+	_state = data.get("variables", {})
+	_visited_rooms = data.get("visited_rooms", {})
+	_current_phase = data.get("current_phase", "")
+	_elizabeth_state = data.get("elizabeth_state", "")
+
+
+# ===== LimboAI HSM Integration (P5-07) =====
+
+## Build LimboHSM configuration from WorldDeclaration.
+## Returns a Dictionary describing the HSM for LimboAI to construct.
+func build_limbo_hsm_config() -> Dictionary:
+	var phase_states: Array[Dictionary] = []
+	for phase in _phases:
+		phase_states.append({
+			"state_id": phase.phase_id,
+			"display_name": phase.display_name,
+			"tension_volume": phase.tension_volume,
+			"flicker_intensity": phase.flicker_intensity,
+		})
+
+	var phase_trans: Array[Dictionary] = []
+	for transition in _phase_transitions:
+		phase_trans.append({
+			"from": transition.from_phase,
+			"to": transition.to_phase,
+			"condition": transition.trigger_condition,
+		})
+
+	var elizabeth_states_config: Array[Dictionary] = []
+	for state in _elizabeth_states:
+		elizabeth_states_config.append({
+			"state_id": state.state_id,
+			"display_name": state.display_name,
+		})
+
+	var elizabeth_trans: Array[Dictionary] = []
+	for transition in _elizabeth_transitions:
+		elizabeth_trans.append({
+			"from": transition.from_state,
+			"to": transition.to_state,
+			"condition": transition.trigger_condition,
+		})
+
+	return {
+		"game_phases": {
+			"states": phase_states,
+			"transitions": phase_trans,
+			"initial": _current_phase,
+		},
+		"elizabeth": {
+			"states": elizabeth_states_config,
+			"transitions": elizabeth_trans,
+			"initial": _elizabeth_state,
+		},
+	}
