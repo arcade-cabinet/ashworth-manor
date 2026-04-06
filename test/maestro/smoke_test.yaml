@@ -5,36 +5,57 @@ tags:
   - ci
 ---
 
-# App launches
-- waitForAnimationToEnd
+# Launch the app
+- launchApp
+
+# Dismiss Android's fullscreen notification if it appears
+- tapOn:
+    text: "Got it"
+    optional: true
+
+# Wait for Godot to load
+- extendedWaitUntil:
+    timeout: 15000
+    visible: ".*"
+
 - takeScreenshot: screenshots/maestro/smoke_01_launch
 
-# Landing screen visible
-- assertVisible: "ASHWORTH MANOR"
-- assertVisible: "New Game"
-- takeScreenshot: screenshots/maestro/smoke_02_landing
+# Godot renders on GPU canvas - text assertions won't work
+# Instead verify app didn't crash by tapping and screenshotting
 
-# Can start game
-- tapOn: "New Game"
-- waitForAnimationToEnd
-- sleep: 3000
+# Tap center (should be landing screen area)
+- tapOn:
+    point: "50%,60%"
+- takeScreenshot: screenshots/maestro/smoke_02_after_tap
+
+# Tap where "New Game" button approximately is (center, lower third)
+- tapOn:
+    point: "50%,55%"
+- extendedWaitUntil:
+    timeout: 5000
+    visible: ".*"
 - takeScreenshot: screenshots/maestro/smoke_03_game_started
 
-# Game renders (screen is not all black — has some content)
-# Room name should appear
-- takeScreenshot: screenshots/maestro/smoke_04_room_loaded
+# Look around by swiping (camera rotation)
+- swipe:
+    start: "70%,50%"
+    end: "30%,50%"
+    duration: 500
+- takeScreenshot: screenshots/maestro/smoke_04_look_right
 
-# Can tap screen without crash
+- swipe:
+    start: "30%,50%"
+    end: "70%,50%"
+    duration: 500
+- takeScreenshot: screenshots/maestro/smoke_05_look_left
+
+# Tap to walk forward
 - tapOn:
-    point: "50%,50%"
-- sleep: 1000
-- tapOn:
-    point: "30%,60%"
-- sleep: 1000
-- tapOn:
-    point: "70%,40%"
-- sleep: 1000
-- takeScreenshot: screenshots/maestro/smoke_05_after_taps
+    point: "50%,40%"
+- extendedWaitUntil:
+    timeout: 3000
+    visible: ".*"
+- takeScreenshot: screenshots/maestro/smoke_06_walked
 
 # App is still running (didn't crash)
-- takeScreenshot: screenshots/maestro/smoke_06_stable
+- takeScreenshot: screenshots/maestro/smoke_07_stable
