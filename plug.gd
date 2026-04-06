@@ -56,4 +56,4 @@ func _plugging() -> void:
 	# === TESTING ===
 	# Unit + integration testing framework for Godot 4
 	# Run via editor or CLI: godot --headless -s addons/gdUnit4/bin/GdUnitCmdTool.gd
-	plug("MikeSchulze/gdUnit4", {"include": ["addons/gdUnit4/"]})
+	plug("MikeSchulze/gdUnit4", {"tag": "v6.1.2", "include": ["addons/gdUnit4/"]})

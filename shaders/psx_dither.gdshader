@@ -58,9 +58,11 @@ int dithering_pattern(ivec2 fragcoord) {
 	return pattern[y * 4 + x];
 }
 
+uniform sampler2D screen_texture : hint_screen_texture, filter_nearest;
+
 void fragment() {
 	ivec2 uv = ivec2(FRAGCOORD.xy);
-	vec3 color = texelFetch(TEXTURE, uv, 0).rgb;
+	vec3 color = texelFetch(screen_texture, uv, 0).rgb;
 	
 	// Convert from 0 to 1 to 0 to 255.
 	ivec3 intColor = ivec3(color * 255.0f);
