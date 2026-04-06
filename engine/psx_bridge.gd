@@ -102,13 +102,13 @@ func build_environment(env_decl: EnvironmentDeclaration) -> Environment:
 	# Tonemap
 	match env_decl.tonemap_mode:
 		"aces":
-			env.tonemap_mode = Environment.TONE_MAP_ACES
+			env.tonemap_mode = Environment.TONE_MAPPER_ACES
 		"filmic":
-			env.tonemap_mode = Environment.TONE_MAP_FILMIC
+			env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 		"reinhard":
-			env.tonemap_mode = Environment.TONE_MAP_REINHARDT
+			env.tonemap_mode = Environment.TONE_MAPPER_REINHARDT
 		_:
-			env.tonemap_mode = Environment.TONE_MAP_LINEAR
+			env.tonemap_mode = Environment.TONE_MAPPER_LINEAR
 	env.tonemap_exposure = env_decl.tonemap_exposure
 
 	# Glow

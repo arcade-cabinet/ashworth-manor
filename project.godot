@@ -29,10 +29,6 @@ SaveSystem="*uid://cx1yhcewu54g5"
 QuestSystem="*uid://b77kvbliweux5"
 DialogueManager="*uid://c3rodes2l3gxb"
 PhantomCameraManager="*uid://duq6jhf6unyis"
-AudioManager="*uid://7sagk7x5odmt"
-MCPScreenshot="*res://addons/godot_mcp/mcp_screenshot_service.gd"
-MCPInputService="*res://addons/godot_mcp/mcp_input_service.gd"
-MCPGameInspector="*res://addons/godot_mcp/mcp_game_inspector_service.gd"
 
 [dialogue_manager]
 
@@ -46,9 +42,13 @@ window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[editor]
+
+export/convert_text_resources_to_binary=false
+
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/AdaptiSound/plugin.cfg", "res://addons/dialogue_manager/plugin.cfg", "res://addons/gloot/plugin.cfg", "res://addons/godot_material_footsteps/plugin.cfg", "res://addons/godot_mcp/plugin.cfg", "res://addons/limboai/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/quest_system/plugin.cfg", "res://addons/save_system/plugin.cfg", "res://addons/shaky_camera_3d/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://addons/gloot/plugin.cfg", "res://addons/godot_material_footsteps/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/quest_system/plugin.cfg", "res://addons/save_system/plugin.cfg")
 
 [input]
 
@@ -77,5 +77,6 @@ config/require_objective_completed=false
 
 [rendering]
 
+textures/vram_compression/import_etc2_astc=true
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=1
 environment/defaults/default_clear_color=Color(0.02, 0.01, 0.02, 1)

@@ -1,17 +1,17 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://5eui3rcsybrj"]
 
-[ext_resource type="Script" path="res://scripts/room_manager.gd" id="1_tefeu"]
-[ext_resource type="Script" path="res://scripts/player_controller.gd" id="2_o6xl0"]
-[ext_resource type="Script" path="res://scripts/audio_manager.gd" id="3_tipki"]
-[ext_resource type="Script" path="res://scripts/interaction_manager.gd" id="4_85g3d"]
-[ext_resource type="Shader" path="res://shaders/psx_dither.gdshader" id="5_choun"]
-[ext_resource type="Script" path="res://scripts/ui_overlay.gd" id="6_ya4ey"]
-[ext_resource type="Script" path="res://scripts/game_state_machine.gd" id="7_gsm01"]
-[ext_resource type="Script" path="res://scripts/elizabeth_presence.gd" id="8_eliz1"]
-[ext_resource type="Script" path="res://scripts/shake_profiles.gd" id="9_shak1"]
-[ext_resource type="Script" path="res://scripts/flashback_manager.gd" id="10_flas1"]
-[ext_resource type="Script" path="res://scripts/room_events.gd" id="11_revt1"]
-[ext_resource type="Script" path="res://scripts/quest_handler.gd" id="12_qhnd1"]
+[ext_resource type="Script" uid="uid://4yyvvyyu84gt" path="res://scripts/room_manager.gd" id="1_tefeu"]
+[ext_resource type="Script" uid="uid://qc31dvxqfwmu" path="res://scripts/player_controller.gd" id="2_o6xl0"]
+[ext_resource type="Script" uid="uid://dn72vpn5cp67t" path="res://scripts/audio_manager.gd" id="3_tipki"]
+[ext_resource type="Script" uid="uid://uii3fsr7c4i6" path="res://scripts/interaction_manager.gd" id="4_85g3d"]
+[ext_resource type="Shader" uid="uid://4mtjp5846usa" path="res://shaders/psx_dither.gdshader" id="5_choun"]
+[ext_resource type="Script" uid="uid://bptu610to1ej0" path="res://scripts/ui_overlay.gd" id="6_ya4ey"]
+[ext_resource type="Script" uid="uid://dxpwnj4fdpauu" path="res://scripts/game_state_machine.gd" id="7_gsm01"]
+[ext_resource type="Script" uid="uid://bw83vxjq1gcit" path="res://scripts/elizabeth_presence.gd" id="8_eliz1"]
+[ext_resource type="Script" uid="uid://cigym30ul4o4g" path="res://scripts/shake_profiles.gd" id="9_shak1"]
+[ext_resource type="Script" uid="uid://8dxnr81t8wi" path="res://scripts/flashback_manager.gd" id="10_flas1"]
+[ext_resource type="Script" uid="uid://dtqrulqwm6gw6" path="res://scripts/room_events.gd" id="11_revt1"]
+[ext_resource type="Script" uid="uid://3trodw5d83bi" path="res://scripts/quest_handler.gd" id="12_qhnd1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eb6dy"]
 sky_top_color = Color(0.02, 0.02, 0.06, 1)
@@ -104,22 +104,22 @@ volume_db = -80.0
 [node name="InteractionManager" type="Node" parent="." unique_id=1183332861]
 script = ExtResource("4_85g3d")
 
-[node name="GameStateMachine" type="Node" parent="."]
+[node name="GameStateMachine" type="Node" parent="." unique_id=1539182391]
 script = ExtResource("7_gsm01")
 
-[node name="ElizabethPresence" type="Node" parent="."]
+[node name="ElizabethPresence" type="Node" parent="." unique_id=1163961998]
 script = ExtResource("8_eliz1")
 
-[node name="ShakeProfiles" type="Node" parent="."]
+[node name="ShakeProfiles" type="Node" parent="." unique_id=104126261]
 script = ExtResource("9_shak1")
 
-[node name="FlashbackManager" type="Node" parent="."]
+[node name="FlashbackManager" type="Node" parent="." unique_id=102841305]
 script = ExtResource("10_flas1")
 
-[node name="RoomEvents" type="Node" parent="."]
+[node name="RoomEvents" type="Node" parent="." unique_id=411278612]
 script = ExtResource("11_revt1")
 
-[node name="QuestHandler" type="Node" parent="."]
+[node name="QuestHandler" type="Node" parent="." unique_id=1129005772]
 script = ExtResource("12_qhnd1")
 
 [node name="PSXLayer" type="CanvasLayer" parent="." unique_id=134726030]
@@ -140,5 +140,7 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("6_ya4ey")
