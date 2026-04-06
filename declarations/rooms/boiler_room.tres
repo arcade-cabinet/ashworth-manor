@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="RoomDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/room_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
+[ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
+[ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+
+[resource]
+script = ExtResource("1")
+room_id = "boiler_room"
+room_name = "Boiler Room"
+floor_name = "basement"
+environment_preset = "basement"
+dimensions = Vector3(6, 4, 8)
+is_exterior = false
+wall_texture = "wall8_texture"
+floor_texture = "floor4_texture"
+ceiling_texture = "ceiling2_texture"
+wall_north = PackedStringArray("wall", "wall", "wall")
+wall_south = PackedStringArray("wall", "wall", "wall")
+wall_east = PackedStringArray("wall", "wall", "wall")
+wall_west = PackedStringArray("wall", "doorway:boiler_room_to_storage_basement", "wall")
+ambient_loop = "res://assets/audio/loops/Insufficient Loop1.ogg"
+tension_loop = "res://assets/audio/tension/tension_basement.wav"
+reverb_bus = "Dungeon"
+footstep_surface = "metal_grate"
+spawn_position = Vector3(0, 0, 0)
+spawn_rotation_y = 0.0
+interactables = Array[Resource]([])
+lights = Array[Resource]([])
+props = Array[Resource]([])
+on_entry = Array[Resource]([])
+on_exit = Array[Resource]([])
+ambient_events = Array[Resource]([])
+conditional_events = Array[Resource]([])
+flashbacks = Array[Resource]([])

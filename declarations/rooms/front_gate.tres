@@ -1,0 +1,341 @@
+[gd_resource type="Resource" script_class="RoomDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/room_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
+[ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
+[ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
+[ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+[ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
+[ext_resource type="Script" path="res://engine/declarations/conditional_event_decl.gd" id="9"]
+
+; === Interactable Responses ===
+
+[sub_resource type="Resource" id="resp_plaque_truth"]
+script = ExtResource("3")
+condition = "knows_full_truth"
+title = "Ashworth Manor"
+text = "'Abandon memory, all ye who enter.' They meant it literally. They tried to make the world forget Elizabeth existed."
+set_state = {"examined_gate_plaque": true}
+
+[sub_resource type="Resource" id="resp_plaque_default"]
+script = ExtResource("3")
+condition = ""
+title = "Ashworth Manor"
+text = "ASHWORTH MANOR — Est. 1847. The iron lettering is green with verdigris. Below, in smaller script barely legible: 'Abandon memory, all ye who enter.'"
+set_state = {"examined_gate_plaque": true}
+
+[sub_resource type="Resource" id="resp_luggage_ledger"]
+script = ExtResource("3")
+condition = "read_guest_ledger"
+title = "Abandoned Suitcase"
+text = "Helena Pierce's suitcase. She arrived November 3rd, 1891. Her departure date was left blank. Now you know why — she never left the house alive."
+set_state = {"found_helena_luggage": true}
+
+[sub_resource type="Resource" id="resp_luggage_default"]
+script = ExtResource("3")
+condition = ""
+title = "Abandoned Suitcase"
+text = "A leather traveling case, clasps still fastened. Packed but never carried beyond the gate. The luggage tag reads: 'H. Pierce — London.' The ink has run in the rain."
+set_state = {"found_helena_luggage": true}
+
+[sub_resource type="Resource" id="resp_bench_truth"]
+script = ExtResource("3")
+condition = "knows_full_truth"
+title = "Stone Bench"
+text = "The children sat here the night they fled. Charles, Margaret, William. They looked back once. None of them ever returned."
+
+[sub_resource type="Resource" id="resp_bench_default"]
+script = ExtResource("3")
+condition = ""
+title = "Stone Bench"
+text = "Cold stone. Snow has settled in the seat — undisturbed for decades. Someone sat here once, looking at the house, deciding whether to go in."
+
+[sub_resource type="Resource" id="resp_gate_aware"]
+script = ExtResource("3")
+condition = "elizabeth_aware"
+title = "The Gate"
+text = "The gate hangs open like a mouth. You notice now: the iron bars are bent outward. Whatever left this house was stronger than iron."
+set_state = {"examined_iron_gate": true}
+
+[sub_resource type="Resource" id="resp_gate_default"]
+script = ExtResource("3")
+condition = ""
+title = "The Gate"
+text = "Iron bars, rusted open. The lock is broken — not from outside. Someone burst through from within. The hinges scream when the wind catches them."
+set_state = {"examined_iron_gate": true}
+
+[sub_resource type="Resource" id="resp_lamp_aware"]
+script = ExtResource("3")
+condition = "elizabeth_aware"
+title = "Gas Lamp"
+text = "The lamp pulses in rhythm. You realize you've been breathing in sync with it. Since when?"
+
+[sub_resource type="Resource" id="resp_lamp_default"]
+script = ExtResource("3")
+condition = ""
+title = "Gas Lamp"
+text = "Still lit. After over a century, the gas lamp by the gate still burns. The flame doesn't flicker like fire — it pulses, like breathing."
+
+; === Interactables ===
+
+[sub_resource type="Resource" id="inter_gate_plaque"]
+script = ExtResource("2")
+id = "gate_plaque"
+type = "note"
+position = Vector3(-2, 1.5, -10)
+wall = "south"
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_plaque_truth"), SubResource("resp_plaque_default")])
+
+[sub_resource type="Resource" id="inter_gate_luggage"]
+script = ExtResource("2")
+id = "gate_luggage"
+type = "observation"
+position = Vector3(4, 0.3, -7)
+collision_size = Vector3(1.5, 1.0, 1.0)
+model = "res://assets/grounds/front_gate/luggage_mp_1.glb"
+responses = Array[Resource]([SubResource("resp_luggage_ledger"), SubResource("resp_luggage_default")])
+
+[sub_resource type="Resource" id="inter_gate_bench"]
+script = ExtResource("2")
+id = "gate_bench"
+type = "observation"
+position = Vector3(5, 0.5, -5)
+collision_size = Vector3(2.0, 1.0, 1.0)
+model = "res://assets/grounds/front_gate/bench_mx_1.glb"
+responses = Array[Resource]([SubResource("resp_bench_truth"), SubResource("resp_bench_default")])
+
+[sub_resource type="Resource" id="inter_iron_gate"]
+script = ExtResource("2")
+id = "iron_gate"
+type = "observation"
+position = Vector3(0, 1.5, -10)
+collision_size = Vector3(3.0, 3.0, 1.0)
+model = "res://assets/grounds/front_gate/iron_gate.glb"
+responses = Array[Resource]([SubResource("resp_gate_aware"), SubResource("resp_gate_default")])
+
+[sub_resource type="Resource" id="inter_gate_lamp"]
+script = ExtResource("2")
+id = "gate_lamp"
+type = "observation"
+position = Vector3(-4, 2.5, -10)
+collision_size = Vector3(1.0, 2.0, 1.0)
+model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+responses = Array[Resource]([SubResource("resp_lamp_aware"), SubResource("resp_lamp_default")])
+
+; === Lights ===
+
+[sub_resource type="Resource" id="light_moonlight"]
+script = ExtResource("4")
+id = "moonlight"
+type = "directional"
+position = Vector3(0, 0, 0)
+color = Color(0.6, 0.65, 0.85, 1)
+energy = 1.5
+range = 0.0
+shadows = true
+flickering = false
+
+[sub_resource type="Resource" id="light_gate_lamp"]
+script = ExtResource("4")
+id = "gate_lamp_light"
+type = "omni"
+position = Vector3(-4, 3, -10)
+color = Color(1.0, 0.85, 0.5, 1)
+energy = 2.5
+range = 10.0
+shadows = false
+flickering = true
+flicker_pattern = "gas"
+
+; === Props ===
+
+[sub_resource type="Resource" id="prop_gate_pillar_l"]
+script = ExtResource("5")
+id = "gate_pillar_l"
+model = "res://assets/shared/structure/pillar0.glb"
+position = Vector3(-4, 0, -10)
+
+[sub_resource type="Resource" id="prop_gate_pillar_r"]
+script = ExtResource("5")
+id = "gate_pillar_r"
+model = "res://assets/shared/structure/pillar0_001.glb"
+position = Vector3(4, 0, -10)
+
+[sub_resource type="Resource" id="prop_boundary_wall"]
+script = ExtResource("5")
+id = "boundary_wall"
+model = "res://assets/grounds/front_gate/brick_wall.glb"
+position = Vector3(-9, 0, -10)
+
+[sub_resource type="Resource" id="prop_boundary_corner"]
+script = ExtResource("5")
+id = "boundary_corner"
+model = "res://assets/grounds/front_gate/brick_Wall_corner.glb"
+position = Vector3(9, 0, -10)
+
+[sub_resource type="Resource" id="prop_fence"]
+script = ExtResource("5")
+id = "fence_section"
+model = "res://assets/grounds/front_gate/metalfence_both_sides_topbar.glb"
+position = Vector3(-7, 0, -10)
+
+[sub_resource type="Resource" id="prop_tree1"]
+script = ExtResource("5")
+id = "tree1"
+model = "res://assets/grounds/front_gate/tree01_winter.glb"
+position = Vector3(-8, 0, -5)
+
+[sub_resource type="Resource" id="prop_tree2"]
+script = ExtResource("5")
+id = "tree2"
+model = "res://assets/grounds/front_gate/tree02_winter.glb"
+position = Vector3(8, 0, -3)
+rotation_y = 30.0
+
+[sub_resource type="Resource" id="prop_tree3"]
+script = ExtResource("5")
+id = "tree3"
+model = "res://assets/grounds/front_gate/tree03_winter.glb"
+position = Vector3(-7, 0, 5)
+rotation_y = -45.0
+
+[sub_resource type="Resource" id="prop_tree4"]
+script = ExtResource("5")
+id = "tree4"
+model = "res://assets/grounds/front_gate/tree04_winter.glb"
+position = Vector3(7, 0, 7)
+rotation_y = 60.0
+
+[sub_resource type="Resource" id="prop_bush1"]
+script = ExtResource("5")
+id = "bush1"
+model = "res://assets/grounds/front_gate/bush01_winter.glb"
+position = Vector3(-6, 0, -9)
+
+[sub_resource type="Resource" id="prop_bush2"]
+script = ExtResource("5")
+id = "bush2"
+model = "res://assets/grounds/front_gate/bush02_winter.glb"
+position = Vector3(6, 0, -9)
+
+[sub_resource type="Resource" id="prop_hedge"]
+script = ExtResource("5")
+id = "drive_hedge"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(-8, 0, 0)
+scale = 0.8
+
+[sub_resource type="Resource" id="prop_rocks"]
+script = ExtResource("5")
+id = "rocks"
+model = "res://assets/grounds/front_gate/rocks.glb"
+position = Vector3(-3, 0, 8)
+
+; === Entry Trigger Actions ===
+
+[sub_resource type="Resource" id="act_set_visited"]
+script = ExtResource("7")
+set_state = {"visited_front_gate": true, "game_started": true}
+
+[sub_resource type="Resource" id="act_show_title"]
+script = ExtResource("7")
+show_room_name = "Ashworth Manor"
+
+; === Entry Trigger ===
+
+[sub_resource type="Resource" id="trig_first_entry"]
+script = ExtResource("6")
+condition = "NOT visited_front_gate"
+once = true
+trigger_id = "front_gate_first_entry"
+actions = Array[Resource]([SubResource("act_set_visited"), SubResource("act_show_title")])
+
+; === Ambient Events ===
+
+[sub_resource type="Resource" id="act_gate_creak"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/gate_creak.ogg"
+
+[sub_resource type="Resource" id="ambient_gate_creak"]
+script = ExtResource("8")
+event_id = "gate_creak_ambient"
+interval_min = 15.0
+interval_max = 30.0
+condition = ""
+actions = Array[Resource]([SubResource("act_gate_creak")])
+
+[sub_resource type="Resource" id="act_wind_gust_sfx"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/wind_gust.ogg"
+
+[sub_resource type="Resource" id="act_wind_gust_shake"]
+script = ExtResource("7")
+camera_shake = 0.03
+
+[sub_resource type="Resource" id="ambient_wind_gust"]
+script = ExtResource("8")
+event_id = "wind_gust"
+interval_min = 20.0
+interval_max = 40.0
+condition = ""
+actions = Array[Resource]([SubResource("act_wind_gust_sfx"), SubResource("act_wind_gust_shake")])
+
+; === Conditional Event: Post-Attic Return ===
+
+[sub_resource type="Resource" id="act_post_attic_flag"]
+script = ExtResource("7")
+set_state = {"front_gate_post_attic_triggered": true}
+
+[sub_resource type="Resource" id="act_post_attic_light"]
+script = ExtResource("7")
+light_change = {"gate_lamp_light": {"energy": 4.0, "duration": 3.0}}
+
+[sub_resource type="Resource" id="act_post_attic_whisper"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/horror/whisper_wind.ogg"
+
+[sub_resource type="Resource" id="act_post_attic_text"]
+script = ExtResource("7")
+show_text = "The gate lamp burns brighter as you approach. As if greeting you. Or warning you."
+
+[sub_resource type="Resource" id="cond_post_attic"]
+script = ExtResource("9")
+event_id = "front_gate_post_attic"
+condition = "elizabeth_aware AND NOT front_gate_post_attic_triggered"
+once = true
+actions = Array[Resource]([SubResource("act_post_attic_flag"), SubResource("act_post_attic_light"), SubResource("act_post_attic_whisper"), SubResource("act_post_attic_text")])
+
+; === Main Resource ===
+
+[resource]
+script = ExtResource("1")
+room_id = "front_gate"
+room_name = "Front Gate"
+floor_name = "grounds"
+environment_preset = "grounds"
+dimensions = Vector3(20, 6, 20)
+is_exterior = true
+wall_texture = ""
+floor_texture = "floor3_texture"
+ceiling_texture = ""
+wall_north = PackedStringArray()
+wall_south = PackedStringArray()
+wall_east = PackedStringArray()
+wall_west = PackedStringArray()
+ambient_loop = "res://assets/audio/loops/Tempest Loop1.ogg"
+tension_loop = "res://assets/audio/tension/tension_exploration.wav"
+reverb_bus = "OpenAir"
+footstep_surface = "gravel"
+spawn_position = Vector3(0, 0, -8)
+spawn_rotation_y = 180.0
+interactables = Array[Resource]([SubResource("inter_gate_plaque"), SubResource("inter_gate_luggage"), SubResource("inter_gate_bench"), SubResource("inter_iron_gate"), SubResource("inter_gate_lamp")])
+lights = Array[Resource]([SubResource("light_moonlight"), SubResource("light_gate_lamp")])
+props = Array[Resource]([SubResource("prop_gate_pillar_l"), SubResource("prop_gate_pillar_r"), SubResource("prop_boundary_wall"), SubResource("prop_boundary_corner"), SubResource("prop_fence"), SubResource("prop_tree1"), SubResource("prop_tree2"), SubResource("prop_tree3"), SubResource("prop_tree4"), SubResource("prop_bush1"), SubResource("prop_bush2"), SubResource("prop_hedge"), SubResource("prop_rocks")])
+on_entry = Array[Resource]([SubResource("trig_first_entry")])
+on_exit = Array[Resource]([])
+ambient_events = Array[Resource]([SubResource("ambient_gate_creak"), SubResource("ambient_wind_gust")])
+conditional_events = Array[Resource]([SubResource("cond_post_attic")])
+flashbacks = Array[Resource]([])

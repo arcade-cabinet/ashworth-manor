@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="PuzzleDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/puzzle_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/puzzle_step_decl.gd" id="2"]
+
+[sub_resource type="Resource" id="step_find_key"]
+script = ExtResource("2")
+step_id = "find_gate_key"
+description = "Find the gate key in a terra cotta pot in the greenhouse"
+action = "interact"
+target_interactable = "greenhouse_pot"
+target_room = "greenhouse"
+result_items = PackedStringArray("gate_key")
+
+[sub_resource type="Resource" id="step_unlock"]
+script = ExtResource("2")
+step_id = "unlock_crypt_gate"
+description = "Use the gate key to unlock the family crypt gate"
+action = "use_item"
+target_interactable = "crypt_gate"
+target_room = "garden"
+required_items = PackedStringArray("gate_key")
+result_states = {"crypt_gate_unlocked": true}
+
+[resource]
+script = ExtResource("1")
+puzzle_id = "gate_key_puzzle"
+name = "Open the Crypt Gate"
+description = "The family crypt is locked behind an iron gate. The key is hidden in the greenhouse among Elizabeth's lilies."
+steps = Array[Resource]([SubResource("step_find_key"), SubResource("step_unlock")])
+sequential = true
+requires_puzzles = PackedStringArray()
+completion_state = "crypt_gate_unlocked"
+reward_states = {"crypt_gate_unlocked": true}
+reward_items = PackedStringArray()
+clue_chain = Array[Resource]([])
+variation_points = Array[Resource]([])

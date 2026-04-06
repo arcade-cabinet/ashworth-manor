@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/item_declaration.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_id = "blessed_water"
+name = "Blessed Water"
+description = "Water from the chapel baptismal font. Cold as ice, clear as crystal. Elizabeth was never baptized — this water should have protected her."
+category = "ritual_component"
+is_ritual_component = true
+is_consumable = true
+functional_slot = ""
+thread_active = PackedStringArray()
+found_in_room = "chapel"
+found_at_interactable = "holy_water_font"
+found_condition = "knows_binding_ritual"
+unlocks_interactable = ""
+unlocks_in_room = ""

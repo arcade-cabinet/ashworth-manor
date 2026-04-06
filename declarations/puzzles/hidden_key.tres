@@ -1,0 +1,54 @@
+[gd_resource type="Resource" script_class="PuzzleDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/puzzle_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/puzzle_step_decl.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/clue_decl.gd" id="3"]
+
+[sub_resource type="Resource" id="step_read_letter"]
+script = ExtResource("2")
+step_id = "read_elizabeth_letter"
+description = "Find and read Elizabeth's unsent letter in the attic"
+action = "interact"
+target_interactable = "elizabeth_letter"
+target_room = "attic_storage"
+result_states = {"read_elizabeth_letter": true}
+
+[sub_resource type="Resource" id="step_examine_doll"]
+script = ExtResource("2")
+step_id = "examine_doll"
+description = "Examine the porcelain doll after reading the letter"
+action = "interact"
+target_interactable = "porcelain_doll"
+target_room = "attic_storage"
+required_state = "read_elizabeth_letter"
+result_items = PackedStringArray("hidden_key")
+
+[sub_resource type="Resource" id="step_unlock"]
+script = ExtResource("2")
+step_id = "unlock_hidden_chamber"
+description = "Use the hidden key on the concealed door"
+action = "use_item"
+target_interactable = "hidden_door"
+target_room = "attic_storage"
+required_items = PackedStringArray("hidden_key")
+result_states = {"hidden_door_unlocked": true}
+
+[sub_resource type="Resource" id="clue_letter"]
+script = ExtResource("3")
+interactable_id = "elizabeth_letter"
+room_id = "attic_storage"
+clue_text = "Elizabeth hid something in her doll"
+
+[resource]
+script = ExtResource("1")
+puzzle_id = "hidden_key_puzzle"
+name = "Find the Hidden Chamber"
+description = "Elizabeth left clues in her letter about the doll. The hidden key opens a concealed door."
+steps = Array[Resource]([SubResource("step_read_letter"), SubResource("step_examine_doll"), SubResource("step_unlock")])
+sequential = true
+requires_puzzles = PackedStringArray("attic_key_puzzle")
+completion_state = "hidden_door_unlocked"
+reward_states = {"hidden_door_unlocked": true}
+reward_items = PackedStringArray()
+clue_chain = Array[Resource]([SubResource("clue_letter")])
+variation_points = Array[Resource]([])

@@ -1,0 +1,745 @@
+[gd_resource type="Resource" script_class="WorldDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/world_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/room_ref.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/connection.gd" id="3"]
+[ext_resource type="Script" path="res://engine/declarations/phase_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/phase_transition.gd" id="5"]
+[ext_resource type="Script" path="res://engine/declarations/elizabeth_state_decl.gd" id="6"]
+[ext_resource type="Script" path="res://engine/declarations/elizabeth_transition.gd" id="7"]
+[ext_resource type="Script" path="res://engine/declarations/player_declaration.gd" id="8"]
+[ext_resource type="Script" path="res://engine/declarations/accessibility_decl.gd" id="9"]
+
+; === Room References (20 rooms) ===
+
+[sub_resource type="Resource" id="room_front_gate"]
+script = ExtResource("2")
+room_id = "front_gate"
+declaration_path = "res://declarations/rooms/front_gate.tres"
+
+[sub_resource type="Resource" id="room_foyer"]
+script = ExtResource("2")
+room_id = "foyer"
+declaration_path = "res://declarations/rooms/foyer.tres"
+
+[sub_resource type="Resource" id="room_parlor"]
+script = ExtResource("2")
+room_id = "parlor"
+declaration_path = "res://declarations/rooms/parlor.tres"
+
+[sub_resource type="Resource" id="room_dining_room"]
+script = ExtResource("2")
+room_id = "dining_room"
+declaration_path = "res://declarations/rooms/dining_room.tres"
+
+[sub_resource type="Resource" id="room_kitchen"]
+script = ExtResource("2")
+room_id = "kitchen"
+declaration_path = "res://declarations/rooms/kitchen.tres"
+
+[sub_resource type="Resource" id="room_upper_hallway"]
+script = ExtResource("2")
+room_id = "upper_hallway"
+declaration_path = "res://declarations/rooms/upper_hallway.tres"
+
+[sub_resource type="Resource" id="room_master_bedroom"]
+script = ExtResource("2")
+room_id = "master_bedroom"
+declaration_path = "res://declarations/rooms/master_bedroom.tres"
+
+[sub_resource type="Resource" id="room_library"]
+script = ExtResource("2")
+room_id = "library"
+declaration_path = "res://declarations/rooms/library.tres"
+
+[sub_resource type="Resource" id="room_guest_room"]
+script = ExtResource("2")
+room_id = "guest_room"
+declaration_path = "res://declarations/rooms/guest_room.tres"
+
+[sub_resource type="Resource" id="room_storage_basement"]
+script = ExtResource("2")
+room_id = "storage_basement"
+declaration_path = "res://declarations/rooms/storage_basement.tres"
+
+[sub_resource type="Resource" id="room_boiler_room"]
+script = ExtResource("2")
+room_id = "boiler_room"
+declaration_path = "res://declarations/rooms/boiler_room.tres"
+
+[sub_resource type="Resource" id="room_wine_cellar"]
+script = ExtResource("2")
+room_id = "wine_cellar"
+declaration_path = "res://declarations/rooms/wine_cellar.tres"
+
+[sub_resource type="Resource" id="room_attic_stairs"]
+script = ExtResource("2")
+room_id = "attic_stairs"
+declaration_path = "res://declarations/rooms/attic_stairs.tres"
+
+[sub_resource type="Resource" id="room_attic_storage"]
+script = ExtResource("2")
+room_id = "attic_storage"
+declaration_path = "res://declarations/rooms/attic_storage.tres"
+
+[sub_resource type="Resource" id="room_hidden_chamber"]
+script = ExtResource("2")
+room_id = "hidden_chamber"
+declaration_path = "res://declarations/rooms/hidden_chamber.tres"
+
+[sub_resource type="Resource" id="room_garden"]
+script = ExtResource("2")
+room_id = "garden"
+declaration_path = "res://declarations/rooms/garden.tres"
+
+[sub_resource type="Resource" id="room_chapel"]
+script = ExtResource("2")
+room_id = "chapel"
+declaration_path = "res://declarations/rooms/chapel.tres"
+
+[sub_resource type="Resource" id="room_greenhouse"]
+script = ExtResource("2")
+room_id = "greenhouse"
+declaration_path = "res://declarations/rooms/greenhouse.tres"
+
+[sub_resource type="Resource" id="room_carriage_house"]
+script = ExtResource("2")
+room_id = "carriage_house"
+declaration_path = "res://declarations/rooms/carriage_house.tres"
+
+[sub_resource type="Resource" id="room_family_crypt"]
+script = ExtResource("2")
+room_id = "family_crypt"
+declaration_path = "res://declarations/rooms/family_crypt.tres"
+
+; === Connections (34 bidirectional = 34 one-way entries) ===
+
+; -- Grounds --
+
+[sub_resource type="Resource" id="conn_front_gate_to_foyer"]
+script = ExtResource("3")
+id = "front_gate_to_foyer"
+from_room = "front_gate"
+to_room = "foyer"
+direction = "north"
+type = "path"
+position_in_from = Vector3(0, 1.5, 10)
+position_in_to = Vector3(0, 0, -3)
+spawn_rotation_y = 0.0
+
+[sub_resource type="Resource" id="conn_foyer_to_front_gate"]
+script = ExtResource("3")
+id = "foyer_to_front_gate"
+from_room = "foyer"
+to_room = "front_gate"
+direction = "south"
+type = "door"
+position_in_from = Vector3(0, 1.5, -5)
+position_in_to = Vector3(0, 0, 8)
+spawn_rotation_y = 0.0
+
+[sub_resource type="Resource" id="conn_front_gate_to_garden"]
+script = ExtResource("3")
+id = "front_gate_to_garden"
+from_room = "front_gate"
+to_room = "garden"
+direction = "east"
+type = "path"
+position_in_from = Vector3(10, 1.5, 0)
+position_in_to = Vector3(-8, 0, 0)
+spawn_rotation_y = 90.0
+
+[sub_resource type="Resource" id="conn_garden_to_front_gate"]
+script = ExtResource("3")
+id = "garden_to_front_gate"
+from_room = "garden"
+to_room = "front_gate"
+direction = "west"
+type = "path"
+position_in_from = Vector3(-8, 1.5, 0)
+position_in_to = Vector3(8, 0, 0)
+spawn_rotation_y = 270.0
+
+[sub_resource type="Resource" id="conn_front_gate_to_carriage_house"]
+script = ExtResource("3")
+id = "front_gate_to_carriage_house"
+from_room = "front_gate"
+to_room = "carriage_house"
+direction = "west"
+type = "path"
+position_in_from = Vector3(-10, 1.5, 0)
+position_in_to = Vector3(0, 0, -2)
+spawn_rotation_y = 0.0
+
+[sub_resource type="Resource" id="conn_carriage_house_to_front_gate"]
+script = ExtResource("3")
+id = "carriage_house_to_front_gate"
+from_room = "carriage_house"
+to_room = "front_gate"
+direction = "south"
+type = "path"
+position_in_from = Vector3(0, 1.5, -3)
+position_in_to = Vector3(-8, 0, 0)
+spawn_rotation_y = 90.0
+
+; -- Ground Floor --
+
+[sub_resource type="Resource" id="conn_foyer_to_parlor"]
+script = ExtResource("3")
+id = "foyer_to_parlor"
+from_room = "foyer"
+to_room = "parlor"
+direction = "north"
+type = "door"
+position_in_from = Vector3(0, 1.5, 5)
+position_in_to = Vector3(0, 0, -4)
+spawn_rotation_y = 0.0
+door_texture = "res://assets/shared/textures/retro/door_texture_01.png"
+
+[sub_resource type="Resource" id="conn_parlor_to_foyer"]
+script = ExtResource("3")
+id = "parlor_to_foyer"
+from_room = "parlor"
+to_room = "foyer"
+direction = "south"
+type = "door"
+position_in_from = Vector3(0, 1.5, -5)
+position_in_to = Vector3(0, 0, 3)
+spawn_rotation_y = 180.0
+door_texture = "res://assets/shared/textures/retro/door_texture_01.png"
+
+[sub_resource type="Resource" id="conn_foyer_to_dining_room"]
+script = ExtResource("3")
+id = "foyer_to_dining_room"
+from_room = "foyer"
+to_room = "dining_room"
+direction = "east"
+type = "door"
+position_in_from = Vector3(6, 1.5, 0)
+position_in_to = Vector3(0, 0, -7)
+spawn_rotation_y = 180.0
+door_texture = "res://assets/shared/textures/retro/door_texture_02.png"
+
+[sub_resource type="Resource" id="conn_dining_room_to_foyer"]
+script = ExtResource("3")
+id = "dining_room_to_foyer"
+from_room = "dining_room"
+to_room = "foyer"
+direction = "west"
+type = "door"
+position_in_from = Vector3(-4, 1.2, 0)
+position_in_to = Vector3(4, 0, 0)
+spawn_rotation_y = 270.0
+door_texture = "res://assets/shared/textures/retro/door_texture_02.png"
+
+[sub_resource type="Resource" id="conn_foyer_to_kitchen"]
+script = ExtResource("3")
+id = "foyer_to_kitchen"
+from_room = "foyer"
+to_room = "kitchen"
+direction = "west"
+type = "door"
+position_in_from = Vector3(-6, 1.5, 0)
+position_in_to = Vector3(3, 0, 0)
+spawn_rotation_y = 270.0
+door_texture = "res://assets/shared/textures/retro/door_texture_03.png"
+
+[sub_resource type="Resource" id="conn_kitchen_to_foyer"]
+script = ExtResource("3")
+id = "kitchen_to_foyer"
+from_room = "kitchen"
+to_room = "foyer"
+direction = "east"
+type = "door"
+position_in_from = Vector3(4, 1.2, 0)
+position_in_to = Vector3(-4, 0, 0)
+spawn_rotation_y = 90.0
+door_texture = "res://assets/shared/textures/retro/door_texture_03.png"
+
+; -- Vertical: Foyer <-> Upper Hallway --
+
+[sub_resource type="Resource" id="conn_foyer_to_upper_hallway"]
+script = ExtResource("3")
+id = "foyer_to_upper_hallway"
+from_room = "foyer"
+to_room = "upper_hallway"
+direction = "up"
+type = "stairs"
+position_in_from = Vector3(2, 1.5, -2)
+position_in_to = Vector3(0, 0, -6)
+spawn_rotation_y = 0.0
+
+[sub_resource type="Resource" id="conn_upper_hallway_to_foyer"]
+script = ExtResource("3")
+id = "upper_hallway_to_foyer"
+from_room = "upper_hallway"
+to_room = "foyer"
+direction = "down"
+type = "stairs"
+position_in_from = Vector3(0, 1, -8)
+position_in_to = Vector3(2, 0, -1)
+spawn_rotation_y = 180.0
+
+; -- Upper Floor --
+
+[sub_resource type="Resource" id="conn_upper_hallway_to_master_bedroom"]
+script = ExtResource("3")
+id = "upper_hallway_to_master_bedroom"
+from_room = "upper_hallway"
+to_room = "master_bedroom"
+direction = "west"
+type = "door"
+position_in_from = Vector3(-2, 1.2, -1)
+position_in_to = Vector3(4, 0, 0)
+spawn_rotation_y = 270.0
+door_texture = "res://assets/shared/textures/retro/door_texture_04.png"
+
+[sub_resource type="Resource" id="conn_master_bedroom_to_upper_hallway"]
+script = ExtResource("3")
+id = "master_bedroom_to_upper_hallway"
+from_room = "master_bedroom"
+to_room = "upper_hallway"
+direction = "east"
+type = "door"
+position_in_from = Vector3(5, 1.2, 0)
+position_in_to = Vector3(-1, 0, -1)
+spawn_rotation_y = 90.0
+door_texture = "res://assets/shared/textures/retro/door_texture_04.png"
+
+[sub_resource type="Resource" id="conn_upper_hallway_to_library"]
+script = ExtResource("3")
+id = "upper_hallway_to_library"
+from_room = "upper_hallway"
+to_room = "library"
+direction = "west"
+type = "door"
+position_in_from = Vector3(-2, 1.2, 5)
+position_in_to = Vector3(0, 0, -4)
+spawn_rotation_y = 0.0
+door_texture = "res://assets/shared/textures/retro/door_texture_05.png"
+
+[sub_resource type="Resource" id="conn_library_to_upper_hallway"]
+script = ExtResource("3")
+id = "library_to_upper_hallway"
+from_room = "library"
+to_room = "upper_hallway"
+direction = "south"
+type = "door"
+position_in_from = Vector3(0, 1.2, -5)
+position_in_to = Vector3(-1, 0, 5)
+spawn_rotation_y = 90.0
+door_texture = "res://assets/shared/textures/retro/door_texture_05.png"
+
+[sub_resource type="Resource" id="conn_upper_hallway_to_guest_room"]
+script = ExtResource("3")
+id = "upper_hallway_to_guest_room"
+from_room = "upper_hallway"
+to_room = "guest_room"
+direction = "east"
+type = "door"
+position_in_from = Vector3(2, 1.2, 5)
+position_in_to = Vector3(0, 0, -3)
+spawn_rotation_y = 0.0
+door_texture = "res://assets/shared/textures/retro/door_texture_06.png"
+
+[sub_resource type="Resource" id="conn_guest_room_to_upper_hallway"]
+script = ExtResource("3")
+id = "guest_room_to_upper_hallway"
+from_room = "guest_room"
+to_room = "upper_hallway"
+direction = "south"
+type = "door"
+position_in_from = Vector3(0, 1.2, -4)
+position_in_to = Vector3(1, 0, 5)
+spawn_rotation_y = 270.0
+door_texture = "res://assets/shared/textures/retro/door_texture_06.png"
+
+; -- Vertical: Upper Hallway <-> Attic (LOCKED) --
+
+[sub_resource type="Resource" id="conn_upper_hallway_to_attic_stairs"]
+script = ExtResource("3")
+id = "upper_hallway_to_attic_stairs"
+from_room = "upper_hallway"
+to_room = "attic_stairs"
+direction = "north"
+type = "door"
+position_in_from = Vector3(0, 1.5, 7.5)
+position_in_to = Vector3(0, 0, -2)
+spawn_rotation_y = 0.0
+locked = true
+key_id = "attic_key"
+
+[sub_resource type="Resource" id="conn_attic_stairs_to_upper_hallway"]
+script = ExtResource("3")
+id = "attic_stairs_to_upper_hallway"
+from_room = "attic_stairs"
+to_room = "upper_hallway"
+direction = "down"
+type = "stairs"
+position_in_from = Vector3(0, 1, -3)
+position_in_to = Vector3(0, 0, 6)
+spawn_rotation_y = 180.0
+
+; -- Attic --
+
+[sub_resource type="Resource" id="conn_attic_stairs_to_attic_storage"]
+script = ExtResource("3")
+id = "attic_stairs_to_attic_storage"
+from_room = "attic_stairs"
+to_room = "attic_storage"
+direction = "north"
+type = "door"
+position_in_from = Vector3(0, 1.2, 3)
+position_in_to = Vector3(0, 0, -5)
+spawn_rotation_y = 0.0
+
+[sub_resource type="Resource" id="conn_attic_storage_to_attic_stairs"]
+script = ExtResource("3")
+id = "attic_storage_to_attic_stairs"
+from_room = "attic_storage"
+to_room = "attic_stairs"
+direction = "south"
+type = "door"
+position_in_from = Vector3(0, 1.2, -6)
+position_in_to = Vector3(0, 0, 2)
+spawn_rotation_y = 180.0
+
+; -- Attic Storage <-> Hidden Chamber (LOCKED) --
+
+[sub_resource type="Resource" id="conn_attic_storage_to_hidden_chamber"]
+script = ExtResource("3")
+id = "attic_storage_to_hidden_chamber"
+from_room = "attic_storage"
+to_room = "hidden_chamber"
+direction = "west"
+type = "hidden_door"
+position_in_from = Vector3(-6, 1.2, 0)
+position_in_to = Vector3(0, 0, -2)
+spawn_rotation_y = 0.0
+locked = true
+key_id = "hidden_key"
+
+[sub_resource type="Resource" id="conn_hidden_chamber_to_attic_storage"]
+script = ExtResource("3")
+id = "hidden_chamber_to_attic_storage"
+from_room = "hidden_chamber"
+to_room = "attic_storage"
+direction = "east"
+type = "door"
+position_in_from = Vector3(0, 1.2, -3)
+position_in_to = Vector3(-5, 0, 0)
+spawn_rotation_y = 90.0
+
+; -- Vertical: Kitchen <-> Storage Basement --
+
+[sub_resource type="Resource" id="conn_kitchen_to_storage_basement"]
+script = ExtResource("3")
+id = "kitchen_to_storage_basement"
+from_room = "kitchen"
+to_room = "storage_basement"
+direction = "down"
+type = "stairs"
+position_in_from = Vector3(0, 0.5, -4)
+position_in_to = Vector3(0, 0, -3)
+spawn_rotation_y = 0.0
+
+[sub_resource type="Resource" id="conn_storage_basement_to_kitchen"]
+script = ExtResource("3")
+id = "storage_basement_to_kitchen"
+from_room = "storage_basement"
+to_room = "kitchen"
+direction = "up"
+type = "stairs"
+position_in_from = Vector3(0, 1, -4)
+position_in_to = Vector3(0, 0, -3)
+spawn_rotation_y = 0.0
+
+; -- Basement: Storage <-> Boiler Room --
+
+[sub_resource type="Resource" id="conn_storage_basement_to_boiler_room"]
+script = ExtResource("3")
+id = "storage_basement_to_boiler_room"
+from_room = "storage_basement"
+to_room = "boiler_room"
+direction = "east"
+type = "door"
+position_in_from = Vector3(4, 1.2, 0)
+position_in_to = Vector3(-2, 0, 0)
+spawn_rotation_y = 90.0
+
+[sub_resource type="Resource" id="conn_boiler_room_to_storage_basement"]
+script = ExtResource("3")
+id = "boiler_room_to_storage_basement"
+from_room = "boiler_room"
+to_room = "storage_basement"
+direction = "west"
+type = "door"
+position_in_from = Vector3(-3, 1.2, 0)
+position_in_to = Vector3(3, 0, 0)
+spawn_rotation_y = 270.0
+
+; -- Vertical: Storage Basement <-> Wine Cellar --
+
+[sub_resource type="Resource" id="conn_storage_basement_to_wine_cellar"]
+script = ExtResource("3")
+id = "storage_basement_to_wine_cellar"
+from_room = "storage_basement"
+to_room = "wine_cellar"
+direction = "down"
+type = "ladder"
+position_in_from = Vector3(-3, 0.5, 3)
+position_in_to = Vector3(2, 0, 3)
+spawn_rotation_y = 180.0
+
+[sub_resource type="Resource" id="conn_wine_cellar_to_storage_basement"]
+script = ExtResource("3")
+id = "wine_cellar_to_storage_basement"
+from_room = "wine_cellar"
+to_room = "storage_basement"
+direction = "up"
+type = "ladder"
+position_in_from = Vector3(3, 1, 4)
+position_in_to = Vector3(-3, 0, 2)
+spawn_rotation_y = 0.0
+
+; -- Grounds: Garden <-> Chapel --
+
+[sub_resource type="Resource" id="conn_garden_to_chapel"]
+script = ExtResource("3")
+id = "garden_to_chapel"
+from_room = "garden"
+to_room = "chapel"
+direction = "east"
+type = "path"
+position_in_from = Vector3(8, 1.5, 5)
+position_in_to = Vector3(-2, 0, -4)
+spawn_rotation_y = 0.0
+
+[sub_resource type="Resource" id="conn_chapel_to_garden"]
+script = ExtResource("3")
+id = "chapel_to_garden"
+from_room = "chapel"
+to_room = "garden"
+direction = "west"
+type = "path"
+position_in_from = Vector3(-3, 1.5, -5)
+position_in_to = Vector3(7, 0, 4)
+spawn_rotation_y = 270.0
+
+; -- Grounds: Garden <-> Greenhouse --
+
+[sub_resource type="Resource" id="conn_garden_to_greenhouse"]
+script = ExtResource("3")
+id = "garden_to_greenhouse"
+from_room = "garden"
+to_room = "greenhouse"
+direction = "north"
+type = "path"
+position_in_from = Vector3(0, 1.5, 8)
+position_in_to = Vector3(0, 0, -3)
+spawn_rotation_y = 0.0
+
+[sub_resource type="Resource" id="conn_greenhouse_to_garden"]
+script = ExtResource("3")
+id = "greenhouse_to_garden"
+from_room = "greenhouse"
+to_room = "garden"
+direction = "south"
+type = "path"
+position_in_from = Vector3(0, 1.5, -4)
+position_in_to = Vector3(0, 0, 7)
+spawn_rotation_y = 180.0
+
+; -- Grounds: Garden <-> Family Crypt (LOCKED) --
+
+[sub_resource type="Resource" id="conn_garden_to_family_crypt"]
+script = ExtResource("3")
+id = "garden_to_family_crypt"
+from_room = "garden"
+to_room = "family_crypt"
+direction = "north"
+type = "gate"
+position_in_from = Vector3(5, 1.5, 8)
+position_in_to = Vector3(0, 0, -3)
+spawn_rotation_y = 0.0
+locked = true
+key_id = "gate_key"
+
+[sub_resource type="Resource" id="conn_family_crypt_to_garden"]
+script = ExtResource("3")
+id = "family_crypt_to_garden"
+from_room = "family_crypt"
+to_room = "garden"
+direction = "south"
+type = "gate"
+position_in_from = Vector3(0, 1.5, -4)
+position_in_to = Vector3(5, 0, 7)
+spawn_rotation_y = 180.0
+
+; === Game Phases ===
+
+[sub_resource type="Resource" id="phase_exploration"]
+script = ExtResource("4")
+phase_id = "exploration"
+phase_name = "Exploration"
+description = "Player explores the manor, finding clues. Elizabeth is dormant."
+tension_volume = 0.0
+flicker_intensity = 1.0
+
+[sub_resource type="Resource" id="phase_discovery"]
+script = ExtResource("4")
+phase_id = "discovery"
+phase_name = "Discovery"
+description = "Player has found enough clues. Elizabeth begins watching. Tension layer activates."
+tension_volume = 0.3
+flicker_intensity = 1.2
+
+[sub_resource type="Resource" id="phase_horror"]
+script = ExtResource("4")
+phase_id = "horror"
+phase_name = "Horror"
+description = "Player enters attic area. Elizabeth is active. Full horror atmosphere."
+tension_volume = 0.7
+flicker_intensity = 1.8
+
+[sub_resource type="Resource" id="phase_resolution"]
+script = ExtResource("4")
+phase_id = "resolution"
+phase_name = "Resolution"
+description = "Player has the full truth. Final choices ahead. Eerie calm."
+tension_volume = 0.5
+flicker_intensity = 1.0
+
+; === Phase Transitions ===
+
+[sub_resource type="Resource" id="pt_explore_to_discovery"]
+script = ExtResource("5")
+from_phase = "exploration"
+to_phase = "discovery"
+trigger_condition = "discovery_count >= 3"
+
+[sub_resource type="Resource" id="pt_discovery_to_horror"]
+script = ExtResource("5")
+from_phase = "discovery"
+to_phase = "horror"
+trigger_condition = "VISITED attic_storage"
+
+[sub_resource type="Resource" id="pt_horror_to_resolution"]
+script = ExtResource("5")
+from_phase = "horror"
+to_phase = "resolution"
+trigger_condition = "knows_full_truth"
+
+[sub_resource type="Resource" id="pt_resolution_to_exploration"]
+script = ExtResource("5")
+from_phase = "resolution"
+to_phase = "exploration"
+trigger_condition = ""
+
+; === Elizabeth Presence States ===
+
+[sub_resource type="Resource" id="eliz_dormant"]
+script = ExtResource("6")
+state_id = "dormant"
+shadow_frequency = 0.0
+flicker_multiplier = 1.0
+whisper_sfx_interval = 0.0
+whisper_sfx = ""
+mirror_delay = 0.0
+affected_types = PackedStringArray()
+
+[sub_resource type="Resource" id="eliz_watching"]
+script = ExtResource("6")
+state_id = "watching"
+shadow_frequency = 45.0
+flicker_multiplier = 1.3
+whisper_sfx_interval = 60.0
+whisper_sfx = "res://assets/audio/sfx/horror/whisper_wind.ogg"
+mirror_delay = 0.0
+affected_types = PackedStringArray("mirror")
+
+[sub_resource type="Resource" id="eliz_active"]
+script = ExtResource("6")
+state_id = "active"
+shadow_frequency = 20.0
+flicker_multiplier = 1.8
+whisper_sfx_interval = 30.0
+whisper_sfx = "res://assets/audio/sfx/horror/whisper_close.ogg"
+mirror_delay = 0.3
+affected_types = PackedStringArray("mirror", "music_box", "painting")
+
+[sub_resource type="Resource" id="eliz_confrontation"]
+script = ExtResource("6")
+state_id = "confrontation"
+shadow_frequency = 10.0
+flicker_multiplier = 2.5
+whisper_sfx_interval = 15.0
+whisper_sfx = "res://assets/audio/sfx/horror/whisper_urgent.ogg"
+mirror_delay = 0.5
+affected_types = PackedStringArray("mirror", "music_box", "painting", "note", "photo")
+
+; === Elizabeth Transitions ===
+
+[sub_resource type="Resource" id="et_dormant_to_watching"]
+script = ExtResource("7")
+from_state = "dormant"
+to_state = "watching"
+trigger_condition = "discovery_count >= 3"
+
+[sub_resource type="Resource" id="et_watching_to_active"]
+script = ExtResource("7")
+from_state = "watching"
+to_state = "active"
+trigger_condition = "elizabeth_aware"
+
+[sub_resource type="Resource" id="et_active_to_confrontation"]
+script = ExtResource("7")
+from_state = "active"
+to_state = "confrontation"
+trigger_condition = "knows_full_truth"
+
+; === Player Config ===
+
+[sub_resource type="Resource" id="player_config"]
+script = ExtResource("8")
+camera_fov = 70.0
+camera_height = 1.7
+pitch_limit = 45.0
+move_speed = 3.0
+stop_distance = 0.3
+touch_sensitivity = 0.003
+tap_threshold = 15.0
+tap_time_threshold = 0.3
+
+; === Accessibility ===
+
+[sub_resource type="Resource" id="accessibility_config"]
+script = ExtResource("9")
+base_font_size = 16
+font_scale = 1.0
+camera_shake_enabled = true
+camera_shake_scale = 1.0
+subtitle_mode = true
+high_contrast_mode = false
+
+; === Main Resource ===
+
+[resource]
+script = ExtResource("1")
+starting_room = "front_gate"
+starting_position = Vector3(0, 0, -8)
+starting_rotation_y = 180.0
+rooms = Array[Resource]([SubResource("room_front_gate"), SubResource("room_foyer"), SubResource("room_parlor"), SubResource("room_dining_room"), SubResource("room_kitchen"), SubResource("room_upper_hallway"), SubResource("room_master_bedroom"), SubResource("room_library"), SubResource("room_guest_room"), SubResource("room_storage_basement"), SubResource("room_boiler_room"), SubResource("room_wine_cellar"), SubResource("room_attic_stairs"), SubResource("room_attic_storage"), SubResource("room_hidden_chamber"), SubResource("room_garden"), SubResource("room_chapel"), SubResource("room_greenhouse"), SubResource("room_carriage_house"), SubResource("room_family_crypt")])
+connections = Array[Resource]([SubResource("conn_front_gate_to_foyer"), SubResource("conn_foyer_to_front_gate"), SubResource("conn_front_gate_to_garden"), SubResource("conn_garden_to_front_gate"), SubResource("conn_front_gate_to_carriage_house"), SubResource("conn_carriage_house_to_front_gate"), SubResource("conn_foyer_to_parlor"), SubResource("conn_parlor_to_foyer"), SubResource("conn_foyer_to_dining_room"), SubResource("conn_dining_room_to_foyer"), SubResource("conn_foyer_to_kitchen"), SubResource("conn_kitchen_to_foyer"), SubResource("conn_foyer_to_upper_hallway"), SubResource("conn_upper_hallway_to_foyer"), SubResource("conn_upper_hallway_to_master_bedroom"), SubResource("conn_master_bedroom_to_upper_hallway"), SubResource("conn_upper_hallway_to_library"), SubResource("conn_library_to_upper_hallway"), SubResource("conn_upper_hallway_to_guest_room"), SubResource("conn_guest_room_to_upper_hallway"), SubResource("conn_upper_hallway_to_attic_stairs"), SubResource("conn_attic_stairs_to_upper_hallway"), SubResource("conn_attic_stairs_to_attic_storage"), SubResource("conn_attic_storage_to_attic_stairs"), SubResource("conn_attic_storage_to_hidden_chamber"), SubResource("conn_hidden_chamber_to_attic_storage"), SubResource("conn_kitchen_to_storage_basement"), SubResource("conn_storage_basement_to_kitchen"), SubResource("conn_storage_basement_to_boiler_room"), SubResource("conn_boiler_room_to_storage_basement"), SubResource("conn_storage_basement_to_wine_cellar"), SubResource("conn_wine_cellar_to_storage_basement"), SubResource("conn_garden_to_chapel"), SubResource("conn_chapel_to_garden"), SubResource("conn_garden_to_greenhouse"), SubResource("conn_greenhouse_to_garden"), SubResource("conn_garden_to_family_crypt"), SubResource("conn_family_crypt_to_garden")])
+area_environments = {}
+macro_threads = Array[Resource]([])
+junctions = Array[Resource]([])
+prng_seed = 0
+phases = Array[Resource]([SubResource("phase_exploration"), SubResource("phase_discovery"), SubResource("phase_horror"), SubResource("phase_resolution")])
+phase_transitions = Array[Resource]([SubResource("pt_explore_to_discovery"), SubResource("pt_discovery_to_horror"), SubResource("pt_horror_to_resolution")])
+elizabeth_states = Array[Resource]([SubResource("eliz_dormant"), SubResource("eliz_watching"), SubResource("eliz_active"), SubResource("eliz_confrontation")])
+elizabeth_transitions = Array[Resource]([SubResource("et_dormant_to_watching"), SubResource("et_watching_to_active"), SubResource("et_active_to_confrontation")])
+global_triggers = Array[Resource]([])
+endings = Array[Resource]([])
+player = SubResource("player_config")
+accessibility = SubResource("accessibility_config")

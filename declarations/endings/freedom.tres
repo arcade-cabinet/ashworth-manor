@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="EndingDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/ending_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+ending_id = "freedom"
+trigger_condition = "counter_ritual_complete AND macro_thread == captive"
+trigger_room = "hidden_chamber"
+text_sequence = PackedStringArray("The binding circle cracks. Light pours through the floor.", "Elizabeth stands before you — not a ghost, not a wraith. A girl.", "She looks at you with eyes that finally see daylight.", "The house exhales. A century of held breath released.", "'Thank you,' she whispers. And she is gone.")
+timing = [3.0, 4.0, 3.0, 4.0, 5.0]
+stinger_sfx = "res://assets/audio/sfx/stinger/pl_horror_stinger_10_final.wav"

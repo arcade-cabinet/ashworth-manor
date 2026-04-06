@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/item_declaration.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_id = "jewelry_key"
+name = "Jewelry Key"
+description = "A tiny ornate key found beneath a loose flagstone in the family crypt."
+category = "key"
+is_ritual_component = false
+is_consumable = false
+functional_slot = "jewelry_box_key"
+thread_active = PackedStringArray()
+found_in_room = "family_crypt"
+found_at_interactable = "crypt_flagstone"
+found_condition = ""
+unlocks_interactable = "jewelry_box"
+unlocks_in_room = "master_bedroom"

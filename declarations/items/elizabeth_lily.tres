@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/item_declaration.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_id = "elizabeth_lily"
+name = "Elizabeth's White Lily"
+description = "A single white lily, impossibly alive after 130 years. It grows where Elizabeth's presence is strongest."
+category = "artifact"
+is_ritual_component = true
+is_consumable = true
+functional_slot = ""
+thread_active = PackedStringArray()
+found_in_room = "garden"
+found_at_interactable = "elizabeth_lily"
+found_condition = "knows_attic_girl"
+unlocks_interactable = ""
+unlocks_in_room = ""

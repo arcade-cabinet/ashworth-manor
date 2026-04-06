@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="EnvironmentDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/environment_declaration.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+background_mode = "keep"
+background_color = Color(0, 0, 0, 1)
+sky = null
+fog_enabled = true
+fog_density = 0.004
+fog_color = Color(0.08, 0.07, 0.1, 1)
+volumetric_fog = false
+tonemap_mode = "aces"
+tonemap_exposure = 0.6
+glow_enabled = true
+glow_threshold = 0.7
+glow_intensity = 0.12
+ssao_enabled = true
+ssao_radius = 0.8
+ssao_intensity = 0.6
+ambient_source = "color"
+ambient_color = Color(0.05, 0.05, 0.08, 1)
+ambient_energy = 0.15
+vignette_color = Color(0.06, 0.05, 0.08, 1)
+vignette_weight = 0.92

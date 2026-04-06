@@ -1,0 +1,273 @@
+[gd_resource type="Resource" script_class="RoomDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/room_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
+[ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
+[ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
+[ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+[ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
+[ext_resource type="Script" path="res://engine/declarations/conditional_event_decl.gd" id="9"]
+[ext_resource type="Script" path="res://engine/declarations/flashback_decl.gd" id="10"]
+
+; === Lady Portrait Responses ===
+
+[sub_resource type="Resource" id="resp_portrait_diary"]
+script = ExtResource("3")
+condition = "read_ashworth_diary"
+title = "Lady Ashworth"
+text = "Victoria Ashworth. She knew. The diary says 'my wife says I'm mad' — but she heard the crying too. She chose the mourning dress for this portrait. She was mourning Elizabeth before Elizabeth was gone."
+set_state = {"examined_lady_portrait": true}
+
+[sub_resource type="Resource" id="resp_portrait_default"]
+script = ExtResource("3")
+condition = ""
+title = "Lady Ashworth"
+text = "She wears a black mourning dress despite this being painted before any family deaths. Her expression is distant, resigned — as if she already knows what's coming. Her hands are folded in her lap. Hiding something? Or holding herself together?"
+set_state = {"examined_lady_portrait": true}
+
+; === Diary Page Responses (CRITICAL) ===
+
+[sub_resource type="Resource" id="resp_diary_default"]
+script = ExtResource("3")
+condition = ""
+title = "Torn Diary Page"
+text = "The children have been hearing whispers from the attic again. I've locked the door but they say she still calls to them at night...\n\nThe handwriting is Lady Ashworth's — precise, controlled, trembling only at the edges."
+set_state = {"found_first_clue": true, "knows_attic_girl": true}
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
+
+; === Music Box Responses ===
+
+[sub_resource type="Resource" id="resp_music_aware"]
+script = ExtResource("3")
+condition = "elizabeth_aware AND visited_attic_storage"
+title = "Music Box"
+text = "The music box begins to play on its own. A lullaby you've never heard before. The ballerina turns, slow and deliberate. The mechanism was never jammed. It was waiting."
+set_state = {"examined_music_box": true}
+play_sfx = "res://assets/audio/sfx/music_box/music_box_melody.ogg"
+
+[sub_resource type="Resource" id="resp_music_default"]
+script = ExtResource("3")
+condition = ""
+title = "Music Box"
+text = "A delicate music box with a dancing ballerina. The mechanism is jammed — it doesn't play when you try to open it. Dust covers the hinges. Someone loved this once."
+set_state = {"examined_music_box": true}
+
+; === Fireplace Responses ===
+
+[sub_resource type="Resource" id="resp_fire_aware"]
+script = ExtResource("3")
+condition = "elizabeth_aware"
+title = "Fireplace"
+text = "The embers pulse. Not like dying coals — like breathing. In. Out. The same rhythm as the gate lamp. The same rhythm as the mirrors."
+
+[sub_resource type="Resource" id="resp_fire_default"]
+script = ExtResource("3")
+condition = ""
+title = "Fireplace"
+text = "Embers still glow faintly. After 130 years? The iron grate holds ash that should have gone cold a century ago. The warmth is real — you can feel it on your face."
+
+; === Tea Service Responses ===
+
+[sub_resource type="Resource" id="resp_tea_ledger"]
+script = ExtResource("3")
+condition = "read_guest_ledger"
+title = "Tea Service"
+text = "Two cups — Lady Ashworth and Helena Pierce? The guest who arrived November 3rd and never left. Did they sit here, making small talk, while Elizabeth cried above them?"
+
+[sub_resource type="Resource" id="resp_tea_default"]
+script = ExtResource("3")
+condition = ""
+title = "Tea Service"
+text = "Two cups. One used, one untouched. The teapot is empty. Dried leaves cling to the inside — someone made tea for two and only one person drank."
+
+; === Interactables ===
+
+[sub_resource type="Resource" id="inter_portrait"]
+script = ExtResource("2")
+id = "parlor_painting_1"
+type = "painting"
+position = Vector3(-4.5, 2, 0)
+wall = "west"
+collision_size = Vector3(1.5, 1.5, 1.5)
+model = "res://assets/shared/decor/picture_blank.glb"
+responses = Array[Resource]([SubResource("resp_portrait_diary"), SubResource("resp_portrait_default")])
+
+[sub_resource type="Resource" id="inter_diary"]
+script = ExtResource("2")
+id = "parlor_note"
+type = "note"
+position = Vector3(2, 0.8, -3)
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_diary_default")])
+
+[sub_resource type="Resource" id="inter_music_box"]
+script = ExtResource("2")
+id = "music_box"
+type = "box"
+position = Vector3(-2, 0.8, -3)
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_music_aware"), SubResource("resp_music_default")])
+
+[sub_resource type="Resource" id="inter_fireplace"]
+script = ExtResource("2")
+id = "parlor_fireplace"
+type = "observation"
+position = Vector3(0, 1, 4.5)
+wall = "north"
+collision_size = Vector3(2.0, 1.5, 1.0)
+responses = Array[Resource]([SubResource("resp_fire_aware"), SubResource("resp_fire_default")])
+
+[sub_resource type="Resource" id="inter_tea"]
+script = ExtResource("2")
+id = "parlor_tea"
+type = "observation"
+position = Vector3(0, 0.8, -1)
+collision_size = Vector3(1.0, 0.5, 1.0)
+responses = Array[Resource]([SubResource("resp_tea_ledger"), SubResource("resp_tea_default")])
+
+; === Lights ===
+
+[sub_resource type="Resource" id="light_fireplace"]
+script = ExtResource("4")
+id = "parlor_fireplace_light"
+type = "omni"
+position = Vector3(0, 1, 4.5)
+color = Color(1.0, 0.5, 0.2, 1)
+energy = 1.5
+range = 8.0
+shadows = true
+flickering = true
+flicker_pattern = "fire"
+
+[sub_resource type="Resource" id="light_candle_l"]
+script = ExtResource("4")
+id = "parlor_candle_left"
+type = "omni"
+position = Vector3(-3, 1.2, 0)
+color = Color(1.0, 0.8, 0.4, 1)
+energy = 0.8
+range = 4.0
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+[sub_resource type="Resource" id="light_candle_r"]
+script = ExtResource("4")
+id = "parlor_candle_right"
+type = "omni"
+position = Vector3(3, 1.2, 0)
+color = Color(1.0, 0.8, 0.4, 1)
+energy = 0.8
+range = 4.0
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+; === Entry Trigger ===
+
+[sub_resource type="Resource" id="act_visited_parlor"]
+script = ExtResource("7")
+set_state = {"visited_parlor": true}
+
+[sub_resource type="Resource" id="act_show_parlor"]
+script = ExtResource("7")
+show_room_name = "Parlor"
+
+[sub_resource type="Resource" id="act_fire_crackle"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/fire_crackle_low.ogg"
+
+[sub_resource type="Resource" id="trig_first_entry"]
+script = ExtResource("6")
+condition = "NOT visited_parlor"
+once = true
+trigger_id = "parlor_first_entry"
+actions = Array[Resource]([SubResource("act_visited_parlor"), SubResource("act_show_parlor"), SubResource("act_fire_crackle")])
+
+; === Ambient Events ===
+
+[sub_resource type="Resource" id="act_fire_settle"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/fire_settle.ogg"
+
+[sub_resource type="Resource" id="ambient_fire"]
+script = ExtResource("8")
+event_id = "fire_settle"
+interval_min = 20.0
+interval_max = 45.0
+condition = ""
+actions = Array[Resource]([SubResource("act_fire_settle")])
+
+; === Conditional: Music Box Auto-Play ===
+
+[sub_resource type="Resource" id="act_music_auto_flag"]
+script = ExtResource("7")
+set_state = {"music_box_auto_triggered": true}
+
+[sub_resource type="Resource" id="act_music_auto_sfx"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/music_box/music_box_melody.ogg"
+
+[sub_resource type="Resource" id="act_music_auto_dim"]
+script = ExtResource("7")
+light_change = {"parlor_fireplace_light": {"energy": 0.5, "duration": 3.0}}
+
+[sub_resource type="Resource" id="act_music_auto_shake"]
+script = ExtResource("7")
+camera_shake = 0.05
+
+[sub_resource type="Resource" id="cond_music_box"]
+script = ExtResource("9")
+event_id = "music_box_auto_play"
+condition = "elizabeth_aware AND visited_attic_storage AND NOT music_box_auto_triggered"
+once = true
+actions = Array[Resource]([SubResource("act_music_auto_flag"), SubResource("act_music_auto_sfx"), SubResource("act_music_auto_dim"), SubResource("act_music_auto_shake")])
+
+; === Flashback ===
+
+[sub_resource type="Resource" id="flashback_parlor"]
+script = ExtResource("10")
+flashback_id = "parlor_elizabeth_flashback"
+condition = "elizabeth_aware"
+once = true
+model = "res://assets/horror/models/bloodwraith.glb"
+model_position = Vector3(0, 0, -1)
+model_scale = 0.6
+duration = 5.0
+fade_amount = 0.7
+stinger_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_04_dark.wav"
+camera_shake = 0.08
+
+; === Main Resource ===
+
+[resource]
+script = ExtResource("1")
+room_id = "parlor"
+room_name = "Parlor"
+floor_name = "ground_floor"
+environment_preset = "ground_floor"
+dimensions = Vector3(10, 2.4, 10)
+is_exterior = false
+wall_texture = "wall4_texture"
+floor_texture = "floor1_texture"
+ceiling_texture = "ceiling1_texture"
+wall_north = PackedStringArray("wall", "wall", "wall", "wall", "wall")
+wall_south = PackedStringArray("wall", "wall", "doorway:parlor_to_foyer", "wall", "wall")
+wall_east = PackedStringArray("wall", "wall", "wall", "wall", "wall")
+wall_west = PackedStringArray("wall", "wall", "wall", "wall", "wall")
+ambient_loop = "res://assets/audio/loops/Comfort Loop1.ogg"
+tension_loop = "res://assets/audio/tension/tension_ground.wav"
+reverb_bus = "Room"
+footstep_surface = "wood_parquet"
+spawn_position = Vector3(0, 0, -4)
+spawn_rotation_y = 0.0
+interactables = Array[Resource]([SubResource("inter_portrait"), SubResource("inter_diary"), SubResource("inter_music_box"), SubResource("inter_fireplace"), SubResource("inter_tea")])
+lights = Array[Resource]([SubResource("light_fireplace"), SubResource("light_candle_l"), SubResource("light_candle_r")])
+props = Array[Resource]([])
+on_entry = Array[Resource]([SubResource("trig_first_entry")])
+on_exit = Array[Resource]([])
+ambient_events = Array[Resource]([SubResource("ambient_fire")])
+conditional_events = Array[Resource]([SubResource("cond_music_box")])
+flashbacks = Array[Resource]([SubResource("flashback_parlor")])

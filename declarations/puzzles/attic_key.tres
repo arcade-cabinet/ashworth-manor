@@ -1,0 +1,73 @@
+[gd_resource type="Resource" script_class="PuzzleDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/puzzle_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/puzzle_step_decl.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/clue_decl.gd" id="3"]
+
+[sub_resource type="Resource" id="step_read_diary"]
+script = ExtResource("2")
+step_id = "read_diary"
+description = "Find and read the torn diary page in the parlor"
+action = "interact"
+target_interactable = "parlor_note"
+target_room = "parlor"
+required_state = ""
+result_states = {"found_first_clue": true, "knows_attic_girl": true}
+
+[sub_resource type="Resource" id="step_read_ashworth_diary"]
+script = ExtResource("2")
+step_id = "read_ashworth_diary"
+description = "Find Lord Ashworth's diary in the master bedroom"
+action = "interact"
+target_interactable = "ashworth_diary"
+target_room = "master_bedroom"
+required_state = ""
+result_states = {"read_ashworth_diary": true, "knows_key_location": true}
+
+[sub_resource type="Resource" id="step_find_key"]
+script = ExtResource("2")
+step_id = "find_attic_key"
+description = "Find the attic key inside the library globe"
+action = "interact"
+target_interactable = "library_globe"
+target_room = "library"
+required_state = "knows_key_location"
+result_items = PackedStringArray("attic_key")
+
+[sub_resource type="Resource" id="step_unlock"]
+script = ExtResource("2")
+step_id = "unlock_attic"
+description = "Use the attic key on the locked attic door"
+action = "use_item"
+target_interactable = "attic_door"
+target_room = "upper_hallway"
+required_items = PackedStringArray("attic_key")
+result_states = {"attic_unlocked": true}
+
+[sub_resource type="Resource" id="clue_diary"]
+script = ExtResource("3")
+interactable_id = "parlor_note"
+room_id = "parlor"
+clue_text = "Someone is locked in the attic"
+required_state = ""
+
+[sub_resource type="Resource" id="clue_ashworth"]
+script = ExtResource("3")
+interactable_id = "ashworth_diary"
+room_id = "master_bedroom"
+clue_text = "The key is in the library globe"
+required_state = ""
+
+[resource]
+script = ExtResource("1")
+puzzle_id = "attic_key_puzzle"
+name = "Find the Attic Key"
+description = "The attic is locked. The diary mentions whispers from above. Lord Ashworth's diary reveals the key's location."
+steps = Array[Resource]([SubResource("step_read_diary"), SubResource("step_read_ashworth_diary"), SubResource("step_find_key"), SubResource("step_unlock")])
+sequential = false
+requires_puzzles = PackedStringArray()
+completion_state = "attic_unlocked"
+reward_states = {"attic_unlocked": true}
+reward_items = PackedStringArray()
+clue_chain = Array[Resource]([SubResource("clue_diary"), SubResource("clue_ashworth")])
+variation_points = Array[Resource]([])

@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="RoomDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/room_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
+[ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
+[ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+
+[resource]
+script = ExtResource("1")
+room_id = "master_bedroom"
+room_name = "Master Bedroom"
+floor_name = "upper_floor"
+environment_preset = "upper_floor"
+dimensions = Vector3(10, 2.4, 10)
+is_exterior = false
+wall_texture = "wall2_texture"
+floor_texture = "floor1_texture"
+ceiling_texture = "ceiling1_texture"
+wall_north = PackedStringArray("wall", "wall", "wall", "wall", "wall")
+wall_south = PackedStringArray("wall", "wall", "wall", "wall", "wall")
+wall_east = PackedStringArray("wall", "wall", "doorway:master_bedroom_to_upper_hallway", "wall", "wall")
+wall_west = PackedStringArray("wall", "wall", "wall", "wall", "wall")
+ambient_loop = "res://assets/audio/loops/Lying Down Loop1.ogg"
+tension_loop = "res://assets/audio/tension/tension_upper.wav"
+reverb_bus = "Room"
+footstep_surface = "carpet"
+spawn_position = Vector3(4, 0, 0)
+spawn_rotation_y = 270.0
+interactables = Array[Resource]([])
+lights = Array[Resource]([])
+props = Array[Resource]([])
+on_entry = Array[Resource]([])
+on_exit = Array[Resource]([])
+ambient_events = Array[Resource]([])
+conditional_events = Array[Resource]([])
+flashbacks = Array[Resource]([])

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/item_declaration.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_id = "hidden_key"
+name = "Hidden Key"
+description = "A small tarnished key found inside the porcelain doll. It was wrapped in a child's handkerchief."
+category = "key"
+is_ritual_component = false
+is_consumable = false
+functional_slot = "hidden_chamber_key"
+thread_active = PackedStringArray()
+found_in_room = "attic_storage"
+found_at_interactable = "porcelain_doll"
+found_condition = "read_elizabeth_letter"
+unlocks_interactable = "hidden_door"
+unlocks_in_room = "attic_storage"

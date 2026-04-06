@@ -1,0 +1,192 @@
+[gd_resource type="Resource" script_class="RoomDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/room_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
+[ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
+[ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
+[ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+[ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
+
+; === Responses ===
+
+[sub_resource type="Resource" id="resp_photo_truth"]
+script = ExtResource("3")
+condition = "knows_full_truth"
+title = "Dinner Party Photo"
+text = "The last dinner. December 23rd, 1891. Three guests dead within the week. And somewhere above them, behind a locked door, a child they'd all agreed to forget."
+set_state = {"examined_dinner_photo": true}
+
+[sub_resource type="Resource" id="resp_photo_log"]
+script = ExtResource("3")
+condition = "read_maintenance_log"
+title = "Dinner Party Photo"
+text = "The caretaker wrote 'they dine while the girl screams.' This photo was taken that night. Everyone is smiling. One of them is already dead by morning."
+set_state = {"examined_dinner_photo": true}
+
+[sub_resource type="Resource" id="resp_photo_default"]
+script = ExtResource("3")
+condition = ""
+title = "Dinner Party Photo"
+text = "A photograph of a dinner party. Eight guests, formal dress, candlelight. Everyone is smiling except Lord Ashworth, who stares directly at the camera. The date on the back: December 23rd, 1891."
+set_state = {"examined_dinner_photo": true}
+
+[sub_resource type="Resource" id="resp_chair_default"]
+script = ExtResource("3")
+condition = ""
+title = "Pushed Chair"
+text = "One chair pushed back from the table, angled as if someone stood suddenly. The plate is untouched. The napkin is on the floor. Whoever sat here left mid-course — or was taken."
+set_state = {"examined_pushed_chair": true}
+
+[sub_resource type="Resource" id="resp_wine_default"]
+script = ExtResource("3")
+condition = ""
+title = "Wine Glass"
+text = "A single wine glass, still full. Dark red, almost black. After 130 years, it hasn't evaporated. The wine surface trembles faintly — as if something beneath the table breathes."
+set_state = {"examined_wine_glass": true}
+
+[sub_resource type="Resource" id="resp_candles_default"]
+script = ExtResource("3")
+condition = ""
+title = "Candelabra"
+text = "Silver candelabra with half-melted candles. The wax has dripped and frozen in mid-flow. Even the candles stopped at the same moment as the clocks."
+set_state = {"examined_dining_candles": true}
+
+[sub_resource type="Resource" id="resp_bell_default"]
+script = ExtResource("3")
+condition = ""
+title = "Service Bell"
+text = "A small brass bell for summoning servants. You ring it. The sound is muffled — as if the air itself absorbs the vibration. No one is coming."
+
+; === Interactables ===
+
+[sub_resource type="Resource" id="inter_photo"]
+script = ExtResource("2")
+id = "dinner_photo"
+type = "photo"
+position = Vector3(-3.5, 2, 0)
+wall = "west"
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_photo_truth"), SubResource("resp_photo_log"), SubResource("resp_photo_default")])
+
+[sub_resource type="Resource" id="inter_chair"]
+script = ExtResource("2")
+id = "pushed_chair"
+type = "observation"
+position = Vector3(1, 0.5, -2)
+collision_size = Vector3(1.0, 1.0, 1.0)
+responses = Array[Resource]([SubResource("resp_chair_default")])
+
+[sub_resource type="Resource" id="inter_wine"]
+script = ExtResource("2")
+id = "wine_glass"
+type = "observation"
+position = Vector3(-1, 1, -2)
+collision_size = Vector3(0.5, 0.5, 0.5)
+responses = Array[Resource]([SubResource("resp_wine_default")])
+
+[sub_resource type="Resource" id="inter_candles"]
+script = ExtResource("2")
+id = "dining_candles"
+type = "observation"
+position = Vector3(0, 1.2, 0)
+collision_size = Vector3(1.0, 1.0, 1.0)
+responses = Array[Resource]([SubResource("resp_candles_default")])
+
+[sub_resource type="Resource" id="inter_bell"]
+script = ExtResource("2")
+id = "service_bell"
+type = "observation"
+position = Vector3(2, 0.8, 3)
+collision_size = Vector3(0.5, 0.5, 0.5)
+responses = Array[Resource]([SubResource("resp_bell_default")])
+
+; === Lights ===
+
+[sub_resource type="Resource" id="light_chandelier"]
+script = ExtResource("4")
+id = "dining_chandelier"
+type = "omni"
+position = Vector3(0, 4, 0)
+color = Color(1.0, 0.85, 0.6, 1)
+energy = 2.0
+range = 10.0
+shadows = true
+flickering = true
+flicker_pattern = "candle"
+
+[sub_resource type="Resource" id="light_candles"]
+script = ExtResource("4")
+id = "dining_table_candles"
+type = "omni"
+position = Vector3(0, 1.3, 0)
+color = Color(1.0, 0.7, 0.3, 1)
+energy = 1.0
+range = 5.0
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+; === Entry Trigger ===
+
+[sub_resource type="Resource" id="act_visited"]
+script = ExtResource("7")
+set_state = {"visited_dining_room": true}
+
+[sub_resource type="Resource" id="act_show_name"]
+script = ExtResource("7")
+show_room_name = "Dining Room"
+
+[sub_resource type="Resource" id="trig_entry"]
+script = ExtResource("6")
+condition = "NOT visited_dining_room"
+once = true
+trigger_id = "dining_room_first_entry"
+actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name")])
+
+; === Ambient ===
+
+[sub_resource type="Resource" id="act_silverware"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/silverware_clink.ogg"
+
+[sub_resource type="Resource" id="ambient_clink"]
+script = ExtResource("8")
+event_id = "silverware_clink"
+interval_min = 25.0
+interval_max = 50.0
+condition = ""
+actions = Array[Resource]([SubResource("act_silverware")])
+
+; === Main Resource ===
+
+[resource]
+script = ExtResource("1")
+room_id = "dining_room"
+room_name = "Dining Room"
+floor_name = "ground_floor"
+environment_preset = "ground_floor"
+dimensions = Vector3(8, 2.4, 10)
+is_exterior = false
+wall_texture = "wall5_texture"
+floor_texture = "floor1_texture"
+ceiling_texture = "ceiling0_texture"
+wall_north = PackedStringArray("wall", "wall", "wall", "wall")
+wall_south = PackedStringArray("wall", "wall", "wall", "wall")
+wall_east = PackedStringArray("wall", "wall", "wall", "wall", "wall")
+wall_west = PackedStringArray("wall", "wall", "doorway:dining_room_to_foyer", "wall", "wall")
+ambient_loop = "res://assets/audio/loops/Keep it up Loop1.ogg"
+tension_loop = "res://assets/audio/tension/tension_ground.wav"
+reverb_bus = "Room"
+footstep_surface = "wood_parquet"
+spawn_position = Vector3(0, 0, -7)
+spawn_rotation_y = 180.0
+interactables = Array[Resource]([SubResource("inter_photo"), SubResource("inter_chair"), SubResource("inter_wine"), SubResource("inter_candles"), SubResource("inter_bell")])
+lights = Array[Resource]([SubResource("light_chandelier"), SubResource("light_candles")])
+props = Array[Resource]([])
+on_entry = Array[Resource]([SubResource("trig_entry")])
+on_exit = Array[Resource]([])
+ambient_events = Array[Resource]([SubResource("ambient_clink")])
+conditional_events = Array[Resource]([])
+flashbacks = Array[Resource]([])

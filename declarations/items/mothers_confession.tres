@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/item_declaration.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_id = "mothers_confession"
+name = "Mother's Confession"
+description = "Lady Ashworth's sealed letter. 'I am complicit in what was done to our daughter. I heard her crying and did nothing. God forgive me.'"
+category = "document"
+is_ritual_component = true
+is_consumable = false
+functional_slot = ""
+thread_active = PackedStringArray()
+found_in_room = "wine_cellar"
+found_at_interactable = "wine_box"
+found_condition = "HAS cellar_key"
+unlocks_interactable = ""
+unlocks_in_room = ""

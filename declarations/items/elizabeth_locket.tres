@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/item_declaration.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_id = "elizabeth_locket"
+name = "Elizabeth's Locket"
+description = "A gold locket containing a lock of infant hair and a miniature portrait of a baby. The engraving reads 'E.A. — 1882'."
+category = "artifact"
+is_ritual_component = true
+is_consumable = false
+functional_slot = ""
+thread_active = PackedStringArray()
+found_in_room = "master_bedroom"
+found_at_interactable = "jewelry_box"
+found_condition = "HAS jewelry_key"
+unlocks_interactable = ""
+unlocks_in_room = ""
