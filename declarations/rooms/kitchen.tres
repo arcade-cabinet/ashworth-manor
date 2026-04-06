@@ -40,13 +40,23 @@ title = "Cook's Note"
 text = "A note in a rough hand, pinned to the pantry door. 'The kitchen knows when someone is hungry. I am not mad. I have worked kitchens for thirty years and I know what a stove does. This stove lights itself. The kettle fills itself. The pantry rearranges when I am not looking -- putting things I need at the front. It is HER. She is in the house the way heat is in a stove. Not visible. Not separate. Just there.'"
 set_state = {"read_cook_note": true}
 
-; === Hearth Responses ===
+; === Hearth Responses (Diamond #3 B-path: flagstone key) ===
+
+[sub_resource type="Resource" id="resp_hearth_flagstone"]
+script = ExtResource("3")
+condition = "examined_hearth_loose"
+title = "Kitchen Hearth"
+text = "You pry the loose flagstone up with your fingers. Beneath it, in a shallow hollow scraped into the mortar, is a small iron key wrapped in a scrap of linen. The cook hid the spare key exactly where she said she would."
+set_state = {"found_cellar_key_hearth": true}
+gives_item = "cellar_key"
+play_sfx = "res://assets/audio/sfx/inventory/key_find.ogg"
 
 [sub_resource type="Resource" id="resp_hearth_default"]
 script = ExtResource("3")
 condition = ""
 title = "Kitchen Hearth"
 text = "A large stone hearth, cold and dark. Soot stains the mantle. Iron hooks for pots hang empty. The flagstones around the base are uneven -- one is slightly raised, rocking when you step on it."
+set_state = {"examined_hearth_loose": true}
 
 ; === Interactables ===
 
@@ -67,7 +77,7 @@ type = "observation"
 position = Vector3(0, 0.5, -4.5)
 wall = "south"
 collision_size = Vector3(2.0, 1.5, 1.0)
-responses = Array[Resource]([SubResource("resp_hearth_default")])
+responses = Array[Resource]([SubResource("resp_hearth_flagstone"), SubResource("resp_hearth_default")])
 
 ; === Lights ===
 

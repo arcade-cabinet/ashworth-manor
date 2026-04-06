@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
 [ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
+[ext_resource type="Script" path="res://engine/declarations/progression_step.gd" id="9"]
 
 ; === Maintenance Log Responses ===
 
@@ -74,6 +75,69 @@ title = "Boiler Room Clock"
 text = "A clock mounted above the boiler. 3:33. Same as every clock in the house. The same moment, frozen in every room."
 set_state = {"examined_boiler_clock": true}
 
+; === Pipe Valves Responses (Swap #2 A-path) ===
+
+[sub_resource type="Resource" id="resp_valve_step1"]
+script = ExtResource("3")
+condition = ""
+title = "Pipe Valves"
+text = "You turn the first valve. The pipes groan -- a low, resonant note that travels through the walls. The pitch is wrong. Too low."
+set_state = {"valve_1_turned": true}
+play_sfx = "res://assets/audio/sfx/impact/metal_heavy.ogg"
+
+[sub_resource type="Resource" id="resp_valve_step2"]
+script = ExtResource("3")
+condition = ""
+title = "Pipe Valves"
+text = "The second valve. A higher note joins the first -- the pipes are singing now, a dissonant chord that makes the walls vibrate. One more."
+set_state = {"valve_2_turned": true}
+play_sfx = "res://assets/audio/sfx/impact/metal_heavy.ogg"
+
+[sub_resource type="Resource" id="resp_valve_step3"]
+script = ExtResource("3")
+condition = ""
+title = "Pipe Valves"
+text = "The third valve. The pipes harmonize -- three notes forming a chord. And through the chord, carried by the vibrating metal, you hear her voice. Elizabeth, speaking through the plumbing. 'The fifth branch withers. The root remembers. The binding breaks where water meets fire.' Then silence. The pipes cool. She said what she needed to say."
+set_state = {"pipe_voice_heard": true}
+play_sfx = "res://assets/audio/sfx/horror/whisper_close.ogg"
+
+; === Electrical Panel Responses (Swap #2 B-path) ===
+
+[sub_resource type="Resource" id="resp_electrical_step1"]
+script = ExtResource("3")
+condition = ""
+title = "Electrical Panel"
+text = "A fuse box with six slots. Three fuses are in the wrong positions -- the labels have been rearranged. Someone swapped them deliberately to kill the lights in certain rooms. The labels read: ATTIC, BASEMENT, CHAPEL, KITCHEN, LIBRARY, GARDEN."
+set_state = {"examined_fuse_box": true}
+
+[sub_resource type="Resource" id="resp_electrical_step2"]
+script = ExtResource("3")
+condition = ""
+title = "Electrical Panel"
+text = "You rearrange the fuses to match their correct slots. ATTIC in position 1, LIBRARY in position 5. The panel clicks. Somewhere above, lights flicker on in rooms that have been dark for twenty years. The extra illumination reveals details previously hidden in shadow -- scratches on walls, marks on floors, writing in places no one was meant to read."
+set_state = {"power_restored": true}
+play_sfx = "res://assets/audio/sfx/impact/click_heavy.ogg"
+
+; === Pipe Valve Progressive Interactable (Swap #2 A-path) ===
+
+[sub_resource type="Resource" id="prog_valve_1"]
+script = ExtResource("9")
+step_id = "valve_turn_1"
+required_state = ""
+response = SubResource("resp_valve_step1")
+
+[sub_resource type="Resource" id="prog_valve_2"]
+script = ExtResource("9")
+step_id = "valve_turn_2"
+required_state = "valve_1_turned"
+response = SubResource("resp_valve_step2")
+
+[sub_resource type="Resource" id="prog_valve_3"]
+script = ExtResource("9")
+step_id = "valve_turn_3"
+required_state = "valve_2_turned"
+response = SubResource("resp_valve_step3")
+
 ; === Interactables ===
 
 [sub_resource type="Resource" id="inter_log"]
@@ -103,6 +167,26 @@ position = Vector3(0, 3, 3.5)
 wall = "north"
 collision_size = Vector3(1.0, 1.0, 0.5)
 responses = Array[Resource]([SubResource("resp_clock_default")])
+
+[sub_resource type="Resource" id="inter_pipe_valves"]
+script = ExtResource("2")
+id = "boiler_pipe_valves"
+type = "switch"
+position = Vector3(2.5, 1.2, 3.5)
+wall = "north"
+collision_size = Vector3(1.5, 1.5, 1.0)
+progressive = true
+progression_steps = Array[Resource]([SubResource("prog_valve_1"), SubResource("prog_valve_2"), SubResource("prog_valve_3")])
+
+[sub_resource type="Resource" id="inter_electrical"]
+script = ExtResource("2")
+id = "boiler_electrical_panel"
+type = "switch"
+position = Vector3(-2.5, 1.2, 3.5)
+wall = "north"
+collision_size = Vector3(1.5, 1.5, 1.0)
+model = "res://assets/mansion_psx/electrical_equipment_1.glb"
+responses = Array[Resource]([SubResource("resp_electrical_step2"), SubResource("resp_electrical_step1")])
 
 ; === Lights ===
 
@@ -172,7 +256,7 @@ reverb_bus = "Dungeon"
 footstep_surface = "metal_grate"
 spawn_position = Vector3(-2, 0, 0)
 spawn_rotation_y = 90.0
-interactables = Array[Resource]([SubResource("inter_log"), SubResource("inter_boiler"), SubResource("inter_clock")])
+interactables = Array[Resource]([SubResource("inter_log"), SubResource("inter_boiler"), SubResource("inter_clock"), SubResource("inter_pipe_valves"), SubResource("inter_electrical")])
 lights = Array[Resource]([SubResource("light_boiler")])
 props = Array[Resource]([])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])

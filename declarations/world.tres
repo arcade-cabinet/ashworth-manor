@@ -17,6 +17,8 @@
 [ext_resource type="Resource" path="res://declarations/endings/acceptance.tres" id="15"]
 [ext_resource type="Resource" path="res://declarations/endings/escape.tres" id="16"]
 [ext_resource type="Resource" path="res://declarations/endings/joined.tres" id="17"]
+[ext_resource type="Script" path="res://engine/declarations/variant_decl.gd" id="18"]
+[ext_resource type="Script" path="res://engine/declarations/junction_decl.gd" id="19"]
 
 ; === Room References (20 rooms) ===
 
@@ -584,6 +586,235 @@ position_in_from = Vector3(0, 1.5, -4)
 position_in_to = Vector3(5, 0, 7)
 spawn_rotation_y = 180.0
 
+
+; === JUNCTION DECLARATIONS (9 junctions: 6 diamonds + 3 swaps) ===
+
+; -- Diamond #1: Attic Access -- Globe (A) vs Gears (B) --
+
+[sub_resource type="Resource" id="junc1_variant_a"]
+script = ExtResource("18")
+room_id = "library"
+interactables_active = PackedStringArray("library_globe")
+interactables_static = PackedStringArray("library_gears")
+clue_overrides = {"library_globe": "The diary said the key is in the globe."}
+
+[sub_resource type="Resource" id="junc1_variant_b"]
+script = ExtResource("18")
+room_id = "library"
+interactables_active = PackedStringArray("library_gears")
+interactables_static = PackedStringArray("library_globe")
+clue_overrides = {"library_gears": "The study desk note says: align the gears smallest to largest."}
+
+[sub_resource type="Resource" id="junc_attic_access"]
+script = ExtResource("19")
+junction_id = "attic_access"
+junction_type = "diamond"
+functional_slot = "attic_access_key"
+variant_a = SubResource("junc1_variant_a")
+variant_b = SubResource("junc1_variant_b")
+macro_preference = {"captive": "A", "mourning": "A", "sovereign": "B"}
+
+; -- Diamond #2: Hidden Chamber -- Doll (A) vs Mask (B) --
+
+[sub_resource type="Resource" id="junc2_variant_a"]
+script = ExtResource("18")
+room_id = "attic_storage"
+interactables_active = PackedStringArray("porcelain_doll", "elizabeth_letter")
+interactables_static = PackedStringArray("ritual_mask")
+clue_overrides = {"elizabeth_letter": "The letter says she hid something in the doll."}
+
+[sub_resource type="Resource" id="junc2_variant_b"]
+script = ExtResource("18")
+room_id = "attic_storage"
+interactables_active = PackedStringArray("ritual_mask")
+interactables_static = PackedStringArray("porcelain_doll")
+clue_overrides = {"ritual_mask": "The binding book mentions the mask fits the lock."}
+
+[sub_resource type="Resource" id="junc_hidden_chamber"]
+script = ExtResource("19")
+junction_id = "hidden_chamber"
+junction_type = "diamond"
+functional_slot = "hidden_chamber_key"
+variant_a = SubResource("junc2_variant_a")
+variant_b = SubResource("junc2_variant_b")
+macro_preference = {"captive": "A", "mourning": "A", "sovereign": "B"}
+
+; -- Diamond #3: Cellar Box -- Portrait (A) vs Hearth (B) --
+
+[sub_resource type="Resource" id="junc3_variant_a"]
+script = ExtResource("18")
+room_id = "carriage_house"
+interactables_active = PackedStringArray("carriage_portrait")
+interactables_static = PackedStringArray()
+clue_overrides = {"wine_note": "The note says the key is with the portrait in the carriage house."}
+
+[sub_resource type="Resource" id="junc3_variant_b"]
+script = ExtResource("18")
+room_id = "kitchen"
+interactables_active = PackedStringArray("kitchen_hearth")
+interactables_static = PackedStringArray()
+clue_overrides = {"kitchen_note": "The cook's note adds: I hid the spare key under the loose stone by the hearth."}
+
+[sub_resource type="Resource" id="junc_cellar_box"]
+script = ExtResource("19")
+junction_id = "cellar_box"
+junction_type = "diamond"
+functional_slot = "cellar_box_key"
+variant_a = SubResource("junc3_variant_a")
+variant_b = SubResource("junc3_variant_b")
+macro_preference = {"captive": "A", "mourning": "B", "sovereign": "A"}
+
+; -- Diamond #4: Jewelry Box -- Crypt (A) vs Lily (B) --
+
+[sub_resource type="Resource" id="junc4_variant_a"]
+script = ExtResource("18")
+room_id = "family_crypt"
+interactables_active = PackedStringArray("crypt_flagstone")
+interactables_static = PackedStringArray()
+clue_overrides = {"crypt_flagstone": "Lady Ashworth's note: I hid the locket key here among the dead."}
+
+[sub_resource type="Resource" id="junc4_variant_b"]
+script = ExtResource("18")
+room_id = "garden"
+interactables_active = PackedStringArray("garden_lily")
+interactables_static = PackedStringArray()
+clue_overrides = {"garden_lily": "The white lily is warm. Something is buried in the soil."}
+
+[sub_resource type="Resource" id="junc_jewelry_box"]
+script = ExtResource("19")
+junction_id = "jewelry_box"
+junction_type = "diamond"
+functional_slot = "jewelry_box_key"
+variant_a = SubResource("junc4_variant_a")
+variant_b = SubResource("junc4_variant_b")
+macro_preference = {"captive": "A", "mourning": "B", "sovereign": "B"}
+
+; -- Diamond #5: Crypt Gate -- Greenhouse (A) vs Chapel (B) --
+
+[sub_resource type="Resource" id="junc5_variant_a"]
+script = ExtResource("18")
+room_id = "greenhouse"
+interactables_active = PackedStringArray("greenhouse_pot")
+interactables_static = PackedStringArray()
+clue_overrides = {"greenhouse_pot": "The terra cotta pot is warm. The lily hides more than roots."}
+
+[sub_resource type="Resource" id="junc5_variant_b"]
+script = ExtResource("18")
+room_id = "chapel"
+interactables_active = PackedStringArray("baptismal_font")
+interactables_static = PackedStringArray()
+clue_overrides = {"baptismal_font": "The font water is warm. Something glints at the bottom."}
+
+[sub_resource type="Resource" id="junc_crypt_gate"]
+script = ExtResource("19")
+junction_id = "crypt_gate"
+junction_type = "diamond"
+functional_slot = "crypt_gate_key"
+variant_a = SubResource("junc5_variant_a")
+variant_b = SubResource("junc5_variant_b")
+macro_preference = {"captive": "A", "mourning": "B", "sovereign": "A"}
+
+; -- Diamond #6: Counter-Ritual -- Reversal (A) vs Forgiveness (B) --
+
+[sub_resource type="Resource" id="junc6_variant_a"]
+script = ExtResource("18")
+room_id = "hidden_chamber"
+interactables_active = PackedStringArray("ritual_circle")
+interactables_static = PackedStringArray()
+clue_overrides = {"ritual_circle": "Place the doll. Pour the water. Read the book. Break the binding."}
+
+[sub_resource type="Resource" id="junc6_variant_b"]
+script = ExtResource("18")
+room_id = "hidden_chamber"
+interactables_active = PackedStringArray("ritual_circle")
+interactables_static = PackedStringArray()
+clue_overrides = {"ritual_circle": "Place the three confessions around the doll. Read each aloud. Forgiveness breaks what force cannot."}
+
+[sub_resource type="Resource" id="junc_counter_ritual"]
+script = ExtResource("19")
+junction_id = "counter_ritual"
+junction_type = "diamond"
+functional_slot = "free_elizabeth"
+variant_a = SubResource("junc6_variant_a")
+variant_b = SubResource("junc6_variant_b")
+macro_preference = {"captive": "A", "mourning": "B", "sovereign": "A"}
+
+; -- Swap #1: Foyer -- Clock (A) vs Mirror (B) --
+
+[sub_resource type="Resource" id="swap1_variant_a"]
+script = ExtResource("18")
+room_id = "foyer"
+interactables_active = PackedStringArray("foyer_clock")
+interactables_static = PackedStringArray("foyer_mirror")
+clue_overrides = {"foyer_clock": "The clock face can be turned. What time was it when she vanished?"}
+
+[sub_resource type="Resource" id="swap1_variant_b"]
+script = ExtResource("18")
+room_id = "foyer"
+interactables_active = PackedStringArray("foyer_mirror")
+interactables_static = PackedStringArray("foyer_clock")
+clue_overrides = {"foyer_mirror": "Elizabeth is reflected in the mirror. She is pointing at something."}
+
+[sub_resource type="Resource" id="swap_foyer"]
+script = ExtResource("19")
+junction_id = "foyer_swap"
+junction_type = "swap"
+functional_slot = "foyer_flavor"
+variant_a = SubResource("swap1_variant_a")
+variant_b = SubResource("swap1_variant_b")
+macro_preference = {"captive": "A", "mourning": "B", "sovereign": "B"}
+
+; -- Swap #2: Boiler Room -- Pipes (A) vs Electrical (B) --
+
+[sub_resource type="Resource" id="swap2_variant_a"]
+script = ExtResource("18")
+room_id = "boiler_room"
+interactables_active = PackedStringArray("boiler_pipe_valves")
+interactables_static = PackedStringArray("boiler_electrical_panel")
+clue_overrides = {"boiler_pipe_valves": "Three valves. Three notes. She speaks through the pipes."}
+
+[sub_resource type="Resource" id="swap2_variant_b"]
+script = ExtResource("18")
+room_id = "boiler_room"
+interactables_active = PackedStringArray("boiler_electrical_panel")
+interactables_static = PackedStringArray("boiler_pipe_valves")
+clue_overrides = {"boiler_electrical_panel": "The fuses are wrong. Someone killed the lights deliberately."}
+
+[sub_resource type="Resource" id="swap_boiler"]
+script = ExtResource("19")
+junction_id = "boiler_swap"
+junction_type = "swap"
+functional_slot = "boiler_flavor"
+variant_a = SubResource("swap2_variant_a")
+variant_b = SubResource("swap2_variant_b")
+macro_preference = {"captive": "A", "mourning": "A", "sovereign": "B"}
+
+; -- Swap #3: Garden -- Fountain (A) vs Gazebo (B) --
+
+[sub_resource type="Resource" id="swap3_variant_a"]
+script = ExtResource("18")
+room_id = "garden"
+interactables_active = PackedStringArray("garden_fountain")
+interactables_static = PackedStringArray("garden_gazebo")
+clue_overrides = {"garden_fountain": "Melt the ice. Read the inscription beneath."}
+
+[sub_resource type="Resource" id="swap3_variant_b"]
+script = ExtResource("18")
+room_id = "garden"
+interactables_active = PackedStringArray("garden_gazebo")
+interactables_static = PackedStringArray("garden_fountain")
+clue_overrides = {"garden_gazebo": "The dead vines form a pattern. Stand where the moonlight falls."}
+
+[sub_resource type="Resource" id="swap_garden"]
+script = ExtResource("19")
+junction_id = "garden_swap"
+junction_type = "swap"
+functional_slot = "garden_flavor"
+variant_a = SubResource("swap3_variant_a")
+variant_b = SubResource("swap3_variant_b")
+macro_preference = {"captive": "A", "mourning": "B", "sovereign": "B"}
+
+
 ; === Game Phases ===
 
 [sub_resource type="Resource" id="phase_exploration"]
@@ -741,7 +972,7 @@ rooms = Array[Resource]([SubResource("room_front_gate"), SubResource("room_foyer
 connections = Array[Resource]([SubResource("conn_front_gate_to_foyer"), SubResource("conn_foyer_to_front_gate"), SubResource("conn_front_gate_to_garden"), SubResource("conn_garden_to_front_gate"), SubResource("conn_front_gate_to_carriage_house"), SubResource("conn_carriage_house_to_front_gate"), SubResource("conn_foyer_to_parlor"), SubResource("conn_parlor_to_foyer"), SubResource("conn_foyer_to_dining_room"), SubResource("conn_dining_room_to_foyer"), SubResource("conn_foyer_to_kitchen"), SubResource("conn_kitchen_to_foyer"), SubResource("conn_foyer_to_upper_hallway"), SubResource("conn_upper_hallway_to_foyer"), SubResource("conn_upper_hallway_to_master_bedroom"), SubResource("conn_master_bedroom_to_upper_hallway"), SubResource("conn_upper_hallway_to_library"), SubResource("conn_library_to_upper_hallway"), SubResource("conn_upper_hallway_to_guest_room"), SubResource("conn_guest_room_to_upper_hallway"), SubResource("conn_upper_hallway_to_attic_stairs"), SubResource("conn_attic_stairs_to_upper_hallway"), SubResource("conn_attic_stairs_to_attic_storage"), SubResource("conn_attic_storage_to_attic_stairs"), SubResource("conn_attic_storage_to_hidden_chamber"), SubResource("conn_hidden_chamber_to_attic_storage"), SubResource("conn_kitchen_to_storage_basement"), SubResource("conn_storage_basement_to_kitchen"), SubResource("conn_storage_basement_to_boiler_room"), SubResource("conn_boiler_room_to_storage_basement"), SubResource("conn_storage_basement_to_wine_cellar"), SubResource("conn_wine_cellar_to_storage_basement"), SubResource("conn_garden_to_chapel"), SubResource("conn_chapel_to_garden"), SubResource("conn_garden_to_greenhouse"), SubResource("conn_greenhouse_to_garden"), SubResource("conn_garden_to_family_crypt"), SubResource("conn_family_crypt_to_garden")])
 area_environments = {}
 macro_threads = Array[Resource]([ExtResource("10"), ExtResource("11"), ExtResource("12")])
-junctions = Array[Resource]([])
+junctions = Array[Resource]([SubResource("junc_attic_access"), SubResource("junc_hidden_chamber"), SubResource("junc_cellar_box"), SubResource("junc_jewelry_box"), SubResource("junc_crypt_gate"), SubResource("junc_counter_ritual"), SubResource("swap_foyer"), SubResource("swap_boiler"), SubResource("swap_garden")])
 prng_seed = 0
 phases = Array[Resource]([SubResource("phase_exploration"), SubResource("phase_discovery"), SubResource("phase_horror"), SubResource("phase_resolution")])
 phase_transitions = Array[Resource]([SubResource("pt_explore_to_discovery"), SubResource("pt_discovery_to_horror"), SubResource("pt_horror_to_resolution")])

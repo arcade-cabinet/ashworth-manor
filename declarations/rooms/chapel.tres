@@ -9,12 +9,22 @@
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
 
 ; === Baptismal Font Responses ===
+; On B-path (Diamond #5), font ALSO yields gate_key via also_gives
+
+[sub_resource type="Resource" id="resp_font_reach"]
+script = ExtResource("3")
+condition = "examined_baptismal_font"
+title = "Baptismal Font"
+text = "You reach deeper into the font, past the surface. Your fingers brush the stone bottom and close around something cold and metallic. An iron key rests at the bottom of the holy water. The water that will not freeze also holds a key that will not rust."
+set_state = {"found_gate_key_font": true}
+gives_item = "gate_key"
+play_sfx = "res://assets/audio/sfx/inventory/key_find.ogg"
 
 [sub_resource type="Resource" id="resp_font_default"]
 script = ExtResource("3")
 condition = ""
 title = "Baptismal Font"
-text = "A stone baptismal font. The water inside has not frozen despite the December cold. Clear, still, impossibly clean. Five Ashworth children were baptized here. Elizabeth was the fourth."
+text = "A stone baptismal font. The water inside has not frozen despite the December cold. Clear, still, impossibly clean. Five Ashworth children were baptized here. Elizabeth was the fourth. Your hand breaks the surface and the water is warm. Something glints at the bottom."
 set_state = {"examined_baptismal_font": true}
 gives_item = "blessed_water"
 
@@ -50,6 +60,14 @@ condition = ""
 title = "Altar"
 text = "A simple stone altar. A Bible lies open to Psalm 130: 'Out of the depths I cry to you, O Lord.' Someone chose this page. Someone wanted God to hear a cry from somewhere deep."
 
+; === Stained Glass Observation ===
+
+[sub_resource type="Resource" id="resp_glass_default"]
+script = ExtResource("3")
+condition = ""
+title = "Stained Glass"
+text = "The stained glass window depicts five children in a garden. The fourth child stands slightly apart from the others, hand raised as if waving. Or beckoning. The moonlight passing through the glass casts colored shadows on the floor -- blue, gold, violet. Where the fourth child's image falls, the light is brighter than it should be."
+
 ; === Interactables ===
 
 [sub_resource type="Resource" id="inter_font"]
@@ -58,7 +76,8 @@ id = "baptismal_font"
 type = "observation"
 position = Vector3(0, 0.8, -4)
 collision_size = Vector3(1.5, 1.5, 1.5)
-responses = Array[Resource]([SubResource("resp_font_default")])
+also_gives = "gate_key"
+responses = Array[Resource]([SubResource("resp_font_reach"), SubResource("resp_font_default")])
 thread_responses = {"captive": [SubResource("resp_font_captive")], "mourning": [SubResource("resp_font_mourning")], "sovereign": [SubResource("resp_font_sovereign")]}
 
 [sub_resource type="Resource" id="inter_altar"]
@@ -68,6 +87,15 @@ type = "observation"
 position = Vector3(0, 1, 5)
 collision_size = Vector3(2.0, 1.0, 1.0)
 responses = Array[Resource]([SubResource("resp_altar_default")])
+
+[sub_resource type="Resource" id="inter_glass"]
+script = ExtResource("2")
+id = "chapel_stained_glass_interactable"
+type = "observation"
+position = Vector3(0, 3.5, 5.5)
+wall = "north"
+collision_size = Vector3(3.0, 3.0, 0.5)
+responses = Array[Resource]([SubResource("resp_glass_default")])
 
 ; === Lights ===
 
@@ -122,7 +150,7 @@ reverb_bus = "StoneCorridor"
 footstep_surface = "stone"
 spawn_position = Vector3(0, 0, -5)
 spawn_rotation_y = 0.0
-interactables = Array[Resource]([SubResource("inter_font"), SubResource("inter_altar")])
+interactables = Array[Resource]([SubResource("inter_font"), SubResource("inter_altar"), SubResource("inter_glass")])
 lights = Array[Resource]([SubResource("light_window")])
 props = Array[Resource]([])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])

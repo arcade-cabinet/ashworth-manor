@@ -4,8 +4,147 @@
 [ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
 [ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
 [ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+[ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
+
+; === Terra Cotta Pot Responses (Diamond #5 A-path: gate key) ===
+
+[sub_resource type="Resource" id="resp_pot_dig"]
+script = ExtResource("3")
+condition = "examined_greenhouse_pot"
+title = "Terra Cotta Pot"
+text = "You push your fingers into the soil beside the lily. They close around something cold and metallic -- an iron key, wrapped in cloth to keep it from rusting. Someone buried it here deliberately, among the living things Elizabeth loved."
+set_state = {"found_gate_key_pot": true}
+gives_item = "gate_key"
+play_sfx = "res://assets/audio/sfx/inventory/key_find.ogg"
+
+[sub_resource type="Resource" id="resp_pot_default"]
+script = ExtResource("3")
+condition = ""
+title = "Terra Cotta Pot"
+text = "A large terra cotta pot with a white lily growing from it -- alive, impossibly, in the cold greenhouse. The glass panes above are cracked and frosted. Everything else in here is dead or dormant. But this lily thrives. The soil is warm to the touch. Something is buried in it besides roots."
+set_state = {"examined_greenhouse_pot": true}
+
+; Pot thread variants
+[sub_resource type="Resource" id="resp_pot_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Terra Cotta Pot"
+text = "A lily in a pot, alive in the dead greenhouse. The clay is warm. The soil is damp. Someone is watering this flower from below. The roots reach deeper than they should -- through the pot, through the table, down through the floor. As if the lily is drawing sustenance from the house itself. From what lives in the house."
+set_state = {"examined_greenhouse_pot": true}
+
+[sub_resource type="Resource" id="resp_pot_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Terra Cotta Pot"
+text = "A lily in a pot. Victoria's writing on a small tag tied to the stem: 'For Elizabeth. I will keep something alive for you even if I cannot keep you.' The ink is faded but the lily is fresh. Twenty years of fresh lilies. Someone continued Victoria's ritual after she died."
+set_state = {"examined_greenhouse_pot": true}
+
+[sub_resource type="Resource" id="resp_pot_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Terra Cotta Pot"
+text = "A lily in a pot. The flower turns toward you as you enter the greenhouse -- not toward the light, which is dim and filtered. Toward you. The lily is warm. The pot is warm. The table is warm. Elizabeth is in everything that grows. She feeds the roots and the roots feed the flower and the flower watches."
+set_state = {"examined_greenhouse_pot": true}
+
+; === Dead Plants Observation ===
+
+[sub_resource type="Resource" id="resp_dead_plants"]
+script = ExtResource("3")
+condition = ""
+title = "Dead Plants"
+text = "Rows of dead plants in clay pots. The greenhouse glass is cracked above, letting in frost. Everything here died months ago -- except the one white lily. It sits in the center like a vigil candle, the only warmth in a frozen room."
+
+; === Potting Bench ===
+
+[sub_resource type="Resource" id="resp_bench_default"]
+script = ExtResource("3")
+condition = ""
+title = "Potting Bench"
+text = "A wooden bench covered in dried soil and tools. Trowels, pruning shears, twine. Victoria's gardening gloves are still here, stiff with age. The journal beside them records planting dates going back twenty years. The last entry: 'The lily bloomed again today. I do not know how.'"
+
+; === Interactables ===
+
+[sub_resource type="Resource" id="inter_pot"]
+script = ExtResource("2")
+id = "greenhouse_pot"
+type = "observation"
+position = Vector3(0, 0.8, 0)
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_pot_dig"), SubResource("resp_pot_default")])
+thread_responses = {"captive": [SubResource("resp_pot_captive")], "mourning": [SubResource("resp_pot_mourning")], "sovereign": [SubResource("resp_pot_sovereign")]}
+
+[sub_resource type="Resource" id="inter_dead_plants"]
+script = ExtResource("2")
+id = "greenhouse_dead_plants"
+type = "observation"
+position = Vector3(-3, 0.5, 2)
+collision_size = Vector3(2.0, 1.0, 1.5)
+responses = Array[Resource]([SubResource("resp_dead_plants")])
+
+[sub_resource type="Resource" id="inter_bench"]
+script = ExtResource("2")
+id = "greenhouse_bench"
+type = "observation"
+position = Vector3(3, 0.8, -2)
+collision_size = Vector3(2.0, 1.0, 1.5)
+responses = Array[Resource]([SubResource("resp_bench_default")])
+
+; === Lights ===
+
+[sub_resource type="Resource" id="light_moon"]
+script = ExtResource("4")
+id = "greenhouse_moonlight"
+type = "omni"
+position = Vector3(0, 3.5, 0)
+color = Color(0.5, 0.6, 0.9, 1)
+energy = 0.7
+range = 8.0
+shadows = false
+flickering = false
+
+; === Props ===
+
+[sub_resource type="Resource" id="prop_table"]
+script = ExtResource("5")
+id = "greenhouse_table"
+model = "res://assets/shared/furniture/table.glb"
+position = Vector3(0, 0, 0)
+
+; === Entry Trigger ===
+
+[sub_resource type="Resource" id="act_visited"]
+script = ExtResource("7")
+set_state = {"visited_greenhouse": true}
+
+[sub_resource type="Resource" id="act_show_name"]
+script = ExtResource("7")
+show_room_name = "Greenhouse"
+
+[sub_resource type="Resource" id="trig_first_entry"]
+script = ExtResource("6")
+condition = "NOT visited_greenhouse"
+once = true
+trigger_id = "greenhouse_first_entry"
+actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name")])
+
+; === Ambient: Cracking glass ===
+
+[sub_resource type="Resource" id="act_crack"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/glass_crack.ogg"
+
+[sub_resource type="Resource" id="ambient_crack"]
+script = ExtResource("8")
+event_id = "greenhouse_glass_crack"
+interval_min = 30.0
+interval_max = 60.0
+condition = ""
+actions = Array[Resource]([SubResource("act_crack")])
+
+; === Main Resource ===
 
 [resource]
 script = ExtResource("1")
@@ -28,11 +167,11 @@ reverb_bus = "OpenAir"
 footstep_surface = "dirt"
 spawn_position = Vector3(0, 0, 0)
 spawn_rotation_y = 0.0
-interactables = Array[Resource]([])
-lights = Array[Resource]([])
-props = Array[Resource]([])
-on_entry = Array[Resource]([])
+interactables = Array[Resource]([SubResource("inter_pot"), SubResource("inter_dead_plants"), SubResource("inter_bench")])
+lights = Array[Resource]([SubResource("light_moon")])
+props = Array[Resource]([SubResource("prop_table")])
+on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
-ambient_events = Array[Resource]([])
+ambient_events = Array[Resource]([SubResource("ambient_crack")])
 conditional_events = Array[Resource]([])
 flashbacks = Array[Resource]([])

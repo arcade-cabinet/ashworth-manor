@@ -4,8 +4,193 @@
 [ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
 [ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
 [ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+[ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
+
+; === White Lily Responses (Diamond #4 B-path: key in soil) ===
+
+[sub_resource type="Resource" id="resp_lily_dig"]
+script = ExtResource("3")
+condition = "examined_lily"
+title = "White Lily"
+text = "You brush the soil at the base of the lily. Your fingers find something hard beneath the roots -- a small brass key, buried in the warm earth. Elizabeth hid it with the living things, not the dead."
+set_state = {"found_jewelry_key_lily": true}
+gives_item = "jewelry_key"
+play_sfx = "res://assets/audio/sfx/inventory/key_find.ogg"
+
+[sub_resource type="Resource" id="resp_lily_default"]
+script = ExtResource("3")
+condition = ""
+title = "White Lily"
+text = "A single white lily, alive despite the frost that took everything else. Its petals are perfect. The soil around its base is warmer than it should be -- as if something buried there is still generating heat. Elizabeth's favorite flower. Victoria planted it the year she was born."
+set_state = {"examined_lily": true}
+
+; Lily thread variants
+[sub_resource type="Resource" id="resp_lily_captive"]
+script = ExtResource("3")
+condition = ""
+title = "White Lily"
+text = "A white lily, alive in the dead garden. The only living thing on the grounds. As if something is keeping it alive from below -- feeding it warmth through the frozen soil. A prisoner can still tend a garden if the garden is directly above her cell. The roots reach down. She reaches up."
+set_state = {"examined_lily": true}
+
+[sub_resource type="Resource" id="resp_lily_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "White Lily"
+text = "A white lily, Elizabeth's flower, still alive after all these years. Victoria planted it and watered it every morning until she could not walk anymore. Then someone else kept watering it. The soil is damp. Fresh. Who is tending this flower?"
+set_state = {"examined_lily": true}
+
+[sub_resource type="Resource" id="resp_lily_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "White Lily"
+text = "A white lily that turns toward you as you approach. Not toward the moon. Toward YOU. The petals flex slightly -- breathing. She is in everything. Even the flowers. Especially the flowers. This lily is not a memorial. It is a sensor."
+set_state = {"examined_lily": true}
+
+; === Frozen Fountain Responses (Swap #3 A-path) ===
+
+[sub_resource type="Resource" id="resp_fountain_thaw"]
+script = ExtResource("3")
+condition = "HAS candle_lit"
+title = "Fountain"
+text = "You hold the candle close to the fountain's icy surface. The ice thins, revealing an inscription carved into the basin: 'Where the fifth branch withers, the root remembers.' The same symbol appears on the binding circle in the attic."
+set_state = {"fountain_clue_found": true}
+play_sfx = "res://assets/audio/sfx/ambient/ice_crack.ogg"
+
+[sub_resource type="Resource" id="resp_fountain_default"]
+script = ExtResource("3")
+condition = ""
+title = "Fountain"
+text = "A stone fountain, dry and frozen solid. Ice fills the basin in a thick, opaque sheet. Something is carved into the basin beneath the ice, but you cannot read it through the frost. You would need to melt it somehow."
+
+; === Gazebo Responses (Swap #3 B-path) ===
+
+[sub_resource type="Resource" id="resp_gazebo_spot"]
+script = ExtResource("3")
+condition = "examined_gazebo_vines"
+title = "Gazebo Vines"
+text = "You step back to where the moonlight falls and look again. The dead vines on the lattice form a pattern -- not random decay but deliberate training. Someone wound these vines into a shape. It is the same symbol from the binding book: 'Where the fifth branch withers, the root remembers.' The same clue, delivered by the garden itself."
+set_state = {"gazebo_clue_found": true}
+
+[sub_resource type="Resource" id="resp_gazebo_default"]
+script = ExtResource("3")
+condition = ""
+title = "Gazebo"
+text = "A wooden gazebo with dead vines covering its lattice. The vines are brown and brittle, frozen into whatever shape they grew last summer. From this angle they look random. But there are worn spots on the flagstones nearby -- someone stood here often, looking at these vines from a specific position."
+set_state = {"examined_gazebo_vines": true}
+
+; === Garden Bench Responses ===
+
+[sub_resource type="Resource" id="resp_bench_default"]
+script = ExtResource("3")
+condition = ""
+title = "Stone Bench"
+text = "A stone bench beneath a dead oak tree. The seat has been worn smooth. Someone sat here often, watching the house. You can see the attic window from this spot."
+
+; === Interactables ===
+
+[sub_resource type="Resource" id="inter_lily"]
+script = ExtResource("2")
+id = "garden_lily"
+type = "observation"
+position = Vector3(3, 0.2, 5)
+collision_size = Vector3(1.5, 1.0, 1.5)
+responses = Array[Resource]([SubResource("resp_lily_dig"), SubResource("resp_lily_default")])
+thread_responses = {"captive": [SubResource("resp_lily_captive")], "mourning": [SubResource("resp_lily_mourning")], "sovereign": [SubResource("resp_lily_sovereign")]}
+
+[sub_resource type="Resource" id="inter_fountain"]
+script = ExtResource("2")
+id = "garden_fountain"
+type = "observation"
+position = Vector3(-4, 0.5, 0)
+collision_size = Vector3(2.0, 1.5, 2.0)
+model = "res://assets/medieval/fountain01_round.glb"
+responses = Array[Resource]([SubResource("resp_fountain_thaw"), SubResource("resp_fountain_default")])
+
+[sub_resource type="Resource" id="inter_gazebo"]
+script = ExtResource("2")
+id = "garden_gazebo"
+type = "observation"
+position = Vector3(6, 1.5, -5)
+collision_size = Vector3(3.0, 3.0, 3.0)
+model = "res://assets/medieval/gazebo.glb"
+responses = Array[Resource]([SubResource("resp_gazebo_spot"), SubResource("resp_gazebo_default")])
+
+[sub_resource type="Resource" id="inter_bench"]
+script = ExtResource("2")
+id = "garden_bench"
+type = "observation"
+position = Vector3(-6, 0.4, -4)
+collision_size = Vector3(2.0, 1.0, 1.5)
+responses = Array[Resource]([SubResource("resp_bench_default")])
+
+; === Lights ===
+
+[sub_resource type="Resource" id="light_moon"]
+script = ExtResource("4")
+id = "garden_moonlight"
+type = "omni"
+position = Vector3(0, 5, 0)
+color = Color(0.5, 0.6, 0.9, 1)
+energy = 1.0
+range = 15.0
+shadows = false
+flickering = false
+
+; === Props ===
+
+[sub_resource type="Resource" id="prop_fountain_model"]
+script = ExtResource("5")
+id = "fountain_model"
+model = "res://assets/medieval/fountain01_round.glb"
+position = Vector3(-4, 0, 0)
+
+[sub_resource type="Resource" id="prop_gazebo_model"]
+script = ExtResource("5")
+id = "gazebo_model"
+model = "res://assets/medieval/gazebo.glb"
+position = Vector3(6, 0, -5)
+
+[sub_resource type="Resource" id="prop_bench_model"]
+script = ExtResource("5")
+id = "bench_model"
+model = "res://assets/medieval/bench.glb"
+position = Vector3(-6, 0, -4)
+
+; === Entry Trigger ===
+
+[sub_resource type="Resource" id="act_visited"]
+script = ExtResource("7")
+set_state = {"visited_garden": true}
+
+[sub_resource type="Resource" id="act_show_name"]
+script = ExtResource("7")
+show_room_name = "Garden"
+
+[sub_resource type="Resource" id="trig_first_entry"]
+script = ExtResource("6")
+condition = "NOT visited_garden"
+once = true
+trigger_id = "garden_first_entry"
+actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name")])
+
+; === Ambient: Wind through dead branches ===
+
+[sub_resource type="Resource" id="act_wind"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/wind_gust.ogg"
+
+[sub_resource type="Resource" id="ambient_wind"]
+script = ExtResource("8")
+event_id = "garden_wind"
+interval_min = 15.0
+interval_max = 35.0
+condition = ""
+actions = Array[Resource]([SubResource("act_wind")])
+
+; === Main Resource ===
 
 [resource]
 script = ExtResource("1")
@@ -28,11 +213,11 @@ reverb_bus = "OpenAir"
 footstep_surface = "grass"
 spawn_position = Vector3(0, 0, 0)
 spawn_rotation_y = 0.0
-interactables = Array[Resource]([])
-lights = Array[Resource]([])
-props = Array[Resource]([])
-on_entry = Array[Resource]([])
+interactables = Array[Resource]([SubResource("inter_lily"), SubResource("inter_fountain"), SubResource("inter_gazebo"), SubResource("inter_bench")])
+lights = Array[Resource]([SubResource("light_moon")])
+props = Array[Resource]([SubResource("prop_fountain_model"), SubResource("prop_gazebo_model"), SubResource("prop_bench_model")])
+on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
-ambient_events = Array[Resource]([])
+ambient_events = Array[Resource]([SubResource("ambient_wind")])
 conditional_events = Array[Resource]([])
 flashbacks = Array[Resource]([])
