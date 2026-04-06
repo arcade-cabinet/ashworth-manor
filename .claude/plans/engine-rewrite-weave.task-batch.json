@@ -1,0 +1,2190 @@
+{
+  "batch_name": "Ashworth Engine Rewrite + Weave System",
+  "created": "2026-04-05T00:00:00Z",
+  "source_prd": ".claude/plans/engine-rewrite-weave.prq.md",
+  "config": {
+    "stop_on_failure": false,
+    "auto_commit": true,
+    "commit_per_task": true,
+    "teammates": ["coder", "reviewer"]
+  },
+  "phases": [
+    {
+      "id": "phase-1",
+      "name": "Engine Foundation",
+      "depends_on": [],
+      "description": "Resource class scripts, builder scripts, engine scripts, PSX sky shader. Pure infrastructure -- no game content."
+    },
+    {
+      "id": "phase-2",
+      "name": "Room Declarations",
+      "depends_on": ["phase-1"],
+      "description": "Convert all 20 rooms from docs to .tres declarations. World scaffolding, state schema, items, puzzles, endings."
+    },
+    {
+      "id": "phase-3",
+      "name": "Creative Content (Weave Text)",
+      "depends_on": ["phase-1"],
+      "description": "Write all thread-variant dialogue, key narratives, ending texts. The creative writing that makes Weave real."
+    },
+    {
+      "id": "phase-4",
+      "name": "Junction + Puzzle Implementation",
+      "depends_on": ["phase-1", "phase-2", "phase-3"],
+      "description": "12 diamond puzzle variants, 6 swap puzzles, PRNG engine, constraint validation."
+    },
+    {
+      "id": "phase-5",
+      "name": "Integration + Testing",
+      "depends_on": ["phase-1", "phase-2", "phase-3", "phase-4"],
+      "description": "Wire all 11 addons, generate tests from declarations, validate all 48 configurations, Android build."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "P1-01",
+      "phase": "phase-1",
+      "description": "Create all 20 Resource class scripts for the declaration system",
+      "priority": 1,
+      "dependencies": [],
+      "agent_role": "engine_coder",
+      "details": "Create GDScript Resource classes in `engine/declarations/`. Each is a `class_name X extends Resource` with @export vars exactly matching ENGINE_SPEC.md. Classes: WorldDeclaration, RoomDeclaration, InteractableDecl, ResponseDecl, ProgressionStep, LightDecl, PropDecl, Connection, RoomRef, MacroThread, JunctionDecl, VariantDecl, PuzzleDeclaration, PuzzleStepDecl, PuzzleVariation, ClueDecl, ItemDeclaration, EndingDecl, PhaseDecl, PhaseTransition, ElizabethStateDecl, ElizabethTransition, GlobalTrigger, TriggerDecl, ActionDecl, AmbientEventDecl, ConditionalEventDecl, FlashbackDecl, StateSchema, StateVarDecl, PlayerDeclaration, AccessibilityDecl, SkyDeclaration, EnvironmentDeclaration. Reference: docs/ENGINE_SPEC.md lines 82-600 for exact @export signatures.",
+      "files": [
+        "engine/declarations/world_declaration.gd",
+        "engine/declarations/room_declaration.gd",
+        "engine/declarations/interactable_decl.gd",
+        "engine/declarations/response_decl.gd",
+        "engine/declarations/progression_step.gd",
+        "engine/declarations/light_decl.gd",
+        "engine/declarations/prop_decl.gd",
+        "engine/declarations/connection.gd",
+        "engine/declarations/room_ref.gd",
+        "engine/declarations/macro_thread.gd",
+        "engine/declarations/junction_decl.gd",
+        "engine/declarations/variant_decl.gd",
+        "engine/declarations/puzzle_declaration.gd",
+        "engine/declarations/puzzle_step_decl.gd",
+        "engine/declarations/puzzle_variation.gd",
+        "engine/declarations/clue_decl.gd",
+        "engine/declarations/item_declaration.gd",
+        "engine/declarations/ending_decl.gd",
+        "engine/declarations/phase_decl.gd",
+        "engine/declarations/phase_transition.gd",
+        "engine/declarations/elizabeth_state_decl.gd",
+        "engine/declarations/elizabeth_transition.gd",
+        "engine/declarations/global_trigger.gd",
+        "engine/declarations/trigger_decl.gd",
+        "engine/declarations/action_decl.gd",
+        "engine/declarations/ambient_event_decl.gd",
+        "engine/declarations/conditional_event_decl.gd",
+        "engine/declarations/flashback_decl.gd",
+        "engine/declarations/state_schema.gd",
+        "engine/declarations/state_var_decl.gd",
+        "engine/declarations/player_declaration.gd",
+        "engine/declarations/accessibility_decl.gd",
+        "engine/declarations/sky_declaration.gd",
+        "engine/declarations/environment_declaration.gd"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "All 34 Resource class scripts exist in engine/declarations/",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Each script has class_name matching ENGINE_SPEC",
+          "verification": "code_contains",
+          "pattern": "class_name"
+        },
+        {
+          "criteria": "Each script extends Resource",
+          "verification": "code_contains",
+          "pattern": "extends Resource"
+        },
+        {
+          "criteria": "All @export vars from ENGINE_SPEC are present with correct types",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Godot can parse all scripts without error",
+          "verification": "command",
+          "command": "godot --headless --script test/e2e/run_e2e.gd --quit 2>&1 | head -20"
+        }
+      ]
+    },
+    {
+      "id": "P1-02",
+      "phase": "phase-1",
+      "description": "Create 8 builder scripts for procedural geometry generation",
+      "priority": 1,
+      "dependencies": ["P1-01"],
+      "agent_role": "engine_coder",
+      "details": "Create builder scripts in `builders/`. Each builder reads declaration data and generates Godot Node3D subtrees. Builders: wall_builder.gd (textured wall segments with doorway/window openings from wall_layout strings), floor_builder.gd (tiled QuadMesh + collision), ceiling_builder.gd (tiled QuadMesh), door_builder.gd (frame + panel + hinge + AnimatableBody3D per INTERACTIVE_DOORS_PLAN.md), window_builder.gd (frame + pane + optional boards/shutters), stairs_builder.gd (staircase with side boxing), trapdoor_builder.gd (floor hatch with hinge), ladder_builder.gd (drop-down or wall ladder). Reference: docs/ENGINE_SPEC.md file structure, docs/INTERACTIVE_DOORS_PLAN.md for door/window details.",
+      "files": [
+        "builders/wall_builder.gd",
+        "builders/floor_builder.gd",
+        "builders/ceiling_builder.gd",
+        "builders/door_builder.gd",
+        "builders/window_builder.gd",
+        "builders/stairs_builder.gd",
+        "builders/trapdoor_builder.gd",
+        "builders/ladder_builder.gd"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "All 8 builder scripts exist in builders/",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "wall_builder handles wall_layout strings: 'wall', 'doorway:{id}', 'window', 'window_boarded', 'window_shuttered'",
+          "verification": "code_contains",
+          "pattern": "doorway"
+        },
+        {
+          "criteria": "door_builder creates frame + panel + hinge + collision per INTERACTIVE_DOORS_PLAN",
+          "verification": "code_contains",
+          "pattern": "DoorHinge"
+        },
+        {
+          "criteria": "floor_builder generates StaticBody3D with collision on Layer 1",
+          "verification": "code_contains",
+          "pattern": "collision_layer"
+        },
+        {
+          "criteria": "All builders accept declaration data and return Node3D",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P1-03",
+      "phase": "phase-1",
+      "description": "Create room_assembler.gd -- the core engine that reads RoomDeclaration and builds scene tree",
+      "priority": 1,
+      "dependencies": ["P1-01", "P1-02"],
+      "agent_role": "engine_coder",
+      "details": "The room_assembler reads a RoomDeclaration .tres and calls builders to generate the complete Node3D scene tree. Output structure: RoomRoot (Node3D with room_base script) -> Geometry/ (walls, floor, ceiling via builders) -> Doors/ (via door_builder from connections) -> Windows/ (via window_builder) -> Lighting/ (OmniLight3D/SpotLight3D from LightDecl) -> Interactables/ (Area3D on Layer 3 from InteractableDecl) -> Connections/ (Area3D on Layer 4 from Connection) -> Props/ (MeshInstance3D from GLB) -> Audio/ (ReverbZone Area3D). Must handle: exterior vs interior (sky vs keep), wall_layout parsing, connection lookup for door details, flickering light setup, interactable collision sizing. Budget: 250-300 LOC. Reference: docs/ENGINE_SPEC.md 'Room Assembler' section.",
+      "files": [
+        "engine/room_assembler.gd"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "engine/room_assembler.gd exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Has function that accepts RoomDeclaration and returns Node3D",
+          "verification": "code_contains",
+          "pattern": "func assemble"
+        },
+        {
+          "criteria": "Calls wall_builder, floor_builder, ceiling_builder, door_builder",
+          "verification": "code_contains",
+          "pattern": "builder"
+        },
+        {
+          "criteria": "Creates Area3D on Layer 3 (collision_layer = 4) for interactables",
+          "verification": "code_contains",
+          "pattern": "collision_layer"
+        },
+        {
+          "criteria": "Creates Area3D on Layer 4 (collision_layer = 8) for connections",
+          "verification": "code_contains",
+          "pattern": "collision_layer"
+        },
+        {
+          "criteria": "Handles is_exterior flag for environment switching",
+          "verification": "code_contains",
+          "pattern": "is_exterior"
+        }
+      ]
+    },
+    {
+      "id": "P1-04",
+      "phase": "phase-1",
+      "description": "Create interaction_engine.gd -- replaces interaction_manager.gd + puzzle_handler.gd",
+      "priority": 1,
+      "dependencies": ["P1-01"],
+      "agent_role": "engine_coder",
+      "details": "Handles all player-interactable interactions from declarations. Flow: 1) Look up InteractableDecl by ID. 2) Check thread_active (skip if wrong macro thread). 3) Check thread_responses (use thread-specific if present). 4) Check locked -> check inventory for key_id or functional_slot -> unlock or show locked_response_no_key/locked_response_wrong_key. 5) If progressive, advance through progression_steps (track via state var '{id}_step'). 6) Otherwise iterate responses array, evaluate conditions, first match wins. 7) Execute set_state mutations. 8) Give items if applicable. 9) Notify puzzle_engine. No switch statements, no hardcoded types. Budget: 150-200 LOC. Reference: ENGINE_SPEC.md 'Interaction Engine' section.",
+      "files": [
+        "engine/interaction_engine.gd"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "engine/interaction_engine.gd exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Checks thread_active before processing",
+          "verification": "code_contains",
+          "pattern": "thread_active"
+        },
+        {
+          "criteria": "Handles progressive interactions with step tracking",
+          "verification": "code_contains",
+          "pattern": "progressive"
+        },
+        {
+          "criteria": "Evaluates response conditions using state expression parser",
+          "verification": "code_contains",
+          "pattern": "condition"
+        },
+        {
+          "criteria": "Supports locked_response_no_key and locked_response_wrong_key",
+          "verification": "code_contains",
+          "pattern": "wrong_key"
+        },
+        {
+          "criteria": "Checks functional_slot in addition to key_id",
+          "verification": "code_contains",
+          "pattern": "functional_slot"
+        }
+      ]
+    },
+    {
+      "id": "P1-05",
+      "phase": "phase-1",
+      "description": "Create puzzle_engine.gd -- tracks puzzle progress from declarations",
+      "priority": 1,
+      "dependencies": ["P1-01"],
+      "agent_role": "engine_coder",
+      "details": "Loads all PuzzleDeclaration resources at game start. On each state change, checks if any puzzle step completed. Validates puzzle dependency graph (no cycles, all prerequisites achievable). On puzzle completion, sets reward_states and reward_items. Integrates with PRNG engine for variation points. Budget: 150-200 LOC. Reference: ENGINE_SPEC.md 'Puzzle Engine' section.",
+      "files": [
+        "engine/puzzle_engine.gd"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "engine/puzzle_engine.gd exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Loads PuzzleDeclaration resources",
+          "verification": "code_contains",
+          "pattern": "PuzzleDeclaration"
+        },
+        {
+          "criteria": "Checks step completion on state changes",
+          "verification": "code_contains",
+          "pattern": "completion_state"
+        },
+        {
+          "criteria": "Validates dependency graph",
+          "verification": "code_contains",
+          "pattern": "requires_puzzles"
+        },
+        {
+          "criteria": "Sets reward_states on completion",
+          "verification": "code_contains",
+          "pattern": "reward_states"
+        }
+      ]
+    },
+    {
+      "id": "P1-06",
+      "phase": "phase-1",
+      "description": "Create state_machine.gd with state expression parser",
+      "priority": 1,
+      "dependencies": ["P1-01"],
+      "agent_role": "engine_coder",
+      "details": "Manages all game state from StateSchema declarations. Includes a state expression parser that evaluates conditions like: 'found_first_clue', 'NOT knows_full_truth', 'A AND B', 'A OR B', 'count >= 3', 'phase == horror', 'HAS attic_key', 'NOT HAS cellar_key', 'VISITED parlor', 'NOT VISITED attic'. Also manages game phase HSM (Exploration -> Discovery -> Horror -> Resolution) and Elizabeth presence sub-HSM (Dormant -> Watching -> Active -> Confrontation) from WorldDeclaration. Evaluates PhaseTransitions on state changes. Budget: 100-150 LOC for state + 50-80 LOC for expression parser. Reference: ENGINE_SPEC.md 'State Expression Language' section.",
+      "files": [
+        "engine/state_machine.gd"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "engine/state_machine.gd exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Parses AND/OR/NOT boolean expressions",
+          "verification": "code_contains",
+          "pattern": "AND"
+        },
+        {
+          "criteria": "Parses HAS item checks",
+          "verification": "code_contains",
+          "pattern": "HAS"
+        },
+        {
+          "criteria": "Parses VISITED room checks",
+          "verification": "code_contains",
+          "pattern": "VISITED"
+        },
+        {
+          "criteria": "Parses numeric comparisons (>=, ==)",
+          "verification": "code_contains",
+          "pattern": ">="
+        },
+        {
+          "criteria": "Manages phase transitions from PhaseDecl",
+          "verification": "code_contains",
+          "pattern": "phase"
+        },
+        {
+          "criteria": "Manages Elizabeth sub-HSM transitions",
+          "verification": "code_contains",
+          "pattern": "elizabeth"
+        }
+      ]
+    },
+    {
+      "id": "P1-07",
+      "phase": "phase-1",
+      "description": "Create audio_engine.gd -- manages ambient loops, tension layers, SFX, footsteps",
+      "priority": 1,
+      "dependencies": ["P1-01"],
+      "agent_role": "engine_coder",
+      "details": "Reads room audio config from RoomDeclaration (ambient_loop, tension_loop, reverb_bus, footstep_surface). Manages 3 audio layers: base ambient (crossfade on room transition), tension layer (activate on elizabeth_aware, volume from game phase), SFX (one-shot from ActionDecl.play_sfx). Integrates with AdaptiSound addon. Reference: docs/AUDIO_WIRING_PLAN.md for complete SFX mapping. Budget: 150-200 LOC.",
+      "files": [
+        "engine/audio_engine.gd"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "engine/audio_engine.gd exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Crossfades ambient loops on room transition",
+          "verification": "code_contains",
+          "pattern": "crossfade"
+        },
+        {
+          "criteria": "Manages tension layer activation",
+          "verification": "code_contains",
+          "pattern": "tension"
+        },
+        {
+          "criteria": "Plays one-shot SFX",
+          "verification": "code_contains",
+          "pattern": "play_sfx"
+        },
+        {
+          "criteria": "References reverb_bus from room declaration",
+          "verification": "code_contains",
+          "pattern": "reverb"
+        }
+      ]
+    },
+    {
+      "id": "P1-08",
+      "phase": "phase-1",
+      "description": "Create trigger_engine.gd -- handles entry/exit/timed/conditional room events + global triggers",
+      "priority": 1,
+      "dependencies": ["P1-01"],
+      "agent_role": "engine_coder",
+      "details": "Reads TriggerDecl, AmbientEventDecl, ConditionalEventDecl, FlashbackDecl from room declarations and GlobalTrigger from WorldDeclaration. On room entry: evaluate on_entry triggers. On room exit: evaluate on_exit triggers. Ambient events: timed periodic SFX. Conditional events: watch state for conditions. Flashbacks: spawn model + PSX fade + stinger. Global triggers: evaluate on every state change regardless of room. All triggers respect 'once' flag tracked by trigger_id. Executes ActionDecl actions (set_state, play_sfx, show_text, camera_shake, light_change, spawn_model, psx_fade). Budget: 100-150 LOC.",
+      "files": [
+        "engine/trigger_engine.gd"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "engine/trigger_engine.gd exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Handles on_entry and on_exit triggers",
+          "verification": "code_contains",
+          "pattern": "on_entry"
+        },
+        {
+          "criteria": "Handles ambient_events with timed intervals",
+          "verification": "code_contains",
+          "pattern": "ambient_event"
+        },
+        {
+          "criteria": "Handles global_triggers from WorldDeclaration",
+          "verification": "code_contains",
+          "pattern": "global_trigger"
+        },
+        {
+          "criteria": "Executes ActionDecl actions",
+          "verification": "code_contains",
+          "pattern": "ActionDecl"
+        },
+        {
+          "criteria": "Tracks trigger_id for 'once' enforcement",
+          "verification": "code_contains",
+          "pattern": "once"
+        }
+      ]
+    },
+    {
+      "id": "P1-09",
+      "phase": "phase-1",
+      "description": "Create prng_engine.gd -- seed-based junction resolution and declaration patching",
+      "priority": 1,
+      "dependencies": ["P1-01"],
+      "agent_role": "engine_coder",
+      "details": "At game start: 1) Generate or use provided seed. 2) Determine macro thread from seed (captive/mourning/sovereign). 3) For each JunctionDecl, resolve to variant A or B using macro_preference + PRNG for variety. 4) Patch affected room declarations: set interactable thread_active, swap active/static lists, update clue text via prng_var_name text_variants. 5) For PuzzleVariation points: select from alternatives, validate against constraints. 6) Log seed + all selections for reproducibility. Budget: 80-120 LOC. Reference: ENGINE_SPEC.md 'PRNG Engine' section, WEAVE_ARCHITECTURE.md junction system.",
+      "files": [
+        "engine/prng_engine.gd"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "engine/prng_engine.gd exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Resolves macro thread from seed",
+          "verification": "code_contains",
+          "pattern": "macro_thread"
+        },
+        {
+          "criteria": "Resolves junctions using macro_preference",
+          "verification": "code_contains",
+          "pattern": "macro_preference"
+        },
+        {
+          "criteria": "Patches interactable active/static based on resolution",
+          "verification": "code_contains",
+          "pattern": "interactables_active"
+        },
+        {
+          "criteria": "Resolves PuzzleVariation alternatives",
+          "verification": "code_contains",
+          "pattern": "alternatives"
+        },
+        {
+          "criteria": "Logs seed and selections",
+          "verification": "code_contains",
+          "pattern": "log"
+        }
+      ]
+    },
+    {
+      "id": "P1-10",
+      "phase": "phase-1",
+      "description": "Create test_generator.gd -- reads declarations, generates test expectations",
+      "priority": 1,
+      "dependencies": ["P1-01"],
+      "agent_role": "engine_coder",
+      "details": "Reads all declarations and generates test expectations for gdUnit4. For each room: expected interactable IDs, connection targets, light count/flickering, audio loop, footstep surface. For each puzzle: simulate step chain, verify completion state, verify item locations. For each connection: bidirectional validation (A->B implies B->A). For PRNG: run N seeds, verify all puzzles solvable per dependency graph. For endings: simulate trigger conditions, verify text sequences. Output is either a report or generated test scripts. Budget: 150-200 LOC.",
+      "files": [
+        "engine/test_generator.gd"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "engine/test_generator.gd exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Validates room interactable IDs",
+          "verification": "code_contains",
+          "pattern": "interactable"
+        },
+        {
+          "criteria": "Validates bidirectional connections",
+          "verification": "code_contains",
+          "pattern": "bidirectional"
+        },
+        {
+          "criteria": "Validates puzzle completion chains",
+          "verification": "code_contains",
+          "pattern": "completion"
+        },
+        {
+          "criteria": "Runs PRNG seed validation",
+          "verification": "code_contains",
+          "pattern": "prng"
+        }
+      ]
+    },
+    {
+      "id": "P1-11",
+      "phase": "phase-1",
+      "description": "Create PSX sky shader (shaders/psx_sky.gdshader)",
+      "priority": 2,
+      "dependencies": [],
+      "agent_role": "engine_coder",
+      "details": "Create the PSX-style night sky shader exactly as specified in ENGINE_SPEC.md. shader_type sky. Uniforms: sky_color_top, sky_color_horizon, star_density, star_brightness, moon_size, moon_color, cloud_density, cloud_color, color_depth, dither_strength. Features: hash-based stars (posterized), moon disc from LIGHT0_DIRECTION, overcast cloud layer from noise, PSX color depth reduction, 4x4 Bayer dithering. CRITICAL: No TIME uniform -- radiance cubemap renders once and caches. Uses AT_CUBEMAP_PASS. Reference: ENGINE_SPEC.md 'PSX Sky Shader Design' section (lines 1036-1123) for exact GLSL code.",
+      "files": [
+        "shaders/psx_sky.gdshader"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "shaders/psx_sky.gdshader exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Uses shader_type sky",
+          "verification": "code_contains",
+          "pattern": "shader_type sky"
+        },
+        {
+          "criteria": "Has all uniforms from SkyDeclaration",
+          "verification": "code_contains",
+          "pattern": "uniform"
+        },
+        {
+          "criteria": "No TIME usage (static sky)",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Has Bayer dithering function",
+          "verification": "code_contains",
+          "pattern": "bayer"
+        },
+        {
+          "criteria": "Has color depth reduction",
+          "verification": "code_contains",
+          "pattern": "color_depth"
+        }
+      ]
+    },
+    {
+      "id": "P2-01",
+      "phase": "phase-2",
+      "description": "Create world.tres -- top-level game definition with all world-scope data",
+      "priority": 1,
+      "dependencies": ["P1-01"],
+      "agent_role": "room_assembler",
+      "details": "Create declarations/world.tres as a WorldDeclaration resource. Set starting_room='front_gate', starting_position, starting_rotation_y. Define rooms array with RoomRef for all 20 rooms. Define area_environments dict with 6 EnvironmentDeclaration presets (grounds, ground_floor, upper_floor, basement, deep_basement, attic). Define phases array (Exploration, Discovery, Horror, Resolution). Define phase_transitions. Define elizabeth_states (dormant, watching, active, confrontation) and elizabeth_transitions. Define player config. Define accessibility defaults. Leave macro_threads, junctions, endings arrays empty (filled in Phase 3/4). Reference: ENGINE_SPEC.md WorldDeclaration.",
+      "files": [
+        "declarations/world.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/world.tres exists and loads as WorldDeclaration",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "starting_room = 'front_gate'",
+          "verification": "code_contains",
+          "pattern": "front_gate"
+        },
+        {
+          "criteria": "All 20 rooms listed in rooms array",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "6 area_environments defined",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "4 game phases defined",
+          "verification": "code_contains",
+          "pattern": "Exploration"
+        },
+        {
+          "criteria": "Elizabeth sub-HSM states defined",
+          "verification": "code_contains",
+          "pattern": "dormant"
+        }
+      ]
+    },
+    {
+      "id": "P2-02",
+      "phase": "phase-2",
+      "description": "Create state_schema.tres -- all state variables for the entire game",
+      "priority": 1,
+      "dependencies": ["P1-01"],
+      "agent_role": "room_assembler",
+      "details": "Create declarations/state_schema.tres with every state variable used across all rooms, puzzles, and triggers. Include: per-interactable flags (examined_foyer_clock, read_diary, etc.), puzzle progress flags (found_first_clue, attic_unlocked, etc.), phase flags (elizabeth_aware, knows_full_truth), inventory tracking, visit tracking, thread state variables, junction resolution state. Each StateVarDecl has: name, type (bool/int/string/list), initial_value, description, set_by array, read_by array, prng_eligible flag. Derive from: all room docs interactables sections (flags set), puzzle docs, MASTER_SCRIPT.md state references.",
+      "files": [
+        "declarations/state_schema.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/state_schema.tres exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Contains all flags referenced in room docs",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Each variable has set_by and read_by cross-references",
+          "verification": "code_contains",
+          "pattern": "set_by"
+        },
+        {
+          "criteria": "Includes thread state variables",
+          "verification": "code_contains",
+          "pattern": "thread"
+        }
+      ]
+    },
+    {
+      "id": "P2-03",
+      "phase": "phase-2",
+      "description": "Create 6 environment declarations (per-area presets)",
+      "priority": 2,
+      "dependencies": ["P1-01"],
+      "agent_role": "room_assembler",
+      "details": "Create 6 EnvironmentDeclaration resources referenced by world.tres area_environments. Presets: grounds (sky + PSX night, light cold fog, ACES 0.8), ground_floor (keep, warm dust fog, ACES 1.0), upper_floor (keep, warm dust fog, ACES 0.9), basement (keep, cold grey fog, ACES 0.7), deep_basement (keep, dense cold fog, ACES 0.5), attic (keep, thin dust fog, ACES 0.6). Include sky, fog, tonemap, glow, ssao, ambient settings from ENGINE_SPEC per-area table.",
+      "files": [
+        "declarations/environments/grounds.tres",
+        "declarations/environments/ground_floor.tres",
+        "declarations/environments/upper_floor.tres",
+        "declarations/environments/basement.tres",
+        "declarations/environments/deep_basement.tres",
+        "declarations/environments/attic.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "All 6 environment .tres files exist",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Each matches ENGINE_SPEC per-area table values",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Grounds preset has sky enabled with SkyDeclaration",
+          "verification": "code_contains",
+          "pattern": "sky"
+        },
+        {
+          "criteria": "Indoor presets use background_mode = 'keep'",
+          "verification": "code_contains",
+          "pattern": "keep"
+        }
+      ]
+    },
+    {
+      "id": "P2-04",
+      "phase": "phase-2",
+      "description": "Create all 34 Connection resources in world.tres",
+      "priority": 1,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Define all room-to-room connections in the WorldDeclaration.connections array. Each Connection has: id ('{from}_to_{to}'), from_room, to_room, direction, type (door/double_door/heavy_door/hidden_door/gate/stairs/trapdoor/ladder/path), position_in_from, position_in_to, spawn_rotation_y, locked flag, key_id, door_texture, frame_texture, open_sfx, close_sfx. Reference: each room's docs/rooms/{room}/connections.md for connection details. Reference: docs/INTERACTIVE_DOORS_PLAN.md for texture assignments and door types per room. All connections must be bidirectional (A->B and B->A both exist).",
+      "files": [
+        "declarations/world.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "All connections defined bidirectionally",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Connection IDs follow '{from}_to_{to}' convention",
+          "verification": "code_contains",
+          "pattern": "_to_"
+        },
+        {
+          "criteria": "Locked connections have key_id set (attic, hidden chamber, crypt gate)",
+          "verification": "code_contains",
+          "pattern": "key_id"
+        },
+        {
+          "criteria": "Door textures assigned per INTERACTIVE_DOORS_PLAN",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P2-05",
+      "phase": "phase-2",
+      "description": "Create PlayerDeclaration in world.tres",
+      "priority": 2,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Set PlayerDeclaration values in world.tres: camera_fov=70.0, camera_height=1.7, pitch_limit=45.0, move_speed=3.0, stop_distance=0.3, touch_sensitivity=0.003, tap_threshold=15.0, tap_time_threshold=0.3. These match current player_controller.gd defaults. Reference: ENGINE_SPEC.md PlayerDeclaration.",
+      "files": [
+        "declarations/world.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "PlayerDeclaration set in world.tres",
+          "verification": "code_contains",
+          "pattern": "camera_fov"
+        },
+        {
+          "criteria": "Values match ENGINE_SPEC defaults",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P2-06",
+      "phase": "phase-2",
+      "description": "Declare Front Gate room (declarations/rooms/front_gate.tres)",
+      "priority": 2,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Create RoomDeclaration from docs/rooms/front_gate/. Thread-neutral (no thread variants). Set: room_id='front_gate', is_exterior=true, environment_preset='grounds'. Include all interactables (gate_plaque, bench, luggage, lamp), props (trees, bushes, rocks, gate), lighting (moonlight, lamp), connections (to foyer, to garden), ambient_loop, footstep_surface='gravel', triggers (entry text), ambient_events (gate creak, wind gust). Source: docs/rooms/front_gate/ (README, floorplan, interactables, lighting, connections, triggers, props, dialogue).",
+      "files": ["declarations/rooms/front_gate.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/front_gate.tres exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "is_exterior = true",
+          "verification": "code_contains",
+          "pattern": "is_exterior"
+        },
+        {
+          "criteria": "environment_preset = 'grounds'",
+          "verification": "code_contains",
+          "pattern": "grounds"
+        },
+        {
+          "criteria": "All interactables from docs/rooms/front_gate/interactables.md present",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P2-07",
+      "phase": "phase-2",
+      "description": "Declare Foyer room (declarations/rooms/foyer.tres)",
+      "priority": 2,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Create RoomDeclaration from docs/rooms/foyer/. Light thread variance per WEAVE_BALANCE: 3 thread-variant interactables (foyer_painting, foyer_mirror, entry_switch stays same). Include wall_layout with doorways to parlor, dining, kitchen, upper hallway. Source: docs/rooms/foyer/ full suite.",
+      "files": ["declarations/rooms/foyer.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/foyer.tres exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "wall_layout includes doorway references",
+          "verification": "code_contains",
+          "pattern": "doorway"
+        },
+        {
+          "criteria": "Thread-variant interactables have thread_active or thread_responses",
+          "verification": "code_contains",
+          "pattern": "thread"
+        }
+      ]
+    },
+    {
+      "id": "P2-08",
+      "phase": "phase-2",
+      "description": "Declare Parlor room (declarations/rooms/parlor.tres)",
+      "priority": 2,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Critical phase transition point. 3 thread-variant interactables (parlor_note/diary, parlor_painting_1, music_box). Diary page is first major clue -- different text per macro thread. Source: docs/rooms/parlor/.",
+      "files": ["declarations/rooms/parlor.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/parlor.tres exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "parlor_note has thread_responses for 3 threads",
+          "verification": "code_contains",
+          "pattern": "thread_responses"
+        },
+        {
+          "criteria": "Sets found_first_clue flag",
+          "verification": "code_contains",
+          "pattern": "found_first_clue"
+        }
+      ]
+    },
+    {
+      "id": "P2-09",
+      "phase": "phase-2",
+      "description": "Declare Dining Room (declarations/rooms/dining_room.tres)",
+      "priority": 3,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Moderate thread variance. 2 thread-variant interactables (dinner_photo, dining_wine_glass). Source: docs/rooms/dining_room/.",
+      "files": ["declarations/rooms/dining_room.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/dining_room.tres exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "All interactables from docs present",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P2-10",
+      "phase": "phase-2",
+      "description": "Declare Kitchen (declarations/rooms/kitchen.tres)",
+      "priority": 2,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Junction point -- Diamond #3 B-path (hearth flagstone -> cellar key). 2 thread-variant interactables (kitchen_note, kitchen_hearth). Source: docs/rooms/kitchen/.",
+      "files": ["declarations/rooms/kitchen.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/kitchen.tres exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "kitchen_hearth interactable supports junction variant",
+          "verification": "code_contains",
+          "pattern": "hearth"
+        }
+      ]
+    },
+    {
+      "id": "P2-11",
+      "phase": "phase-2",
+      "description": "Declare Upper Hallway (declarations/rooms/hallway.tres)",
+      "priority": 2,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Junction hub. 2 thread-variant interactables (children_painting, hallway_poster). Attic door (locked, key_id=attic_key). Source: docs/rooms/hallway/.",
+      "files": ["declarations/rooms/hallway.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/hallway.tres exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Attic door connection is locked with key_id",
+          "verification": "code_contains",
+          "pattern": "attic"
+        }
+      ]
+    },
+    {
+      "id": "P2-12",
+      "phase": "phase-2",
+      "description": "Declare Master Bedroom (declarations/rooms/master_bedroom.tres)",
+      "priority": 2,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Critical diary room. 3 thread-variant interactables (diary_lord, bedroom_mirror, jewelry_box). Diary is second most important text divergence. Source: docs/rooms/master_bedroom/.",
+      "files": ["declarations/rooms/master_bedroom.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/master_bedroom.tres exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "diary_lord has thread_responses",
+          "verification": "code_contains",
+          "pattern": "diary_lord"
+        }
+      ]
+    },
+    {
+      "id": "P2-13",
+      "phase": "phase-2",
+      "description": "Declare Library (declarations/rooms/library.tres)",
+      "priority": 1,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Major junction point -- Diamond #1 (attic key). 4 thread-variant interactables (library_globe, library_gears, binding_book, family_tree). Globe active on A-path, gears active on B-path. Source: docs/rooms/library/.",
+      "files": ["declarations/rooms/library.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/library.tres exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "library_globe and library_gears have thread_active or junction variants",
+          "verification": "code_contains",
+          "pattern": "globe"
+        },
+        {
+          "criteria": "4 thread-variant interactables defined",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P2-14",
+      "phase": "phase-2",
+      "description": "Declare Guest Room (declarations/rooms/guest_room.tres)",
+      "priority": 3,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Light thread variance. 1 thread-variant interactable (guest_ledger). Source: docs/rooms/guest_room/.",
+      "files": ["declarations/rooms/guest_room.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/guest_room.tres exists",
+          "verification": "file_exists"
+        }
+      ]
+    },
+    {
+      "id": "P2-15",
+      "phase": "phase-2",
+      "description": "Declare Storage Basement (declarations/rooms/storage_basement.tres)",
+      "priority": 3,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Light thread variance. 1 thread-variant interactable (scratched_portrait). Source: docs/rooms/storage_basement/.",
+      "files": ["declarations/rooms/storage_basement.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/storage_basement.tres exists",
+          "verification": "file_exists"
+        }
+      ]
+    },
+    {
+      "id": "P2-16",
+      "phase": "phase-2",
+      "description": "Declare Boiler Room (declarations/rooms/boiler_room.tres)",
+      "priority": 2,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Junction -- Swap Puzzle #2. Pipe valve (A) vs Electrical fuse (B). 2 thread-variant interactables (maintenance_log, boiler_observation). Source: docs/rooms/boiler_room/.",
+      "files": ["declarations/rooms/boiler_room.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/boiler_room.tres exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Swap puzzle interactables defined",
+          "verification": "code_contains",
+          "pattern": "valve"
+        }
+      ]
+    },
+    {
+      "id": "P2-17",
+      "phase": "phase-2",
+      "description": "Declare Wine Cellar (declarations/rooms/wine_cellar.tres)",
+      "priority": 2,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Junction -- Diamond #3 A-path. Wine note -> portrait key -> box -> confession. 1 thread-variant interactable (wine_box contents). Source: docs/rooms/wine_cellar/.",
+      "files": ["declarations/rooms/wine_cellar.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/wine_cellar.tres exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "wine_box interactable defined with thread variants",
+          "verification": "code_contains",
+          "pattern": "wine_box"
+        }
+      ]
+    },
+    {
+      "id": "P2-18",
+      "phase": "phase-2",
+      "description": "Declare Attic Stairwell (declarations/rooms/attic_stairs.tres)",
+      "priority": 3,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Phase transition point. Thread-neutral (same transition into Horror on all threads). Source: docs/rooms/attic_stairwell/.",
+      "files": ["declarations/rooms/attic_stairs.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/attic_stairs.tres exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Phase transition trigger to Horror defined in on_entry",
+          "verification": "code_contains",
+          "pattern": "horror"
+        }
+      ]
+    },
+    {
+      "id": "P2-19",
+      "phase": "phase-2",
+      "description": "Declare Attic Storage (declarations/rooms/attic_storage.tres)",
+      "priority": 1,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Major junction -- Diamond #2 (hidden key). Doll (A) vs Mask (B). 4 thread-variant interactables (elizabeth_portrait, porcelain_doll, elizabeth_letter, mask). Doll is progressive interaction. Source: docs/rooms/attic_storage/.",
+      "files": ["declarations/rooms/attic_storage.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/attic_storage.tres exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "porcelain_doll marked as progressive",
+          "verification": "code_contains",
+          "pattern": "progressive"
+        },
+        {
+          "criteria": "Mask interactable defined for B-path",
+          "verification": "code_contains",
+          "pattern": "mask"
+        }
+      ]
+    },
+    {
+      "id": "P2-20",
+      "phase": "phase-2",
+      "description": "Declare Hidden Chamber (declarations/rooms/hidden_chamber.tres)",
+      "priority": 1,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Endgame room. Thread defines ending. 3 thread-variant interactables (elizabeth_final_note, ritual_circle, chamber_drawings). Ritual circle is progressive (3-step sequence). Source: docs/rooms/hidden_chamber/.",
+      "files": ["declarations/rooms/hidden_chamber.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/hidden_chamber.tres exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "ritual_circle marked progressive with 3 steps",
+          "verification": "code_contains",
+          "pattern": "progressive"
+        },
+        {
+          "criteria": "elizabeth_final_note has thread_responses for all 3 threads",
+          "verification": "code_contains",
+          "pattern": "thread_responses"
+        }
+      ]
+    },
+    {
+      "id": "P2-21",
+      "phase": "phase-2",
+      "description": "Declare Garden (declarations/rooms/garden.tres)",
+      "priority": 2,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Junction -- Swap Puzzle #3 + Diamond #4 B-path. Fountain (A) vs Gazebo (B) swap. Lily yields jewelry key on B-path. Exterior room. Source: docs/rooms/garden/.",
+      "files": ["declarations/rooms/garden.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/garden.tres exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "is_exterior = true",
+          "verification": "code_contains",
+          "pattern": "is_exterior"
+        },
+        {
+          "criteria": "Fountain and gazebo interactables defined",
+          "verification": "code_contains",
+          "pattern": "fountain"
+        }
+      ]
+    },
+    {
+      "id": "P2-22",
+      "phase": "phase-2",
+      "description": "Declare Chapel (declarations/rooms/chapel.tres)",
+      "priority": 2,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Junction -- Diamond #5 B-path. Font yields gate key AND blessed water on B. 1 thread-variant interactable (baptismal_font). Exterior. Source: docs/rooms/chapel/.",
+      "files": ["declarations/rooms/chapel.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/chapel.tres exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "baptismal_font defined with also_gives for dual item yield",
+          "verification": "code_contains",
+          "pattern": "font"
+        }
+      ]
+    },
+    {
+      "id": "P2-23",
+      "phase": "phase-2",
+      "description": "Declare Greenhouse (declarations/rooms/greenhouse.tres)",
+      "priority": 3,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Junction -- Diamond #5 A-path (pot yields gate key). Default path, already designed. Exterior. Source: docs/rooms/greenhouse/.",
+      "files": ["declarations/rooms/greenhouse.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/greenhouse.tres exists",
+          "verification": "file_exists"
+        }
+      ]
+    },
+    {
+      "id": "P2-24",
+      "phase": "phase-2",
+      "description": "Declare Carriage House (declarations/rooms/carriage_house.tres)",
+      "priority": 3,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Junction -- Diamond #3 A-path (portrait yields cellar key). Exterior. Source: docs/rooms/carriage_house/.",
+      "files": ["declarations/rooms/carriage_house.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/carriage_house.tres exists",
+          "verification": "file_exists"
+        }
+      ]
+    },
+    {
+      "id": "P2-25",
+      "phase": "phase-2",
+      "description": "Declare Family Crypt (declarations/rooms/family_crypt.tres)",
+      "priority": 2,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "room_assembler",
+      "details": "Junction -- Diamond #4 A-path (flagstone yields jewelry key). 1 thread-variant interactable (crypt_graves). Exterior. Source: docs/rooms/family_crypt/.",
+      "files": ["declarations/rooms/family_crypt.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "declarations/rooms/family_crypt.tres exists",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "crypt_graves has thread variants",
+          "verification": "code_contains",
+          "pattern": "crypt"
+        }
+      ]
+    },
+    {
+      "id": "P2-26",
+      "phase": "phase-2",
+      "description": "Create all Item declarations (~30 items)",
+      "priority": 2,
+      "dependencies": ["P1-01"],
+      "agent_role": "room_assembler",
+      "details": "Create ItemDeclaration resources for all inventory items. Base items (~11): attic_key, hidden_key, cellar_key, jewelry_key, gate_key, porcelain_doll, binding_book, lock_of_hair, blessed_water, mothers_confession, elizabeth_final_note. Thread-variant items (~20): functional_slot equivalents for B-paths (gear_key fills attic_access_key slot, mask fills hidden_chamber_key slot, etc). Each item: item_id, name, description, category, functional_slot, thread_active, found_in_room, found_at_interactable, unlocks_interactable, is_ritual_component. Reference: docs/items/README.md, WEAVE_ARCHITECTURE.md content inventory.",
+      "files": [
+        "declarations/items/"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "All base items declared",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Thread-variant items have functional_slot matching base items",
+          "verification": "code_contains",
+          "pattern": "functional_slot"
+        },
+        {
+          "criteria": "Ritual components marked with is_ritual_component",
+          "verification": "code_contains",
+          "pattern": "is_ritual_component"
+        },
+        {
+          "criteria": "Each item has found_in_room and found_at_interactable",
+          "verification": "code_contains",
+          "pattern": "found_in_room"
+        }
+      ]
+    },
+    {
+      "id": "P2-27",
+      "phase": "phase-2",
+      "description": "Create all 6 Puzzle declarations",
+      "priority": 2,
+      "dependencies": ["P1-01"],
+      "agent_role": "room_assembler",
+      "details": "Create PuzzleDeclaration resources for the 6 main puzzles: attic_key_puzzle, hidden_chamber_puzzle, cellar_box_puzzle, jewelry_box_puzzle, crypt_gate_puzzle, counter_ritual_puzzle. Each has: steps (PuzzleStepDecl), sequential flag, requires_puzzles dependencies, completion_state, reward_states, reward_items, clue_chain, variation_points with text_variants for PRNG interpolation. Reference: docs/puzzles/README.md for step chains, WEAVE_PLAYTEST.md for junction mapping.",
+      "files": [
+        "declarations/puzzles/"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "All 6 puzzle declarations created",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Each puzzle has steps array",
+          "verification": "code_contains",
+          "pattern": "steps"
+        },
+        {
+          "criteria": "Dependency chain: counter_ritual requires all 5 others",
+          "verification": "code_contains",
+          "pattern": "requires_puzzles"
+        },
+        {
+          "criteria": "Variation points have text_variants for PRNG interpolation",
+          "verification": "code_contains",
+          "pattern": "text_variants"
+        }
+      ]
+    },
+    {
+      "id": "P2-28",
+      "phase": "phase-2",
+      "description": "Create 5 Ending declarations (3 positive + 2 negative)",
+      "priority": 2,
+      "dependencies": ["P1-01"],
+      "agent_role": "room_assembler",
+      "details": "Create EndingDecl resources: freedom (Captive positive), forgiveness (Mourning positive), acceptance (Sovereign positive), escape (negative shared), joined (negative shared). Each has: ending_id, trigger_condition, trigger_room (front_gate for freedom/escape, hidden_chamber for joined/acceptance/forgiveness), text_sequence (5 lines), timing, stinger_sfx. Reference: WEAVE_ARCHITECTURE.md ending structure.",
+      "files": [
+        "declarations/endings/"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "All 5 ending declarations created",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Each has trigger_condition and text_sequence",
+          "verification": "code_contains",
+          "pattern": "trigger_condition"
+        },
+        {
+          "criteria": "Positive endings linked to macro thread via ending_id",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P3-01",
+      "phase": "phase-3",
+      "description": "Write 3 MacroThread declarations (captive, mourning, sovereign)",
+      "priority": 1,
+      "dependencies": ["P1-01"],
+      "agent_role": "narrative_writer",
+      "details": "Create 3 MacroThread resources in world.tres macro_threads array. For each: thread_id, question, elizabeth_nature, house_nature, ending_id, diary_page_text, elizabeth_letter_text, elizabeth_final_note_text, ritual_sequence_texts. Captive: 'How do I free her?', trapped spirit, cage, freedom ending. Mourning: 'How do I honor her?', grieving soul, memorial, forgiveness ending. Sovereign: 'How do I understand her?', being of power, instrument, acceptance ending. Reference: WEAVE_ARCHITECTURE.md 'Three Layers' section for tone definitions.",
+      "files": [
+        "declarations/world.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "3 MacroThread resources defined",
+          "verification": "code_contains",
+          "pattern": "captive"
+        },
+        {
+          "criteria": "Each has diary_page_text (unique per thread)",
+          "verification": "code_contains",
+          "pattern": "diary_page_text"
+        },
+        {
+          "criteria": "Each has elizabeth_letter_text (unique per thread)",
+          "verification": "code_contains",
+          "pattern": "elizabeth_letter_text"
+        },
+        {
+          "criteria": "Each has ritual_sequence_texts (3 steps each)",
+          "verification": "code_contains",
+          "pattern": "ritual_sequence_texts"
+        }
+      ]
+    },
+    {
+      "id": "P3-02",
+      "phase": "phase-3",
+      "description": "Write Captive thread-variant texts for ~30 interactables",
+      "priority": 2,
+      "dependencies": ["P3-01"],
+      "agent_role": "narrative_writer",
+      "details": "Write thread_responses entries for the Captive thread across all rooms with thread variants. Tone: iron authority, confinement, keys, locks, cage imagery. The house is a prison. Elizabeth is trapped. Everything locked, sealed, stopped. ~30 interactables need Captive-specific response text. Reference: WEAVE_ARCHITECTURE.md 'Captive Thread' narrative walk-through, WEAVE_BALANCE.md per-room content map for which interactables need variants.",
+      "files": [
+        "declarations/rooms/*.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "All thread-variant interactables in WEAVE_BALANCE have captive responses",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Captive tone consistent: confinement, locks, iron, cage",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P3-03",
+      "phase": "phase-3",
+      "description": "Write Mourning thread-variant texts for ~30 interactables",
+      "priority": 2,
+      "dependencies": ["P3-01"],
+      "agent_role": "narrative_writer",
+      "details": "Write thread_responses entries for the Mourning thread. Tone: preserved grief, frozen time, faded grandeur, untouched objects, unsent letters. The house is a memorial. Elizabeth is a grieving soul. Reference: WEAVE_ARCHITECTURE.md 'Mourning Thread' narrative, WEAVE_BALANCE.md per-room content map.",
+      "files": [
+        "declarations/rooms/*.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "All thread-variant interactables have mourning responses",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Mourning tone consistent: grief, preservation, frozen time",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P3-04",
+      "phase": "phase-3",
+      "description": "Write Sovereign thread-variant texts for ~30 interactables",
+      "priority": 2,
+      "dependencies": ["P3-01"],
+      "agent_role": "narrative_writer",
+      "details": "Write thread_responses entries for the Sovereign thread. Tone: alive house, breathing lamps, watching mirrors, mechanisms, control, sentience. The house is her instrument. Elizabeth is a being of power. Reference: WEAVE_ARCHITECTURE.md 'Sovereign Thread' narrative, WEAVE_BALANCE.md per-room content map.",
+      "files": [
+        "declarations/rooms/*.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "All thread-variant interactables have sovereign responses",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Sovereign tone consistent: power, sentience, control, alive house",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P3-05",
+      "phase": "phase-3",
+      "description": "Write 3 diary page texts (one per macro thread)",
+      "priority": 1,
+      "dependencies": ["P3-01"],
+      "agent_role": "narrative_writer",
+      "details": "The diary page in the parlor is the first major clue -- sets the emotional tone for the entire playthrough. Captive: 'I locked the door. She cannot leave.' (control, guilt). Mourning: 'I hear her crying through the walls.' (grief, helplessness). Sovereign: 'She won't stop looking at me.' (fear of power). These go in MacroThread.diary_page_text. Each ~100-200 words, in Lord Ashworth's voice.",
+      "files": ["declarations/world.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "3 distinct diary texts written",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Each establishes different emotional framing",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "In Lord Ashworth's voice, period-appropriate language",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P3-06",
+      "phase": "phase-3",
+      "description": "Write 3 Elizabeth letter texts (one per macro thread)",
+      "priority": 1,
+      "dependencies": ["P3-01"],
+      "agent_role": "narrative_writer",
+      "details": "Found in attic storage. Elizabeth's voice, a child writing about her experience. Captive: the doll listens, she can't leave, asking to be found. Mourning: the doll is her only friend, she forgives them, asking for understanding. Sovereign: the doll is a tool, she chose this, explaining her power. Each ~200-300 words.",
+      "files": ["declarations/world.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "3 distinct letter texts written",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "In Elizabeth's child voice",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P3-07",
+      "phase": "phase-3",
+      "description": "Write 3 Elizabeth final note texts (one per macro thread)",
+      "priority": 1,
+      "dependencies": ["P3-01"],
+      "agent_role": "narrative_writer",
+      "details": "Found in hidden chamber. The revelation that defines the ending. Captive: 'Find me. Free me. Or join me.' Mourning: 'Forgive them. Forgive me.' Sovereign: 'I chose this. Understand why.' Each ~150-250 words. These are the emotional climax of each thread.",
+      "files": ["declarations/world.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "3 distinct final note texts written",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Each sets up its thread's ending ritual",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P3-08",
+      "phase": "phase-3",
+      "description": "Write 3 ritual sequence texts (one per macro thread)",
+      "priority": 2,
+      "dependencies": ["P3-01"],
+      "agent_role": "narrative_writer",
+      "details": "The 3-step ritual at the ritual circle. Captive (Reversal): place doll, pour water, read book -- 'Elizabeth Ashworth. Born in light. Free.' Mourning (Forgiveness): place 3 documents, read each -- 'They were afraid. She was alone. But she forgives.' Sovereign (Acceptance): place mask, touch drawings, speak name -- 'I chose this. The house has eyes because I gave it eyes.' Each step has narration text. 3 texts per step x 3 steps = 9 texts.",
+      "files": ["declarations/world.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "Each thread has 3 ritual step texts",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "ritual_sequence_texts in MacroThread has 3+ entries each",
+          "verification": "code_contains",
+          "pattern": "ritual_sequence_texts"
+        }
+      ]
+    },
+    {
+      "id": "P3-09",
+      "phase": "phase-3",
+      "description": "Write Freedom ending text (Captive positive, 5 lines)",
+      "priority": 2,
+      "dependencies": ["P2-28"],
+      "agent_role": "narrative_writer",
+      "details": "The cage opens. Light floods in. She leaves. 5 lines shown sequentially with timing. Triumphant, cathartic. Counter-magic liberates her.",
+      "files": ["declarations/endings/freedom.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "5 lines of ending text written",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Tone: liberation, light, freedom",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P3-10",
+      "phase": "phase-3",
+      "description": "Write Forgiveness ending text (Mourning positive, 5 lines)",
+      "priority": 2,
+      "dependencies": ["P2-28"],
+      "agent_role": "narrative_writer",
+      "details": "Documents burn. Drawings fade. Peace. 5 lines. Reconciliatory, quiet.",
+      "files": ["declarations/endings/forgiveness.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "5 lines of ending text written",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Tone: peace, forgiveness, letting go",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P3-11",
+      "phase": "phase-3",
+      "description": "Write Acceptance ending text (Sovereign positive, 5 lines)",
+      "priority": 2,
+      "dependencies": ["P2-28"],
+      "agent_role": "narrative_writer",
+      "details": "Drawings GLOW instead of fading. She doesn't leave. She welcomes you. 5 lines. Awe, understanding.",
+      "files": ["declarations/endings/acceptance.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "5 lines of ending text written",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Tone: power, acceptance, home",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P3-12",
+      "phase": "phase-3",
+      "description": "Write Escape ending text (shared negative, 5 lines)",
+      "priority": 3,
+      "dependencies": ["P2-28"],
+      "agent_role": "narrative_writer",
+      "details": "Player flees without completing ritual. Door slams. Finality. Available on all threads.",
+      "files": ["declarations/endings/escape.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "5 lines of ending text written",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P3-13",
+      "phase": "phase-3",
+      "description": "Write Joined ending text (shared negative, 5 lines)",
+      "priority": 3,
+      "dependencies": ["P2-28"],
+      "agent_role": "narrative_writer",
+      "details": "Player becomes trapped with Elizabeth. Dark. Available on all threads.",
+      "files": ["declarations/endings/joined.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "5 lines of ending text written",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P4-01",
+      "phase": "phase-4",
+      "description": "Create 9 JunctionDecl resources (6 diamonds + 3 swaps)",
+      "priority": 1,
+      "dependencies": ["P1-01", "P2-01"],
+      "agent_role": "puzzle_designer",
+      "details": "Create JunctionDecl resources in world.tres junctions array. 6 diamonds: attic_access (globe/gears), hidden_chamber (doll/mask), cellar_box (portrait/hearth), jewelry_box (crypt/lily), crypt_gate (greenhouse/chapel), counter_ritual (reversal/forgiveness). 3 swaps: foyer_swap (clock/mirror), boiler_swap (pipes/electrical), garden_swap (fountain/gazebo). Each has: junction_id, junction_type, functional_slot, variant_a (VariantDecl), variant_b (VariantDecl), macro_preference dict. Reference: WEAVE_PLAYTEST.md junction map.",
+      "files": ["declarations/world.tres"],
+      "completion_criteria": [
+        {
+          "criteria": "9 JunctionDecl resources defined",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Each has variant_a and variant_b with VariantDecl",
+          "verification": "code_contains",
+          "pattern": "variant_a"
+        },
+        {
+          "criteria": "macro_preference set for each junction",
+          "verification": "code_contains",
+          "pattern": "macro_preference"
+        },
+        {
+          "criteria": "functional_slot matches across A/B variants",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P4-02",
+      "phase": "phase-4",
+      "description": "Implement Diamond #1: Globe puzzle (A) + Gear puzzle (B) for attic key",
+      "priority": 1,
+      "dependencies": ["P4-01", "P2-13"],
+      "agent_role": "puzzle_designer",
+      "details": "Globe A-path: diary clue -> tap globe -> key. Gear B-path: study desk note -> arrange 3 gears smallest-to-largest -> drawer opens -> key. Both yield functional_slot='attic_access_key'. Add PuzzleStepDecl entries to VariantDecl. Add interactable responses and progression. Reference: WEAVE_PLAYTEST.md Junction 1.",
+      "files": [
+        "declarations/rooms/library.tres",
+        "declarations/world.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "Globe A-path: tap gives item with attic_access_key slot",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Gear B-path: 3-step arrangement puzzle defined",
+          "verification": "code_contains",
+          "pattern": "gear"
+        },
+        {
+          "criteria": "Both variants produce same functional_slot",
+          "verification": "code_contains",
+          "pattern": "attic_access_key"
+        }
+      ]
+    },
+    {
+      "id": "P4-03",
+      "phase": "phase-4",
+      "description": "Implement Diamond #2: Doll puzzle (A) + Mask puzzle (B) for hidden key",
+      "priority": 1,
+      "dependencies": ["P4-01", "P2-19"],
+      "agent_role": "puzzle_designer",
+      "details": "Doll A-path: read letter -> interact doll twice -> key extracted. Progressive interaction (3 steps). Mask B-path: take mask from wall -> place on hand-shaped lock -> door opens. Both yield functional_slot='hidden_chamber_key'. Reference: WEAVE_PLAYTEST.md Junction 2.",
+      "files": [
+        "declarations/rooms/attic_storage.tres",
+        "declarations/world.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "Doll progressive steps defined",
+          "verification": "code_contains",
+          "pattern": "progression_steps"
+        },
+        {
+          "criteria": "Mask pickup and placement interaction defined",
+          "verification": "code_contains",
+          "pattern": "mask"
+        },
+        {
+          "criteria": "Both yield hidden_chamber_key slot",
+          "verification": "code_contains",
+          "pattern": "hidden_chamber_key"
+        }
+      ]
+    },
+    {
+      "id": "P4-04",
+      "phase": "phase-4",
+      "description": "Implement Diamond #3: Portrait trail (A) + Hearth flagstone (B) for cellar key",
+      "priority": 2,
+      "dependencies": ["P4-01", "P2-10", "P2-17", "P2-24"],
+      "agent_role": "puzzle_designer",
+      "details": "Portrait A-path: wine note -> find portrait in carriage house -> key behind frame. Hearth B-path: cook's note extra line -> examine kitchen hearth -> loose flagstone -> key. Reference: WEAVE_PLAYTEST.md Junction 3.",
+      "files": [
+        "declarations/rooms/wine_cellar.tres",
+        "declarations/rooms/carriage_house.tres",
+        "declarations/rooms/kitchen.tres",
+        "declarations/world.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "A-path clue chain: wine note -> carriage portrait -> key",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "B-path clue chain: cook note -> hearth flagstone -> key",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Both yield cellar_box_key slot",
+          "verification": "code_contains",
+          "pattern": "cellar_box_key"
+        }
+      ]
+    },
+    {
+      "id": "P4-05",
+      "phase": "phase-4",
+      "description": "Implement Diamond #4: Crypt flagstone (A) + Garden lily (B) for jewelry key",
+      "priority": 2,
+      "dependencies": ["P4-01", "P2-21", "P2-25"],
+      "agent_role": "puzzle_designer",
+      "details": "Crypt A-path: Lady's note -> loose flagstone in crypt -> key. Garden B-path: examine white lily -> dig -> brass key in soil. Reference: WEAVE_PLAYTEST.md Junction 4.",
+      "files": [
+        "declarations/rooms/family_crypt.tres",
+        "declarations/rooms/garden.tres",
+        "declarations/world.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "Both variants produce jewelry_box_key slot",
+          "verification": "code_contains",
+          "pattern": "jewelry_box_key"
+        }
+      ]
+    },
+    {
+      "id": "P4-06",
+      "phase": "phase-4",
+      "description": "Implement Diamond #5: Greenhouse pot (A) + Chapel font (B) for gate key",
+      "priority": 2,
+      "dependencies": ["P4-01", "P2-22", "P2-23"],
+      "agent_role": "puzzle_designer",
+      "details": "Greenhouse A-path: terra cotta pot -> key in soil. Chapel B-path: reach into font -> key at bottom (ALSO gives blessed water -- dual item yield). Reference: WEAVE_PLAYTEST.md Junction 5.",
+      "files": [
+        "declarations/rooms/greenhouse.tres",
+        "declarations/rooms/chapel.tres",
+        "declarations/world.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "Both produce crypt_gate_key slot",
+          "verification": "code_contains",
+          "pattern": "crypt_gate_key"
+        },
+        {
+          "criteria": "Chapel B-path also_gives blessed_water",
+          "verification": "code_contains",
+          "pattern": "also_gives"
+        }
+      ]
+    },
+    {
+      "id": "P4-07",
+      "phase": "phase-4",
+      "description": "Implement Diamond #6: Ritual of Reversal (A) + Ritual of Forgiveness (B) for ending",
+      "priority": 1,
+      "dependencies": ["P4-01", "P2-20", "P3-08"],
+      "agent_role": "puzzle_designer",
+      "details": "Reversal A: 6 components (doll, book, water, hair, confession, note) -> 3-step sequence at ritual circle (place, pour, read). Forgiveness B: 4 components (confession, diary, letter, doll) -> place 3 documents around doll -> read each. Progressive interaction on ritual_circle with different step configurations per variant. Reference: WEAVE_PLAYTEST.md Junction 6.",
+      "files": [
+        "declarations/rooms/hidden_chamber.tres",
+        "declarations/world.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "Reversal A has 3 progression steps with 6 required items",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Forgiveness B has 3 progression steps with 4 required items",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Both variants set freed_elizabeth state",
+          "verification": "code_contains",
+          "pattern": "freed_elizabeth"
+        }
+      ]
+    },
+    {
+      "id": "P4-08",
+      "phase": "phase-4",
+      "description": "Implement Swap #1: Foyer clock puzzle (A) + mirror puzzle (B)",
+      "priority": 3,
+      "dependencies": ["P4-01", "P2-07"],
+      "agent_role": "puzzle_designer",
+      "details": "Clock A: tap clock face -> move hands -> set to clue time -> hidden compartment -> flavor item. Mirror B: tap mirror at specific state -> Elizabeth reflected -> tap sequence -> mirror swings open -> hidden letter. Self-contained, no main puzzle chain impact. Reference: WEAVE_PLAYTEST.md Swap 1.",
+      "files": [
+        "declarations/rooms/foyer.tres",
+        "declarations/world.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "Clock puzzle A variant defined with step interaction",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Mirror puzzle B variant defined with tap sequence",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Neither affects main puzzle chain (reward is flavor only)",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P4-09",
+      "phase": "phase-4",
+      "description": "Implement Swap #2: Boiler room pipe valve (A) + electrical panel (B)",
+      "priority": 3,
+      "dependencies": ["P4-01", "P2-16"],
+      "agent_role": "puzzle_designer",
+      "details": "Pipes A: 3 valves turned in sequence (listen for pitch changes) -> pipes carry Elizabeth's voice -> bonus dialogue. Electrical B: rearrange fuses in fuse box -> restore power -> lights reveal hidden details. Self-contained. Reference: WEAVE_PLAYTEST.md Swap 2.",
+      "files": [
+        "declarations/rooms/boiler_room.tres",
+        "declarations/world.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "Pipe valve sequence puzzle defined",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Electrical fuse puzzle defined",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P4-10",
+      "phase": "phase-4",
+      "description": "Implement Swap #3: Garden fountain (A) + gazebo lattice (B)",
+      "priority": 3,
+      "dependencies": ["P4-01", "P2-21"],
+      "agent_role": "puzzle_designer",
+      "details": "Fountain A: thaw ice with warm item -> read inscription -> clue. Gazebo B: stand at specific spot -> vine pattern reveals symbol -> same clue. Both deliver the same clue differently. Self-contained. Reference: WEAVE_PLAYTEST.md Swap 3.",
+      "files": [
+        "declarations/rooms/garden.tres",
+        "declarations/world.tres"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "Fountain thaw interaction defined",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Gazebo perspective puzzle defined",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Both deliver equivalent clue",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P4-11",
+      "phase": "phase-4",
+      "description": "Implement PRNG junction resolution with macro_preference",
+      "priority": 1,
+      "dependencies": ["P1-09", "P4-01"],
+      "agent_role": "puzzle_designer",
+      "details": "Extend prng_engine.gd to resolve the full junction set: 1) Seed -> macro thread selection (3-way). 2) For each of 9 junctions, use macro_preference[current_thread] as default. 3) On repeat playthroughs of same thread, PRNG can flip some junctions for variety (controlled flip probability). 4) Patch all affected room declarations: set interactables_active/static, swap clue_overrides, update gives_item references. 5) Validate all flips against constraint graph. Total: 3 macro x 2 puzzle paths x 8 swap combos = 48 configurations.",
+      "files": ["engine/prng_engine.gd"],
+      "completion_criteria": [
+        {
+          "criteria": "Resolves macro thread from seed",
+          "verification": "code_contains",
+          "pattern": "macro_thread"
+        },
+        {
+          "criteria": "Resolves 9 junctions with macro_preference",
+          "verification": "code_contains",
+          "pattern": "macro_preference"
+        },
+        {
+          "criteria": "Patches room declarations with resolution",
+          "verification": "code_contains",
+          "pattern": "patch"
+        },
+        {
+          "criteria": "Supports flip probability for repeat playthroughs",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P4-12",
+      "phase": "phase-4",
+      "description": "Implement constraint validation (dependency graph, solvability check)",
+      "priority": 1,
+      "dependencies": ["P1-09", "P4-11"],
+      "agent_role": "puzzle_designer",
+      "details": "Build puzzle dependency graph validator: 1) For each PRNG configuration, build directed graph of puzzle dependencies. 2) Verify no cycles. 3) Verify all prerequisites are achievable (no items locked behind their own door). 4) Verify counter-ritual has access to all required components. 5) Reject configurations that create impossible or trivial games. 6) Log validation results. This is PuzzleVariation.constraint enforcement. Run for all 48 configurations.",
+      "files": ["engine/prng_engine.gd"],
+      "completion_criteria": [
+        {
+          "criteria": "Builds and validates dependency graph",
+          "verification": "code_contains",
+          "pattern": "dependency"
+        },
+        {
+          "criteria": "Detects cycles in puzzle chains",
+          "verification": "code_contains",
+          "pattern": "cycle"
+        },
+        {
+          "criteria": "Validates all 48 configurations",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Rejects invalid configurations",
+          "verification": "code_contains",
+          "pattern": "reject"
+        }
+      ]
+    },
+    {
+      "id": "P5-01",
+      "phase": "phase-5",
+      "description": "Wire godot-psx (global dither + fade + sky shader)",
+      "priority": 1,
+      "dependencies": ["P1-11"],
+      "agent_role": "integration",
+      "details": "Ensure psx_dither.gdshader applied globally via SubViewportContainer in main.tscn. Wire psx_fade.gdshader for room transitions (controlled by room_assembler). Wire psx_sky.gdshader to WorldEnvironment for exterior rooms. Reference: ENGINE_SPEC.md addon integration section 1.",
+      "files": ["scenes/main.tscn"],
+      "completion_criteria": [
+        {
+          "criteria": "PSX dither applied globally",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Room transitions use PSX fade",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Sky shader visible in exterior rooms",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P5-02",
+      "phase": "phase-5",
+      "description": "Wire godot_dialogue_manager (generate .dialogue from declarations)",
+      "priority": 1,
+      "dependencies": ["P1-04"],
+      "agent_role": "integration",
+      "details": "Generate .dialogue files from room declarations. For each InteractableDecl with responses, create dialogue entries with conditional branches. Custom balloon scene with Cinzel (titles) + Cormorant (body). Reference: ENGINE_SPEC.md addon integration section 2.",
+      "files": [
+        "engine/dialogue_generator.gd"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": ".dialogue files generated from declarations",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Custom balloon scene uses correct fonts",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P5-03",
+      "phase": "phase-5",
+      "description": "Wire gloot inventory (ProtoTree from ItemDeclarations)",
+      "priority": 1,
+      "dependencies": ["P2-26"],
+      "agent_role": "integration",
+      "details": "On startup, read all ItemDeclaration files and create gloot ProtoTree item prototypes. When InteractableDecl has gives_item, call gloot-backed give_item. Inventory UI in pause menu reads from gloot Inventory. Reference: ENGINE_SPEC.md addon integration section 3.",
+      "files": [
+        "engine/inventory_bridge.gd"
+      ],
+      "completion_criteria": [
+        {
+          "criteria": "ProtoTree populated from ItemDeclarations",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Items given through interaction_engine work with gloot",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P5-04",
+      "phase": "phase-5",
+      "description": "Wire AdaptiSound (3-layer audio per room)",
+      "priority": 2,
+      "dependencies": ["P1-07"],
+      "agent_role": "integration",
+      "details": "Connect audio_engine.gd to AdaptiSound addon. Base ambient layer from room ambient_loop, tension layer from tension_loop activated by elizabeth_aware, SFX through play_sfx. Reference: ENGINE_SPEC.md addon integration section 4, AUDIO_WIRING_PLAN.md.",
+      "files": ["engine/audio_engine.gd"],
+      "completion_criteria": [
+        {
+          "criteria": "3 audio layers functional",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Tension layer activates on elizabeth_aware",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P5-05",
+      "phase": "phase-5",
+      "description": "Wire godot-material-footsteps (9 surface types)",
+      "priority": 2,
+      "dependencies": ["P1-03"],
+      "agent_role": "integration",
+      "details": "Room assembler tags floor collision with footstep_surface metadata from RoomDeclaration. MaterialFootstepPlayer3D on player reads metadata and plays matching audio. 9 surfaces: marble, wood_parquet, stone, metal_grate, rough_wood, carpet, dirt, grass, gravel. Reference: ENGINE_SPEC.md addon integration section 5, AUDIO_WIRING_PLAN.md section 10.",
+      "files": ["engine/room_assembler.gd"],
+      "completion_criteria": [
+        {
+          "criteria": "Floor collision tagged with footstep_surface",
+          "verification": "code_contains",
+          "pattern": "footstep_surface"
+        },
+        {
+          "criteria": "9 surface types mapped to audio directories",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P5-06",
+      "phase": "phase-5",
+      "description": "Wire phantom-camera (inspection + room reveal)",
+      "priority": 3,
+      "dependencies": ["P1-03"],
+      "agent_role": "integration",
+      "details": "For interactables with types painting/note/photo on walls, place inspection PhantomCamera3D. On interact: priority 20. On dismiss: priority 0. For rooms with show_room_name entry trigger, create RoomReveal camera sweep. Reference: ENGINE_SPEC.md addon integration section 6.",
+      "files": ["engine/room_assembler.gd", "engine/interaction_engine.gd"],
+      "completion_criteria": [
+        {
+          "criteria": "Wall-mounted interactables get inspection camera",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Room reveal sweep on first entry",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P5-07",
+      "phase": "phase-5",
+      "description": "Wire limboai HSM (game phases + Elizabeth sub-HSM)",
+      "priority": 1,
+      "dependencies": ["P1-06"],
+      "agent_role": "integration",
+      "details": "Build LimboHSM at runtime from WorldDeclaration phases, phase_transitions, elizabeth_states, elizabeth_transitions. Phase changes drive: tension volume, flicker intensity, Elizabeth presence effects. Reference: ENGINE_SPEC.md addon integration section 10.",
+      "files": ["engine/state_machine.gd"],
+      "completion_criteria": [
+        {
+          "criteria": "LimboHSM built from declarations",
+          "verification": "code_contains",
+          "pattern": "LimboHSM"
+        },
+        {
+          "criteria": "Phase changes affect audio and lighting",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P5-08",
+      "phase": "phase-5",
+      "description": "Wire shaky-camera-3d (shake profiles from ActionDecl)",
+      "priority": 3,
+      "dependencies": ["P1-08"],
+      "agent_role": "integration",
+      "details": "trigger_engine applies camera_shake from ActionDecl. Profiles: 0.02=subtle, 0.1=discovery, 0.3=horror, 0.5=ritual. Checks AccessibilityDecl.camera_shake_enabled before applying. Reference: ENGINE_SPEC.md addon integration section 7.",
+      "files": ["engine/trigger_engine.gd"],
+      "completion_criteria": [
+        {
+          "criteria": "Camera shake applied from ActionDecl.camera_shake",
+          "verification": "code_contains",
+          "pattern": "camera_shake"
+        },
+        {
+          "criteria": "Respects accessibility toggle",
+          "verification": "code_contains",
+          "pattern": "camera_shake_enabled"
+        }
+      ]
+    },
+    {
+      "id": "P5-09",
+      "phase": "phase-5",
+      "description": "Wire quest-system (auto-generate from PuzzleDeclaration)",
+      "priority": 3,
+      "dependencies": ["P2-27"],
+      "agent_role": "integration",
+      "details": "Each PuzzleDeclaration auto-generates a Quest resource. Quest starts when first step's required_state is evaluable. Quest completes on completion_state. Quest progress shown in pause menu. Reference: ENGINE_SPEC.md addon integration section 8.",
+      "files": ["engine/puzzle_engine.gd"],
+      "completion_criteria": [
+        {
+          "criteria": "Quests auto-generated from puzzle declarations",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Quest progress tracks puzzle steps",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P5-10",
+      "phase": "phase-5",
+      "description": "Wire SaveMadeEasy (serialize StateSchema + PRNG seed)",
+      "priority": 2,
+      "dependencies": ["P1-06"],
+      "agent_role": "integration",
+      "details": "All state variables from StateSchema serialized on save. Current room, player position, inventory (via gloot), quest states, PRNG seed all saved. Auto-save on room transitions. Reference: ENGINE_SPEC.md addon integration section 9.",
+      "files": ["engine/state_machine.gd"],
+      "completion_criteria": [
+        {
+          "criteria": "Save includes all StateSchema variables",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "PRNG seed preserved across save/load",
+          "verification": "code_contains",
+          "pattern": "prng_seed"
+        },
+        {
+          "criteria": "Auto-save on room transition",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P5-11",
+      "phase": "phase-5",
+      "description": "Generate tests from declarations (run test_generator.gd)",
+      "priority": 1,
+      "dependencies": ["P1-10", "P2-01"],
+      "agent_role": "test_qa",
+      "details": "Run test_generator.gd against all declarations to produce gdUnit4 test scripts. Cover: room structure (interactable IDs, connection targets, light count), puzzle chains (step simulation), connection bidirectionality, PRNG seed validation, ending trigger conditions. Reference: ENGINE_SPEC.md 'Test Generator' section.",
+      "files": ["test/generated/"],
+      "completion_criteria": [
+        {
+          "criteria": "Test scripts generated for all 20 rooms",
+          "verification": "file_exists"
+        },
+        {
+          "criteria": "Tests cover interactable presence, connections, lighting",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Puzzle chain simulation tests exist",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P5-12",
+      "phase": "phase-5",
+      "description": "Validate all 48 configurations (3 threads x 2 paths x 8 swaps)",
+      "priority": 1,
+      "dependencies": ["P4-12", "P5-11"],
+      "agent_role": "test_qa",
+      "details": "Run PRNG engine with seeds that produce all 48 configurations. For each: verify all puzzles solvable, all items reachable, all endings achievable, no dead ends. Log each configuration's junction resolution and validation result.",
+      "files": ["test/e2e/validate_configurations.gd"],
+      "completion_criteria": [
+        {
+          "criteria": "All 48 configurations validated",
+          "verification": "command",
+          "command": "godot --headless --script test/e2e/validate_configurations.gd"
+        },
+        {
+          "criteria": "Zero dead-end configurations",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Validation log shows 48/48 pass",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P5-13",
+      "phase": "phase-5",
+      "description": "Validate bidirectional connections (34 connections)",
+      "priority": 2,
+      "dependencies": ["P2-04"],
+      "agent_role": "test_qa",
+      "details": "For every Connection A->B, verify B->A exists. Check position_in_to matches spawn expectations. Check locked/key_id consistency between directions.",
+      "files": ["test/generated/"],
+      "completion_criteria": [
+        {
+          "criteria": "All 34 connections have bidirectional pair",
+          "verification": "command",
+          "command": "godot --headless --script test/e2e/validate_connections.gd"
+        }
+      ]
+    },
+    {
+      "id": "P5-14",
+      "phase": "phase-5",
+      "description": "Validate puzzle dependency graph per thread",
+      "priority": 2,
+      "dependencies": ["P4-12"],
+      "agent_role": "test_qa",
+      "details": "For each macro thread, verify the puzzle dependency graph has no unreachable nodes. The counter-ritual requires 5 other puzzles; each of those has prerequisites. Verify the full chain is satisfiable for both A and B puzzle paths.",
+      "files": ["test/generated/"],
+      "completion_criteria": [
+        {
+          "criteria": "Dependency graph has no unreachable nodes per thread",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Counter-ritual prerequisites achievable on all paths",
+          "verification": "manual_review"
+        }
+      ]
+    },
+    {
+      "id": "P5-15",
+      "phase": "phase-5",
+      "description": "Run headless E2E test suite",
+      "priority": 1,
+      "dependencies": ["P5-11", "P5-12", "P5-13"],
+      "agent_role": "test_qa",
+      "details": "Run the full test suite headless. Current test has 57 assertions. New engine tests will add room structure, puzzle, connection, PRNG validation. All must pass.",
+      "files": ["test/e2e/run_e2e.gd"],
+      "completion_criteria": [
+        {
+          "criteria": "All tests pass",
+          "verification": "command",
+          "command": "godot --headless --script test/e2e/run_e2e.gd"
+        },
+        {
+          "criteria": "Exit code 0",
+          "verification": "command",
+          "command": "godot --headless --script test/e2e/run_e2e.gd; echo $?"
+        }
+      ]
+    },
+    {
+      "id": "P5-16",
+      "phase": "phase-5",
+      "description": "Android APK build + smoke test",
+      "priority": 3,
+      "dependencies": ["P5-15"],
+      "agent_role": "test_qa",
+      "details": "Build Android APK using export preset. Verify it installs on emulator, launches, shows front gate, player can navigate to foyer. Smoke test only -- full QA is separate.",
+      "files": ["export_presets.cfg"],
+      "completion_criteria": [
+        {
+          "criteria": "APK builds without error",
+          "verification": "command",
+          "command": "godot --headless --export-release Android"
+        },
+        {
+          "criteria": "APK installs on emulator",
+          "verification": "manual_review"
+        },
+        {
+          "criteria": "Game launches and front gate loads",
+          "verification": "manual_review"
+        }
+      ]
+    }
+  ]
+}
