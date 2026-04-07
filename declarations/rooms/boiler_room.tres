@@ -9,6 +9,24 @@
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
 [ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
 [ext_resource type="Script" path="res://engine/declarations/progression_step.gd" id="9"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="10"]
+
+[sub_resource type="Resource" id="anchor_entry_storage"]
+script = ExtResource("10")
+anchor_id = "entry_storage"
+anchor_type = "entry"
+position = Vector3(-1.55, 0, 0.15)
+rotation_y = 62.0
+target_anchor_id = "focus_boiler_core"
+tags = PackedStringArray("default", "storage")
+
+[sub_resource type="Resource" id="anchor_focus_boiler_core"]
+script = ExtResource("10")
+anchor_id = "focus_boiler_core"
+anchor_type = "focal"
+position = Vector3(0.25, 1.35, 3.15)
+rotation_y = 0.0
+tags = PackedStringArray("boiler", "heat")
 
 ; === Maintenance Log Responses ===
 
@@ -423,6 +441,8 @@ reverb_bus = "Dungeon"
 footstep_surface = "metal_grate"
 spawn_position = Vector3(-2, 0, 0)
 spawn_rotation_y = 90.0
+entry_anchors = Array[Resource]([SubResource("anchor_entry_storage")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_boiler_core")])
 interactables = Array[Resource]([SubResource("inter_log"), SubResource("inter_boiler"), SubResource("inter_clock"), SubResource("inter_pipe_valves"), SubResource("inter_electrical"), SubResource("inter_mask")])
 lights = Array[Resource]([SubResource("light_boiler"), SubResource("light_panel")])
 props = Array[Resource]([SubResource("prop_boiler"), SubResource("prop_pipes_ceiling"), SubResource("prop_pipe_mid"), SubResource("prop_pipe_curve"), SubResource("prop_valve"), SubResource("prop_machinery_l"), SubResource("prop_machinery_r"), SubResource("prop_machinery_back"), SubResource("prop_electrical_box"), SubResource("prop_electrical_aux"), SubResource("prop_workbench"), SubResource("prop_toolbox"), SubResource("prop_wrench_1"), SubResource("prop_wrench_2"), SubResource("prop_hammer"), SubResource("prop_barrel_1"), SubResource("prop_barrel_2"), SubResource("prop_jerrycan"), SubResource("prop_gear_1"), SubResource("prop_gear_2"), SubResource("prop_gear_3")])

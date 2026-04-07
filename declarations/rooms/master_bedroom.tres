@@ -8,6 +8,24 @@
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
 [ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="9"]
+
+[sub_resource type="Resource" id="anchor_entry_hall"]
+script = ExtResource("9")
+anchor_id = "entry_hall"
+anchor_type = "entry"
+position = Vector3(3.1, 0, 0.2)
+rotation_y = 254.0
+target_anchor_id = "focus_bed_axis"
+tags = PackedStringArray("default", "hall")
+
+[sub_resource type="Resource" id="anchor_focus_bed_axis"]
+script = ExtResource("9")
+anchor_id = "focus_bed_axis"
+anchor_type = "focal"
+position = Vector3(-1.5, 1.1, -0.2)
+rotation_y = 270.0
+tags = PackedStringArray("bed", "diary")
 
 ; === Diary Responses (shared/default) ===
 
@@ -375,6 +393,8 @@ reverb_bus = "Room"
 footstep_surface = "carpet"
 spawn_position = Vector3(4, 0, 0)
 spawn_rotation_y = 270.0
+entry_anchors = Array[Resource]([SubResource("anchor_entry_hall")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_bed_axis")])
 interactables = Array[Resource]([SubResource("inter_diary"), SubResource("inter_mirror"), SubResource("inter_jewelry"), SubResource("inter_bed"), SubResource("inter_book"), SubResource("inter_wardrobe"), SubResource("inter_broken_bottle")])
 lights = Array[Resource]([SubResource("light_window"), SubResource("light_candle")])
 props = Array[Resource]([SubResource("prop_bed"), SubResource("prop_wardrobe"), SubResource("prop_chair"), SubResource("prop_nightstand"), SubResource("prop_rug"), SubResource("prop_lamp"), SubResource("prop_luggage"), SubResource("prop_soap"), SubResource("prop_bottle"), SubResource("prop_broken_bottle"), SubResource("prop_candle_holder_left"), SubResource("prop_candle_holder_right"), SubResource("prop_book0"), SubResource("prop_book1"), SubResource("prop_openbook")])

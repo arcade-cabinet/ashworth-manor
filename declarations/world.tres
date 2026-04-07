@@ -347,6 +347,8 @@ type = "door"
 position_in_from = Vector3(-2, 1.2, -1)
 position_in_to = Vector3(4, 0, 0)
 spawn_rotation_y = 270.0
+to_anchor_id = "entry_hall"
+focal_anchor_id = "focus_bed_axis"
 door_texture = "res://assets/shared/textures/retro/door_texture_04.png"
 
 [sub_resource type="Resource" id="conn_master_bedroom_to_upper_hallway"]
@@ -531,6 +533,8 @@ type = "door"
 position_in_from = Vector3(4, 1.2, 0)
 position_in_to = Vector3(-2, 0, 0)
 spawn_rotation_y = 90.0
+to_anchor_id = "entry_storage"
+focal_anchor_id = "focus_boiler_core"
 
 [sub_resource type="Resource" id="conn_boiler_room_to_storage_basement"]
 script = ExtResource("3")

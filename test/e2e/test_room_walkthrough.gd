@@ -85,6 +85,7 @@ func _setup() -> void:
 			_gm = child
 			break
 
+	_clear_save_data()
 	_gm.new_game()
 	_setup_capture_camera()
 	_disable_nonessential_runtime_systems()
@@ -167,6 +168,9 @@ func _execute_step(s: Dictionary) -> void:
 		"dismiss":
 			if _ui and _ui.has_method("hide_document"):
 				_ui.hide_document()
+			var tree := _main.get_tree() if _main != null else null
+			if tree != null and tree.paused and _ui != null and _ui.has_method("toggle_pause_menu"):
+				_ui.toggle_pause_menu()
 			_clear_dialogue_balloons()
 
 
@@ -286,6 +290,12 @@ func _disable_nonessential_runtime_systems() -> void:
 		if audio.has_method("shutdown"):
 			audio.shutdown()
 		audio.queue_free()
+
+
+func _clear_save_data() -> void:
+	var save_system := root.get_node_or_null("SaveSystem")
+	if save_system != null and save_system.has_method("delete_all"):
+		save_system.delete_all()
 
 
 func _hide_qa_overlays() -> void:
@@ -674,12 +684,20 @@ func _raycast_view(space: PhysicsDirectSpaceState3D, from: Vector3, to: Vector3)
 	query.collision_mask = (1 << 0) | (1 << 1)
 	query.collide_with_bodies = true
 	query.collide_with_areas = false
+	query.exclude = _get_view_raycast_excludes()
 	return space.intersect_ray(query)
 
 
 func _get_collider_name(hit: Dictionary) -> String:
 	var collider: Object = hit.get("collider")
 	return String(collider.name) if collider != null else ""
+
+
+func _get_view_raycast_excludes() -> Array:
+	var excludes: Array = []
+	if _player != null and _player is CollisionObject3D:
+		excludes.append((_player as CollisionObject3D).get_rid())
+	return excludes
 
 
 func _get_room_world_origin(room: Node) -> Vector3:
