@@ -70,6 +70,10 @@ func _run() -> void:
 	await _test_kitchen_bucket_visual_states()
 	await _test_chapel_font_visual_states()
 	_test_boiler_room_core_interactions()
+	_test_boiler_room_walking_cane()
+	_test_kitchen_service_return()
+	_test_attic_stairs_lantern_hook()
+	_test_attic_music_box_adult_resolution()
 	_test_wine_cellar_core_interactions()
 	_test_library_key_and_book_path()
 	_test_guest_room_core_interactions()
@@ -704,10 +708,12 @@ func _test_boiler_room_core_interactions() -> void:
 	_gm.set_state("read_maintenance_log", false)
 	_gm.set_state("knows_staff_afraid", false)
 	_gm.set_state("examined_boiler_clock", false)
+	_gm.set_state("gas_restored", false)
+	_gm.set_state("basement_relight", true)
 	if _room_events != null and "_trigger_engine" in _room_events and _room_events._trigger_engine != null:
 		_room_events._trigger_engine._fired_triggers.erase("boiler_room_first_entry")
 	_rm.load_room("boiler_room")
-	_assert("boiler_room first-entry text", "Heat and iron press close around you" in _get_document_content())
+	_assert("boiler_room first-entry text", "Iron and coal dust" in _get_document_content())
 	_ui.hide_document()
 
 	var log_decl: InteractableDecl = _find_decl("maintenance_log")
@@ -717,7 +723,7 @@ func _test_boiler_room_core_interactions() -> void:
 		_assert("maintenance_log handled", handled_log)
 		_assert("maintenance_log state set", _gm.get_state("read_maintenance_log", false) == true)
 		_assert("maintenance_log fear state set", _gm.get_state("knows_staff_afraid", false) == true)
-		_assert("maintenance_log text", "using the pipes to talk to the basement" in _get_document_content())
+		_assert("maintenance_log text", "I am the last one willing to come down here alone" in _get_document_content())
 		_ui.hide_document()
 
 	var clock_decl: InteractableDecl = _find_decl("boiler_clock")
@@ -729,13 +735,154 @@ func _test_boiler_room_core_interactions() -> void:
 		_assert("boiler_clock text", "3:33" in _get_document_content())
 		_ui.hide_document()
 
-	var mask_decl: InteractableDecl = _find_decl("boiler_mask")
-	_assert("boiler_mask declaration found", mask_decl != null)
-	if mask_decl != null:
-		var handled_mask: bool = _im._handle_declared_interaction(mask_decl)
-		_assert("boiler_mask handled", handled_mask)
-		_assert("boiler_mask text", "silent scream" in _get_document_content())
+	var gas_decl: InteractableDecl = _find_decl("gas_restore")
+	_assert("gas_restore declaration found", gas_decl != null)
+	if gas_decl != null:
+		var handled_gas: bool = _im._handle_declared_interaction(gas_decl)
+		_assert("gas_restore handled", handled_gas)
+		_assert("gas_restored state set", _gm.get_state("gas_restored", false) == true)
+		_assert("basement_lights_awake state set", _gm.get_state("basement_lights_awake", false) == true)
+		_assert("bad_air cleared", _gm.get_state("bad_air_active", false) == false)
+		_assert("gas_restore text", "mains still hold" in _get_document_content())
 		_ui.hide_document()
+
+
+func _test_boiler_room_walking_cane() -> void:
+	_gm.new_game()
+	_gm.set_state("visited_boiler_room", true)
+	_gm.set_state("gas_restored", false)
+	_gm.set_state("walking_stick_phase", false)
+	_gm.set_state("current_light_tool", "firebrand")
+	_gm.set_state("basement_relight", true)
+	_rm.load_room("boiler_room")
+
+	var cane_decl: InteractableDecl = _find_decl("walking_cane")
+	_assert("walking_cane declaration found", cane_decl != null)
+	if cane_decl == null:
+		return
+
+	var handled_blocked: bool = _im._handle_declared_interaction(cane_decl)
+	_assert("walking_cane blocked before gas restore", handled_blocked)
+	_assert("walking_cane blocked text", "more urgent work" in _get_document_content())
+	_assert("walking_stick_phase still false", _gm.get_state("walking_stick_phase", false) == false)
+	_ui.hide_document()
+
+	_gm.set_state("gas_restored", true)
+	var handled_take: bool = _im._handle_declared_interaction(cane_decl)
+	_assert("walking_cane taken after gas restore", handled_take)
+	_assert("walking_stick_phase set", _gm.get_state("walking_stick_phase", false) == true)
+	_assert("current_light_tool is walking_stick", _gm.get_state("current_light_tool", "") == "walking_stick")
+	_assert("walking_cane gives item", _gm.has_item("walking_cane"))
+	_assert("walking_cane text", "steadier, deliberate" in _get_document_content())
+	_ui.hide_document()
+
+
+func _test_kitchen_service_return() -> void:
+	_gm.new_game()
+	_gm.set_state("visited_kitchen", true)
+	_gm.set_state("gas_restored", true)
+	_gm.set_state("stable_house_light", false)
+	_gm.set_state("walking_stick_phase", true)
+	_gm.set_state("service_hatch_propped", false)
+	if _room_events != null and "_trigger_engine" in _room_events and _room_events._trigger_engine != null:
+		_room_events._trigger_engine._fired_triggers.erase("kitchen_service_return")
+	_rm.load_room("kitchen")
+	_assert("kitchen service return sets stable_house_light", _gm.get_state("stable_house_light", false) == true)
+	_assert("kitchen service return text", "mansion is lit" in _get_document_content())
+	_ui.hide_document()
+
+	var hatch_decl: InteractableDecl = _find_decl("service_hatch_prop")
+	_assert("service_hatch_prop declaration found", hatch_decl != null)
+	if hatch_decl == null:
+		return
+
+	var handled_prop: bool = _im._handle_declared_interaction(hatch_decl)
+	_assert("service_hatch_prop handled", handled_prop)
+	_assert("service_hatch_propped set", _gm.get_state("service_hatch_propped", false) == true)
+	_assert("service_hatch_prop text", "iron tip under the frame" in _get_document_content())
+	_ui.hide_document()
+
+
+func _test_attic_stairs_lantern_hook() -> void:
+	_gm.new_game()
+	_gm.set_state("entered_attic", true)
+	_gm.set_state("walking_stick_phase", true)
+	_gm.set_state("late_darkness_active", false)
+	_gm.set_state("lantern_hook_phase", false)
+	_rm.load_room("attic_stairs")
+
+	var hook_decl: InteractableDecl = _find_decl("lantern_hook")
+	_assert("lantern_hook declaration found", hook_decl != null)
+	if hook_decl == null:
+		return
+
+	# Before late darkness: should not allow pickup
+	var handled_no_dark: bool = _im._handle_declared_interaction(hook_decl)
+	_assert("lantern_hook handled before darkness", handled_no_dark)
+	_assert("lantern_hook not taken before darkness", _gm.get_state("lantern_hook_phase", false) == false)
+	_assert("lantern_hook pre-dark text", "no reason to take it" in _get_document_content())
+	_ui.hide_document()
+
+	# With late darkness: should allow pickup
+	_gm.set_state("late_darkness_active", true)
+	var handled_dark: bool = _im._handle_declared_interaction(hook_decl)
+	_assert("lantern_hook handled with darkness", handled_dark)
+	_assert("lantern_hook_phase set", _gm.get_state("lantern_hook_phase", false) == true)
+	_assert("lantern_hook gives item", _gm.has_item("lantern_hook"))
+	_assert("lantern_hook text", "steadier than the cane" in _get_document_content())
+	_ui.hide_document()
+
+	# Already taken: should show taken text
+	var handled_taken: bool = _im._handle_declared_interaction(hook_decl)
+	_assert("lantern_hook handled when taken", handled_taken)
+	_assert("lantern_hook taken text", "bracket is empty" in _get_document_content())
+	_ui.hide_document()
+
+
+func _test_attic_music_box_adult_resolution() -> void:
+	_gm.new_game()
+	_gm.set_state("entered_attic", true)
+	_gm.set_state("late_darkness_active", true)
+	_gm.set_state("lantern_hook_phase", false)
+	_gm.set_state("attic_music_box_wound", false)
+	_rm.load_room("attic_storage")
+
+	var box_decl: InteractableDecl = _find_decl("attic_music_box")
+	_assert("attic_music_box declaration found", box_decl != null)
+	if box_decl == null:
+		return
+
+	# Without lantern: should block
+	var handled_no_lantern: bool = _im._handle_declared_interaction(box_decl)
+	_assert("music_box handled without lantern", handled_no_lantern)
+	_assert("music_box blocked without lantern", _gm.get_state("attic_music_box_wound", false) == false)
+	_assert("music_box no-lantern text", "cannot see the keyhole" in _get_document_content())
+	_ui.hide_document()
+
+	# With lantern but no key: should block
+	_gm.set_state("lantern_hook_phase", true)
+	_gm.remove_item("music_box_winding_key")
+	_gm.flags.erase("has_music_box_winding_key")
+	var handled_no_key: bool = _im._handle_declared_interaction(box_decl)
+	_assert("music_box handled without key", handled_no_key)
+	_assert("music_box blocked without key", _gm.get_state("attic_music_box_wound", false) == false)
+	_assert("music_box no-key text", "need the key" in _get_document_content())
+	_ui.hide_document()
+
+	# With lantern and key: should complete
+	_gm.give_item("music_box_winding_key")
+	var handled_solve: bool = _im._handle_declared_interaction(box_decl)
+	_assert("music_box handled for solve", handled_solve)
+	_assert("attic_music_box_wound set", _gm.get_state("attic_music_box_wound", false) == true)
+	_assert("adult_route_complete set", _gm.get_state("adult_route_complete", false) == true)
+	_assert("music_box solve text", "waltz" in _get_document_content())
+	_ui.hide_document()
+
+	# Already wound: should show completion text
+	var handled_done: bool = _im._handle_declared_interaction(box_decl)
+	_assert("music_box handled when wound", handled_done)
+	_assert("music_box wound text", "plays on" in _get_document_content())
+	_ui.hide_document()
 
 
 func _test_wine_cellar_core_interactions() -> void:

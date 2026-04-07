@@ -8,6 +8,8 @@
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
 [ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="8"]
+[ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="9"]
+[ext_resource type="Script" path="res://engine/declarations/conditional_event_decl.gd" id="10"]
 
 [sub_resource type="Resource" id="anchor_entry_stairs"]
 script = ExtResource("8")
@@ -27,6 +29,12 @@ rotation_y = 0.0
 tags = PackedStringArray("critical_path", "secret_route")
 
 ; === Scratched Portrait Responses ===
+
+[sub_resource type="Resource" id="resp_portrait_dark"]
+script = ExtResource("3")
+condition = "bad_air_active AND NOT basement_relight"
+title = "Scratched Portrait"
+text = "You cannot make it out. The dark is absolute and the air stings your eyes."
 
 [sub_resource type="Resource" id="resp_portrait_default"]
 script = ExtResource("3")
@@ -58,11 +66,23 @@ set_state = {"examined_scratched_portrait": true}
 
 ; === Cage Observation ===
 
+[sub_resource type="Resource" id="resp_cage_dark"]
+script = ExtResource("3")
+condition = "bad_air_active AND NOT basement_relight"
+title = "Iron Cage"
+text = "Metal under your fingers. Bars. A cage of some kind. You pull your hand back."
+
 [sub_resource type="Resource" id="resp_cage_default"]
 script = ExtResource("3")
 condition = ""
 title = "Iron Cage"
 text = "An animal cage, large enough for a dog. Empty. The door hangs open. The lock is rusted shut in the open position. Whatever was kept here was released -- or escaped."
+
+[sub_resource type="Resource" id="resp_stack_dark"]
+script = ExtResource("3")
+condition = "bad_air_active AND NOT basement_relight"
+title = "Concealed Stack"
+text = "Crates stacked against the wall. You can feel the arrangement is deliberate but the dark gives you nothing else."
 
 [sub_resource type="Resource" id="resp_stack_default"]
 script = ExtResource("3")
@@ -71,11 +91,33 @@ title = "Concealed Stack"
 text = "The crates here are stacked too deliberately for storage. They hide the wall rather than use it. When you press near the back, the wood gives a little and the stone behind it answers hollow. This corner was arranged to conceal movement, not clutter."
 set_state = {"noticed_service_route": true}
 
+[sub_resource type="Resource" id="resp_mattress_dark"]
+script = ExtResource("3")
+condition = "bad_air_active AND NOT basement_relight"
+title = "Old Mattress"
+text = "Fabric under your knees where you fell. A mattress. Beside it, the stub of a candle in a holder -- cold."
+
 [sub_resource type="Resource" id="resp_mattress_default"]
 script = ExtResource("3")
 condition = ""
 title = "Old Mattress"
 text = "A mattress laid directly on the basement stone, close to the cage and farther from the stairs than anyone sleeping here would want. Someone stayed down here for many nights in a row. Not a guest. A servant, a guard, or someone who needed to watch this room without being seen."
+
+; === Improvised Relight Responses ===
+
+[sub_resource type="Resource" id="resp_relight_done"]
+script = ExtResource("3")
+condition = "basement_relight"
+title = "Dead Lamp"
+text = "The candle holds -- barely. Its light reaches a few feet in every direction. Enough to see by. Not enough to feel safe. The lamp itself is dry and useless. The matches are almost gone."
+
+[sub_resource type="Resource" id="resp_relight_default"]
+script = ExtResource("3")
+condition = ""
+title = "Dead Lamp"
+text = "An oil lamp on a crate, dry and cold. But beside it -- a tin of household matches, the kind servants kept where the family would not think to look. You strike one against the tin. It catches on the third try. You shield the flame with your palm, cross to the mattress, and touch it to the candle stub in the holder. It takes. The dark pulls back a handspan."
+set_state = {"basement_relight": true}
+play_sfx = "res://assets/audio/sfx/ambient/pl_ambient_fire_01.ogg"
 
 ; === Interactables ===
 
@@ -85,7 +127,7 @@ id = "scratched_portrait"
 type = "painting"
 position = Vector3(-3.5, 1.5, -3)
 collision_size = Vector3(1.5, 1.5, 1.5)
-responses = Array[Resource]([SubResource("resp_portrait_default")])
+responses = Array[Resource]([SubResource("resp_portrait_dark"), SubResource("resp_portrait_default")])
 thread_responses = {"captive": [SubResource("resp_portrait_captive")], "mourning": [SubResource("resp_portrait_mourning")], "sovereign": [SubResource("resp_portrait_sovereign")]}
 
 [sub_resource type="Resource" id="inter_cage"]
@@ -94,7 +136,7 @@ id = "basement_cage"
 type = "observation"
 position = Vector3(3, 0.5, 3)
 collision_size = Vector3(1.5, 1.5, 1.5)
-responses = Array[Resource]([SubResource("resp_cage_default")])
+responses = Array[Resource]([SubResource("resp_cage_dark"), SubResource("resp_cage_default")])
 
 [sub_resource type="Resource" id="inter_stack"]
 script = ExtResource("2")
@@ -102,7 +144,7 @@ id = "service_stack"
 type = "observation"
 position = Vector3(2.4, 1.0, 3.7)
 collision_size = Vector3(1.6, 2.0, 1.2)
-responses = Array[Resource]([SubResource("resp_stack_default")])
+responses = Array[Resource]([SubResource("resp_stack_dark"), SubResource("resp_stack_default")])
 
 [sub_resource type="Resource" id="inter_mattress"]
 script = ExtResource("2")
@@ -110,7 +152,15 @@ id = "basement_mattress"
 type = "observation"
 position = Vector3(2.7, 0.35, 2.0)
 collision_size = Vector3(1.5, 0.8, 2.0)
-responses = Array[Resource]([SubResource("resp_mattress_default")])
+responses = Array[Resource]([SubResource("resp_mattress_dark"), SubResource("resp_mattress_default")])
+
+[sub_resource type="Resource" id="inter_relight"]
+script = ExtResource("2")
+id = "improvised_relight"
+type = "switch"
+position = Vector3(0.9, 0.82, -2.4)
+collision_size = Vector3(1.5, 1.2, 1.5)
+responses = Array[Resource]([SubResource("resp_relight_done"), SubResource("resp_relight_default")])
 
 ; === Lights ===
 
@@ -134,6 +184,30 @@ position = Vector3(2.2, 0.9, 2.0)
 color = Color(1.0, 0.82, 0.58, 1)
 energy = 0.0
 range = 2.4
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+[sub_resource type="Resource" id="light_sconce_stairs"]
+script = ExtResource("4")
+id = "storage_sconce_stairs"
+type = "omni"
+position = Vector3(0, 2.0, -3.5)
+color = Color(1.0, 0.85, 0.6, 1)
+energy = 0.0
+range = 3.5
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+[sub_resource type="Resource" id="light_sconce_cage"]
+script = ExtResource("4")
+id = "storage_sconce_cage"
+type = "omni"
+position = Vector3(3.5, 2.0, 3.0)
+color = Color(1.0, 0.85, 0.6, 1)
+energy = 0.0
+range = 3.5
 shadows = false
 flickering = true
 flicker_pattern = "candle"
@@ -254,15 +328,38 @@ id = "mattress_candle"
 model = "res://assets/shared/items/candle0.glb"
 position = Vector3(2.2, 0.78, 2.0)
 
-; === Entry Trigger ===
+[sub_resource type="Resource" id="prop_match_tin"]
+script = ExtResource("5")
+id = "match_tin"
+model = "res://assets/basement/storage/lamp_mx_2_off.glb"
+position = Vector3(1.1, 0.82, -2.2)
+scale = 0.3
+
+[sub_resource type="Resource" id="prop_sconce_stairs"]
+script = ExtResource("5")
+id = "sconce_stairs"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(0, 2.0, -3.5)
+
+[sub_resource type="Resource" id="prop_sconce_cage"]
+script = ExtResource("5")
+id = "sconce_cage"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(3.5, 2.0, 3.0)
+
+; === Entry Trigger: Forced Fall ===
 
 [sub_resource type="Resource" id="act_fall_visited"]
 script = ExtResource("7")
-set_state = {"storage_basement_fall_landing_pending": false, "visited_storage_basement": true}
+set_state = {"storage_basement_fall_landing_pending": false, "visited_storage_basement": true, "bad_air_active": true}
 
 [sub_resource type="Resource" id="act_fall_show_name"]
 script = ExtResource("7")
 show_room_name = "Storage Basement"
+
+[sub_resource type="Resource" id="act_fall_shake"]
+script = ExtResource("7")
+camera_shake = 0.35
 
 [sub_resource type="Resource" id="act_fall_impact"]
 script = ExtResource("7")
@@ -277,7 +374,9 @@ script = ExtResource("6")
 condition = "storage_basement_fall_landing_pending AND NOT visited_storage_basement"
 once = true
 trigger_id = "storage_basement_forced_fall_entry"
-actions = Array[Resource]([SubResource("act_fall_visited"), SubResource("act_fall_show_name"), SubResource("act_fall_impact"), SubResource("act_fall_text")])
+actions = Array[Resource]([SubResource("act_fall_visited"), SubResource("act_fall_show_name"), SubResource("act_fall_shake"), SubResource("act_fall_impact"), SubResource("act_fall_text")])
+
+; === Entry Trigger: Normal First Visit ===
 
 [sub_resource type="Resource" id="act_visited"]
 script = ExtResource("7")
@@ -297,6 +396,66 @@ condition = "NOT visited_storage_basement AND NOT storage_basement_fall_landing_
 once = true
 trigger_id = "storage_basement_first_entry"
 actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name"), SubResource("act_entry_text")])
+
+; === Conditional Event: Relight Candle Wake ===
+
+[sub_resource type="Resource" id="act_relight_candle"]
+script = ExtResource("7")
+light_change = {"basement_mattress_candle": {"energy": 1.2, "duration": 2.0}}
+
+[sub_resource type="Resource" id="cond_relight"]
+script = ExtResource("10")
+event_id = "basement_relight_candle"
+condition = "basement_relight"
+once = true
+actions = Array[Resource]([SubResource("act_relight_candle")])
+
+; === Ambient Event: Bad Air (Dark — pre-relight) ===
+
+[sub_resource type="Resource" id="act_air_dark"]
+script = ExtResource("7")
+show_text = "Your lungs seize. The air down here tastes of coal gas and something older -- a sweetness that belongs to stone left too long without daylight."
+play_sfx = "res://assets/audio/sfx/echoes/breath_howling.mp3"
+
+[sub_resource type="Resource" id="ambient_bad_air_dark"]
+script = ExtResource("9")
+event_id = "bad_air_dark"
+interval_min = 8.0
+interval_max = 15.0
+condition = "bad_air_active AND NOT basement_relight"
+actions = Array[Resource]([SubResource("act_air_dark")])
+
+; === Ambient Event: Bad Air (Lit — post-relight, pre-gas) ===
+
+[sub_resource type="Resource" id="act_air_lit"]
+script = ExtResource("7")
+show_text = "The candle flame leans sideways without any draft you can feel. The air is still wrong. Thinner than upstairs. Your body knows it even when your eyes have adjusted."
+
+[sub_resource type="Resource" id="ambient_bad_air_lit"]
+script = ExtResource("9")
+event_id = "bad_air_lit"
+interval_min = 20.0
+interval_max = 40.0
+condition = "bad_air_active AND basement_relight AND NOT gas_restored"
+actions = Array[Resource]([SubResource("act_air_lit")])
+
+; === Conditional Event: Gas Restore Sconce Wake ===
+
+[sub_resource type="Resource" id="act_storage_sconce_stairs_wake"]
+script = ExtResource("7")
+light_change = {"storage_sconce_stairs": {"energy": 1.8, "duration": 3.0}}
+
+[sub_resource type="Resource" id="act_storage_sconce_cage_wake"]
+script = ExtResource("7")
+light_change = {"storage_sconce_cage": {"energy": 1.8, "duration": 3.0}}
+delay_seconds = 1.5
+
+[sub_resource type="Resource" id="cond_gas_sconce_wake"]
+script = ExtResource("10")
+event_id = "storage_gas_sconce_wake"
+condition = "gas_restored"
+once = true
+actions = Array[Resource]([SubResource("act_storage_sconce_stairs_wake"), SubResource("act_storage_sconce_cage_wake")])
 
 ; === Main Resource ===
 
@@ -323,11 +482,11 @@ spawn_position = Vector3(0, 0, -1.4)
 spawn_rotation_y = 180.0
 entry_anchors = Array[Resource]([SubResource("anchor_entry_stairs")])
 focal_anchors = Array[Resource]([SubResource("anchor_focus_service_stack")])
-interactables = Array[Resource]([SubResource("inter_portrait"), SubResource("inter_cage"), SubResource("inter_stack"), SubResource("inter_mattress")])
-lights = Array[Resource]([SubResource("light_bulb"), SubResource("light_mattress_candle")])
-props = Array[Resource]([SubResource("prop_shelf_left"), SubResource("prop_shelf_right"), SubResource("prop_crate_1"), SubResource("prop_crate_2"), SubResource("prop_crate_3"), SubResource("prop_crate_4"), SubResource("prop_crate_5"), SubResource("prop_crates_barrels"), SubResource("prop_cage"), SubResource("prop_ladder"), SubResource("prop_mattress"), SubResource("prop_bucket"), SubResource("prop_dead_lamp"), SubResource("prop_debris"), SubResource("prop_hidden_service_stack"), SubResource("prop_mattress_candle_holder"), SubResource("prop_mattress_candle")])
+interactables = Array[Resource]([SubResource("inter_portrait"), SubResource("inter_cage"), SubResource("inter_stack"), SubResource("inter_mattress"), SubResource("inter_relight")])
+lights = Array[Resource]([SubResource("light_bulb"), SubResource("light_mattress_candle"), SubResource("light_sconce_stairs"), SubResource("light_sconce_cage")])
+props = Array[Resource]([SubResource("prop_shelf_left"), SubResource("prop_shelf_right"), SubResource("prop_crate_1"), SubResource("prop_crate_2"), SubResource("prop_crate_3"), SubResource("prop_crate_4"), SubResource("prop_crate_5"), SubResource("prop_crates_barrels"), SubResource("prop_cage"), SubResource("prop_ladder"), SubResource("prop_mattress"), SubResource("prop_bucket"), SubResource("prop_dead_lamp"), SubResource("prop_debris"), SubResource("prop_hidden_service_stack"), SubResource("prop_mattress_candle_holder"), SubResource("prop_mattress_candle"), SubResource("prop_match_tin"), SubResource("prop_sconce_stairs"), SubResource("prop_sconce_cage")])
 on_entry = Array[Resource]([SubResource("trig_fall_entry"), SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
-ambient_events = Array[Resource]([])
-conditional_events = Array[Resource]([])
+ambient_events = Array[Resource]([SubResource("ambient_bad_air_dark"), SubResource("ambient_bad_air_lit")])
+conditional_events = Array[Resource]([SubResource("cond_relight"), SubResource("cond_gas_sconce_wake")])
 flashbacks = Array[Resource]([])

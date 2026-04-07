@@ -1,16 +1,17 @@
 # Ashworth Manor: Master Script
 
-This file now mirrors the canonical narrative spine rather than maintaining an
-independent alternate script.
+> **Canonical authority:** [GAME_BIBLE.md](../GAME_BIBLE.md) is the single
+> source of truth for the shipped game.
+
+This file is an authoring-oriented mirror of the canonical narrative spine.
+It is not a competing continuity.
 
 Use these files as the authoritative story surfaces:
 
-- [../MASTER_SCRIPT.md](../MASTER_SCRIPT.md)
-- [../PLAYER_PREMISE.md](../PLAYER_PREMISE.md)
-- [../ELIZABETH_ROUTE_PROGRAM.md](../ELIZABETH_ROUTE_PROGRAM.md)
-
-This script directory should remain the authoring-oriented mirror of that
-canonical set, not a competing continuity.
+- [../GAME_BIBLE.md](../GAME_BIBLE.md) — single canonical authority
+- [../MASTER_SCRIPT.md](../MASTER_SCRIPT.md) — stage-by-stage beat detail
+- [../PLAYER_PREMISE.md](../PLAYER_PREMISE.md) — extended player-position detail
+- [../ELIZABETH_ROUTE_PROGRAM.md](../ELIZABETH_ROUTE_PROGRAM.md) — route design rationale
 
 ---
 

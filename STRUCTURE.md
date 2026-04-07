@@ -25,24 +25,35 @@
   - region and compiled-world planning
   - validation and generated test coverage
 
-## Narrative Canon Surface
+## Canonical Surfaces
 
-These docs now define the shipped high-level story structure:
+### Narrative Authority
 
-- `docs/GAME_BIBLE.md`
-- `docs/PLAYER_PREMISE.md`
-- `docs/ELIZABETH_ROUTE_PROGRAM.md`
-- `docs/NARRATIVE.md`
-- `docs/MASTER_SCRIPT.md`
-- `docs/script/MASTER_SCRIPT.md`
+`docs/GAME_BIBLE.md` is the single canonical authority for the shipped game.
+If any other doc disagrees with it, GAME_BIBLE.md wins.
 
-Any room doc or declaration text that still assumes the old
-`Captive / Mourning / Sovereign` weave should be treated as legacy material
-pending migration.
+### Execution Contract
 
-Primary execution contract:
+`docs/batches/ashworth-master-task-graph.md` is the primary execution contract
+— the single task graph that drives all implementation work.
 
-- `docs/batches/ashworth-master-task-graph.md`
+### Focused Supplements (canonical, defer to GAME_BIBLE on overlap)
+
+- `docs/PLAYER_PREMISE.md` — extended player-position and arrival detail
+- `docs/ELIZABETH_ROUTE_PROGRAM.md` — route design rationale
+- `docs/NARRATIVE.md` — emotional framing and narrative priorities
+- `docs/MASTER_SCRIPT.md` — stage-by-stage beat authoring
+- `docs/script/MASTER_SCRIPT.md` — authoring mirror
+
+### Historical / Support Surfaces
+
+- Room docs under `docs/rooms/` — support material, canonical only when
+  migrated to match GAME_BIBLE
+- Floor-level overviews under `docs/floors/` — legacy reference only
+- Individual batch files under `docs/batches/` (other than the master task
+  graph) — historical implementation detail, superseded by master task graph
+- Any doc or declaration text that still assumes the old
+  `Captive / Mourning / Sovereign` weave — legacy material pending migration
 
 ## World Model
 

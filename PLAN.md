@@ -1,5 +1,14 @@
 # Ashworth Manor Polished Completion Plan
 
+## Canonical Sources
+
+| Surface | Document |
+|---------|----------|
+| **Narrative authority** | `docs/GAME_BIBLE.md` — the single source of truth for the shipped game |
+| **Execution contract** | `docs/batches/ashworth-master-task-graph.md` — the primary task graph |
+| **Source map** | `docs/INDEX.md` — master index to all docs, canonical and support |
+| **Architecture** | `STRUCTURE.md` — runtime architecture and canonical surface map |
+
 ## Summary
 
 Ashworth Manor is no longer in simple production-recovery mode. The active goal

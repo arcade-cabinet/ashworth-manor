@@ -12,7 +12,7 @@ static func get_play_order() -> Array:
 		["foyer", ["foyer_painting", "foyer_mirror", "foyer_clock", "entry_switch", "foyer_mail", "foyer_stairs"], "front_steps"],
 		["parlor", ["parlor_painting_1", "parlor_note", "music_box", "parlor_fireplace", "parlor_tea"], "foyer"],
 		["dining_room", ["dinner_photo", "pushed_chair", "wine_glass", "dining_candles", "service_bell"], "foyer"],
-		["kitchen", ["kitchen_note", "kitchen_hearth"], "foyer"],
+		["kitchen", ["service_hatch_prop", "kitchen_note", "kitchen_hearth"], "foyer"],
 
 		# ACT II: Upper Floor
 		["upper_hallway", ["attic_door", "children_painting", "hallway_mask", "hallway_poster", "hallway_switch"], "foyer"],
@@ -22,7 +22,7 @@ static func get_play_order() -> Array:
 
 		# ACT II-B: Basement
 		["storage_basement", ["scratched_portrait", "basement_cage", "service_stack", "basement_mattress"], "kitchen"],
-		["boiler_room", ["maintenance_log", "boiler_clock", "boiler_observation", "boiler_pipe_valves", "boiler_electrical_panel", "boiler_mask"], "storage_basement"],
+		["boiler_room", ["maintenance_log", "boiler_clock", "boiler_observation", "gas_restore", "boiler_pipes", "walking_cane"], "storage_basement"],
 		["wine_cellar", ["wine_note", "wine_box", "wine_racks", "wine_footprints"], "storage_basement"],
 
 		# ACT II-C: Grounds
@@ -33,7 +33,7 @@ static func get_play_order() -> Array:
 		["family_crypt", ["crypt_graves", "crypt_note", "crypt_flagstone", "crypt_bones"], "garden"],
 
 		# ACT III: Attic
-		["attic_stairs", ["stairwell_debris", "stairwell_wall"], "upper_hallway"],
-		["attic_storage", ["elizabeth_portrait", "porcelain_doll", "elizabeth_letter", "attic_window", "elizabeth_trunk", "ritual_mask"], "attic_stairs"],
+		["attic_stairs", ["stairwell_debris", "stairwell_wall", "lantern_hook"], "upper_hallway"],
+		["attic_storage", ["elizabeth_portrait", "porcelain_doll", "elizabeth_letter", "attic_window", "elizabeth_trunk", "ritual_mask", "attic_music_box"], "attic_stairs"],
 		["hidden_chamber", ["elizabeth_final_note", "chamber_drawings", "hidden_mirror", "ritual_circle", "chamber_artifact"], "attic_storage"],
 	]

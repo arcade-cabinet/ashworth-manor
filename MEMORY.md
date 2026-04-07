@@ -11,7 +11,9 @@
 - Elizabeth's music box is the invariant final solve object across all routes.
 - Outside paperwork and estate signage remain neutral.
 - Elizabeth's laugh only marks significant events.
-- `docs/GAME_BIBLE.md` is now the whole-game canonical reference.
+- `docs/GAME_BIBLE.md` is now the single canonical authority for the shipped
+  game. The other narrative docs (`PLAYER_PREMISE`, `ELIZABETH_ROUTE_PROGRAM`,
+  `NARRATIVE`, `MASTER_SCRIPT`) are focused supplements that defer to it.
 - `docs/batches/ashworth-master-task-graph.md` is now the primary execution
   contract and supersedes the fragmented batch chain as the main task surface.
 
@@ -80,40 +82,34 @@
 - The first Elizabeth seizure now lives at the kitchen service hatch: once the
   player carries the firebrand, the hatch tap triggers Elizabeth's laugh,
   consumes the brand, and forces the drop into the dark storage basement
-- The next focused autonomous batch is `docs/batches/service-basement-midgame-spine.md`
-  and covers the whole turn from basement survival to gas restoration and the
-  walking-stick phase
-- The next downstream bespoke-route batch is
-  `docs/batches/adult-route-attic-resolution.md` and covers the first canonical
-  full storyline from midgame handoff through attic music-box resolution
-- The next downstream route batch after `Adult` is
-  `docs/batches/elder-route-crypt-resolution.md` and covers the second
-  canonical full storyline from attic rupture through wine-cellar/crypt
-  descent and elder music-box resolution
-- The next downstream route batch after `Elder` is
-  `docs/batches/child-route-hidden-room-resolution.md` and covers the third
-  canonical full storyline from attic clue escalation through hidden-room
-  discovery and child music-box resolution
-- The post-route integration batch is
-  `docs/batches/final-integration-and-acceptance.md` and covers winding-key /
-  music-box unification, critical-path legacy-weave migration, automated and
-  renderer-backed acceptance rebuild, and final production freeze
-- The final post-freeze closeout batch is
-  `docs/batches/archive-and-handoff-hygiene.md` and covers archive labeling for
-  retained weave-era docs, canonical source-map tightening, and contributor
-  handoff hygiene after acceptance
-- The standing post-completion maintenance batch is
-  `docs/batches/post-freeze-maintenance-and-regression-triage.md` and covers
-  bounded regressions, visual/playthrough drift, and checkpoint truth-keeping
-  after the repo is otherwise considered complete
-- The downstream external-validation batch is
-  `docs/batches/release-candidate-and-device-validation.md` and covers Android
-  export readiness, packaged smoke/critical-path validation, and release-candidate
-  evidence gathering using the existing Maestro/export surfaces
-- The new authoritative batch is
-  `docs/batches/ashworth-master-task-graph.md`, which contains the whole task
-  graph in one place and should be used as the primary execution contract going
-  forward
+### Canonical Execution Contract
+
+- `docs/batches/ashworth-master-task-graph.md` is the **primary execution
+  contract** — the single authoritative task graph for the whole game
+
+### Historical Batch Detail (support only — superseded by master task graph)
+
+The individual batch files below are retained as implementation-level detail.
+They were written before the master task graph unified execution into one
+surface. Refer to them for phase-level context, but do not treat them as
+independent execution drivers:
+
+- `docs/batches/service-basement-midgame-spine.md` — shared spine: basement
+  survival → gas restoration → walking-stick phase
+- `docs/batches/adult-route-attic-resolution.md` — first route: midgame →
+  attic music-box resolution
+- `docs/batches/elder-route-crypt-resolution.md` — second route: attic
+  rupture → wine-cellar/crypt music-box resolution
+- `docs/batches/child-route-hidden-room-resolution.md` — third route: attic
+  clue escalation → hidden-room music-box resolution
+- `docs/batches/final-integration-and-acceptance.md` — post-route: winding-key
+  unification, weave migration, acceptance rebuild
+- `docs/batches/archive-and-handoff-hygiene.md` — post-freeze: archive
+  labeling, source-map tightening, handoff hygiene
+- `docs/batches/post-freeze-maintenance-and-regression-triage.md` —
+  standing: regression triage and checkpoint truth-keeping
+- `docs/batches/release-candidate-and-device-validation.md` — downstream:
+  Android export, Maestro validation, release-candidate evidence
 - Foyer chandelier auto-response exists only for the temporary sovereign/elder
   compatibility path; standard first route keeps the hall dark
 - Tool progression and light grammar are not yet fully encoded beyond the first
@@ -125,8 +121,8 @@
 - Runtime route progression now enforces `Adult -> Elder -> Child`
 - `macro_thread` remains only as temporary compatibility state derived from
   `elizabeth_route`
-- Canonical top-level docs now begin with `docs/GAME_BIBLE.md`, then
-  `PLAYER_PREMISE`, `ELIZABETH_ROUTE_PROGRAM`, `NARRATIVE`, and `MASTER_SCRIPT`
+- `docs/GAME_BIBLE.md` is the single canonical authority; the other narrative
+  docs are focused supplements that defer to it on overlap
 - Room docs and declaration text should be treated as partially stale until
   migrated
 - Required verification lanes still include:

@@ -119,7 +119,7 @@ set_state = {"examined_iron_gate": true}
 script = ExtResource("3")
 condition = ""
 title = "The Gate"
-text = "Iron bars, rusted open. The lock is broken -- not from outside. Someone burst through from within. The hinges scream when the wind catches them."
+text = "The gate stands open on tired hinges. The lock hasp has been forced from the stone at some point -- whether by weather, by hand, or simply by time is impossible to say now. Nobody has come to close it."
 set_state = {"examined_iron_gate": true}
 
 [sub_resource type="Resource" id="resp_gate_captive"]

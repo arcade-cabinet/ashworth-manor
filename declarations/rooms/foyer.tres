@@ -77,6 +77,14 @@ title = "Lord Ashworth"
 text = "The portrait watches you. Not in the way all portraits seem to watch -- this one TRACKS you. The eyes shift as you move. Edmund Ashworth's painted gaze was still and dead for a century. Something else is looking through them now."
 set_state = {"examined_foyer_painting": true}
 
+; ADULT painting: Edmund watched her become a woman and did nothing
+[sub_resource type="Resource" id="resp_painting_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Lord Ashworth"
+text = "The hollow eyes are not guilt over a sick child. They are the exhaustion of a man who watched his daughter become a woman behind a locked door and maintained the fiction that she was still seven. His hand rests on the book -- not like a scholar, like a man gripping the one object that justifies fifteen years of pretending a grown woman does not exist in his own house."
+set_state = {"examined_foyer_painting": true}
+
 ; === Mirror Responses (shared/default) ===
 
 [sub_resource type="Resource" id="resp_mirror_chamber"]
@@ -125,6 +133,14 @@ title = "Mirror"
 text = "Your reflection turns its head before you do. Not after -- BEFORE. It looked toward the stairs a full second before you thought to glance that way. The mirror is not reflecting you. It is showing you where to look. Someone is directing your attention through the glass."
 set_state = {"examined_foyer_mirror": true}
 
+; ADULT mirror: the reflection shows adult Elizabeth
+[sub_resource type="Resource" id="resp_mirror_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Mirror"
+text = "Your reflection stares back -- but it is not your face. For a fractional moment the glass holds a woman in her twenties, dark-eyed, composed, standing exactly where you stand. She is not frightened. She is patient. The image dissolves back into your own face before you can be certain. But the mirror is warm where her reflection touched it."
+set_state = {"examined_foyer_mirror": true}
+
 ; === Clock Responses (same all threads) ===
 
 [sub_resource type="Resource" id="resp_clock_allseen"]
@@ -155,6 +171,14 @@ script = ExtResource("3")
 condition = ""
 title = "Unopened Letters"
 text = "A stack of letters on the hall table. Addressed to Lord Ashworth. Postmarked November and December 1891. None opened. He stopped reading his mail."
+set_state = {"found_unopened_mail": true}
+
+; ADULT mail: letter addressed to adult Elizabeth
+[sub_resource type="Resource" id="resp_mail_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Unopened Letters"
+text = "A stack of letters addressed to Lord Ashworth. But near the bottom, one envelope stands apart: addressed to 'Miss Elizabeth Ashworth' in formal correspondence. Someone outside the household knew she was an adult and wrote to her directly. The letter was intercepted -- the seal is intact but the envelope has been turned over, examined, and deliberately buried beneath Edmund's correspondence."
 set_state = {"found_unopened_mail": true}
 
 ; === Stairs Responses (same all threads) ===
@@ -188,7 +212,7 @@ wall = "south"
 collision_size = Vector3(1.5, 1.5, 1.5)
 model = "res://assets/shared/decor/picture_blank.glb"
 responses = Array[Resource]([SubResource("resp_painting_truth"), SubResource("resp_painting_diary"), SubResource("resp_painting_default")])
-thread_responses = {"captive": [SubResource("resp_painting_captive")], "mourning": [SubResource("resp_painting_mourning")], "sovereign": [SubResource("resp_painting_sovereign")]}
+thread_responses = {"captive": [SubResource("resp_painting_captive")], "mourning": [SubResource("resp_painting_mourning")], "sovereign": [SubResource("resp_painting_sovereign")], "adult": [SubResource("resp_painting_adult")]}
 
 [sub_resource type="Resource" id="inter_mirror"]
 script = ExtResource("2")
@@ -199,7 +223,7 @@ wall = "west"
 collision_size = Vector3(1.5, 1.5, 1.5)
 visual_effects = {"mirror_delay": 0.0}
 responses = Array[Resource]([SubResource("resp_mirror_chamber"), SubResource("resp_mirror_aware"), SubResource("resp_mirror_default")])
-thread_responses = {"captive": [SubResource("resp_mirror_captive")], "mourning": [SubResource("resp_mirror_mourning")], "sovereign": [SubResource("resp_mirror_sovereign")]}
+thread_responses = {"captive": [SubResource("resp_mirror_captive")], "mourning": [SubResource("resp_mirror_mourning")], "sovereign": [SubResource("resp_mirror_sovereign")], "adult": [SubResource("resp_mirror_adult")]}
 
 [sub_resource type="Resource" id="inter_clock"]
 script = ExtResource("2")
@@ -226,6 +250,7 @@ type = "observation"
 position = Vector3(-5, 0.9, -4)
 collision_size = Vector3(1.0, 0.5, 0.5)
 responses = Array[Resource]([SubResource("resp_mail_diary"), SubResource("resp_mail_default")])
+thread_responses = {"adult": [SubResource("resp_mail_adult")]}
 
 [sub_resource type="Resource" id="inter_stairs"]
 script = ExtResource("2")

@@ -112,6 +112,10 @@ func _on_room_loaded(room_id: String) -> void:
 
 func _on_game_state_changed(_key: String, _value: Variant) -> void:
 	call_deferred("_refresh_current_room_visuals")
+	if _key == "attic_music_box_wound" and _value == true:
+		get_tree().create_timer(6.0).timeout.connect(
+			func(): GameManager.trigger_ending("adult")
+		)
 
 
 func _on_game_item_changed(_item_id: String) -> void:

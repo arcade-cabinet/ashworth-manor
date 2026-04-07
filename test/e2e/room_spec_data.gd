@@ -40,7 +40,7 @@ static func get_all() -> Dictionary:
 			"min_lights": 2, "has_flickering": true, "require_spawn": true,
 		},
 		"kitchen": {
-			"interactables": ["kitchen_note", "kitchen_hearth"],
+			"interactables": ["service_hatch_prop", "kitchen_note", "kitchen_hearth"],
 			"connections": ["foyer", "storage_basement", "garden"],
 			"min_lights": 2, "has_flickering": true, "require_spawn": true,
 		},
@@ -65,14 +65,14 @@ static func get_all() -> Dictionary:
 			"min_lights": 2, "has_flickering": true, "require_spawn": true,
 		},
 		"storage_basement": {
-			"interactables": ["scratched_portrait", "basement_cage", "service_stack", "basement_mattress"],
+			"interactables": ["scratched_portrait", "basement_cage", "service_stack", "basement_mattress", "improvised_relight"],
 			"connections": ["kitchen", "boiler_room", "wine_cellar", "carriage_house"],
-			"min_lights": 2, "has_flickering": true, "require_spawn": false,
+			"min_lights": 4, "has_flickering": true, "require_spawn": false,
 		},
 		"boiler_room": {
-			"interactables": ["maintenance_log", "boiler_clock", "boiler_observation", "boiler_pipe_valves", "boiler_electrical_panel", "boiler_mask"],
+			"interactables": ["maintenance_log", "boiler_clock", "boiler_observation", "gas_restore", "boiler_pipes", "walking_cane"],
 			"connections": ["storage_basement"],
-			"min_lights": 2, "has_flickering": true, "require_spawn": true,
+			"min_lights": 4, "has_flickering": true, "require_spawn": true,
 		},
 		"wine_cellar": {
 			"interactables": ["wine_note", "wine_box", "wine_racks", "wine_footprints"],
@@ -80,12 +80,12 @@ static func get_all() -> Dictionary:
 			"min_lights": 2, "has_flickering": true, "require_spawn": false,
 		},
 		"attic_stairs": {
-			"interactables": ["stairwell_debris", "stairwell_wall"],
+			"interactables": ["stairwell_debris", "stairwell_wall", "lantern_hook"],
 			"connections": ["upper_hallway", "attic_storage"],
 			"min_lights": 2, "has_flickering": true, "require_spawn": false,
 		},
 		"attic_storage": {
-			"interactables": ["elizabeth_portrait", "porcelain_doll", "elizabeth_letter", "attic_window", "elizabeth_trunk", "ritual_mask"],
+			"interactables": ["elizabeth_portrait", "porcelain_doll", "elizabeth_letter", "attic_window", "elizabeth_trunk", "ritual_mask", "attic_music_box"],
 			"connections": ["attic_stairs", "hidden_chamber"],
 			"min_lights": 2, "has_flickering": true, "require_spawn": true,
 		},

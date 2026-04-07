@@ -85,6 +85,9 @@ size = Vector3(1.5, 1.5, 1.5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_i03"]
 size = Vector3(1.5, 1.5, 1.5)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_i04"]
+size = Vector3(1.5, 1.2, 1.5)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_c04"]
 size = Vector3(2, 3, 1)
 
@@ -205,8 +208,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.2, 2)
 collision_layer = 4
 collision_mask = 0
 metadata/id = "scratched_portrait"
-metadata/type = "photo"
-metadata/data = {"title": "Scratched Portrait", "content": "A portrait, face destroyed. Gouged with something sharp — a key? A nail? The nameplate below is intact: 'Elizabeth Ashworth, age 8.' This is her. Was her.", "on_read_flags": "examined_scratched_portrait"}
+metadata/type = "painting"
+metadata/data = {"title": "Scratched Portrait", "content": "A portrait shoved behind crates in the basement. Lord Ashworth's face has been scratched out with something sharp -- the canvas torn in long, deliberate strokes. Someone hated this image enough to destroy it but could not bring themselves to burn it.", "on_read_flags": "examined_scratched_portrait"}
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Interactables/scratched_portrait"]
 shape = SubResource("BoxShape3D_i00")
@@ -217,7 +220,7 @@ collision_layer = 4
 collision_mask = 0
 metadata/id = "storage_mirror"
 metadata/type = "mirror"
-metadata/data = {"title": "Covered Mirror", "content": "A full-length mirror, covered with a sheet. You pull the sheet aside. The reflection is wrong — the room behind you in the mirror has more light than the room you're standing in."}
+metadata/data = {"title": "Covered Mirror", "content": "Cracked down the center. Your reflection splits into two -- each half at a slightly different angle. Two of you. One looking left, one looking right. Neither looking where you expect."}
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Interactables/storage_mirror"]
 shape = SubResource("BoxShape3D_i01")
@@ -228,7 +231,7 @@ collision_layer = 4
 collision_mask = 0
 metadata/id = "storage_covered"
 metadata/type = "observation"
-metadata/data = {"title": "Covered Furniture", "content": "Shapes under dust sheets. A child's rocking horse, a small writing desk, a toy chest. Elizabeth's furniture. Removed from the attic after the binding. Hidden down here."}
+metadata/data = {"title": "Covered Furniture", "content": "Shapes under white sheets. Chairs, a rocking horse, a crib. Children's furniture -- but not from three children. This is a fourth set. Elizabeth's things. Stored, not destroyed."}
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Interactables/storage_covered"]
 shape = SubResource("BoxShape3D_i02")
@@ -239,10 +242,21 @@ collision_layer = 4
 collision_mask = 0
 metadata/id = "storage_trunk"
 metadata/type = "observation"
-metadata/data = {"title": "Storage Trunk", "content": "A heavy trunk, padlocked. You can't open it. Through a crack: fabric. White. A child's nightgown? Stained dark at the hem."}
+metadata/data = {"title": "Storage Trunk", "content": "Locked without a keyhole -- sealed with wax and iron bands. Whatever is inside was meant to stay inside forever."}
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Interactables/storage_trunk"]
 shape = SubResource("BoxShape3D_i03")
+
+[node name="improvised_relight" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0.82, -2.4)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "improvised_relight"
+metadata/type = "switch"
+metadata/data = {"title": "Dead Lamp", "content": "An oil lamp on a crate, dry and cold. But beside it -- a tin of household matches. You strike one against the tin. It catches on the third try. You shield the flame and touch it to the candle stub. It takes."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/improvised_relight"]
+shape = SubResource("BoxShape3D_i04")
 
 [node name="Connections" type="Node3D" parent="."]
 

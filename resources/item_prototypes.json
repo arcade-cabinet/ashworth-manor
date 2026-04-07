@@ -113,11 +113,25 @@
 		"category": "tools",
 		"ritual": false
 	},
+	"walking_cane": {
+		"name": "Walking Cane",
+		"description": "The caretaker's ash-wood cane with an iron-shod tip. Steadier than a brand, and better suited for deliberate investigation.",
+		"weight": 0.6,
+		"category": "tools",
+		"ritual": false
+	},
 	"music_box_winding_key": {
 		"name": "Brass Winding Key",
 		"description": "A small brass winding key kept since childhood. Its teeth match a music box you almost remember.",
 		"weight": 0.02,
 		"category": "artifacts",
+		"ritual": false
+	},
+	"lantern_hook": {
+		"name": "Lantern Hook",
+		"description": "An iron hook on a long ash handle, originally for hanging service lanterns in high stairwells. It reaches where hands cannot.",
+		"weight": 0.7,
+		"category": "tools",
 		"ritual": false
 	}
 }

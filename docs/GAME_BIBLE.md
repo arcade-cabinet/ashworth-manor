@@ -400,6 +400,14 @@ Clue types:
 - private adult effects
 - evidence of denied adulthood
 
+Clue topology:
+- see `docs/checkpoints/adult-route-clue-topology.md` for the complete
+  room-by-room clue map, discovery cascade, and state tracking
+
+Key new interactable:
+- `elizabeth_papers` in the library — Elizabeth's hidden folio of adult
+  writings, the strongest single proof of her adult intellectual life
+
 Late structure:
 - the attic becomes the final truth space
 - the music box is found in the attic
@@ -482,6 +490,11 @@ All three routes share:
 - clue emphasis turns biographical
 - attic remains the answer
 - late chamber is private and archival
+- late rupture: returning to upper hallway after attic visit triggers
+  `late_darkness_active`, extinguishing stable house light
+- lantern hook acquired in attic stairs (replaces walking stick)
+- attic music box wound with brass winding key from valise
+- ending fires via `trigger_ending("adult")` on `attic_music_box_wound`
 
 ### Elder Late Game
 
@@ -541,20 +554,38 @@ The ending system must record progression through the canonical order:
 
 ## Canonical Documentation Surface
 
-These files together define the shipped game:
+**This file is the single canonical source of truth for the shipped game.**
 
-- `docs/GAME_BIBLE.md`
-- `docs/PLAYER_PREMISE.md`
-- `docs/ELIZABETH_ROUTE_PROGRAM.md`
-- `docs/NARRATIVE.md`
-- `docs/MASTER_SCRIPT.md`
-- `docs/script/MASTER_SCRIPT.md`
-- `PLAN.md`
-- `MEMORY.md`
-- `STRUCTURE.md`
+If any other document disagrees with this file about premise, route order,
+shared spine, endings, critical rooms, tools, or acceptance, this file wins.
 
-If older room docs, floor docs, weave docs, or design experiments disagree,
-they should be treated as legacy or support material until migrated.
+### Supporting docs (focused supplements, not competing authorities)
+
+| Document | Focused scope |
+|----------|--------------|
+| `docs/PLAYER_PREMISE.md` | Extended player-position, arrival, and lighting detail |
+| `docs/ELIZABETH_ROUTE_PROGRAM.md` | Route design rationale and migration context |
+| `docs/NARRATIVE.md` | Emotional framing, narrative priorities, memory layers |
+| `docs/MASTER_SCRIPT.md` | Stage-by-stage beat detail for script authoring |
+| `docs/script/MASTER_SCRIPT.md` | Authoring-oriented mirror (defers to the above) |
+
+These supplements add depth but must not redefine any canonical claim made
+here. When updating the shipped game, update this file first, then propagate.
+
+### Execution and architecture docs
+
+| Document | Role |
+|----------|------|
+| `PLAN.md` | Current execution priorities and product status |
+| `MEMORY.md` | Execution memory, discoveries, and acceptance notes |
+| `STRUCTURE.md` | Runtime architecture and canonical source map |
+| `docs/batches/ashworth-master-task-graph.md` | Primary implementation contract |
+
+### Legacy and support material
+
+Room docs under `docs/rooms/`, floor docs under `docs/floors/`, older weave
+docs, and design experiments are support or legacy material. They should not
+be treated as canonical until explicitly migrated to match this file.
 
 ---
 
@@ -568,12 +599,38 @@ The shipped game is not considered real until all of these agree:
 - automated tests
 - renderer-backed walkthrough and opening captures
 
-Minimum recurring verification surface:
+### Tier 1 — Repo-Local Freeze
 
-- `godot --headless --path . --quit-after 1`
-- `godot --headless --path . --script test/generated/test_declarations.gd`
-- `godot --headless --path . --script test/e2e/test_room_specs.gd`
-- `godot --headless --path . --script test/e2e/test_declared_interactions.gd`
-- `godot --headless --path . --script test/e2e/test_full_playthrough.gd`
-- `godot --path . --script test/e2e/test_room_walkthrough.gd`
-- `godot --path . --script test/e2e/test_opening_journey.gd`
+These lanes validate the game as a coherent repo artifact. All must pass
+before the repo can be considered frozen for release.
+
+| Lane | Command |
+|------|---------|
+| Engine boot | `godot --headless --path . --quit-after 1` |
+| Declaration integrity | `godot --headless --path . --script test/generated/test_declarations.gd` |
+| Room specs | `godot --headless --path . --script test/e2e/test_room_specs.gd` |
+| Declared interactions | `godot --headless --path . --script test/e2e/test_declared_interactions.gd` |
+| Full playthrough | `godot --headless --path . --script test/e2e/test_full_playthrough.gd` |
+| Room walkthrough | `godot --path . --script test/e2e/test_room_walkthrough.gd` |
+| Opening journey | `godot --path . --script test/e2e/test_opening_journey.gd` |
+
+### Tier 2 — Downstream Release Validation
+
+These lanes validate the game as a shippable product on target devices.
+They depend on Tier 1 passing first and require export toolchains and
+device infrastructure beyond the repo itself.
+
+| Lane | Scope |
+|------|-------|
+| Android export build | `godot --headless --export-release "Android" build/ashworth.apk` succeeds |
+| APK smoke test | Install on device/emulator, confirm boot and main menu |
+| Critical-path Maestro flows | Automated tap-through of packet → gate → drive → door → parlor sequence |
+| Device walkthrough capture | Renderer-backed opening journey on target hardware |
+| Release-candidate evidence | Collected screenshots, logs, and flow results archived per RC |
+
+See `docs/MAESTRO_E2E_PLAN.md` for Maestro automation details and
+`docs/batches/release-candidate-and-device-validation.md` for the full
+release validation batch.
+
+Downstream validation is not out of scope — it is deferred until repo-local
+freeze is achieved, then executed as its own acceptance gate.

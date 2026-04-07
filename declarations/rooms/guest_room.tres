@@ -38,6 +38,14 @@ title = "Guest Ledger"
 text = "Helena Pierce arrived November 3rd. Her entry: 'Something extraordinary is happening in this house. The girl has abilities I have only read about in folklore. She moved a teacup across the table without touching it. Lord Ashworth calls it dangerous. I call it remarkable.' Helena was not afraid. She was fascinated. Elizabeth let her watch. Showed her things. The guest ledger was their correspondence -- Helena asked questions in ink, and the answers appeared on the next page in a child's handwriting."
 set_state = {"read_guest_ledger": true}
 
+; ADULT ledger: Helena met an adult Elizabeth
+[sub_resource type="Resource" id="resp_ledger_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Guest Ledger"
+text = "Helena Pierce arrived November 3rd. Her entry: 'I was told to expect a child. What I found was a young woman of perhaps twenty-three -- quiet, composed, entirely lucid. She asked me about London. She asked about the Royal Academy exhibition. She has been reading newspapers that someone leaves outside her door. Lord Ashworth still calls her \"the girl.\" She is not a girl. She is a prisoner.'\n\nHelena was the only outsider who saw the truth. The last page of the ledger has been torn out."
+set_state = {"read_guest_ledger": true}
+
 ; === Bed Observation ===
 
 [sub_resource type="Resource" id="resp_bed_default"]
@@ -81,7 +89,7 @@ type = "note"
 position = Vector3(-3.5, 0.9, -3)
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_ledger_default")])
-thread_responses = {"captive": [SubResource("resp_ledger_captive")], "mourning": [SubResource("resp_ledger_mourning")], "sovereign": [SubResource("resp_ledger_sovereign")]}
+thread_responses = {"captive": [SubResource("resp_ledger_captive")], "mourning": [SubResource("resp_ledger_mourning")], "sovereign": [SubResource("resp_ledger_sovereign")], "adult": [SubResource("resp_ledger_adult")]}
 
 [sub_resource type="Resource" id="inter_bed"]
 script = ExtResource("2")

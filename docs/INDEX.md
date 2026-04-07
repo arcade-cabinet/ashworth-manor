@@ -1,31 +1,50 @@
 # Ashworth Manor — Documentation Index
 
-This index now distinguishes canonical source-of-truth docs from support and
-legacy material.
-
-If you need the actual shipped game, start with the canonical surface below.
+If you need the actual shipped game, start with `GAME_BIBLE.md`. It is the
+single canonical authority. Everything else is a supplement or support doc.
 
 ---
 
-## Canonical Surface
+## Canonical Authority
 
 | Document | What It Covers |
 |----------|---------------|
-| **[GAME_BIBLE.md](./GAME_BIBLE.md)** | **START HERE.** Whole-game canonical reference: premise, room program, shared spine, routes, tools, endings, and acceptance surface. |
-| **[MASTER_SCRIPT.md](./MASTER_SCRIPT.md)** | Canonical narrative spine and stage order. |
-| [PLAYER_PREMISE.md](./PLAYER_PREMISE.md) | Playable-present framing, player position, packet, arrival, and lighting doctrine. |
-| [ELIZABETH_ROUTE_PROGRAM.md](./ELIZABETH_ROUTE_PROGRAM.md) | The three-route authored structure: `Adult`, `Elder`, `Child`. |
-| [NARRATIVE.md](./NARRATIVE.md) | Story overview, route signatures, shared spine, and narrative priorities. |
-| [script/MASTER_SCRIPT.md](./script/MASTER_SCRIPT.md) | Script-facing mirror of the canonical story spine. |
+| **[GAME_BIBLE.md](./GAME_BIBLE.md)** | **THE SINGLE SOURCE OF TRUTH.** Premise, room program, shared spine, route program, tool/light grammar, endings, and acceptance surface (repo-local + downstream). If any other doc disagrees, this wins. |
+
+## Focused Supplements
+
+These add depth to specific areas but defer to GAME_BIBLE.md on any overlap:
+
+| Document | Focused Scope |
+|----------|--------------|
+| [PLAYER_PREMISE.md](./PLAYER_PREMISE.md) | Extended player-position, arrival, lighting, and emotional-frame detail. |
+| [ELIZABETH_ROUTE_PROGRAM.md](./ELIZABETH_ROUTE_PROGRAM.md) | Route design rationale, divergence rules, and migration context. |
+| [NARRATIVE.md](./NARRATIVE.md) | Emotional framing, narrative priorities, and memory layers. |
+| [MASTER_SCRIPT.md](./MASTER_SCRIPT.md) | Stage-by-stage beat detail for script authoring. |
+| [script/MASTER_SCRIPT.md](./script/MASTER_SCRIPT.md) | Authoring-oriented mirror (defers to MASTER_SCRIPT.md). |
 
 ## Execution Surface
 
 | Document | What It Covers |
 |----------|---------------|
-| **[batches/ashworth-master-task-graph.md](./batches/ashworth-master-task-graph.md)** | **Primary execution contract.** Full implementation graph for the whole game. |
+| **[batches/ashworth-master-task-graph.md](./batches/ashworth-master-task-graph.md)** | **Primary execution contract.** The single authoritative task graph for the whole game. All implementation work flows from this. |
 | [../PLAN.md](../PLAN.md) | Current high-level execution priorities and product status. |
 | [../MEMORY.md](../MEMORY.md) | Execution memory, discoveries, misalignments, and acceptance notes. |
 | [../STRUCTURE.md](../STRUCTURE.md) | Runtime architecture, canonical source map, and acceptance surfaces. |
+
+> **Note:** Individual batch files under `batches/` (other than the master task
+> graph) are retained as historical implementation detail. They were written
+> before the master graph unified execution into one surface. Refer to them for
+> phase-level context, not as independent execution drivers.
+
+## Checkpoints
+
+| Document | What It Covers |
+|----------|---------------|
+| [checkpoints/US-003-runtime-baseline.md](./checkpoints/US-003-runtime-baseline.md) | Runtime baseline: engine boot, active test lanes, known gaps |
+| [checkpoints/shared-spine-state-map.md](./checkpoints/shared-spine-state-map.md) | Canonical state keys for shared-spine Stages 0–7, test evolution path |
+| [checkpoints/adult-route-clue-topology.md](./checkpoints/adult-route-clue-topology.md) | Adult route clue chain, room biases, discovery cascade, state tracking |
+| [checkpoints/US-010-adult-attic-resolution.md](./checkpoints/US-010-adult-attic-resolution.md) | Adult late-game transition, lantern hook, attic music box, ending trigger |
 
 ## Design and Support Docs
 

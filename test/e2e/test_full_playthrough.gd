@@ -46,6 +46,7 @@ func _run() -> void:
 			_gm.ending_triggered.connect(cb)
 
 	await _test_freedom_route()
+	await _test_adult_route()
 	await _test_escape_front_gate_path()
 	await _test_joined_front_gate_path()
 	_finish()
@@ -147,6 +148,44 @@ func _test_freedom_route() -> void:
 	_assert("counter ritual complete", _gm.has_flag("counter_ritual_complete"))
 	await create_timer(6.5).timeout
 	_assert("freedom ending fired", _ending_events.has("freedom"))
+
+
+func _test_adult_route() -> void:
+	_reset_game("mourning")  # mourning is the legacy thread for Adult route
+	_gm.set_state("elizabeth_route", "adult")
+	# Fast-forward through shared spine to midgame
+	_gm.set_flag("visited_front_gate")
+	_gm.set_flag("visited_foyer")
+	_gm.set_flag("visited_parlor")
+	_gm.set_flag("parlor_fire_lit")
+	_gm.set_flag("entered_attic")
+	_gm.set_state("walking_stick_phase", true)
+	_gm.set_state("stable_house_light", true)
+	_gm.set_state("gas_restored", true)
+	_gm.give_item("music_box_winding_key")
+	_gm.give_item("attic_key")
+	_ending_events.clear()
+
+	# Upper hallway late rupture: triggers darkness
+	await _load_room("upper_hallway")
+	_assert("late darkness triggered", _gm.get_state("late_darkness_active", false) == true)
+	_assert("stable house light lost", _gm.get_state("stable_house_light", false) == false)
+
+	# Attic stairs: acquire lantern hook
+	await _door_to("attic_stairs")
+	await _interact("lantern_hook")
+	_assert("lantern hook acquired", _gm.has_item("lantern_hook"))
+	_assert("lantern_hook_phase set", _gm.get_state("lantern_hook_phase", false) == true)
+
+	# Attic storage: wind the music box
+	await _door_to("attic_storage")
+	await _interact("attic_music_box")
+	_assert("attic music box wound", _gm.get_state("attic_music_box_wound", false) == true)
+	_assert("adult route complete flag", _gm.get_state("adult_route_complete", false) == true)
+
+	# Wait for ending timer
+	await create_timer(6.5).timeout
+	_assert("adult ending fired", _ending_events.has("adult"))
 
 
 func _test_escape_front_gate_path() -> void:

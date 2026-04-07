@@ -52,3 +52,23 @@ Elizabeth could see it too. She grew it from this window. Her last connection to
 Elizabeth's trunk. Clothes for a nine-year-old, folded neatly by someone who cared.
 
 A nightgown. A ribbon. A drawing of a family with four children — the only place all four exist together.
+
+
+~ attic_music_box
+if GameManager.has_flag("attic_music_box_wound")
+	The music box plays on. The melody is simple, a waltz for a girl who grew into a woman in this room. The lid stays open.
+elif not GameManager.has_flag("lantern_hook_phase")
+	A shape on the writing desk — you can feel the brass fittings in the dark. A music box. But you cannot see the keyhole properly. You need better light.
+elif not GameManager.has_item("music_box_winding_key")
+	A music box on the writing desk. The mechanism is wound down, the lid closed. A small keyhole waits on the front. You need the key.
+else
+	The brass winding key fits perfectly. You turn it. The mechanism engages with a precision that defies decades of silence.
+
+	The lid opens on its own. The melody is a waltz — not a nursery tune, not a lullaby, but music for a woman at a dance she was never allowed to attend.
+
+	Elizabeth Ashworth lived twenty-three years in this room. She taught herself to paint, to write, to think. She outgrew her clothes and remade them. She outgrew her family's lies and could not remake those.
+
+	The music box was her eighteenth birthday gift. The only acknowledgment that she was no longer a child. She kept it wound for five more years, playing it alone in the dark, dancing by herself on the rough boards.
+
+	The melody ends. The mechanism clicks. The house is quiet.
+do GameManager.set_flag("attic_music_box_wound")

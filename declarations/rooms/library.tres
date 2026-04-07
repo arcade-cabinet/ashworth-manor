@@ -91,6 +91,22 @@ set_state = {"found_attic_key_globe": true}
 gives_item = "attic_key"
 play_sfx = "res://assets/audio/sfx/inventory/key_find.ogg"
 
+; ADULT globe: worn by adult hands
+[sub_resource type="Resource" id="resp_globe_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Globe"
+text = "The brass around England is worn smooth -- not by a child's idle spinning but by years of deliberate tracing. Adult fingertips, pressing the same route over and over: London, the coast, the rail line to the village. Elizabeth mapped her escape on this globe for a decade and a half. The mechanism is stiff from adult hands trying the same twist, year after year."
+
+[sub_resource type="Resource" id="resp_globe_adult_diary"]
+script = ExtResource("3")
+condition = "read_ashworth_diary"
+title = "Globe"
+text = "The diary names the globe. You twist the northern hemisphere and it yields -- stiff, as if opened and closed many times by stronger hands than a child's. The attic key rests inside. Elizabeth knew it was here. She was not a child who could not reach it. She was a woman who chose not to take it. The question is why."
+set_state = {"found_attic_key_globe": true}
+gives_item = "attic_key"
+play_sfx = "res://assets/audio/sfx/inventory/key_find.ogg"
+
 ; === Binding Book Responses (shared) ===
 
 [sub_resource type="Resource" id="resp_book_truth"]
@@ -105,6 +121,15 @@ script = ExtResource("3")
 condition = ""
 title = "Rites of Passage"
 text = "A leather-bound volume on the reading lectern. 'Rites of Passage: The Binding and Loosing of Spirits, 1743.' The pages are yellowed, the margins annotated in Edmund Ashworth's hand. Bookmarks at chapters titled 'Containment' and 'The Vessel.'"
+set_state = {"examined_binding_book": true}
+gives_item = "binding_book"
+
+; ADULT binding book: Edmund's language shifts from girl to woman
+[sub_resource type="Resource" id="resp_book_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Rites of Passage"
+text = "Edmund's annotations change as the chapters progress. Early margins say 'the girl,' then 'Elizabeth,' then simply 'she.' By the final chapter his hand trembles: 'The woman upstairs has read this book. She found it before I could hide it. She understands what was done to her and she is not a child who can be distracted from understanding.' He stopped annotating after that."
 set_state = {"examined_binding_book": true}
 gives_item = "binding_book"
 
@@ -149,6 +174,14 @@ title = "Family Tree"
 text = "A framed family tree on the wall. 'The Ashworth Line, 1720-1891.' Five branches descend from Edmund and Victoria. Four names are legible. The fourth has been scratched out -- not with ink, but with something sharp. A nail? A pin? The paper beneath is torn."
 set_state = {"examined_family_tree": true}
 
+; ADULT family tree: dates that don't match
+[sub_resource type="Resource" id="resp_tree_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Family Tree"
+text = "Five branches for five children. The fourth name has been scratched away, but beneath the erasure someone has penciled dates in a precise adult hand: 'b. 1865 — d. ?' The death date is a question mark. Not blank, not falsified -- questioned. Whoever wrote this knew Elizabeth did not die when the family claimed. The handwriting matches the marginalia in the binding book. Elizabeth annotated her own erasure."
+set_state = {"examined_family_tree": true}
+
 ; Family tree thread variants
 [sub_resource type="Resource" id="resp_tree_captive"]
 script = ExtResource("3")
@@ -191,6 +224,31 @@ condition = ""
 title = "Bookshelves"
 text = "Natural philosophy, mechanical engineering, theology, séance manuals, folk rites. Lord Ashworth did not descend into occultism by abandoning reason. He brought reason with him and used it badly."
 
+; ADULT shelves: Elizabeth's reading life
+[sub_resource type="Resource" id="resp_shelves_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Bookshelves"
+text = "Among the occult volumes, novels and poetry in a different arrangement -- pulled forward, spines cracked from rereading. Marginalia in a woman's confident hand: literary criticism, vocabulary lists, arguments with the authors. Elizabeth read this library systematically over fifteen years. Her annotations are more lucid than Edmund's. She educated herself in her father's prison."
+
+; === Elizabeth's Papers (Adult-route clue engine) ===
+
+[sub_resource type="Resource" id="resp_papers_diary"]
+script = ExtResource("3")
+condition = "read_ashworth_diary"
+title = "Elizabeth's Folio"
+text = "You pull the folio free and the pages spill across the desk. Elizabeth's adult handwriting -- the same hand that annotated the binding book, the same hand that questioned her death date on the family tree. Household observations, a half-finished novel about a woman who inherits a ruined estate, drafts of letters never sent. She was writing herself into existence while they pretended she did not exist. The final page is dated December 1891: 'I have decided to stop waiting.'"
+set_state = {"found_elizabeth_papers": true}
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
+
+[sub_resource type="Resource" id="resp_papers_default"]
+script = ExtResource("3")
+condition = ""
+title = "Elizabeth's Folio"
+text = "Behind a loose bookcase panel, a leather folio stuffed with loose pages. The handwriting is not Edmund's -- smaller, neater, distinctly feminine. Not a child's scrawl. These are the writings of an educated adult: household observations, fragments of a novel, drafts of unsent letters. Someone lived in this library for years, reading and writing in secret, building an intellectual life that the rest of the house refused to see."
+set_state = {"found_elizabeth_papers": true}
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
+
 ; === Interactables ===
 
 [sub_resource type="Resource" id="inter_globe"]
@@ -200,7 +258,7 @@ type = "observation"
 position = Vector3(-2.2, 0.95, 2.2)
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_globe_diary"), SubResource("resp_globe_default")])
-thread_responses = {"captive": [SubResource("resp_globe_captive_diary"), SubResource("resp_globe_captive")], "mourning": [SubResource("resp_globe_mourning_diary"), SubResource("resp_globe_mourning")], "sovereign": [SubResource("resp_globe_sovereign_diary"), SubResource("resp_globe_sovereign")]}
+thread_responses = {"captive": [SubResource("resp_globe_captive_diary"), SubResource("resp_globe_captive")], "mourning": [SubResource("resp_globe_mourning_diary"), SubResource("resp_globe_mourning")], "sovereign": [SubResource("resp_globe_sovereign_diary"), SubResource("resp_globe_sovereign")], "adult": [SubResource("resp_globe_adult_diary"), SubResource("resp_globe_adult")]}
 
 [sub_resource type="Resource" id="inter_book"]
 script = ExtResource("2")
@@ -211,7 +269,7 @@ wall = "north"
 collision_size = Vector3(1.5, 1.5, 1.5)
 model = "res://assets/shared/items/books1.glb"
 responses = Array[Resource]([SubResource("resp_book_truth"), SubResource("resp_book_default")])
-thread_responses = {"captive": [SubResource("resp_book_captive")], "mourning": [SubResource("resp_book_mourning")], "sovereign": [SubResource("resp_book_sovereign")]}
+thread_responses = {"captive": [SubResource("resp_book_captive")], "mourning": [SubResource("resp_book_mourning")], "sovereign": [SubResource("resp_book_sovereign")], "adult": [SubResource("resp_book_adult")]}
 
 [sub_resource type="Resource" id="inter_tree"]
 script = ExtResource("2")
@@ -222,7 +280,7 @@ wall = "north"
 collision_size = Vector3(1.5, 1.5, 1.5)
 model = "res://assets/shared/decor/picture_blank.glb"
 responses = Array[Resource]([SubResource("resp_tree_diary"), SubResource("resp_tree_default")])
-thread_responses = {"captive": [SubResource("resp_tree_captive")], "mourning": [SubResource("resp_tree_mourning")], "sovereign": [SubResource("resp_tree_sovereign")]}
+thread_responses = {"captive": [SubResource("resp_tree_captive")], "mourning": [SubResource("resp_tree_mourning")], "sovereign": [SubResource("resp_tree_sovereign")], "adult": [SubResource("resp_tree_adult")]}
 
 [sub_resource type="Resource" id="inter_gears"]
 script = ExtResource("2")
@@ -250,6 +308,16 @@ position = Vector3(3.8, 1.5, 0.0)
 wall = "east"
 collision_size = Vector3(1.0, 2.0, 3.0)
 responses = Array[Resource]([SubResource("resp_shelves_default")])
+thread_responses = {"adult": [SubResource("resp_shelves_adult")]}
+
+[sub_resource type="Resource" id="inter_papers"]
+script = ExtResource("2")
+id = "elizabeth_papers"
+type = "note"
+position = Vector3(-3.3, 1.0, 1.2)
+wall = "west"
+collision_size = Vector3(1.0, 1.0, 1.0)
+responses = Array[Resource]([SubResource("resp_papers_diary"), SubResource("resp_papers_default")])
 
 ; === Lights ===
 
@@ -489,7 +557,7 @@ spawn_position = Vector3(-1.4, 0, -2.8)
 spawn_rotation_y = 28.0
 entry_anchors = Array[Resource]([SubResource("anchor_entry_hall")])
 focal_anchors = Array[Resource]([SubResource("anchor_focus_lectern_cluster")])
-interactables = Array[Resource]([SubResource("inter_globe"), SubResource("inter_book"), SubResource("inter_tree"), SubResource("inter_gears"), SubResource("inter_artifact"), SubResource("inter_shelves")])
+interactables = Array[Resource]([SubResource("inter_globe"), SubResource("inter_book"), SubResource("inter_tree"), SubResource("inter_gears"), SubResource("inter_artifact"), SubResource("inter_shelves"), SubResource("inter_papers")])
 lights = Array[Resource]([SubResource("light_desk"), SubResource("light_window")])
 props = Array[Resource]([SubResource("prop_desk"), SubResource("prop_bookcase_n"), SubResource("prop_bookcase_w"), SubResource("prop_chair"), SubResource("prop_globe_stand"), SubResource("prop_globe_body"), SubResource("prop_books_scrolls"), SubResource("prop_map"), SubResource("prop_candle_holder_left"), SubResource("prop_candle_holder_right"), SubResource("prop_bottle"), SubResource("prop_openbook_a"), SubResource("prop_openbook_b"), SubResource("prop_page_a"), SubResource("prop_page_b"), SubResource("prop_gear_1"), SubResource("prop_gear_2"), SubResource("prop_gear_3")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])
