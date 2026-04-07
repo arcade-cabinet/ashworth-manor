@@ -31,6 +31,8 @@ A data-driven game engine for first-person PSX horror exploration games. Inspire
 
 10. **The camera must behave like a body.** Entry framing, inspection focus, and pickup beats should bias toward live first-person yaw/pitch/FOV/lean adjustments rather than disembodied cut cameras. Structural awareness matters: walls, columns, door frames, and banisters must not dominate the center view unless that crowding is intentional.
 
+11. **Investigation is locomotion-first.** Suspicious walls, floors, ceilings, and thresholds should be investigable by walking the player into a plausible look posture before resolving whether the surface matters. Puzzle discovery should feel like embodied scrutiny, not menu-driven guessing.
+
 ---
 
 ## File Structure

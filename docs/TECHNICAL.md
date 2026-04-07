@@ -68,6 +68,8 @@ Important behavior:
 - declaration responses may set state, give items, and play SFX directly
 - interaction focus now biases toward embodied motion: tap targets can pull yaw, pitch, FOV, and a small head-lean toward the object before the authored response resolves
 - close-range interaction focus is collision-aware and intentionally limited so walls, columns, and frames do not get shoved into the center of the view
+- suspicious geometry taps can now queue surface investigation: the player walks to a plausible standing point, then leans and narrows FOV toward the tapped wall, ceiling, or steep surface
+- far interactable taps can now approach first and only fire the interaction after the player arrives, which keeps investigation from feeling like remote verb dispatch
 
 ## Event Pipeline
 
@@ -112,6 +114,7 @@ Camera contract:
 - room entry framing uses the live player camera, not a QA-only framing transform
 - walkthrough framing evaluates compiled-world world-space positions, not local room-space guesses
 - entry validation explicitly checks for structural crowding from nearby walls, columns, and threshold trim
+- investigation framing should feel bodily: a suspicious patch on a wall is something the player walks up to and studies, not a detached cut camera or UI zoom
 
 ## Transitions
 
