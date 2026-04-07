@@ -4,9 +4,12 @@
 
 configVersion = "2.1"
 tracker = "json"
-agent = "codex"
+agent = "claude"
 maxIterations = 0
 autoCommit = true
+
+[agentOptions]
+model = "opus"
 
 [trackerOptions]
 [agentOptions]
