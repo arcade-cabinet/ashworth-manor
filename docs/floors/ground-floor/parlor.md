@@ -194,7 +194,7 @@ data:
 - Mechanism visible but stuck
 - Slight dust on surface
 
-**Future Development**:
+**Current Runtime Event Pattern**:
 ```yaml
 event_music_box_plays:
   conditions:

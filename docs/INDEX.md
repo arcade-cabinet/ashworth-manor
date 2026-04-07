@@ -55,48 +55,48 @@ Each room has its own directory at `docs/rooms/{room}/` containing: README, floo
 ### Grounds (Exterior)
 | Room | Directory | Status |
 |------|-----------|--------|
-| Front Gate | [docs/rooms/front_gate/](./rooms/front_gate/) | TODO |
-| Garden | [docs/rooms/garden/](./rooms/garden/) | TODO |
-| Chapel | [docs/rooms/chapel/](./rooms/chapel/) | TODO |
-| Greenhouse | [docs/rooms/greenhouse/](./rooms/greenhouse/) | TODO |
-| Carriage House | [docs/rooms/carriage_house/](./rooms/carriage_house/) | TODO |
-| Family Crypt | [docs/rooms/family_crypt/](./rooms/family_crypt/) | TODO |
+| Front Gate | [docs/rooms/front_gate/](./rooms/front_gate/) | Active |
+| Garden | [docs/rooms/garden/](./rooms/garden/) | Active |
+| Chapel | [docs/rooms/chapel/](./rooms/chapel/) | Active |
+| Greenhouse | [docs/rooms/greenhouse/](./rooms/greenhouse/) | Active |
+| Carriage House | [docs/rooms/carriage_house/](./rooms/carriage_house/) | Active |
+| Family Crypt | [docs/rooms/family_crypt/](./rooms/family_crypt/) | Active |
 
 ### Ground Floor
 | Room | Directory | Status |
 |------|-----------|--------|
-| Foyer | [docs/rooms/foyer/](./rooms/foyer/) | TODO (migrate from floors/ground-floor/foyer.md) |
-| Parlor | [docs/rooms/parlor/](./rooms/parlor/) | TODO (migrate from floors/ground-floor/parlor.md) |
-| Dining Room | [docs/rooms/dining_room/](./rooms/dining_room/) | TODO |
-| Kitchen | [docs/rooms/kitchen/](./rooms/kitchen/) | TODO |
+| Foyer | [docs/rooms/foyer/](./rooms/foyer/) | Active |
+| Parlor | [docs/rooms/parlor/](./rooms/parlor/) | Active |
+| Dining Room | [docs/rooms/dining_room/](./rooms/dining_room/) | Active |
+| Kitchen | [docs/rooms/kitchen/](./rooms/kitchen/) | Active |
 
 ### Upper Floor
 | Room | Directory | Status |
 |------|-----------|--------|
-| Upper Hallway | [docs/rooms/hallway/](./rooms/hallway/) | TODO |
-| Master Bedroom | [docs/rooms/master_bedroom/](./rooms/master_bedroom/) | TODO |
-| Library | [docs/rooms/library/](./rooms/library/) | TODO |
-| Guest Room | [docs/rooms/guest_room/](./rooms/guest_room/) | TODO |
+| Upper Hallway | [docs/rooms/hallway/](./rooms/hallway/) | Active |
+| Master Bedroom | [docs/rooms/master_bedroom/](./rooms/master_bedroom/) | Active |
+| Library | [docs/rooms/library/](./rooms/library/) | Active |
+| Guest Room | [docs/rooms/guest_room/](./rooms/guest_room/) | Active |
 
 ### Basement
 | Room | Directory | Status |
 |------|-----------|--------|
-| Storage Basement | [docs/rooms/storage_basement/](./rooms/storage_basement/) | TODO |
-| Boiler Room | [docs/rooms/boiler_room/](./rooms/boiler_room/) | TODO |
+| Storage Basement | [docs/rooms/storage_basement/](./rooms/storage_basement/) | Active |
+| Boiler Room | [docs/rooms/boiler_room/](./rooms/boiler_room/) | Active |
 
 ### Deep Basement
 | Room | Directory | Status |
 |------|-----------|--------|
-| Wine Cellar | [docs/rooms/wine_cellar/](./rooms/wine_cellar/) | TODO |
+| Wine Cellar | [docs/rooms/wine_cellar/](./rooms/wine_cellar/) | Active |
 
 ### Attic
 | Room | Directory | Status |
 |------|-----------|--------|
-| Attic Stairwell | [docs/rooms/attic_stairwell/](./rooms/attic_stairwell/) | TODO |
-| Attic Storage | [docs/rooms/attic_storage/](./rooms/attic_storage/) | TODO |
-| Hidden Chamber | [docs/rooms/hidden_chamber/](./rooms/hidden_chamber/) | TODO |
+| Attic Stairwell | [docs/rooms/attic_stairwell/](./rooms/attic_stairwell/) | Active |
+| Attic Storage | [docs/rooms/attic_storage/](./rooms/attic_storage/) | Active |
+| Hidden Chamber | [docs/rooms/hidden_chamber/](./rooms/hidden_chamber/) | Active |
 
-### Legacy Floor Docs (to be migrated into room directories)
+### Legacy Floor Docs (reference/overview only)
 | Floor | Overview |
 |-------|----------|
 | [Ground Floor](./floors/ground-floor/README.md) | Floor-level summary + [foyer.md](./floors/ground-floor/foyer.md), [parlor.md](./floors/ground-floor/parlor.md) |
@@ -131,10 +131,8 @@ Every room doc must include (see [foyer.md](./floors/ground-floor/foyer.md) as r
 
 ## Implementation Order
 
-1. **Write room docs** for all 18 undocumented rooms (docs-first, no code without spec)
-2. **Build tests** from room specs (gdUnit4 validates every room against its doc)
-3. **Create .tres resources** for all interactables and connections
-4. **Write .dialogue files** for all rooms with conditional text
-5. **Rebuild .tscn scenes** with all interactables, lighting, connections, footstep tags
-6. **Integrate addons** — wire up dialogue, inventory, audio, camera, HSM
-7. **Run full test suite** — every room passes structure + content + connection tests
+1. **Update declarations first** for room/world/item/puzzle changes
+2. **Sync room docs** under `docs/rooms/` to the live declaration behavior
+3. **Extend declaration-era tests** for new interactions, routing, and endings
+4. **Only touch legacy floor docs** when they add overview value or need de-staling
+5. **Run the acceptance lanes** — boot, declarations, interaction E2E, room specs, full playthrough, walkthrough

@@ -26,8 +26,10 @@ The kitchen establishes:
 | Fog Color | Warm dust |
 | Footstep Surface | `stone` (kitchen stone floor) |
 
-**Visual:** Aged plaster walls (wall_7). Kitchen stone floor (floor2, rough stone). Exposed wood beams ceiling (cieling2). Heavy work table. Knife block. Cutting board with desiccated vegetables. Cold hearth. Bucket. Cleaning supplies.
+**Visual:** Aged plaster walls (wall_7). Kitchen stone floor (floor2, rough stone). Exposed wood beams ceiling (cieling2). Heavy work table actually dressed with cutting board, rolling pin, dirty plate, utensils, loose knives, and a water glass. Pantry shelving carries bowls, jars, plate, pan, and preserved food, while the bucket, soap, and wall-hung sickle make the room read as a servant workspace rather than a blank connector. The bucket is now a real stateful setpiece: black water sitting too still until the player inspects it, then shivering in slow rings as if the room noticed the attention.
 
 **Audio:** Dripping water (intermittent, from unseen tap). Settling sounds. Footsteps on stone echo sharply. Distant pipe creak (connects to boiler below).
 
 **Tone:** This is where pretense ends. The foyer was theater. The kitchen is backstage. The servants saw everything — and one of them wrote it down.
+
+**First Entry Beat:** The room should immediately read as interrupted labor rather than tidy abandonment: knives, boards, jars, and wet stone imply that the staff did not finish their shift because something in the house made continuing impossible.

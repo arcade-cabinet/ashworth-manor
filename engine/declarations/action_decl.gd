@@ -12,6 +12,7 @@ extends Resource
 @export var light_change: Dictionary = {}    # {light_id: {energy: X, duration: Y}}
 @export var spawn_model: Dictionary = {}     # {model: path, position: vec3, scale: float, duration: float}
 @export var psx_fade: float = 0.0            # Dither fade amount (0-1)
+@export var delay_seconds: float = 0.0       # Wait before applying this action
 
 # Accessibility: subtitle for narrative SFX
 @export var subtitle_text: String = ""

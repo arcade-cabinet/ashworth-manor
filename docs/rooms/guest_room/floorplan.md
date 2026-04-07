@@ -9,11 +9,11 @@ Spawn: (0, 0, -3) facing north
               │  WINDOW (moonlight)         │
               │                             │
               │  BED [i]       LUGGAGE [i]  │
-              │  (-2,0,2)      (3,0.3,2)    │
+              │  (2,0.8,0)     (3,0.3,2)    │
               │                             │
               │  PHOTO [i]     DESK         │
         WEST  │  (-3.5,1.6,0) LEDGER [i]   │  EAST
-              │                (3,0.9,-2)   │
+              │                (-3.5,0.9,-3)│
               │  CANDLE [L1]   LAMP [i]     │
               │  (-2,1.2,0)    (3,0.8,0)    │
               │                             │

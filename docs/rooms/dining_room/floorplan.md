@@ -46,9 +46,7 @@ LEGEND:
   ChPush = Pushed-back chair (angled, someone left quickly)
 ```
 
-## Current Scene Issues (from audit)
-- Table, chairs, chandelier, candles, wine, plates, glasses all present as Models
-- **ZERO interactables** — no Area3D nodes for any of the props
-- Only one connection (to_foyer)
-- No connection back from foyer (foyer has to_dining_room — reciprocal OK)
-- Chandelier light exists but candle lights need flickering metadata
+## Current Scene Notes
+- Table, chairs, chandelier, candles, wine, plates, glasses, service vessel, lamp, and photo frame are now all represented in the declaration
+- The room still intentionally has only one connection: back to the foyer
+- The pushed chair and partial place settings should make the interruption read immediately from the doorway

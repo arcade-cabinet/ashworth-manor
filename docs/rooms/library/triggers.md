@@ -14,6 +14,22 @@ actions:
 
 ## Conditional Events
 
+### Post-`binding_book`: Binding Aftershock
+```yaml
+event: library_binding_aftershock
+conditions:
+  - inventory_has: binding_book
+  - flag_not_set: library_flashback_triggered
+actions:
+  - set_flag: library_flashback_triggered
+  - play_sfx: "paper_rustle"
+  - light_change: library_desk_lamp -> 0.45 over 1.2s
+  - delay: 1.8s
+  - observation: "The pages move without wind. Not turning -- recoiling. In the hush that follows, you can almost hear the occultist reading across the desk from Edmund Ashworth, each line of the rite making the room smaller."
+  - delay: 5.8s
+  - light_change: library_desk_lamp -> 1.2 over 2.4s
+```
+
 ### Paper Rustling (Ambient)
 ```yaml
 event: library_rustle
@@ -24,30 +40,11 @@ actions:
   - play_sfx: "paper_rustle" (positional, from bookshelves, very quiet)
 ```
 
-## Flashbacks
-
-### Post-`has_binding_book`: The Ritual
-```yaml
-event: library_flashback
-conditions:
-  - flag_set: has_binding_book
-  - flag_not_set: library_flashback_triggered
-trigger: 15 seconds after entry
-actions:
-  - set_flag: library_flashback_triggered
-  - psx_fade: dither to 75% white, 1.5s
-  - spawn_model: plague_doctor.glb at (0, 0, 0), standing at desk, holding book
-  - observation: "The occultist read the words aloud in this room. Lord Ashworth sat where you're standing, listening. 'To trap a spirit, one must first give it form.' The doll was already upstairs. Elizabeth was already screaming."
-  - despawn_model: fade 2s
-  - psx_fade: return, 1.5s
-  - camera_shake: trauma 0.1, 1s
-```
-
 ## Phase-Specific Changes
 
 | Phase | Effect |
 |-------|--------|
 | Exploration | Quiet. Scholarly. The knowledge here seems benign. |
 | Discovery | Paper rustling more frequent. Books seem to shift on shelves. |
-| Horror | The binding book GLOWS faintly when player is in the room (emission). Pages rustle aggressively. |
+| Horror | The binding-book aftershock can dim the desk lamp and make the stacks answer back. |
 | Resolution | Calm. The book is just a book now. The knowledge is understood. |

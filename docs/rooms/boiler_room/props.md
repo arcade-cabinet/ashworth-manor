@@ -13,3 +13,9 @@
 | Hammer | `hammer_mx_1.glb` | On bench |
 | Jerrycan | `basement/boiler_room/jerrycan.glb` | Fuel storage |
 | Electrical equip | `electrical_equipment_1.glb`, `electrical_equipment_2.glb` | Wall-mounted |
+| Mask | `mask_mx_2.glb` | Mounted on west wall |
+| Workbench | `assets/shared/furniture/table.glb` | Bench for log and tools |
+
+The current declaration stages the room around two visible systems:
+- the boiler body and pipe network as the hot mechanical heart
+- the electrical panel as the colder service-side counterpoint

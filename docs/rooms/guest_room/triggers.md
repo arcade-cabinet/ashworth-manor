@@ -10,6 +10,7 @@ conditions:
 actions:
   - set_flag: visited_guest_room
   - show_room_name: "Guest Room"
+  - show_text: "Someone tried to keep this room ready for departure long after departure stopped being possible."
 ```
 
 ## Flashbacks

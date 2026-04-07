@@ -11,10 +11,36 @@ actions:
   - set_flag: visited_front_gate
   - set_flag: game_started
   - show_room_name: "Ashworth Manor" (not "Front Gate" — the manor IS the name)
-  - play_ambient: "Tempest Loop1"
 ```
 
 **Note:** This is the ONLY room where the room name display shows the game title instead of the room name. Sets the tone immediately.
+
+### First Entry Thread Beat
+
+Before the title/state trigger fires, the room runs one thread-specific opening observation:
+
+| Macro Thread | Opening Beat |
+|-------------|--------------|
+| `captive` | The open gate reads like the broken edge of a prison, and the drive funnels the player toward a sealed house. |
+| `mourning` | The allée reads as disciplined grief, with the manor waiting like an old family memory left intact too long. |
+| `sovereign` | The house feels attentive rather than empty; the lit windows and gate lamp imply the estate has noticed the player. |
+
+All three variants trigger a gate creak, and the `captive` / `sovereign` variants add a light camera sway.
+
+### Threshold Acknowledgement
+```yaml
+event: front_gate_threshold_ack
+conditions:
+  - flag_set: examined_gate_plaque
+  - flag_not_set: front_gate_threshold_acknowledged
+actions:
+  - set_flag: front_gate_threshold_acknowledged
+  - play_sfx: "gate_creak"
+  - gate_lamp energy: 2.5 -> 3.4 over 1.2s
+  - brief camera sway (shaky-camera-3d, trauma 0.02)
+```
+
+This is the manor's first answer to the player. It should happen once, immediately after the plaque is read, without replacing the plaque text itself.
 
 ### Return From Mansion (Ending Checks)
 ```yaml

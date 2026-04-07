@@ -34,14 +34,11 @@
 | Candle 1 | `shared/items/candle2.glb` | (0, 0.78, -1.5) | South end table |
 | Candle 2 | `shared/items/candle2.glb` | (0, 0.78, 1.5) | North end table |
 | Plate 1-4 | `dining_room/dining_plate.glb` | Various | Place settings |
-| Wine glass 1-2 | `dining_room/wine_glass.glb` | Various | Including overturned one |
+| Wine glasses | built from `wine_glass` interactable scene plus supporting glass props | Various | Hero full glass now owned by the interactable; other settings remain prop dressing |
 | Lamp | `dining_room/lamp_mx_1_b_on.glb` | (-0.6, 0.78, 2) | Table lamp |
 | Photo frame | `shared/decor/picture_blank_002.glb` | (3.9, 1.6, 0) | Dinner photo on east wall |
 
-## Props TO ADD
+| Fork/knife/spoon | `dining_room/dining_fork.glb`, `dining_knife.glb`, `dining_spoon.glb` | Table positions | Added as table-read dressing so the meal feels interrupted, not symbolic |
+| Water glasses | `dining_room/water_glass.glb` | Table positions | Added at selective settings to break uniformity |
 
-| Name | GLB | Position | Notes |
-|------|-----|----------|-------|
-| Fork/knife/spoon | `dining_room/dining_fork.glb`, `dining_knife.glb`, `dining_spoon.glb` | Table positions | 5 used, 3 pristine place settings |
-| Water glasses | `dining_room/water_glass.glb` | Table positions | At used settings |
-| Napkins | (none — implied by text) | — | Crumpled at used, pristine at unused |
+Napkins remain implied by text rather than modeled, but the room should now read as fully staged without needing imaginary furniture.

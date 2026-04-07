@@ -1,0 +1,221 @@
+[gd_scene format=3 uid="uid://cmiv02d4britd"]
+
+[ext_resource type="PackedScene" uid="uid://djio0qdyb77sd" path="res://misc/assets/PACK V3/palm_bend.FBX" id="1_osngf"]
+[ext_resource type="Shader" uid="uid://cfy25gtfb3b4j" path="res://Stylized/ocean.gdshader" id="2_dyojo"]
+[ext_resource type="PackedScene" uid="uid://3cbk5dulbk5b" path="res://misc/DemoWorldGen.tscn" id="3_gbx6g"]
+[ext_resource type="Shader" uid="uid://b030txp5nbl16" path="res://Stylized/underwater.gdshader" id="4_6ksov"]
+[ext_resource type="PackedScene" uid="uid://c62fgux5vlt4d" path="res://misc/assets/boat1/ship_g.glb" id="5_wpt3g"]
+[ext_resource type="PackedScene" uid="uid://bc45utnlqc1rs" path="res://misc/assets/boat2/barka.glb" id="6_hgojm"]
+[ext_resource type="PackedScene" uid="uid://es6dcj4m4sr7" path="res://misc/assets/beach ball/beach ball.glb" id="7_uuhbp"]
+[ext_resource type="PackedScene" uid="uid://byxo11qwtaf82" path="res://misc/assets/beach unbrella/Red%2FWhite Beach Umbrella.glb" id="8_7f3rv"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0hpfi"]
+
+[sub_resource type="Sky" id="Sky_eue0a"]
+sky_material = SubResource("ProceduralSkyMaterial_0hpfi")
+radiance_size = 0
+
+[sub_resource type="Environment" id="Environment_7gth8"]
+background_mode = 2
+background_color = Color(1, 1, 1, 1)
+background_energy_multiplier = 2.0
+sky = SubResource("Sky_eue0a")
+
+[sub_resource type="Gradient" id="Gradient_0hpfi"]
+offsets = PackedFloat32Array(0.18897638, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.89189196, 0.89189196, 0.89189196, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_eue0a"]
+frequency = 0.0033
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7gth8"]
+noise = SubResource("FastNoiseLite_eue0a")
+color_ramp = SubResource("Gradient_0hpfi")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eue0a"]
+render_priority = 0
+shader = ExtResource("2_dyojo")
+shader_parameter/fade_start_depth = 0.5
+shader_parameter/max_depth = 5.0
+shader_parameter/refraction_strength = 1.0
+shader_parameter/refraction_distance_fade = 5.0
+shader_parameter/base_tint_color = Color(2.0696223e-06, 0.59520996, 0.44785368, 1)
+shader_parameter/deep_color = Color(0.31298855, 0.7856591, 0.9999998, 1)
+shader_parameter/water_absorption = Color(0.35764033, 0.5796128, 0.741271, 1)
+shader_parameter/underwater_fog_color = Color(0.11083635, 0.31181115, 0.3859753, 1)
+shader_parameter/normal_epsilon = 0.01
+shader_parameter/normal_smoothness_dist = 50.0
+shader_parameter/sea_height = 1.3
+shader_parameter/sea_choppy = 4.0
+shader_parameter/sea_speed = 1.5
+shader_parameter/sea_freq = 0.08
+shader_parameter/roughness = 0.125
+shader_parameter/metallic = 0.0
+shader_parameter/specular = 0.5
+shader_parameter/foam_color = Color(1, 1, 1, 1)
+shader_parameter/foam_depth_start = 1.499999966472
+shader_parameter/foam_depth_end = 0.0
+shader_parameter/foam_noise_scale = 1.999999955296
+shader_parameter/foam_noise_speed = 1.0
+shader_parameter/foam_cutoff = 0.7
+shader_parameter/foam_crest_threshold = 0.7
+shader_parameter/foam_crest_amount = 2.0
+shader_parameter/foam_edge_color = Color(0, 0, 0.05, 1)
+shader_parameter/foam_edge_offset = Vector2(0.02, 0.02)
+shader_parameter/voronoi_scale = 9.0000004275
+shader_parameter/voronoi_strength = 0.800000038
+shader_parameter/caustics_texture = SubResource("NoiseTexture2D_7gth8")
+shader_parameter/caustics_scale = 2.0
+shader_parameter/caustics_speed = 0.1
+shader_parameter/caustics_intensity = 0.8
+shader_parameter/caustics_depth_fade = 0.7
+shader_parameter/ITER_GEOMETRY = 3
+shader_parameter/ITER_FRAGMENT = 6
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ktfdw"]
+size = Vector2(1024, 1024)
+subdivide_width = 1024
+subdivide_depth = 1024
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rvtbs"]
+render_priority = 0
+shader = ExtResource("4_6ksov")
+shader_parameter/sea_height = 1.3
+shader_parameter/sea_choppy = 4.0
+shader_parameter/sea_speed = 1.5
+shader_parameter/sea_freq = 0.08
+shader_parameter/height_offset = 0.0
+shader_parameter/underwater_color = Color(0, 0.341, 0.29, 1)
+shader_parameter/color_deep_strength = 0.5
+shader_parameter/beer_factor = 0.5
+shader_parameter/water_level_fudge = 0.0
+shader_parameter/refraction_strength = 0.003
+shader_parameter/aberration_strength = 0.002
+shader_parameter/caustic_strength = 0.018000000855
+shader_parameter/caustic_scale = 0.5
+shader_parameter/caustic_speed = 0.2
+
+[sub_resource type="QuadMesh" id="QuadMesh_7pbih"]
+size = Vector2(2, 2)
+
+[sub_resource type="GDScript" id="GDScript_813c7"]
+script/source = "# script to apply underwater effect for editor camera
+
+@tool
+extends MeshInstance3D
+
+# toggle this off if you want to stop the effect while editing
+@export var preview_in_editor: bool = true
+
+func _process(_delta):
+	# only run this logic inside the editor, NOT in the actual game
+	if Engine.is_editor_hint():
+		if preview_in_editor:
+			_sync_to_editor_camera()
+		else:
+			# reset to local zero if disabled, so it sits nicely under your game camera
+			if transform.origin.length() > 1.0: 
+				transform = Transform3D.IDENTITY
+				position.z = -0.1 # keep the small offset
+
+func _sync_to_editor_camera():
+	# attempt to get the active 3d viewport camera
+	var plugin = EditorInterface.get_editor_viewport_3d(0)
+	if plugin:
+		var cam = plugin.get_camera_3d()
+		if cam:
+			# match the editor camera's global position and rotation
+			global_transform = cam.global_transform
+			# move the quad slightly forward so it's in front of the lens
+			# adjust -0.1 if it clips or is too close
+			translate_object_local(Vector3(0, 0, -0.1))
+"
+
+[sub_resource type="BoxMesh" id="BoxMesh_rvtbs"]
+size = Vector3(32, 32, 32)
+
+[node name="Ocean" type="Node3D" unique_id=629141833]
+
+[node name="palm_bend" parent="." unique_id=203849138 instance=ExtResource("1_osngf")]
+transform = Transform3D(3.875, 0, 0, 0, 3.875, 0, 0, 0, 3.875, -84.354, -6.565, -24.996)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1501148064]
+environment = SubResource("Environment_7gth8")
+
+[node name="Ocean" type="MeshInstance3D" parent="." unique_id=496070959]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 264.00696, 0, 251.53809)
+material_override = SubResource("ShaderMaterial_eue0a")
+mesh = SubResource("PlaneMesh_ktfdw")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=402886357]
+transform = Transform3D(1, 0, 0, 0, -0.17118964, 0.9852382, 0, -0.9852382, -0.17118964, 0, 13.409435, 0)
+
+[node name="DemoWorldGen" parent="." unique_id=568711516 instance=ExtResource("3_gbx6g")]
+tree_density = 0.05
+tree_global_scale = 16.0
+underwater_density = 4.0
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1022428010]
+transform = Transform3D(-0.8290376, 0.039007317, -0.5578307, 0, 0.9975641, 0.06975647, 0.55919284, 0.057830736, -0.82701814, -45.319, 3.617, -48.782)
+fov = 65.0
+
+[node name="UnderwaterEffect" type="MeshInstance3D" parent="Camera3D" unique_id=382197255]
+transform = Transform3D(-0.99915755, -0.02391848, 0.03335011, 0.002862841, 0.7700145, 0.63802, -0.040940493, 0.63757795, -0.7692973, 4.719348, 123.9453, -244.21568)
+material_override = SubResource("ShaderMaterial_rvtbs")
+mesh = SubResource("QuadMesh_7pbih")
+script = SubResource("GDScript_813c7")
+
+[node name="Sketchfab_Scene" parent="." unique_id=2090799202 instance=ExtResource("5_wpt3g")]
+transform = Transform3D(-0.2, 0, -3.019916e-08, 0, 0.2, 0, 3.019916e-08, 0, -0.2, -108.18428, 1.828177, -76.98505)
+
+[node name="Sketchfab_Scene2" parent="." unique_id=977263823 instance=ExtResource("6_hgojm")]
+transform = Transform3D(-3.4200096, 0, -2.0744963, 0, 4, 0, 2.0744963, 0, -3.4200096, 143.54388, 0.2644148, 57.989105)
+
+[node name="Pool" type="Node3D" parent="." unique_id=1084701229]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 174.59615)
+
+[node name="Camera3D2" type="Camera3D" parent="Pool" unique_id=773221635]
+transform = Transform3D(0.9945219, -0.08111894, 0.06592357, 0, 0.6306758, 0.7760464, -0.104528464, -0.77179515, 0.62722087, 32.264, 15.694, 76.584)
+current = true
+
+[node name="beach ball" parent="Pool" unique_id=829053487 instance=ExtResource("7_uuhbp")]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 35.401207, 2.3989058, 60.667557)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pool" unique_id=1679651301]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.999939, 54)
+mesh = SubResource("BoxMesh_rvtbs")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Pool" unique_id=1634796499]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.999939, 22)
+mesh = SubResource("BoxMesh_rvtbs")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Pool" unique_id=754221523]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.999939, 85.999985)
+mesh = SubResource("BoxMesh_rvtbs")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Pool" unique_id=342226908]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, -37.99994, 54)
+mesh = SubResource("BoxMesh_rvtbs")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Pool" unique_id=1663949932]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, -9.999939, 22)
+mesh = SubResource("BoxMesh_rvtbs")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Pool" unique_id=546989866]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, -9.999939, 85.999985)
+mesh = SubResource("BoxMesh_rvtbs")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Pool" unique_id=710078979]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, -9.999939, 54)
+mesh = SubResource("BoxMesh_rvtbs")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Pool" unique_id=1030804078]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, -9.999939, 22)
+mesh = SubResource("BoxMesh_rvtbs")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="Pool" unique_id=680695786]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, -9.999939, 85.999985)
+mesh = SubResource("BoxMesh_rvtbs")
+
+[node name="Red_2FWhite Beach Umbrella" parent="Pool" unique_id=1136177970 instance=ExtResource("8_7f3rv")]
+transform = Transform3D(-14.057209, -3.168943, 6.9536104, 0, 14.55938, 6.635092, -7.6416554, 5.8294296, -12.791515, 25.626621, 9.615459, 73.298904)

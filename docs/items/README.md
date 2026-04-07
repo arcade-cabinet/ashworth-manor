@@ -253,7 +253,7 @@ reveals:
 #### Elizabeth's Final Words
 ```yaml
 id: note_final
-location: hidden_room
+location: hidden_chamber
 type: note
 content:
   title: "Elizabeth's Last Words"

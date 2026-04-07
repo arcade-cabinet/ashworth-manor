@@ -1,5 +1,5 @@
 extends SceneTree
-## Validates bidirectional connections (34 pairs).
+## Validates bidirectional connections and secret-passage endpoint integrity.
 ## Every A->B connection must have a corresponding B->A.
 ## Also checks locked/key_id consistency and position sanity.
 ## Run: godot --headless --script test/e2e/validate_connections.gd
@@ -25,6 +25,7 @@ func _run_validation() -> void:
 	_validate_lock_consistency(world)
 	_validate_room_references(world)
 	_validate_connection_types(world)
+	_validate_secret_passages(world)
 
 	print("\n========================================")
 	print("CONNECTION VALIDATION: %d passed, %d failed" % [_pass_count, _fail_count])
@@ -124,6 +125,38 @@ func _validate_connection_types(world: WorldDeclaration) -> void:
 	for type_name in type_counts:
 		print("  %s: %d" % [type_name, type_counts[type_name]])
 	print("")
+
+
+func _validate_secret_passages(world: WorldDeclaration) -> void:
+	print("--- Secret Passages ---")
+	var issues := 0
+	var room_ids: Dictionary = {}
+	for room_ref in world.rooms:
+		room_ids[room_ref.room_id] = true
+
+	for passage in world.secret_passages:
+		if passage.from_room not in room_ids:
+			print("  UNKNOWN FROM ROOM: %s in %s" % [passage.from_room, passage.passage_id])
+			issues += 1
+		if passage.to_room not in room_ids:
+			print("  UNKNOWN TO ROOM: %s in %s" % [passage.to_room, passage.passage_id])
+			issues += 1
+		if passage.anchor_from == null or passage.anchor_to == null:
+			print("  MISSING ANCHOR: %s" % passage.passage_id)
+			issues += 1
+			continue
+		if passage.anchor_from.room_id != passage.from_room:
+			print("  FROM ANCHOR MISMATCH: %s" % passage.passage_id)
+			issues += 1
+		if passage.anchor_to.room_id != passage.to_room:
+			print("  TO ANCHOR MISMATCH: %s" % passage.passage_id)
+			issues += 1
+		if passage.locked and passage.key_id.is_empty():
+			print("  LOCK WITH NO KEY: %s" % passage.passage_id)
+			issues += 1
+
+	_assert("secret passages valid", issues == 0)
+	print("  Secret passages: %d, Issues: %d\n" % [world.secret_passages.size(), issues])
 
 
 func _assert(description: String, condition: bool) -> void:

@@ -7,6 +7,24 @@
 [ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="8"]
+
+[sub_resource type="Resource" id="anchor_entry_stairs"]
+script = ExtResource("8")
+anchor_id = "entry_stairs"
+anchor_type = "entry"
+position = Vector3(0.0, 0.0, -1.4)
+rotation_y = 180.0
+target_anchor_id = "focus_service_stack"
+tags = PackedStringArray("critical_path", "service_route")
+
+[sub_resource type="Resource" id="anchor_focus_service_stack"]
+script = ExtResource("8")
+anchor_id = "focus_service_stack"
+anchor_type = "focal"
+position = Vector3(2.4, 1.0, 3.6)
+rotation_y = 0.0
+tags = PackedStringArray("critical_path", "secret_route")
 
 ; === Scratched Portrait Responses ===
 
@@ -46,6 +64,19 @@ condition = ""
 title = "Iron Cage"
 text = "An animal cage, large enough for a dog. Empty. The door hangs open. The lock is rusted shut in the open position. Whatever was kept here was released -- or escaped."
 
+[sub_resource type="Resource" id="resp_stack_default"]
+script = ExtResource("3")
+condition = ""
+title = "Concealed Stack"
+text = "The crates here are stacked too deliberately for storage. They hide the wall rather than use it. When you press near the back, the wood gives a little and the stone behind it answers hollow. This corner was arranged to conceal movement, not clutter."
+set_state = {"noticed_service_route": true}
+
+[sub_resource type="Resource" id="resp_mattress_default"]
+script = ExtResource("3")
+condition = ""
+title = "Old Mattress"
+text = "A mattress laid directly on the basement stone, close to the cage and farther from the stairs than anyone sleeping here would want. Someone stayed down here for many nights in a row. Not a guest. A servant, a guard, or someone who needed to watch this room without being seen."
+
 ; === Interactables ===
 
 [sub_resource type="Resource" id="inter_portrait"]
@@ -65,6 +96,22 @@ position = Vector3(3, 0.5, 3)
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_cage_default")])
 
+[sub_resource type="Resource" id="inter_stack"]
+script = ExtResource("2")
+id = "service_stack"
+type = "observation"
+position = Vector3(2.4, 1.0, 3.7)
+collision_size = Vector3(1.6, 2.0, 1.2)
+responses = Array[Resource]([SubResource("resp_stack_default")])
+
+[sub_resource type="Resource" id="inter_mattress"]
+script = ExtResource("2")
+id = "basement_mattress"
+type = "observation"
+position = Vector3(2.7, 0.35, 2.0)
+collision_size = Vector3(1.5, 0.8, 2.0)
+responses = Array[Resource]([SubResource("resp_mattress_default")])
+
 ; === Lights ===
 
 [sub_resource type="Resource" id="light_bulb"]
@@ -79,6 +126,134 @@ shadows = true
 flickering = true
 flicker_pattern = "bulb"
 
+[sub_resource type="Resource" id="light_mattress_candle"]
+script = ExtResource("4")
+id = "basement_mattress_candle"
+type = "omni"
+position = Vector3(2.2, 0.9, 2.0)
+color = Color(1.0, 0.82, 0.58, 1)
+energy = 0.28
+range = 2.4
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+; === Props ===
+
+[sub_resource type="Resource" id="prop_shelf_left"]
+script = ExtResource("5")
+id = "shelf_left"
+model = "res://assets/basement/storage/shelf_1.glb"
+position = Vector3(-3.1, 0, 1.6)
+rotation_y = 90.0
+
+[sub_resource type="Resource" id="prop_shelf_right"]
+script = ExtResource("5")
+id = "shelf_right"
+model = "res://assets/basement/storage/shelf_2.glb"
+position = Vector3(3.2, 0, 1.4)
+rotation_y = 270.0
+
+[sub_resource type="Resource" id="prop_crate_1"]
+script = ExtResource("5")
+id = "crate_1"
+model = "res://assets/basement/storage/wooden_crate_1.glb"
+position = Vector3(-2.1, 0, -2.6)
+
+[sub_resource type="Resource" id="prop_crate_2"]
+script = ExtResource("5")
+id = "crate_2"
+model = "res://assets/basement/storage/wooden_crate_2_a.glb"
+position = Vector3(-1.2, 0, -3.0)
+rotation_y = 18.0
+
+[sub_resource type="Resource" id="prop_crate_3"]
+script = ExtResource("5")
+id = "crate_3"
+model = "res://assets/basement/storage/wooden_crate_2_b.glb"
+position = Vector3(1.8, 0, -2.8)
+rotation_y = -12.0
+
+[sub_resource type="Resource" id="prop_crate_4"]
+script = ExtResource("5")
+id = "crate_4"
+model = "res://assets/basement/storage/wooden_crate_2_c.glb"
+position = Vector3(2.7, 0, -1.8)
+rotation_y = 20.0
+
+[sub_resource type="Resource" id="prop_crate_5"]
+script = ExtResource("5")
+id = "crate_5"
+model = "res://assets/basement/storage/wooden_crate_3.glb"
+position = Vector3(-3.0, 0, -1.2)
+rotation_y = -25.0
+
+[sub_resource type="Resource" id="prop_crates_barrels"]
+script = ExtResource("5")
+id = "crates_barrels"
+model = "res://assets/basement/storage/crates_barrels.glb"
+position = Vector3(2.9, 0, -0.2)
+rotation_y = 90.0
+
+[sub_resource type="Resource" id="prop_cage"]
+script = ExtResource("5")
+id = "iron_cage"
+model = "res://assets/basement/storage/cage.glb"
+position = Vector3(3.0, 0, 3.0)
+rotation_y = 180.0
+
+[sub_resource type="Resource" id="prop_ladder"]
+script = ExtResource("5")
+id = "ladder"
+model = "res://assets/basement/storage/ladder.glb"
+position = Vector3(-3.0, 0, 3.1)
+rotation_y = 180.0
+
+[sub_resource type="Resource" id="prop_mattress"]
+script = ExtResource("5")
+id = "old_mattress"
+model = "res://assets/basement/storage/old_mattress_mx_1.glb"
+position = Vector3(2.7, 0, 2.0)
+rotation_y = 90.0
+
+[sub_resource type="Resource" id="prop_bucket"]
+script = ExtResource("5")
+id = "bucket"
+model = "res://assets/basement/storage/bucket_mx_3.glb"
+position = Vector3(-0.4, 0, 2.5)
+
+[sub_resource type="Resource" id="prop_dead_lamp"]
+script = ExtResource("5")
+id = "dead_lamp"
+model = "res://assets/basement/storage/lamp_mx_2_off.glb"
+position = Vector3(0.9, 0.82, -2.4)
+
+[sub_resource type="Resource" id="prop_debris"]
+script = ExtResource("5")
+id = "debris"
+model = "res://assets/basement/storage/debris_bricks_mx_1.glb"
+position = Vector3(-0.8, 0, -1.1)
+
+[sub_resource type="Resource" id="prop_hidden_service_stack"]
+script = ExtResource("5")
+id = "hidden_service_stack"
+model = "res://assets/basement/storage/wooden_crate_2_a.glb"
+position = Vector3(2.4, 0, 3.8)
+rotation_y = 32.0
+scale = 0.92
+
+[sub_resource type="Resource" id="prop_mattress_candle_holder"]
+script = ExtResource("5")
+id = "mattress_candle_holder"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(2.2, 0.78, 2.0)
+
+[sub_resource type="Resource" id="prop_mattress_candle"]
+script = ExtResource("5")
+id = "mattress_candle"
+model = "res://assets/shared/items/candle0.glb"
+position = Vector3(2.2, 0.78, 2.0)
+
 ; === Entry Trigger ===
 
 [sub_resource type="Resource" id="act_visited"]
@@ -89,12 +264,16 @@ set_state = {"visited_storage_basement": true}
 script = ExtResource("7")
 show_room_name = "Storage Basement"
 
+[sub_resource type="Resource" id="act_entry_text"]
+script = ExtResource("7")
+show_text = "Stone, dust, and bad light. Whatever the house could not admit upstairs, it pushed down here and stacked against the walls."
+
 [sub_resource type="Resource" id="trig_first_entry"]
 script = ExtResource("6")
 condition = "NOT visited_storage_basement"
 once = true
 trigger_id = "storage_basement_first_entry"
-actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name")])
+actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name"), SubResource("act_entry_text")])
 
 ; === Main Resource ===
 
@@ -117,11 +296,13 @@ ambient_loop = "res://assets/audio/loops/Echoes at Dusk Loop1.ogg"
 tension_loop = "res://assets/audio/tension/tension_basement.wav"
 reverb_bus = "StoneCorridor"
 footstep_surface = "stone"
-spawn_position = Vector3(0, 0, 0)
-spawn_rotation_y = 0.0
-interactables = Array[Resource]([SubResource("inter_portrait"), SubResource("inter_cage")])
-lights = Array[Resource]([SubResource("light_bulb")])
-props = Array[Resource]([])
+spawn_position = Vector3(0, 0, -1.4)
+spawn_rotation_y = 180.0
+entry_anchors = Array[Resource]([SubResource("anchor_entry_stairs")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_service_stack")])
+interactables = Array[Resource]([SubResource("inter_portrait"), SubResource("inter_cage"), SubResource("inter_stack"), SubResource("inter_mattress")])
+lights = Array[Resource]([SubResource("light_bulb"), SubResource("light_mattress_candle")])
+props = Array[Resource]([SubResource("prop_shelf_left"), SubResource("prop_shelf_right"), SubResource("prop_crate_1"), SubResource("prop_crate_2"), SubResource("prop_crate_3"), SubResource("prop_crate_4"), SubResource("prop_crate_5"), SubResource("prop_crates_barrels"), SubResource("prop_cage"), SubResource("prop_ladder"), SubResource("prop_mattress"), SubResource("prop_bucket"), SubResource("prop_dead_lamp"), SubResource("prop_debris"), SubResource("prop_hidden_service_stack"), SubResource("prop_mattress_candle_holder"), SubResource("prop_mattress_candle")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([])

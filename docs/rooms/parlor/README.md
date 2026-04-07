@@ -9,6 +9,8 @@
 
 Lady Ashworth's domain — a space for receiving guests, afternoon tea, and maintaining social appearances. Here, the facade cracks. The torn diary page is the **FIRST MAJOR CLUE** — the player learns someone is locked in the attic. This room triggers the phase transition from Exploration → Discovery.
 
+The tea service is now a real tableau instead of a stand-in. A low tea table, emptied pot, one used cup, and one untouched cup sit between the settees so the room can actually show the social ritual its text keeps invoking.
+
 The parlor establishes:
 - **Lady Ashworth** — her portrait in mourning dress before any deaths
 - **The hidden child** — diary page about "whispers from the attic" 
@@ -26,7 +28,7 @@ The parlor establishes:
 | Fog Color | Warm dust |
 | Footstep Surface | `wood_parquet` (soft thud) |
 
-**Visual:** Arsenic green walls (wall_4, #335938). Wood parquet floor (floor1). Plaster with molding ceiling (cieling1). Dying fireplace glow. Two velvet settees. Heavy drapes.
+**Visual:** Arsenic green walls (wall_4, #335938). Wood parquet floor (floor1). Plaster with molding ceiling (cieling1). Dying fireplace glow. Two velvet settees angled toward the hearth, a proper conversation arrangement, Lady Ashworth's writing desk offset to the left, and small tables that hold the music box and torn diary page where the player can actually read the room as a domestic stage.
 
 **Audio:** Fire crackling (low, dying). Soft footsteps on parquet. Clock NOT ticking (same wrongness as foyer). After `elizabeth_aware`: faint music box melody at edge of hearing.
 

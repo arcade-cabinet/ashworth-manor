@@ -56,20 +56,30 @@ It shouldn't be.
 **Room ID**: `front_gate`
 **Audio**: "Tempest Loop1" — cold wind, isolation
 **Interactables**: Gate plaque ("ASHWORTH MANOR — Est. 1847"), footprints observation
-**Exit**: Front door → Foyer
+**Exit**: ceremonial approach sequence toward the house
 
-### SCENE 0.5: Grounds (Available After Ground Floor)
+The intended shipped exterior chain is:
 
-After the player has entered the mansion and explored the ground floor, the grounds become accessible via the front door. The exterior areas unlock progressively:
+- `front_gate`
+- `drive_lower`
+- `drive_upper`
+- `front_steps`
+- `foyer`
+
+### SCENE 0.5: Discovery Exterior (Available After Ground Floor)
+
+After the player has entered the mansion and explored the ground floor, the estate opens outward through side and rear circulation rather than treating the gate as a general grounds hub. The front approach remains the prologue/ending threshold, but the wider property should eventually wrap around the mansion as one coherent exterior world.
 
 | Area | Access | Purpose |
 |------|--------|---------|
-| Front Gate & Drive | Always (game start) | Prologue |
-| Garden | After exploring ground floor | Atmosphere, connects to Crypt path |
-| Carriage House | After visiting Wine Cellar (cellar key clue) | Contains cellar_key |
-| Chapel | After entering Attic (elizabeth_aware flag) | Contains blessed_water |
-| Greenhouse | After Chapel visit | Contains gate_key for Crypt |
-| Family Crypt | Requires gate_key from Greenhouse | Contains jewelry_key |
+| Front Gate / Drive / Steps | Always (game start) | Prologue / ending frame / front threshold |
+| West Side Path | After deeper estate access opens | Service-side wrap toward carriage side |
+| East Side Path | After deeper estate access opens | Garden-side wrap toward greenhouse |
+| Garden / Rear Court | Through side or rear house circulation | Rear grounds hub |
+| Carriage House | Via service-side route | Service outbuilding, contains cellar_key |
+| Greenhouse | Via east/garden side route | Conservatory wing, supports later outdoor progression |
+| Chapel | Deeper rear-estate discovery | Contains blessed_water |
+| Family Crypt | Requires later outdoor progression | Contains jewelry_key |
 
 ---
 
@@ -140,8 +150,7 @@ After the player has entered the mansion and explored the ground floor, the grou
 
 3. **Music Box** (decorative table)
    - Interactable but currently non-functional
-   - Will play Elizabeth's melody later (event-triggered)
-   - **Future Development**: Plays when ghost events active
+   - Later plays Elizabeth's melody through the declaration-driven event path once ghost-pressure conditions are met
 
 #### Atmosphere Progression
 - Darker than Foyer (ambientDarkness: 0.5 vs 0.4)
@@ -186,7 +195,7 @@ After the player has entered the mansion and explored the ground floor, the grou
 ### SCENE 4: Kitchen
 **Room ID**: `kitchen`
 **Entry**: From Foyer (east)
-**Exit**: Down to Basement
+**Exits**: Down to Basement, out to Garden
 
 #### Environment Setup
 - Cast iron cookware
@@ -204,6 +213,11 @@ After the player has entered the mansion and explored the ground floor, the grou
    - Descends to Storage Basement
    - First downward path
    - **Visual**: Darkness visible below
+
+3. **Rear Garden Threshold**
+   - Service-side exit rather than ceremonial front access
+   - Establishes that the estate opens outward from the house's working circulation
+   - **Visual**: Cold air and dead growth beyond the back path
 
 #### Atmosphere Notes
 - Class divide evident (plainer materials)
@@ -231,7 +245,12 @@ After the player has entered the mansion and explored the ground floor, the grou
 
 2. **Dusty Mirror** (against wall)
    - Covered in grime
-   - **Future Development**: Reveals figure when cleaned
+   - Reserved for a stronger mirror-apparition beat rather than a one-off prop examine
+
+3. **Concealed Service Stack**
+   - The piled storage on one wall reads wrong on close inspection
+   - Foreshadows a hidden service route deeper into the estate
+   - Tells the player the mansion has backstage circulation, not just public rooms
 
 #### Atmosphere Notes
 - First truly dark space
@@ -242,6 +261,7 @@ After the player has entered the mansion and explored the ground floor, the grou
 - **Up** → Kitchen (stairs)
 - **East** → Boiler Room (door)
 - **Down** → Wine Cellar (ladder)
+- **Hidden South Route** → Carriage House (revealed service passage)
 
 ---
 
@@ -290,7 +310,7 @@ After the player has entered the mansion and explored the ground floor, the grou
 
 2. **Locked Box**
    - Requires `cellar_key`
-   - **Contents**: TBD (future reward item)
+   - **Contents**: Mother's confession document
 
 #### Atmosphere Notes
 - Oppressive darkness
@@ -301,11 +321,11 @@ After the player has entered the mansion and explored the ground floor, the grou
 
 ### SCENE 7.5: Grounds (Accessible After Ground Floor)
 
-The exterior grounds become available once the player has explored the ground floor. These areas are accessed by exiting through the front door. They contain critical puzzle components for the counter-ritual ending.
+The exterior grounds become available once the player has explored the ground floor, but they are reached through mansion-side circulation rather than by stepping back through the ceremonial front approach. This preserves the front drive as prologue/ending space and makes the deeper estate feel discovered rather than selected from a menu.
 
 #### Carriage House
 **Room ID**: `carriage_house`
-**Available**: After visiting Wine Cellar (player has cellar key clue)
+**Available**: Through the hidden service route from Storage Basement, after visiting Wine Cellar (player has cellar key clue)
 **Audio**: "Echoes at Dusk Loop1"
 
 **Key Discovery**: Lord Ashworth's duplicate portrait with CELLAR KEY behind frame
@@ -334,6 +354,15 @@ The exterior grounds become available once the player has explored the ground fl
 
 **Key Discovery**: JEWELRY KEY (under loose flagstone) + Lady's guilt note
 **Secondary**: Empty sarcophagi (Lord & Lady vanished), MISSING fourth plaque (Elizabeth erased from death)
+
+#### Discovery Exterior Routing
+- **Kitchen** → Garden
+- **Garden** → Chapel
+- **Garden** → Greenhouse
+- **Garden** → Family Crypt
+- **Storage Basement** → hidden service route → Carriage House
+
+This routing is intentional. The player first encounters the manor as a formal public facade, then discovers its rear grounds, burial places, and service routes only after entering its inner logic.
 
 ---
 
@@ -387,7 +416,7 @@ Player must now explore upper floor to find the attic key.
 
 3. **Locked Jewelry Box**
    - Requires `jewelry_key`
-   - **Contents**: TBD (locket with Elizabeth's portrait?)
+   - **Contents**: `elizabeth_locket` and `lock_of_hair`
 
 #### Atmosphere Notes
 - Intimacy violated by searching
@@ -504,12 +533,12 @@ Player now has the attic key. Return to upper hallway.
 
 #### Hidden Path
 - **West** → Hidden Chamber (locked with `hidden_key`)
-- **Future Development**: Find hidden_key elsewhere
+- `hidden_key` is currently sourced through the attic doll/letter route and used here as the sole declaration path
 
 ---
 
 ### SCENE 14: Hidden Chamber
-**Room ID**: `hidden_room`
+**Room ID**: `hidden_chamber`
 **Entry**: From Attic Storage (west, requires hidden_key)
 **FINAL REVELATION**
 
@@ -544,32 +573,71 @@ Player now has complete knowledge:
 ## Puzzle Flowchart
 
 ```
-START (Foyer)
+START (Front Gate)
     │
-    ├─► Explore Ground Floor
-    │   └─► Find clues about attic whispers (Parlor, Kitchen)
-    │
-    ├─► Explore Basement
-    │   └─► Find scratched portrait (first evidence of 4th child)
-    │
-    └─► Go Upstairs
+    └─► Read plaque / accept threshold
         │
-        ├─► Find Locked Attic Door
-        │   └─► Need: attic_key
-        │
-        ├─► Explore Master Bedroom
-        │   └─► FIND DIARY → "Key in library globe"
-        │
-        └─► Explore Library
-            └─► FIND ATTIC KEY (in globe)
+        └─► Enter Foyer
+            │
+            ├─► Explore Ground Floor
+            │   ├─► Parlor: attic whispers and family unease
+            │   ├─► Dining Room: interrupted family ritual / frozen gathering
+            │   └─► Kitchen: servant knowledge + rear/service circulation
+            │
+            ├─► Reach Garden through Kitchen
+            │   └─► Rear estate network established
+            │
+            ├─► Descend to Storage Basement
+            │   ├─► Boiler Room: staff fear / house as machine
+            │   ├─► Wine Cellar: confession box route
+            │   └─► Hidden service route to Carriage House
+            │       └─► FIND CELLAR KEY (portrait)
+            │
+            └─► Go Upstairs
                 │
-                └─► UNLOCK ATTIC
-                    │
-                    ├─► Attic Storage
-                    │   └─► Major reveals (portrait, doll, letter)
-                    │
-                    └─► Hidden Chamber (requires hidden_key)
-                        └─► FINAL REVELATION
+                ├─► Find Locked Attic Door
+                │   └─► Need: attic_key
+                │
+                ├─► Explore Master Bedroom
+                │   └─► FIND DIARY → "Key in library globe"
+                │
+                └─► Explore Library
+                    └─► FIND ATTIC KEY (in globe)
+                        │
+                        └─► UNLOCK ATTIC
+                            │
+                            ├─► Attic Storage
+                            │   ├─► Major reveals (portrait, doll, letter)
+                            │   └─► FIND hidden_key through the doll/letter route
+                            │
+                            └─► Hidden Chamber (requires hidden_key)
+                                └─► FINAL REVELATION
+```
+
+### Counter-Ritual Collection Route
+
+```text
+Library
+    └─► FIND binding_book
+
+Wine Cellar
+    └─► Use cellar_key on lockbox
+        └─► FIND mothers_confession
+
+Master Bedroom
+    └─► Use jewelry_key on jewelry box
+        └─► FIND Elizabeth's locket + lock of hair
+
+Attic Storage
+    └─► Recover porcelain doll
+
+Chapel
+    └─► FIND blessed_water
+
+Greenhouse
+    └─► FIND gate_key
+        └─► unlock Family Crypt
+            └─► FIND jewelry_key
 ```
 
 ---
@@ -784,17 +852,17 @@ FADE TO BLACK.
 - [x] Counter-ritual 3-step sequence designed
 
 ### Phase 2: Godot Implementation (DONE)
-- [x] Scene-based architecture (20 .tscn room scenes)
-- [x] All 20 rooms with GLB models placed
+- [x] Declaration-driven world architecture (20 authored room declarations assembled at runtime)
+- [x] All 20 rooms with authored props, light sources, interactables, and connections placed through declarations
 - [x] Touch controls (tap-to-walk, swipe-to-look)
 - [x] Room transitions with fade (timing per connection type)
-- [x] Interaction system (InteractableData resources on Area3D)
+- [x] Declaration-driven interaction system with conditional responses, rewards, and room events
 - [x] Inventory system (GameManager autoload)
 - [x] Save/load system
-- [x] All puzzle logic (interaction_manager.gd)
+- [x] All puzzle logic (declaration runtime + interaction_manager.gd glue)
 - [x] All audio loops integrated (audio_manager.gd with crossfade)
 - [x] All three ending sequences
-- [x] PSX shader/post-processing (screen-space on CanvasLayer)
+- [x] Atmospheric lighting and room-specific presentation authored per declaration
 
 ### Phase 3: Visual QA
 - [ ] Screenshot every room

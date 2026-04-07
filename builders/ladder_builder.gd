@@ -14,21 +14,24 @@ static func build(connection: Connection, height: float = 2.4) -> Node3D:
 	ladder_root.name = "Ladder_%s" % connection.id
 
 	var rung_count := ceili(height / RUNG_SPACING)
+	var visual := Node3D.new()
+	visual.name = "LadderVisual"
+	ladder_root.add_child(visual)
 
 	# Left rail
 	var rail_l := _make_rail(height, -RUNG_WIDTH * 0.5)
 	rail_l.name = "RailLeft"
-	ladder_root.add_child(rail_l)
+	visual.add_child(rail_l)
 
 	# Right rail
 	var rail_r := _make_rail(height, RUNG_WIDTH * 0.5)
 	rail_r.name = "RailRight"
-	ladder_root.add_child(rail_r)
+	visual.add_child(rail_r)
 
 	# Rungs
 	for i in range(rung_count):
 		var rung := _make_rung(i)
-		ladder_root.add_child(rung)
+		visual.add_child(rung)
 
 	# Collision (thin box approximating the ladder)
 	var body := StaticBody3D.new()
@@ -49,14 +52,23 @@ static func build(connection: Connection, height: float = 2.4) -> Node3D:
 	area.name = "LadderArea"
 	area.collision_layer = 8  # Layer 4 -- Connection
 	area.collision_mask = 0
+	area.add_to_group("connections")
 	area.set_meta("connection_id", connection.id)
 	area.set_meta("target_room", connection.to_room)
+	area.set_meta("conn_type", connection.type)
 	area.set_meta("locked", connection.locked)
 	area.set_meta("key_id", connection.key_id)
+	area.set_meta("required_state", connection.required_state)
+	area.set_meta("blocked_text", connection.blocked_text)
+	area.set_meta("declaration", connection)
+	area.set_meta("presentation_type", connection.presentation_type)
+	area.set_meta("mechanism_type", connection.mechanism_type)
+	area.set_meta("mechanism_state", connection.mechanism_state)
+	area.set_meta("reveal_state", connection.reveal_state)
 
 	var area_shape := CollisionShape3D.new()
 	var area_box := BoxShape3D.new()
-	area_box.size = Vector3(RUNG_WIDTH + 0.5, height, 1.0)
+	area_box.size = connection.interaction_size if connection.interaction_size != Vector3.ZERO else Vector3(RUNG_WIDTH + 0.5, height, 1.0)
 	area_shape.shape = area_box
 	area_shape.position = Vector3(0, height * 0.5, 0.3)
 	area.add_child(area_shape)

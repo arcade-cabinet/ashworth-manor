@@ -68,14 +68,31 @@ condition = ""
 title = "Stained Glass"
 text = "The stained glass window depicts five children in a garden. The fourth child stands slightly apart from the others, hand raised as if waving. Or beckoning. The moonlight passing through the glass casts colored shadows on the floor -- blue, gold, violet. Where the fourth child's image falls, the light is brighter than it should be."
 
+[sub_resource type="Resource" id="resp_pews_default"]
+script = ExtResource("3")
+condition = ""
+title = "Overturned Pews"
+text = "The chapel pews were not left to rot in place. They were thrown aside. One lies split along the grain as if something hit it from the side with impossible force. Worship ended here violently."
+
+[sub_resource type="Resource" id="resp_bones_default"]
+script = ExtResource("3")
+condition = ""
+title = "Loose Bones"
+text = "Loose bones scattered near the entrance. Small enough to be animal, arranged too deliberately to be accidental. Someone left an offering here after the chapel was stripped bare."
+
 ; === Interactables ===
 
 [sub_resource type="Resource" id="inter_font"]
 script = ExtResource("2")
 id = "baptismal_font"
 type = "observation"
-position = Vector3(0, 0.8, -4)
-collision_size = Vector3(1.5, 1.5, 1.5)
+position = Vector3(0, 0, -4)
+collision_size = Vector3(1.7, 2.0, 1.7)
+scene_path = "res://scenes/shared/chapel/baptismal_font_still.tscn"
+default_visual_state = "still"
+state_model_map = {"disturbed": "res://scenes/shared/chapel/baptismal_font_disturbed.tscn", "searched": "res://scenes/shared/chapel/baptismal_font_searched.tscn"}
+visual_state_order = PackedStringArray("searched", "disturbed")
+visual_state_conditions = {"disturbed": "examined_baptismal_font", "searched": "found_gate_key_font"}
 also_gives = "gate_key"
 responses = Array[Resource]([SubResource("resp_font_reach"), SubResource("resp_font_default")])
 thread_responses = {"captive": [SubResource("resp_font_captive")], "mourning": [SubResource("resp_font_mourning")], "sovereign": [SubResource("resp_font_sovereign")]}
@@ -97,6 +114,22 @@ wall = "north"
 collision_size = Vector3(3.0, 3.0, 0.5)
 responses = Array[Resource]([SubResource("resp_glass_default")])
 
+[sub_resource type="Resource" id="inter_pews"]
+script = ExtResource("2")
+id = "chapel_pews"
+type = "observation"
+position = Vector3(-2.0, 0.8, 0.5)
+collision_size = Vector3(2.5, 1.0, 2.0)
+responses = Array[Resource]([SubResource("resp_pews_default")])
+
+[sub_resource type="Resource" id="inter_bones"]
+script = ExtResource("2")
+id = "chapel_bones"
+type = "observation"
+position = Vector3(-3.0, 0.2, -3.5)
+collision_size = Vector3(1.5, 0.5, 1.5)
+responses = Array[Resource]([SubResource("resp_bones_default")])
+
 ; === Lights ===
 
 [sub_resource type="Resource" id="light_window"]
@@ -110,7 +143,121 @@ range = 8.0
 shadows = true
 flickering = false
 
+[sub_resource type="Resource" id="light_altar_candle"]
+script = ExtResource("4")
+id = "chapel_altar_candle"
+type = "omni"
+position = Vector3(0, 1.2, 4.0)
+color = Color(1.0, 0.82, 0.58, 1)
+energy = 0.4
+range = 3.0
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
 ; === Entry Trigger ===
+
+[sub_resource type="Resource" id="prop_wall_nw"]
+script = ExtResource("5")
+id = "wall_nw"
+model = "res://assets/grounds/chapel/plaster_wall_column_fancy.glb"
+position = Vector3(-3.5, 0, 4.5)
+
+[sub_resource type="Resource" id="prop_wall_n"]
+script = ExtResource("5")
+id = "wall_n"
+model = "res://assets/grounds/chapel/plaster_wall.glb"
+position = Vector3(0.0, 0, 5.0)
+
+[sub_resource type="Resource" id="prop_wall_ne"]
+script = ExtResource("5")
+id = "wall_ne"
+model = "res://assets/grounds/chapel/plaster_wall_column_fancy.glb"
+position = Vector3(3.5, 0, 4.5)
+
+[sub_resource type="Resource" id="prop_wall_w"]
+script = ExtResource("5")
+id = "wall_w"
+model = "res://assets/grounds/chapel/plaster_wall_column.glb"
+position = Vector3(-4.0, 0, 0.5)
+rotation_y = 90.0
+
+[sub_resource type="Resource" id="prop_wall_e"]
+script = ExtResource("5")
+id = "wall_e"
+model = "res://assets/grounds/chapel/plaster_wall_column.glb"
+position = Vector3(4.0, 0, 0.5)
+rotation_y = 270.0
+
+[sub_resource type="Resource" id="prop_altar_table"]
+script = ExtResource("5")
+id = "altar_table"
+model = "res://assets/shared/furniture/table.glb"
+position = Vector3(0, 0, 4.0)
+
+[sub_resource type="Resource" id="prop_altar_book"]
+script = ExtResource("5")
+id = "altar_book"
+model = "res://assets/shared/items/openbook0.glb"
+position = Vector3(0, 0.8, 4.1)
+
+[sub_resource type="Resource" id="prop_pew_left"]
+script = ExtResource("5")
+id = "pew_left"
+model = "res://assets/shared/furniture/chair.glb"
+position = Vector3(-2.2, 0, 0.2)
+rotation_y = 110.0
+
+[sub_resource type="Resource" id="prop_pew_right"]
+script = ExtResource("5")
+id = "pew_right"
+model = "res://assets/shared/furniture/chair.glb"
+position = Vector3(-1.1, 0, 1.2)
+rotation_y = 65.0
+
+[sub_resource type="Resource" id="prop_font_bucket"]
+script = ExtResource("5")
+id = "font_bucket"
+model = "res://assets/grounds/chapel/bucket_mx_1.glb"
+position = Vector3(1.7, 0, -3.3)
+
+[sub_resource type="Resource" id="prop_font_bottle"]
+script = ExtResource("5")
+id = "font_bottle"
+model = "res://assets/grounds/chapel/glass_bottle_mx_1.glb"
+position = Vector3(-0.4, 0.85, 4.1)
+
+[sub_resource type="Resource" id="prop_dead_lamp"]
+script = ExtResource("5")
+id = "dead_lamp"
+model = "res://assets/grounds/chapel/lamp_mx_3_off.glb"
+position = Vector3(2.8, 0, -1.8)
+rotation_y = 35.0
+
+[sub_resource type="Resource" id="prop_loose_bones"]
+script = ExtResource("5")
+id = "loose_bones"
+model = "res://assets/grounds/chapel/loose_bones.glb"
+position = Vector3(-3.0, 0, -3.5)
+
+[sub_resource type="Resource" id="prop_saint_statue"]
+script = ExtResource("5")
+id = "saint_statue"
+model = "res://assets/shared/decor/statue.glb"
+position = Vector3(2.8, 0, 3.2)
+scale = 0.8
+
+[sub_resource type="Resource" id="prop_altar_candle_holder"]
+script = ExtResource("5")
+id = "altar_candle_holder"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(0, 0.82, 4.0)
+
+[sub_resource type="Resource" id="prop_altar_candle"]
+script = ExtResource("5")
+id = "altar_candle"
+model = "res://assets/shared/items/candle0.glb"
+position = Vector3(0, 0.82, 4.0)
 
 [sub_resource type="Resource" id="act_visited"]
 script = ExtResource("7")
@@ -150,9 +297,9 @@ reverb_bus = "StoneCorridor"
 footstep_surface = "stone"
 spawn_position = Vector3(0, 0, -5)
 spawn_rotation_y = 0.0
-interactables = Array[Resource]([SubResource("inter_font"), SubResource("inter_altar"), SubResource("inter_glass")])
-lights = Array[Resource]([SubResource("light_window")])
-props = Array[Resource]([])
+interactables = Array[Resource]([SubResource("inter_font"), SubResource("inter_altar"), SubResource("inter_glass"), SubResource("inter_pews"), SubResource("inter_bones")])
+lights = Array[Resource]([SubResource("light_window"), SubResource("light_altar_candle")])
+props = Array[Resource]([SubResource("prop_wall_nw"), SubResource("prop_wall_n"), SubResource("prop_wall_ne"), SubResource("prop_wall_w"), SubResource("prop_wall_e"), SubResource("prop_altar_table"), SubResource("prop_altar_book"), SubResource("prop_pew_left"), SubResource("prop_pew_right"), SubResource("prop_font_bucket"), SubResource("prop_font_bottle"), SubResource("prop_dead_lamp"), SubResource("prop_loose_bones"), SubResource("prop_saint_statue"), SubResource("prop_altar_candle_holder"), SubResource("prop_altar_candle")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([])

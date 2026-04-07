@@ -5,7 +5,6 @@ extends Control
 
 signal document_closed
 
-var _landing: Control = null
 var _document: Control = null
 var _pause: Control = null
 var _ending: Control = null
@@ -14,13 +13,11 @@ var _room_name: Control = null
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_landing = preload("res://scripts/ui/ui_landing.gd").new()
 	_document = preload("res://scripts/ui/ui_document.gd").new()
 	_pause = preload("res://scripts/ui/ui_pause.gd").new()
 	_ending = preload("res://scripts/ui/ui_ending.gd").new()
 	_room_name = preload("res://scripts/ui/ui_room_name.gd").new()
 
-	add_child(_landing)
 	add_child(_document)
 	add_child(_room_name)
 	add_child(_pause)
@@ -77,6 +74,10 @@ func show_ending(ending_id: String) -> void:
 		_ending.show_ending(ending_id)
 
 
+func toggle_pause_menu() -> void:
+	_toggle_pause()
+
+
 # === Signal Handlers ===
 
 func _toggle_pause() -> void:
@@ -87,11 +88,7 @@ func _toggle_pause() -> void:
 func _on_screen_changed(new_screen: String) -> void:
 	match new_screen:
 		"game":
-			if _landing:
-				_landing.visible = false
-		"landing":
-			if _landing:
-				_landing.visible = true
+			pass
 
 
 func _on_ending_triggered(ending_id: String) -> void:

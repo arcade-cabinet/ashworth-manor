@@ -6,15 +6,15 @@ Three player personas play through the entire game using only the ENGINE_SPEC de
 
 ## Persona 1: First-Timer Fiona
 
-**Profile:** Never played a horror game. Picks up her phone, taps New Game. Doesn't read instructions. Taps everything. Gets lost easily. Will quit if confused for more than 2 minutes.
+**Profile:** Never played a horror game. Picks up her phone, starts in the front approach. Doesn't read instructions. Taps everything. Gets lost easily. Will quit if confused for more than 2 minutes.
 
 ### Fiona's Playthrough
 
 **Moment 1: App launches.**
-- Sees landing screen: "ASHWORTH MANOR"
-- Taps "New Game"
+- Spawns on the front approach at Ashworth Manor
+- Sees the gate, drive, trees, and the house beyond
 
-GAP: Where is the landing screen declared? The ENGINE_SPEC has room declarations, world declarations, puzzle declarations — but NO UI screen declarations. The landing screen, pause menu, inventory screen, and ending overlay are all UI that needs declaration. Currently hardcoded in `ui_overlay.gd`.
+The old detached landing screen is no longer the startup authority. The gap is narrower now: pause, inventory, and ending overlays are still UI systems that need declaration, but the start room itself is correctly driven by `WorldDeclaration.starting_room`.
 
 **Moment 2: Front gate loads.**
 - Sees sky, ground, gate, trees, moonlight
@@ -22,7 +22,7 @@ GAP: Where is the landing screen declared? The ENGINE_SPEC has room declarations
 
 Where does Fiona SPAWN? The RoomDeclaration has `spawn_position` and `spawn_rotation_y`. But which room does she spawn in? The WorldDeclaration has a `rooms` array but no `starting_room` field.
 
-GAP: `WorldDeclaration` needs `starting_room: String` and `starting_spawn_position: Vector3`.
+This is now covered by `WorldDeclaration.starting_room` plus the room and world spawn fields.
 
 **Moment 3: Fiona looks up.**
 - Sees the PSX night sky with stars and moon
@@ -211,12 +211,9 @@ The interaction_engine tracks which step the player is on (via state variable `{
 
 ### Sam's Playthrough
 
-**Moment 1: Sam skips the front gate entirely. Goes straight to the garden.**
-- Can he? The front gate has a connection to garden.
+**Moment 1: Sam tries to skip the front gate entirely and route straight to the garden.**
 
-Wait — on New Game, Sam spawns at the front gate. He walks east to the garden connection. He hasn't entered the foyer. He hasn't read ANY clues. Is everything still consistent?
-
-Yes — the declaration system doesn't enforce play order. Connections are open unless locked. Sam can go garden → greenhouse → get gate key → family crypt → get jewelry key → ... all without entering the mansion.
+Under the current topology, he cannot do that from the opening approach anymore. The front gate is the prologue space, and the discovery exterior now sits behind deeper mansion/service routing.
 
 But CAN he solve anything? He needs the attic key (library globe), which requires the diary clue (master bedroom). The diary is always in the master bedroom. The globe is always in the library. Those rooms are inside the mansion.
 

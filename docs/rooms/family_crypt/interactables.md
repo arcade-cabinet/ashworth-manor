@@ -29,7 +29,7 @@ position: (0, 0.5, 0)
 ```yaml
 id: crypt_note
 type: note
-position: (-2, 0.8, 2)
+position: (-2, 0.8, 1.3)
 ```
 ### Text
 > "I hid the locket key here because I cannot bear to see her face. Forgive me, Elizabeth. Forgive us all."
@@ -39,9 +39,7 @@ position: (-2, 0.8, 2)
 ## 4. Loose Flagstone — PUZZLE ITEM
 ```yaml
 id: crypt_flagstone
-type: box
-locked: false
-item_found: jewelry_key
+type: observation
 position: (-2, 0.1, 2)
 ```
 ### Text
@@ -55,7 +53,7 @@ position: (-2, 0.1, 2)
 ```yaml
 id: crypt_bones
 type: observation
-position: (3, 0.1, -2)
+position: (3, 0.2, -2)
 model: scattered_bones.glb
 ```
 ### Text
@@ -66,7 +64,4 @@ model: scattered_bones.glb
 ## Connections
 | Target | Type | Locked |
 |--------|------|--------|
-| `garden` | path | Yes — requires `gate_key` |
-
-## Flashback (Post-`knows_full_truth`)
-Lady Ashworth kneeling at blank stone, placing flowers. Text: "Victoria came here every night. She mourned a daughter she helped imprison. The flowers never lasted."
+| `garden` | gate | Yes — requires `gate_key` |

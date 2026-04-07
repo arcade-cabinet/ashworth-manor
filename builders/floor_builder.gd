@@ -15,7 +15,6 @@ static func build(
 	var floor_root := Node3D.new()
 	floor_root.name = "Floor"
 
-	# Tiled floor quads
 	var tiles_x := ceili(room_width / TILE_SIZE)
 	var tiles_z := ceili(room_depth / TILE_SIZE)
 	var offset_x := (tiles_x * TILE_SIZE) * 0.5 - TILE_SIZE * 0.5
@@ -64,8 +63,16 @@ static func _create_material(texture_path: String) -> StandardMaterial3D:
 	if texture_path.is_empty():
 		return null
 	var mat := StandardMaterial3D.new()
-	if ResourceLoader.exists(texture_path):
-		mat.albedo_texture = load(texture_path)
+	var resolved_path := _resolve_texture_path(texture_path)
+	if ResourceLoader.exists(resolved_path):
+		mat.albedo_texture = load(resolved_path)
 	mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 	mat.uv1_scale = Vector3(1, 1, 1)
 	return mat
+
+
+static func _resolve_texture_path(texture_path: String) -> String:
+	if texture_path.begins_with("res://"):
+		return texture_path
+	return "res://assets/shared/textures/%s.png" % texture_path
+

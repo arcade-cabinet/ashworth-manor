@@ -1,6 +1,6 @@
 # Grand Foyer — Interactables
 
-## 1. Portrait of Lord Ashworth (EXISTS)
+## 1. Portrait of Lord Ashworth
 
 ```yaml
 id: foyer_painting
@@ -32,7 +32,7 @@ model: picture_blank.glb (already placed)
 
 ---
 
-## 2. Entry Mirror (EXISTS)
+## 2. Entry Mirror
 
 ```yaml
 id: foyer_mirror
@@ -65,10 +65,10 @@ collision: BoxShape3D(1.5, 1.5, 1.5)
 
 ---
 
-## 3. Grandfather Clock (EXISTS)
+## 3. Grandfather Clock
 
 ```yaml
-id: grandfather_clock
+id: foyer_clock
 type: clock
 position: (5, 1, -4)  # East wall, south end
 collision: BoxShape3D(1.5, 1.5, 1.5)
@@ -93,7 +93,7 @@ collision: BoxShape3D(1.5, 1.5, 1.5)
 
 ---
 
-## 4. Light Switch (EXISTS)
+## 4. Light Switch
 
 ```yaml
 id: entry_switch
@@ -114,7 +114,7 @@ No text display — switch is purely mechanical.
 
 ---
 
-## 5. Unopened Mail (NEW — add)
+## 5. Unopened Mail
 
 ```yaml
 id: foyer_mail
@@ -142,7 +142,7 @@ collision: BoxShape3D(1.0, 0.5, 0.5)
 
 ---
 
-## 6. Staircase Observation (NEW — add)
+## 6. Staircase Observation
 
 ```yaml
 id: foyer_stairs
@@ -170,9 +170,9 @@ collision: BoxShape3D(2.0, 1.5, 1.5)
 
 | ID | Type | Position | Status |
 |----|------|----------|--------|
-| `foyer_painting` | painting | (0, 2.5, -4.5) | EXISTS — update content text |
-| `foyer_mirror` | mirror | (-5, 2, 3) | EXISTS — update content text |
-| `grandfather_clock` | clock | (5, 1, -4) | EXISTS — update content text |
-| `entry_switch` | switch | (5.5, 1.3, -5) | EXISTS — OK |
-| `foyer_mail` | observation | (-5, 0.9, -4) | NEW — add Area3D |
-| `foyer_stairs` | observation | (2, 1, -2) | NEW — add Area3D |
+| `foyer_painting` | painting | (0, 2.5, -4.5) | Implemented |
+| `foyer_mirror` | mirror | (-5, 2, 3) | Implemented |
+| `foyer_clock` | clock | (5, 1, -4) | Implemented |
+| `entry_switch` | switch | (5.5, 1.3, -5) | Implemented |
+| `foyer_mail` | observation | (-5, 0.9, -4) | Implemented |
+| `foyer_stairs` | observation | (2, 1, -2) | Implemented |

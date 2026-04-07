@@ -93,7 +93,7 @@ func _build() -> void:
 	vbox.add_child(save_btn)
 
 	var quit_btn := Button.new()
-	quit_btn.text = "Quit to Menu"
+	quit_btn.text = "Return to Gate"
 	quit_btn.custom_minimum_size = Vector2(200, 40)
 	quit_btn.pressed.connect(_on_quit_to_menu)
 	quit_btn.process_mode = Node.PROCESS_MODE_ALWAYS
@@ -162,8 +162,10 @@ func _on_resume() -> void:
 func _on_quit_to_menu() -> void:
 	get_tree().paused = false
 	_panel.visible = false
-	GameManager.current_screen = GameManager.Screen.LANDING
-	GameManager.screen_changed.emit("landing")
+	GameManager.abandon_to_front_gate()
+	var room_mgr: Node = _find_node("RoomManager")
+	if room_mgr and room_mgr.has_method("load_room"):
+		room_mgr.load_room(GameManager.current_room)
 
 
 func _find_node(node_name: String) -> Node:

@@ -102,6 +102,7 @@ title = "Jewelry Box"
 text = "The key turns. Inside: Elizabeth's locket. A small oval of tarnished silver. You open it -- two photographs. Elizabeth on the left, barely seven. Victoria on the right, unsmiling. Between them, a lock of dark hair tied with white ribbon."
 set_state = {"found_elizabeth_locket": true}
 gives_item = "elizabeth_locket"
+also_gives = "lock_of_hair"
 play_sfx = "res://assets/audio/sfx/inventory/chest_open.ogg"
 
 [sub_resource type="Resource" id="resp_jewelry_locked"]
@@ -117,6 +118,24 @@ script = ExtResource("3")
 condition = ""
 title = "Master Bed"
 text = "The bed is unmade. Sheets twisted, pillow dented. Whoever slept here last did not sleep well. A glass of water on the nightstand is untouched, a skin of dust on its surface."
+
+[sub_resource type="Resource" id="resp_book_default"]
+script = ExtResource("3")
+condition = ""
+title = "Medical Book"
+text = "Open to a chapter on childhood afflictions and moral correction. Several passages are underlined twice: isolation, restraint, no recovery documented. Lord Ashworth read medicine the way he read ritual texts: searching for permission."
+
+[sub_resource type="Resource" id="resp_wardrobe_default"]
+script = ExtResource("3")
+condition = ""
+title = "Wardrobe"
+text = "Ajar. Formal suits to one side, black dresses to the other. Lady Ashworth's mourning clothes dominate the hanging rail. She did not dress for recovery. She dressed for endurance."
+
+[sub_resource type="Resource" id="resp_broken_bottle_default"]
+script = ExtResource("3")
+condition = ""
+title = "Broken Bottle"
+text = "Broken glass near the wall and a medicinal smell that survived the century. Laudanum, perhaps. Something to quiet the nerves or bring sleep. It did neither for long."
 
 ; === Interactables ===
 
@@ -158,6 +177,31 @@ type = "observation"
 position = Vector3(-2, 0.8, 0)
 collision_size = Vector3(2.0, 1.0, 2.0)
 responses = Array[Resource]([SubResource("resp_bed_default")])
+
+[sub_resource type="Resource" id="inter_book"]
+script = ExtResource("2")
+id = "bedroom_book"
+type = "observation"
+position = Vector3(-3.6, 0.9, -3.8)
+collision_size = Vector3(0.8, 0.4, 0.8)
+responses = Array[Resource]([SubResource("resp_book_default")])
+
+[sub_resource type="Resource" id="inter_wardrobe"]
+script = ExtResource("2")
+id = "bedroom_wardrobe"
+type = "observation"
+position = Vector3(-4.5, 1.0, 4)
+collision_size = Vector3(1.5, 2.0, 1.0)
+responses = Array[Resource]([SubResource("resp_wardrobe_default")])
+
+[sub_resource type="Resource" id="inter_broken_bottle"]
+script = ExtResource("2")
+id = "bedroom_broken_bottle"
+type = "observation"
+position = Vector3(4.0, 0.1, -2.0)
+collision_size = Vector3(0.8, 0.5, 0.8)
+model = "res://assets/upper_floor/master_bedroom/glass_bottle_mx_3_broken.glb"
+responses = Array[Resource]([SubResource("resp_broken_bottle_default")])
 
 ; === Lights ===
 
@@ -210,6 +254,72 @@ id = "nightstand"
 model = "res://assets/shared/furniture/drawers.glb"
 position = Vector3(-4, 0, -4)
 scale = 0.6
+
+[sub_resource type="Resource" id="prop_rug"]
+script = ExtResource("5")
+id = "bedroom_rug"
+model = "res://assets/shared/decor/rug1.glb"
+position = Vector3(0.0, 0.01, 0.0)
+
+[sub_resource type="Resource" id="prop_lamp"]
+script = ExtResource("5")
+id = "bedside_lamp"
+model = "res://assets/upper_floor/master_bedroom/lamp_mx_4_on.glb"
+position = Vector3(-3.2, 0.8, -4.0)
+
+[sub_resource type="Resource" id="prop_luggage"]
+script = ExtResource("5")
+id = "packed_luggage"
+model = "res://assets/upper_floor/master_bedroom/luggage_mp_1.glb"
+position = Vector3(4.0, 0, 3.0)
+
+[sub_resource type="Resource" id="prop_soap"]
+script = ExtResource("5")
+id = "washstand_soap"
+model = "res://assets/upper_floor/master_bedroom/soap_mx_2.glb"
+position = Vector3(4.0, 0.8, -3.0)
+
+[sub_resource type="Resource" id="prop_bottle"]
+script = ExtResource("5")
+id = "dresser_bottle"
+model = "res://assets/upper_floor/master_bedroom/glass_bottle_mx_1.glb"
+position = Vector3(-2.0, 0.8, 4.0)
+
+[sub_resource type="Resource" id="prop_broken_bottle"]
+script = ExtResource("5")
+id = "broken_bottle_prop"
+model = "res://assets/upper_floor/master_bedroom/glass_bottle_mx_3_broken.glb"
+position = Vector3(4.0, 0, -2.0)
+
+[sub_resource type="Resource" id="prop_candle_holder_left"]
+script = ExtResource("5")
+id = "candle_holder_left"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(-3.0, 0.8, 2.0)
+
+[sub_resource type="Resource" id="prop_candle_holder_right"]
+script = ExtResource("5")
+id = "candle_holder_right"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(3.0, 0.8, 2.0)
+
+[sub_resource type="Resource" id="prop_book0"]
+script = ExtResource("5")
+id = "book0_prop"
+model = "res://assets/shared/items/book0.glb"
+position = Vector3(-4.2, 0.8, -3.7)
+
+[sub_resource type="Resource" id="prop_book1"]
+script = ExtResource("5")
+id = "book1_prop"
+model = "res://assets/shared/items/book1.glb"
+position = Vector3(-3.8, 0.8, -4.2)
+
+[sub_resource type="Resource" id="prop_openbook"]
+script = ExtResource("5")
+id = "openbook_prop"
+model = "res://assets/shared/items/openbook0.glb"
+position = Vector3(3.0, 0.82, 1.0)
 
 ; === Entry Trigger ===
 
@@ -265,9 +375,9 @@ reverb_bus = "Room"
 footstep_surface = "carpet"
 spawn_position = Vector3(4, 0, 0)
 spawn_rotation_y = 270.0
-interactables = Array[Resource]([SubResource("inter_diary"), SubResource("inter_mirror"), SubResource("inter_jewelry"), SubResource("inter_bed")])
+interactables = Array[Resource]([SubResource("inter_diary"), SubResource("inter_mirror"), SubResource("inter_jewelry"), SubResource("inter_bed"), SubResource("inter_book"), SubResource("inter_wardrobe"), SubResource("inter_broken_bottle")])
 lights = Array[Resource]([SubResource("light_window"), SubResource("light_candle")])
-props = Array[Resource]([SubResource("prop_bed"), SubResource("prop_wardrobe"), SubResource("prop_chair"), SubResource("prop_nightstand")])
+props = Array[Resource]([SubResource("prop_bed"), SubResource("prop_wardrobe"), SubResource("prop_chair"), SubResource("prop_nightstand"), SubResource("prop_rug"), SubResource("prop_lamp"), SubResource("prop_luggage"), SubResource("prop_soap"), SubResource("prop_bottle"), SubResource("prop_broken_bottle"), SubResource("prop_candle_holder_left"), SubResource("prop_candle_holder_right"), SubResource("prop_book0"), SubResource("prop_book1"), SubResource("prop_openbook")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([SubResource("ambient_creak")])

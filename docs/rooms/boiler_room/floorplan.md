@@ -6,18 +6,19 @@
               ┌─────────────────────────────┐
               │  BOILER [i][L1]             │
               │  (0,0,3)                    │
+              │  CLOCK [i] / VALVES [i]     │
+              │  / ELECTRICAL [i]           │
               │                             │
               │  PIPES [i] (ceiling)        │
               │  (0,2.5,0)                  │
               │                             │
-   → storage  │  MASK [i]   CLOCK [i]      │
-   (-3,1.2,0) │  (-2.5,1.8) (-2,2,3)      │
+   → storage  │  MASK [i]                  │
+   (-3,1.2,0) │  (-2.5,1.8,0)              │
               │                             │
-              │  WORKBENCH                  │
-              │  MAINT.LOG [i]             │
-              │  (2,1,-2)                  │
+              │  WORKBENCH / MAINT.LOG [i] │
+              │  (-2.5,1,-3)               │
               │                             │
-              │  BARRELS   TOOLS           │
-              │  (2,0,2)   (-2,0,-3)       │
+              │  BARRELS / FUEL            │
+              │  (2.5,0,-2.2)              │
               └─────────────────────────────┘
 ```

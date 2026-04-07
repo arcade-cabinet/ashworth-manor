@@ -28,8 +28,8 @@ The foyer establishes:
 | Fog Color | Warm dust |
 | Footstep Surface | `marble` (hard click, echo) |
 
-**Visual:** Red Victorian wallpaper (wall_0, #732F26). Black and white marble checkered floor (floor0). Ornate plaster ceiling (cieling0). Grand staircase with carved banisters. Chandelier dominates the center.
+**Visual:** Red Victorian wallpaper (wall_0, #732F26). Black and white marble checkered floor (floor0). Ornate plaster ceiling (cieling0). Grand staircase with carved banisters. Chandelier dominates the center. The floor dressing now resolves into a stronger central runner toward the stair/parlor axis, while paired south-side consoles and lamps keep the entry wall from reading as dead space.
 
 **Audio:** Conspicuous ABSENCE of clock ticking. Distant settling sounds. Marble footstep echo. Chandelier crystal tinkling (very faint).
 
-**Tone:** Imposing, cold authority. Beautiful but wrong. The house is holding its breath.
+**Tone:** Imposing, cold authority. Beautiful but wrong. Crossing in should feel like the house deciding to keep you.

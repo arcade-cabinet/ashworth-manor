@@ -13,6 +13,7 @@ var _ambient_next: AudioStreamPlayer = null
 var _tension_player: AudioStreamPlayer = null
 var _current_loop_name: String = ""
 var _crossfade_tween: Tween = null
+var _tension_tween: Tween = null
 var _tension_active: bool = false
 var _tension_volume_scale: float = 1.0
 
@@ -31,7 +32,7 @@ var _tension_loops: Dictionary = {
 	"wine_cellar": "tension_deep",
 	"attic_stairs": "tension_attic",
 	"attic_storage": "tension_attic",
-	"hidden_room": "tension_attic",
+	"hidden_chamber": "tension_attic",
 }
 
 func _ready() -> void:
@@ -39,6 +40,29 @@ func _ready() -> void:
 	_ambient_next = _get_or_create_player("AmbientNext", SILENCE_DB)
 	_tension_player = _get_or_create_player("TensionPlayer", SILENCE_DB)
 	call_deferred("_connect_signals")
+
+
+func _exit_tree() -> void:
+	shutdown()
+
+
+func shutdown() -> void:
+	if _crossfade_tween and _crossfade_tween.is_valid():
+		_crossfade_tween.kill()
+	if _tension_tween and _tension_tween.is_valid():
+		_tension_tween.kill()
+	_crossfade_tween = null
+	_tension_tween = null
+	_free_player(_ambient_current)
+	_free_player(_ambient_next)
+	_free_player(_tension_player)
+	_ambient_current = null
+	_ambient_next = null
+	_tension_player = null
+	for child in get_children():
+		if child is AudioStreamPlayer:
+			_free_player(child as AudioStreamPlayer)
+	_current_loop_name = ""
 
 func _get_or_create_player(player_name: String, volume: float) -> AudioStreamPlayer:
 	var p: AudioStreamPlayer = get_node_or_null(player_name)
@@ -49,6 +73,22 @@ func _get_or_create_player(player_name: String, volume: float) -> AudioStreamPla
 	p.bus = &"Master"
 	p.volume_db = volume
 	return p
+
+
+func _release_player(player: AudioStreamPlayer) -> void:
+	if player == null:
+		return
+	player.stop()
+	player.stream = null
+
+
+func _free_player(player: AudioStreamPlayer) -> void:
+	if player == null or not is_instance_valid(player):
+		return
+	_release_player(player)
+	if player.get_parent() != null:
+		player.get_parent().remove_child(player)
+	player.free()
 
 func _connect_signals() -> void:
 	var rm: Node = _find_node("RoomManager")
@@ -79,7 +119,7 @@ func play_room_loop(loop_name: String) -> void:
 	if loop_name.is_empty():
 		stop_all()
 		return
-	var path: String = "res://assets/audio/loops/%s.ogg" % loop_name
+	var path: String = _resolve_loop_path(loop_name)
 	if not ResourceLoader.exists(path):
 		push_warning("AudioManager: Loop not found at '%s'" % path)
 		return
@@ -113,8 +153,10 @@ func _update_tension_layer() -> void:
 	var tension_loop: String = _tension_loops.get(room_id, "")
 	if tension_loop.is_empty():
 		# Fade out tension in rooms without tension layer
-		var tw: Tween = create_tween()
-		tw.tween_property(_tension_player, "volume_db", SILENCE_DB, 0.5)
+		if _tension_tween and _tension_tween.is_valid():
+			_tension_tween.kill()
+		_tension_tween = create_tween()
+		_tension_tween.tween_property(_tension_player, "volume_db", SILENCE_DB, 0.5)
 		return
 	# Try WAV first (new packs), then OGG (legacy)
 	var path: String = "res://assets/audio/tension/%s.wav" % tension_loop
@@ -131,8 +173,10 @@ func _update_tension_layer() -> void:
 		_tension_player.play()
 	var target_db: float = TENSION_BASE_DB + (1.0 - _tension_volume_scale) * -20.0
 	target_db = clampf(target_db, SILENCE_DB, TENSION_BASE_DB)
-	var tw: Tween = create_tween()
-	tw.tween_property(_tension_player, "volume_db", target_db, 1.5)
+	if _tension_tween and _tension_tween.is_valid():
+		_tension_tween.kill()
+	_tension_tween = create_tween()
+	_tension_tween.tween_property(_tension_player, "volume_db", target_db, 1.5)
 
 func _swap_players() -> void:
 	_ambient_current.stop()
@@ -162,6 +206,12 @@ func stop_all() -> void:
 	_ambient_next.stop()
 	_tension_player.stop()
 	_current_loop_name = ""
+
+
+func _resolve_loop_path(loop_name: String) -> String:
+	if loop_name.begins_with("res://"):
+		return loop_name
+	return "res://assets/audio/loops/%s.ogg" % loop_name
 
 func _find_node(node_name: String) -> Node:
 	var stack: Array[Node] = [get_tree().root]

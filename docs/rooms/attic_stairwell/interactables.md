@@ -1,6 +1,6 @@
 # Attic Stairwell — Interactables
 
-## 1. Debris/Gravel (NEW)
+## 1. Debris/Gravel
 ```yaml
 id: stairwell_debris
 type: observation
@@ -12,7 +12,7 @@ position: (0, 0.2, 0)
 
 ---
 
-## 2. Cracked Plaster (NEW)
+## 2. Cracked Plaster
 ```yaml
 id: stairwell_wall
 type: observation
@@ -27,7 +27,7 @@ position: (-1.5, 1.5, 2)
 ## Summary
 | ID | Status |
 |----|--------|
-| `stairwell_debris` | NEW |
-| `stairwell_wall` | NEW |
+| `stairwell_debris` | Active |
+| `stairwell_wall` | Active |
 
 Minimal interactables — this room is about the ASCENT, not exploration.

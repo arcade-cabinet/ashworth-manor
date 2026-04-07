@@ -7,6 +7,24 @@
 [ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="8"]
+
+[sub_resource type="Resource" id="anchor_entry_secret_door"]
+script = ExtResource("8")
+anchor_id = "entry_secret_door"
+anchor_type = "entry"
+position = Vector3(0.0, 0.0, -2.2)
+rotation_y = 0.0
+target_anchor_id = "focus_circle"
+tags = PackedStringArray("critical_path", "endgame")
+
+[sub_resource type="Resource" id="anchor_focus_circle"]
+script = ExtResource("8")
+anchor_id = "focus_circle"
+anchor_type = "focal"
+position = Vector3(0.0, 0.6, 0.0)
+rotation_y = 0.0
+tags = PackedStringArray("critical_path", "ritual")
 
 ; === Final Note Responses (shared/default) ===
 
@@ -106,6 +124,18 @@ condition = ""
 title = "Wall Drawings"
 text = "The walls are covered in drawings. A child's hand at first -- houses, flowers. Then something changes. The lines become architectural. Precise. She drew the house from above -- floor plans, load-bearing walls, pipe routes, electrical paths. She mapped the entire building from a room she never left. Then the drawings become something else entirely: the house from the INSIDE. Not the rooms -- the bones. The joists, the mortar, the grain of every board. She drew what it felt like to BECOME the house. The last drawing is not a house at all. It is a face. Her face. And the walls ARE her face."
 
+[sub_resource type="Resource" id="resp_mirror_default"]
+script = ExtResource("3")
+condition = ""
+title = "Mirror"
+text = "The mirror shows the room correctly except for one detail: there is a girl standing just behind you with her hands folded. When you turn, the room is empty. When you look back, the mirror still remembers."
+
+[sub_resource type="Resource" id="resp_artifact_default"]
+script = ExtResource("3")
+condition = ""
+title = "Ritual Artifact"
+text = "A carved stone figure at the edge of the circle. The occultist's work, or Lord Ashworth's imitation of it. The stone is warm. Whatever this object once anchored, it still participates in."
+
 ; === Interactables ===
 
 [sub_resource type="Resource" id="inter_note"]
@@ -136,6 +166,24 @@ collision_size = Vector3(1.0, 2.0, 3.0)
 responses = Array[Resource]([SubResource("resp_drawings_default")])
 thread_responses = {"captive": [SubResource("resp_drawings_captive")], "mourning": [SubResource("resp_drawings_mourning")], "sovereign": [SubResource("resp_drawings_sovereign")]}
 
+[sub_resource type="Resource" id="inter_mirror"]
+script = ExtResource("2")
+id = "hidden_mirror"
+type = "mirror"
+position = Vector3(2.5, 1.5, 0)
+wall = "east"
+collision_size = Vector3(1.0, 2.0, 0.5)
+visual_effects = {"mirror_delay": 0.0}
+responses = Array[Resource]([SubResource("resp_mirror_default")])
+
+[sub_resource type="Resource" id="inter_artifact"]
+script = ExtResource("2")
+id = "chamber_artifact"
+type = "observation"
+position = Vector3(0, 0.3, -2)
+collision_size = Vector3(1.2, 1.0, 1.2)
+responses = Array[Resource]([SubResource("resp_artifact_default")])
+
 ; === Lights ===
 
 [sub_resource type="Resource" id="light_circle"]
@@ -162,7 +210,108 @@ shadows = false
 flickering = true
 flicker_pattern = "candle"
 
+[sub_resource type="Resource" id="light_candle_left"]
+script = ExtResource("4")
+id = "chamber_candle_left"
+type = "omni"
+position = Vector3(-2, 0.9, 2)
+color = Color(1.0, 0.7, 0.3, 1)
+energy = 0.4
+range = 3.0
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
 ; === Entry Trigger ===
+
+[sub_resource type="Resource" id="prop_doll"]
+script = ExtResource("5")
+id = "doll_ritual"
+model = "res://assets/attic/hidden_chamber/doll2.glb"
+position = Vector3(-2.0, 0, 2.0)
+scale = 0.8
+
+[sub_resource type="Resource" id="prop_artifact"]
+script = ExtResource("5")
+id = "ritual_artifact_prop"
+model = "res://assets/attic/hidden_chamber/ritual_artifact.glb"
+position = Vector3(0.0, 0, -2.0)
+
+[sub_resource type="Resource" id="prop_bones"]
+script = ExtResource("5")
+id = "ritual_bones_prop"
+model = "res://assets/attic/hidden_chamber/ritual_bones.glb"
+position = Vector3(0.0, 0, -0.2)
+
+[sub_resource type="Resource" id="prop_mask_left"]
+script = ExtResource("5")
+id = "mask_left"
+model = "res://assets/attic/hidden_chamber/mask_mx_4.glb"
+position = Vector3(-2.4, 1.8, 2.3)
+
+[sub_resource type="Resource" id="prop_mask_right"]
+script = ExtResource("5")
+id = "mask_right"
+model = "res://assets/attic/hidden_chamber/mask_mx_5_1.glb"
+position = Vector3(2.5, 1.8, -1.0)
+
+[sub_resource type="Resource" id="prop_dead_lamp"]
+script = ExtResource("5")
+id = "dead_lamp"
+model = "res://assets/attic/hidden_chamber/lamp_mx_1_b_off.glb"
+position = Vector3(2.2, 0, 2.2)
+
+[sub_resource type="Resource" id="prop_bottle"]
+script = ExtResource("5")
+id = "ink_bottle"
+model = "res://assets/attic/hidden_chamber/glass_bottle_mx_3.glb"
+position = Vector3(-2.8, 0, -1.8)
+
+[sub_resource type="Resource" id="prop_candle_a"]
+script = ExtResource("5")
+id = "candle_a"
+model = "res://assets/shared/items/candle0.glb"
+position = Vector3(-2.0, 0, 2.0)
+
+[sub_resource type="Resource" id="prop_candle_b"]
+script = ExtResource("5")
+id = "candle_b"
+model = "res://assets/shared/items/candle0.glb"
+position = Vector3(2.0, 0, 2.0)
+
+[sub_resource type="Resource" id="prop_page_a"]
+script = ExtResource("5")
+id = "page_a"
+model = "res://assets/shared/items/page0.glb"
+position = Vector3(-1.5, 0.02, -1.2)
+rotation_y = 15.0
+
+[sub_resource type="Resource" id="prop_page_b"]
+script = ExtResource("5")
+id = "page_b"
+model = "res://assets/shared/items/page2.glb"
+position = Vector3(1.6, 0.02, -1.4)
+rotation_y = -20.0
+
+[sub_resource type="Resource" id="prop_page_c"]
+script = ExtResource("5")
+id = "page_c"
+model = "res://assets/shared/items/page5.glb"
+position = Vector3(0.5, 0.02, 2.4)
+rotation_y = 5.0
+
+[sub_resource type="Resource" id="prop_note_page"]
+script = ExtResource("5")
+id = "final_note_page"
+model = "res://assets/shared/items/page1.glb"
+position = Vector3(0.0, 0.02, 0.0)
+
+[sub_resource type="Resource" id="prop_mirror_frame"]
+script = ExtResource("5")
+id = "mirror_frame"
+model = "res://assets/shared/decor/picture_blank_004.glb"
+position = Vector3(2.6, 1.5, 0.0)
+rotation_y = 270.0
 
 [sub_resource type="Resource" id="act_visited"]
 script = ExtResource("7")
@@ -171,6 +320,10 @@ set_state = {"found_hidden_chamber": true, "visited_hidden_chamber": true}
 [sub_resource type="Resource" id="act_show_name"]
 script = ExtResource("7")
 show_room_name = "Hidden Chamber"
+
+[sub_resource type="Resource" id="act_entry_text"]
+script = ExtResource("7")
+show_text = "The house has been hiding this room inside itself for years. It does not feel discovered. It feels admitted."
 
 [sub_resource type="Resource" id="act_stinger"]
 script = ExtResource("7")
@@ -182,7 +335,7 @@ script = ExtResource("6")
 condition = "NOT found_hidden_chamber"
 once = true
 trigger_id = "chamber_first_entry"
-actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name"), SubResource("act_stinger")])
+actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name"), SubResource("act_entry_text"), SubResource("act_stinger")])
 
 ; === Main Resource ===
 
@@ -207,9 +360,11 @@ reverb_bus = "SmallRoom"
 footstep_surface = "rough_wood"
 spawn_position = Vector3(0, 0, -2)
 spawn_rotation_y = 0.0
-interactables = Array[Resource]([SubResource("inter_note"), SubResource("inter_ritual"), SubResource("inter_drawings")])
-lights = Array[Resource]([SubResource("light_circle"), SubResource("light_candle")])
-props = Array[Resource]([])
+entry_anchors = Array[Resource]([SubResource("anchor_entry_secret_door")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_circle")])
+interactables = Array[Resource]([SubResource("inter_note"), SubResource("inter_ritual"), SubResource("inter_drawings"), SubResource("inter_mirror"), SubResource("inter_artifact")])
+lights = Array[Resource]([SubResource("light_circle"), SubResource("light_candle"), SubResource("light_candle_left")])
+props = Array[Resource]([SubResource("prop_doll"), SubResource("prop_artifact"), SubResource("prop_bones"), SubResource("prop_mask_left"), SubResource("prop_mask_right"), SubResource("prop_dead_lamp"), SubResource("prop_bottle"), SubResource("prop_candle_a"), SubResource("prop_candle_b"), SubResource("prop_page_a"), SubResource("prop_page_b"), SubResource("prop_page_c"), SubResource("prop_note_page"), SubResource("prop_mirror_frame")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([])

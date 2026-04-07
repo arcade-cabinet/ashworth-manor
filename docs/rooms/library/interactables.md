@@ -1,92 +1,106 @@
 # Library — Interactables
 
-## 1. Globe — PUZZLE SOLUTION (EXISTS)
+## 1. Globe — Puzzle Solution
 
 ```yaml
 id: library_globe
-type: box
-position: (-3, 1.2, 3)  # Corner pedestal
+type: observation
+position: (-3, 0.9, 3)  # West reading corner
 collision: BoxShape3D(1.5, 1.5, 1.5)
-locked: false
 item_found: attic_key
 ```
 
-### Text — All Variants
+### Live Response Selection
 
-**Default (before `knows_key_location`):**
+**Default:**
 > **Globe**
-> "A terrestrial globe on a brass pedestal. The continents are hand-painted, faded with age. It spins freely. The equator seam is visible — the globe is hollow."
+> "A brass-framed globe on a mahogany stand. The northern hemisphere is slightly askew -- someone twisted it and did not put it back. The seam between the hemispheres is wider than it should be. Is there something inside?"
 
-**After `knows_key_location`:**
+**After `read_ashworth_diary`:**
 > **Globe**
-> "Inside the hollow globe, you find an old brass key labeled 'ATTIC.' Hidden here by Lord Ashworth himself. The key to his daughter's prison, tucked inside a model of the world she'd never see."
+> "The diary mentioned the globe. 'The key is inside the globe -- she will never think to look there.' You turn the northern hemisphere. It clicks. A hidden compartment opens. Inside: an iron key."
+
+**Macro-thread variants:**
+- `captive`: the globe reads as part of Elizabeth's imprisonment
+- `mourning`: the globe reads as a map of places Elizabeth never saw
+- `sovereign`: the globe turns toward England as if the house is orienting you itself
 
 ### Flags Set
-- `has_attic_key`
+- `found_attic_key_globe`
 
 ### Items Given
 - `attic_key`
 
 ### Phantom Camera
-- **Yes** — zoom to globe, opens to reveal key
+- Not yet authored
 
 ---
 
-## 2. Rituals of Binding — PICKABLE ITEM (EXISTS)
+## 2. Rituals of Binding — Pickable Item
 
 ```yaml
 id: binding_book
 type: note
-position: (3, 1.2, -2)  # Bookshelf, prominent placement
+position: (0, 1.2, 4.5)  # North lectern/shelf focus
 collision: BoxShape3D(1.0, 1.0, 1.0)
 pickable: true
 item_id: binding_book
 ```
 
-### Text
+### Live Response Selection
 
 > **Rituals of Binding**
-> "To trap a spirit, one must first give it form. The doll shall be the vessel, the blood the seal, and the attic the prison eternal..."
->
-> The pages are marked with Lord Ashworth's annotations. He understood what he was doing. He did it anyway.
+> The default version presents `Rites of Passage: The Binding and Loosing of Spirits, 1743`, with annotations in Edmund Ashworth's hand and bookmarks at `Containment` and `The Vessel`.
+
+**Macro-thread variants:**
+- `captive`: emphasizes the book as the manual for Elizabeth's cage
+- `mourning`: emphasizes Edmund's remorse and the pressed lily
+- `sovereign`: emphasizes Elizabeth re-reading and reinterpreting the rite
 
 ### Flags Set
-- `knows_binding_ritual`
-- `has_binding_book` (when picked up — counter-ritual component)
+- `examined_binding_book`
+
+### Items Given
+- `binding_book`
 
 ### Phantom Camera
-- **Yes** — zoom to book on shelf
+- Not yet authored
 
 ---
 
-## 3. Family Tree — KEY NARRATIVE (EXISTS)
+## 3. Family Tree — Key Narrative
 
 ```yaml
 id: family_tree
-type: note
-position: (0, 1.6, -4.5)  # Wall-mounted frame, south wall
-collision: BoxShape3D(1.5, 1.0, 0.5)
+type: painting
+position: (3.5, 2, 4.5)  # North wall frame
+collision: BoxShape3D(1.5, 1.5, 1.5)
 ```
 
 ### Text — All Variants
 
 **Default:**
 > **Family Tree**
-> "The tree shows four children, but the household records only mention three. The fourth name has been scratched out: 'E_iza_eth.' Scratched with something sharp — a knife? A fingernail? Whoever did this was angry, not careful."
+> "A framed family tree on the wall. 'The Ashworth Line, 1720-1891.' Five branches descend from Edmund and Victoria. Four names are legible. The fourth has been scratched out -- not with ink, but with something sharp. A nail? A pin? The paper beneath is torn."
 
-**After `knows_full_truth`:**
+**After `read_ashworth_diary`:**
 > **Family Tree**
-> "Elizabeth Ashworth. You can read her name now, even through the scratches. She existed. They tried to erase her from history, from memory, from the family tree itself. They failed."
+> "Five branches for five children. The fourth name -- Elizabeth -- has been scratched out so deeply the paper tore. Someone erased her from the family. The scratches look fresh. Recent. As if this happened after everything else."
+
+**Macro-thread variants:**
+- `captive`: the erasure reads as violence
+- `mourning`: the blank branch reads as grief and refusal
+- `sovereign`: the scratches imply Elizabeth renamed herself
 
 ### Flags Set
 - `examined_family_tree`
 
 ### Phantom Camera
-- **Yes** — zoom to see the scratched-out name
+- Not yet authored
 
 ---
 
-## 4. Ancient Artifact (NEW — upgrade from prop to interactable)
+## 4. Ancient Artifact
 
 ```yaml
 id: library_artifact
@@ -96,22 +110,18 @@ collision: BoxShape3D(0.5, 0.5, 0.5)
 model: ancient_artifact_mx_1.glb
 ```
 
-### Text — All Variants
+### Live Response Selection
 
 **Default:**
 > **Stone Tablet**
 > "A stone tablet covered in symbols you don't recognize. It hums faintly when touched. The surface is warm, like the jewelry box. Like the gate lamp. Like everything Elizabeth has touched."
-
-**After `knows_binding_ritual`:**
-> **Stone Tablet**
-> "The symbols match some of those in the binding book. This isn't decorative — it's a tool. The occultist brought it. Part of the ritual apparatus used to imprison Elizabeth."
 
 ### Flags Set
 - None
 
 ---
 
-## 5. Bookshelf Observation (NEW)
+## 5. Bookshelf Observation
 
 ```yaml
 id: library_shelves
@@ -130,12 +140,12 @@ collision: BoxShape3D(1.0, 2.0, 0.5)
 
 ---
 
-## 6. Gears Display (NEW)
+## 6. Gears Display
 
 ```yaml
 id: library_gears
 type: observation
-position: (3, 1, 2)  # Display table
+position: (3.5, 1.5, -4)  # South study wall
 collision: BoxShape3D(1.0, 0.5, 1.0)
 models: gear_mx_1.glb, gear_mx_2.glb, gear_mx_3.glb
 ```
@@ -154,9 +164,9 @@ models: gear_mx_1.glb, gear_mx_2.glb, gear_mx_3.glb
 
 | ID | Type | Position | Status |
 |----|------|----------|--------|
-| `library_globe` | box | (-3, 1.2, 3) | EXISTS — update content |
-| `binding_book` | note | (3, 1.2, -2) | EXISTS — verify pickable |
-| `family_tree` | note | (0, 1.6, -4.5) | EXISTS — update content |
-| `library_artifact` | observation | (-3, 1, -3) | NEW — model exists |
-| `library_shelves` | observation | (4, 1.5, 0) | NEW |
-| `library_gears` | observation | (3, 1, 2) | NEW — models exist |
+| `library_globe` | observation | (-3, 0.9, 3) | Implemented |
+| `binding_book` | note | (0, 1.2, 4.5) | Implemented |
+| `family_tree` | painting | (3.5, 2, 4.5) | Implemented |
+| `library_artifact` | observation | (-2.8, 1, -2.5) | Implemented |
+| `library_shelves` | observation | (3.8, 1.5, 0) | Implemented |
+| `library_gears` | observation | (3.5, 1.5, -4) | Implemented |

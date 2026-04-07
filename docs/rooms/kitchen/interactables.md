@@ -1,8 +1,6 @@
 # Kitchen — Interactables
 
-Currently: ZERO interactables. All of these need to be added.
-
-## 1. Cook's Note — KEY NARRATIVE (NEW)
+## 1. Cook's Note — Key Narrative
 
 ```yaml
 id: kitchen_note
@@ -31,7 +29,7 @@ collision: BoxShape3D(1.0, 0.5, 0.5)
 
 ---
 
-## 2. Cutting Board (NEW)
+## 2. Cutting Board
 
 ```yaml
 id: kitchen_cutting_board
@@ -52,7 +50,7 @@ model: wooden_board_3.glb
 
 ---
 
-## 3. Stove/Hearth (NEW)
+## 3. Stove/Hearth
 
 ```yaml
 id: kitchen_hearth
@@ -76,7 +74,7 @@ collision: BoxShape3D(2.0, 1.5, 1.0)
 
 ---
 
-## 4. Knife Block (NEW)
+## 4. Knife Block
 
 ```yaml
 id: kitchen_knives
@@ -102,14 +100,16 @@ model: knife_block.glb
 
 ---
 
-## 5. Bucket (NEW)
+## 5. Bucket
 
 ```yaml
 id: kitchen_bucket
 type: observation
 position: (3, 0.2, -3)  # Floor, near door
 collision: BoxShape3D(0.8, 0.8, 0.8)
-model: bucket_mx_1.glb
+scene_path: res://scenes/shared/kitchen/kitchen_bucket_still.tscn
+state_model_map:
+  rippled: res://scenes/shared/kitchen/kitchen_bucket_rippled.tscn
 ```
 
 ### Text — All Variants
@@ -119,7 +119,11 @@ model: bucket_mx_1.glb
 > "A wooden bucket, half-full of water that should have evaporated decades ago. The water is perfectly still. No reflection of the ceiling. Just dark."
 
 ### Flags Set
-- None
+- `examined_kitchen_bucket`
+
+### Visual States
+- `still` on first room load
+- `rippled` after the first inspection
 
 ---
 
@@ -127,8 +131,8 @@ model: bucket_mx_1.glb
 
 | ID | Type | Position | Status |
 |----|------|----------|--------|
-| `kitchen_note` | note | (3, 1.0, 2) | NEW — add Area3D + page model |
-| `kitchen_cutting_board` | observation | (-2, 0.9, 0) | NEW — model exists, add Area3D |
-| `kitchen_hearth` | observation | (0, 0.5, 4) | NEW — add Area3D over fireplace model |
-| `kitchen_knives` | observation | (-3, 0.9, -2) | NEW — model exists, add Area3D |
-| `kitchen_bucket` | observation | (3, 0.2, -3) | NEW — model exists, add Area3D |
+| `kitchen_note` | note | (3, 1.0, 2) | Active |
+| `kitchen_cutting_board` | observation | (-2, 0.9, 0) | Represented through prop dressing |
+| `kitchen_hearth` | observation | (0, 0.5, 4) | Active as `kitchen_hearth` |
+| `kitchen_knives` | observation | (-3, 0.9, -2) | Represented through knife-block dressing |
+| `kitchen_bucket` | observation | (3, 0.2, -3) | Active stateful setpiece |

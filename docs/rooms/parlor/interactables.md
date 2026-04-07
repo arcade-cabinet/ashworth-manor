@@ -1,6 +1,6 @@
 # Parlor — Interactables
 
-## 1. Portrait of Lady Ashworth (EXISTS)
+## 1. Portrait of Lady Ashworth
 
 ```yaml
 id: parlor_painting_1
@@ -28,7 +28,7 @@ collision: BoxShape3D(1.5, 1.5, 1.5)
 
 ---
 
-## 2. Torn Diary Page — CRITICAL CLUE (EXISTS)
+## 2. Torn Diary Page — Critical Clue
 
 ```yaml
 id: parlor_note
@@ -59,7 +59,7 @@ collision: BoxShape3D(1.5, 1.5, 1.5)
 
 ---
 
-## 3. Music Box (EXISTS)
+## 3. Music Box
 
 ```yaml
 id: music_box
@@ -89,7 +89,7 @@ When the music box plays on its own:
 
 ---
 
-## 4. Fireplace (NEW — add)
+## 4. Fireplace
 
 ```yaml
 id: parlor_fireplace
@@ -113,13 +113,16 @@ collision: BoxShape3D(2.0, 1.5, 1.0)
 
 ---
 
-## 5. Tea Service (NEW — add)
+## 5. Tea Service
 
 ```yaml
 id: parlor_tea
 type: observation
-position: (0, 0.8, -1)  # On table between settees
-collision: BoxShape3D(1.0, 0.5, 1.0)
+position: (0, 0, -1)  # Low tea table between settees
+collision: BoxShape3D(1.2, 0.9, 1.1)
+scene_path: res://scenes/shared/parlor/parlor_tea_service_set.tscn
+state_model_map:
+  disturbed: res://scenes/shared/parlor/parlor_tea_service_disturbed.tscn
 ```
 
 ### Text — All Variants
@@ -133,11 +136,12 @@ collision: BoxShape3D(1.0, 0.5, 1.0)
 > "Two cups — Lady Ashworth and Helena Pierce? The guest who arrived November 3rd and never left. Did they sit here, making small talk, while Elizabeth cried above them?"
 
 ### Flags Set
-- None
+- `examined_parlor_tea`
 
 ### Visual Design
-- Use existing bottle/jar props positioned on table surface
-- `glass_bottle_mx_1.glb` and `jam_jar_mp_1_medium.glb` already in scene as visual texture
+- Low round tea table with tray, emptied teapot, one used cup, and one untouched cup
+- Tea surfaces start still, then visibly disturb after the first inspection
+- This is now a scene-authored tableau, not a bottle/jar proxy
 
 ---
 
@@ -145,8 +149,8 @@ collision: BoxShape3D(1.0, 0.5, 1.0)
 
 | ID | Type | Position | Status |
 |----|------|----------|--------|
-| `parlor_painting_1` | painting | (-4.5, 2, 0) | EXISTS — update content |
-| `parlor_note` | note | (2, 0.8, -3) | EXISTS — update content |
-| `music_box` | box | (-2, 0.8, -3) | EXISTS — update content + add event |
-| `parlor_fireplace` | observation | (0, 1, 4.5) | NEW — add Area3D |
-| `parlor_tea` | observation | (0, 0.8, -1) | NEW — add Area3D |
+| `parlor_painting_1` | painting | (-4.5, 2, 0) | Implemented |
+| `parlor_note` | note | (2, 0.8, -3) | Implemented |
+| `music_box` | box | (-2, 0.8, -3) | Implemented |
+| `parlor_fireplace` | observation | (0, 1, 4.5) | Implemented |
+| `parlor_tea` | observation | (0, 0, -1) | Active stateful tableau |

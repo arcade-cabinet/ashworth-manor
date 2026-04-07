@@ -34,7 +34,7 @@ var _sequence: Array = [
 	[660, "attic_storage", Vector3(0, 1.7, 0), 120.0, ""],  # look at doll area
 
 	# Hidden Chamber — the truth
-	[720, "hidden_room", Vector3(0, 1.7, 0), 180.0, ""],
+	[720, "hidden_chamber", Vector3(0, 1.7, 0), 180.0, ""],
 
 	# Wine Cellar — deepest point
 	[780, "wine_cellar", Vector3(0, 1.7, 0), 90.0, ""],
@@ -71,12 +71,6 @@ func _start() -> void:
 			break
 	if gm:
 		gm.new_game()
-
-	# Hide landing
-	if _ui:
-		var landing: Node = _find_by_name(_ui, "LandingScreen")
-		if landing:
-			landing.visible = false
 
 	# Load first room
 	if _rm and _rm.has_method("load_room"):

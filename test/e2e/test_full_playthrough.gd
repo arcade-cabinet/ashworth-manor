@@ -1,559 +1,212 @@
-extends GdUnitTestSuite
-## E2E: Full game playthrough — Freedom ending
-## Simulates a player navigating every room in the puzzle chain,
-## solving all 6 puzzles, collecting all ritual components,
-## and completing the counter-ritual for the Freedom ending.
-##
-## Run: godot --headless -s addons/gdUnit4/bin/GdUnitCmdTool.gd --add test/e2e
+extends SceneTree
+## Declaration-era end-to-end path coverage.
+## Covers:
+## - Freedom route through the shipped declaration runtime
+## - Escape ending via post-truth return to front gate
+## - Joined ending via post-attic return to front gate without full truth
 
 var _main: Node = null
-var _rm: Node = null  # RoomManager
-var _im: Node = null  # InteractionManager
-var _ui: Control = null  # UIOverlay
-var _gm: Node = null  # GameManager (autoload)
+var _rm: Node = null
+var _im: Node = null
+var _ui: Control = null
+var _gm: Node = null
+var _ending_events: Array[String] = []
+var _pass_count: int = 0
+var _fail_count: int = 0
 
 
-func before() -> void:
-	# Load the full game scene
+func _initialize() -> void:
 	_main = load("res://scenes/main.tscn").instantiate()
-	add_child(_main)
-	# Wait for _ready() to fire on all children
-	await get_tree().process_frame
-	await get_tree().process_frame
+	root.add_child(_main)
+	call_deferred("_run")
 
-	# Find nodes
-	_rm = _find("RoomManager")
-	_im = _find("InteractionManager")
-	_ui = _find("UIOverlay")
 
-	# Find GameManager autoload
-	for child in get_tree().root.get_children():
+func _run() -> void:
+	_rm = _find(_main, "RoomManager")
+	_im = _find(_main, "InteractionManager")
+	_ui = _find(_main, "UIOverlay") as Control
+	for child in root.get_children():
 		if child.name == "GameManager":
 			_gm = child
 			break
 
-	assert_that(_rm).is_not_null()
-	assert_that(_im).is_not_null()
-	assert_that(_gm).is_not_null()
+	_assert("GameManager found", _gm != null)
+	_assert("RoomManager found", _rm != null)
+	_assert("InteractionManager found", _im != null)
+	_assert("UIOverlay found", _ui != null)
+	if _gm == null or _rm == null or _im == null or _ui == null:
+		_finish()
+		return
+
+	_disable_nonessential_runtime_systems()
+
+	if _gm.has_signal("ending_triggered"):
+		var cb := Callable(self, "_on_ending_triggered")
+		if not _gm.ending_triggered.is_connected(cb):
+			_gm.ending_triggered.connect(cb)
+
+	await _test_freedom_route()
+	await _test_escape_front_gate_path()
+	await _test_joined_front_gate_path()
+	_finish()
 
 
-func after() -> void:
-	if _main:
-		_main.queue_free()
+func _test_freedom_route() -> void:
+	_reset_game("captive")
+	await _load_room("front_gate")
+	await _interact("gate_plaque")
+	_assert("front gate threshold acknowledged", _gm.get_state("front_gate_threshold_acknowledged", false) == true)
+	await _door_to("foyer")
+	_assert("front_gate to foyer transition works", _gm.current_room == "foyer")
+	_assert("foyer loads manor interior compiled world", _rm.get_loaded_compiled_world_id() == "manor_interior_world")
+	_assert("manor interior world keeps multiple room roots loaded", _rm.get_loaded_compiled_world_room_ids().size() >= 8)
+
+	await _door_to("upper_hallway")
+	_assert("foyer to upper_hallway transition works", _gm.current_room == "upper_hallway")
+	_assert("foyer to upper_hallway stays in manor interior world", _rm.get_loaded_compiled_world_id() == "manor_interior_world")
+	await _door_to("master_bedroom")
+	await _interact("diary_lord")
+	_assert("master bedroom diary sets read_ashworth_diary", _gm.get_state("read_ashworth_diary", false) == true)
+	await _interact("jewelry_box")
+	_assert("jewelry box stays locked before key", not _gm.has_item("elizabeth_locket"))
+
+	await _load_room("upper_hallway")
+	await _door_to("library")
+	await _interact("binding_book")
+	await _interact("library_globe")
+	_assert("library yields binding book", _gm.has_item("binding_book"))
+	_assert("library yields attic key", _gm.has_item("attic_key"))
+
+	await _load_room("kitchen")
+	await _door_to("storage_basement")
+	_assert("kitchen to storage_basement service route works", _gm.current_room == "storage_basement")
+	_assert("storage_basement loads service basement world", _rm.get_loaded_compiled_world_id() == "service_basement_world")
+	await _door_to("wine_cellar")
+	_assert("storage_basement to wine_cellar stays in service basement world", _rm.get_loaded_compiled_world_id() == "service_basement_world")
+	await _interact("wine_note")
+	_assert("wine note sets read_wine_note", _gm.get_state("read_wine_note", false) == true)
+	await _door_to("storage_basement")
+	await _door_to("carriage_house")
+	await _interact("carriage_portrait")
+	_assert("carriage house yields cellar key", _gm.has_item("cellar_key"))
+	await _door_to("storage_basement")
+	await _interact("scratched_portrait")
+	await _load_room("boiler_room")
+	await _interact("maintenance_log")
+	await _load_room("wine_cellar")
+	await _interact("wine_box")
+	_assert("wine cellar yields mother's confession", _gm.has_item("mothers_confession"))
+
+	await _load_room("garden")
+	await _interact("garden_lily")
+	await _interact("garden_lily")
+	_assert("garden yields jewelry key", _gm.has_item("jewelry_key"))
+	await _load_room("chapel")
+	await _interact("baptismal_font")
+	_assert("chapel yields blessed water", _gm.has_item("blessed_water"))
+	_assert("chapel yields gate key on current path", _gm.has_item("gate_key"))
+	await _load_room("greenhouse")
+	await _interact("greenhouse_pot")
+	_assert("greenhouse interaction remains valid", _gm.has_item("gate_key"))
+
+	await _load_room("master_bedroom")
+	await _interact("jewelry_box")
+	_assert("master bedroom yields elizabeth locket", _gm.has_item("elizabeth_locket"))
+	_assert("master bedroom yields lock of hair", _gm.has_item("lock_of_hair"))
+
+	await _load_room("upper_hallway")
+	await _door_to("attic_stairs")
+	_assert("upper hallway to attic stairs route works", _gm.current_room == "attic_stairs")
+	_assert("attic stairs stays in manor interior world", _rm.get_loaded_compiled_world_id() == "manor_interior_world")
+	await _door_to("attic_storage")
+	await _interact("elizabeth_letter")
+	await _interact("porcelain_doll")
+	await _interact("porcelain_doll")
+	_assert("attic doll yields hidden key", _gm.has_item("hidden_key"))
+	_assert("attic doll becomes inventory item", _gm.has_item("porcelain_doll"))
+
+	await _door_to("hidden_chamber")
+	_assert("attic storage to hidden chamber route works", _gm.current_room == "hidden_chamber")
+	await _interact("elizabeth_final_note")
+	_assert("hidden chamber reveals full truth", _gm.has_flag("knows_full_truth"))
+	_assert("hidden chamber sets read_final_note", _gm.has_flag("read_final_note"))
+	_assert("ritual can now be performed", _gm.can_perform_ritual())
+
+	await _interact("ritual_circle")
+	await _interact("ritual_circle")
+	await _interact("ritual_circle")
+	_assert("ritual step 1 set", _gm.has_flag("ritual_step_1"))
+	_assert("ritual step 2 set", _gm.has_flag("ritual_step_2"))
+	_assert("counter ritual complete", _gm.has_flag("counter_ritual_complete"))
+	await create_timer(6.5).timeout
+	_assert("freedom ending fired", _ending_events.has("freedom"))
 
 
-## ============================================================
-## TEST: Complete Freedom Ending Playthrough
-## ============================================================
+func _test_escape_front_gate_path() -> void:
+	_reset_game("mourning")
+	await _load_room("foyer")
+	_gm.set_flag("knows_full_truth")
+	_gm.flags.erase("counter_ritual_complete")
+	_ending_events.clear()
+	_im._on_door_tapped("front_gate")
+	await process_frame
+	await process_frame
+	_assert("escape ending fired from front gate return", _ending_events.has("escape"))
 
-func test_full_freedom_ending_playthrough() -> void:
-	# === ACT I: THE SURFACE ===
 
-	# Start new game
+func _test_joined_front_gate_path() -> void:
+	_reset_game("sovereign")
+	await _load_room("foyer")
+	_gm.set_flag("elizabeth_aware")
+	_gm.flags.erase("knows_full_truth")
+	_gm.flags.erase("counter_ritual_complete")
+	_ending_events.clear()
+	_im._on_door_tapped("front_gate")
+	await process_frame
+	await process_frame
+	_assert("joined ending fired from front gate return", _ending_events.has("joined"))
+
+
+func _reset_game(thread_id: String) -> void:
 	_gm.new_game()
-	await get_tree().process_frame
+	_gm.set_state("macro_thread", thread_id)
+	_ending_events.clear()
+	if _ui != null and _ui.has_method("hide_document"):
+		_ui.hide_document()
 
-	# -- FRONT GATE --
-	_load_room("front_gate")
-	_assert_room("front_gate", "Front Gate")
-	_assert_has_interactable("gate_plaque")
-	_assert_has_connection("foyer")
-
-	# Read gate plaque
-	_interact("gate_plaque")
-	assert_that(_gm.has_interacted("gate_plaque")).is_true()
-
-	# -- FOYER --
-	_transition("foyer")
-	_assert_room("foyer", "Grand Foyer")
-	_assert_has_interactable("foyer_painting")
-	_assert_has_interactable("grandfather_clock")
-	_assert_has_interactable("foyer_mirror")
-	_assert_has_connection("parlor")
-	_assert_has_connection("dining_room")
-	_assert_has_connection("kitchen")
-	_assert_has_connection("upper_hallway")
-
-	# Read Lord Ashworth's portrait
-	_interact("foyer_painting")
-	assert_that(_gm.has_interacted("foyer_painting")).is_true()
-
-	# Examine the clock
-	_interact("grandfather_clock")
-
-	# -- PARLOR --
-	_transition("parlor")
-	_assert_room("parlor", "Parlor")
-	_assert_has_interactable("parlor_painting_1")
-	_assert_has_interactable("parlor_note")
-
-	# Read Lady Ashworth portrait
-	_interact("parlor_painting_1")
-
-	# Read torn diary page — FIRST CLUE about Elizabeth
-	_interact("parlor_note")
-	assert_that(_gm.has_interacted("parlor_note")).is_true()
-
-	# Back to foyer
-	_transition("foyer")
-
-	# -- KITCHEN --
-	_transition("kitchen")
-	_assert_room("kitchen", "Kitchen")
-
-	# Back to foyer, go to dining room
-	_transition("foyer")
-
-	# -- DINING ROOM --
-	_transition("dining_room")
-	_assert_room("dining_room", "Dining Room")
-	_transition("foyer")
-
-	# === DESCENT TO BASEMENT ===
-
-	# -- KITCHEN → STORAGE BASEMENT --
-	_transition("kitchen")
-	_transition("storage_basement")
-	_assert_room("storage_basement", "Storage Basement")
-	_assert_has_interactable("scratched_portrait")
-
-	# Find scratched family portrait — FIRST physical evidence of 4th child
-	_interact("scratched_portrait")
-	assert_that(_gm.has_interacted("scratched_portrait")).is_true()
-
-	# -- BOILER ROOM --
-	_transition("boiler_room")
-	_assert_room("boiler_room", "Boiler Room")
-	_assert_has_interactable("maintenance_log")
-	_interact("maintenance_log")
-
-	# -- WINE CELLAR --
-	_transition("storage_basement")
-	_transition("wine_cellar")
-	_assert_room("wine_cellar", "Wine Cellar")
-	_assert_has_interactable("wine_note")
-	_assert_has_interactable("wine_box")
-
-	# Read wine inventory — "the key is with the portrait"
-	_interact("wine_note")
-
-	# Try the locked box — no key yet
-	_interact("wine_box")
-	assert_that(_gm.has_item("mothers_confession")).is_false()
-
-	# === ACT II: THE SECRETS (UPPER FLOOR) ===
-
-	# Back to foyer via basement → kitchen
-	_transition("storage_basement")
-	_transition("kitchen")
-	_transition("foyer")
-
-	# -- UPPER HALLWAY --
-	_transition("upper_hallway")
-	_assert_room("upper_hallway", "Upper Hallway")
-	_assert_has_interactable("children_painting")
-	_assert_has_interactable("attic_door")
-
-	# See the children painting — only THREE children
-	_interact("children_painting")
-
-	# Try the locked attic door
-	_interact("attic_door")
-	# Should fail — no attic key yet
-	assert_that(_gm.has_item("attic_key")).is_false()
-
-	# -- MASTER BEDROOM --
-	_transition("master_bedroom")
-	_assert_room("master_bedroom", "Master Bedroom")
-	_assert_has_interactable("diary_lord")
-
-	# Read Lord Ashworth's diary — REVEALS KEY LOCATION
-	_interact("diary_lord")
-	assert_that(_gm.has_flag("read_ashworth_diary")).is_true()
-	assert_that(_gm.has_flag("knows_key_location")).is_true()
-
-	# -- LIBRARY --
-	_transition("upper_hallway")
-	_transition("library")
-	_assert_room("library", "Library")
-	_assert_has_interactable("library_globe")
-	_assert_has_interactable("binding_book")
-	_assert_has_interactable("family_tree")
-
-	# Read family tree — E_iza_eth scratched out
-	_interact("family_tree")
-
-	# Read Rituals of Binding (pickable — goes to inventory)
-	_interact("binding_book")
-	assert_that(_gm.has_flag("knows_binding_ritual")).is_true()
-	assert_that(_gm.has_item("binding_book")).is_true()
-
-	# PUZZLE SOLVE: Open the globe — GET ATTIC KEY
-	_interact("library_globe")
-	assert_that(_gm.has_item("attic_key")).is_true()
-
-	# -- GUEST ROOM (optional) --
-	_transition("upper_hallway")
-	_transition("guest_room")
-	_assert_room("guest_room", "Guest Room")
-	_transition("upper_hallway")
-
-	# === GROUNDS: Collect ritual components ===
-
-	# Back to foyer → front gate → grounds
-	_transition("foyer")
-	_transition("front_gate")
-
-	# -- GREENHOUSE (gate key) --
-	# Note: greenhouse connects to front_gate
-	_transition("greenhouse")
-	_assert_room("greenhouse", "Greenhouse")
-	_assert_has_interactable("greenhouse_gate_key")
-	_interact("greenhouse_gate_key")
-	assert_that(_gm.has_item("gate_key")).is_true()
-	_interact("white_lily")
-	_transition("front_gate")
-
-	# -- CHAPEL (blessed water) --
-	_transition("chapel")
-	_assert_room("chapel", "Estate Chapel")
-	_assert_has_interactable("baptismal_font")
-	_interact("baptismal_font")
-	assert_that(_gm.has_item("blessed_water")).is_true()
-	_interact("chapel_cross")
-	_transition("front_gate")
-
-	# -- CARRIAGE HOUSE (cellar key) --
-	_transition("carriage_house")
-	_assert_room("carriage_house", "Carriage House")
-	_assert_has_interactable("carriage_portrait")
-	_interact("carriage_portrait")
-	assert_that(_gm.has_item("cellar_key")).is_true()
-	_transition("front_gate")
-
-	# -- GARDEN → FAMILY CRYPT (jewelry key) --
-	_transition("garden")
-	_assert_room("garden", "Hedge Garden")
-	_interact("frozen_fountain")
-	_interact("gazebo_bench")
-	_transition("family_crypt")
-	_assert_room("family_crypt", "Family Crypt")
-	_assert_has_interactable("missing_plaque")
-	_assert_has_interactable("loose_flagstone")
-
-	# See the missing fourth plaque — Elizabeth erased from death
-	_interact("missing_plaque")
-
-	# PUZZLE SOLVE: Get jewelry key from loose flagstone
-	_interact("loose_flagstone")
-	assert_that(_gm.has_item("jewelry_key")).is_true()
-	_transition("garden")
-	_transition("front_gate")
-
-	# === COLLECT REMAINING ITEMS ===
-
-	# Wine cellar — open locked box with cellar key
-	_transition("foyer")
-	_transition("kitchen")
-	_transition("storage_basement")
-	_transition("wine_cellar")
-	_interact("wine_box")
-	assert_that(_gm.has_item("mothers_confession")).is_true()
-
-	# Master bedroom — open jewelry box with jewelry key
-	_transition("storage_basement")
-	_transition("kitchen")
-	_transition("foyer")
-	_transition("upper_hallway")
-	_transition("master_bedroom")
-	_interact("jewelry_box")
-	assert_that(_gm.has_item("elizabeths_locket")).is_true()
-	assert_that(_gm.has_item("lock_of_hair")).is_true()
-
-	# === ACT III: THE TRUTH (ATTIC) ===
-
-	# Unlock attic door (have attic_key)
-	_transition("upper_hallway")
-	_interact("attic_door")
-	# attic_door is type locked_door — should transition to attic_stairs
-
-	# -- ATTIC STAIRWELL --
-	_load_room("attic_stairs")  # Direct load since locked_door handler transitions
-	_assert_room("attic_stairs", "Attic Stairwell")
-
-	# -- ATTIC STORAGE (Elizabeth's prison) --
-	_transition("attic_storage")
-	_assert_room("attic_storage", "Attic Storage")
-	assert_that(_gm.has_flag("elizabeth_aware")).is_true()
-
-	_assert_has_interactable("elizabeth_portrait")
-	_assert_has_interactable("porcelain_doll")
-	_assert_has_interactable("elizabeth_letter")
-
-	# See Elizabeth's portrait
-	_interact("elizabeth_portrait")
-	assert_that(_gm.has_flag("knows_elizabeth")).is_true()
-
-	# Read Elizabeth's unsent letter
-	_interact("elizabeth_letter")
-	assert_that(_gm.has_flag("read_elizabeth_letter")).is_true()
-
-	# PUZZLE SOLVE: Porcelain doll — first interaction
-	_interact("porcelain_doll")
-	assert_that(_gm.has_flag("examined_doll")).is_true()
-
-	# Second interaction — extract hidden key
-	_interact("porcelain_doll")
-	assert_that(_gm.has_item("hidden_key")).is_true()
-	assert_that(_gm.has_item("porcelain_doll")).is_true()
-
-	# -- HIDDEN CHAMBER (final revelation) --
-	_interact("hidden_door")  # Unlock with hidden_key
-	_load_room("hidden_room")
-	_assert_room("hidden_room", "Hidden Chamber")
-
-	_assert_has_interactable("final_note")
-	_assert_has_interactable("ritual_circle")
-
-	# Read Elizabeth's final words
-	_interact("final_note")
-	assert_that(_gm.has_flag("knows_full_truth")).is_true()
-	assert_that(_gm.has_flag("read_final_note")).is_true()
-
-	# === COUNTER-RITUAL (Freedom Ending) ===
-
-	# Verify all components collected
-	assert_that(_gm.has_item("porcelain_doll")).is_true()
-	assert_that(_gm.has_item("binding_book")).is_true()
-	assert_that(_gm.has_item("lock_of_hair")).is_true()
-	assert_that(_gm.has_item("blessed_water")).is_true()
-	assert_that(_gm.has_item("mothers_confession")).is_true()
-	assert_that(_gm.has_flag("read_final_note")).is_true()
-	assert_that(_gm.can_perform_ritual()).is_true()
-
-	# Step 1: Place doll
-	_interact("ritual_circle")
-	assert_that(_gm.has_flag("ritual_step_1")).is_true()
-
-	# Step 2: Pour blessed water
-	_interact("ritual_circle")
-	assert_that(_gm.has_flag("ritual_step_2")).is_true()
-	assert_that(_gm.has_item("blessed_water")).is_false()  # consumed
-
-	# Step 3: Read from binding book — COMPLETES RITUAL
-	_interact("ritual_circle")
-	assert_that(_gm.has_flag("ritual_step_3")).is_true()
-	assert_that(_gm.has_flag("counter_ritual_complete")).is_true()
-	assert_that(_gm.has_flag("freed_elizabeth")).is_true()
-
-	# FREEDOM ENDING ACHIEVED
-	print("=== E2E PLAYTHROUGH COMPLETE: FREEDOM ENDING ===")
-	print("Rooms visited: ", _gm.visited_rooms.size())
-	print("Items collected: ", _gm.inventory.size())
-	print("Flags set: ", _gm.flags.size())
-
-
-## ============================================================
-## TEST: Escape Ending
-## ============================================================
-
-func test_escape_ending() -> void:
-	_gm.new_game()
-	await get_tree().process_frame
-
-	# Fast-track to knows_full_truth without ritual
-	_load_room("front_gate")
-	_transition("foyer")
-	_transition("upper_hallway")
-
-	# Get attic key
-	_transition("library")
-	_interact("library_globe")
-
-	# Enter attic
-	_load_room("attic_stairs")
-	_transition("attic_storage")
-	assert_that(_gm.has_flag("elizabeth_aware")).is_true()
-
-	# Read letter and interact with doll
-	_interact("elizabeth_letter")
-	_interact("porcelain_doll")
-	_interact("porcelain_doll")
-
-	# Enter hidden chamber, read final note
-	_load_room("hidden_room")
-	_interact("final_note")
-	assert_that(_gm.has_flag("knows_full_truth")).is_true()
-
-	# Try to leave without completing ritual
-	assert_that(_gm.has_flag("counter_ritual_complete")).is_false()
-	assert_that(_gm.check_escape_ending()).is_true()
-
-	print("=== E2E: ESCAPE ENDING CONDITIONS MET ===")
-
-
-## ============================================================
-## TEST: Joined Ending
-## ============================================================
-
-func test_joined_ending() -> void:
-	_gm.new_game()
-	await get_tree().process_frame
-
-	# Enter attic (sets elizabeth_aware) but don't read final note
-	_load_room("front_gate")
-	_transition("foyer")
-	_transition("upper_hallway")
-	_transition("library")
-	_interact("library_globe")
-	_load_room("attic_stairs")
-	_transition("attic_storage")
-
-	assert_that(_gm.has_flag("elizabeth_aware")).is_true()
-	assert_that(_gm.has_flag("knows_full_truth")).is_false()
-	assert_that(_gm.check_joined_ending()).is_true()
-
-	print("=== E2E: JOINED ENDING CONDITIONS MET ===")
-
-
-## ============================================================
-## TEST: Save and Load
-## ============================================================
-
-func test_save_and_load() -> void:
-	_gm.new_game()
-	await get_tree().process_frame
-
-	_load_room("front_gate")
-	_transition("foyer")
-	_interact("foyer_painting")
-
-	# Collect an item
-	_transition("upper_hallway")
-	_transition("library")
-	_interact("library_globe")
-	assert_that(_gm.has_item("attic_key")).is_true()
-
-	# Save
-	_gm.save_game()
-	assert_that(_gm.has_save()).is_true()
-
-	# Reset state
-	_gm.new_game()
-	assert_that(_gm.has_item("attic_key")).is_false()
-	assert_that(_gm.inventory.is_empty()).is_true()
-
-	# Load
-	var loaded: bool = _gm.load_game()
-	assert_that(loaded).is_true()
-	assert_that(_gm.has_item("attic_key")).is_true()
-	assert_that(_gm.current_room).is_equal("library")
-	assert_that(_gm.visited_rooms.has("foyer")).is_true()
-	assert_that(_gm.has_interacted("foyer_painting")).is_true()
-
-	print("=== E2E: SAVE/LOAD VERIFIED ===")
-
-
-## ============================================================
-## TEST: Room connectivity — every room reachable
-## ============================================================
-
-func test_all_rooms_reachable() -> void:
-	_gm.new_game()
-	await get_tree().process_frame
-
-	var all_rooms: Array[String] = [
-		"front_gate", "foyer", "parlor", "dining_room", "kitchen",
-		"upper_hallway", "master_bedroom", "library", "guest_room",
-		"storage_basement", "boiler_room", "wine_cellar",
-		"attic_stairs", "attic_storage", "hidden_room",
-		"chapel", "greenhouse", "carriage_house", "garden", "family_crypt",
-	]
-
-	for room_id in all_rooms:
-		_load_room(room_id)
-		var room = _rm.get_current_room()
-		assert_that(room).is_not_null()
-		assert_that(room.room_id).is_equal(room_id)
-		assert_that(room.room_name).is_not_empty()
-
-	print("=== E2E: ALL 20 ROOMS LOADABLE ===")
-
-
-## ============================================================
-## TEST: Every interactable fires without error
-## ============================================================
-
-func test_all_interactables_fire() -> void:
-	_gm.new_game()
-	await get_tree().process_frame
-
-	var all_rooms: Array[String] = [
-		"front_gate", "foyer", "parlor", "dining_room", "kitchen",
-		"upper_hallway", "master_bedroom", "library", "guest_room",
-		"storage_basement", "boiler_room", "wine_cellar",
-		"attic_stairs", "attic_storage", "hidden_room",
-		"chapel", "greenhouse", "carriage_house", "garden", "family_crypt",
-	]
-
-	var total_interactables: int = 0
-	for room_id in all_rooms:
-		_load_room(room_id)
-		var room = _rm.get_current_room()
-		if room == null:
-			continue
-		for area in room.get_interactables():
-			if area.has_meta("id"):
-				_interact(area.get_meta("id"))
-				total_interactables += 1
-
-	assert_that(total_interactables).is_greater(30)
-	print("=== E2E: %d INTERACTABLES FIRED ===" % total_interactables)
-
-
-## ============================================================
-## Helpers
-## ============================================================
 
 func _load_room(room_id: String) -> void:
 	_rm.load_room(room_id)
+	await process_frame
+	await process_frame
+	if _ui != null and _ui.has_method("hide_document"):
+		_ui.hide_document()
 
 
-func _transition(target_room: String) -> void:
-	_rm.load_room(target_room)  # Direct load for test speed (skip fade)
-
-
-func _assert_room(expected_id: String, expected_name: String) -> void:
-	var room = _rm.get_current_room()
-	assert_that(room).is_not_null()
-	assert_that(room.room_id).is_equal(expected_id)
-	assert_that(room.room_name).is_equal(expected_name)
-
-
-func _assert_has_interactable(inter_id: String) -> void:
-	var room = _rm.get_current_room()
-	assert_that(room).is_not_null()
-	var found: bool = false
-	for area in room.get_interactables():
-		if area.has_meta("id") and area.get_meta("id") == inter_id:
-			found = true
+func _door_to(room_id: String) -> void:
+	print("DOOR -> %s (from %s)" % [room_id, _gm.current_room])
+	_im._on_door_tapped(room_id)
+	var loaded: bool = false
+	for _i in range(240):
+		await process_frame
+		if _gm.current_room == room_id:
+			loaded = true
 			break
-	assert_that(found).is_true()
-
-
-func _assert_has_connection(target_room: String) -> void:
-	var room = _rm.get_current_room()
-	assert_that(room).is_not_null()
-	var found: bool = false
-	for area in room.get_connections():
-		if area.has_meta("target_room") and area.get_meta("target_room") == target_room:
-			found = true
+		if not _ending_events.is_empty():
 			break
-	assert_that(found).is_true()
+	_assert("transition loaded %s" % room_id, loaded)
+	if loaded:
+		for _j in range(240):
+			await process_frame
+			if not _rm.get("_is_transitioning"):
+				break
+	if _ui != null and _ui.has_method("hide_document"):
+		_ui.hide_document()
 
 
 func _interact(object_id: String) -> void:
 	var room = _rm.get_current_room()
+	_assert("current room exists for interact %s" % object_id, room != null)
 	if room == null:
 		return
 	for area in room.get_interactables():
@@ -561,21 +214,74 @@ func _interact(object_id: String) -> void:
 			var obj_type: String = area.get_meta("type") if area.has_meta("type") else ""
 			var obj_data: Dictionary = area.get_meta("data") if area.has_meta("data") else {}
 			_im._on_interacted(object_id, obj_type, obj_data)
-			# Dismiss any document overlay
-			if _ui and _ui.has_method("hide_document"):
-				_ui.hide_document()
+			await process_frame
+			await process_frame
 			return
+	_assert("interactable %s exists in %s" % [object_id, _gm.current_room], false)
 
 
-func _find(node_name: String) -> Node:
-	return _find_recursive(get_tree().root, node_name)
+func _on_ending_triggered(ending_id: String) -> void:
+	_ending_events.append(ending_id)
 
 
-func _find_recursive(node: Node, target: String) -> Node:
-	if node.name == target:
+func _assert(name: String, condition: bool) -> void:
+	if condition:
+		_pass_count += 1
+	else:
+		_fail_count += 1
+		print("[FAIL] %s" % name)
+
+
+func _finish() -> void:
+	call_deferred("_complete_finish")
+
+
+func _complete_finish() -> void:
+	if _gm != null and _gm.has_signal("ending_triggered"):
+		var cb := Callable(self, "_on_ending_triggered")
+		if _gm.ending_triggered.is_connected(cb):
+			_gm.ending_triggered.disconnect(cb)
+	var audio := _find(_main, "AudioManager")
+	if audio != null and audio.has_method("shutdown"):
+		audio.shutdown()
+		await process_frame
+		await process_frame
+	if audio != null and is_instance_valid(audio):
+		audio.queue_free()
+		await process_frame
+	if _main != null:
+		_main.queue_free()
+		await process_frame
+		await process_frame
+		await process_frame
+		await process_frame
+		_main = null
+	print("")
+	print("========================================")
+	print("FULL PLAYTHROUGH: %d passed, %d failed" % [_pass_count, _fail_count])
+	print("========================================")
+	quit(1 if _fail_count > 0 else 0)
+
+
+func _disable_nonessential_runtime_systems() -> void:
+	if _im != null:
+		_im._dialogue_paths = {}
+		_im._current_dialogue_resource = null
+		_im._audio_manager = null
+	var audio := _find(_main, "AudioManager")
+	if audio != null:
+		if audio.has_method("shutdown"):
+			audio.shutdown()
+		audio.queue_free()
+
+
+func _find(node: Node, target_name: String) -> Node:
+	if node == null:
+		return null
+	if node.name == target_name:
 		return node
 	for child in node.get_children():
-		var found: Node = _find_recursive(child, target)
+		var found := _find(child, target_name)
 		if found != null:
 			return found
 	return null

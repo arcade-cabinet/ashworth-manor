@@ -117,6 +117,33 @@ description = "Player read the gate plaque"
 set_by = PackedStringArray("front_gate:gate_plaque")
 read_by = PackedStringArray()
 
+[sub_resource type="Resource" id="var_front_gate_threshold_acknowledged"]
+script = ExtResource("2")
+name = "front_gate_threshold_acknowledged"
+type = "bool"
+initial_value = "false"
+description = "The front approach has answered the player after the plaque is examined"
+set_by = PackedStringArray("front_gate:front_gate_threshold_ack")
+read_by = PackedStringArray("front_gate:path_to_foyer")
+
+[sub_resource type="Resource" id="var_foyer_threshold_crossed"]
+script = ExtResource("2")
+name = "foyer_threshold_crossed"
+type = "bool"
+initial_value = "false"
+description = "The player has crossed into the house proper through the foyer"
+set_by = PackedStringArray("foyer:on_entry")
+read_by = PackedStringArray()
+
+[sub_resource type="Resource" id="var_library_flashback_triggered"]
+script = ExtResource("2")
+name = "library_flashback_triggered"
+type = "bool"
+initial_value = "false"
+description = "Library binding-book aftershock event has fired"
+set_by = PackedStringArray("library:conditional_event")
+read_by = PackedStringArray("library:conditional_event")
+
 [sub_resource type="Resource" id="var_found_helena_luggage"]
 script = ExtResource("2")
 name = "found_helena_luggage"
@@ -124,6 +151,15 @@ type = "bool"
 initial_value = "false"
 description = "Player found Helena's abandoned luggage"
 set_by = PackedStringArray("front_gate:gate_luggage")
+read_by = PackedStringArray()
+
+[sub_resource type="Resource" id="var_noticed_service_route"]
+script = ExtResource("2")
+name = "noticed_service_route"
+type = "bool"
+initial_value = "false"
+description = "Player noticed the concealed service-side stack in the storage basement"
+set_by = PackedStringArray("storage_basement:service_stack")
 read_by = PackedStringArray()
 
 [sub_resource type="Resource" id="var_examined_iron_gate"]
@@ -387,6 +423,15 @@ description = "Player examined the boiler room clock"
 set_by = PackedStringArray("boiler_room:boiler_clock")
 read_by = PackedStringArray("foyer:foyer_clock", "global_trigger:all_clocks_chime")
 
+[sub_resource type="Resource" id="var_reached_deepest"]
+script = ExtResource("2")
+name = "reached_deepest"
+type = "bool"
+initial_value = "false"
+description = "Player reached the deepest accessible point of the manor in the wine cellar"
+set_by = PackedStringArray("wine_cellar:first_entry")
+read_by = PackedStringArray()
+
 [sub_resource type="Resource" id="var_read_wine_note"]
 script = ExtResource("2")
 name = "read_wine_note"
@@ -512,4 +557,4 @@ read_by = PackedStringArray("front_gate:conditional_event")
 
 [resource]
 script = ExtResource("1")
-variables = Array[Resource]([SubResource("var_game_started"), SubResource("var_current_phase"), SubResource("var_elizabeth_state"), SubResource("var_discovery_count"), SubResource("var_macro_thread"), SubResource("var_visited_front_gate"), SubResource("var_visited_foyer"), SubResource("var_visited_parlor"), SubResource("var_visited_attic_storage"), SubResource("var_visited_hidden_chamber"), SubResource("var_entered_attic"), SubResource("var_examined_gate_plaque"), SubResource("var_found_helena_luggage"), SubResource("var_examined_iron_gate"), SubResource("var_examined_foyer_painting"), SubResource("var_examined_foyer_mirror"), SubResource("var_examined_foyer_clock"), SubResource("var_found_unopened_mail"), SubResource("var_examined_lady_portrait"), SubResource("var_found_first_clue"), SubResource("var_knows_attic_girl"), SubResource("var_examined_music_box"), SubResource("var_examined_dinner_photo"), SubResource("var_examined_pushed_chair"), SubResource("var_examined_wine_glass"), SubResource("var_examined_dining_candles"), SubResource("var_read_cook_note"), SubResource("var_knows_attic_locked"), SubResource("var_examined_children_painting"), SubResource("var_read_hallway_notice"), SubResource("var_read_ashworth_diary"), SubResource("var_knows_key_location"), SubResource("var_examined_bedroom_mirror"), SubResource("var_read_afflictions_book"), SubResource("var_knows_binding_ritual"), SubResource("var_examined_family_tree"), SubResource("var_read_guest_ledger"), SubResource("var_examined_helena_photo"), SubResource("var_knows_fourth_child_erased"), SubResource("var_read_maintenance_log"), SubResource("var_knows_staff_afraid"), SubResource("var_examined_boiler_clock"), SubResource("var_read_wine_note"), SubResource("var_seen_elizabeth_portrait"), SubResource("var_examined_doll"), SubResource("var_read_elizabeth_letter"), SubResource("var_elizabeth_aware"), SubResource("var_knows_full_truth"), SubResource("var_read_final_note"), SubResource("var_found_hidden_chamber"), SubResource("var_counter_ritual_complete"), SubResource("var_attic_unlocked"), SubResource("var_hidden_door_unlocked"), SubResource("var_crypt_gate_unlocked"), SubResource("var_front_gate_post_attic_triggered")])
+variables = Array[Resource]([SubResource("var_game_started"), SubResource("var_current_phase"), SubResource("var_elizabeth_state"), SubResource("var_discovery_count"), SubResource("var_macro_thread"), SubResource("var_visited_front_gate"), SubResource("var_visited_foyer"), SubResource("var_visited_parlor"), SubResource("var_visited_attic_storage"), SubResource("var_visited_hidden_chamber"), SubResource("var_entered_attic"), SubResource("var_examined_gate_plaque"), SubResource("var_front_gate_threshold_acknowledged"), SubResource("var_foyer_threshold_crossed"), SubResource("var_library_flashback_triggered"), SubResource("var_found_helena_luggage"), SubResource("var_noticed_service_route"), SubResource("var_examined_iron_gate"), SubResource("var_examined_foyer_painting"), SubResource("var_examined_foyer_mirror"), SubResource("var_examined_foyer_clock"), SubResource("var_found_unopened_mail"), SubResource("var_examined_lady_portrait"), SubResource("var_found_first_clue"), SubResource("var_knows_attic_girl"), SubResource("var_examined_music_box"), SubResource("var_examined_dinner_photo"), SubResource("var_examined_pushed_chair"), SubResource("var_examined_wine_glass"), SubResource("var_examined_dining_candles"), SubResource("var_read_cook_note"), SubResource("var_knows_attic_locked"), SubResource("var_examined_children_painting"), SubResource("var_read_hallway_notice"), SubResource("var_read_ashworth_diary"), SubResource("var_knows_key_location"), SubResource("var_examined_bedroom_mirror"), SubResource("var_read_afflictions_book"), SubResource("var_knows_binding_ritual"), SubResource("var_examined_family_tree"), SubResource("var_read_guest_ledger"), SubResource("var_examined_helena_photo"), SubResource("var_knows_fourth_child_erased"), SubResource("var_read_maintenance_log"), SubResource("var_knows_staff_afraid"), SubResource("var_examined_boiler_clock"), SubResource("var_reached_deepest"), SubResource("var_read_wine_note"), SubResource("var_seen_elizabeth_portrait"), SubResource("var_examined_doll"), SubResource("var_read_elizabeth_letter"), SubResource("var_elizabeth_aware"), SubResource("var_knows_full_truth"), SubResource("var_read_final_note"), SubResource("var_found_hidden_chamber"), SubResource("var_counter_ritual_complete"), SubResource("var_attic_unlocked"), SubResource("var_hidden_door_unlocked"), SubResource("var_crypt_gate_unlocked"), SubResource("var_front_gate_post_attic_triggered")])

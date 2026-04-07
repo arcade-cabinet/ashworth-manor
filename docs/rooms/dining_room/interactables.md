@@ -1,140 +1,139 @@
 # Dining Room — Interactables
 
-Currently: ZERO interactables. All of these need to be added.
-
-## 1. Dinner Party Photo (NEW)
+## 1. Dinner Party Photo
 
 ```yaml
 id: dinner_photo
 type: photo
-position: (3.9, 1.6, 0)  # East wall, center (picture_blank_002.glb already placed)
-collision: BoxShape3D(1.0, 1.0, 0.5)
+position: (-3.5, 2.0, 0)
+collision: BoxShape3D(1.5, 1.5, 1.5)
+model: picture_blank_002.glb
 ```
 
-### Text — All Variants
+### Text — Shared + Thread Variants
 
 **Default:**
-> **Dinner Photograph**
-> "A formal dinner photograph. Eight people arranged around this very table. Stiff poses, forced smiles. The host — Lord Ashworth — stands at the head. Three of these guests would be dead within the week."
+> **Dinner Party Photo**
+> "A photograph of a dinner party. Eight guests, formal dress, candlelight. Everyone is smiling except Lord Ashworth, who stares directly at the camera. The date on the back: December 23rd, 1891."
 
-**After `read_maintenance_log` (boiler room):**
-> **Dinner Photograph**
-> "You recognize the room. The table is set identically — same places, same candles. As if the photograph was a blueprint and the room was built to match it. Or as if time simply stopped."
+**After `read_maintenance_log`:**
+> **Dinner Party Photo**
+> "The caretaker wrote 'they dine while the girl screams.' This photo was taken that night. Everyone is smiling. One of them is already dead by morning."
 
 **After `knows_full_truth`:**
-> **Dinner Photograph**
-> "Eight people. Three would die. Two would vanish. Three children would flee and never return. December 24th, 1891. The last photograph ever taken at Ashworth Manor."
+> **Dinner Party Photo**
+> "The last dinner. December 23rd, 1891. Three guests dead within the week. And somewhere above them, behind a locked door, a child they had all agreed to forget."
+
+**Captive thread:**
+> **Dinner Party Photo**
+> "Eight guests at dinner. Everyone smiling. But look at the background -- the ceiling above them. Is that a shadow? A handprint on the plaster, directly above the table? She was there. Above them. Listening to them laugh while she sat in the dark. The photograph captured the party. It also captured her prison."
+
+**Mourning thread:**
+> **Dinner Party Photo**
+> "Eight guests at dinner. Seven smiling. Victoria, at the far end of the table, is not smiling. She is looking at the empty chair -- the ninth place setting. Set but unused. She set a plate for Elizabeth every night. The servants knew not to clear it. Grief made visible in china and silverware."
+
+**Sovereign thread:**
+> **Dinner Party Photo**
+> "Eight guests at dinner. The candles in the photograph are all tilted the same direction -- toward Lord Ashworth's end of the table. Not from a draft. From her. She was pulling the flames. Testing her reach. Everyone in the photograph is smiling at the camera. The candles are looking at something else entirely."
 
 ### Flags Set
 - `examined_dinner_photo`
 
-### Phantom Camera
-- **Yes** — inspection camera. Smooth zoom to photo level for reading detail.
-
 ---
 
-## 2. Pushed Chair (NEW)
+## 2. Pushed Chair
 
 ```yaml
-id: dining_pushed_chair
+id: pushed_chair
 type: observation
-position: (2.2, 0.5, 2)  # The already-angled chair model (ChPushed in scene)
+position: (1, 0.5, -2)
 collision: BoxShape3D(1.0, 1.0, 1.0)
 ```
 
-### Text — All Variants
+### Text
 
 **Default:**
 > **Pushed Chair**
-> "One chair pushed back from the table at a sharp angle. The plate in front of it is untouched. The wine glass is overturned — a dark stain has soaked into the wood. Someone left this seat in a hurry. Or was pulled from it."
-
-**After `elizabeth_aware`:**
-> **Pushed Chair**
-> "The chair faces away from the table. Away from the other guests. Toward the door. Whoever sat here saw something in the doorway. Something that made them abandon their dinner and run."
+> "One chair pushed back from the table, angled as if someone stood suddenly. The plate is untouched. The napkin is on the floor. Whoever sat here left mid-course -- or was taken."
 
 ### Flags Set
 - `examined_pushed_chair`
 
 ---
 
-## 3. Wine Glass (NEW)
+## 3. Wine Glass
 
 ```yaml
-id: dining_wine_glass
+id: wine_glass
 type: observation
-position: (0.3, 0.85, 0.2)  # On table, near center (wine_glass.glb exists)
+position: (-1, 0.78, -2)
 collision: BoxShape3D(0.5, 0.5, 0.5)
+scene_path: res://scenes/shared/dining_room/dining_wine_glass_still.tscn
+state_model_map:
+  agitated: res://scenes/shared/dining_room/dining_wine_glass_agitated.tscn
 ```
 
-### Text — All Variants
+### Text — Shared + Thread Variants
 
 **Default:**
 > **Wine Glass**
-> "Dried residue clings to the inside. Not wine — too dark, too thick. Whatever was in this glass, it wasn't served at dinner. It was added afterward."
+> "A single wine glass, still full. Dark red, almost black. After 130 years, it has not evaporated. The wine surface trembles faintly -- as if something beneath the table breathes."
 
-**After `has_mothers_confession`:**
+**Captive thread:**
 > **Wine Glass**
-> "Lady Ashworth's confession mentions 'what was done to the guests.' The residue in this glass is dark as dried blood. The dinner wasn't just a gathering. It was a sacrifice."
+> "A full wine glass. The liquid is dark, still, preserved. Was it poisoned? In a house where a child is locked in the attic, the wine at the dinner table feels like evidence. Someone poured this glass and no one drank it. Someone knew what was in it. Or what was above them."
+
+**Mourning thread:**
+> **Wine Glass**
+> "A full wine glass. Untouched. Saved for someone who never came down to dinner. Victoria poured this glass -- you know it the way you know everything about grief in this house. She poured it for Elizabeth. Every night. And every night it sat untouched. And every morning she poured it out and set a fresh glass. The ritual of a mother who cannot let go."
+
+**Sovereign thread:**
+> **Wine Glass**
+> "A full wine glass. The liquid trembles. Not from vibration -- from within. Small ripples pulse outward from the center at regular intervals. A heartbeat. The wine is not preserved. It is maintained. She is keeping it fresh. She is keeping everything in this room exactly as it was on the night of December 23rd, 1891. The whole room is a display case and she is the curator."
 
 ### Flags Set
 - `examined_wine_glass`
 
----
-
-## 4. Place Settings (NEW)
-
-```yaml
-id: dining_place_settings
-type: observation
-position: (-0.5, 0.85, -2)  # Table surface, south end
-collision: BoxShape3D(1.5, 0.3, 1.0)
-```
-
-### Text — All Variants
-
-**Default:**
-> **Place Settings**
-> "Set for eight. Five show signs of use — moved cutlery, crumpled napkins, water rings. Three are pristine. Those three guests never sat down. Or arrived and immediately wished they hadn't."
-
-### Flags Set
-- None
+### Visual States
+- `still` on room load
+- `agitated` after inspection
 
 ---
 
-## 5. Table Candles (NEW)
+## 4. Table Candles
 
 ```yaml
 id: dining_candles
 type: observation
-position: (0, 0.9, 0)  # Center table
-collision: BoxShape3D(0.5, 0.5, 0.5)
+position: (0, 1.2, 0)
+collision: BoxShape3D(1.0, 1.0, 1.0)
 ```
 
-### Text — All Variants
+### Text
 
 **Default:**
-> **Table Candles**
-> "Wax has pooled and hardened mid-drip. The candles burned down to nothing and were never replaced. Time stopped here between courses — the dinner was never finished."
+> **Candelabra**
+> "Silver candelabra with half-melted candles. The wax has dripped and frozen in mid-flow. Even the candles stopped at the same moment as the clocks."
 
 ### Flags Set
 - `examined_dining_candles`
 
 ---
 
-## 6. Serving Vessel (NEW)
+## 5. Service Bell
 
 ```yaml
-id: dining_vessel
+id: service_bell
 type: observation
-position: (-0.4, 0.85, -0.5)  # On table (serving_vessel.glb exists)
+position: (2, 0.8, 3)
 collision: BoxShape3D(0.5, 0.5, 0.5)
 ```
 
-### Text — All Variants
+### Text
 
 **Default:**
-> **Serving Vessel**
-> "A silver tureen, lid askew. Inside: desiccated remains of soup. Still sitting where it was placed over a century ago. The ladle has never been cleaned."
+> **Service Bell**
+> "A small brass bell for summoning servants. You ring it. The sound is muffled -- as if the air itself absorbs the vibration. No one is coming."
 
 ### Flags Set
 - None
@@ -145,9 +144,8 @@ collision: BoxShape3D(0.5, 0.5, 0.5)
 
 | ID | Type | Position | Status |
 |----|------|----------|--------|
-| `dinner_photo` | photo | (3.9, 1.6, 0) | NEW — model exists, add Area3D |
-| `dining_pushed_chair` | observation | (2.2, 0.5, 2) | NEW — model exists (ChPushed), add Area3D |
-| `dining_wine_glass` | observation | (0.3, 0.85, 0.2) | NEW — model exists, add Area3D |
-| `dining_place_settings` | observation | (-0.5, 0.85, -2) | NEW — covers existing plate models, add Area3D |
-| `dining_candles` | observation | (0, 0.9, 0) | NEW — model exists, add Area3D |
-| `dining_vessel` | observation | (-0.4, 0.85, -0.5) | NEW — model exists, add Area3D |
+| `dinner_photo` | photo | (-3.5, 2.0, 0) | Implemented |
+| `pushed_chair` | observation | (1, 0.5, -2) | Implemented |
+| `wine_glass` | observation | (-1, 0.78, -2) | Active stateful setpiece |
+| `dining_candles` | observation | (0, 1.2, 0) | Implemented |
+| `service_bell` | observation | (2, 0.8, 3) | Implemented |

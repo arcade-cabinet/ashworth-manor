@@ -10,6 +10,7 @@ conditions:
 actions:
   - set_flag: visited_dining_room
   - show_room_name: "Dining Room"
+  - show_text: "The meal stopped in the middle of deciding who would survive the night."
 ```
 
 ## Timed Events

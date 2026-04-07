@@ -1,5 +1,5 @@
 extends SceneTree
-## Room Spec Validation — checks every room scene matches documented specs.
+## Room Spec Validation — checks assembled declaration rooms match shipped specs.
 ## Run: godot --headless --script test/e2e/test_room_specs.gd
 ##
 ## Spec data in room_spec_data.gd (RoomSpecData class).
@@ -28,12 +28,6 @@ func _run_all_tests() -> void:
 	_assert("GameManager found", _gm != null)
 	_assert("RoomManager found", _rm != null)
 	_gm.new_game()
-
-	var ui: Control = _find(_main, "UIOverlay") as Control
-	if ui:
-		var landing: Node = _find(ui, "LandingScreen")
-		if landing:
-			landing.visible = false
 
 	var all_specs: Dictionary = RoomSpecData.get_all()
 	for room_id in all_specs:
@@ -83,7 +77,9 @@ func _test_room(room_id: String, spec: Dictionary) -> void:
 	if spec.get("has_flickering", false):
 		_assert("has flickering light", _has_flickering(room))
 
-	_assert("spawn set", room.spawn_position != Vector3.ZERO or room_id == "front_gate")
+	var require_spawn: bool = spec.get("require_spawn", true)
+	if require_spawn:
+		_assert("spawn set", room.spawn_position != Vector3.ZERO or room_id == "front_gate")
 
 	var has_audio: bool = not room.audio_loop.is_empty()
 	var is_ext: bool = room.is_exterior if "is_exterior" in room else false

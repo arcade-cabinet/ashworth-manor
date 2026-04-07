@@ -28,6 +28,6 @@ The hallway establishes:
 
 **Visual:** Dark charcoal damask wallpaper (wall_1, #38302C). Wood floor with carpet runner (floor1 + rug). Plaster ceiling with molding (cieling1). Dim sconces. Doors on both sides. The locked attic door at the far end, heavy and iron-banded.
 
-**Audio:** Floorboards creak under the carpet. Wind audible through the walls. Distant sounds from rooms on either side (implied). After `elizabeth_aware`: faint crying from behind the attic door.
+**Audio:** Floorboards creak under the carpet. Wind is audible through the walls. The live runtime currently leans on the hallway loop, candle flicker, and later upper-floor tension rather than a dedicated crying-behind-the-door beat.
 
 **Tone:** Anticipatory. A hallway of closed doors. Every door is a choice: master bedroom (guilt), library (knowledge), guest room (another victim). And the attic door at the end — the destination everything points toward.

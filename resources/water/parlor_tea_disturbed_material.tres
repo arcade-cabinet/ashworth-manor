@@ -1,0 +1,53 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3]
+
+[ext_resource type="Shader" path="res://shaders/water/stylized_water_surface.gdshader" id="1_c72o3"]
+
+[sub_resource type="Gradient" id="Gradient_izv2v"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0.16862746, 0.08235294, 0.03137255, 1, 0.3764706, 0.20392157, 0.08235294, 1, 0.6313726, 0.3764706, 0.16470589, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_4v6p5"]
+frequency = 0.05
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_m0dkm"]
+noise = SubResource("FastNoiseLite_4v6p5")
+color_ramp = SubResource("Gradient_izv2v")
+
+[resource]
+shader = ExtResource("1_c72o3")
+shader_parameter/fade_start_depth = 0.003
+shader_parameter/max_depth = 0.03
+shader_parameter/refraction_strength = 0.06
+shader_parameter/refraction_distance_fade = 0.4
+shader_parameter/base_tint_color = Color(0.38039216, 0.21176471, 0.09019608, 1)
+shader_parameter/deep_color = Color(0.19607843, 0.09411765, 0.039215688, 1)
+shader_parameter/water_absorption = Color(0.42745098, 0.27058825, 0.14901961, 1)
+shader_parameter/underwater_fog_color = Color(0.14509805, 0.078431375, 0.03137255, 1)
+shader_parameter/normal_epsilon = 0.01
+shader_parameter/normal_smoothness_dist = 2.0
+shader_parameter/sea_height = 0.005
+shader_parameter/sea_choppy = 0.32
+shader_parameter/sea_speed = 0.08
+shader_parameter/sea_freq = 0.55
+shader_parameter/roughness = 0.12
+shader_parameter/metallic = 0.0
+shader_parameter/specular = 0.38
+shader_parameter/foam_color = Color(0.77254903, 0.6431373, 0.4862745, 1)
+shader_parameter/foam_depth_start = 0.0
+shader_parameter/foam_depth_end = 0.0
+shader_parameter/foam_noise_scale = 0.35
+shader_parameter/foam_noise_speed = 0.01
+shader_parameter/foam_cutoff = 0.999
+shader_parameter/foam_crest_threshold = 0.999
+shader_parameter/foam_crest_amount = 0.0
+shader_parameter/foam_edge_color = Color(0, 0, 0, 1)
+shader_parameter/foam_edge_offset = Vector2(0.004, 0.004)
+shader_parameter/voronoi_scale = 1.5
+shader_parameter/voronoi_strength = 0.03
+shader_parameter/caustics_texture = SubResource("NoiseTexture2D_m0dkm")
+shader_parameter/caustics_scale = 0.18
+shader_parameter/caustics_speed = 0.004
+shader_parameter/caustics_intensity = 0.015
+shader_parameter/caustics_depth_fade = 0.1
+shader_parameter/ITER_GEOMETRY = 2
+shader_parameter/ITER_FRAGMENT = 4

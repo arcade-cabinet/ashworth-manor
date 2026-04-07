@@ -2,15 +2,17 @@
 
 | Name | GLB | Notes |
 |------|-----|-------|
-| Bat | `attic/storage/bat.glb` | Resting on rafter |
-| Old mattress | `attic/storage/old_mattress_mx_1.glb` | Elizabeth's bed |
-| Bucket | `attic/storage/bucket_mx_1.glb` | Water/waste |
-| Soap | `attic/storage/soap_mx_1.glb` | Someone cared for her |
-| Mask | `attic/storage/mask_mx_3.glb` | Occultist mask — why here? |
-| Dead lamp | `attic/storage/lamp_mx_4_off.glb` | Empty |
-| Mining props | `attic/storage/mining_props.glb` | Stored equipment |
-| Doll model | `attic/storage/doll1.glb` | THE porcelain doll |
-| Picture frames | `shared/decor/picture_blank_005.glb` | Elizabeth's portrait |
-| Candle | `shared/items/candle0.glb` | Near doll, impossibly lit |
-| Books | `shared/items/book2.glb` | Elizabeth's reading |
-| Pages | `shared/items/page*.glb` | Elizabeth's drawings scattered |
+| Child's trunk | `shared/furniture/drawers.glb` | Elizabeth's belongings chest |
+| Child's chair | `shared/furniture/chair.glb` | Doll seat |
+| Cot | `shared/furniture/bed.glb` | Narrow bed frame pushed aside |
+| Old mattress | `attic/storage/old_mattress_mx_1.glb` | Secondary bedding dragged across the boards |
+| Bucket | `attic/storage/bucket_mx_1.glb` | Water/waste bucket |
+| Soap | `attic/storage/soap_mx_1.glb` | Evidence someone still washed and dressed her |
+| Dead lamp | `attic/storage/lamp_mx_4_off.glb` | Extinguished practical light source |
+| Ritual mask | `attic/storage/mask_mx_3.glb` | Occult intrusion hanging on the wall |
+| Mining props | `attic/storage/mining_props.glb` | Estate tools and junk stored beside her life |
+| Bat | `attic/storage/bat.glb` | Resting high in the rafters |
+| Candle | `shared/items/candle0.glb` | Lit beside the doll, impossibly steady |
+| Portrait frame | `shared/decor/picture_blank_005.glb` | Backing Elizabeth's painting |
+| Child's book | `shared/items/book2.glb` | Left near the bed |
+| Drawing pages | `shared/items/page2.glb`, `page5.glb` | Loose family sketches and scraps |

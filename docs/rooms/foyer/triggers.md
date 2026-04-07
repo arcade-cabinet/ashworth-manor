@@ -9,11 +9,20 @@ conditions:
   - flag_not_set: visited_foyer
 actions:
   - set_flag: visited_foyer
+  - set_flag: foyer_threshold_crossed
   - set_flag: game_started
   - show_room_name: "Grand Foyer" (3s duration)
   - play_ambient: room ambient loop
   - play_sfx: "distant_settling" (positional, from ceiling)
+  - light_flicker: foyer_chandelier, energy 4.0→4.8 over 1.4s
+  - brief camera sway (shaky-camera-3d, trauma 0.025)
+  - observation: "The front door settles somewhere behind you with the soft finality of a verdict. The chandelier brightens overhead, and the hall stops feeling entered. It starts feeling inhabited."
 ```
+
+The room dressing should reinforce that beat:
+- the central runner axis pulls the eye toward the staircase and parlor
+- paired south-side consoles and lamps keep the entry wall readable without making it safe
+- the kitchen and dining exits stay available, but they should not visually compete with the stair/parlor line on first entry
 
 ## Conditional Events
 

@@ -16,33 +16,34 @@ Spawn: (0, 0, -8), facing north (+Z, toward mansion)
               │                       │
     ┌─────────┴───────────────────────┴─────────┐
     │                                           │
-    │         ROCKS       TREE4                 │
-    │         (-3,0,8)    (7,0,7)               │
+    │ TREE5 ROCKS STONE STEP/DOOR READ STONE T6 │
+    │ (-6,9)(-3,8)(-2,8) (0,11)      (2,8)(5,10)│
     │                                           │
+    │ TREE3   STATUE L          STATUE R HEDGE  │
+    │ (-7,5)  (-6,4)            (6,4)    R2     │
     │                                           │
-    │  TREE3                                    │
-    │  (-7,0,5)     HEDGE/NATURE                │  CONNECTION
-    │               (-8,0,0)                    │─→ garden
-    │                                           │  (10, 1.5, 0)
+    │ BUSH5     STONE   BUSH6       TREE4       │
+    │           (0,6)                           │
     │                                           │
+    │  BENCH [i]    STONE      TREE2            │
+    │  (5,0,-5)     (0,2)      (8,0,-3)         │
     │                                           │
+    │  TREE1        STONE       BUSH4           │
+    │  (-8,0,-5)    (0,-2)     (4,0,3)          │
     │                                           │
-    │  BENCH [i]    TREE2                       │
-    │  (5,0,-5)     (8,0,-3)                    │
-    │                                           │
-    │  TREE1                                    │
-    │  (-8,0,-5)                                │
-    │                                           │
-    │          LUGGAGE [i]                      │
-    │          (4,0,-7)                         │
+    │   HEDGE L1   BUSH3      HEDGE R1          │
+    │   (-8,0,-1)  (-3,0,-2)  (8,0,-0)          │
+    │          LUGGAGE [i]   STONE              │
+    │          (4,0,-7)      (0,-6)             │
     │                                           │
     │  BUSH1          BUSH2                     │
     │  (-6,0,-9)      (6,0,-9)                  │
     │                                           │
     ├──FENCE────LAMP [L]──GATE [i]──────────────┤
     │  (-7,0,-10) (-4,3,-10)  (0,0,-10)        │
-    │  WALL      PILLAR_L    PILLAR_R   CORNER  │
-    │  (-9,0,-10) (-4,0,-10) (4,0,-10) (9,-10) │
+    │  WALL      PILLAR_L   PILLAR_R/OFF LAMP   │
+    │  (-9,0,-10) (-4,0,-10) (4,0,-10)         │
+    │                    POLE/FENCE R (6..7)   │
     │                                           │
     └───────────────────────────────────────────┘
                           │
@@ -58,12 +59,12 @@ LEGEND:
 
 ## Grid Coverage
 
-Floor tiles (floor3.glb, dark flagstone, 2m each):
-- Row Z=-9: 10 tiles from X=-9 to X=9 (full width)
-- Row Z=1: 3 tiles at X=-9, X=1, X=9 (sparse mid-area)
-- Row Z=9: 3 tiles at X=-9, X=1, X=9 (sparse near mansion)
+Drive stones (floor3.glb, dark flagstone) form a broken ceremonial path:
+- Centerline stones at Z=-6, -2, 2, 6
+- Widening pair near the house at X=-2.5 and X=2.5, Z=8.5
 
-Most of the area is gravel/dirt ground — floor tiles serve as path stepping stones.
+Most of the area remains gravel/dirt ground. The stones only articulate the approach and keep the allée from feeling flat.
+Near the house, three shallower stones suggest the first step up to a visible front threshold rather than letting the path die into empty darkness.
 
 ## Collision
 

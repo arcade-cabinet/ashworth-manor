@@ -11,4 +11,5 @@ From `assets/grounds/family_crypt/`:
 | Debris/bricks | `debris_bricks_mx_1.glb`, `debris_bricks_mx_2.glb` | Crumbling |
 | Bottle | `glass_bottle_mx_3.glb` | Left by Victoria? |
 | Scattered bones | `scattered_bones.glb` | Disturbed remains |
-| Headstones | (use pillar or custom block) | 3 graves |
+| Headstones | `drystone_column.glb` used as markers | Edmund, Victoria, blank child stone |
+| Shared candle + holder | `assets/shared/items/candle0.glb`, `assets/shared/decor/candle_holder.glb` | Mourning offering at the blank child marker |

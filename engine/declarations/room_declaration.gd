@@ -3,6 +3,8 @@ class_name RoomDeclaration
 extends Resource
 ## Complete room definition -- geometry, interactables, lighting, audio, triggers.
 
+const RoomAnchorDecl = preload("res://engine/declarations/room_anchor_decl.gd")
+
 # Identity
 @export var room_id: String = ""
 @export var room_name: String = ""
@@ -14,6 +16,10 @@ extends Resource
 # Geometry
 @export var dimensions: Vector3 = Vector3(12, 4.8, 10) # width, height, depth
 @export var is_exterior: bool = false
+@export var spatial_class: String = "interior_room" # interior_room, exterior_ground, glazed_room, threshold_room, service_space
+@export var exposure_faces: PackedStringArray = []
+@export var outlook_zones: Dictionary = {} # {"north": "estate_garden", "roof": "open_sky"}
+@export var window_view_mode: String = "none" # none, local_outlook, distant_backdrop, glazed_enclosure, facade_view
 
 # Textures (256x256 standalone PNGs)
 @export var wall_texture: String = "wall0_texture"
@@ -36,6 +42,10 @@ extends Resource
 # Spawn (used when entering this room from a connection that doesn't specify position_in_to)
 @export var spawn_position: Vector3 = Vector3.ZERO
 @export var spawn_rotation_y: float = 0.0
+
+# Canonical composition anchors
+@export var entry_anchors: Array[RoomAnchorDecl] = []
+@export var focal_anchors: Array[RoomAnchorDecl] = []
 
 # Interactables -- declared inline, not separate files
 @export var interactables: Array[InteractableDecl] = []

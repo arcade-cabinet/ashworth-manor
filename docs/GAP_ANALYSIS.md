@@ -382,7 +382,7 @@ Assuming interactable Area3D nodes are created with the data from `room_data.gd`
 1. Read `elizabeth_letter` in attic_storage -> sets `read_elizabeth_letter` -- OK
 2. Interact `porcelain_doll` in attic_storage (first time) -> sets `examined_doll` -- OK
 3. Interact `porcelain_doll` (with `read_elizabeth_letter` flag) -> gives `hidden_key`, also gives `porcelain_doll` item -- OK
-4. Use `hidden_key` on locked connection to `hidden_room` -- OK (if connection exists)
+4. Use `hidden_key` on locked connection to `hidden_chamber` -- OK (if connection exists)
 
 ### Cellar Key Puzzle
 1. Interact `carriage_painting` in carriage_house -> gives `cellar_key` -- OK
@@ -390,7 +390,7 @@ Assuming interactable Area3D nodes are created with the data from `room_data.gd`
 
 ### Jewelry Key Puzzle
 1. Interact `loose_flagstone` in family_crypt -> gives `jewelry_key` -- OK
-2. Use `jewelry_key` on `jewelry_box` in master_bedroom -> gives `elizabeths_locket` + `lock_of_hair` -- OK
+2. Use `jewelry_key` on `jewelry_box` in master_bedroom -> gives `elizabeth_locket` + `lock_of_hair` -- OK
 
 ### Gate Key Puzzle
 1. Interact `greenhouse_gate_key` in greenhouse -> gives `gate_key` -- OK

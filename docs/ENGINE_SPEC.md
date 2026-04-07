@@ -16,7 +16,18 @@ A data-driven game engine for first-person PSX horror exploration games. Inspire
 
 5. **PRNG variation.** Puzzle LOGIC is fixed. Puzzle PLACEMENT is variable. A seed determines which key is in which room. Same graph, different solve path per playthrough.
 
-6. **Rooms are geometry declarations, not hand-built scenes.** Walls, floors, ceilings are generated from texture references and dimensions. The engine tiles textured quads, adds collision, places interactables, wires audio — all from the declaration.
+6. **Rooms are authoring units, compiled worlds are runtime units.** Walls, floors, ceilings, thresholds, props, and atmosphere are generated from declarations, but runtime traversal should happen inside graph-aware compiled worlds rather than hard room-to-room swaps by default.
+
+7. **Scene grammar is explicit.** Every authored room is understood as:
+   - the room shell itself
+   - always-present static models
+   - dynamic/stateful setpieces that may change model, inventory output, or traversal state
+   - local self-contained puzzles
+   - cross-room diamond weaving that connects A/B/C cause-and-effect chains
+
+8. **Spatial grammar is explicit.** The engine must distinguish exterior grounds, enclosed interiors, glazed rooms, threshold rooms, and service spaces, because shell composition, outlook treatment, and window behavior are different in each case.
+
+9. **Stateful visuals should bias procedural or hybrid.** If a setpiece visibly changes state, the changing part should usually be procedural, shader-driven, or state-swapped inside an authored scene, while static silhouette and ornament can stay model-driven.
 
 ---
 
@@ -43,7 +54,9 @@ ashworth/
 │   └── state_schema.tres   # All state variables: name, type, initial value, what sets them, what reads them
 │
 ├── engine/
-│   ├── room_assembler.gd   # Reads room declaration → generates Node3D scene tree
+│   ├── room_assembler.gd   # Reads room declaration → generates local room subtree inside a world
+│   ├── graph_compiler.gd   # Validates topology, compiled-world coverage, and threshold integrity
+│   ├── region_compiler.gd  # Compiles authoring regions into runtime world plans
 │   ├── state_machine.gd    # Reads world declaration → manages game phases + Elizabeth
 │   ├── interaction_engine.gd  # Reads interactable declarations → dispatches tap responses
 │   ├── puzzle_engine.gd    # Reads puzzle declarations → tracks progress, validates chains
@@ -53,14 +66,14 @@ ashworth/
 │   └── prng_engine.gd      # Reads PRNG variation points → shuffles item/clue placements
 │
 ├── builders/
-│   ├── wall_builder.gd     # Generates textured wall geometry from declaration
-│   ├── floor_builder.gd    # Generates textured floor geometry
-│   ├── ceiling_builder.gd  # Generates textured ceiling geometry
-│   ├── door_builder.gd     # Generates interactive door (frame + panel + hinge + collision)
-│   ├── window_builder.gd   # Generates window (frame + pane + optional boards/shutters)
-│   ├─��� stairs_builder.gd   # Generates staircase with side boxing
-│   ��── trapdoor_builder.gd # Generates floor hatch with hinge
-│   └── ladder_builder.gd   # Generates drop-down or wall ladder
+│   ├── wall_builder.gd     # Procedural textured wall shell with inset openings
+│   ├── floor_builder.gd    # Procedural textured floor tiling
+│   ├── ceiling_builder.gd  # Procedural textured ceiling tiling
+│   ├── door_builder.gd     # Procedural door panel + inset trim/frame model
+│   ├── window_builder.gd   # Procedural pane/opening + inset trim/frame model
+│   ├── stairs_builder.gd   # Procedural stair mass + trim/newel detail
+│   ├── trapdoor_builder.gd # Procedural hatch + frame assembly
+│   └── ladder_builder.gd   # Procedural climbable / deployable ladder assembly
 │
 └── assets/
     ├── textures/            # All standalone PNGs (walls, floors, ceilings, doors, windows)
@@ -70,6 +83,54 @@ ashworth/
 ```
 
 ---
+
+## Runtime World Model
+
+The engine now distinguishes between:
+
+- `RoomDeclaration`: local authored space, shell, props, interactables, anchors
+- `RegionDecl`: authoring grouping for neighboring rooms
+- `compiled_world_id`: the runtime traversal world a region belongs to
+
+Current interim runtime worlds:
+
+- `entrance_path_world`
+- `manor_interior_world`
+- `rear_grounds_world`
+- `service_basement_world`
+
+Target shipped world model:
+
+- `estate_grounds_world`
+- `manor_interior_world`
+- `service_basement_world`
+
+The shipped goal is that the grounds stop behaving like two disconnected
+outside maps and instead become one coherent wraparound estate with staged
+front, side, and rear access.
+
+Default transition policy:
+
+- same-world `door`, `gate`, `path` => seamless
+- same-world `stairs`, `ladder`, `trapdoor` => embodied
+- inter-world traversal => soft transition unless explicitly overridden
+
+Target grounds authoring beats:
+
+- `front_gate`
+- `drive_lower`
+- `drive_upper`
+- `front_steps`
+- `west_side_path`
+- `east_side_path`
+- `rear_court`
+- `garden`
+- `greenhouse`
+- `carriage_house`
+- `pond_edge`
+- `woodland_path`
+- `chapel`
+- `family_crypt`
 
 ## Declaration Format
 
@@ -91,6 +152,8 @@ extends Resource
 # === Room registry — validated bidirectional connectivity ===
 @export var rooms: Array[RoomRef] = []
 @export var connections: Array[Connection] = []
+@export var secret_passages: Array[SecretPassageDecl] = []
+@export var regions: Array[RegionDecl] = []
 
 # === Environments — per-area presets, rooms reference by name ===
 @export var area_environments: Dictionary = {}
@@ -177,6 +240,94 @@ extends Resource
 @export var clue_overrides: Dictionary = {}               # {interactable_id: "clue text for this variant"}
 ```
 
+---
+
+## Scene Grammar
+
+Ashworth Manor room authoring is not just "a list of props and interactables." It uses five layers that need to stay distinct in docs, declarations, and runtime behavior.
+
+### 1. Room Shell
+
+The room itself:
+
+- dimensions
+- wall segmentation
+- floor / ceiling / wall textures
+- threshold surfaces
+- entry anchors
+- focal anchors
+- lighting volume and atmosphere
+
+This is the stable container.
+
+### 2. Static Scene Models
+
+Always-present dressing and architecture:
+
+- table
+- chairs
+- bookcase
+- bed
+- fireplace surround
+- moulding / trim / newel / banister details
+
+These are declared as `PropDecl` and should be thought of as **scene grammar**, not puzzle state.
+
+### 3. Dynamic / Stateful Setpieces
+
+Objects that can change state, visuals, traversal meaning, or inventory behavior:
+
+- teapot empty vs filled
+- lamp lit vs extinguished
+- painting closed vs secret passage revealed
+- trapdoor sealed vs lowered
+- ladder stowed vs unfolded
+
+These are declared as `InteractableDecl`. Their logic may be local, but they are allowed to:
+
+- swap between named visual states
+- emit inventory items
+- mutate world state
+- unlock or reveal thresholds
+- become inert dressing on one diamond branch and active on another
+
+### 4. Self-Contained Room Puzzles
+
+A local problem entirely understandable inside one room or one immediate setpiece cluster.
+
+Examples:
+
+- unlock the bookcase to reveal a secret passage
+- combine a key and a lock in the same room
+- heat, pour, or fill a vessel to change its state
+
+These are usually authored as `PuzzleDeclaration` plus room-local interactables and triggers.
+
+### 5. Diamond Weave Logic
+
+Cross-room cause/effect weaving at different scales:
+
+- **macro**: the emotional thread (`captive`, `mourning`, `sovereign`)
+- **meso**: the diamond branch itself, where A/B variants satisfy the same functional slot in different ways
+- **micro**: local trigger and state edges inside a room/setpiece
+
+The intended pattern is:
+
+- `A` side in one room creates a usable state or item
+- `B` side in another room creates a different but functionally equivalent state or item
+- `C` side consumes the functional role and advances the story
+
+So for a tea-service example:
+
+- the table and chairs are static models
+- the teapot is a dynamic setpiece
+- "filled" vs "empty" is its visual/stateful layer
+- pouring into cups is a local micro interaction chain
+- using "a vessel with liquid" elsewhere is the meso diamond payoff
+- the currently selected macro thread changes emotional interpretation, not the object grammar
+
+This distinction should hold everywhere in the mansion and grounds.
+
 ### RoomRef
 
 ```gdscript
@@ -186,6 +337,91 @@ extends Resource
 @export var room_id: String = ""
 @export var declaration_path: String = ""     # res://declarations/rooms/foyer.tres
 ```
+
+### SecretPassageDecl
+
+Hidden or service-side routing that preserves puzzle order while keeping the estate historically and dramatically coherent.
+
+```gdscript
+class_name SecretPassageDecl
+extends Resource
+
+@export var passage_id: String = ""
+@export var from_room: String = ""
+@export var to_room: String = ""
+
+@export var anchor_from: PassageAnchorDecl = null
+@export var anchor_to: PassageAnchorDecl = null
+
+@export var discovery_mode: String = "hidden_interactable"
+@export var reveal_condition: String = ""
+@export var initially_known: bool = false
+@export var presentation: PassagePresentationDecl = null
+
+@export var traversal_type: String = "crawl" # crawl, door, panel, stair, ladder, tunnel
+@export var functional_role: String = ""     # service_route, family_route, occult_route, escape_route
+
+@export var one_way_until_revealed: bool = false
+@export var once_open_always_open: bool = true
+@export var locked: bool = false
+@export var key_id: String = ""
+```
+
+### PassageAnchorDecl
+
+One end of a secret passage in exact room-local 3D space.
+
+```gdscript
+class_name PassageAnchorDecl
+extends Resource
+
+@export var room_id: String = ""
+@export var local_position: Vector3 = Vector3.ZERO
+@export var local_rotation_y: float = 0.0
+@export var surface_type: String = ""
+@export var bounds_size: Vector3 = Vector3(1.0, 2.0, 0.3)
+@export var entry_offset: Vector3 = Vector3.ZERO
+@export var spawn_position: Vector3 = Vector3.ZERO
+@export var spawn_rotation_y: float = 0.0
+```
+
+### PassagePresentationDecl
+
+How the player perceives the passage before and after discovery.
+
+```gdscript
+class_name PassagePresentationDecl
+extends Resource
+
+@export var visible_form: String = ""
+@export var model_path: String = ""
+
+@export var closed_text: String = ""
+@export var discovered_text: String = ""
+@export var opened_text: String = ""
+
+@export var discovery_feedback: PackedStringArray = []
+@export var fx_on_reveal: Dictionary = {}
+
+@export var sfx_reveal: String = ""
+@export var sfx_open: String = ""
+```
+
+### Secret Passage Validation Rules
+
+Secret passages are not generic hidden doors. They must satisfy all of the following:
+
+- both `from_room` and `to_room` must exist in `world.rooms`
+- `anchor_from.room_id` must match `from_room`
+- `anchor_to.room_id` must match `to_room`
+- anchor bounds and spawn positions must be present for both ends
+- if `locked == true`, `key_id` must be non-empty
+- if `one_way_until_revealed == true`, the runtime must track reveal state explicitly
+- secret passages must not bypass required diamond functional slots unless the bypass is itself gated by the same dependency chain
+
+Recommended first use:
+
+- service-side route between the mansion service layer and `carriage_house`
 
 ### PlayerDeclaration (GAP #3 fixed)
 
@@ -415,6 +651,11 @@ extends Resource
 
 # State mutations — executed when this response is shown
 @export var set_state: Dictionary = {}       # {variable_name: value}
+
+# Optional per-response rewards/effects
+@export var gives_item: String = ""
+@export var gives_item_condition: String = ""
+@export var also_gives: String = ""
 
 # SFX
 @export var play_sfx: String = ""
@@ -780,19 +1021,17 @@ Add a `PuzzleVariation` to the puzzle declaration listing alternative placements
 
 ---
 
-## Migration Path
+## Runtime Status
 
-We don't rewrite the game overnight. We migrate room by room:
+The declaration migration is no longer a future plan. The shipped runtime is declaration-driven:
 
-1. **Write the Resource classes** (declarations) — these are just GDScript `extends Resource` with `@export` vars
-2. **Write the builders** (wall, floor, ceiling, door, window) — these generate geometry from declarations
-3. **Write the room assembler** — reads declarations, calls builders, outputs scene tree
-4. **Convert ONE room** (the POC indoor scene) to declaration-driven
-5. **Verify it works** — screenshot, test, play on device
-6. **Convert remaining rooms** — one at a time, each verified
-7. **Write the puzzle engine** with PRNG support
-8. **Add the test generator**
-9. **Delete the old hand-built .tscn files**
+1. `world.tres` is the canonical world graph
+2. rooms are assembled from `RoomDeclaration` data
+3. builders generate runtime geometry, connections, lights, props, and interactables
+4. declaration-driven interactions, triggers, and conditional events are live
+5. legacy `.tscn` room scenes are fallback/reference material, not the source of truth
+
+Ongoing work should assume this architecture is already in force and should remove remaining split-brain references rather than planning another migration.
 
 ---
 
@@ -954,7 +1193,7 @@ Custom balloon scene uses Cinzel (titles) + Cormorant (body) fonts from `assets/
 **Declared in `ItemDeclaration` resources.** The engine:
 1. On startup, reads all `ItemDeclaration` files
 2. Creates gloot `ProtoTree` item prototypes from them
-3. When InteractableDecl has `gives_item`, calls `GameManager.give_item()` which wraps gloot
+3. When either `InteractableDecl` or the chosen `ResponseDecl` grants an item, calls `GameManager.give_item()` which wraps gloot
 4. Inventory UI in pause menu reads from gloot `Inventory` node
 
 ### 4. AdaptiSound (Layered Audio)

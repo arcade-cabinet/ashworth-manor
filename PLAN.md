@@ -1,114 +1,93 @@
-# Game Plan: Ashworth Manor — Architecture Redesign
+# Ashworth Manor Production Recovery Plan
 
-## Game Description
+## Summary
 
-PSX-style Victorian haunted house exploration. 20 rooms, 6 puzzles, 3 endings, 663+ assets. Redesign from monolithic room_data.gd to proper Godot scene-based architecture where each room is its own .tscn file.
+Ashworth Manor is now a declaration-driven Godot 4.6 game with compiled-world runtime scaffolding, renderer-based screenshot QA, and a Forward+-first first-person interaction model. The active recovery work is no longer basic boot or test migration. The product risk is player-facing quality: coherent world traversal, correct first-person staging, threshold feel, and puzzle/story readability.
 
-## Risk Tasks
+## Current Architecture
 
-### 1. Room Scene Template + RoomManager Instancing
-- **Why isolated:** The entire game depends on rooms loading/unloading correctly. Scene instancing with proper metadata, collision layers, and signal connections must work before any room content matters.
-- **Verify:** RoomManager can load any room .tscn by path, instance it, connect interactable signals, free it, load another. Fade transition works. Player repositioned. Audio crossfade triggers.
+- `declarations/*.tres` are the canonical content layer
+- `engine/` owns declaration parsing, room assembly, graph compilation, region/compiled-world planning, and validation
+- `scripts/room_manager.gd` now understands compiled worlds and same-world traversal profiles
+- `scripts/world_runtime_manager.gd` owns active/prewarmed compiled-world state
+- same-world doors default toward seamless traversal
+- same-world stairs/ladders/trapdoors default toward embodied traversal
+- renderer walkthrough and opening-journey capture are part of acceptance
 
-## Main Build
+## Active Recovery Tracks
 
-**Architecture overhaul:**
+### 1. Opening Path and First-Person Composition
+- Repair `front_gate` so the player starts at a convincing diegetic gate/menu, then walks a hedge-lined moonlit approach toward a readable manor facade
+- Repair `foyer` so the front-door handoff lands on the hall axis and stair pull instead of a blocker-heavy threshold frame
+- Continue polishing `library`, `kitchen`, and `attic_stairs` until their first frames communicate purpose cleanly
+- Verify via:
+  - `godot --path . --script test/e2e/test_opening_journey.gd`
+  - `godot --path . --script test/e2e/test_room_walkthrough.gd`
 
-1. **Room base script** (`scripts/room_base.gd`) — extends Node3D, exported vars for room metadata:
-   - `@export var room_id: String`
-   - `@export var room_name: String`
-   - `@export var audio_loop: String`
-   - `@export var ambient_darkness: float`
-   - `@export var connections: Array[Dictionary]` (stored as .tres)
-   - `@export var is_exterior: bool`
-   - Auto-registers interactable Area3D children (group "interactables")
-   - Auto-registers connection Area3D children (group "connections")
+### 2. Compiled-World Runtime
+- Keep rooms as authoring units but compiled worlds as runtime traversal units
+- Preserve these primary compiled worlds:
+  - `entrance_path_world`
+  - `manor_interior_world`
+  - `rear_grounds_world`
+  - `service_basement_world`
+- Continue moving same-world traversal away from room-swap feel and toward live continuous world slices
+- Verify via:
+  - `godot --headless --path . --script test/e2e/test_full_playthrough.gd`
 
-2. **Room connection resource** (`scripts/room_connection.tres` template) — custom Resource:
-   - `target_room_path: String` (res://scenes/rooms/foyer.tscn)
-   - `type: String` (door/stairs/ladder/path)
-   - `locked: bool`
-   - `key_id: String`
+### 3. Threshold Mechanisms
+- Thresholds are no longer generic links; they are moving toward functional assemblies
+- Continue finishing:
+  - doors
+  - gates
+  - ladders
+  - trapdoors
+  - secret passages
+- First fully complete mechanism path remains:
+  - `storage_basement <-> carriage_house`
+- Verify via:
+  - `godot --headless --path . --script test/e2e/test_declared_interactions.gd`
 
-3. **Interactable resource** (`scripts/interactable_data.tres` template) — custom Resource:
-   - `object_id: String`
-   - `object_type: String` (note/painting/box/doll/ritual/etc)
-   - `title: String`
-   - `content: String`
-   - `locked: bool`, `key_id: String`, `item_found: String`
-   - `on_read_flags: PackedStringArray`
-   - `extra_data: Dictionary`
+### 4. Procedural Shell Discipline
+- Architectural stack stays:
+  - procedural shell
+  - inset trim/frame/moulding models
+  - procedural moving mechanisms
+- Walls/floors/ceilings remain procedural and texture-driven
+- Stairs remain procedural even if trimmed with models
+- Builder logic, not source asset mutation, owns normalization and fitting
 
-4. **20 room scenes** — each built via Godot MCP or scene builders:
-   ```
-   scenes/rooms/
-   ├── ground_floor/
-   │   ├── foyer.tscn
-   │   ├── parlor.tscn
-   │   ├── dining_room.tscn
-   │   └── kitchen.tscn
-   ├── upper_floor/
-   │   ├── hallway.tscn
-   │   ├── master_bedroom.tscn
-   │   ├── library.tscn
-   │   └── guest_room.tscn
-   ├── basement/
-   │   ├── storage.tscn
-   │   └── boiler_room.tscn
-   ├── deep_basement/
-   │   └── wine_cellar.tscn
-   ├── attic/
-   │   ├── stairwell.tscn
-   │   ├── storage.tscn
-   │   └── hidden_chamber.tscn
-   └── grounds/
-       ├── front_gate.tscn
-       ├── garden.tscn
-       ├── chapel.tscn
-       ├── greenhouse.tscn
-       ├── carriage_house.tscn
-       └── family_crypt.tscn
-   ```
+### 5. Validation and Acceptance
+- Declaration validation, interaction validation, playthrough validation, and screenshot QA must agree
+- Critical-path visuals are not considered complete unless renderer captures are acceptable
+- Required command surface:
+  - `godot --headless --path . --quit-after 1`
+  - `godot --headless --path . --script test/generated/test_declarations.gd`
+  - `godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `godot --headless --path . --script test/e2e/test_declared_interactions.gd`
+  - `godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+  - `godot --path . --script test/e2e/test_room_walkthrough.gd`
+  - `godot --path . --script test/e2e/test_opening_journey.gd`
 
-5. **Refactored RoomManager** — simplified to scene instancing:
-   - `transition_to(scene_path: String, conn_type: String)`
-   - Instances PackedScene, adds to tree, frees previous
-   - Reads room_base exports for metadata
-   - Finds children in "interactables" and "connections" groups
+## Current Priorities
 
-6. **Refactored InteractionManager** — reads interactable_data from Area3D metadata instead of raw dictionaries
-
-7. **Delete room_data.gd** — no longer needed
-
-Each room scene contains:
-- CSGBox3D geometry with TEXTURED materials (actual .png textures from assets/)
-- GLB model instances placed as composed tableaux
-- OmniLight3D / SpotLight3D nodes with proper warm colors
-- Area3D nodes for interactables (with InteractableData resource)
-- Area3D nodes for connections (with RoomConnection resource)
-
-**Per-room composition** — each room built as a Myst-style tableau:
-- Macro: room shape, dominant light source, atmosphere
-- Meso: furniture arrangement, traffic flow, focal points
-- Micro: props that tell stories (half-eaten meal, dropped letter, broken glass)
-
-- **Verify:**
-  - Each room .tscn loads independently without errors
-  - Room transitions work between all connected rooms
-  - Interactables fire correct signals with correct data
-  - Textures visible on walls/floors/ceilings — no flat dark boxes
-  - Room scale feels like a mansion (high ceilings, wide spaces)
-  - Objects composed as scenes (spatial relationships tell stories)
-  - All 6 puzzle items in correct rooms
-  - All 3 endings triggerable
-  - PSX shader active
-  - Audio loops play per room
-  - No magenta/missing textures
-  - **Presentation video:** 30s cinematic tour
+1. Fix `front_gate` facade massing and route framing
+2. Fix `foyer` front-door handoff composition
+3. Extend stateful setpiece visuals for liquid-bearing and changing objects
+4. Keep pushing same-world traversal toward truly continuous navigation
+5. Finish threshold mechanism feel and secret-passage completeness
+6. Audit puzzles and dynamic setpieces for actual gameplay sense, not just data consistency
 
 ## Status
 
-- [x] Risk 1: Room scene template + instancing
-- [x] Main Build: 20 room scenes
-- [x] Master script alignment verification
-- [ ] Presentation video
+- [x] Declaration runtime is canonical
+- [x] Compiled-world scaffolding exists
+- [x] Same-world traversal no longer hard-fades by default
+- [x] Renderer walkthrough is clean and stable
+- [x] Opening-journey capture exists
+- [x] Liquid/stateful interactable visuals work for chapel font, kitchen bucket, parlor tea service, and dining-room wine glass
+- [x] Forward+ renderer is the canonical visual baseline for glass, water, fog, and lighting response
+- [ ] Opening route is visually shippable
+- [ ] Manor interior feels fully seamless
+- [ ] Threshold mechanisms are fully production-complete
+- [ ] Puzzle flow has been fully audited for actual playability

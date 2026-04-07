@@ -63,6 +63,13 @@
 		"category": "artifacts",
 		"ritual": false
 	},
+	"elizabeth_locket": {
+		"name": "Elizabeth's Locket",
+		"description": "A tarnished silver locket inscribed 'Our Elizabeth, born in light.'",
+		"weight": 0.05,
+		"category": "artifacts",
+		"ritual": false
+	},
 	"blessed_water": {
 		"name": "Vial of Holy Water",
 		"description": "Water from the chapel baptismal font. Impossibly cold.",

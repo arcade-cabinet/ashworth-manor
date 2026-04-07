@@ -1,0 +1,18 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://003b1x471fhh"]
+
+[ext_resource type="Texture2D" uid="uid://v2kaa4omffom" path="res://misc/assets/PACK V3/diffuse.tga" id="1_rokwd"]
+[ext_resource type="Texture2D" uid="uid://clttc2mx3n6cy" path="res://misc/assets/PACK V3/normal.tga" id="2_3ao1a"]
+
+[resource]
+resource_name = "_palm_dualdefault"
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.7905897, 0.7905897, 0.7905897, 1)
+albedo_texture = ExtResource("1_rokwd")
+emission_enabled = true
+emission_energy_multiplier = 0.0
+normal_enabled = true
+normal_texture = ExtResource("2_3ao1a")

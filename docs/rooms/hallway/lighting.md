@@ -44,3 +44,5 @@
 - **Switchable north sconce** — turning it off makes the attic door approach much darker, building dread.
 - **Carpet absorbs light** — the runner down the center doesn't reflect, creating a dark strip.
 - **After `elizabeth_aware`:** Sconces flicker more aggressively near the attic door end.
+
+The live declaration now includes both sconces plus a weak cold window light at mid-corridor so the hall does not read as a flat amber tunnel.

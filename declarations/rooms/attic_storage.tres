@@ -9,6 +9,24 @@
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
 [ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
 [ext_resource type="Script" path="res://engine/declarations/flashback_decl.gd" id="10"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="11"]
+
+[sub_resource type="Resource" id="anchor_entry_stairwell"]
+script = ExtResource("11")
+anchor_id = "entry_stairwell"
+anchor_type = "entry"
+position = Vector3(0.0, 0.0, -4.8)
+rotation_y = 0.0
+target_anchor_id = "focus_doll_corner"
+tags = PackedStringArray("critical_path", "attic")
+
+[sub_resource type="Resource" id="anchor_focus_doll_corner"]
+script = ExtResource("11")
+anchor_id = "focus_doll_corner"
+anchor_type = "focal"
+position = Vector3(-2.0, 1.0, 4.0)
+rotation_y = 0.0
+tags = PackedStringArray("critical_path", "doll")
 
 ; === Elizabeth Portrait Responses ===
 
@@ -128,6 +146,18 @@ condition = ""
 title = "Ritual Mask"
 text = "A wooden mask hanging on the wall. Carved features -- not human, not animal. Something between. The eye holes are too large, the mouth too wide. It looks like it was made to see more and speak louder than a human face can."
 
+[sub_resource type="Resource" id="resp_window_default"]
+script = ExtResource("3")
+condition = ""
+title = "Attic Window"
+text = "The window looks down across the rear grounds. Bare hedges, dead beds, the garden wall. One pale lily still stands against the winter. Elizabeth must have watched that single living thing the way prisoners watch a keyhole."
+
+[sub_resource type="Resource" id="resp_trunk_default"]
+script = ExtResource("3")
+condition = ""
+title = "Elizabeth's Trunk"
+text = "A child's trunk with carefully folded clothes inside. A nightgown. A ribbon. A drawing of a family with four children holding hands. The paper is creased from being opened and refolded until the corners went soft."
+
 ; === Interactables ===
 
 [sub_resource type="Resource" id="inter_portrait"]
@@ -169,6 +199,22 @@ wall = "east"
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_mask_default")])
 
+[sub_resource type="Resource" id="inter_window"]
+script = ExtResource("2")
+id = "attic_window"
+type = "observation"
+position = Vector3(5.4, 2.1, -3.8)
+collision_size = Vector3(1.5, 1.5, 1.0)
+responses = Array[Resource]([SubResource("resp_window_default")])
+
+[sub_resource type="Resource" id="inter_trunk"]
+script = ExtResource("2")
+id = "elizabeth_trunk"
+type = "observation"
+position = Vector3(2.0, 0.7, 3.0)
+collision_size = Vector3(1.4, 1.0, 1.2)
+responses = Array[Resource]([SubResource("resp_trunk_default")])
+
 ; === Lights ===
 
 [sub_resource type="Resource" id="light_window"]
@@ -198,7 +244,7 @@ flicker_pattern = "candle"
 
 [sub_resource type="Resource" id="prop_trunk"]
 script = ExtResource("5")
-id = "elizabeth_trunk"
+id = "elizabeth_trunk_prop"
 model = "res://assets/shared/furniture/drawers.glb"
 position = Vector3(2, 0, 3)
 scale = 0.5
@@ -216,6 +262,86 @@ id = "attic_cot"
 model = "res://assets/shared/furniture/bed.glb"
 position = Vector3(4, 0, 2)
 scale = 0.7
+
+[sub_resource type="Resource" id="prop_mattress"]
+script = ExtResource("5")
+id = "old_mattress"
+model = "res://assets/attic/storage/old_mattress_mx_1.glb"
+position = Vector3(4.8, 0, 2.8)
+rotation_y = 12.0
+
+[sub_resource type="Resource" id="prop_bucket"]
+script = ExtResource("5")
+id = "attic_bucket"
+model = "res://assets/attic/storage/bucket_mx_1.glb"
+position = Vector3(5.2, 0, -0.8)
+
+[sub_resource type="Resource" id="prop_soap"]
+script = ExtResource("5")
+id = "attic_soap"
+model = "res://assets/attic/storage/soap_mx_1.glb"
+position = Vector3(5.2, 0.45, -0.7)
+
+[sub_resource type="Resource" id="prop_dead_lamp"]
+script = ExtResource("5")
+id = "dead_lamp"
+model = "res://assets/attic/storage/lamp_mx_4_off.glb"
+position = Vector3(1.6, 0, -1.2)
+
+[sub_resource type="Resource" id="prop_mask"]
+script = ExtResource("5")
+id = "ritual_mask_prop"
+model = "res://assets/attic/storage/mask_mx_3.glb"
+position = Vector3(5.7, 1.7, 0.2)
+rotation_y = 270.0
+
+[sub_resource type="Resource" id="prop_mining"]
+script = ExtResource("5")
+id = "stored_tools"
+model = "res://assets/attic/storage/mining_props.glb"
+position = Vector3(5.2, 0, 1.6)
+scale = 0.9
+
+[sub_resource type="Resource" id="prop_bat"]
+script = ExtResource("5")
+id = "rafter_bat"
+model = "res://assets/attic/storage/bat.glb"
+position = Vector3(0.5, 2.8, 4.8)
+
+[sub_resource type="Resource" id="prop_candle"]
+script = ExtResource("5")
+id = "doll_candle"
+model = "res://assets/shared/items/candle0.glb"
+position = Vector3(-1.2, 0.82, 4.1)
+scale = 0.8
+
+[sub_resource type="Resource" id="prop_picture_frame"]
+script = ExtResource("5")
+id = "portrait_frame"
+model = "res://assets/shared/decor/picture_blank_005.glb"
+position = Vector3(-5.8, 1.8, 0.0)
+rotation_y = 90.0
+
+[sub_resource type="Resource" id="prop_book"]
+script = ExtResource("5")
+id = "child_book"
+model = "res://assets/shared/items/book2.glb"
+position = Vector3(3.4, 0.58, 2.4)
+rotation_y = -18.0
+
+[sub_resource type="Resource" id="prop_page_a"]
+script = ExtResource("5")
+id = "drawing_page_a"
+model = "res://assets/shared/items/page2.glb"
+position = Vector3(2.2, 0.58, 3.4)
+rotation_y = 8.0
+
+[sub_resource type="Resource" id="prop_page_b"]
+script = ExtResource("5")
+id = "drawing_page_b"
+model = "res://assets/shared/items/page5.glb"
+position = Vector3(3.0, 0.58, 2.9)
+rotation_y = -24.0
 
 ; === Entry Trigger ===
 
@@ -290,9 +416,11 @@ reverb_bus = "WoodenHall"
 footstep_surface = "rough_wood"
 spawn_position = Vector3(0, 0, -5)
 spawn_rotation_y = 0.0
-interactables = Array[Resource]([SubResource("inter_portrait"), SubResource("inter_doll"), SubResource("inter_letter"), SubResource("inter_mask")])
+entry_anchors = Array[Resource]([SubResource("anchor_entry_stairwell")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_doll_corner")])
+interactables = Array[Resource]([SubResource("inter_portrait"), SubResource("inter_doll"), SubResource("inter_letter"), SubResource("inter_mask"), SubResource("inter_window"), SubResource("inter_trunk")])
 lights = Array[Resource]([SubResource("light_window"), SubResource("light_candle")])
-props = Array[Resource]([SubResource("prop_trunk"), SubResource("prop_chair"), SubResource("prop_cot")])
+props = Array[Resource]([SubResource("prop_trunk"), SubResource("prop_chair"), SubResource("prop_cot"), SubResource("prop_mattress"), SubResource("prop_bucket"), SubResource("prop_soap"), SubResource("prop_dead_lamp"), SubResource("prop_mask"), SubResource("prop_mining"), SubResource("prop_bat"), SubResource("prop_candle"), SubResource("prop_picture_frame"), SubResource("prop_book"), SubResource("prop_page_a"), SubResource("prop_page_b")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([SubResource("ambient_scratch")])

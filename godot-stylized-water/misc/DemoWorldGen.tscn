@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://3cbk5dulbk5b"]
+
+[ext_resource type="Script" uid="uid://dfogprmuoieu6" path="res://misc/DemoWorldGen.gd" id="1_iosyu"]
+[ext_resource type="Texture2D" uid="uid://comfvd1ipijwt" path="res://misc/assets/textures/Ground035_4K-JPG/Ground035_4K_Color.jpg" id="2_t3flm"]
+[ext_resource type="PackedScene" uid="uid://djio0qdyb77sd" path="res://misc/assets/PACK V3/palm_bend.FBX" id="2_tqu5n"]
+[ext_resource type="PackedScene" uid="uid://cwuaqpt7vdyyk" path="res://misc/assets/PACK V3/palm_dual_bend.FBX" id="3_gfkkg"]
+[ext_resource type="Texture2D" uid="uid://b6ja8owu7yev6" path="res://misc/assets/textures/Ground035_4K-JPG/Ground035_4K_NormalGL.jpg" id="3_u5kvd"]
+[ext_resource type="PackedScene" uid="uid://d2r20pdesm5a5" path="res://misc/assets/PACK V3/palm_straight.FBX" id="4_5q2nj"]
+[ext_resource type="Texture2D" uid="uid://dgfmypvfhvt2d" path="res://misc/assets/textures/forest_3-4K/4K-forest_3_albedo.jpg" id="4_278vw"]
+[ext_resource type="Texture2D" uid="uid://bikycnupetl38" path="res://misc/assets/textures/forest_3-4K/4K-forest_3_normal.jpg" id="5_kdi53"]
+[ext_resource type="Texture2D" uid="uid://clw2vo42701wa" path="res://misc/assets/textures/Ground054_4K-JPG/Ground054_4K_Color.jpg" id="6_siuiq"]
+[ext_resource type="Texture2D" uid="uid://c5jqhg0h7u1ov" path="res://misc/assets/textures/Ground054_4K-JPG/Ground054_4K_NormalGL.jpg" id="7_owtdn"]
+[ext_resource type="PackedScene" uid="uid://dojr6msmt0r82" path="res://misc/assets/kelp/kelp.tscn" id="11_u5kvd"]
+[ext_resource type="PackedScene" uid="uid://mrg67han7br2" path="res://misc/assets/kelp2/kelp2.tscn" id="12_278vw"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_iosyu"]
+seed = 1511403631
+
+[sub_resource type="Shader" id="Shader_tqu5n"]
+code = "shader_type spatial;
+
+// Texture Controls
+uniform float uv_scale = 10.0;
+uniform float blending_smoothness = 0.5;
+
+// Red Channel
+uniform sampler2D tex_wet_sand_albedo : source_color, filter_linear_mipmap_anisotropic;
+uniform sampler2D tex_wet_sand_normal : hint_normal, filter_linear_mipmap_anisotropic;
+
+// Green Channel
+uniform sampler2D tex_dry_sand_albedo : source_color, filter_linear_mipmap_anisotropic;
+uniform sampler2D tex_dry_sand_normal : hint_normal, filter_linear_mipmap_anisotropic;
+
+// Blue Channel
+uniform sampler2D tex_grass_albedo : source_color, filter_linear_mipmap_anisotropic;
+uniform sampler2D tex_grass_normal : hint_normal, filter_linear_mipmap_anisotropic;
+
+void fragment() {
+	vec2 uv = UV * uv_scale;
+
+	// Sample Albedo
+	vec3 wet = texture(tex_wet_sand_albedo, uv).rgb;
+	vec3 dry = texture(tex_dry_sand_albedo, uv).rgb;
+	vec3 grass = texture(tex_grass_albedo, uv).rgb;
+
+	// Sample Normals
+	vec3 n_wet = texture(tex_wet_sand_normal, uv).rgb;
+	vec3 n_dry = texture(tex_dry_sand_normal, uv).rgb;
+	vec3 n_grass = texture(tex_grass_normal, uv).rgb;
+
+	// COLOR.rgb contains the weights set in the GDScript
+	// r = wet, g = dry, b = grass
+	float w_wet = COLOR.r;
+	float w_dry = COLOR.g;
+	float w_grass = COLOR.b;
+
+	// Normalize weights to ensure they sum to 1.0
+	float total = w_wet + w_dry + w_grass;
+	w_wet /= total;
+	w_dry /= total;
+	w_grass /= total;
+
+	vec3 final_albedo = (wet * w_wet) + (dry * w_dry) + (grass * w_grass);
+
+	vec3 final_normal = (n_wet * w_wet) + (n_dry * w_dry) + (n_grass * w_grass);
+
+	ALBEDO = final_albedo;
+	NORMAL_MAP = final_normal;
+
+	ROUGHNESS = 1.0 - (w_wet * 0.6); // Wet sand is shiny (0.4), grass is matte (1.0)
+	SPECULAR = 0.2;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gfkkg"]
+render_priority = 0
+shader = SubResource("Shader_tqu5n")
+shader_parameter/uv_scale = 10.0
+shader_parameter/blending_smoothness = 0.5
+shader_parameter/tex_wet_sand_albedo = ExtResource("6_siuiq")
+shader_parameter/tex_wet_sand_normal = ExtResource("7_owtdn")
+shader_parameter/tex_dry_sand_albedo = ExtResource("2_t3flm")
+shader_parameter/tex_dry_sand_normal = ExtResource("3_u5kvd")
+shader_parameter/tex_grass_albedo = ExtResource("4_278vw")
+shader_parameter/tex_grass_normal = ExtResource("5_kdi53")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nw2h6"]
+albedo_color = Color(0.15833712, 0.08530056, 0.002323482, 1)
+
+[node name="DemoWorldGen" type="Node3D" unique_id=361222706]
+script = ExtResource("1_iosyu")
+seed_value = 1511403631
+island_height = 10.0
+noise = SubResource("FastNoiseLite_iosyu")
+island_material = SubResource("ShaderMaterial_gfkkg")
+palm_trees = Array[PackedScene]([ExtResource("2_tqu5n"), ExtResource("3_gfkkg"), ExtResource("4_5q2nj")])
+tree_density = 0.1
+tree_global_scale = 10.0
+rock_material = SubResource("StandardMaterial3D_nw2h6")
+underwater_props = Array[PackedScene]([ExtResource("11_u5kvd"), ExtResource("12_278vw")])
+underwater_density = 2.0
+underwater_height_max = -1.0

@@ -1,10 +1,10 @@
 # Wine Cellar — Interactables
 
-## 1. Wine Inventory Note (EXISTS)
+## 1. Wine Inventory Note
 ```yaml
 id: wine_note
 type: note
-position: (-3, 1.5, -4)
+position: (-3.5, 1.2, 2)
 ```
 
 ### Text
@@ -15,14 +15,14 @@ position: (-3, 1.5, -4)
 
 ---
 
-## 2. Locked Box — PUZZLE ITEM (EXISTS)
+## 2. Locked Box — Puzzle Item
 ```yaml
 id: wine_box
 type: box
 locked: true
 key_id: cellar_key
 item_found: mothers_confession
-position: (2, 0.5, -3)
+position: (-3.5, 0.3, 0)
 ```
 
 ### Text — Locked
@@ -44,11 +44,11 @@ position: (2, 0.5, -3)
 
 ---
 
-## 3. Wine Racks (NEW)
+## 3. Wine Racks
 ```yaml
 id: wine_racks
 type: observation
-position: (-3, 1, 0)
+position: (-3.3, 1, 0)
 ```
 
 ### Text
@@ -56,7 +56,7 @@ position: (-3, 1, 0)
 
 ---
 
-## 4. Footprints (NEW)
+## 4. Footprints
 ```yaml
 id: wine_footprints
 type: observation
@@ -71,7 +71,7 @@ position: (0, 0.1, 3)
 ## Summary
 | ID | Status |
 |----|--------|
-| `wine_note` | EXISTS |
-| `wine_box` | EXISTS |
-| `wine_racks` | NEW |
-| `wine_footprints` | NEW |
+| `wine_note` | Implemented |
+| `wine_box` | Active |
+| `wine_racks` | Active |
+| `wine_footprints` | Active |

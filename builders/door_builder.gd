@@ -3,11 +3,12 @@ extends RefCounted
 ## Generates interactive doors: frame + panel + hinge + AnimatableBody3D.
 ## Per INTERACTIVE_DOORS_PLAN.md.
 
+const ArchModelFitter = preload("res://builders/arch_model_fitter.gd")
+
 const FRAME_POST_WIDTH := 0.1
 const FRAME_DEPTH := 0.15
 const DEFAULT_WIDTH := 1.0
 const DEFAULT_HEIGHT := 2.2
-
 ## Build a door from a Connection declaration.
 ## Returns Node3D with frame, hinge, panel, and interaction area.
 static func build(connection: Connection) -> Node3D:
@@ -42,14 +43,23 @@ static func build(connection: Connection) -> Node3D:
 	area.name = "DoorArea"
 	area.collision_layer = 8  # Layer 4 -- Connection
 	area.collision_mask = 0
+	area.add_to_group("connections")
 	area.set_meta("connection_id", connection.id)
 	area.set_meta("target_room", connection.to_room)
+	area.set_meta("conn_type", connection.type)
 	area.set_meta("locked", connection.locked)
 	area.set_meta("key_id", connection.key_id)
+	area.set_meta("required_state", connection.required_state)
+	area.set_meta("blocked_text", connection.blocked_text)
+	area.set_meta("declaration", connection)
+	area.set_meta("presentation_type", connection.presentation_type)
+	area.set_meta("mechanism_type", connection.mechanism_type)
+	area.set_meta("mechanism_state", connection.mechanism_state)
+	area.set_meta("reveal_state", connection.reveal_state)
 
 	var area_shape := CollisionShape3D.new()
 	var area_box := BoxShape3D.new()
-	area_box.size = Vector3(frame_w + 0.5, frame_h, 1.0)
+	area_box.size = connection.interaction_size if connection.interaction_size != Vector3.ZERO else Vector3(frame_w + 0.5, frame_h, 1.0)
 	area_shape.shape = area_box
 	area_shape.position = Vector3(0, frame_h * 0.5, 0)
 	area.add_child(area_shape)
@@ -62,6 +72,16 @@ static func build(connection: Connection) -> Node3D:
 
 
 static func _build_frame(width: float, height: float, texture_path: String) -> Node3D:
+	var model_path := _resolve_frame_model(texture_path)
+	if not model_path.is_empty() and ResourceLoader.exists(model_path):
+		var scene: PackedScene = load(model_path)
+		if scene != null:
+			var inst := scene.instantiate()
+			var target_size := Vector3(width + FRAME_POST_WIDTH * 2.0, height + FRAME_POST_WIDTH, FRAME_DEPTH)
+			var fitted := ArchModelFitter.fit(inst, target_size)
+			fitted.name = "DoorFrame"
+			return fitted
+
 	var frame := Node3D.new()
 	frame.name = "DoorFrame"
 
@@ -102,13 +122,9 @@ static func _build_single_panel(parent: Node3D, width: float, height: float, tex
 	hinge.position = Vector3(-width * 0.5, 0, 0)
 
 	# Door panel offset from hinge
-	var panel := MeshInstance3D.new()
+	var panel := _make_door_panel(width, height, texture_path)
 	panel.name = "DoorPanel"
-	var quad := QuadMesh.new()
-	quad.size = Vector2(width, height)
-	panel.mesh = quad
-	panel.position = Vector3(width * 0.5, height * 0.5, 0)
-	_apply_door_texture(panel, texture_path)
+	panel.position = Vector3(width * 0.5, 0, 0)
 
 	hinge.add_child(panel)
 
@@ -136,13 +152,9 @@ static func _build_double_panel(parent: Node3D, total_width: float, height: floa
 	hinge_l.name = "DoorHingeLeft"
 	hinge_l.position = Vector3(-total_width * 0.5, 0, 0)
 
-	var panel_l := MeshInstance3D.new()
+	var panel_l := _make_door_panel(panel_width, height, texture_path)
 	panel_l.name = "DoorPanelLeft"
-	var quad_l := QuadMesh.new()
-	quad_l.size = Vector2(panel_width, height)
-	panel_l.mesh = quad_l
-	panel_l.position = Vector3(panel_width * 0.5, height * 0.5, 0)
-	_apply_door_texture(panel_l, texture_path)
+	panel_l.position = Vector3(panel_width * 0.5, 0, 0)
 	hinge_l.add_child(panel_l)
 	parent.add_child(hinge_l)
 
@@ -151,13 +163,9 @@ static func _build_double_panel(parent: Node3D, total_width: float, height: floa
 	hinge_r.name = "DoorHingeRight"
 	hinge_r.position = Vector3(total_width * 0.5, 0, 0)
 
-	var panel_r := MeshInstance3D.new()
+	var panel_r := _make_door_panel(panel_width, height, texture_path)
 	panel_r.name = "DoorPanelRight"
-	var quad_r := QuadMesh.new()
-	quad_r.size = Vector2(panel_width, height)
-	panel_r.mesh = quad_r
-	panel_r.position = Vector3(-panel_width * 0.5, height * 0.5, 0)
-	_apply_door_texture(panel_r, texture_path)
+	panel_r.position = Vector3(-panel_width * 0.5, 0, 0)
 	hinge_r.add_child(panel_r)
 	parent.add_child(hinge_r)
 
@@ -185,3 +193,50 @@ static func _apply_door_texture(panel: MeshInstance3D, texture_path: String) -> 
 	mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 	mat.cull_mode = BaseMaterial3D.CULL_DISABLED
 	panel.set_surface_override_material(0, mat)
+
+
+static func _make_door_panel(width: float, height: float, texture_path: String) -> Node3D:
+	var model_path := _resolve_panel_model(texture_path)
+	if not model_path.is_empty() and ResourceLoader.exists(model_path):
+		var scene: PackedScene = load(model_path)
+		if scene != null:
+			var inst := scene.instantiate()
+			var wrapper := ArchModelFitter.fit(inst, Vector3(width, height, 0.05))
+			wrapper.name = "DoorPanelWrapper"
+			return wrapper
+	var wrapper := Node3D.new()
+	wrapper.name = "DoorPanelWrapper"
+	var panel := MeshInstance3D.new()
+	var box := BoxMesh.new()
+	box.size = Vector3(width, height, 0.05)
+	panel.mesh = box
+	panel.position = Vector3(0, height * 0.5, 0)
+	_apply_door_texture(panel, texture_path)
+	wrapper.add_child(panel)
+	return wrapper
+
+
+static func _resolve_frame_model(texture_path: String) -> String:
+	var idx := _extract_texture_index(texture_path)
+	if idx.is_empty():
+		return ""
+	return "res://assets/shared/structure/doorway%s.glb" % int(idx)
+
+
+static func _resolve_panel_model(texture_path: String) -> String:
+	if texture_path.find("door1") != -1:
+		return "res://assets/shared/structure/door1.glb"
+	if texture_path.find("door") != -1:
+		return "res://assets/shared/structure/door.glb"
+	return ""
+
+
+static func _extract_texture_index(texture_path: String) -> String:
+	if texture_path.begins_with("res://"):
+		var file := texture_path.get_file()
+		var stem := file.get_basename()
+		if stem.begins_with("door_texture_"):
+			return stem.trim_prefix("door_texture_")
+	if texture_path.begins_with("wall"):
+		return texture_path.trim_prefix("wall").trim_suffix("_texture")
+	return ""

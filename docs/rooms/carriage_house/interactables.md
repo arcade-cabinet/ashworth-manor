@@ -43,4 +43,4 @@ position: (2, 0.5, 0)
 ## Connections
 | Target | Type |
 |--------|------|
-| `front_gate` | path |
+| `storage_basement` | secret_path / service path |

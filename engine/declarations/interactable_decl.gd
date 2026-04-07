@@ -5,6 +5,7 @@ extends Resource
 
 @export var id: String = ""
 @export var type: String = ""                # painting, note, mirror, clock, switch, box, doll, ritual, observation, photo
+@export var scene_role: String = "dynamic_setpiece" # dynamic_setpiece, portable_item, threshold_control, observation
 @export var position: Vector3 = Vector3.ZERO
 @export var wall: String = ""                # "north", "south", "east", "west" -- for wall-mounted objects
 @export var collision_size: Vector3 = Vector3(1.5, 1.5, 1.5)
@@ -19,10 +20,18 @@ extends Resource
 
 # Visual
 @export var model: String = ""               # GLB path for 3D model, empty for text-only
+@export var scene_path: String = ""          # Optional authored PackedScene for composite visuals
+@export var inactive_model: String = ""      # Optional inert/closed/empty GLB visual for inactive state
+@export var inactive_scene_path: String = "" # Optional inert/closed/empty scene visual
 @export var texture: String = ""             # For procedural visual (door/window texture)
+@export var default_visual_state: String = "" # empty, filled, open, closed, lit, extinguished, etc.
+@export var state_model_map: Dictionary = {}  # {"filled": "res://.../teapot_full.glb" or ".tscn"}
+@export var visual_state_order: PackedStringArray = []
+@export var visual_state_conditions: Dictionary = {} # {"filled": "has_teapot_water", "searched": "found_gate_key_font"}
 
 # Visual effects -- per-phase rendering changes
 @export var visual_effects: Dictionary = {}  # {"mirror_delay": 0.3, "emission_glow": 0.5}
+@export var state_tags: PackedStringArray = [] # filled, pourable, portable, reveals_passage, heat_source, etc.
 
 # === Simple interaction: single response set ===
 # Ordered by priority (first matching condition wins)

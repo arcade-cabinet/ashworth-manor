@@ -2,15 +2,18 @@ extends Node
 ## res://scripts/game_manager.gd -- Autoload singleton managing all game state
 ## Save/load via SaveMadeEasy. Inventory backed by gloot.
 
+const ProtoTreeCache = preload("res://addons/gloot/core/prototree/proto_tree_cache.gd")
+
 signal state_changed(key: String, value: Variant)
 signal item_acquired(item_id: String)
+signal item_removed(item_id: String)
 signal flag_set(flag_name: String)
 signal ending_triggered(ending_id: String)
 signal screen_changed(screen: String)
 
 enum Screen { LANDING, GAME, PAUSED }
 
-var current_screen: int = Screen.LANDING
+var current_screen: int = Screen.GAME
 var current_room: String = "front_gate"
 var visited_rooms: Array[String] = []
 var interacted_objects: Array[String] = []
@@ -20,9 +23,13 @@ var lights_toggled: Dictionary = {}
 # Gloot inventory (replaces Array[String] inventory)
 var _gloot_inventory: Inventory = null
 const PROTOSET_PATH := "res://resources/item_prototypes.json"
+const WORLD_DECLARATION_PATH := "res://declarations/world.tres"
+
+var _world_declaration: WorldDeclaration = null
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	_load_world_declaration()
 	_setup_inventory()
 
 func _setup_inventory() -> void:
@@ -33,15 +40,30 @@ func _setup_inventory() -> void:
 		_gloot_inventory.protoset = protoset_json
 	add_child(_gloot_inventory)
 
+
+func _exit_tree() -> void:
+	if _gloot_inventory != null:
+		_gloot_inventory.reset()
+		if _gloot_inventory.get_parent() == self:
+			remove_child(_gloot_inventory)
+		_gloot_inventory.queue_free()
+		_gloot_inventory = null
+	ProtoTreeCache.clear_cache()
+
 func new_game() -> void:
-	current_room = "front_gate"
+	current_room = _get_starting_room()
 	visited_rooms.clear()
 	interacted_objects.clear()
 	flags.clear()
 	lights_toggled.clear()
 	_gloot_inventory.clear()
+	_assign_macro_thread_for_new_game()
 	current_screen = Screen.GAME
 	screen_changed.emit("game")
+
+
+func abandon_to_front_gate() -> void:
+	new_game()
 
 func has_item(item_id: String) -> bool:
 	return _gloot_inventory.has_item_with_prototype_id(item_id)
@@ -56,6 +78,7 @@ func remove_item(item_id: String) -> void:
 	var item: InventoryItem = _gloot_inventory.get_item_with_prototype_id(item_id)
 	if item:
 		_gloot_inventory.remove_item(item)
+		item_removed.emit(item_id)
 
 func get_inventory_items() -> Array[String]:
 	var items: Array[String] = []
@@ -72,6 +95,19 @@ func set_flag(flag_name: String) -> void:
 	if not flags.get(flag_name, false):
 		flags[flag_name] = true
 		flag_set.emit(flag_name)
+		state_changed.emit(flag_name, true)
+
+
+func set_state(key: String, value: Variant) -> void:
+	var previous: Variant = flags.get(key, null)
+	flags[key] = value
+	state_changed.emit(key, value)
+	if value is bool and value and previous != true:
+		flag_set.emit(key)
+
+
+func get_state(key: String, default_value: Variant = null) -> Variant:
+	return flags.get(key, default_value)
 
 func mark_visited(room_id: String) -> void:
 	if not visited_rooms.has(room_id):
@@ -164,6 +200,28 @@ func _get_all_quest_resources() -> Array[Quest]:
 				quests.append(res)
 		file_name = dir.get_next()
 	return quests
+
+
+func _load_world_declaration() -> void:
+	if ResourceLoader.exists(WORLD_DECLARATION_PATH):
+		_world_declaration = load(WORLD_DECLARATION_PATH) as WorldDeclaration
+
+
+func _get_starting_room() -> String:
+	if _world_declaration != null and not _world_declaration.starting_room.is_empty():
+		return _world_declaration.starting_room
+	return "front_gate"
+
+
+func _assign_macro_thread_for_new_game() -> void:
+	if _world_declaration == null or _world_declaration.macro_threads.is_empty():
+		return
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	var index := rng.randi_range(0, _world_declaration.macro_threads.size() - 1)
+	var thread = _world_declaration.macro_threads[index]
+	if thread != null and not thread.thread_id.is_empty():
+		set_state("macro_thread", thread.thread_id)
 
 # --- Ending Checks ---
 

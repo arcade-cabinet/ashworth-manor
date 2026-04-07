@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://shaders/glass/estate_glass_forward_plus.gdshader" id="1_o4x2u"]
+
+[resource]
+shader = ExtResource("1_o4x2u")
+shader_parameter/base_color = Color(0.83, 0.9, 0.96, 0.09)
+shader_parameter/edge_color = Color(0.95, 0.98, 1, 1)
+shader_parameter/roughness = 0.02
+shader_parameter/metallic = 0.0
+shader_parameter/base_specular = 0.78
+shader_parameter/fresnel_power = 4.2
+shader_parameter/min_alpha = 0.05
+shader_parameter/edge_alpha_boost = 0.34
+shader_parameter/refraction_strength = 0.013
+shader_parameter/refraction_mix = 0.84
+shader_parameter/tint_strength = 0.1
+shader_parameter/clearcoat = 0.72
+shader_parameter/rim_strength = 0.2
+shader_parameter/refracted_edge_boost = 0.08
+shader_parameter/edge_emission_strength = 0.0

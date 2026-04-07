@@ -6,7 +6,7 @@
 ---
 
 ## Narrative Purpose
-The threshold. Crossing into the attic triggers the Horror phase. Everything changes here — `elizabeth_aware` is set, tension audio activates globally, mirrors delay, the house wakes up. This room IS a transition — stairs, creaks, one whisper.
+The threshold. Crossing into the attic triggers the Horror phase. Everything changes here — `elizabeth_aware` is set, tension audio activates globally, mirrors delay, the house wakes up. This room IS a transition: leak bucket, debris, dropped mask, and one first-entry whisper telling you the attic has already noticed you.
 
 ## Atmosphere
 | Property | Value |
@@ -15,4 +15,4 @@ The threshold. Crossing into the attic triggers the Horror phase. Everything cha
 | Ambient Darkness | 0.75 |
 | Footstep Surface | `rough_wood` (creaky) |
 
-**Tone:** Each step is louder than the last. The air is stale — hasn't moved in a century. You're climbing toward something that's been waiting.
+**Tone:** Each step is louder than the last. The air is stale — hasn't moved in a century. You're climbing toward something that's been waiting, and the stair itself still carries the traces of a child kept too near the roof and too far from the house below.

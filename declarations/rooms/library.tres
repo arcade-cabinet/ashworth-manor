@@ -8,6 +8,25 @@
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
 [ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
+[ext_resource type="Script" path="res://engine/declarations/conditional_event_decl.gd" id="9"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="10"]
+
+[sub_resource type="Resource" id="anchor_entry_hall"]
+script = ExtResource("10")
+anchor_id = "entry_hall"
+anchor_type = "entry"
+position = Vector3(0.0, 0, -3.7)
+rotation_y = 180.0
+target_anchor_id = "focus_lectern_cluster"
+tags = PackedStringArray("default", "upper_floor")
+
+[sub_resource type="Resource" id="anchor_focus_lectern_cluster"]
+script = ExtResource("10")
+anchor_id = "focus_lectern_cluster"
+anchor_type = "focal"
+position = Vector3(0.1, 1.2, 2.8)
+rotation_y = 0.0
+tags = PackedStringArray("binding_book", "family_tree", "globe")
 
 ; === Globe Responses (shared) -- active on A-path, static on B-path ===
 
@@ -33,17 +52,44 @@ condition = ""
 title = "Globe"
 text = "The globe sits on its mahogany stand like a locked safe. The brass frame has scratch marks where someone tried to pry it open -- small fingers, desperate. The northern hemisphere is twisted slightly off center. This is where he hid it. One of the keys to her cage."
 
+[sub_resource type="Resource" id="resp_globe_captive_diary"]
+script = ExtResource("3")
+condition = "read_ashworth_diary"
+title = "Globe"
+text = "The diary told you where he hid it. You set your thumb against the skewed northern hemisphere and turn. The compartment yields with a metallic click. Inside rests the attic key -- one more instrument of her confinement, hidden inside a model of a world she was denied."
+set_state = {"found_attic_key_globe": true}
+gives_item = "attic_key"
+play_sfx = "res://assets/audio/sfx/inventory/key_find.ogg"
+
 [sub_resource type="Resource" id="resp_globe_mourning"]
 script = ExtResource("3")
 condition = ""
 title = "Globe"
 text = "A globe on a mahogany stand. Elizabeth used to spin it and point to where she wanted to travel. Victoria told you that. The globe has not moved since. Dust has settled in the grooves between continents. All those places she will never see."
 
+[sub_resource type="Resource" id="resp_globe_mourning_diary"]
+script = ExtResource("3")
+condition = "read_ashworth_diary"
+title = "Globe"
+text = "The diary gives the mechanism away. When you turn the northern hemisphere, the globe opens with a tired click. The attic key rests in the hollow interior, hidden in plain sight inside a promise of travel Elizabeth was never allowed to keep."
+set_state = {"found_attic_key_globe": true}
+gives_item = "attic_key"
+play_sfx = "res://assets/audio/sfx/inventory/key_find.ogg"
+
 [sub_resource type="Resource" id="resp_globe_sovereign"]
 script = ExtResource("3")
 condition = ""
 title = "Globe"
 text = "The globe turns on its own as you enter the room. A quarter rotation, slow, deliberate. It stops with England facing you. Ashworth Manor would be right... there. Under your fingertip. She is showing you where you are. She already knows."
+	
+[sub_resource type="Resource" id="resp_globe_sovereign_diary"]
+script = ExtResource("3")
+condition = "read_ashworth_diary"
+title = "Globe"
+text = "The globe is already turned toward England when you touch it. The diary's instruction leaves no doubt. You twist the northern hemisphere and the hidden compartment releases at once. The attic key lies inside, offered up less like a secret and more like permission."
+set_state = {"found_attic_key_globe": true}
+gives_item = "attic_key"
+play_sfx = "res://assets/audio/sfx/inventory/key_find.ogg"
 
 ; === Binding Book Responses (shared) ===
 
@@ -133,22 +179,34 @@ condition = ""
 title = "Gear Mechanism"
 text = "A brass mechanism mounted on the wall beside the clock. Three gear housings sit empty -- the gears themselves are scattered on the desk below. A note pinned to the desk reads: 'The clock knows the combination. Time runs from small to large.'"
 
+[sub_resource type="Resource" id="resp_artifact_default"]
+script = ExtResource("3")
+condition = ""
+title = "Stone Artifact"
+text = "A carved object displayed where a collector would place something precious or dangerous. The markings are not decorative. They resemble the notation in the binding book, but older. A precursor. Or a source."
+
+[sub_resource type="Resource" id="resp_shelves_default"]
+script = ExtResource("3")
+condition = ""
+title = "Bookshelves"
+text = "Natural philosophy, mechanical engineering, theology, séance manuals, folk rites. Lord Ashworth did not descend into occultism by abandoning reason. He brought reason with him and used it badly."
+
 ; === Interactables ===
 
 [sub_resource type="Resource" id="inter_globe"]
 script = ExtResource("2")
 id = "library_globe"
 type = "observation"
-position = Vector3(-3, 0.9, 3)
+position = Vector3(-2.2, 0.95, 2.2)
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_globe_diary"), SubResource("resp_globe_default")])
-thread_responses = {"captive": [SubResource("resp_globe_captive")], "mourning": [SubResource("resp_globe_mourning")], "sovereign": [SubResource("resp_globe_sovereign")]}
+thread_responses = {"captive": [SubResource("resp_globe_captive_diary"), SubResource("resp_globe_captive")], "mourning": [SubResource("resp_globe_mourning_diary"), SubResource("resp_globe_mourning")], "sovereign": [SubResource("resp_globe_sovereign_diary"), SubResource("resp_globe_sovereign")]}
 
 [sub_resource type="Resource" id="inter_book"]
 script = ExtResource("2")
 id = "binding_book"
 type = "note"
-position = Vector3(0, 1.2, 4.5)
+position = Vector3(0.2, 1.2, 2.95)
 wall = "north"
 collision_size = Vector3(1.5, 1.5, 1.5)
 model = "res://assets/shared/items/books1.glb"
@@ -159,7 +217,7 @@ thread_responses = {"captive": [SubResource("resp_book_captive")], "mourning": [
 script = ExtResource("2")
 id = "family_tree"
 type = "painting"
-position = Vector3(3.5, 2, 4.5)
+position = Vector3(2.7, 2, 3.9)
 wall = "north"
 collision_size = Vector3(1.5, 1.5, 1.5)
 model = "res://assets/shared/decor/picture_blank.glb"
@@ -175,16 +233,34 @@ wall = "south"
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_gear_default")])
 
+[sub_resource type="Resource" id="inter_artifact"]
+script = ExtResource("2")
+id = "library_artifact"
+type = "observation"
+position = Vector3(-2.35, 1.0, 1.1)
+collision_size = Vector3(1.0, 1.0, 1.0)
+model = "res://assets/upper_floor/library/ancient_artifact_mx_1.glb"
+responses = Array[Resource]([SubResource("resp_artifact_default")])
+
+[sub_resource type="Resource" id="inter_shelves"]
+script = ExtResource("2")
+id = "library_shelves"
+type = "observation"
+position = Vector3(3.8, 1.5, 0.0)
+wall = "east"
+collision_size = Vector3(1.0, 2.0, 3.0)
+responses = Array[Resource]([SubResource("resp_shelves_default")])
+
 ; === Lights ===
 
 [sub_resource type="Resource" id="light_desk"]
 script = ExtResource("4")
 id = "library_desk_lamp"
 type = "omni"
-position = Vector3(0, 1.5, 0)
+position = Vector3(0.3, 1.45, 2.45)
 color = Color(1.0, 0.9, 0.6, 1)
-energy = 1.2
-range = 5.0
+energy = 3.8
+range = 7.2
 shadows = true
 flickering = false
 
@@ -192,10 +268,10 @@ flickering = false
 script = ExtResource("4")
 id = "library_moonlight"
 type = "omni"
-position = Vector3(-3.5, 2, -4)
+position = Vector3(-3.4, 2.1, -1.6)
 color = Color(0.5, 0.6, 0.9, 1)
-energy = 0.6
-range = 5.0
+energy = 1.8
+range = 5.4
 shadows = false
 flickering = false
 
@@ -205,32 +281,122 @@ flickering = false
 script = ExtResource("5")
 id = "study_desk"
 model = "res://assets/shared/furniture/study_desk.glb"
-position = Vector3(0, 0, 0)
+position = Vector3(0.4, 0, 2.55)
+rotation_y = 180.0
+scale = 0.44
 
 [sub_resource type="Resource" id="prop_bookcase_n"]
 script = ExtResource("5")
 id = "bookcase_north"
 model = "res://assets/shared/furniture/bookcase.glb"
-position = Vector3(-2, 0, 4.5)
+position = Vector3(-3.0, 0, 4.15)
+scale = 0.32
 
 [sub_resource type="Resource" id="prop_bookcase_w"]
 script = ExtResource("5")
 id = "bookcase_west"
 model = "res://assets/shared/furniture/bookcase.glb"
-position = Vector3(-3.5, 0, 0)
+position = Vector3(-3.45, 0, 1.7)
+rotation_y = 90.0
+scale = 0.3
 
 [sub_resource type="Resource" id="prop_chair"]
 script = ExtResource("5")
 id = "desk_chair"
 model = "res://assets/shared/furniture/chair.glb"
-position = Vector3(0, 0, -1)
+position = Vector3(1.15, 0, 1.95)
+rotation_y = 205.0
+scale = 0.52
 
-[sub_resource type="Resource" id="prop_globe_model"]
+[sub_resource type="Resource" id="prop_globe_stand"]
 script = ExtResource("5")
-id = "globe_model"
-model = "res://assets/shared/decor/picture_blank.glb"
-position = Vector3(-3, 0.5, 3)
-scale = 0.5
+id = "globe_stand"
+model = "res://assets/ground_floor/foyer/stand_mx_1.glb"
+position = Vector3(-2.2, 0, 2.2)
+scale = 1.1
+
+[sub_resource type="Resource" id="prop_globe_body"]
+script = ExtResource("5")
+id = "globe_body"
+model = "res://assets/medieval/models/Orb.glb"
+position = Vector3(-2.2, 1.35, 2.2)
+scale = 0.42
+
+[sub_resource type="Resource" id="prop_books_scrolls"]
+script = ExtResource("5")
+id = "books_scrolls"
+model = "res://assets/upper_floor/library/books_scrolls.glb"
+position = Vector3(0.0, 0.86, 2.3)
+
+[sub_resource type="Resource" id="prop_map"]
+script = ExtResource("5")
+id = "wall_map"
+model = "res://assets/upper_floor/library/map_mx_1.glb"
+position = Vector3(2.7, 1.55, 4.1)
+
+[sub_resource type="Resource" id="prop_candle_holder_left"]
+script = ExtResource("5")
+id = "candle_holder_left"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(-0.7, 1.15, 2.55)
+rotation_y = 90.0
+
+[sub_resource type="Resource" id="prop_candle_holder_right"]
+script = ExtResource("5")
+id = "candle_holder_right"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(1.4, 1.15, 2.55)
+rotation_y = 270.0
+
+[sub_resource type="Resource" id="prop_bottle"]
+script = ExtResource("5")
+id = "ink_bottle"
+model = "res://assets/upper_floor/library/glass_bottle_mx_2.glb"
+position = Vector3(0.95, 0.9, 2.55)
+
+[sub_resource type="Resource" id="prop_openbook_a"]
+script = ExtResource("5")
+id = "openbook_a"
+model = "res://assets/shared/items/openbook1.glb"
+position = Vector3(0.1, 0.9, 2.85)
+
+[sub_resource type="Resource" id="prop_openbook_b"]
+script = ExtResource("5")
+id = "openbook_b"
+model = "res://assets/shared/items/openbook2.glb"
+position = Vector3(-0.45, 0.9, 2.45)
+
+[sub_resource type="Resource" id="prop_page_a"]
+script = ExtResource("5")
+id = "page_a"
+model = "res://assets/shared/items/page1.glb"
+position = Vector3(0.45, 0.9, 2.3)
+rotation_y = 12.0
+
+[sub_resource type="Resource" id="prop_page_b"]
+script = ExtResource("5")
+id = "page_b"
+model = "res://assets/shared/items/page4.glb"
+position = Vector3(-0.15, 0.9, 2.1)
+rotation_y = -18.0
+
+[sub_resource type="Resource" id="prop_gear_1"]
+script = ExtResource("5")
+id = "gear_1"
+model = "res://assets/upper_floor/library/gear_mx_1.glb"
+position = Vector3(2.6, 0.82, -3.3)
+
+[sub_resource type="Resource" id="prop_gear_2"]
+script = ExtResource("5")
+id = "gear_2"
+model = "res://assets/upper_floor/library/gear_mx_2.glb"
+position = Vector3(3.2, 0.82, -3.8)
+
+[sub_resource type="Resource" id="prop_gear_3"]
+script = ExtResource("5")
+id = "gear_3"
+model = "res://assets/upper_floor/library/gear_mx_3.glb"
+position = Vector3(3.8, 0.82, -3.2)
 
 ; === Entry Trigger ===
 
@@ -263,6 +429,37 @@ interval_max = 40.0
 condition = ""
 actions = Array[Resource]([SubResource("act_rustle")])
 
+; === Conditional: Binding Book Aftershock ===
+
+[sub_resource type="Resource" id="act_flashback_flag"]
+script = ExtResource("7")
+set_state = {"library_flashback_triggered": true}
+
+[sub_resource type="Resource" id="act_flashback_rustle"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/paper_rustle.ogg"
+
+[sub_resource type="Resource" id="act_flashback_dim"]
+script = ExtResource("7")
+light_change = {"library_desk_lamp": {"energy": 0.45, "duration": 1.2}}
+
+[sub_resource type="Resource" id="act_flashback_text"]
+script = ExtResource("7")
+show_text = "The pages move without wind. Not turning -- recoiling. In the hush that follows, you can almost hear the occultist reading across the desk from Edmund Ashworth, each line of the rite making the room smaller."
+delay_seconds = 1.8
+
+[sub_resource type="Resource" id="act_flashback_restore"]
+script = ExtResource("7")
+light_change = {"library_desk_lamp": {"energy": 1.2, "duration": 2.4}}
+delay_seconds = 5.8
+
+[sub_resource type="Resource" id="cond_binding_aftershock"]
+script = ExtResource("9")
+event_id = "library_binding_aftershock"
+condition = "HAS binding_book AND NOT library_flashback_triggered"
+once = true
+actions = Array[Resource]([SubResource("act_flashback_flag"), SubResource("act_flashback_rustle"), SubResource("act_flashback_dim"), SubResource("act_flashback_text"), SubResource("act_flashback_restore")])
+
 ; === Main Resource ===
 
 [resource]
@@ -271,26 +468,32 @@ room_id = "library"
 room_name = "Library"
 floor_name = "upper_floor"
 environment_preset = "upper_floor"
-dimensions = Vector3(8, 2.4, 10)
+dimensions = Vector3(8, 3.2, 10)
 is_exterior = false
+spatial_class = "interior_room"
+exposure_faces = PackedStringArray("west")
+outlook_zones = {"west": "estate_side_outlook"}
+window_view_mode = "local_outlook"
 wall_texture = "wall3_texture"
 floor_texture = "floor1_texture"
 ceiling_texture = "ceiling2_texture"
 wall_north = PackedStringArray("wall", "wall", "wall", "wall")
 wall_south = PackedStringArray("wall", "wall", "doorway:library_to_upper_hallway", "wall")
 wall_east = PackedStringArray("wall", "wall", "wall", "wall", "wall")
-wall_west = PackedStringArray("wall", "wall", "wall", "wall", "wall")
+wall_west = PackedStringArray("wall", "window", "wall", "wall", "wall")
 ambient_loop = "res://assets/audio/loops/Value Loop1.ogg"
 tension_loop = "res://assets/audio/tension/tension_upper.wav"
 reverb_bus = "Room"
 footstep_surface = "wood_parquet"
-spawn_position = Vector3(0, 0, -4)
-spawn_rotation_y = 0.0
-interactables = Array[Resource]([SubResource("inter_globe"), SubResource("inter_book"), SubResource("inter_tree"), SubResource("inter_gears")])
+spawn_position = Vector3(-1.4, 0, -2.8)
+spawn_rotation_y = 28.0
+entry_anchors = Array[Resource]([SubResource("anchor_entry_hall")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_lectern_cluster")])
+interactables = Array[Resource]([SubResource("inter_globe"), SubResource("inter_book"), SubResource("inter_tree"), SubResource("inter_gears"), SubResource("inter_artifact"), SubResource("inter_shelves")])
 lights = Array[Resource]([SubResource("light_desk"), SubResource("light_window")])
-props = Array[Resource]([SubResource("prop_desk"), SubResource("prop_bookcase_n"), SubResource("prop_bookcase_w"), SubResource("prop_chair"), SubResource("prop_globe_model")])
+props = Array[Resource]([SubResource("prop_desk"), SubResource("prop_bookcase_n"), SubResource("prop_bookcase_w"), SubResource("prop_chair"), SubResource("prop_globe_stand"), SubResource("prop_globe_body"), SubResource("prop_books_scrolls"), SubResource("prop_map"), SubResource("prop_candle_holder_left"), SubResource("prop_candle_holder_right"), SubResource("prop_bottle"), SubResource("prop_openbook_a"), SubResource("prop_openbook_b"), SubResource("prop_page_a"), SubResource("prop_page_b"), SubResource("prop_gear_1"), SubResource("prop_gear_2"), SubResource("prop_gear_3")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([SubResource("ambient_rustle")])
-conditional_events = Array[Resource]([])
+conditional_events = Array[Resource]([SubResource("cond_binding_aftershock")])
 flashbacks = Array[Resource]([])

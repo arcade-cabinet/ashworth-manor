@@ -36,7 +36,7 @@ func _initialize() -> void:
 	env.tonemap_white = 2.5
 	env.tonemap_exposure = 1.0
 
-	# Volumetric fog — warm dust motes in candlelight
+	# Volumetric fog — warm dust motes in candlelight. Forward+ is the canonical renderer.
 	env.volumetric_fog_enabled = true
 	env.volumetric_fog_density = 0.015
 	env.volumetric_fog_albedo = Color(0.2, 0.15, 0.1)

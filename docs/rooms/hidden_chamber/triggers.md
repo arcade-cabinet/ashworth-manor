@@ -1,20 +1,22 @@
 # Hidden Chamber — Triggers
 
-### First Entry — PHASE TRANSITION
+### First Entry — Chamber Reveal
 ```yaml
 - set_flag: found_hidden_chamber
-- set_flag: knows_full_truth (after reading final note)
-- PHASE: Horror → Resolution
-- play_sfx: "childs_whisper" — "You found me."
-- ambient_change: elizabeth_presence
+- set_flag: visited_hidden_chamber
 - show_room_name: "Hidden Chamber"
+- show_text: "The house has been hiding this room inside itself for years. It does not feel discovered. It feels admitted."
+- play_sfx: "pl_horror_stinger_07_reveal"
+- camera_shake: 0.1
+- phase pressure: Horror → Resolution threshold
+- ambient_change: elizabeth_presence
 ```
 
 ### Elizabeth Mirror Event (on examine hidden_mirror)
 ```yaml
-- play_sfx: "childs_laugh"
-- light_flicker: both candles, 2s
-- camera_shake: trauma 0.2, 1s
+- show_text via interactable response
+- maintain mirror-delay visual effect metadata
+- let the reflection itself carry the beat
 ```
 
 ### Counter-Ritual (3 steps at ritual_circle)

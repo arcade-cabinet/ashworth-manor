@@ -8,6 +8,24 @@
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
 [ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="9"]
+
+[sub_resource type="Resource" id="anchor_entry_garden"]
+script = ExtResource("9")
+anchor_id = "entry_garden"
+anchor_type = "entry"
+position = Vector3(0, 0, 2.7)
+rotation_y = 0.0
+target_anchor_id = "focus_lily_tableau"
+tags = PackedStringArray("grounds", "garden_return", "critical_path")
+
+[sub_resource type="Resource" id="anchor_focus_lily_tableau"]
+script = ExtResource("9")
+anchor_id = "focus_lily_tableau"
+anchor_type = "focal"
+position = Vector3(0, 1.0, -0.2)
+rotation_y = 180.0
+tags = PackedStringArray("grounds", "clue_tableau", "greenhouse_core")
 
 ; === Terra Cotta Pot Responses (Diamond #5 A-path: gate key) ===
 
@@ -65,6 +83,12 @@ condition = ""
 title = "Potting Bench"
 text = "A wooden bench covered in dried soil and tools. Trowels, pruning shears, twine. Victoria's gardening gloves are still here, stiff with age. The journal beside them records planting dates going back twenty years. The last entry: 'The lily bloomed again today. I do not know how.'"
 
+[sub_resource type="Resource" id="resp_glass_default"]
+script = ExtResource("3")
+condition = ""
+title = "Broken Glass"
+text = "Several panes have burst outward. Not collapsed from age, but pushed. The shard pattern points into the night garden. Something forced its way out of this room and did not care what it cut itself on."
+
 ; === Interactables ===
 
 [sub_resource type="Resource" id="inter_pot"]
@@ -92,6 +116,14 @@ position = Vector3(3, 0.8, -2)
 collision_size = Vector3(2.0, 1.0, 1.5)
 responses = Array[Resource]([SubResource("resp_bench_default")])
 
+[sub_resource type="Resource" id="inter_glass"]
+script = ExtResource("2")
+id = "greenhouse_glass"
+type = "observation"
+position = Vector3(0, 2.2, -3.2)
+collision_size = Vector3(2.5, 2.5, 0.8)
+responses = Array[Resource]([SubResource("resp_glass_default")])
+
 ; === Lights ===
 
 [sub_resource type="Resource" id="light_moon"]
@@ -100,8 +132,30 @@ id = "greenhouse_moonlight"
 type = "omni"
 position = Vector3(0, 3.5, 0)
 color = Color(0.5, 0.6, 0.9, 1)
-energy = 0.7
-range = 8.0
+energy = 1.55
+range = 10.0
+shadows = false
+flickering = false
+
+[sub_resource type="Resource" id="light_glass"]
+script = ExtResource("4")
+id = "greenhouse_glass_glow"
+type = "omni"
+position = Vector3(0.0, 2.6, -3.0)
+color = Color(0.62, 0.72, 0.92, 1)
+energy = 1.05
+range = 6.5
+shadows = false
+flickering = false
+
+[sub_resource type="Resource" id="light_east_glass"]
+script = ExtResource("4")
+id = "greenhouse_east_glass"
+type = "omni"
+position = Vector3(2.7, 2.1, -0.4)
+color = Color(0.56, 0.67, 0.88, 1)
+energy = 0.78
+range = 5.5
 shadows = false
 flickering = false
 
@@ -112,6 +166,116 @@ script = ExtResource("5")
 id = "greenhouse_table"
 model = "res://assets/shared/furniture/table.glb"
 position = Vector3(0, 0, 0)
+
+[sub_resource type="Resource" id="prop_plank_bench"]
+script = ExtResource("5")
+id = "plank_bench"
+model = "res://assets/grounds/greenhouse/wooden_plank_1.glb"
+position = Vector3(3.0, 0.0, -2.0)
+rotation_y = 90.0
+
+[sub_resource type="Resource" id="prop_plank_shelf"]
+script = ExtResource("5")
+id = "plank_shelf"
+model = "res://assets/grounds/greenhouse/wooden_plank_2.glb"
+position = Vector3(2.6, 0.8, -2.0)
+rotation_y = 90.0
+
+[sub_resource type="Resource" id="prop_bucket_left"]
+script = ExtResource("5")
+id = "bucket_left"
+model = "res://assets/grounds/greenhouse/bucket_mx_2.glb"
+position = Vector3(2.7, 0, -1.2)
+
+[sub_resource type="Resource" id="prop_bucket_right"]
+script = ExtResource("5")
+id = "bucket_right"
+model = "res://assets/grounds/greenhouse/bucket_mx_3.glb"
+position = Vector3(3.4, 0, -2.8)
+
+[sub_resource type="Resource" id="prop_bottle"]
+script = ExtResource("5")
+id = "fertilizer_bottle"
+model = "res://assets/grounds/greenhouse/glass_bottle_mx_2.glb"
+position = Vector3(3.0, 0.85, -2.0)
+
+[sub_resource type="Resource" id="prop_dead_row_w"]
+script = ExtResource("5")
+id = "dead_row_w"
+model = "res://assets/grounds/greenhouse/bush_long_dead.glb"
+position = Vector3(-2.6, 0, 1.5)
+rotation_y = 90.0
+
+[sub_resource type="Resource" id="prop_dead_row_e"]
+script = ExtResource("5")
+id = "dead_row_e"
+model = "res://assets/grounds/greenhouse/bush_long_dead.glb"
+position = Vector3(-1.2, 0, 1.5)
+rotation_y = 90.0
+
+[sub_resource type="Resource" id="prop_dead_end"]
+script = ExtResource("5")
+id = "dead_end_cap"
+model = "res://assets/grounds/greenhouse/bush_end_dead.glb"
+position = Vector3(-1.9, 0, 3.0)
+rotation_y = 180.0
+
+[sub_resource type="Resource" id="prop_tall_dead"]
+script = ExtResource("5")
+id = "tall_dead_growth"
+model = "res://assets/grounds/greenhouse/bush_tall_dead.glb"
+position = Vector3(-3.0, 0, -0.5)
+
+[sub_resource type="Resource" id="prop_winter_growth"]
+script = ExtResource("5")
+id = "winter_growth"
+model = "res://assets/grounds/greenhouse/bush05_winter.glb"
+position = Vector3(0.8, 0, 1.8)
+
+[sub_resource type="Resource" id="prop_winter_growth_back"]
+script = ExtResource("5")
+id = "winter_growth_back"
+model = "res://assets/grounds/greenhouse/bush06_winter.glb"
+position = Vector3(-0.8, 0, 2.3)
+
+[sub_resource type="Resource" id="prop_nature_cluster"]
+script = ExtResource("5")
+id = "nature_cluster"
+model = "res://assets/grounds/greenhouse/nature.glb"
+position = Vector3(0.0, 0, 2.6)
+scale = 0.8
+
+[sub_resource type="Resource" id="prop_window_ray"]
+script = ExtResource("5")
+id = "greenhouse_window_ray"
+model = "res://assets/shared/structure/window_ray.glb"
+position = Vector3(0.0, 0.0, -2.6)
+
+[sub_resource type="Resource" id="prop_glass_shell"]
+script = ExtResource("5")
+id = "greenhouse_glass_shell"
+scene_role = "architectural_trim"
+scene_path = "res://scenes/shared/greenhouse/greenhouse_glazed_shell.tscn"
+position = Vector3(0, 0, 0)
+
+[sub_resource type="Resource" id="prop_table_secondary"]
+script = ExtResource("5")
+id = "greenhouse_side_table"
+model = "res://assets/shared/furniture/table.glb"
+position = Vector3(-2.4, 0.0, 1.8)
+scale = 0.75
+
+[sub_resource type="Resource" id="prop_bottle_secondary"]
+script = ExtResource("5")
+id = "greenhouse_bottle_secondary"
+model = "res://assets/grounds/greenhouse/glass_bottle_mx_2.glb"
+position = Vector3(-2.2, 0.82, 1.65)
+
+[sub_resource type="Resource" id="prop_bucket_center"]
+script = ExtResource("5")
+id = "greenhouse_bucket_center"
+model = "res://assets/grounds/greenhouse/bucket_mx_2.glb"
+position = Vector3(0.4, 0.0, 0.7)
 
 ; === Entry Trigger ===
 
@@ -154,6 +318,10 @@ floor_name = "grounds"
 environment_preset = "grounds"
 dimensions = Vector3(8, 4, 8)
 is_exterior = true
+spatial_class = "glazed_room"
+exposure_faces = PackedStringArray("north", "south", "east", "west", "roof")
+outlook_zones = {"east": "winter_growth_and_dead_rows", "north": "glass_enclosure_night", "roof": "frosted_glass_and_moonlight", "south": "garden_return_path", "west": "house_side_connection"}
+window_view_mode = "glazed_enclosure"
 wall_texture = ""
 floor_texture = "floor3_texture"
 ceiling_texture = ""
@@ -167,11 +335,13 @@ reverb_bus = "OpenAir"
 footstep_surface = "dirt"
 spawn_position = Vector3(0, 0, 0)
 spawn_rotation_y = 0.0
-interactables = Array[Resource]([SubResource("inter_pot"), SubResource("inter_dead_plants"), SubResource("inter_bench")])
-lights = Array[Resource]([SubResource("light_moon")])
-props = Array[Resource]([SubResource("prop_table")])
+interactables = Array[Resource]([SubResource("inter_pot"), SubResource("inter_dead_plants"), SubResource("inter_bench"), SubResource("inter_glass")])
+lights = Array[Resource]([SubResource("light_moon"), SubResource("light_glass"), SubResource("light_east_glass")])
+props = Array[Resource]([SubResource("prop_glass_shell"), SubResource("prop_table"), SubResource("prop_plank_bench"), SubResource("prop_plank_shelf"), SubResource("prop_bucket_left"), SubResource("prop_bucket_right"), SubResource("prop_bottle"), SubResource("prop_dead_row_w"), SubResource("prop_dead_row_e"), SubResource("prop_dead_end"), SubResource("prop_tall_dead"), SubResource("prop_winter_growth"), SubResource("prop_winter_growth_back"), SubResource("prop_nature_cluster"), SubResource("prop_window_ray"), SubResource("prop_table_secondary"), SubResource("prop_bottle_secondary"), SubResource("prop_bucket_center")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([SubResource("ambient_crack")])
 conditional_events = Array[Resource]([])
 flashbacks = Array[Resource]([])
+entry_anchors = Array[Resource]([SubResource("anchor_entry_garden")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_lily_tableau")])

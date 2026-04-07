@@ -24,7 +24,7 @@ ProtoTree (res://resources/item_prototypes.tres)
 │   └── mothers_confession { name: "Lady Ashworth's Confession", weight: 0.1, ritual: true }
 ├── artifacts/
 │   ├── porcelain_doll { name: "Elizabeth's Doll", weight: 0.3, ritual: true }
-│   └── elizabeths_locket { name: "Silver Locket", weight: 0.05 }
+│   └── elizabeth_locket { name: "Silver Locket", weight: 0.05 }
 ├── ritual_components/
 │   ├── blessed_water  { name: "Vial of Holy Water", weight: 0.1, consumable: true, ritual: true }
 │   └── lock_of_hair   { name: "Lock of Hair", weight: 0.01, ritual: true }

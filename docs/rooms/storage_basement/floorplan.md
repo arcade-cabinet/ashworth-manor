@@ -1,24 +1,25 @@
 # Storage Basement — Floor Plan
 
-8m x 8m x 3m. Walls: wall_6 (stone). Floor: floor2 (rough stone). Ceiling: cieling2 (beams).
+8m x 8m x 3m. Walls: wall_8 (stone). Floor: floor2 (rough stone). Ceiling: cieling2 (beams).
 
 ```
               ┌─────────────────────────────┐
-              │  LADDER → wine_cellar       │
-              │  (-3,0.5,3)                 │
+              │  LADDER       CAGE [i]      │
+              │  (-3,0,3)     (3,0.5,3)     │
               │                             │
-              │  PORTRAIT [i]  MIRROR [i]   │
-              │  (-3,1.2,2)    (3,1.5,3)    │
+              │  SHELF        SHELF         │
+              │  PORTRAIT [i]  MATTRESS [i] │
+              │  (-3.5,1.5,-3) (2.7,0.35,2) │
               │                             │
-              │       CANDLE [L1]           │
-              │       (0,1.2,0)             │  → boiler_room
+              │       BULB [L1]             │
+              │       (0,2.5,0)             │  → boiler_room
               │                             │  (4,1.2,0)
-              │  COVERED [i]               │
-              │  (0,0.8,-2)                │
-              │  TRUNK [i]     CRATES      │
-              │  (-2,0.4,-3)               │
+              │  DEBRIS / CRATES            │
+              │  across south half          │
               │                             │
-              │       STAIRS → kitchen      │
-              │       (0,1,-4)             │
+              │  SERVICE STACK [i] / LAMP   │
+              │  near north-east wall       │
               └─────────────────────────────┘
 ```
+
+The room should feel blocked, crowded, and half-concealed. It is not a clean connector. It is the sort of place where a hidden service route makes sense.

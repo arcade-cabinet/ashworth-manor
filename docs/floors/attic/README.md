@@ -56,7 +56,7 @@ This floor represents the climax of the player's journey. All the clues gathered
 |---------|------|------------|------------|--------|
 | `attic_stairs` | Attic Stairwell | 4x6x3 | 8 | Requires `attic_key` |
 | `attic_storage` | Attic Storage | 14x12x4 | 8 | From Stairwell |
-| `hidden_room` | Hidden Chamber | 6x6x3 | 8 | Requires `hidden_key` |
+| `hidden_chamber` | Hidden Chamber | 6x6x3 | 8 | Requires `hidden_key` |
 
 ---
 
@@ -221,7 +221,7 @@ significance:
 
 ### Elizabeth's Final Words
 ```yaml
-location: hidden_room
+location: hidden_chamber
 type: note
 content:
   title: "Elizabeth's Last Words"
@@ -269,7 +269,7 @@ event_storage_first_entry:
 
 ```yaml
 event_hidden_chamber_entry:
-  trigger: First entry to hidden_room
+  trigger: First entry to hidden_chamber
   actions:
     - type: set_flag
       flag: found_hidden_chamber
@@ -312,17 +312,14 @@ Prerequisites:
         └── Get attic_key from Library
             └── Unlock attic door in Upper Hallway
 
-HIDDEN CHAMBER PUZZLE (Future Development)
-=========================================
+HIDDEN CHAMBER PATH
+===================
 
-Prerequisites (TBD):
-└── Find hidden_key
-    ├── Option A: Solve doll puzzle in Attic Storage
-    ├── Option B: Find in Wine Cellar secret alcove
-    └── Option C: Trade with ghost event
-        └── Unlock Hidden Chamber
-            └── Read Final Note
-                └── Unlock Ending Paths
+Current declaration path:
+└── Find hidden_key in Attic Storage through the doll/letter route
+    └── Unlock Hidden Chamber
+        └── Read Final Note
+            └── Unlock ending paths
 ```
 
 ---

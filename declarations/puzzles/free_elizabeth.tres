@@ -20,7 +20,7 @@ action = "interact"
 target_interactable = "ritual_circle"
 target_room = "hidden_chamber"
 required_state = "read_final_note"
-required_items = PackedStringArray("binding_book", "porcelain_doll", "elizabeth_locket", "blessed_water", "mothers_confession", "elizabeth_lily")
+required_items = PackedStringArray("binding_book", "porcelain_doll", "lock_of_hair", "blessed_water", "mothers_confession")
 result_states = {"counter_ritual_complete": true}
 
 [resource]

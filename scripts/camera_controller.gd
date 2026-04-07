@@ -12,7 +12,10 @@ var _pcam_available: bool = false
 
 func setup(camera: Camera3D, player: CharacterBody3D) -> void:
 	_camera = camera
-	_pcam_available = _is_phantom_camera_available()
+	# Keep the shipping exploration path on the base Camera3D.
+	# Phantom Camera support is optional and currently reserved for
+	# explicit future inspection/cinematic work, not the default view.
+	_pcam_available = false
 
 	if not _pcam_available:
 		return

@@ -22,16 +22,14 @@
 | Candle holder L | `shared/decor/candle_holder.glb` | (-3, 0.8, 0) | On side table |
 | Candle holder R | `shared/decor/candle_holder.glb` | (3, 0.8, 0) | On side table |
 | Stool | `ground_floor/parlor/stool_mx_1.glb` | (3, 0, 3) | Near fireplace |
-| Bottle 1 | `ground_floor/parlor/glass_bottle_mx_1.glb` | (1, 0.8, -1) | On table |
-| Bottle 2 | `ground_floor/parlor/glass_bottle_mx_2.glb` | (-1, 0.8, 1) | On table |
-| Jar | `ground_floor/parlor/jam_jar_mp_1_medium.glb` | (0, 0.8, 1) | On table (tea stand-in) |
 | Dead lamp | `ground_floor/parlor/lamp_mx_4_off.glb` | (4, 0.8, -3) | Unlit lamp on side table |
 
-## Props TO ADD
-
-| Name | GLB | Position | Notes |
-|------|-----|----------|-------|
 | Side table L | `shared/furniture/table.glb` | (-2, 0, -3) | Under music box, scale small |
 | Side table R | `shared/furniture/table.glb` | (2, 0, -3) | Under diary note, scale small |
-| Drapes | (none — implied by wall texture) | — | Heavy velvet, blocking windows |
-| Writing desk | `shared/furniture/study_desk.glb` | (-4, 0, -3) | Lady's desk (where diary page fell from) |
+| Writing desk | `shared/furniture/study_desk.glb` | (-3.8, 0, -3.4) | Lady's desk, offset left so the diary clue feels placed not floating |
+
+Heavy drapes remain implied rather than modeled, but the rest of the room should now read as furnished enough to sell the social fiction that once lived here.
+
+The central tea tableau is no longer faked with bottle and jar props. It is now
+owned by the `parlor_tea` interactable as a scene-authored setpiece so the room
+actually reads as afternoon tea gone cold.

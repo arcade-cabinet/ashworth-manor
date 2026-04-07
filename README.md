@@ -14,8 +14,8 @@ Ashworth Manor is an atmospheric horror exploration game set in a five-floor Vic
 
 ```bash
 # Open in Godot editor and press Play (F5)
-# Or run headless build:
-godot --headless --script scenes/build_main.gd
+# Or run a boot smoke test:
+godot --headless --path . --quit-after 1
 ```
 
 ## Game Controls
@@ -31,7 +31,7 @@ godot --headless --script scenes/build_main.gd
 
 - **Engine**: Godot 4.6 (Forward+)
 - **Language**: GDScript
-- **Rendering**: PSX screen-space post-process shader on CanvasLayer
+- **Runtime**: Declaration-driven room/world assembly
 - **Assets**: 1000+ files (376 GLBs, 596 PNGs, 36 OGG loops)
 - **Asset Source**: Retro PSX Style Mansion v2.0, SBS Horror Textures, Lonely Nightmare audio
 
@@ -39,30 +39,20 @@ godot --headless --script scenes/build_main.gd
 
 ```
 project.godot              # Godot config: viewport, input maps, autoloads
+declarations/              # Canonical room/world/item/puzzle/thread data
+engine/                    # Declaration runtime, builders, validators
 scenes/
-├── main.tscn              # Main scene (WorldEnvironment, PSXLayer, Player, etc.)
-├── build_main.gd          # Headless scene builder
-└── rooms/                 # 20 room .tscn files
-    ├── ground_floor/      # foyer, parlor, dining_room, kitchen
-    ├── upper_floor/       # hallway, master_bedroom, library, guest_room
-    ├── basement/          # storage, boiler_room
-    ├── deep_basement/     # wine_cellar
-    ├── attic/             # stairwell, storage, hidden_chamber
-    └── grounds/           # front_gate, garden, chapel, greenhouse,
-                           # carriage_house, family_crypt
+├── main.tscn              # Runtime shell and managers
+└── rooms/                 # Legacy/reference room scenes only
 scripts/
 ├── game_manager.gd        # Autoload: game state, inventory, flags, save/load
-├── room_manager.gd        # Scene instancing, fade transitions, room registry
-├── room_base.gd           # Room root script (exported vars, flickering lights)
-├── interactable_data.gd   # Custom Resource for interactable metadata
-├── room_connection.gd     # Custom Resource for door/stairs connections
+├── room_manager.gd        # Declaration-first room lifecycle and transitions
+├── room_base.gd           # Runtime room API (spawn, lights, interactables)
 ├── player_controller.gd   # CharacterBody3D, tap-to-walk, swipe-to-look
-├── interaction_manager.gd # Puzzle logic, endings, document display
+├── interaction_manager.gd # Runtime interaction dispatch and endings
+├── room_events.gd         # Declaration triggers, ambient and conditional events
 ├── audio_manager.gd       # Room-based audio loops with crossfade
 └── ui_overlay.gd          # Diegetic overlays (documents, room names, endings)
-shaders/
-├── psx.gdshader           # Per-material PSX vertex shader
-└── psx_post.gdshader      # Screen-space post-process (color depth, dithering)
 assets/
 ├── {floor}/{room}/        # Per-room GLBs, textures, and Godot imports
 ├── shared/                # Shared models: structure, furniture, decor, items
@@ -74,6 +64,7 @@ assets/
 
 Detailed documentation is available in the `/docs` directory:
 
+- [Documentation Index](docs/INDEX.md)
 - [Architecture Overview](docs/ARCHITECTURE.md)
 - [Game Design](docs/GAME_DESIGN.md)
 - [Environment Design](docs/ENVIRONMENT.md)
@@ -94,6 +85,17 @@ Players must explore all five floors, from the deep wine cellar to the hidden at
 - **Environment First**: Architecture and lighting tell the story
 - **Mobile Native**: Designed for touch, not adapted from desktop
 - **Period Authentic**: Victorian aesthetic with no modern intrusions
+
+## Validation
+
+```bash
+godot --headless --path . --quit-after 1
+godot --headless --path . --script test/generated/test_declarations.gd
+godot --headless --path . --script test/e2e/test_declared_interactions.gd
+godot --headless --path . --script test/e2e/test_room_specs.gd
+godot --headless --path . --script test/e2e/test_full_playthrough.gd
+godot --headless --path . --script test/e2e/test_room_walkthrough.gd
+```
 
 ## License
 

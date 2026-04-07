@@ -50,14 +50,23 @@ static func build(connection: Connection) -> Node3D:
 	area.name = "TrapdoorArea"
 	area.collision_layer = 8  # Layer 4 -- Connection
 	area.collision_mask = 0
+	area.add_to_group("connections")
 	area.set_meta("connection_id", connection.id)
 	area.set_meta("target_room", connection.to_room)
+	area.set_meta("conn_type", connection.type)
 	area.set_meta("locked", connection.locked)
 	area.set_meta("key_id", connection.key_id)
+	area.set_meta("required_state", connection.required_state)
+	area.set_meta("blocked_text", connection.blocked_text)
+	area.set_meta("declaration", connection)
+	area.set_meta("presentation_type", connection.presentation_type)
+	area.set_meta("mechanism_type", connection.mechanism_type)
+	area.set_meta("mechanism_state", connection.mechanism_state)
+	area.set_meta("reveal_state", connection.reveal_state)
 
 	var area_shape := CollisionShape3D.new()
 	var area_box := BoxShape3D.new()
-	area_box.size = Vector3(DEFAULT_SIZE, 0.5, DEFAULT_SIZE)
+	area_box.size = connection.interaction_size if connection.interaction_size != Vector3.ZERO else Vector3(DEFAULT_SIZE, 0.5, DEFAULT_SIZE)
 	area_shape.shape = area_box
 	area_shape.position = Vector3(0, -0.25, 0)
 	area.add_child(area_shape)

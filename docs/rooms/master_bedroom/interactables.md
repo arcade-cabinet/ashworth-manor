@@ -1,6 +1,6 @@
 # Master Bedroom — Interactables
 
-## 1. Lord Ashworth's Diary — CRITICAL CLUE (EXISTS)
+## 1. Lord Ashworth's Diary — Critical Clue
 
 ```yaml
 id: diary_lord
@@ -26,7 +26,7 @@ collision: BoxShape3D(1.5, 1.5, 1.5)
 
 ---
 
-## 2. Bedroom Mirror (EXISTS)
+## 2. Bedroom Mirror
 
 ```yaml
 id: bedroom_mirror
@@ -54,7 +54,7 @@ collision: BoxShape3D(1.5, 1.5, 1.5)
 
 ---
 
-## 3. Jewelry Box — PUZZLE ITEM (EXISTS)
+## 3. Jewelry Box — Puzzle Item
 
 ```yaml
 id: jewelry_box
@@ -63,7 +63,7 @@ position: (-3, 1, 3)  # Dresser, near mirror
 collision: BoxShape3D(1.0, 0.5, 0.5)
 locked: true
 key_id: jewelry_key
-item_found: elizabeths_locket
+item_found: elizabeth_locket
 gives_also: lock_of_hair
 ```
 
@@ -79,19 +79,19 @@ gives_also: lock_of_hair
 
 ### Flags Set
 - `jewelry_box_opened`
-- `has_elizabeths_locket`
+- `has_elizabeth_locket`
 - `has_lock_of_hair` (via `gives_also`)
 
 ### Items Given
-- `elizabeths_locket`
+- `elizabeth_locket`
 - `lock_of_hair` (counter-ritual component)
 
 ---
 
-## 4. Unmade Bed (NEW)
+## 4. Unmade Bed
 
 ```yaml
-id: bedroom_bed
+id: master_bed
 type: observation
 position: (2, 0.5, 2)  # Bed area
 collision: BoxShape3D(2.5, 1.0, 2.0)
@@ -112,7 +112,7 @@ collision: BoxShape3D(2.5, 1.0, 2.0)
 
 ---
 
-## 5. Nightstand Book (NEW)
+## 5. Nightstand Book
 
 ```yaml
 id: bedroom_book
@@ -132,7 +132,7 @@ collision: BoxShape3D(0.5, 0.3, 0.5)
 
 ---
 
-## 6. Wardrobe (NEW)
+## 6. Wardrobe
 
 ```yaml
 id: bedroom_wardrobe
@@ -152,7 +152,7 @@ collision: BoxShape3D(1.5, 2.0, 0.5)
 
 ---
 
-## 7. Broken Bottle (NEW)
+## 7. Broken Bottle
 
 ```yaml
 id: bedroom_broken_bottle
@@ -175,10 +175,10 @@ model: glass_bottle_mx_3_broken.glb
 
 | ID | Type | Position | Status |
 |----|------|----------|--------|
-| `diary_lord` | note | (3, 0.9, 3) | EXISTS — update content |
-| `bedroom_mirror` | mirror | (-4, 2, 0) | EXISTS — update content |
-| `jewelry_box` | box | (-3, 1, 3) | EXISTS — verify lock/key wiring |
-| `bedroom_bed` | observation | (2, 0.5, 2) | NEW |
-| `bedroom_book` | observation | (3, 0.9, 1) | NEW |
-| `bedroom_wardrobe` | observation | (-4, 1, -3) | NEW |
-| `bedroom_broken_bottle` | observation | (4, 0.1, -2) | NEW — model exists |
+| `diary_lord` | note | (-4, 0.9, -4) | Active |
+| `bedroom_mirror` | mirror | (4.5, 1.2, 0) | Active |
+| `jewelry_box` | box | (4.5, 0.9, 0.5) | Active |
+| `master_bed` | observation | (-2, 0.8, 0) | Active |
+| `bedroom_book` | observation | (-3.6, 0.9, -3.8) | Active |
+| `bedroom_wardrobe` | observation | (-4.5, 1, 4) | Active |
+| `bedroom_broken_bottle` | observation | (4, 0.1, -2) | Active |

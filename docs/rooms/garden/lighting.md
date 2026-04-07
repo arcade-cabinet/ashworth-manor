@@ -1,6 +1,7 @@
 # Garden — Lighting
 
 ### 1. Moonlight (DirectionalLight3D)
-Same as front_gate: cold blue-white `(0.6, 0.65, 0.85)`, energy 1.5, shadows enabled.
+Cold blue-white moonlight over the whole rear garden. The fountain and path spine should read clearly enough to navigate, but the gazebo corners and crypt branch stay darker.
 
-### Design: Moonlit garden. No warm sources. The lily almost seems to glow but doesn't — it's the moonlight catching the white petals.
+### Design
+Moonlit garden. No warm sources. The lily almost seems to glow but does not; the effect should come from contrast against the dead beds and dark soil, not fake emissive treatment.

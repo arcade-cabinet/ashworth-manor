@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/ground_floor/kitchen/bucket_mx_1.glb" id="1_l2gvu"]
+[ext_resource type="Material" path="res://resources/water/kitchen_bucket_water_rippled_material.tres" id="2_gj1qa"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_water"]
+top_radius = 0.115
+bottom_radius = 0.115
+height = 0.012
+radial_segments = 24
+
+[node name="KitchenBucketRippled" type="Node3D"]
+
+[node name="Bucket" parent="." instance=ExtResource("1_l2gvu")]
+
+[node name="Water" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.18, 0)
+material_override = ExtResource("2_gj1qa")
+mesh = SubResource("CylinderMesh_water")

@@ -19,6 +19,15 @@
 [ext_resource type="Resource" path="res://declarations/endings/joined.tres" id="17"]
 [ext_resource type="Script" path="res://engine/declarations/variant_decl.gd" id="18"]
 [ext_resource type="Script" path="res://engine/declarations/junction_decl.gd" id="19"]
+[ext_resource type="Script" path="res://engine/declarations/secret_passage_decl.gd" id="20"]
+[ext_resource type="Script" path="res://engine/declarations/passage_anchor_decl.gd" id="21"]
+[ext_resource type="Script" path="res://engine/declarations/passage_presentation_decl.gd" id="22"]
+[ext_resource type="Resource" path="res://declarations/regions/entrance_exterior.tres" id="23"]
+[ext_resource type="Resource" path="res://declarations/regions/ground_floor.tres" id="24"]
+[ext_resource type="Resource" path="res://declarations/regions/upper_floor.tres" id="25"]
+[ext_resource type="Resource" path="res://declarations/regions/basement.tres" id="26"]
+[ext_resource type="Resource" path="res://declarations/regions/attic.tres" id="27"]
+[ext_resource type="Resource" path="res://declarations/regions/rear_estate.tres" id="28"]
 
 ; === Room References (20 rooms) ===
 
@@ -133,9 +142,13 @@ from_room = "front_gate"
 to_room = "foyer"
 direction = "north"
 type = "path"
-position_in_from = Vector3(0, 1.5, 10)
-position_in_to = Vector3(0, 0, -3)
-spawn_rotation_y = 0.0
+position_in_from = Vector3(0, 1.5, 10.7)
+position_in_to = Vector3(-0.3, 0, -3.7)
+spawn_rotation_y = 12.0
+to_anchor_id = "entry_front_door"
+focal_anchor_id = ""
+required_state = "front_gate_threshold_acknowledged"
+blocked_text = "The manor waits at the end of the drive. Something in you resists crossing the threshold before you read the plaque."
 
 [sub_resource type="Resource" id="conn_foyer_to_front_gate"]
 script = ExtResource("3")
@@ -147,50 +160,72 @@ type = "door"
 position_in_from = Vector3(0, 1.5, -5)
 position_in_to = Vector3(0, 0, 8)
 spawn_rotation_y = 0.0
+to_anchor_id = "entry_drive"
+focal_anchor_id = "focus_gate_sign"
+presentation_type = "facade_door"
+mechanism_type = "swing"
+door_texture = "res://assets/shared/textures/retro/door_texture_01.png"
+frame_texture = "wall0_texture"
 
 [sub_resource type="Resource" id="conn_front_gate_to_garden"]
 script = ExtResource("3")
-id = "front_gate_to_garden"
-from_room = "front_gate"
+id = "kitchen_to_garden"
+from_room = "kitchen"
 to_room = "garden"
-direction = "east"
+direction = "north"
 type = "path"
-position_in_from = Vector3(10, 1.5, 0)
+position_in_from = Vector3(3, 1.2, 4)
 position_in_to = Vector3(-8, 0, 0)
-spawn_rotation_y = 90.0
+spawn_rotation_y = 0.0
 
 [sub_resource type="Resource" id="conn_garden_to_front_gate"]
 script = ExtResource("3")
-id = "garden_to_front_gate"
+id = "garden_to_kitchen"
 from_room = "garden"
-to_room = "front_gate"
+to_room = "kitchen"
 direction = "west"
 type = "path"
 position_in_from = Vector3(-8, 1.5, 0)
-position_in_to = Vector3(8, 0, 0)
-spawn_rotation_y = 270.0
+position_in_to = Vector3(0, 0, 3)
+spawn_rotation_y = 180.0
 
 [sub_resource type="Resource" id="conn_front_gate_to_carriage_house"]
 script = ExtResource("3")
-id = "front_gate_to_carriage_house"
-from_room = "front_gate"
+id = "storage_basement_to_carriage_house"
+from_room = "storage_basement"
 to_room = "carriage_house"
-direction = "west"
-type = "path"
-position_in_from = Vector3(-10, 1.5, 0)
+direction = "south"
+type = "hidden_door"
+position_in_from = Vector3(2, 1.0, 4)
 position_in_to = Vector3(0, 0, -2)
 spawn_rotation_y = 0.0
+to_anchor_id = "entry_secret_panel"
+focal_anchor_id = "focus_groom_nook"
+presentation_type = "secret_panel"
+mechanism_type = "slide"
+mechanism_state = "concealed"
+reveal_state = "concealed"
+interaction_size = Vector3(1.8, 2.0, 1.0)
+concealment_model = "res://assets/shared/structure/wall_7.glb"
 
 [sub_resource type="Resource" id="conn_carriage_house_to_front_gate"]
 script = ExtResource("3")
-id = "carriage_house_to_front_gate"
+id = "carriage_house_to_storage_basement"
 from_room = "carriage_house"
-to_room = "front_gate"
-direction = "south"
-type = "path"
+to_room = "storage_basement"
+direction = "north"
+type = "hidden_door"
 position_in_from = Vector3(0, 1.5, -3)
-position_in_to = Vector3(-8, 0, 0)
-spawn_rotation_y = 90.0
+position_in_to = Vector3(1, 0, 3)
+spawn_rotation_y = 180.0
+to_anchor_id = "entry_stairs"
+focal_anchor_id = "focus_service_stack"
+presentation_type = "secret_panel"
+mechanism_type = "slide"
+mechanism_state = "concealed"
+reveal_state = "concealed"
+interaction_size = Vector3(1.8, 2.0, 1.0)
+concealment_model = "res://assets/shared/structure/wall_7.glb"
 
 ; -- Ground Floor --
 
@@ -204,6 +239,8 @@ type = "door"
 position_in_from = Vector3(0, 1.5, 5)
 position_in_to = Vector3(0, 0, -4)
 spawn_rotation_y = 0.0
+to_anchor_id = "entry_foyer"
+focal_anchor_id = "focus_fireplace"
 door_texture = "res://assets/shared/textures/retro/door_texture_01.png"
 
 [sub_resource type="Resource" id="conn_parlor_to_foyer"]
@@ -228,6 +265,8 @@ type = "door"
 position_in_from = Vector3(6, 1.5, 0)
 position_in_to = Vector3(0, 0, -7)
 spawn_rotation_y = 180.0
+to_anchor_id = "entry_foyer"
+focal_anchor_id = "focus_tableau"
 door_texture = "res://assets/shared/textures/retro/door_texture_02.png"
 
 [sub_resource type="Resource" id="conn_dining_room_to_foyer"]
@@ -250,8 +289,10 @@ to_room = "kitchen"
 direction = "west"
 type = "door"
 position_in_from = Vector3(-6, 1.5, 0)
-position_in_to = Vector3(3, 0, 0)
-spawn_rotation_y = 270.0
+position_in_to = Vector3(0.7, 0, 2.6)
+spawn_rotation_y = 334.0
+to_anchor_id = "entry_foyer"
+focal_anchor_id = "focus_hearth"
 door_texture = "res://assets/shared/textures/retro/door_texture_03.png"
 
 [sub_resource type="Resource" id="conn_kitchen_to_foyer"]
@@ -275,9 +316,12 @@ from_room = "foyer"
 to_room = "upper_hallway"
 direction = "up"
 type = "stairs"
-position_in_from = Vector3(2, 1.5, -2)
-position_in_to = Vector3(0, 0, -6)
+position_in_from = Vector3(1.9, 1.5, 1.35)
+position_in_to = Vector3(0, 0, -7.8)
 spawn_rotation_y = 0.0
+to_anchor_id = "entry_stairhead"
+focal_anchor_id = "focus_hall_axis"
+interaction_size = Vector3(2.8, 2.6, 4.4)
 
 [sub_resource type="Resource" id="conn_upper_hallway_to_foyer"]
 script = ExtResource("3")
@@ -286,9 +330,10 @@ from_room = "upper_hallway"
 to_room = "foyer"
 direction = "down"
 type = "stairs"
-position_in_from = Vector3(0, 1, -8)
-position_in_to = Vector3(2, 0, -1)
+position_in_from = Vector3(0, 1, -7.8)
+position_in_to = Vector3(1.9, 0, 1.45)
 spawn_rotation_y = 180.0
+interaction_size = Vector3(2.8, 2.6, 4.4)
 
 ; -- Upper Floor --
 
@@ -324,8 +369,10 @@ to_room = "library"
 direction = "west"
 type = "door"
 position_in_from = Vector3(-2, 1.2, 5)
-position_in_to = Vector3(0, 0, -4)
-spawn_rotation_y = 0.0
+position_in_to = Vector3(-1.4, 0, -2.8)
+spawn_rotation_y = 28.0
+to_anchor_id = "entry_hall"
+focal_anchor_id = "focus_lectern_cluster"
 door_texture = "res://assets/shared/textures/retro/door_texture_05.png"
 
 [sub_resource type="Resource" id="conn_library_to_upper_hallway"]
@@ -374,8 +421,10 @@ to_room = "attic_stairs"
 direction = "north"
 type = "door"
 position_in_from = Vector3(0, 1.5, 7.5)
-position_in_to = Vector3(0, 0, -2)
-spawn_rotation_y = 0.0
+position_in_to = Vector3(1.0, 0, -1.55)
+spawn_rotation_y = 148.0
+to_anchor_id = "entry_attic_door"
+focal_anchor_id = "focus_upper_rise"
 locked = true
 key_id = "attic_key"
 
@@ -402,6 +451,8 @@ type = "door"
 position_in_from = Vector3(0, 1.2, 3)
 position_in_to = Vector3(0, 0, -5)
 spawn_rotation_y = 0.0
+to_anchor_id = "entry_stairwell"
+focal_anchor_id = "focus_doll_corner"
 
 [sub_resource type="Resource" id="conn_attic_storage_to_attic_stairs"]
 script = ExtResource("3")
@@ -426,6 +477,8 @@ type = "hidden_door"
 position_in_from = Vector3(-6, 1.2, 0)
 position_in_to = Vector3(0, 0, -2)
 spawn_rotation_y = 0.0
+to_anchor_id = "entry_secret_door"
+focal_anchor_id = "focus_circle"
 locked = true
 key_id = "hidden_key"
 
@@ -450,8 +503,10 @@ to_room = "storage_basement"
 direction = "down"
 type = "stairs"
 position_in_from = Vector3(0, 0.5, -4)
-position_in_to = Vector3(0, 0, -3)
-spawn_rotation_y = 0.0
+position_in_to = Vector3(0, 0, -1.4)
+spawn_rotation_y = 180.0
+to_anchor_id = "entry_stairs"
+focal_anchor_id = "focus_service_stack"
 
 [sub_resource type="Resource" id="conn_storage_basement_to_kitchen"]
 script = ExtResource("3")
@@ -546,8 +601,10 @@ to_room = "greenhouse"
 direction = "north"
 type = "path"
 position_in_from = Vector3(0, 1.5, 8)
-position_in_to = Vector3(0, 0, -3)
+position_in_to = Vector3(0, 0, 2.7)
 spawn_rotation_y = 0.0
+target_anchor_id = "entry_garden"
+focal_anchor_id = "focus_lily_tableau"
 
 [sub_resource type="Resource" id="conn_greenhouse_to_garden"]
 script = ExtResource("3")
@@ -556,7 +613,7 @@ from_room = "greenhouse"
 to_room = "garden"
 direction = "south"
 type = "path"
-position_in_from = Vector3(0, 1.5, -4)
+position_in_from = Vector3(0, 1.5, 3.4)
 position_in_to = Vector3(0, 0, 7)
 spawn_rotation_y = 180.0
 
@@ -585,6 +642,45 @@ type = "gate"
 position_in_from = Vector3(0, 1.5, -4)
 position_in_to = Vector3(5, 0, 7)
 spawn_rotation_y = 180.0
+
+[sub_resource type="Resource" id="anchor_storage_to_carriage"]
+script = ExtResource("21")
+room_id = "storage_basement"
+local_position = Vector3(2, 1.0, 4)
+surface_type = "wall"
+bounds_size = Vector3(1.5, 2.2, 0.5)
+spawn_position = Vector3(1, 0, 3)
+spawn_rotation_y = 180.0
+
+[sub_resource type="Resource" id="anchor_carriage_to_storage"]
+script = ExtResource("21")
+room_id = "carriage_house"
+local_position = Vector3(0, 1.5, -3)
+surface_type = "wall"
+bounds_size = Vector3(1.5, 2.2, 0.5)
+spawn_position = Vector3(0, 0, -2)
+spawn_rotation_y = 0.0
+
+[sub_resource type="Resource" id="presentation_storage_carriage"]
+script = ExtResource("22")
+visible_form = "servant_door"
+closed_text = "A panel seam in the old wall. Easy to miss unless you know to look for it."
+discovered_text = "A servant's passage. Practical, narrow, and meant to go unnoticed."
+opened_text = "The concealed service door stands open."
+discovery_feedback = PackedStringArray("The panel gives under your hand.", "Cold air slips through the crack beyond it.")
+
+[sub_resource type="Resource" id="passage_storage_to_carriage"]
+script = ExtResource("20")
+passage_id = "service_passage_storage_to_carriage"
+from_room = "storage_basement"
+to_room = "carriage_house"
+anchor_from = SubResource("anchor_storage_to_carriage")
+anchor_to = SubResource("anchor_carriage_to_storage")
+discovery_mode = "hidden_interactable"
+presentation = SubResource("presentation_storage_carriage")
+traversal_type = "door"
+functional_role = "service_route"
+once_open_always_open = true
 
 
 ; === JUNCTION DECLARATIONS (9 junctions: 6 diamonds + 3 swaps) ===
@@ -970,6 +1066,8 @@ starting_position = Vector3(0, 0, -8)
 starting_rotation_y = 180.0
 rooms = Array[Resource]([SubResource("room_front_gate"), SubResource("room_foyer"), SubResource("room_parlor"), SubResource("room_dining_room"), SubResource("room_kitchen"), SubResource("room_upper_hallway"), SubResource("room_master_bedroom"), SubResource("room_library"), SubResource("room_guest_room"), SubResource("room_storage_basement"), SubResource("room_boiler_room"), SubResource("room_wine_cellar"), SubResource("room_attic_stairs"), SubResource("room_attic_storage"), SubResource("room_hidden_chamber"), SubResource("room_garden"), SubResource("room_chapel"), SubResource("room_greenhouse"), SubResource("room_carriage_house"), SubResource("room_family_crypt")])
 connections = Array[Resource]([SubResource("conn_front_gate_to_foyer"), SubResource("conn_foyer_to_front_gate"), SubResource("conn_front_gate_to_garden"), SubResource("conn_garden_to_front_gate"), SubResource("conn_front_gate_to_carriage_house"), SubResource("conn_carriage_house_to_front_gate"), SubResource("conn_foyer_to_parlor"), SubResource("conn_parlor_to_foyer"), SubResource("conn_foyer_to_dining_room"), SubResource("conn_dining_room_to_foyer"), SubResource("conn_foyer_to_kitchen"), SubResource("conn_kitchen_to_foyer"), SubResource("conn_foyer_to_upper_hallway"), SubResource("conn_upper_hallway_to_foyer"), SubResource("conn_upper_hallway_to_master_bedroom"), SubResource("conn_master_bedroom_to_upper_hallway"), SubResource("conn_upper_hallway_to_library"), SubResource("conn_library_to_upper_hallway"), SubResource("conn_upper_hallway_to_guest_room"), SubResource("conn_guest_room_to_upper_hallway"), SubResource("conn_upper_hallway_to_attic_stairs"), SubResource("conn_attic_stairs_to_upper_hallway"), SubResource("conn_attic_stairs_to_attic_storage"), SubResource("conn_attic_storage_to_attic_stairs"), SubResource("conn_attic_storage_to_hidden_chamber"), SubResource("conn_hidden_chamber_to_attic_storage"), SubResource("conn_kitchen_to_storage_basement"), SubResource("conn_storage_basement_to_kitchen"), SubResource("conn_storage_basement_to_boiler_room"), SubResource("conn_boiler_room_to_storage_basement"), SubResource("conn_storage_basement_to_wine_cellar"), SubResource("conn_wine_cellar_to_storage_basement"), SubResource("conn_garden_to_chapel"), SubResource("conn_chapel_to_garden"), SubResource("conn_garden_to_greenhouse"), SubResource("conn_greenhouse_to_garden"), SubResource("conn_garden_to_family_crypt"), SubResource("conn_family_crypt_to_garden")])
+secret_passages = Array[Resource]([SubResource("passage_storage_to_carriage")])
+regions = Array[Resource]([ExtResource("23"), ExtResource("24"), ExtResource("25"), ExtResource("26"), ExtResource("27"), ExtResource("28")])
 area_environments = {}
 macro_threads = Array[Resource]([ExtResource("10"), ExtResource("11"), ExtResource("12")])
 junctions = Array[Resource]([SubResource("junc_attic_access"), SubResource("junc_hidden_chamber"), SubResource("junc_cellar_box"), SubResource("junc_jewelry_box"), SubResource("junc_crypt_gate"), SubResource("junc_counter_ritual"), SubResource("swap_foyer"), SubResource("swap_boiler"), SubResource("swap_garden")])

@@ -82,7 +82,7 @@ elif GameManager.has_flag("elizabeth_aware")
 else
     Your reflection stares back. For a moment, you could swear it moved independently.
 
-~ grandfather_clock
+~ foyer_clock
     The hands point to 3:33. The pendulum hangs motionless. No ticking breaks the silence.
 do GameManager.set_flag("examined_foyer_clock")
 ```

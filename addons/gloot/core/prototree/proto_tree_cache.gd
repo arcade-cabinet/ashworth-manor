@@ -20,3 +20,12 @@ static func get_cached(key: JSON) -> ProtoTree:
 
 static func get_empty() -> ProtoTree:
     return _empty
+
+
+static func clear_cache() -> void:
+    for tree in _cache.values():
+        if tree is ProtoTree:
+            (tree as ProtoTree).clear()
+    _cache.clear()
+    if _empty != null:
+        _empty.clear()

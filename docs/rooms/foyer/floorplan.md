@@ -11,28 +11,27 @@ Spawn: (0, 0, -3), facing north (toward staircase)
               │     │  DOORWAY (0,5)  │     │
               │     │                 │     │
               │ MAP │                 │STAND│
-              │(-5, │   CHANDELIER    │(5,  │
-              │ 0,4)│     [L1]       │ 0,4)│
-              │     │   (0, 4.5, 0)  │     │
-              │     │                 │     │
-        WEST  │ SCN │                 │ SCN │  EAST
+              │(-5, │   CHANDELIER    │(4.8,│
+              │1.5,4)   [L1]         │ 0,3.8)
+              │     │   (0, 4.5, 0)   │ PIC │
+              │     │                 │(5,4)│
+        WEST  │ SCN │     RNR         │ SCN │  EAST
               │ [L2]│                 │ [L3]│
    → kitchen  │(-5, │                 │(5,  │  → dining_room
    DOORWAY    │3,-3)│   STAIRS        │3,-3)│  DOORWAY
    (-6,0,0)   │     │   → upper_hall  │     │  (6,0,0)
-              │     │   (2,0,-2)     │     │
-              │ RUG │                 │     │
-              │     │                 │ CLK │
-              │     │   PILLAR  PILLAR│ [i] │
-              │     │   (-3,0,-4)(3,0,│(5,  │
-              │     │          -4)   │1,-4)│
-              │DRWR │  PORTRAIT [i]  │     │
-              │(-5, │  (0, 2.5, -4.5)│PCKG │
-              │0,-4)│  WINDOW  WIN_RAY│(5,  │
-              │     │  (0,3,-5)(0,3,-5│0,-4)│
+              │     │   (2,0,-2)      │     │
+              │ RUG │   BNS BASE      │ CLK │
+              │+RNR │   (1.2,-0.9)    │ [i] │
+              │     │   PILLAR  PILLAR│(5,  │
+              │     │   (-3,-4)(3,-4) │1,-4)│
+              │DRWR │  PORTRAIT [i]   │DRWR │
+              │(-5, │  (0, 2.5, -4.5) │PCKG │
+              │0,-4)│  WINDOW WIN_RAY │(4.1,│
+              │     │  (0,3,-5)       │-3.6)│
               ├─────┼─────────────────┼─────┤
               │ MIR │  → front_gate   │ SWT │
-              │ [i] │  (0,1.5,-5)    │ [i] │
+              │ [i] │  (0,1.5,-5)     │ [i] │
               │(-5, │                 │(5.5,│
               │2,3) │                 │1,-5)│
               └─────┴─────────────────┴─────┘
@@ -49,10 +48,12 @@ LEGEND:
   CLK  = Grandfather clock
   SWT  = Light switch
   SCN  = Wall sconce
-  DRWR = Drawers (furniture)
+  DRWR = Drawers/console table
   PCKG = Package (prop)
   MAP  = Wall map (prop)
-  RUG  = Floor rug (decor)
+  PIC  = East wall picture
+  RUG/RNR = Center rug + entry/north runners
+  BNS BASE = Banister base at stair foot
 ```
 
 ## Wall Layout
@@ -67,3 +68,4 @@ Door models placed in each doorway.
 
 Stairs at (2, 0, -2), ascending toward upper hallway connection.
 Uses `stairs0.glb` with `stairbanister.glb`.
+The runners and banister base should make the stair/parlor axis read as the hall's dominant invitation, with kitchen and dining still legible but more peripheral on first glance.

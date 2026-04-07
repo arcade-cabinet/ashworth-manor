@@ -1,0 +1,68 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/grounds/chapel/Horror_Stone_02-512x512.png" id="1_q2vkp"]
+[ext_resource type="Material" path="res://resources/water/chapel_font_water_still_material.tres" id="2_lwq6o"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stone"]
+albedo_texture = ExtResource("1_q2vkp")
+texture_filter = 0
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glint"]
+albedo_color = Color(0.8235294, 0.7058824, 0.38431373, 1)
+emission_enabled = true
+emission = Color(0.89411765, 0.7764706, 0.4392157, 1)
+emission_energy_multiplier = 0.45
+metallic = 0.2
+roughness = 0.25
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_base"]
+top_radius = 0.46
+bottom_radius = 0.4
+height = 0.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_stem"]
+top_radius = 0.16
+bottom_radius = 0.12
+height = 0.55
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_basin"]
+top_radius = 0.66
+bottom_radius = 0.54
+height = 0.24
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_water"]
+size = Vector2(0.92, 0.92)
+subdivide_width = 12
+subdivide_depth = 12
+
+[sub_resource type="SphereMesh" id="SphereMesh_glint"]
+radius = 0.045
+height = 0.09
+
+[node name="BaptismalFontStill" type="Node3D"]
+
+[node name="Base" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.25, 0)
+material_override = SubResource("StandardMaterial3D_stone")
+mesh = SubResource("CylinderMesh_base")
+
+[node name="Stem" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.74, 0)
+material_override = SubResource("StandardMaterial3D_stone")
+mesh = SubResource("CylinderMesh_stem")
+
+[node name="Basin" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.14, 0)
+material_override = SubResource("StandardMaterial3D_stone")
+mesh = SubResource("CylinderMesh_basin")
+
+[node name="Water" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.22, 0)
+material_override = ExtResource("2_lwq6o")
+mesh = SubResource("PlaneMesh_water")
+
+[node name="Glint" type="MeshInstance3D" parent="."]
+position = Vector3(0.0, 1.07, -0.06)
+material_override = SubResource("StandardMaterial3D_glint")
+mesh = SubResource("SphereMesh_glint")

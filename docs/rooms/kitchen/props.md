@@ -38,3 +38,10 @@
 |------|-----|----------|-------|
 | Work table | `shared/furniture/table.glb` | (-2, 0, 0) | Scale ~1.2, heavy kitchen table |
 | Candle | `shared/items/candle2.glb` | (2, 0.9, 1) | Single candle, unlit or barely lit |
+
+The declaration now uses the actual kitchen asset set for this dressing:
+- worktable clutter: board, rolling pin, dirty plate, bowl, empty glass, fork, spoon, butter knife
+- knife area: loose knives plus knife block
+- pantry shelf read: clean plate, bowl, pickles jar, jam jar, pan, glass of water
+- service grime: bucket and soap near the floor
+- ominous utility: sickle hung on the wall where it reads as a real tool first and a threat second

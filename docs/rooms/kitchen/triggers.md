@@ -10,6 +10,7 @@ conditions:
 actions:
   - set_flag: visited_kitchen
   - show_room_name: "Kitchen"
+  - show_text: "Work stopped here without ending; the room feels less abandoned than interrupted."
 ```
 
 ## Timed Events

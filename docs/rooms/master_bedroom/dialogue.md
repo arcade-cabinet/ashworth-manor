@@ -36,7 +36,7 @@ else
 	The wood is warm — warmer than the room.
 
 
-~ bedroom_bed
+~ master_bed
 if GameManager.has_flag("has_mothers_confession")
 	He slept alone. She slept in the parlor — or didn't sleep at all.
 	

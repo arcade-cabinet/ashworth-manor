@@ -89,6 +89,12 @@ condition = ""
 title = "Stone Bench"
 text = "A stone bench beneath a dead oak tree. The seat has been worn smooth. Someone sat here often, watching the house. You can see the attic window from this spot."
 
+[sub_resource type="Resource" id="resp_beds_default"]
+script = ExtResource("3")
+condition = ""
+title = "Dead Flower Beds"
+text = "Formal flower beds line the rear walk in neat stone frames, all of them dead and black with winter rot. Someone maintained this garden carefully once. The only refusal is the white lily, blooming where it should not."
+
 ; === Interactables ===
 
 [sub_resource type="Resource" id="inter_lily"]
@@ -98,24 +104,24 @@ type = "observation"
 position = Vector3(3, 0.2, 5)
 collision_size = Vector3(1.5, 1.0, 1.5)
 responses = Array[Resource]([SubResource("resp_lily_dig"), SubResource("resp_lily_default")])
-thread_responses = {"captive": [SubResource("resp_lily_captive")], "mourning": [SubResource("resp_lily_mourning")], "sovereign": [SubResource("resp_lily_sovereign")]}
+thread_responses = {"captive": [SubResource("resp_lily_dig"), SubResource("resp_lily_captive")], "mourning": [SubResource("resp_lily_dig"), SubResource("resp_lily_mourning")], "sovereign": [SubResource("resp_lily_dig"), SubResource("resp_lily_sovereign")]}
 
 [sub_resource type="Resource" id="inter_fountain"]
 script = ExtResource("2")
 id = "garden_fountain"
 type = "observation"
-position = Vector3(-4, 0.5, 0)
+position = Vector3(0, 0.5, 0)
 collision_size = Vector3(2.0, 1.5, 2.0)
-model = "res://assets/medieval/fountain01_round.glb"
+model = "res://assets/grounds/garden/fountain01_round.glb"
 responses = Array[Resource]([SubResource("resp_fountain_thaw"), SubResource("resp_fountain_default")])
 
 [sub_resource type="Resource" id="inter_gazebo"]
 script = ExtResource("2")
 id = "garden_gazebo"
 type = "observation"
-position = Vector3(6, 1.5, -5)
+position = Vector3(-5, 1.5, -4)
 collision_size = Vector3(3.0, 3.0, 3.0)
-model = "res://assets/medieval/gazebo.glb"
+model = "res://assets/grounds/garden/gazebo.glb"
 responses = Array[Resource]([SubResource("resp_gazebo_spot"), SubResource("resp_gazebo_default")])
 
 [sub_resource type="Resource" id="inter_bench"]
@@ -125,6 +131,14 @@ type = "observation"
 position = Vector3(-6, 0.4, -4)
 collision_size = Vector3(2.0, 1.0, 1.5)
 responses = Array[Resource]([SubResource("resp_bench_default")])
+
+[sub_resource type="Resource" id="inter_beds"]
+script = ExtResource("2")
+id = "garden_beds"
+type = "observation"
+position = Vector3(-2.5, 0.2, 3.5)
+collision_size = Vector3(3.0, 1.0, 2.0)
+responses = Array[Resource]([SubResource("resp_beds_default")])
 
 ; === Lights ===
 
@@ -139,25 +153,183 @@ range = 15.0
 shadows = false
 flickering = false
 
+[sub_resource type="Resource" id="light_gazebo_candle"]
+script = ExtResource("4")
+id = "garden_gazebo_candle"
+type = "omni"
+position = Vector3(-5.0, 1.0, -4.0)
+color = Color(1.0, 0.82, 0.58, 1)
+energy = 0.35
+range = 3.0
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
 ; === Props ===
 
 [sub_resource type="Resource" id="prop_fountain_model"]
 script = ExtResource("5")
 id = "fountain_model"
-model = "res://assets/medieval/fountain01_round.glb"
-position = Vector3(-4, 0, 0)
+model = "res://assets/grounds/garden/fountain01_round.glb"
+position = Vector3(0, 0, 0)
 
-[sub_resource type="Resource" id="prop_gazebo_model"]
+[sub_resource type="Resource" id="prop_fountain_ice"]
 script = ExtResource("5")
-id = "gazebo_model"
-model = "res://assets/medieval/gazebo.glb"
-position = Vector3(6, 0, -5)
+id = "fountain_ice"
+model = "res://assets/grounds/garden/fountain01_round_water.glb"
+position = Vector3(0, 0, 0)
 
 [sub_resource type="Resource" id="prop_bench_model"]
 script = ExtResource("5")
 id = "bench_model"
-model = "res://assets/medieval/bench.glb"
+model = "res://assets/grounds/garden/bench01.glb"
 position = Vector3(-6, 0, -4)
+
+[sub_resource type="Resource" id="prop_gazebo_model"]
+script = ExtResource("5")
+id = "gazebo_model"
+model = "res://assets/grounds/garden/gazebo.glb"
+position = Vector3(-5, 0, -4)
+
+[sub_resource type="Resource" id="prop_gazebo_table"]
+script = ExtResource("5")
+id = "gazebo_table"
+model = "res://assets/grounds/garden/table.glb"
+position = Vector3(-5, 0, -4)
+
+[sub_resource type="Resource" id="prop_bench_north"]
+script = ExtResource("5")
+id = "bench_north"
+model = "res://assets/grounds/garden/bench02.glb"
+position = Vector3(2.5, 0, 6.5)
+rotation_y = 160.0
+
+[sub_resource type="Resource" id="prop_beds_west"]
+script = ExtResource("5")
+id = "beds_west"
+model = "res://assets/grounds/garden/flowerbed_2x2_empty.glb"
+position = Vector3(-3.0, 0, 3.0)
+
+[sub_resource type="Resource" id="prop_beds_east"]
+script = ExtResource("5")
+id = "beds_east"
+model = "res://assets/grounds/garden/flowerbed_1x2_empty.glb"
+position = Vector3(2.8, 0, 4.6)
+rotation_y = 90.0
+
+[sub_resource type="Resource" id="prop_path_west"]
+script = ExtResource("5")
+id = "path_west"
+model = "res://assets/grounds/garden/basic_5x1.glb"
+position = Vector3(-5, 0, 0)
+
+[sub_resource type="Resource" id="prop_path_center"]
+script = ExtResource("5")
+id = "path_center"
+model = "res://assets/grounds/garden/basic_3x1.glb"
+position = Vector3(-1, 0, 0)
+
+[sub_resource type="Resource" id="prop_path_north"]
+script = ExtResource("5")
+id = "path_north"
+model = "res://assets/grounds/garden/basic_1x3.glb"
+position = Vector3(0, 0, 4.5)
+
+[sub_resource type="Resource" id="prop_path_chapel"]
+script = ExtResource("5")
+id = "path_chapel"
+model = "res://assets/grounds/garden/basic_3x1.glb"
+position = Vector3(5.0, 0, 5.0)
+
+[sub_resource type="Resource" id="prop_path_crypt"]
+script = ExtResource("5")
+id = "path_crypt"
+model = "res://assets/grounds/garden/basic_2x1.glb"
+position = Vector3(5.0, 0, 7.0)
+
+[sub_resource type="Resource" id="prop_north_wall_w"]
+script = ExtResource("5")
+id = "north_wall_w"
+model = "res://assets/grounds/garden/stone_wall2.glb"
+position = Vector3(-5.5, 0, 8.0)
+
+[sub_resource type="Resource" id="prop_north_wall_e"]
+script = ExtResource("5")
+id = "north_wall_e"
+model = "res://assets/grounds/garden/stone_wall1.glb"
+position = Vector3(2.5, 0, 8.0)
+
+[sub_resource type="Resource" id="prop_east_wall_s"]
+script = ExtResource("5")
+id = "east_wall_s"
+model = "res://assets/grounds/garden/stone_wall3.glb"
+position = Vector3(8.0, 0, 1.0)
+
+[sub_resource type="Resource" id="prop_east_wall_n"]
+script = ExtResource("5")
+id = "east_wall_n"
+model = "res://assets/grounds/garden/stone_wall4.glb"
+position = Vector3(8.0, 0, 7.0)
+
+[sub_resource type="Resource" id="prop_corner_ne"]
+script = ExtResource("5")
+id = "corner_ne"
+model = "res://assets/grounds/garden/stone_corner.glb"
+position = Vector3(8.0, 0, 8.0)
+
+[sub_resource type="Resource" id="prop_column_l"]
+script = ExtResource("5")
+id = "fountain_column_l"
+model = "res://assets/grounds/garden/column1.glb"
+position = Vector3(-2.5, 0, -0.8)
+
+[sub_resource type="Resource" id="prop_column_r"]
+script = ExtResource("5")
+id = "fountain_column_r"
+model = "res://assets/grounds/garden/column2.glb"
+position = Vector3(2.5, 0, 0.8)
+
+[sub_resource type="Resource" id="prop_vase_l"]
+script = ExtResource("5")
+id = "vase_l"
+model = "res://assets/grounds/garden/vase_empty.glb"
+position = Vector3(-2.5, 1.1, -0.8)
+
+[sub_resource type="Resource" id="prop_vase_r"]
+script = ExtResource("5")
+id = "vase_r"
+model = "res://assets/grounds/garden/vase1.glb"
+position = Vector3(2.5, 1.1, 0.8)
+
+[sub_resource type="Resource" id="prop_crypt_pillar_l"]
+script = ExtResource("5")
+id = "crypt_pillar_l"
+model = "res://assets/grounds/family_crypt/drystone_column_capped.glb"
+position = Vector3(4.0, 0, 8.0)
+
+[sub_resource type="Resource" id="prop_crypt_pillar_r"]
+script = ExtResource("5")
+id = "crypt_pillar_r"
+model = "res://assets/grounds/family_crypt/drystone_column_capped.glb"
+position = Vector3(6.0, 0, 8.0)
+
+[sub_resource type="Resource" id="prop_crypt_gate"]
+script = ExtResource("5")
+id = "crypt_gate"
+model = "res://assets/grounds/family_crypt/metalfence_gate_only_sides.glb"
+position = Vector3(5.0, 0, 8.0)
+
+[sub_resource type="Resource" id="prop_gazebo_candle_holder"]
+script = ExtResource("5")
+id = "gazebo_candle_holder"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(-5.0, 0.78, -4.0)
+
+[sub_resource type="Resource" id="prop_gazebo_candle"]
+script = ExtResource("5")
+id = "gazebo_candle"
+model = "res://assets/shared/items/candle0.glb"
+position = Vector3(-5.0, 0.78, -4.0)
 
 ; === Entry Trigger ===
 
@@ -213,9 +385,9 @@ reverb_bus = "OpenAir"
 footstep_surface = "grass"
 spawn_position = Vector3(0, 0, 0)
 spawn_rotation_y = 0.0
-interactables = Array[Resource]([SubResource("inter_lily"), SubResource("inter_fountain"), SubResource("inter_gazebo"), SubResource("inter_bench")])
-lights = Array[Resource]([SubResource("light_moon")])
-props = Array[Resource]([SubResource("prop_fountain_model"), SubResource("prop_gazebo_model"), SubResource("prop_bench_model")])
+interactables = Array[Resource]([SubResource("inter_lily"), SubResource("inter_fountain"), SubResource("inter_gazebo"), SubResource("inter_bench"), SubResource("inter_beds")])
+lights = Array[Resource]([SubResource("light_moon"), SubResource("light_gazebo_candle")])
+props = Array[Resource]([SubResource("prop_fountain_model"), SubResource("prop_fountain_ice"), SubResource("prop_bench_model"), SubResource("prop_gazebo_model"), SubResource("prop_gazebo_table"), SubResource("prop_bench_north"), SubResource("prop_beds_west"), SubResource("prop_beds_east"), SubResource("prop_path_west"), SubResource("prop_path_center"), SubResource("prop_path_north"), SubResource("prop_path_chapel"), SubResource("prop_path_crypt"), SubResource("prop_north_wall_w"), SubResource("prop_north_wall_e"), SubResource("prop_east_wall_s"), SubResource("prop_east_wall_n"), SubResource("prop_corner_ne"), SubResource("prop_column_l"), SubResource("prop_column_r"), SubResource("prop_vase_l"), SubResource("prop_vase_r"), SubResource("prop_crypt_pillar_l"), SubResource("prop_crypt_pillar_r"), SubResource("prop_crypt_gate"), SubResource("prop_gazebo_candle_holder"), SubResource("prop_gazebo_candle")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([SubResource("ambient_wind")])

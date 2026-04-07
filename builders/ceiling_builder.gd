@@ -30,7 +30,6 @@ static func build(
 			quad.size = Vector2(TILE_SIZE, TILE_SIZE)
 			quad.orientation = PlaneMesh.FACE_Y
 			tile.mesh = quad
-			# Flip to face downward
 			tile.rotation_degrees.x = 180.0
 			tile.position = Vector3(
 				ix * TILE_SIZE - offset_x,
@@ -62,7 +61,15 @@ static func _create_material(texture_path: String) -> StandardMaterial3D:
 	if texture_path.is_empty():
 		return null
 	var mat := StandardMaterial3D.new()
-	if ResourceLoader.exists(texture_path):
-		mat.albedo_texture = load(texture_path)
+	var resolved_path := _resolve_texture_path(texture_path)
+	if ResourceLoader.exists(resolved_path):
+		mat.albedo_texture = load(resolved_path)
 	mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 	return mat
+
+
+static func _resolve_texture_path(texture_path: String) -> String:
+	if texture_path.begins_with("res://"):
+		return texture_path
+	return "res://assets/shared/textures/%s.png" % texture_path
+

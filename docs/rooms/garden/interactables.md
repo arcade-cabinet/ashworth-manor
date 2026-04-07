@@ -29,7 +29,7 @@ model: fountain01_round.glb
 ```yaml
 id: garden_gazebo
 type: observation
-position: (-5, 1, -3)
+position: (-5, 1.5, -4)
 model: gazebo.glb
 ```
 ### Text
@@ -41,7 +41,7 @@ model: gazebo.glb
 ```yaml
 id: garden_beds
 type: observation
-position: (-3, 0.1, 3)
+position: (-2.5, 0.2, 3.5)
 model: flowerbed_2x2_empty.glb
 ```
 ### Text
@@ -52,6 +52,7 @@ model: flowerbed_2x2_empty.glb
 ## Connections
 | Target | Type | Position |
 |--------|------|----------|
-| `front_gate` | path | (-8, 1.5, 0) |
+| `kitchen` | path | (-8, 1.5, 0) |
 | `chapel` | path | (8, 1.5, 5) |
 | `greenhouse` | path | (0, 1.5, 8) |
+| `family_crypt` | gate | (5, 1.5, 8) |

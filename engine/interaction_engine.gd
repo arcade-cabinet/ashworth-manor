@@ -36,12 +36,14 @@ func interact(decl: InteractableDecl) -> ResponseDecl:
 
 	# 2. Check if locked
 	if decl.locked:
-		return _handle_locked(decl)
+		var locked_response := _handle_locked(decl)
+		if decl.locked or locked_response != null:
+			return locked_response
 
 	# 3. Check thread-specific response overrides
 	if not _current_thread.is_empty() and _current_thread in decl.thread_responses:
 		var thread_responses: Array = decl.thread_responses[_current_thread]
-		var response := _evaluate_responses(thread_responses)
+		var response := _evaluate_thread_augmented_responses(decl.responses, thread_responses)
 		if response:
 			_execute_response(decl, response)
 			return response
@@ -77,7 +79,7 @@ func _handle_locked(decl: InteractableDecl) -> ResponseDecl:
 	# Check by exact item_id
 	if decl.key_id in _inventory:
 		decl.locked = false
-		return _make_text_response("You unlock it with the %s." % decl.key_id)
+		return null
 
 	# Check by functional_slot match
 	for item_id in _inventory:
@@ -150,6 +152,24 @@ func _evaluate_responses(responses) -> ResponseDecl:
 	return null
 
 
+func _evaluate_thread_augmented_responses(base_responses, thread_responses) -> ResponseDecl:
+	var conditioned_base: Array = []
+	var unconditional_base: Array = []
+	for response in base_responses:
+		if response is not ResponseDecl:
+			continue
+		if response.condition.is_empty():
+			unconditional_base.append(response)
+		else:
+			conditioned_base.append(response)
+
+	var ordered: Array = []
+	ordered.append_array(conditioned_base)
+	ordered.append_array(thread_responses)
+	ordered.append_array(unconditional_base)
+	return _evaluate_responses(ordered)
+
+
 func _execute_response(decl: InteractableDecl, response: ResponseDecl) -> void:
 	# Apply state mutations
 	for key in response.set_state:
@@ -157,16 +177,26 @@ func _execute_response(decl: InteractableDecl, response: ResponseDecl) -> void:
 		state_changed.emit(key, response.set_state[key])
 
 	# Give items
-	if not decl.gives_item.is_empty():
-		if decl.gives_item_condition.is_empty() or _state_machine.evaluate(decl.gives_item_condition):
-			_inventory.append(decl.gives_item)
-			item_given.emit(decl.gives_item)
+	var primary_item: String = response.gives_item if not response.gives_item.is_empty() else decl.gives_item
+	var primary_condition: String = response.gives_item_condition if not response.gives_item_condition.is_empty() else decl.gives_item_condition
+	var bonus_item: String = response.also_gives if not response.also_gives.is_empty() else decl.also_gives
 
-	if not decl.also_gives.is_empty():
-		_inventory.append(decl.also_gives)
-		item_given.emit(decl.also_gives)
+	if not primary_item.is_empty():
+		if primary_condition.is_empty() or _state_machine.evaluate(primary_condition):
+			_grant_item(primary_item)
+
+	if not bonus_item.is_empty():
+		_grant_item(bonus_item)
 
 	interaction_completed.emit(decl.id, response)
+
+
+func _grant_item(item_id: String) -> void:
+	if item_id.is_empty():
+		return
+	if item_id not in _inventory:
+		_inventory.append(item_id)
+	item_given.emit(item_id)
 
 
 func _make_text_response(text: String) -> ResponseDecl:

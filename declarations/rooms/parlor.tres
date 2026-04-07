@@ -10,6 +10,24 @@
 [ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
 [ext_resource type="Script" path="res://engine/declarations/conditional_event_decl.gd" id="9"]
 [ext_resource type="Script" path="res://engine/declarations/flashback_decl.gd" id="10"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="11"]
+
+[sub_resource type="Resource" id="anchor_entry_foyer"]
+script = ExtResource("11")
+anchor_id = "entry_foyer"
+anchor_type = "entry"
+position = Vector3(0.0, 0.0, -4.1)
+rotation_y = 0.0
+target_anchor_id = "focus_fireplace"
+tags = PackedStringArray("critical_path", "ground_floor")
+
+[sub_resource type="Resource" id="anchor_focus_fireplace"]
+script = ExtResource("11")
+anchor_id = "focus_fireplace"
+anchor_type = "focal"
+position = Vector3(0.0, 1.0, 4.2)
+rotation_y = 180.0
+tags = PackedStringArray("critical_path", "clue_tableau")
 
 ; === Lady Portrait Responses (shared/default) ===
 
@@ -153,12 +171,14 @@ script = ExtResource("3")
 condition = "read_guest_ledger"
 title = "Tea Service"
 text = "Two cups -- Lady Ashworth and Helena Pierce? The guest who arrived November 3rd and never left. Did they sit here, making small talk, while Elizabeth cried above them?"
+set_state = {"examined_parlor_tea": true}
 
 [sub_resource type="Resource" id="resp_tea_default"]
 script = ExtResource("3")
 condition = ""
 title = "Tea Service"
 text = "Two cups. One used, one untouched. The teapot is empty. Dried leaves cling to the inside -- someone made tea for two and only one person drank."
+set_state = {"examined_parlor_tea": true}
 
 ; === Interactables ===
 
@@ -204,8 +224,13 @@ responses = Array[Resource]([SubResource("resp_fire_aware"), SubResource("resp_f
 script = ExtResource("2")
 id = "parlor_tea"
 type = "observation"
-position = Vector3(0, 0.8, -1)
-collision_size = Vector3(1.0, 0.5, 1.0)
+position = Vector3(0, 0.0, -1)
+collision_size = Vector3(1.2, 0.9, 1.1)
+scene_path = "res://scenes/shared/parlor/parlor_tea_service_set.tscn"
+default_visual_state = "set"
+state_model_map = {"disturbed": "res://scenes/shared/parlor/parlor_tea_service_disturbed.tscn"}
+visual_state_order = PackedStringArray("disturbed")
+visual_state_conditions = {"disturbed": "examined_parlor_tea"}
 responses = Array[Resource]([SubResource("resp_tea_ledger"), SubResource("resp_tea_default")])
 
 ; === Lights ===
@@ -245,6 +270,91 @@ range = 4.0
 shadows = false
 flickering = true
 flicker_pattern = "candle"
+
+; === Props ===
+
+[sub_resource type="Resource" id="prop_fireplace"]
+script = ExtResource("5")
+id = "fireplace"
+model = "res://assets/shared/decor/fireplace.glb"
+position = Vector3(0, 0, 4.2)
+scale = 0.35
+
+[sub_resource type="Resource" id="prop_settee_left"]
+script = ExtResource("5")
+id = "settee_left"
+model = "res://assets/shared/furniture/sofa.glb"
+position = Vector3(-2.2, 0, -1.8)
+rotation_y = 16.0
+scale = 1.05
+
+[sub_resource type="Resource" id="prop_settee_right"]
+script = ExtResource("5")
+id = "settee_right"
+model = "res://assets/shared/furniture/sofa.glb"
+position = Vector3(2.1, 0, -1.8)
+rotation_y = -18.0
+scale = 1.05
+
+[sub_resource type="Resource" id="prop_rug"]
+script = ExtResource("5")
+id = "parlor_rug"
+model = "res://assets/shared/decor/rug1.glb"
+position = Vector3(0, 0.01, -1.0)
+scale = 1.15
+
+[sub_resource type="Resource" id="prop_portrait_frame"]
+script = ExtResource("5")
+id = "lady_portrait_frame"
+model = "res://assets/shared/decor/picture_blank_001.glb"
+position = Vector3(-4.45, 2.0, 0)
+rotation_y = 90.0
+
+[sub_resource type="Resource" id="prop_side_table_left"]
+script = ExtResource("5")
+id = "side_table_left"
+model = "res://assets/shared/furniture/table.glb"
+position = Vector3(-2.0, 0, -3.0)
+scale = 0.32
+
+[sub_resource type="Resource" id="prop_side_table_right"]
+script = ExtResource("5")
+id = "side_table_right"
+model = "res://assets/shared/furniture/table.glb"
+position = Vector3(2.0, 0, -3.0)
+scale = 0.32
+
+[sub_resource type="Resource" id="prop_writing_desk"]
+script = ExtResource("5")
+id = "writing_desk"
+model = "res://assets/shared/furniture/study_desk.glb"
+position = Vector3(-3.8, 0, -3.4)
+rotation_y = 22.0
+scale = 0.9
+
+[sub_resource type="Resource" id="prop_candle_holder_l"]
+script = ExtResource("5")
+id = "candle_holder_left"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(-3.0, 0.82, 0.0)
+
+[sub_resource type="Resource" id="prop_candle_holder_r"]
+script = ExtResource("5")
+id = "candle_holder_right"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(3.0, 0.82, 0.0)
+
+[sub_resource type="Resource" id="prop_stool"]
+script = ExtResource("5")
+id = "stool"
+model = "res://assets/ground_floor/parlor/stool_mx_1.glb"
+position = Vector3(3.2, 0, 3.0)
+
+[sub_resource type="Resource" id="prop_dead_lamp"]
+script = ExtResource("5")
+id = "dead_lamp"
+model = "res://assets/ground_floor/parlor/lamp_mx_4_off.glb"
+position = Vector3(4.0, 0.82, -3.0)
 
 ; === Entry Trigger ===
 
@@ -295,6 +405,11 @@ play_sfx = "res://assets/audio/sfx/music_box/music_box_melody.ogg"
 script = ExtResource("7")
 light_change = {"parlor_fireplace_light": {"energy": 0.5, "duration": 3.0}}
 
+[sub_resource type="Resource" id="act_music_auto_restore"]
+script = ExtResource("7")
+delay_seconds = 5.0
+light_change = {"parlor_fireplace_light": {"energy": 1.5, "duration": 3.0}}
+
 [sub_resource type="Resource" id="act_music_auto_shake"]
 script = ExtResource("7")
 camera_shake = 0.05
@@ -304,7 +419,7 @@ script = ExtResource("9")
 event_id = "music_box_auto_play"
 condition = "elizabeth_aware AND visited_attic_storage AND NOT music_box_auto_triggered"
 once = true
-actions = Array[Resource]([SubResource("act_music_auto_flag"), SubResource("act_music_auto_sfx"), SubResource("act_music_auto_dim"), SubResource("act_music_auto_shake")])
+actions = Array[Resource]([SubResource("act_music_auto_flag"), SubResource("act_music_auto_sfx"), SubResource("act_music_auto_dim"), SubResource("act_music_auto_restore"), SubResource("act_music_auto_shake")])
 
 ; === Flashback ===
 
@@ -344,9 +459,11 @@ reverb_bus = "Room"
 footstep_surface = "wood_parquet"
 spawn_position = Vector3(0, 0, -4)
 spawn_rotation_y = 0.0
+entry_anchors = Array[Resource]([SubResource("anchor_entry_foyer")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_fireplace")])
 interactables = Array[Resource]([SubResource("inter_portrait"), SubResource("inter_diary"), SubResource("inter_music_box"), SubResource("inter_fireplace"), SubResource("inter_tea")])
 lights = Array[Resource]([SubResource("light_fireplace"), SubResource("light_candle_l"), SubResource("light_candle_r")])
-props = Array[Resource]([])
+props = Array[Resource]([SubResource("prop_fireplace"), SubResource("prop_settee_left"), SubResource("prop_settee_right"), SubResource("prop_rug"), SubResource("prop_portrait_frame"), SubResource("prop_side_table_left"), SubResource("prop_side_table_right"), SubResource("prop_writing_desk"), SubResource("prop_candle_holder_l"), SubResource("prop_candle_holder_r"), SubResource("prop_stool"), SubResource("prop_dead_lamp")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([SubResource("ambient_fire")])

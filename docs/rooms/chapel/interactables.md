@@ -3,10 +3,8 @@
 ## 1. Baptismal Font — PUZZLE ITEM
 ```yaml
 id: baptismal_font
-type: box
-position: (0, 0.8, 3)
-locked: false
-item_found: blessed_water
+type: observation
+position: (0, 0.8, -4)
 ```
 
 ### Text
@@ -21,7 +19,7 @@ item_found: blessed_water
 ```yaml
 id: chapel_altar
 type: observation
-position: (0, 0.5, -3)
+position: (0, 1, 5)
 ```
 ### Text
 > "Bare. Stripped of every religious ornament. Crosses, candlesticks, cloth — removed. Not by time. Deliberately. Someone didn't want God watching what they did here."
@@ -32,7 +30,7 @@ position: (0, 0.5, -3)
 ```yaml
 id: chapel_pews
 type: observation
-position: (-2, 0.3, 0)
+position: (-2, 0.8, 0.5)
 ```
 ### Text
 > "Overturned. Not by decay — by force. Thrown aside. A congregation of one, destroying the chapel in rage or grief."
@@ -41,9 +39,9 @@ position: (-2, 0.3, 0)
 
 ## 4. Stained Glass
 ```yaml
-id: chapel_glass
+id: chapel_stained_glass_interactable
 type: observation
-position: (3, 2, -2)
+position: (0, 3.5, 5.5)
 ```
 ### Text
 > "Fragments of a saint's face. Deliberately smashed. From inside — the glass lies outside the frame. Someone punched through the face of a saint."
@@ -54,7 +52,7 @@ position: (3, 2, -2)
 ```yaml
 id: chapel_bones
 type: observation
-position: (-3, 0.1, 3)
+position: (-3, 0.2, -3.5)
 model: loose_bones.glb
 ```
 ### Text

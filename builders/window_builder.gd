@@ -2,11 +2,13 @@ class_name WindowBuilder
 extends RefCounted
 ## Generates window inserts: frame + pane + optional boards/shutters.
 
+const ArchModelFitter = preload("res://builders/arch_model_fitter.gd")
+const WINDOW_GLASS_MATERIAL := preload("res://resources/glass/estate_window_glass_material.tres")
+
 const FRAME_WIDTH := 0.08
 const WINDOW_WIDTH := 1.2
 const WINDOW_HEIGHT := 1.0
 const WINDOW_Y := 1.0  # Bottom of window from floor
-
 ## Build a window insert from segment type.
 ## segment_type: "window", "window_boarded", "window_shuttered"
 static func build(segment_type: String, texture_path: String) -> Node3D:
@@ -37,6 +39,15 @@ static func build(segment_type: String, texture_path: String) -> Node3D:
 
 
 static func _build_frame(texture_path: String) -> Node3D:
+	var model_path := _resolve_window_model(texture_path)
+	if not model_path.is_empty() and ResourceLoader.exists(model_path):
+		var scene: PackedScene = load(model_path)
+		if scene != null:
+			var inst := scene.instantiate()
+			var fitted := ArchModelFitter.fit(inst, Vector3(WINDOW_WIDTH, WINDOW_HEIGHT, FRAME_WIDTH))
+			fitted.name = "WindowFrame"
+			return fitted
+
 	var frame := Node3D.new()
 	frame.name = "WindowFrame"
 
@@ -93,12 +104,7 @@ static func _build_pane() -> MeshInstance3D:
 	quad.size = Vector2(WINDOW_WIDTH - FRAME_WIDTH * 2, WINDOW_HEIGHT - FRAME_WIDTH * 2)
 	pane.mesh = quad
 	pane.position = Vector3(0, WINDOW_HEIGHT * 0.5, 0.01)
-
-	var mat := StandardMaterial3D.new()
-	mat.albedo_color = Color(0.6, 0.65, 0.7, 0.3)
-	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	mat.cull_mode = BaseMaterial3D.CULL_DISABLED
-	pane.set_surface_override_material(0, mat)
+	pane.set_surface_override_material(0, WINDOW_GLASS_MATERIAL)
 
 	return pane
 
@@ -163,3 +169,9 @@ static func _make_beam(size: Vector3) -> MeshInstance3D:
 	box.size = size
 	mesh_inst.mesh = box
 	return mesh_inst
+
+
+static func _resolve_window_model(texture_path: String) -> String:
+	if texture_path.begins_with("wall"):
+		return "res://assets/shared/structure/window_clean.glb"
+	return ""

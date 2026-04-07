@@ -35,7 +35,7 @@ else
 do GameManager.set_flag("examined_foyer_mirror")
 
 
-~ grandfather_clock
+~ foyer_clock
 if GameManager.has_flag("examined_boiler_clock")
 	3:33. Every clock in this house shows the same time.
 	

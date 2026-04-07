@@ -6,6 +6,7 @@ extends Resource
 @export var id: String = ""
 @export var type: String = "omni"            # omni, directional, spot
 @export var position: Vector3 = Vector3.ZERO
+@export var rotation_degrees: Vector3 = Vector3.ZERO
 @export var color: Color = Color(1, 0.9, 0.7)
 @export var energy: float = 1.0
 @export var range: float = 8.0

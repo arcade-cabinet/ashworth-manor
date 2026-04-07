@@ -10,3 +10,4 @@
 | Bottle | `attic/hidden_chamber/glass_bottle_mx_3.glb` | Ink for drawings? |
 | Candles | `shared/items/candle0.glb` x2 | The two impossible candles |
 | Pages | `shared/items/page*.glb` | Elizabeth's drawings on floor |
+| Mirror frame | `shared/decor/picture_blank_004.glb` | Stand-in frame for the hidden mirror beat |

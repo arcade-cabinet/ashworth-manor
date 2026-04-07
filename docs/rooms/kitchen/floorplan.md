@@ -8,24 +8,25 @@ Spawn: (-3, 0, 0), facing west
                         NORTH (Z = +5)
               ┌─────────────────────────────┐
               │                             │
-              │   HEARTH [L1]               │
-              │   (0, 0, 4)                 │
+              │   NOTE [i]     PAN / SHELF  │
+              │ (-3.5,1.5,4)   (3,2.5)      │
               │                             │
-              │   NOTE [i]     PAN          │
-              │   (3,1,2)      (on shelf)   │
+              │                             │
+              │   TABLE                     │
+              │   cluttered prep surface    │
               │                             │
         WEST  │   TABLE                     │  EAST
-              │   CUTTING BOARD [i]    JARS │  → foyer
+              │   prep / knives        JARS │  → foyer
               │   (-2, 0.9, 0)              │  DOORWAY
               │                             │  (4,0,0)
-              │   KNIVES [i]     BOWLS      │
-              │   (-3,0.9,-2)    (shelf)    │
+              │   KNIVES           BOWLS    │
+              │   (-3,0.9,-2)      (shelf)  │
               │                             │
-              │   BUCKET [i]     SOAP       │
-              │   (3,0.2,-3)               │
+              │   BUCKET / SOAP    SICKLE   │
+              │   (3,0,-3)         (3,1.7,-2.2)
               │                             │
-              │     STAIRS → storage_basement│
-              │     (0, 0.5, -4)            │
+              │   HEARTH [L1]               │
+              │   (0, 0, -4.5)              │
               │                             │
               └─────────────────────────────┘
                         SOUTH (Z = -5)
@@ -35,3 +36,5 @@ LEGEND:
   [L1] = Hearth light (dying embers)
   →    = Connection
 ```
+
+The hearth sits on the south wall in the declaration. The room should read from north working surfaces toward south heat/descent logic, with the basement route feeling like it belongs to the service side of the estate rather than the formal front.

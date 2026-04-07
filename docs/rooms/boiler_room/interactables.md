@@ -1,6 +1,6 @@
 # Boiler Room — Interactables
 
-## 1. Maintenance Log (EXISTS)
+## 1. Maintenance Log
 ```yaml
 id: maintenance_log
 type: note
@@ -15,11 +15,11 @@ position: (2, 1, -2)
 
 ---
 
-## 2. Industrial Clock (NEW)
+## 2. Industrial Clock
 ```yaml
 id: boiler_clock
 type: clock
-position: (-2, 2, 3)
+position: (0, 3, 3.5)
 ```
 
 ### Text
@@ -30,11 +30,11 @@ position: (-2, 2, 3)
 
 ---
 
-## 3. Boiler (NEW)
+## 3. Boiler
 ```yaml
 id: boiler_observation
 type: observation
-position: (0, 1, 3)
+position: (0, 1.5, 3.5)
 ```
 
 ### Text — All Variants
@@ -49,28 +49,37 @@ position: (0, 1, 3)
 
 ---
 
-## 4. Pipes (NEW)
+## 4. Pipe Valves
 ```yaml
-id: boiler_pipes
-type: observation
-position: (0, 2.5, 0)
+id: boiler_pipe_valves
+type: switch
+position: (2.5, 1.2, 3.5)
 ```
 
-### Text — All Variants
-
-**Default:**
-> "Pipes snake across the ceiling and into the walls. They carry heat — or carried it, once. They run to every room. The entire house is connected through these veins."
-
-**After `elizabeth_aware`:**
-> "The pipes groan. For a moment, you hear words in the groaning. Not your name. Hers."
+### Function
+- Progressive three-step valve interaction
+- Delivers the A-path clue through the pipe chord / Elizabeth voice sequence
 
 ---
 
-## 5. Mask on Wall (NEW)
+## 5. Electrical Panel
+```yaml
+id: boiler_electrical_panel
+type: switch
+position: (-2.5, 1.2, 3.5)
+```
+
+### Function
+- Alternate B-path interaction
+- Restores power and reveals clue-bearing details elsewhere
+
+---
+
+## 6. Mask on Wall
 ```yaml
 id: boiler_mask
 type: observation
-position: (-2.5, 1.8, 0)
+position: (-2.4, 1.8, 0.2)
 model: mask_mx_2.glb
 ```
 
@@ -83,8 +92,9 @@ model: mask_mx_2.glb
 ## Summary
 | ID | Status |
 |----|--------|
-| `maintenance_log` | EXISTS |
-| `boiler_clock` | NEW |
-| `boiler_observation` | NEW |
-| `boiler_pipes` | NEW |
-| `boiler_mask` | NEW — model exists |
+| `maintenance_log` | Implemented |
+| `boiler_clock` | Active |
+| `boiler_observation` | Active |
+| `boiler_pipe_valves` | Active |
+| `boiler_electrical_panel` | Active |
+| `boiler_mask` | Active |

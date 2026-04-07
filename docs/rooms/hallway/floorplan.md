@@ -19,10 +19,12 @@ Spawn: (0, 0, -6), facing north (up the hallway toward attic door)
               │                       │
               │   CHILDREN'S          │
               │   PAINTING [i]        │
-              │   (1.5, 1.6, 3)       │
+              │   (1.5, 2.0, 4)       │
               │                       │
               │   MASK [i]            │
               │   (-1.5, 1.8, 1)      │
+              │   WINDOW / RAY        │
+              │   (1.8, 1.5, 1)       │
               │                       │
               ├───┬───────────┬───────┤
     → master  │ D │           │ D │ (unused)
@@ -33,10 +35,10 @@ Spawn: (0, 0, -6), facing north (up the hallway toward attic door)
               │   (0, 0.01, 0)        │
               │                       │
               │   STAND / LAMP        │
-              │   (1.5, 0, -4)        │
+              │   (1.45, 0, -4.5)     │
               │                       │
               │   POSTER [i]          │
-              │   (-1.5, 1.6, -5)     │
+              │   (-1.5, 1.5, 6)      │
               │                       │
               │   SWITCH [i]          │
               │   (1.8, 1.3, -6)      │
@@ -56,6 +58,7 @@ LEGEND:
   →    = Connection
 ```
 
-## Current Scene Issues
-- Only 1 connection (to foyer). Missing: master_bedroom, library, guest_room, attic_stairs
-- ZERO interactables. Needs: attic door, children's painting, mask, poster, switch
+## Current Scene Focus
+- The attic door should dominate the north end composition.
+- Warm sconce pools should alternate with a colder moonlit gap.
+- South end should feel lived-in; north end should feel increasingly abandoned.

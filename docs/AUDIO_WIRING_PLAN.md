@@ -46,7 +46,7 @@ Base layer crossfades on room transition. Each room has `audio_loop` export:
 | wine_cellar | Empty Hope Loop1 | Deep silence |
 | attic_stairs | Silent Voices Loop1 | Wind gaps |
 | attic_storage | Lonely Nightmare Loop1 | Scratching |
-| hidden_room | I Can't Go On Loop1 | Presence |
+| hidden_chamber | I Can't Go On Loop1 | Presence |
 | garden | Subtle Changes Loop3_D | Dead winter |
 | chapel | Silent Voices Loop2 | Desecrated |
 | greenhouse | Subtle Changes Loop2 | Glass frost |
