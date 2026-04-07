@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://shaders/materials/estate_surface_forward_plus.gdshader" id="1_2ovcd"]
+[ext_resource type="Texture2D" path="res://assets/grounds/front_gate/bench_mx_1_planks_hr_2.png" id="2_uxbr1"]
+
+[resource]
+shader = ExtResource("1_2ovcd")
+shader_parameter/base_color = Color(0.42, 0.27, 0.16, 1)
+shader_parameter/texture_mix = 1.0
+shader_parameter/uv_scale = 1.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.56
+shader_parameter/base_specular = 0.42
+shader_parameter/clearcoat = 0.14
+shader_parameter/clearcoat_roughness = 0.18
+shader_parameter/rim_strength = 0.02
+shader_parameter/albedo_tex = ExtResource("2_uxbr1")

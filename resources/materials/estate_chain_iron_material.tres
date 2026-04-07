@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://shaders/materials/estate_surface_forward_plus.gdshader" id="1_i6g0x"]
+
+[resource]
+shader = ExtResource("1_i6g0x")
+shader_parameter/base_color = Color(0.23, 0.23, 0.26, 1)
+shader_parameter/texture_mix = 0.0
+shader_parameter/metallic = 0.86
+shader_parameter/roughness = 0.38
+shader_parameter/base_specular = 0.68
+shader_parameter/clearcoat = 0.0
+shader_parameter/clearcoat_roughness = 0.2
+shader_parameter/rim_strength = 0.04
+shader_parameter/emission_strength = 0.0

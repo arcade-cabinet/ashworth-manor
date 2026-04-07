@@ -302,8 +302,8 @@ func _try_inspect_camera(object_id: String) -> void:
 		if cam_ctrl and cam_ctrl.has_method("set_inspection_camera"):
 			cam_ctrl.set_inspection_camera(pcam)
 
-func _release_inspect_cam() -> void:
-	if _player != null and _player.has_method("release_interaction_focus"):
+func _release_inspect_cam(release_player_focus: bool = true) -> void:
+	if release_player_focus and _player != null and _player.has_method("release_interaction_focus"):
 		_player.release_interaction_focus()
 	if _active_inspect_cam:
 		var cam_ctrl: Node = null
@@ -332,7 +332,7 @@ func _find_child_of(node: Node, child_name: String) -> Node:
 func _on_door_tapped(target_room: String, connection_id: String = "") -> void:
 	if target_room.is_empty():
 		return
-	_release_inspect_cam()
+	_release_inspect_cam(false)
 	var conn_type: String = "door"
 	var matched_area: Area3D = null
 	if _room_manager and _room_manager.has_method("get_current_room"):

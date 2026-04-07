@@ -46,6 +46,7 @@ var _is_traversal_locked: bool = false
 var _body_tween: Tween = null
 var _interaction_focus_tween: Tween = null
 var _pending_arrival_action: Dictionary = {}
+var _walk_focus_world_position: Vector3 = Vector3.INF
 
 
 func _ready() -> void:
@@ -130,6 +131,7 @@ func _physics_process(delta: float) -> void:
 				_walk_marker.visible = false
 			_complete_arrival_action()
 		else:
+			_update_walk_focus(delta)
 			var dir: Vector3 = to_target.normalized()
 			velocity.x = dir.x * MOVE_SPEED
 			velocity.z = dir.z * MOVE_SPEED
@@ -194,8 +196,15 @@ func _handle_tap(screen_pos: Vector2) -> void:
 		release_interaction_focus()
 		var a: Area3D = hit["collider"] as Area3D
 		if a.has_meta("target_room"):
-			var connection_id: String = a.get_meta("connection_id") if a.has_meta("connection_id") else ""
-			door_tapped.emit(a.get_meta("target_room"), connection_id)
+			var threshold_data := {
+				"target_room": String(a.get_meta("target_room")),
+				"connection_id": String(a.get_meta("connection_id")) if a.has_meta("connection_id") else "",
+				"interaction_world_position": hit.get("position", a.global_position),
+				"interaction_normal": hit.get("normal", Vector3.ZERO),
+			}
+			if _queue_threshold_approach_if_needed(a, threshold_data):
+				return
+			_emit_threshold_action(a, threshold_data)
 			return
 
 	hit = _raycast(space, from, to, 1 << (LAYER_WALKABLE - 1), false)
@@ -239,6 +248,7 @@ func set_room_position(pos: Vector3) -> void:
 	global_position = pos
 	_target_position = Vector3.INF
 	_is_walking = false
+	_walk_focus_world_position = Vector3.INF
 	velocity = Vector3.ZERO
 	if _walk_marker:
 		_walk_marker.visible = false
@@ -252,6 +262,7 @@ func set_room_rotation_y(rotation_y_deg: float) -> void:
 	rotation_degrees.y = rotation_y_deg
 	_yaw = rotation.y
 	_pitch = 0.0
+	_walk_focus_world_position = Vector3.INF
 	if _camera:
 		_camera.rotation = Vector3.ZERO
 		_camera.global_rotation = Vector3(_pitch, _yaw, 0.0)
@@ -512,6 +523,39 @@ func begin_surface_investigation(surface_world_position: Vector3, surface_normal
 	})
 
 
+func begin_threshold_probe(target_room: String, connection_id: String, threshold_world_position: Vector3,
+		surface_normal: Vector3 = Vector3.ZERO, concealed_probe: bool = false) -> void:
+	if _camera == null or _is_traversal_locked or target_room.is_empty():
+		return
+	var focus_hint: Dictionary = {}
+	if concealed_probe:
+		focus_hint = {
+			"interaction_world_position": threshold_world_position,
+			"interaction_focus_position": _resolve_surface_focus_position(threshold_world_position, surface_normal),
+			"interaction_normal": surface_normal,
+			"focus_kind": "surface",
+		}
+	if _camera.global_position.distance_to(threshold_world_position) <= INTERACTION_APPROACH_DISTANCE:
+		var immediate_action := {
+			"target_room": target_room,
+			"connection_id": connection_id,
+		}
+		if not focus_hint.is_empty():
+			immediate_action["focus_hint"] = focus_hint
+		_emit_threshold_action_from_data(immediate_action)
+		return
+	var walk_target := _resolve_approach_target(threshold_world_position, surface_normal, INTERACTION_APPROACH_STANDOFF)
+	var arrival_action := {
+		"kind": "threshold",
+		"target_room": target_room,
+		"connection_id": connection_id,
+		"focus_world_position": threshold_world_position,
+	}
+	if not focus_hint.is_empty():
+		arrival_action["focus_hint"] = focus_hint
+	_queue_walk_target(walk_target, arrival_action)
+
+
 func _queue_interaction_approach_if_needed(area: Area3D, interaction_data: Dictionary) -> bool:
 	if _camera == null or area == null:
 		return false
@@ -527,7 +571,31 @@ func _queue_interaction_approach_if_needed(area: Area3D, interaction_data: Dicti
 		"object_id": area.get_meta("id") if area.has_meta("id") else "",
 		"object_type": area.get_meta("type") if area.has_meta("type") else "",
 		"object_data": interaction_data.duplicate(true),
+		"focus_world_position": target_world,
 	})
+	return true
+
+
+func _queue_threshold_approach_if_needed(area: Area3D, threshold_data: Dictionary) -> bool:
+	if _camera == null or area == null:
+		return false
+	var target_world: Variant = threshold_data.get("interaction_world_position", null)
+	if target_world is not Vector3:
+		return false
+	var should_probe := _threshold_requires_probe(area)
+	if _camera.global_position.distance_to(target_world) <= INTERACTION_APPROACH_DISTANCE:
+		return false
+	var interaction_normal: Vector3 = threshold_data.get("interaction_normal", Vector3.ZERO)
+	var walk_target := _resolve_approach_target(target_world, interaction_normal, INTERACTION_APPROACH_STANDOFF)
+	var arrival_action := {
+		"kind": "threshold",
+		"target_room": String(threshold_data.get("target_room", "")),
+		"connection_id": String(threshold_data.get("connection_id", "")),
+		"focus_world_position": target_world,
+	}
+	if should_probe:
+		arrival_action["focus_hint"] = _build_threshold_focus_hint(area, threshold_data)
+	_queue_walk_target(walk_target, arrival_action)
 	return true
 
 
@@ -536,6 +604,7 @@ func _queue_walk_target(target_world_position: Vector3, arrival_action: Dictiona
 	_target_position.y = global_position.y
 	_is_walking = true
 	_pending_arrival_action = arrival_action.duplicate(true)
+	_walk_focus_world_position = _resolve_walk_focus_world_position(arrival_action, target_world_position)
 	if _walk_marker:
 		_walk_marker.global_position = Vector3(target_world_position.x, target_world_position.y + 0.05, target_world_position.z)
 		_walk_marker.visible = true
@@ -546,6 +615,7 @@ func _complete_arrival_action() -> void:
 		return
 	var action := _pending_arrival_action.duplicate(true)
 	_pending_arrival_action.clear()
+	_walk_focus_world_position = Vector3.INF
 	match String(action.get("kind", "")):
 		"interaction":
 			interacted.emit(
@@ -553,6 +623,8 @@ func _complete_arrival_action() -> void:
 				String(action.get("object_type", "")),
 				action.get("object_data", {})
 			)
+		"threshold":
+			_emit_threshold_action_from_data(action)
 		"surface":
 			var focus_hint: Dictionary = action.get("focus_hint", {})
 			if not focus_hint.is_empty():
@@ -562,6 +634,51 @@ func _complete_arrival_action() -> void:
 
 func _clear_pending_arrival_action() -> void:
 	_pending_arrival_action.clear()
+	_walk_focus_world_position = Vector3.INF
+
+
+func _emit_threshold_action(area: Area3D, threshold_data: Dictionary) -> void:
+	var action := {
+		"target_room": String(threshold_data.get("target_room", "")),
+		"connection_id": String(threshold_data.get("connection_id", "")),
+	}
+	if _threshold_requires_probe(area):
+		action["focus_hint"] = _build_threshold_focus_hint(area, threshold_data)
+	_emit_threshold_action_from_data(action)
+
+
+func _emit_threshold_action_from_data(action: Dictionary) -> void:
+	var focus_hint: Dictionary = action.get("focus_hint", {})
+	if not focus_hint.is_empty():
+		begin_interaction_focus(focus_hint)
+		surface_investigated.emit(focus_hint)
+	door_tapped.emit(
+		String(action.get("target_room", "")),
+		String(action.get("connection_id", ""))
+	)
+
+
+func _threshold_requires_probe(area: Area3D) -> bool:
+	if area == null:
+		return false
+	if area.has_meta("secret_passage_revealed") and not bool(area.get_meta("secret_passage_revealed")):
+		return true
+	var conn_type := String(area.get_meta("conn_type")) if area.has_meta("conn_type") else ""
+	if conn_type == "hidden_door":
+		return true
+	var reveal_state := String(area.get_meta("reveal_state")) if area.has_meta("reveal_state") else ""
+	return reveal_state == "concealed"
+
+
+func _build_threshold_focus_hint(area: Area3D, threshold_data: Dictionary) -> Dictionary:
+	var target_world: Vector3 = threshold_data.get("interaction_world_position", area.global_position)
+	var interaction_normal: Vector3 = threshold_data.get("interaction_normal", Vector3.ZERO)
+	return {
+		"interaction_world_position": target_world,
+		"interaction_focus_position": _resolve_surface_focus_position(target_world, interaction_normal),
+		"interaction_normal": interaction_normal,
+		"focus_kind": "surface",
+	}
 
 
 func _resolve_surface_walk_target(surface_world_position: Vector3, surface_normal: Vector3) -> Vector3:
@@ -595,3 +712,39 @@ func _resolve_approach_target(target_world_position: Vector3, surface_normal: Ve
 		approach_target = floor_hit.get("position", approach_target)
 	approach_target.y = global_position.y
 	return approach_target
+
+
+func _resolve_walk_focus_world_position(arrival_action: Dictionary, fallback: Vector3) -> Vector3:
+	var focus_hint: Dictionary = arrival_action.get("focus_hint", {})
+	var hinted_position: Variant = focus_hint.get("interaction_focus_position", focus_hint.get("interaction_world_position", null))
+	if hinted_position is Vector3:
+		return hinted_position
+	var explicit_focus: Variant = arrival_action.get("focus_world_position", null)
+	if explicit_focus is Vector3:
+		return explicit_focus
+	var object_data: Dictionary = arrival_action.get("object_data", {})
+	var object_focus: Variant = object_data.get("interaction_focus_position", object_data.get("interaction_world_position", null))
+	if object_focus is Vector3:
+		return object_focus
+	return fallback
+
+
+func _update_walk_focus(delta: float) -> void:
+	if _camera == null or _walk_focus_world_position == Vector3.INF:
+		return
+	var eye := _camera.global_position
+	var to_target := _walk_focus_world_position - eye
+	if to_target.length_squared() <= 0.001:
+		return
+	var flat := Vector2(to_target.x, to_target.z)
+	var target_yaw := _yaw
+	if flat.length() > 0.001:
+		target_yaw = atan2(-flat.x, -flat.y)
+	var target_pitch := clampf(
+		atan2(to_target.y, maxf(flat.length(), 0.01)),
+		deg_to_rad(-PITCH_LIMIT),
+		deg_to_rad(PITCH_LIMIT)
+	)
+	_yaw = lerp_angle(_yaw, target_yaw, clampf(delta * 7.5, 0.0, 1.0))
+	_pitch = lerp_angle(_pitch, target_pitch, clampf(delta * 6.5, 0.0, 1.0))
+	rotation.y = _yaw

@@ -46,6 +46,14 @@ Examples:
 
 This keeps scale, animation, and collision sane.
 
+For Ashworth Manor, the default bias should now be even stronger:
+
+- primitive shapes first
+- estate material families second
+- imported models only where silhouette complexity genuinely matters
+
+See [`/Users/jbogaty/src/arcade-cabinet/ashworth-manor/docs/SHAPE_KIT_SYSTEM.md`](/Users/jbogaty/src/arcade-cabinet/ashworth-manor/docs/SHAPE_KIT_SYSTEM.md).
+
 ### Spatial Grammar
 
 The current game needs more than a binary `is_exterior`.

@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://shaders/materials/estate_surface_forward_plus.gdshader" id="1_4xb4e"]
+
+[resource]
+shader = ExtResource("1_4xb4e")
+shader_parameter/base_color = Color(0.72, 0.56, 0.22, 1)
+shader_parameter/texture_mix = 0.0
+shader_parameter/metallic = 1.0
+shader_parameter/roughness = 0.2
+shader_parameter/base_specular = 0.92
+shader_parameter/clearcoat = 0.28
+shader_parameter/clearcoat_roughness = 0.12
+shader_parameter/rim_strength = 0.08
+shader_parameter/emission_color = Color(1, 0.82, 0.46, 1)
+shader_parameter/emission_strength = 0.0

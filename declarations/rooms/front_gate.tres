@@ -41,7 +41,7 @@ tags = PackedStringArray("drive", "threshold")
 script = ExtResource("10")
 anchor_id = "focus_gate_sign"
 anchor_type = "focal"
-position = Vector3(0, 2.45, -0.1)
+position = Vector3(0, 2.4, -2.85)
 rotation_y = 0.0
 tags = PackedStringArray("menu", "gate")
 
@@ -228,9 +228,9 @@ script = ExtResource("2")
 id = "gate_sign_new_game"
 type = "observation"
 scene_role = "threshold_control"
-position = Vector3(0, 2.44, -0.12)
-collision_size = Vector3(1.6, 0.64, 0.7)
-visual_effects = {"world_label": "NEW GAME", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(1.22, 0.34, 0.08), "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 22, "world_label_hanger_height": 0.2, "world_label_hanger_offset_x": 0.38, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 180.0}
+position = Vector3(0, 2.34, -2.85)
+collision_size = Vector3(1.9, 0.72, 0.8)
+visual_effects = {"world_label": "NEW GAME", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(1.4, 0.38, 0.08), "world_label_board_texture": "res://assets/grounds/front_gate/bench_mx_1_planks_hr_2.png", "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 24, "world_label_hanger_color": Color(0.22, 0.22, 0.25, 1), "world_label_hanger_height": 0.76, "world_label_hanger_offset_x": 0.42, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 180.0}
 state_tags = PackedStringArray("gate_menu_new_game")
 
 [sub_resource type="Resource" id="inter_gate_sign_load_game"]
@@ -238,9 +238,9 @@ script = ExtResource("2")
 id = "gate_sign_load_game"
 type = "observation"
 scene_role = "threshold_control"
-position = Vector3(-4.95, 2.28, -0.15)
-collision_size = Vector3(1.15, 0.56, 0.7)
-visual_effects = {"world_label": "LOAD GAME", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(0.94, 0.28, 0.08), "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 17, "world_label_hanger_height": 0.18, "world_label_hanger_offset_x": 0.28, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 176.0}
+position = Vector3(-2.12, 2.16, -2.85)
+collision_size = Vector3(1.28, 0.62, 0.75)
+visual_effects = {"world_label": "LOAD GAME", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(1.05, 0.3, 0.08), "world_label_board_texture": "res://assets/grounds/front_gate/bench_mx_1_planks_hr_2.png", "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 18, "world_label_hanger_color": Color(0.22, 0.22, 0.25, 1), "world_label_hanger_height": 0.82, "world_label_hanger_offset_x": 0.31, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 180.0}
 state_tags = PackedStringArray("gate_menu_load_game")
 
 [sub_resource type="Resource" id="inter_gate_sign_settings"]
@@ -248,9 +248,9 @@ script = ExtResource("2")
 id = "gate_sign_settings"
 type = "observation"
 scene_role = "threshold_control"
-position = Vector3(4.95, 2.28, -0.15)
-collision_size = Vector3(1.15, 0.56, 0.7)
-visual_effects = {"world_label": "SETTINGS", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(0.92, 0.28, 0.08), "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 17, "world_label_hanger_height": 0.18, "world_label_hanger_offset_x": 0.28, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 184.0}
+position = Vector3(2.12, 2.16, -2.85)
+collision_size = Vector3(1.28, 0.62, 0.75)
+visual_effects = {"world_label": "SETTINGS", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(1.02, 0.3, 0.08), "world_label_board_texture": "res://assets/grounds/front_gate/bench_mx_1_planks_hr_2.png", "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 18, "world_label_hanger_color": Color(0.22, 0.22, 0.25, 1), "world_label_hanger_height": 0.82, "world_label_hanger_offset_x": 0.31, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 180.0}
 state_tags = PackedStringArray("gate_menu_settings")
 
 ; === Lights ===
@@ -675,6 +675,13 @@ scene_role = "clue_dressing"
 position = Vector3(11.8, 16.5, 24.0)
 scale = 1.5
 tags = PackedStringArray("procedural_moon")
+
+[sub_resource type="Resource" id="prop_menu_sign"]
+script = ExtResource("5")
+id = "front_gate_menu_sign"
+scene_role = "architectural_trim"
+scene_path = "res://scenes/shared/front_gate/front_gate_menu_sign.tscn"
+position = Vector3(0, 0, -2.85)
 
 [sub_resource type="Resource" id="prop_drive_stone_1"]
 script = ExtResource("5")
@@ -1228,7 +1235,7 @@ entry_anchors = Array[Resource]([SubResource("anchor_entry_opening"), SubResourc
 focal_anchors = Array[Resource]([SubResource("anchor_focus_mansion"), SubResource("anchor_focus_gate_sign")])
 interactables = Array[Resource]([SubResource("inter_gate_sign_new_game"), SubResource("inter_gate_sign_load_game"), SubResource("inter_gate_sign_settings"), SubResource("inter_gate_plaque"), SubResource("inter_gate_luggage"), SubResource("inter_gate_bench"), SubResource("inter_iron_gate"), SubResource("inter_gate_lamp")])
 lights = Array[Resource]([SubResource("light_moonlight"), SubResource("light_gate_lamp"), SubResource("light_gate_lamp_r")])
-props = Array[Resource]([SubResource("prop_gate_pillar_l"), SubResource("prop_gate_pillar_r"), SubResource("prop_gate_center"), SubResource("prop_gate_center_r"), SubResource("prop_boundary_wall"), SubResource("prop_boundary_corner"), SubResource("prop_fence"), SubResource("prop_boundary_pole_r"), SubResource("prop_fence_r"), SubResource("prop_tree1"), SubResource("prop_tree2"), SubResource("prop_bush1"), SubResource("prop_bush2"), SubResource("prop_bush3"), SubResource("prop_hedge_left_gate"), SubResource("prop_hedge_left_mid_gate"), SubResource("prop_hedge_left_near"), SubResource("prop_hedge_right_gate"), SubResource("prop_hedge_right_mid_gate"), SubResource("prop_hedge_right_near"), SubResource("prop_off_lamp"), SubResource("prop_moon_disc"), SubResource("prop_drive_stone_0"), SubResource("prop_drive_stone_1"), SubResource("prop_drive_stone_2")])
+props = Array[Resource]([SubResource("prop_gate_pillar_l"), SubResource("prop_gate_pillar_r"), SubResource("prop_gate_center"), SubResource("prop_gate_center_r"), SubResource("prop_boundary_wall"), SubResource("prop_boundary_corner"), SubResource("prop_fence"), SubResource("prop_boundary_pole_r"), SubResource("prop_fence_r"), SubResource("prop_tree1"), SubResource("prop_tree2"), SubResource("prop_bush1"), SubResource("prop_bush2"), SubResource("prop_bush3"), SubResource("prop_hedge_left_gate"), SubResource("prop_hedge_left_mid_gate"), SubResource("prop_hedge_left_near"), SubResource("prop_hedge_right_gate"), SubResource("prop_hedge_right_mid_gate"), SubResource("prop_hedge_right_near"), SubResource("prop_off_lamp"), SubResource("prop_moon_disc"), SubResource("prop_menu_sign"), SubResource("prop_drive_stone_0"), SubResource("prop_drive_stone_1"), SubResource("prop_drive_stone_2")])
 on_entry = Array[Resource]([SubResource("trig_first_entry_captive"), SubResource("trig_first_entry_mourning"), SubResource("trig_first_entry_sovereign"), SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([SubResource("ambient_gate_creak"), SubResource("ambient_wind_gust")])
