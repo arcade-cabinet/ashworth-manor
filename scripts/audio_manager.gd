@@ -185,7 +185,9 @@ func _swap_players() -> void:
 	_ambient_next = temp
 
 func play_sfx(sfx_name: String) -> void:
-	var path: String = "res://assets/audio/sfx/%s.ogg" % sfx_name
+	var path: String = sfx_name
+	if not sfx_name.begins_with("res://"):
+		path = "res://assets/audio/sfx/%s.ogg" % sfx_name
 	if not ResourceLoader.exists(path):
 		return
 	var stream: AudioStream = load(path)

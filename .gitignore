@@ -14,6 +14,9 @@ _packs/
 # OS
 .DS_Store
 
+# Ralph-TUI
+.ralph-tui/session*.json
+
 # Node/BabylonJS prototype (legacy)
 node_modules/
 dist/

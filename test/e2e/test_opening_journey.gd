@@ -61,47 +61,113 @@ func _run() -> void:
 	_im._on_interacted("gate_sign_new_game", new_game_decl.type, {})
 	await _settle()
 	_assert("opening new-game selection stored", _gm.get_state("front_gate_menu_selection", "") == "new_game")
-	_assert("opening threshold committed from sign", _gm.get_state("front_gate_threshold_acknowledged", false) == true)
-	await _capture("01_new_game_selected")
+	_assert("opening packet presented from sign", _gm.get_state("front_gate_packet_presented", false) == true)
+	_assert("opening packet is the first new-game overlay", "final acting caretaker" in _get_document_content())
+	await _capture("01_packet_open")
+	_ui.hide_document()
+	await _settle()
 
-	await _stage_pose("02_gate_threshold", Vector3(0, 0, -11.9), 180.0)
+	var valise_decl := _find_decl("gate_luggage")
+	_assert("opening valise exists", valise_decl != null)
+	if valise_decl == null:
+		_finish()
+		return
+	_im._on_interacted("gate_luggage", valise_decl.type, {})
+	await _settle()
+	_assert("opening threshold committed from valise", _gm.get_state("front_gate_threshold_acknowledged", false) == true)
+	_assert("opening inventory gets solicitor packet", _gm.has_item("solicitor_packet"))
+	_assert("opening inventory gets front door key", _gm.has_item("front_door_key"))
+	_assert("opening inventory gets winding key", _gm.has_item("music_box_winding_key"))
+	await _capture("02_valise_opened")
+	_ui.hide_document()
+
+	await _stage_pose("03_gate_threshold", Vector3(0, 0, -11.9), 180.0)
 
 	_im._on_door_tapped("drive_lower", "front_gate_to_drive_lower")
 	var reached_drive_lower := await _await_room_id("drive_lower", 180)
 	await _await_transition_idle()
 	await _settle()
 	_assert("opening reaches drive_lower", reached_drive_lower and _rm.get_current_room_id() == "drive_lower")
-	await _capture("03_drive_lower_entry")
-	await _stage_pose("04_drive_lower_commit", Vector3(0, 0, 0.6), 180.0)
+	await _capture("04_drive_lower_entry")
+	await _stage_pose("05_drive_lower_commit", Vector3(0, 0, 0.6), 180.0)
 
 	_im._on_door_tapped("drive_upper", "drive_lower_to_drive_upper")
 	var reached_drive_upper := await _await_room_id("drive_upper", 180)
 	await _await_transition_idle()
 	await _settle()
 	_assert("opening reaches drive_upper", reached_drive_upper and _rm.get_current_room_id() == "drive_upper")
-	await _capture("05_drive_upper_entry")
-	await _stage_pose("06_drive_upper_commit", Vector3(0, 0, 1.0), 180.0)
+	await _capture("06_drive_upper_entry")
+	await _stage_pose("07_drive_upper_commit", Vector3(0, 0, 1.0), 180.0)
 
 	_im._on_door_tapped("front_steps", "drive_upper_to_front_steps")
 	var reached_front_steps := await _await_room_id("front_steps", 180)
 	await _await_transition_idle()
 	await _settle()
 	_assert("opening reaches front_steps", reached_front_steps and _rm.get_current_room_id() == "front_steps")
-	await _capture("07_front_steps_entry")
-	await _stage_pose("08_front_steps_commit", Vector3(0, 0, -0.8), 180.0)
+	_assert("opening forecourt has service-side gate", _find_decl("front_steps_service_gate") != null)
+	_assert("opening forecourt has garden-side gate", _find_decl("front_steps_garden_gate") != null)
+	await _capture("08_front_steps_entry")
+	await _stage_pose("09_front_steps_commit", Vector3(0, 0, -0.8), 180.0)
 
 	_im._on_door_tapped("foyer", "front_steps_to_foyer")
 	var reached_foyer := await _await_room_id("foyer", 180)
 	await _await_transition_idle()
 	await _settle()
 	_assert("opening reaches foyer", reached_foyer and _rm.get_current_room_id() == "foyer")
+	var foyer_room = _rm.get_current_room()
+	var foyer_chandelier_base: float = -1.0
+	if foyer_room != null and foyer_room.has_method("get_light_base_energy"):
+		foyer_chandelier_base = foyer_room.get_light_base_energy("foyer_chandelier")
+	_assert("opening foyer chandelier stays dark on first route", foyer_chandelier_base >= 0.0 and foyer_chandelier_base < 0.2)
 	if _rm.has_method("get_visible_compiled_world_room_ids"):
 		var visible_rooms: PackedStringArray = _rm.get_visible_compiled_world_room_ids()
 		_assert("opening foyer keeps upper side rooms hidden", not visible_rooms.has("master_bedroom"))
 		_assert("opening foyer hides upper hallway shell", not visible_rooms.has("upper_hallway"))
-	await _capture("09_foyer_handoff")
-	await _stage_pose("10_foyer_commit", Vector3(0.35, 0, -1.35), 176.0, -4.0)
-	await _stage_pose("11_stairs_pull", Vector3(0.18, 0, -0.78), 176.0, -14.0)
+	await _capture("10_foyer_handoff")
+	await _stage_pose("11_foyer_commit", Vector3(0.35, 0, -1.35), 176.0, -4.0)
+	await _stage_pose("12_stairs_pull", Vector3(0.18, 0, -0.78), 176.0, -14.0)
+
+	_im._on_door_tapped("parlor", "foyer_to_parlor")
+	var reached_parlor := await _await_room_id("parlor", 180)
+	await _await_transition_idle()
+	await _settle()
+	_assert("opening reaches parlor", reached_parlor and _rm.get_current_room_id() == "parlor")
+	await _capture("13_parlor_entry")
+	var parlor_fireplace_decl := _find_decl("parlor_fireplace")
+	_assert("opening parlor fireplace exists", parlor_fireplace_decl != null)
+	if parlor_fireplace_decl != null:
+		_im._on_interacted("parlor_fireplace", parlor_fireplace_decl.type, {})
+		await _settle()
+		_assert("opening first warmth grants firebrand", _gm.has_item("firebrand"))
+		_assert("opening first warmth sets tool phase", _gm.get_state("current_light_tool", "") == "firebrand")
+		await _capture("14_parlor_firebrand")
+
+	_im._on_door_tapped("foyer", "parlor_to_foyer")
+	var returned_foyer := await _await_room_id("foyer", 180)
+	await _await_transition_idle()
+	await _settle()
+	_assert("opening returns to foyer from parlor", returned_foyer and _rm.get_current_room_id() == "foyer")
+
+	_im._on_door_tapped("kitchen", "foyer_to_kitchen")
+	var reached_kitchen := await _await_room_id("kitchen", 180)
+	await _await_transition_idle()
+	await _settle()
+	_assert("opening reaches kitchen", reached_kitchen and _rm.get_current_room_id() == "kitchen")
+	await _capture("15_kitchen_entry")
+
+	_im._on_door_tapped("storage_basement", "kitchen_to_storage_basement")
+	var reached_storage: bool = false
+	for _i in range(40):
+		await create_timer(0.1).timeout
+		if _rm.get_current_room_id() == "storage_basement" and not _rm.get("_is_transitioning"):
+			reached_storage = true
+			break
+	await _await_transition_idle()
+	await _settle()
+	_assert("opening service hatch fall reaches storage basement", reached_storage and _rm.get_current_room_id() == "storage_basement")
+	_assert("opening service hatch fall clears firebrand", not _gm.has_item("firebrand"))
+	_assert("opening service hatch fall sets elizabeth awareness", _gm.get_state("elizabeth_aware", false) == true)
+	await _capture("16_storage_basement_fall")
 
 	_finish()
 
@@ -215,6 +281,14 @@ func _hide_overlays() -> void:
 	if room_name is Label:
 		(room_name as Label).visible = false
 		(room_name as Label).modulate.a = 0.0
+
+
+func _get_document_content() -> String:
+	var doc := _find(_ui, "DocumentOverlay")
+	var content = doc.get("_doc_content") if doc != null else null
+	if content is RichTextLabel:
+		return (content as RichTextLabel).text
+	return ""
 
 
 func _clear_save_data() -> void:

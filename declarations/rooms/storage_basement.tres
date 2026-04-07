@@ -120,7 +120,7 @@ id = "basement_bulb"
 type = "omni"
 position = Vector3(0, 2.5, 0)
 color = Color(1.0, 0.9, 0.6, 1)
-energy = 0.8
+energy = 0.0
 range = 6.0
 shadows = true
 flickering = true
@@ -132,7 +132,7 @@ id = "basement_mattress_candle"
 type = "omni"
 position = Vector3(2.2, 0.9, 2.0)
 color = Color(1.0, 0.82, 0.58, 1)
-energy = 0.28
+energy = 0.0
 range = 2.4
 shadows = false
 flickering = true
@@ -256,6 +256,29 @@ position = Vector3(2.2, 0.78, 2.0)
 
 ; === Entry Trigger ===
 
+[sub_resource type="Resource" id="act_fall_visited"]
+script = ExtResource("7")
+set_state = {"storage_basement_fall_landing_pending": false, "visited_storage_basement": true}
+
+[sub_resource type="Resource" id="act_fall_show_name"]
+script = ExtResource("7")
+show_room_name = "Storage Basement"
+
+[sub_resource type="Resource" id="act_fall_impact"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/impact/pl_impact_soft_02.ogg"
+
+[sub_resource type="Resource" id="act_fall_text"]
+script = ExtResource("7")
+show_text = "You strike old oily rags hard enough to lose the breath in your chest. Above, the hatch answers with wood and iron. The brand is gone. The air below tastes of coal gas, lamp oil, and stone that has forgotten daylight."
+
+[sub_resource type="Resource" id="trig_fall_entry"]
+script = ExtResource("6")
+condition = "storage_basement_fall_landing_pending AND NOT visited_storage_basement"
+once = true
+trigger_id = "storage_basement_forced_fall_entry"
+actions = Array[Resource]([SubResource("act_fall_visited"), SubResource("act_fall_show_name"), SubResource("act_fall_impact"), SubResource("act_fall_text")])
+
 [sub_resource type="Resource" id="act_visited"]
 script = ExtResource("7")
 set_state = {"visited_storage_basement": true}
@@ -270,7 +293,7 @@ show_text = "Stone, dust, and bad light. Whatever the house could not admit upst
 
 [sub_resource type="Resource" id="trig_first_entry"]
 script = ExtResource("6")
-condition = "NOT visited_storage_basement"
+condition = "NOT visited_storage_basement AND NOT storage_basement_fall_landing_pending"
 once = true
 trigger_id = "storage_basement_first_entry"
 actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name"), SubResource("act_entry_text")])
@@ -303,7 +326,7 @@ focal_anchors = Array[Resource]([SubResource("anchor_focus_service_stack")])
 interactables = Array[Resource]([SubResource("inter_portrait"), SubResource("inter_cage"), SubResource("inter_stack"), SubResource("inter_mattress")])
 lights = Array[Resource]([SubResource("light_bulb"), SubResource("light_mattress_candle")])
 props = Array[Resource]([SubResource("prop_shelf_left"), SubResource("prop_shelf_right"), SubResource("prop_crate_1"), SubResource("prop_crate_2"), SubResource("prop_crate_3"), SubResource("prop_crate_4"), SubResource("prop_crate_5"), SubResource("prop_crates_barrels"), SubResource("prop_cage"), SubResource("prop_ladder"), SubResource("prop_mattress"), SubResource("prop_bucket"), SubResource("prop_dead_lamp"), SubResource("prop_debris"), SubResource("prop_hidden_service_stack"), SubResource("prop_mattress_candle_holder"), SubResource("prop_mattress_candle")])
-on_entry = Array[Resource]([SubResource("trig_first_entry")])
+on_entry = Array[Resource]([SubResource("trig_fall_entry"), SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([])
 conditional_events = Array[Resource]([])

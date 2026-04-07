@@ -57,7 +57,7 @@ do GameManager.set_flag("examined_dining_candles")
 
 
 ~ dining_vessel
-	A silver tureen, lid askew. Inside: desiccated remains of soup. Still sitting where it was placed over a century ago.
+	A silver tureen, lid askew. Inside: desiccated remains of soup. Still sitting where it was placed on the night no one finished dinner.
 	
 	The ladle has never been cleaned.
 ```

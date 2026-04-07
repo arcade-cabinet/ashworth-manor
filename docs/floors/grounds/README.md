@@ -45,8 +45,9 @@ See `docs/GROUNDS_WORLD_SPEC.md` for the authoritative path and gating model.
 
 Purpose:
 
-- first impression
-- diegetic menu
+- solicitor-letter aftermath
+- first embodied threshold
+- diegetic estate sign
 - moonlit hedge-lined drive
 - commitment to entering the house
 
@@ -59,7 +60,7 @@ Canonical beats:
 
 ### 2. Side Circulation
 
-The forecourt/front-steps area should branch in both directions.
+The forecourt/front-steps area should branch in both directions, but not immediately as open free choices.
 
 West side:
 
@@ -75,6 +76,11 @@ East side:
 - leads toward `greenhouse`
 
 Both should eventually connect to the back.
+
+On first arrival:
+- both side routes are visible
+- both are physically gated
+- the center stair remains the only available ceremonial route into the house
 
 ### 3. Rear Estate
 

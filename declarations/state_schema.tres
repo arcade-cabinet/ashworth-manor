@@ -1,15 +1,11 @@
-[gd_resource type="Resource" script_class="StateSchema" format=3]
+[gd_resource type="Resource" script_class="StateSchema" format=3 uid="uid://cm7r0lf7l3qu6"]
 
-[ext_resource type="Script" path="res://engine/declarations/state_schema.gd" id="1"]
-[ext_resource type="Script" path="res://engine/declarations/state_var_decl.gd" id="2"]
-
-; === System State ===
+[ext_resource type="Script" uid="uid://m6hxik4nc8s4" path="res://engine/declarations/state_schema.gd" id="1"]
+[ext_resource type="Script" uid="uid://ca7dn0m20pr3r" path="res://engine/declarations/state_var_decl.gd" id="2"]
 
 [sub_resource type="Resource" id="var_game_started"]
 script = ExtResource("2")
 name = "game_started"
-type = "bool"
-initial_value = "false"
 description = "Set on first entry to front_gate"
 set_by = PackedStringArray("front_gate:on_entry")
 read_by = PackedStringArray("save_system")
@@ -46,17 +42,59 @@ script = ExtResource("2")
 name = "macro_thread"
 type = "string"
 initial_value = ""
-description = "Active macro thread (captive, mourning, sovereign). Set by PRNG engine."
-set_by = PackedStringArray("prng_engine")
+description = "Legacy compatibility thread derived from the authored Elizabeth route during migration."
+set_by = PackedStringArray("game_manager")
 read_by = PackedStringArray("interaction_engine", "puzzle_engine", "ending_system")
 
-; === Room Visit Flags ===
+[sub_resource type="Resource" id="var_elizabeth_route"]
+script = ExtResource("2")
+name = "elizabeth_route"
+type = "string"
+initial_value = ""
+description = "Active authored Elizabeth route (adult, elder, child)."
+set_by = PackedStringArray("game_manager")
+read_by = PackedStringArray("interaction_engine", "ending_system", "route_progression")
+
+[sub_resource type="Resource" id="var_current_light_tool"]
+script = ExtResource("2")
+name = "current_light_tool"
+type = "string"
+initial_value = ""
+description = "Current held light or investigation tool phase."
+set_by = PackedStringArray("parlor:parlor_fireplace", "basement:gas_restore", "crypt:lantern_hook")
+read_by = PackedStringArray("interaction_engine", "late_game_progression")
+
+[sub_resource type="Resource" id="var_foyer_chandelier_awakened"]
+script = ExtResource("2")
+name = "foyer_chandelier_awakened"
+description = "The foyer chandelier has answered on its own during the sovereign-flavored entry beat."
+set_by = PackedStringArray("foyer:on_entry")
+read_by = PackedStringArray("foyer:ambient_chandelier")
+
+[sub_resource type="Resource" id="var_parlor_fire_lit"]
+script = ExtResource("2")
+name = "parlor_fire_lit"
+description = "The player has awakened the parlor hearth and begun the firebrand phase."
+set_by = PackedStringArray("parlor:parlor_fireplace")
+read_by = PackedStringArray("parlor:ambient_fire", "parlor:music_box_auto_play")
+
+[sub_resource type="Resource" id="var_kitchen_service_descent_triggered"]
+script = ExtResource("2")
+name = "kitchen_service_descent_triggered"
+description = "Elizabeth has forced the player through the kitchen service hatch."
+set_by = PackedStringArray("kitchen:service_hatch")
+read_by = PackedStringArray("late_game_progression")
+
+[sub_resource type="Resource" id="var_storage_basement_fall_landing_pending"]
+script = ExtResource("2")
+name = "storage_basement_fall_landing_pending"
+description = "The next storage basement entry should play the forced-fall landing beat."
+set_by = PackedStringArray("kitchen:service_hatch")
+read_by = PackedStringArray("storage_basement:on_entry")
 
 [sub_resource type="Resource" id="var_visited_front_gate"]
 script = ExtResource("2")
 name = "visited_front_gate"
-type = "bool"
-initial_value = "false"
 description = "Player has entered front gate"
 set_by = PackedStringArray("front_gate:on_entry")
 read_by = PackedStringArray("front_gate:first_entry_trigger")
@@ -64,8 +102,6 @@ read_by = PackedStringArray("front_gate:first_entry_trigger")
 [sub_resource type="Resource" id="var_visited_foyer"]
 script = ExtResource("2")
 name = "visited_foyer"
-type = "bool"
-initial_value = "false"
 description = "Player has entered foyer"
 set_by = PackedStringArray("foyer:on_entry")
 read_by = PackedStringArray()
@@ -73,8 +109,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_visited_parlor"]
 script = ExtResource("2")
 name = "visited_parlor"
-type = "bool"
-initial_value = "false"
 description = "Player has entered parlor"
 set_by = PackedStringArray("parlor:on_entry")
 read_by = PackedStringArray()
@@ -82,8 +116,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_visited_attic_storage"]
 script = ExtResource("2")
 name = "visited_attic_storage"
-type = "bool"
-initial_value = "false"
 description = "Player has entered attic storage. Triggers Horror phase."
 set_by = PackedStringArray("attic_storage:on_entry")
 read_by = PackedStringArray("phase_transition:discovery_to_horror")
@@ -91,8 +123,6 @@ read_by = PackedStringArray("phase_transition:discovery_to_horror")
 [sub_resource type="Resource" id="var_visited_hidden_chamber"]
 script = ExtResource("2")
 name = "visited_hidden_chamber"
-type = "bool"
-initial_value = "false"
 description = "Player has entered hidden chamber"
 set_by = PackedStringArray("hidden_chamber:on_entry")
 read_by = PackedStringArray()
@@ -100,19 +130,13 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_entered_attic"]
 script = ExtResource("2")
 name = "entered_attic"
-type = "bool"
-initial_value = "false"
 description = "Player has entered the attic area (stairwell or storage)"
 set_by = PackedStringArray("attic_stairs:on_entry", "attic_storage:on_entry")
 read_by = PackedStringArray("master_bedroom:bedroom_mirror", "foyer:foyer_window")
 
-; === Interactable Examination Flags ===
-
 [sub_resource type="Resource" id="var_examined_gate_plaque"]
 script = ExtResource("2")
 name = "examined_gate_plaque"
-type = "bool"
-initial_value = "false"
 description = "Player read the gate plaque"
 set_by = PackedStringArray("front_gate:gate_plaque")
 read_by = PackedStringArray()
@@ -120,8 +144,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_front_gate_threshold_acknowledged"]
 script = ExtResource("2")
 name = "front_gate_threshold_acknowledged"
-type = "bool"
-initial_value = "false"
 description = "The front approach has answered the player after the plaque is examined"
 set_by = PackedStringArray("front_gate:front_gate_threshold_ack")
 read_by = PackedStringArray("front_gate:path_to_foyer")
@@ -129,8 +151,6 @@ read_by = PackedStringArray("front_gate:path_to_foyer")
 [sub_resource type="Resource" id="var_foyer_threshold_crossed"]
 script = ExtResource("2")
 name = "foyer_threshold_crossed"
-type = "bool"
-initial_value = "false"
 description = "The player has crossed into the house proper through the foyer"
 set_by = PackedStringArray("foyer:on_entry")
 read_by = PackedStringArray()
@@ -138,8 +158,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_library_flashback_triggered"]
 script = ExtResource("2")
 name = "library_flashback_triggered"
-type = "bool"
-initial_value = "false"
 description = "Library binding-book aftershock event has fired"
 set_by = PackedStringArray("library:conditional_event")
 read_by = PackedStringArray("library:conditional_event")
@@ -147,8 +165,6 @@ read_by = PackedStringArray("library:conditional_event")
 [sub_resource type="Resource" id="var_found_helena_luggage"]
 script = ExtResource("2")
 name = "found_helena_luggage"
-type = "bool"
-initial_value = "false"
 description = "Player found Helena's abandoned luggage"
 set_by = PackedStringArray("front_gate:gate_luggage")
 read_by = PackedStringArray()
@@ -156,8 +172,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_noticed_service_route"]
 script = ExtResource("2")
 name = "noticed_service_route"
-type = "bool"
-initial_value = "false"
 description = "Player noticed the concealed service-side stack in the storage basement"
 set_by = PackedStringArray("storage_basement:service_stack")
 read_by = PackedStringArray()
@@ -165,8 +179,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_examined_iron_gate"]
 script = ExtResource("2")
 name = "examined_iron_gate"
-type = "bool"
-initial_value = "false"
 description = "Player examined the iron gate"
 set_by = PackedStringArray("front_gate:iron_gate")
 read_by = PackedStringArray()
@@ -174,8 +186,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_examined_foyer_painting"]
 script = ExtResource("2")
 name = "examined_foyer_painting"
-type = "bool"
-initial_value = "false"
 description = "Player examined Lord Ashworth painting in foyer"
 set_by = PackedStringArray("foyer:foyer_painting")
 read_by = PackedStringArray()
@@ -183,8 +193,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_examined_foyer_mirror"]
 script = ExtResource("2")
 name = "examined_foyer_mirror"
-type = "bool"
-initial_value = "false"
 description = "Player examined the foyer mirror"
 set_by = PackedStringArray("foyer:foyer_mirror")
 read_by = PackedStringArray()
@@ -192,8 +200,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_examined_foyer_clock"]
 script = ExtResource("2")
 name = "examined_foyer_clock"
-type = "bool"
-initial_value = "false"
 description = "Player examined the foyer grandfather clock"
 set_by = PackedStringArray("foyer:foyer_clock")
 read_by = PackedStringArray("global_trigger:all_clocks_chime")
@@ -201,8 +207,6 @@ read_by = PackedStringArray("global_trigger:all_clocks_chime")
 [sub_resource type="Resource" id="var_found_unopened_mail"]
 script = ExtResource("2")
 name = "found_unopened_mail"
-type = "bool"
-initial_value = "false"
 description = "Player found the unopened mail in foyer"
 set_by = PackedStringArray("foyer:foyer_mail")
 read_by = PackedStringArray()
@@ -210,8 +214,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_examined_lady_portrait"]
 script = ExtResource("2")
 name = "examined_lady_portrait"
-type = "bool"
-initial_value = "false"
 description = "Player examined Lady Ashworth portrait in parlor"
 set_by = PackedStringArray("parlor:lady_portrait")
 read_by = PackedStringArray()
@@ -219,8 +221,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_found_first_clue"]
 script = ExtResource("2")
 name = "found_first_clue"
-type = "bool"
-initial_value = "false"
 description = "Player found the diary page in parlor. First major discovery."
 set_by = PackedStringArray("parlor:parlor_diary")
 read_by = PackedStringArray()
@@ -228,8 +228,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_knows_attic_girl"]
 script = ExtResource("2")
 name = "knows_attic_girl"
-type = "bool"
-initial_value = "false"
 description = "Player knows about the girl locked in the attic from the diary"
 set_by = PackedStringArray("parlor:parlor_diary")
 read_by = PackedStringArray("kitchen:cook_note", "hallway:children_painting", "garden:elizabeth_lily", "greenhouse:greenhouse_lily")
@@ -237,8 +235,6 @@ read_by = PackedStringArray("kitchen:cook_note", "hallway:children_painting", "g
 [sub_resource type="Resource" id="var_examined_music_box"]
 script = ExtResource("2")
 name = "examined_music_box"
-type = "bool"
-initial_value = "false"
 description = "Player examined Elizabeth's music box in parlor"
 set_by = PackedStringArray("parlor:music_box")
 read_by = PackedStringArray()
@@ -246,8 +242,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_examined_dinner_photo"]
 script = ExtResource("2")
 name = "examined_dinner_photo"
-type = "bool"
-initial_value = "false"
 description = "Player examined the dinner party photo"
 set_by = PackedStringArray("dining_room:dinner_photo")
 read_by = PackedStringArray()
@@ -255,8 +249,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_examined_pushed_chair"]
 script = ExtResource("2")
 name = "examined_pushed_chair"
-type = "bool"
-initial_value = "false"
 description = "Player examined the pushed-back chair in dining room"
 set_by = PackedStringArray("dining_room:pushed_chair")
 read_by = PackedStringArray()
@@ -264,8 +256,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_examined_wine_glass"]
 script = ExtResource("2")
 name = "examined_wine_glass"
-type = "bool"
-initial_value = "false"
 description = "Player examined the still-full wine glass"
 set_by = PackedStringArray("dining_room:wine_glass")
 read_by = PackedStringArray()
@@ -273,8 +263,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_examined_dining_candles"]
 script = ExtResource("2")
 name = "examined_dining_candles"
-type = "bool"
-initial_value = "false"
 description = "Player examined the dining room candelabra"
 set_by = PackedStringArray("dining_room:dining_candles")
 read_by = PackedStringArray()
@@ -282,8 +270,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_read_cook_note"]
 script = ExtResource("2")
 name = "read_cook_note"
-type = "bool"
-initial_value = "false"
 description = "Player read the cook's note in kitchen"
 set_by = PackedStringArray("kitchen:cook_note")
 read_by = PackedStringArray()
@@ -291,8 +277,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_knows_attic_locked"]
 script = ExtResource("2")
 name = "knows_attic_locked"
-type = "bool"
-initial_value = "false"
 description = "Player tried the locked attic door"
 set_by = PackedStringArray("hallway:attic_door")
 read_by = PackedStringArray()
@@ -300,8 +284,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_examined_children_painting"]
 script = ExtResource("2")
 name = "examined_children_painting"
-type = "bool"
-initial_value = "false"
 description = "Player examined the children's painting in hallway"
 set_by = PackedStringArray("hallway:children_painting")
 read_by = PackedStringArray()
@@ -309,8 +291,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_read_hallway_notice"]
 script = ExtResource("2")
 name = "read_hallway_notice"
-type = "bool"
-initial_value = "false"
 description = "Player read the notice in hallway"
 set_by = PackedStringArray("hallway:hallway_notice")
 read_by = PackedStringArray()
@@ -318,8 +298,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_read_ashworth_diary"]
 script = ExtResource("2")
 name = "read_ashworth_diary"
-type = "bool"
-initial_value = "false"
 description = "Player read Lord Ashworth's diary in master bedroom. Reveals key location."
 set_by = PackedStringArray("master_bedroom:ashworth_diary")
 read_by = PackedStringArray("foyer:foyer_painting", "parlor:lady_portrait", "library:library_globe")
@@ -327,8 +305,6 @@ read_by = PackedStringArray("foyer:foyer_painting", "parlor:lady_portrait", "lib
 [sub_resource type="Resource" id="var_knows_key_location"]
 script = ExtResource("2")
 name = "knows_key_location"
-type = "bool"
-initial_value = "false"
 description = "Player knows the attic key is in the library globe"
 set_by = PackedStringArray("master_bedroom:ashworth_diary")
 read_by = PackedStringArray("library:library_globe", "hallway:attic_door")
@@ -336,8 +312,6 @@ read_by = PackedStringArray("library:library_globe", "hallway:attic_door")
 [sub_resource type="Resource" id="var_examined_bedroom_mirror"]
 script = ExtResource("2")
 name = "examined_bedroom_mirror"
-type = "bool"
-initial_value = "false"
 description = "Player examined the bedroom mirror"
 set_by = PackedStringArray("master_bedroom:bedroom_mirror")
 read_by = PackedStringArray()
@@ -345,8 +319,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_read_afflictions_book"]
 script = ExtResource("2")
 name = "read_afflictions_book"
-type = "bool"
-initial_value = "false"
 description = "Player read the afflictions book in master bedroom"
 set_by = PackedStringArray("master_bedroom:afflictions_book")
 read_by = PackedStringArray()
@@ -354,8 +326,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_knows_binding_ritual"]
 script = ExtResource("2")
 name = "knows_binding_ritual"
-type = "bool"
-initial_value = "false"
 description = "Player found and read the binding book in library"
 set_by = PackedStringArray("library:binding_book")
 read_by = PackedStringArray("library:occult_shelf", "chapel:holy_water_font")
@@ -363,8 +333,6 @@ read_by = PackedStringArray("library:occult_shelf", "chapel:holy_water_font")
 [sub_resource type="Resource" id="var_examined_family_tree"]
 script = ExtResource("2")
 name = "examined_family_tree"
-type = "bool"
-initial_value = "false"
 description = "Player examined the family tree in library"
 set_by = PackedStringArray("library:family_tree")
 read_by = PackedStringArray()
@@ -372,8 +340,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_read_guest_ledger"]
 script = ExtResource("2")
 name = "read_guest_ledger"
-type = "bool"
-initial_value = "false"
 description = "Player read the guest ledger in guest room"
 set_by = PackedStringArray("guest_room:guest_ledger")
 read_by = PackedStringArray("front_gate:gate_luggage", "parlor:fireplace")
@@ -381,8 +347,6 @@ read_by = PackedStringArray("front_gate:gate_luggage", "parlor:fireplace")
 [sub_resource type="Resource" id="var_examined_helena_photo"]
 script = ExtResource("2")
 name = "examined_helena_photo"
-type = "bool"
-initial_value = "false"
 description = "Player examined Helena's photo in guest room"
 set_by = PackedStringArray("guest_room:helena_photo")
 read_by = PackedStringArray()
@@ -390,8 +354,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_knows_fourth_child_erased"]
 script = ExtResource("2")
 name = "knows_fourth_child_erased"
-type = "bool"
-initial_value = "false"
 description = "Player discovered that a fourth child was erased from records"
 set_by = PackedStringArray("storage_basement:erased_records")
 read_by = PackedStringArray()
@@ -399,8 +361,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_read_maintenance_log"]
 script = ExtResource("2")
 name = "read_maintenance_log"
-type = "bool"
-initial_value = "false"
 description = "Player read the maintenance log in boiler room"
 set_by = PackedStringArray("boiler_room:maintenance_log")
 read_by = PackedStringArray("dining_room:dinner_photo")
@@ -408,8 +368,6 @@ read_by = PackedStringArray("dining_room:dinner_photo")
 [sub_resource type="Resource" id="var_knows_staff_afraid"]
 script = ExtResource("2")
 name = "knows_staff_afraid"
-type = "bool"
-initial_value = "false"
 description = "Player knows the staff were afraid of the house"
 set_by = PackedStringArray("boiler_room:maintenance_log")
 read_by = PackedStringArray()
@@ -417,8 +375,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_examined_boiler_clock"]
 script = ExtResource("2")
 name = "examined_boiler_clock"
-type = "bool"
-initial_value = "false"
 description = "Player examined the boiler room clock"
 set_by = PackedStringArray("boiler_room:boiler_clock")
 read_by = PackedStringArray("foyer:foyer_clock", "global_trigger:all_clocks_chime")
@@ -426,8 +382,6 @@ read_by = PackedStringArray("foyer:foyer_clock", "global_trigger:all_clocks_chim
 [sub_resource type="Resource" id="var_reached_deepest"]
 script = ExtResource("2")
 name = "reached_deepest"
-type = "bool"
-initial_value = "false"
 description = "Player reached the deepest accessible point of the manor in the wine cellar"
 set_by = PackedStringArray("wine_cellar:first_entry")
 read_by = PackedStringArray()
@@ -435,8 +389,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_read_wine_note"]
 script = ExtResource("2")
 name = "read_wine_note"
-type = "bool"
-initial_value = "false"
 description = "Player read the note in the wine cellar"
 set_by = PackedStringArray("wine_cellar:wine_note")
 read_by = PackedStringArray("carriage_house:carriage_portrait")
@@ -444,8 +396,6 @@ read_by = PackedStringArray("carriage_house:carriage_portrait")
 [sub_resource type="Resource" id="var_seen_elizabeth_portrait"]
 script = ExtResource("2")
 name = "seen_elizabeth_portrait"
-type = "bool"
-initial_value = "false"
 description = "Player saw Elizabeth's portrait in attic storage"
 set_by = PackedStringArray("attic_storage:elizabeth_portrait")
 read_by = PackedStringArray()
@@ -453,8 +403,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_examined_doll"]
 script = ExtResource("2")
 name = "examined_doll"
-type = "bool"
-initial_value = "false"
 description = "Player examined the porcelain doll in attic"
 set_by = PackedStringArray("attic_storage:porcelain_doll")
 read_by = PackedStringArray()
@@ -462,8 +410,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_read_elizabeth_letter"]
 script = ExtResource("2")
 name = "read_elizabeth_letter"
-type = "bool"
-initial_value = "false"
 description = "Player read Elizabeth's letter in attic storage"
 set_by = PackedStringArray("attic_storage:elizabeth_letter")
 read_by = PackedStringArray("attic_storage:porcelain_doll")
@@ -471,8 +417,6 @@ read_by = PackedStringArray("attic_storage:porcelain_doll")
 [sub_resource type="Resource" id="var_elizabeth_aware"]
 script = ExtResource("2")
 name = "elizabeth_aware"
-type = "bool"
-initial_value = "false"
 description = "Elizabeth has become aware of the player. Tension layer activates."
 set_by = PackedStringArray("attic_storage:on_entry")
 read_by = PackedStringArray("front_gate:iron_gate", "front_gate:gate_lamp", "front_gate:post_attic_event", "elizabeth_transition:watching_to_active")
@@ -480,8 +424,6 @@ read_by = PackedStringArray("front_gate:iron_gate", "front_gate:gate_lamp", "fro
 [sub_resource type="Resource" id="var_knows_full_truth"]
 script = ExtResource("2")
 name = "knows_full_truth"
-type = "bool"
-initial_value = "false"
 description = "Player has read the final note in hidden chamber. Full truth revealed."
 set_by = PackedStringArray("hidden_chamber:final_note")
 read_by = PackedStringArray("front_gate:gate_plaque", "front_gate:gate_bench", "foyer:foyer_painting", "dining_room:dinner_photo", "hallway:children_painting", "storage_basement:erased_records", "library:family_tree", "family_crypt:tombstones", "elizabeth_transition:active_to_confrontation", "phase_transition:horror_to_resolution")
@@ -489,8 +431,6 @@ read_by = PackedStringArray("front_gate:gate_plaque", "front_gate:gate_bench", "
 [sub_resource type="Resource" id="var_read_final_note"]
 script = ExtResource("2")
 name = "read_final_note"
-type = "bool"
-initial_value = "false"
 description = "Player read Elizabeth's final note in hidden chamber"
 set_by = PackedStringArray("hidden_chamber:final_note")
 read_by = PackedStringArray("hidden_chamber:ritual_circle")
@@ -498,8 +438,6 @@ read_by = PackedStringArray("hidden_chamber:ritual_circle")
 [sub_resource type="Resource" id="var_found_hidden_chamber"]
 script = ExtResource("2")
 name = "found_hidden_chamber"
-type = "bool"
-initial_value = "false"
 description = "Player discovered the hidden chamber"
 set_by = PackedStringArray("hidden_chamber:on_entry")
 read_by = PackedStringArray("foyer:foyer_mirror", "master_bedroom:bedroom_mirror")
@@ -507,19 +445,13 @@ read_by = PackedStringArray("foyer:foyer_mirror", "master_bedroom:bedroom_mirror
 [sub_resource type="Resource" id="var_counter_ritual_complete"]
 script = ExtResource("2")
 name = "counter_ritual_complete"
-type = "bool"
-initial_value = "false"
 description = "Player completed the counter-ritual in hidden chamber"
 set_by = PackedStringArray("hidden_chamber:ritual_circle")
 read_by = PackedStringArray("ending:freedom", "ending:escape", "ending:joined")
 
-; === Puzzle / Key Flags ===
-
 [sub_resource type="Resource" id="var_attic_unlocked"]
 script = ExtResource("2")
 name = "attic_unlocked"
-type = "bool"
-initial_value = "false"
 description = "Attic door has been unlocked with attic_key"
 set_by = PackedStringArray("hallway:attic_door")
 read_by = PackedStringArray()
@@ -527,8 +459,6 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_hidden_door_unlocked"]
 script = ExtResource("2")
 name = "hidden_door_unlocked"
-type = "bool"
-initial_value = "false"
 description = "Hidden chamber door has been unlocked with hidden_key"
 set_by = PackedStringArray("attic_storage:hidden_door")
 read_by = PackedStringArray()
@@ -536,25 +466,17 @@ read_by = PackedStringArray()
 [sub_resource type="Resource" id="var_crypt_gate_unlocked"]
 script = ExtResource("2")
 name = "crypt_gate_unlocked"
-type = "bool"
-initial_value = "false"
 description = "Family crypt gate has been unlocked with gate_key"
 set_by = PackedStringArray("garden:crypt_gate")
 read_by = PackedStringArray()
 
-; === Trigger Tracking ===
-
 [sub_resource type="Resource" id="var_front_gate_post_attic_triggered"]
 script = ExtResource("2")
 name = "front_gate_post_attic_triggered"
-type = "bool"
-initial_value = "false"
 description = "Front gate post-attic conditional event has fired"
 set_by = PackedStringArray("front_gate:conditional_event")
 read_by = PackedStringArray("front_gate:conditional_event")
 
-; === Main Resource ===
-
 [resource]
 script = ExtResource("1")
-variables = Array[Resource]([SubResource("var_game_started"), SubResource("var_current_phase"), SubResource("var_elizabeth_state"), SubResource("var_discovery_count"), SubResource("var_macro_thread"), SubResource("var_visited_front_gate"), SubResource("var_visited_foyer"), SubResource("var_visited_parlor"), SubResource("var_visited_attic_storage"), SubResource("var_visited_hidden_chamber"), SubResource("var_entered_attic"), SubResource("var_examined_gate_plaque"), SubResource("var_front_gate_threshold_acknowledged"), SubResource("var_foyer_threshold_crossed"), SubResource("var_library_flashback_triggered"), SubResource("var_found_helena_luggage"), SubResource("var_noticed_service_route"), SubResource("var_examined_iron_gate"), SubResource("var_examined_foyer_painting"), SubResource("var_examined_foyer_mirror"), SubResource("var_examined_foyer_clock"), SubResource("var_found_unopened_mail"), SubResource("var_examined_lady_portrait"), SubResource("var_found_first_clue"), SubResource("var_knows_attic_girl"), SubResource("var_examined_music_box"), SubResource("var_examined_dinner_photo"), SubResource("var_examined_pushed_chair"), SubResource("var_examined_wine_glass"), SubResource("var_examined_dining_candles"), SubResource("var_read_cook_note"), SubResource("var_knows_attic_locked"), SubResource("var_examined_children_painting"), SubResource("var_read_hallway_notice"), SubResource("var_read_ashworth_diary"), SubResource("var_knows_key_location"), SubResource("var_examined_bedroom_mirror"), SubResource("var_read_afflictions_book"), SubResource("var_knows_binding_ritual"), SubResource("var_examined_family_tree"), SubResource("var_read_guest_ledger"), SubResource("var_examined_helena_photo"), SubResource("var_knows_fourth_child_erased"), SubResource("var_read_maintenance_log"), SubResource("var_knows_staff_afraid"), SubResource("var_examined_boiler_clock"), SubResource("var_reached_deepest"), SubResource("var_read_wine_note"), SubResource("var_seen_elizabeth_portrait"), SubResource("var_examined_doll"), SubResource("var_read_elizabeth_letter"), SubResource("var_elizabeth_aware"), SubResource("var_knows_full_truth"), SubResource("var_read_final_note"), SubResource("var_found_hidden_chamber"), SubResource("var_counter_ritual_complete"), SubResource("var_attic_unlocked"), SubResource("var_hidden_door_unlocked"), SubResource("var_crypt_gate_unlocked"), SubResource("var_front_gate_post_attic_triggered")])
+variables = Array[ExtResource("2")]([SubResource("var_game_started"), SubResource("var_current_phase"), SubResource("var_elizabeth_state"), SubResource("var_discovery_count"), SubResource("var_macro_thread"), SubResource("var_elizabeth_route"), SubResource("var_current_light_tool"), SubResource("var_foyer_chandelier_awakened"), SubResource("var_parlor_fire_lit"), SubResource("var_kitchen_service_descent_triggered"), SubResource("var_storage_basement_fall_landing_pending"), SubResource("var_visited_front_gate"), SubResource("var_visited_foyer"), SubResource("var_visited_parlor"), SubResource("var_visited_attic_storage"), SubResource("var_visited_hidden_chamber"), SubResource("var_entered_attic"), SubResource("var_examined_gate_plaque"), SubResource("var_front_gate_threshold_acknowledged"), SubResource("var_foyer_threshold_crossed"), SubResource("var_library_flashback_triggered"), SubResource("var_found_helena_luggage"), SubResource("var_noticed_service_route"), SubResource("var_examined_iron_gate"), SubResource("var_examined_foyer_painting"), SubResource("var_examined_foyer_mirror"), SubResource("var_examined_foyer_clock"), SubResource("var_found_unopened_mail"), SubResource("var_examined_lady_portrait"), SubResource("var_found_first_clue"), SubResource("var_knows_attic_girl"), SubResource("var_examined_music_box"), SubResource("var_examined_dinner_photo"), SubResource("var_examined_pushed_chair"), SubResource("var_examined_wine_glass"), SubResource("var_examined_dining_candles"), SubResource("var_read_cook_note"), SubResource("var_knows_attic_locked"), SubResource("var_examined_children_painting"), SubResource("var_read_hallway_notice"), SubResource("var_read_ashworth_diary"), SubResource("var_knows_key_location"), SubResource("var_examined_bedroom_mirror"), SubResource("var_read_afflictions_book"), SubResource("var_knows_binding_ritual"), SubResource("var_examined_family_tree"), SubResource("var_read_guest_ledger"), SubResource("var_examined_helena_photo"), SubResource("var_knows_fourth_child_erased"), SubResource("var_read_maintenance_log"), SubResource("var_knows_staff_afraid"), SubResource("var_examined_boiler_clock"), SubResource("var_reached_deepest"), SubResource("var_read_wine_note"), SubResource("var_seen_elizabeth_portrait"), SubResource("var_examined_doll"), SubResource("var_read_elizabeth_letter"), SubResource("var_elizabeth_aware"), SubResource("var_knows_full_truth"), SubResource("var_read_final_note"), SubResource("var_found_hidden_chamber"), SubResource("var_counter_ritual_complete"), SubResource("var_attic_unlocked"), SubResource("var_hidden_door_unlocked"), SubResource("var_crypt_gate_unlocked"), SubResource("var_front_gate_post_attic_triggered")])

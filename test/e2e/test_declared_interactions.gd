@@ -47,23 +47,26 @@ func _run() -> void:
 
 	await _test_front_gate_entry_trigger()
 	await _test_front_gate_threshold_gate()
-	_test_front_gate_menu_new_game()
+	await _test_front_gate_menu_new_game()
 	_test_front_gate_menu_load_game_without_save()
 	_test_front_gate_menu_settings_toggle()
 	_test_front_gate_conditional_response()
 	_test_front_gate_thread_response()
 	_test_front_gate_conditional_beats_thread_flavor()
 	await _test_foyer_entry_threshold()
+	await _test_foyer_sovereign_entry_threshold()
 	_test_foyer_thread_response()
 	_test_foyer_conditional_beats_thread_flavor()
 	await _test_attic_stairwell_threshold()
 	_test_storage_basement_service_stack()
 	_test_storage_basement_entry_beat()
 	_test_parlor_conditional_beats_thread_flavor()
+	await _test_parlor_first_warmth_firebrand()
 	await _test_parlor_tea_visual_states()
 	_test_dining_room_core_interactions()
 	await _test_dining_wine_glass_visual_states()
 	_test_kitchen_core_interactions()
+	await _test_kitchen_service_descent_trigger()
 	await _test_kitchen_bucket_visual_states()
 	await _test_chapel_font_visual_states()
 	_test_boiler_room_core_interactions()
@@ -79,28 +82,26 @@ func _run() -> void:
 
 func _test_front_gate_entry_trigger() -> void:
 	_gm.new_game()
-	_gm.set_state("macro_thread", "mourning")
 	_rm.load_room("front_gate")
 	_assert("front_gate entry sets visited_front_gate", _gm.has_flag("visited_front_gate"))
 	_assert("front_gate entry sets game_started", _gm.has_flag("game_started"))
-	_assert("front_gate entry thread text", "old discipline and old grief" in _get_document_content())
-	_ui.hide_document()
+	_assert("front_gate entry remains document-neutral", _get_document_content().is_empty())
 
 
 func _test_front_gate_threshold_gate() -> void:
 	_gm.new_game()
-	_gm.set_state("macro_thread", "captive")
 	_rm.load_room("front_gate")
-	_ui.hide_document()
 	_im._on_door_tapped("drive_lower")
-	_assert("front_gate threshold blocked text", "read the plaque" in _get_document_content())
+	_assert("front_gate threshold blocked text", "valise still sits unopened" in _get_document_content())
 	_ui.hide_document()
-	var decl: InteractableDecl = _find_decl("gate_plaque")
-	_assert("gate_plaque declaration found for threshold", decl != null)
+	var decl: InteractableDecl = _find_decl("gate_luggage")
+	_assert("gate_luggage declaration found for threshold", decl != null)
 	if decl == null:
 		return
-	var handled: bool = _im._handle_declared_interaction(decl)
-	_assert("gate_plaque handled for threshold", handled)
+	_im._on_interacted("gate_luggage", decl.type, {})
+	_assert("gate valise grants solicitor packet", _gm.has_item("solicitor_packet"))
+	_assert("gate valise grants front door key", _gm.has_item("front_door_key"))
+	_assert("gate valise grants winding key", _gm.has_item("music_box_winding_key"))
 	_assert("front_gate threshold acknowledged", _gm.get_state("front_gate_threshold_acknowledged", false) == true)
 	await create_timer(0.2).timeout
 	var room = _rm.get_current_room()
@@ -119,17 +120,20 @@ func _test_front_gate_threshold_gate() -> void:
 
 
 func _test_front_gate_menu_new_game() -> void:
-	_gm.new_game()
-	_gm.set_state("front_gate_threshold_acknowledged", false)
 	_rm.load_room("front_gate")
 	var decl: InteractableDecl = _find_decl("gate_sign_new_game")
 	_assert("gate_sign_new_game declaration found", decl != null)
 	if decl == null:
 		return
 	_im._on_interacted("gate_sign_new_game", decl.type, {})
-	_assert("gate_sign_new_game commits threshold", _gm.get_state("front_gate_threshold_acknowledged", false) == true)
+	await process_frame
+	await process_frame
 	_assert("gate_sign_new_game stores selection", _gm.get_state("front_gate_menu_selection", "") == "new_game")
+	_assert("gate_sign_new_game presents packet", _gm.get_state("front_gate_packet_presented", false) == true)
+	_assert("gate_sign_new_game shows solicitor packet", "final acting caretaker" in _get_document_content())
+	_assert("gate_sign_new_game does not skip the valise gate", _gm.get_state("front_gate_threshold_acknowledged", false) == false)
 	_assert("gate_sign_new_game keeps front gate active", _rm.get_current_room_id() == "front_gate")
+	_ui.hide_document()
 
 
 func _test_front_gate_menu_load_game_without_save() -> void:
@@ -236,10 +240,13 @@ func _test_foyer_conditional_beats_thread_flavor() -> void:
 
 func _test_foyer_entry_threshold() -> void:
 	_gm.new_game()
+	_gm.set_state("macro_thread", "mourning")
 	_gm.set_state("visited_foyer", false)
 	_gm.set_state("foyer_threshold_crossed", false)
+	_gm.set_state("foyer_chandelier_awakened", false)
 	if _room_events != null and "_trigger_engine" in _room_events and _room_events._trigger_engine != null:
 		_room_events._trigger_engine._fired_triggers.erase("foyer_first_entry")
+		_room_events._trigger_engine._fired_triggers.erase("foyer_first_entry_sovereign")
 	_rm.load_room("front_gate")
 	var decl: InteractableDecl = _find_decl("gate_plaque")
 	_assert("gate_plaque declaration found for foyer entry", decl != null)
@@ -249,13 +256,35 @@ func _test_foyer_entry_threshold() -> void:
 	_rm.load_room("foyer")
 	_assert("foyer room loaded after threshold", _gm.current_room == "foyer")
 	_assert("foyer threshold crossed state", _gm.get_state("foyer_threshold_crossed", false) == true)
-	_assert("foyer first-entry text", "soft finality of a verdict" in _get_document_content())
+	_assert("foyer first-entry text keeps the hall dark", "Whatever warmth once lived here will have to be made by hand" in _get_document_content())
 	await create_timer(0.2).timeout
 	var room = _rm.get_current_room()
 	var chandelier_base: float = -1.0
 	if room != null and room.has_method("get_light_base_energy"):
 		chandelier_base = room.get_light_base_energy("foyer_chandelier")
-	_assert("foyer chandelier brightens on entry", chandelier_base > 4.0)
+	_assert("foyer chandelier stays dark on standard entry", chandelier_base >= 0.0 and chandelier_base < 0.2)
+	_ui.hide_document()
+
+
+func _test_foyer_sovereign_entry_threshold() -> void:
+	_gm.new_game()
+	_gm.set_state("macro_thread", "sovereign")
+	_gm.set_state("visited_foyer", false)
+	_gm.set_state("foyer_threshold_crossed", false)
+	_gm.set_state("foyer_chandelier_awakened", false)
+	if _room_events != null and "_trigger_engine" in _room_events and _room_events._trigger_engine != null:
+		_room_events._trigger_engine._fired_triggers.erase("foyer_first_entry")
+		_room_events._trigger_engine._fired_triggers.erase("foyer_first_entry_sovereign")
+	_rm.load_room("foyer")
+	_assert("foyer sovereign threshold crossed state", _gm.get_state("foyer_threshold_crossed", false) == true)
+	_assert("foyer sovereign chandelier awakened state", _gm.get_state("foyer_chandelier_awakened", false) == true)
+	_assert("foyer sovereign text", "thin gold bloom" in _get_document_content())
+	await create_timer(0.2).timeout
+	var room = _rm.get_current_room()
+	var chandelier_base: float = -1.0
+	if room != null and room.has_method("get_light_base_energy"):
+		chandelier_base = room.get_light_base_energy("foyer_chandelier")
+	_assert("foyer sovereign chandelier answers on entry", chandelier_base > 1.5)
 	_ui.hide_document()
 
 
@@ -274,7 +303,7 @@ func _test_front_gate_thread_response() -> void:
 	var title := _get_document_title()
 	var content := _get_document_content()
 	_assert("gate_lamp title", title == "Gas Lamp")
-	_assert("gate_lamp sovereign thread text", "house has lungs" in content)
+	_assert("gate_lamp remains neutral despite legacy thread compatibility", "maintained until recently" in content)
 
 	_ui.hide_document()
 
@@ -356,19 +385,24 @@ func _test_threshold_mechanism_assemblies() -> void:
 
 	_rm.load_room("kitchen")
 	var stairs_root := _find_connection_root("kitchen_to_storage_basement")
-	_assert("stairs assembly exists", stairs_root != null)
+	_assert("trapdoor assembly exists", stairs_root != null)
 	if stairs_root != null:
 		var stairs_controller = stairs_root.get_node_or_null("ConnectionMechanism")
-		_assert("stairs assembly has mechanism controller", stairs_controller != null)
+		_assert("trapdoor assembly has mechanism controller", stairs_controller != null)
 		if stairs_controller != null and stairs_controller.has_method("play_transition_visual"):
 			var stairs_duration: Variant = stairs_controller.play_transition_visual()
-			_assert("stairs assembly defers to embodied traversal", not (stairs_duration is float) or stairs_duration <= 0.0)
+			if stairs_duration is float and stairs_duration > 0.0:
+				await create_timer(stairs_duration + 0.05).timeout
+			var trap_hinge := stairs_root.get_node_or_null("TrapdoorHinge") as Node3D
+			_assert("trapdoor hinge visibly opens", trap_hinge != null and trap_hinge.rotation_degrees.x < -70.0)
 
 
 func _test_storage_basement_entry_beat() -> void:
 	_gm.new_game()
 	_gm.set_state("visited_storage_basement", false)
+	_gm.set_state("storage_basement_fall_landing_pending", false)
 	if _room_events != null and "_trigger_engine" in _room_events and _room_events._trigger_engine != null:
+		_room_events._trigger_engine._fired_triggers.erase("storage_basement_forced_fall_entry")
 		_room_events._trigger_engine._fired_triggers.erase("storage_basement_first_entry")
 	_rm.load_room("storage_basement")
 	_assert("storage_basement first-entry text", "could not admit upstairs" in _get_document_content())
@@ -497,6 +531,7 @@ func _test_dining_wine_glass_visual_states() -> void:
 func _test_kitchen_core_interactions() -> void:
 	_gm.new_game()
 	_gm.set_state("visited_kitchen", false)
+	_gm.set_state("kitchen_service_descent_triggered", false)
 	_gm.set_state("read_cook_note", false)
 	_gm.remove_item("cellar_key")
 	if _room_events != null and "_trigger_engine" in _room_events and _room_events._trigger_engine != null:
@@ -530,6 +565,80 @@ func _test_kitchen_core_interactions() -> void:
 		_assert("kitchen_hearth yields cellar key", _gm.has_item("cellar_key"))
 		_assert("kitchen_hearth second text", "cook hid the spare key" in _get_document_content())
 		_ui.hide_document()
+
+
+func _test_kitchen_service_descent_trigger() -> void:
+	_gm.new_game()
+	_gm.set_state("kitchen_service_descent_triggered", false)
+	_gm.set_state("storage_basement_fall_landing_pending", false)
+	_gm.set_state("visited_storage_basement", false)
+	_gm.set_state("parlor_fire_lit", false)
+	_gm.set_state("current_light_tool", "")
+	_gm.remove_item("firebrand")
+	if _room_events != null and "_trigger_engine" in _room_events and _room_events._trigger_engine != null:
+		_room_events._trigger_engine._fired_triggers.erase("storage_basement_forced_fall_entry")
+		_room_events._trigger_engine._fired_triggers.erase("storage_basement_first_entry")
+		_room_events._trigger_engine._fired_triggers.erase("parlor_first_entry")
+	_rm.load_room("kitchen")
+	_im._on_door_tapped("storage_basement", "kitchen_to_storage_basement")
+	_assert("kitchen service hatch blocks before firebrand", "service hatch is cut into the kitchen floor" in _get_document_content())
+	_assert("kitchen remains active before firebrand", _rm.get_current_room_id() == "kitchen")
+	_ui.hide_document()
+
+	_rm.load_room("parlor")
+	var hearth_decl: InteractableDecl = _find_decl("parlor_fireplace")
+	_assert("parlor_fireplace declaration found for descent trigger", hearth_decl != null)
+	if hearth_decl == null:
+		return
+	_im._on_interacted("parlor_fireplace", hearth_decl.type, {})
+	await create_timer(0.2).timeout
+	_assert("parlor firebrand acquired for descent trigger", _gm.has_item("firebrand"))
+
+	_rm.load_room("kitchen")
+	for _i in range(20):
+		if not _rm.get("_is_transitioning"):
+			break
+		await create_timer(0.1).timeout
+	_im._on_door_tapped("storage_basement", "kitchen_to_storage_basement")
+	var reached_basement: bool = false
+	for _i in range(40):
+		await create_timer(0.1).timeout
+		if _rm.get_current_room_id() == "storage_basement":
+			reached_basement = true
+			break
+	_assert("kitchen service descent reaches storage basement", reached_basement and _rm.get_current_room_id() == "storage_basement")
+	_assert("kitchen service descent sets elizabeth awareness", _gm.get_state("elizabeth_aware", false) == true)
+	_assert("kitchen service descent records seizure", _gm.get_state("kitchen_service_descent_triggered", false) == true)
+	_assert("kitchen service descent consumes firebrand", not _gm.has_item("firebrand"))
+	_assert("kitchen service descent clears current light tool", _gm.get_state("current_light_tool", "") == "")
+	_assert("storage basement landing text references oily rags", "old oily rags" in _get_document_content())
+	_ui.hide_document()
+
+
+func _test_parlor_first_warmth_firebrand() -> void:
+	_gm.new_game()
+	_gm.set_state("parlor_fire_lit", false)
+	_gm.set_state("current_light_tool", "")
+	_gm.remove_item("firebrand")
+	if _room_events != null and "_trigger_engine" in _room_events and _room_events._trigger_engine != null:
+		_room_events._trigger_engine._fired_triggers.erase("parlor_first_entry")
+	_rm.load_room("parlor")
+	var hearth_decl: InteractableDecl = _find_decl("parlor_fireplace")
+	_assert("parlor_fireplace declaration found", hearth_decl != null)
+	if hearth_decl == null:
+		return
+	_im._on_interacted("parlor_fireplace", hearth_decl.type, {})
+	await create_timer(0.4).timeout
+	_assert("parlor fire lights state", _gm.get_state("parlor_fire_lit", false) == true)
+	_assert("parlor fire grants firebrand", _gm.has_item("firebrand"))
+	_assert("parlor fire sets current light tool", _gm.get_state("current_light_tool", "") == "firebrand")
+	_assert("parlor fire text", "draw a burning brand free" in _get_document_content())
+	var room = _rm.get_current_room()
+	var fireplace_base: float = -1.0
+	if room != null and room.has_method("get_light_base_energy"):
+		fireplace_base = room.get_light_base_energy("parlor_fireplace_light")
+	_assert("parlor fire light wakes with the hearth", fireplace_base > 1.2)
+	_ui.hide_document()
 
 
 func _test_kitchen_bucket_visual_states() -> void:
@@ -778,6 +887,7 @@ func _test_parlor_music_box_auto_event() -> void:
 	_gm.set_state("elizabeth_aware", true)
 	_gm.set_state("visited_attic_storage", true)
 	_gm.set_state("music_box_auto_triggered", false)
+	_gm.set_state("parlor_fire_lit", true)
 	if _room_events != null and "_trigger_engine" in _room_events and _room_events._trigger_engine != null:
 		_room_events._trigger_engine._fired_triggers.erase("music_box_auto_play")
 	_rm.load_room("parlor")

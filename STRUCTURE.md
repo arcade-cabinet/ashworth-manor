@@ -3,53 +3,88 @@
 ## Core Runtime
 
 ### Main Scene
+
 - **File:** `res://scenes/main.tscn`
-- **Role:** top-level shell for world environment, room runtime, player, interaction, audio, UI, and compiled-world coordination
+- **Role:** top-level shell for world environment, room runtime, player,
+  interaction, audio, UI, and compiled-world coordination
 
 ### Canonical Content Layer
-- **Path:** `res://declarations/`
-- **Role:** rooms, world graph, regions, puzzles, items, and authored declaration data
 
-### Runtime/Compilation Layer
+- **Path:** `res://declarations/`
+- **Role:** rooms, world graph, regions, puzzles, items, and authored
+  declaration data
+
+### Runtime / Compilation Layer
+
 - **Path:** `res://engine/`
 - **Role:**
   - declaration classes
   - room assembly
   - interaction resolution
   - graph compilation
-  - region/compiled-world planning
+  - region and compiled-world planning
   - validation and generated test coverage
+
+## Narrative Canon Surface
+
+These docs now define the shipped high-level story structure:
+
+- `docs/GAME_BIBLE.md`
+- `docs/PLAYER_PREMISE.md`
+- `docs/ELIZABETH_ROUTE_PROGRAM.md`
+- `docs/NARRATIVE.md`
+- `docs/MASTER_SCRIPT.md`
+- `docs/script/MASTER_SCRIPT.md`
+
+Any room doc or declaration text that still assumes the old
+`Captive / Mourning / Sovereign` weave should be treated as legacy material
+pending migration.
+
+Primary execution contract:
+
+- `docs/batches/ashworth-master-task-graph.md`
 
 ## World Model
 
 ### Authoring Units
+
 - `RoomDeclaration` resources under `declarations/rooms/`
 
 ### Runtime Units
+
 - compiled worlds, not isolated room loads
 
 Current intended compiled worlds:
+
 - `entrance_path_world`
 - `manor_interior_world`
 - `rear_grounds_world`
 - `service_basement_world`
 
+Route-specific late spaces should still resolve through declaration-first
+assembly even when they temporarily change traversal logic or active-world
+composition.
+
 ### Region / World Runtime
+
 - **File:** `res://scripts/world_runtime_manager.gd`
-- **Role:** active compiled world, prewarmed neighbor worlds, compiled-world lookup, transition support
+- **Role:** active compiled world, prewarmed neighbor worlds, compiled-world
+  lookup, transition support
 
 ### Room Lifecycle
+
 - **File:** `res://scripts/room_manager.gd`
 - **Role:**
-  - assemble/load declaration rooms
+  - assemble and load declaration rooms
   - keep compiled-world slices loaded
   - switch active room context inside the loaded compiled world
   - resolve transition profiles
-  - place the player via entry/focal anchors
+  - place the player via entry and focal anchors
 
 ## Scene Graph Expectations
 
 ### Runtime Room Root
+
 - **Script:** `res://scripts/room_base.gd`
 - **Shape:**
   - `Geometry`
@@ -60,31 +95,64 @@ Current intended compiled worlds:
   - `Connections`
   - `Props`
   - `Audio`
+- **Notable runtime API:**
+  - `tween_light_energy(light_id, target_energy, duration)`
+  - `set_light_energy(light_id, value)` for persistent authored light states
 
 ### Runtime Systems
+
 - `scripts/game_manager.gd`
   - flags, inventory, endings, global state
 - `scripts/player_controller.gd`
   - tap-to-walk, swipe-to-look, embodied traversal motion
 - `scripts/interaction_manager.gd`
   - declaration-driven interaction dispatch and special-case flows
+  - opening packet/valise handling
+  - persistent foyer/parlor light-state sync on room load
+  - first-warmth hearth handling that starts the firebrand phase
+  - first kitchen service-hatch seizure that drops the player into the service
+    basement and clears the firebrand phase
 - `scripts/audio_manager.gd`
-  - loop playback and crossfade
+  - loop playback, crossfade, and direct-path SFX playback for authored event
+    cues
 - `scripts/ui_overlay.gd`
-  - diegetic overlays and pause/document presentation
+  - diegetic overlays and document presentation
 - `scripts/connection_mechanism.gd`
-  - threshold animation/state surface
+  - threshold animation and state surface
 - `engine/interactable_visuals.gd`
-  - scene/model resolution for dynamic visual states on interactables
+  - scene and model resolution for dynamic visual states on interactables
+
+## Story Progression Grammar
+
+### Route Order
+
+- first completion: `Adult`
+- second completion: `Elder`
+- third completion: `Child`
+
+### Tool Phases
+
+- `firebrand`
+- `walking stick`
+- `lantern hook`
+
+### Light Phases
+
+- early improvised personal light
+- midgame restored estate light
+- late-game loss of stable house light
 
 ## Architectural Stack
 
 ### Procedural > Model > Procedural
-- Walls, floors, and ceilings are procedural textured shells
-- Frame/moulding/newel/trim assets are inset models
-- Doors, windows, trapdoors, ladders, and stairs should stay procedural where motion/scaling matters
+
+- walls, floors, and ceilings are procedural textured shells
+- frame, moulding, newel, and trim assets are inset models
+- doors, windows, trapdoors, ladders, and stairs should stay procedural where
+  motion or scaling matters
 
 ### Builders
+
 - `builders/wall_builder.gd`
 - `builders/window_builder.gd`
 - `builders/door_builder.gd`
@@ -95,6 +163,7 @@ Current intended compiled worlds:
 - `builders/trapdoor_builder.gd`
 - `builders/connection_assembly.gd`
 - `builders/arch_model_fitter.gd`
+- `builders/shape_kit.gd`
 
 ## Stateful Scene Surfaces
 
@@ -103,24 +172,27 @@ Current intended compiled worlds:
 - `res://scenes/shared/kitchen/`
   - kitchen bucket liquid-state scenes
 - `res://resources/water/`
-  - tuned local water materials for pond/basin/container usage
+  - tuned local water materials for pond, basin, and container usage
 
 ## Traversal Rules
 
-- Same-world `door` and `path` thresholds should default to seamless traversal
-- Same-world `stairs`, `ladder`, and `trapdoor` thresholds should default to embodied traversal
-- Inter-world traversal may use soft or hard masking
-- Thresholds should be authored as mechanisms, not debug links
+- same-world `door` and `path` thresholds should default to seamless traversal
+- same-world `stairs`, `ladder`, and `trapdoor` thresholds should default to
+  embodied traversal
+- inter-world traversal may use soft or hard masking
+- thresholds should be authored as mechanisms, not debug links
 
 ## Acceptance Surface
 
 ### Logic / Declaration
+
 - `test/generated/test_declarations.gd`
 - `test/e2e/test_declared_interactions.gd`
 - `test/e2e/test_room_specs.gd`
 - `test/e2e/test_full_playthrough.gd`
 
 ### Player-Perception / Visual
+
 - `test/e2e/test_room_walkthrough.gd`
 - `test/e2e/test_opening_journey.gd`
 

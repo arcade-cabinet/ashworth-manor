@@ -77,7 +77,7 @@ state_model_map:
 
 **Default:**
 > **Wine Glass**
-> "A single wine glass, still full. Dark red, almost black. After 130 years, it has not evaporated. The wine surface trembles faintly -- as if something beneath the table breathes."
+> "A single wine glass, still full. Dark red, almost black. It should have gone stale, clouded, or spoiled by now, but the surface still trembles faintly -- as if something beneath the table breathes."
 
 **Captive thread:**
 > **Wine Glass**

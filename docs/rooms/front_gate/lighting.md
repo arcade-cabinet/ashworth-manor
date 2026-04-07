@@ -15,6 +15,7 @@
 | Flickering | No |
 
 **Purpose:** Primary illumination. Cold, pale, casts long tree shadows across the ground. Sets the tone: this is night. This is cold. This is abandoned.
+More precisely: this is a winter estate that has gone quiet, not a collapsed ruin.
 
 ### 2. Gate Lamp (OmniLight3D)
 
@@ -28,9 +29,9 @@
 | Shadows | No (performance — moonlight handles shadows) |
 | Flickering | **Yes** (`metadata/flickering = true`) |
 
-**Purpose:** The only warm light in the scene. A beacon. Draws the eye to the gate. The fact that it's still lit after 130+ years is the first wrongness — something is keeping it burning. Its dead twin on the opposite pillar makes the asymmetry feel deliberate and uncanny.
+**Purpose:** The only warm light in the scene. A beacon. Draws the eye to the gate. The fact that it is still lit despite the estate's supposed emptiness is enough wrongness; the opening should not depend on overt supernatural behavior.
 
-**Flicker pattern:** Slow breathing pulse (room_base.gd default: `sin(t*2.5)*0.04 + sin(t*4.3)*0.02`). Should feel like breathing, not mechanical.
+**Flicker pattern:** restrained gas-lamp turbulence. Gentle, credible, and readable through the glass. Not a haunted breathing effect at this stage.
 
 ### 3. Mansion Window Glow (Two OmniLight3D fills)
 
@@ -48,9 +49,9 @@
 
 ## Lighting Design Notes
 
-- **Two-light contrast:** Cold moonlight (blue) vs warm gas lamp (amber). The player starts near the warm lamp and walks toward the cold mansion. Warmth → cold. Safety → danger.
-- **Asymmetric gate read:** The left pillar still burns; the right pillar has gone black. The gate should feel maintained by a will, not by infrastructure.
+- **Two-light contrast:** Cold twilight / moonlight (blue) vs warm gas lamp (amber). The player starts near the warm lamp and walks toward the colder estate mass. Familiarity → uncertainty.
+- **Asymmetric gate read:** One lamp is enough. The threshold should feel lightly tended, not theatrically enchanted.
 - **No ambient fill:** Exterior has no ceiling bounce. Dark areas are genuinely dark.
 - **Tree shadows:** Moonlight through bare winter trees creates skeletal shadow patterns on the ground. This is the first visual hook.
-- **Mansion facade:** The mansion building (at Z=10+) should read as a shallow silhouette, not a fully explorable exterior build. The moonlight defines the mass; two weak upper-window glows imply interior life without breaking the cold approach. The front door and shallow steps should be readable as a destination even before the player reaches the foyer transition.
+- **Mansion facade:** The mansion building (at Z=10+) should read as a withheld silhouette, not a fully explained destination. The moonlight defines the mass; a small amount of distant warmth implies interior depth without collapsing the sense of long ceremonial grounds.
 - **Foreground anchors:** The statuary should catch enough moonlight to register as human-like forms in peripheral vision without becoming bright focal points. They exist to make the approach feel curated, aristocratic, and faintly accusatory.

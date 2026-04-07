@@ -1,11 +1,15 @@
 # Storage Basement — Lighting
 
-### 1. Single Candle (OmniLight3D) — ONLY WARM SOURCE
-| Position | (0, 1.2, 0) | Color | `(1.0, 0.8, 0.4)` | Energy | 0.8 | Range | 4.0 | Flickering | **Yes** |
+### 1. Dead Service Lighting
+| Fixture | Position | Energy on arrival | Notes |
+|---------|----------|-------------------|-------|
+| Basement bulb | `(0, 2.5, 0)` | `0.0` | Present but dead until the later gas-restoration turn |
+| Mattress candle | `(2.2, 0.9, 2.0)` | `0.0` | Present as trace, not as usable welcome light |
 
-First room with truly limited light. Single candle illuminates center; corners are dark. The scratched portrait requires approaching through shadow to see.
+On the first forced arrival the room should read as unlit. The player has lost the firebrand and the basement has not yet been restored to functioning service light.
 
 ## Design Notes
 - Ambient darkness 0.75 — significant jump from ground floor
 - Stone walls don't reflect — light dies at the edges
-- Dripping water sound comes from darkness (unseen source)
+- The room should not feel theatrically black; it should feel infrastructurally dead
+- Later gas restoration should wake these fixtures rather than introducing unrelated new lights

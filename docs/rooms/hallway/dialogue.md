@@ -5,7 +5,7 @@ Complete `.dialogue` file content for `dialogue/upper_floor/hallway.dialogue`.
 ```
 ~ attic_door
 if GameManager.has_item("attic_key")
-	The old lock clicks open. Stale air rushes past you — air that hasn't moved in over a century.
+	The old lock clicks open. Stale air rushes past you — air that hasn't moved in years.
 	
 	The stairs beyond are dark. Something shifts in the shadows above.
 elif GameManager.has_flag("knows_key_location")

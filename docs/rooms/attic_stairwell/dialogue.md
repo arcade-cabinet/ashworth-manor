@@ -2,7 +2,7 @@
 
 ```
 ~ stairwell_debris
-	Gravel and plaster dust on the stairs. Your footprints are the first in over a century.
+	Gravel and plaster dust on the stairs. Your footprints are the first in years.
 	
 	Each step leaves a mark. Proof you were here.
 

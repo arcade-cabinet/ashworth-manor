@@ -116,7 +116,7 @@ state_model_map:
 
 **Default:**
 > **Bucket**
-> "A wooden bucket, half-full of water that should have evaporated decades ago. The water is perfectly still. No reflection of the ceiling. Just dark."
+> "A wooden bucket, half-full of water that should not have sat this clean for so long. The water is perfectly still. No reflection of the ceiling. Just dark."
 
 ### Flags Set
 - `examined_kitchen_bucket`

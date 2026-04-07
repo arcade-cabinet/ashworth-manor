@@ -15,15 +15,17 @@ actions:
 
 **Note:** This is the ONLY room where the room name display shows the game title instead of the room name. Sets the tone immediately.
 
+This event now follows the solicitor-letter prologue. `front_gate` is the first embodied threshold, not the first narrative beat.
+
 ### First Entry Thread Beat
 
 Before the title/state trigger fires, the room runs one thread-specific opening observation:
 
 | Macro Thread | Opening Beat |
 |-------------|--------------|
-| `captive` | The open gate reads like the broken edge of a prison, and the drive funnels the player toward a sealed house. |
+| `captive` | The gate feels too orderly to be safe, and the drive funnels the player inward without granting ownership of the place. |
 | `mourning` | The allée reads as disciplined grief, with the manor waiting like an old family memory left intact too long. |
-| `sovereign` | The house feels attentive rather than empty; the lit windows and gate lamp imply the estate has noticed the player. |
+| `sovereign` | The estate carries itself with the composure of old authority; the player feels received rather than welcomed. |
 
 All three variants trigger a gate creak, and the `captive` / `sovereign` variants add a light camera sway.
 
@@ -36,11 +38,11 @@ conditions:
 actions:
   - set_flag: front_gate_threshold_acknowledged
   - play_sfx: "gate_creak"
-  - gate_lamp energy: 2.5 -> 3.4 over 1.2s
-  - brief camera sway (shaky-camera-3d, trauma 0.02)
+  - sign sway / chain creak emphasis
+  - subtle camera settle toward the drive
 ```
 
-This is the manor's first answer to the player. It should happen once, immediately after the plaque is read, without replacing the plaque text itself.
+This is the player's first commitment to the grounds. It should happen once, immediately after the plaque is read or the estate sign is chosen, without turning the opening into overt supernatural theater.
 
 ### Return From Mansion (Ending Checks)
 ```yaml
@@ -95,11 +97,13 @@ actions:
 ### None
 Front gate is the player's anchor to the outside world. No flashbacks here — this is the real world. The supernatural belongs inside the house. The gate is where you can still turn back.
 
+The only exception is the **pre-room solicitor letter**, which is not a supernatural flashback. It is the practical document that leads into this threshold.
+
 ## Phase-Specific Atmosphere Changes
 
 | Phase | Change |
 |-------|--------|
-| Exploration | Normal — wind, moonlight, quiet |
-| Discovery | Gate lamp burns slightly brighter. Wind has a voice-like quality |
-| Horror | Lamp flickers erratically. Trees seem closer. Shadows longer |
+| Exploration | Normal — wind, lamp, quiet, long-distance tension |
+| Discovery | Lamp and sign feel more conspicuous, but still grounded |
+| Horror | Trees seem closer. Shadows longer. The threshold stops feeling neutral |
 | Resolution | Dead calm. No wind. Lamp steady. Eerie stillness |

@@ -8,7 +8,7 @@ position: (0, 0.2, 0)
 ```
 
 ### Text
-> "Gravel and plaster dust on the stairs. Your footprints are the first in over a century. Each step leaves a mark. Proof you were here."
+> "Gravel and plaster dust on the stairs. Your footprints are the first in years. Each step leaves a mark. Proof you were here."
 
 ---
 

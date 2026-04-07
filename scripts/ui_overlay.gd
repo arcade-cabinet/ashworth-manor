@@ -9,6 +9,7 @@ var _document: Control = null
 var _pause: Control = null
 var _ending: Control = null
 var _room_name: Control = null
+var _is_document_open: bool = false
 
 
 func _ready() -> void:
@@ -25,7 +26,10 @@ func _ready() -> void:
 
 	# Forward document_closed signal
 	if _document.has_signal("document_closed"):
-		_document.document_closed.connect(func(): document_closed.emit())
+		_document.document_closed.connect(func():
+			_is_document_open = false
+			document_closed.emit()
+		)
 
 	call_deferred("_connect_signals")
 
@@ -56,17 +60,23 @@ func _input(event: InputEvent) -> void:
 
 func show_document(doc_title: String, content: String) -> void:
 	if _document and _document.has_method("show_document"):
+		_is_document_open = true
 		_document.show_document(doc_title, content)
 
 
 func hide_document() -> void:
 	if _document and _document.has_method("hide_document"):
 		_document.hide_document()
+		_is_document_open = false
 
 
 func show_room_name(room_name: String) -> void:
 	if _room_name and _room_name.has_method("show_room_name"):
 		_room_name.show_room_name(room_name)
+
+
+func is_document_open() -> bool:
+	return _is_document_open
 
 
 func show_ending(ending_id: String) -> void:

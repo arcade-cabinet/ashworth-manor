@@ -68,6 +68,18 @@ func tween_light_energy(light_id: String, target_energy: float, duration: float)
 	return true
 
 
+func set_light_energy(light_id: String, value: float) -> bool:
+	var light: Light3D = find_light_by_id(light_id)
+	if light == null:
+		return false
+	var flicker_entry: Dictionary = _find_flicker_entry(light)
+	if not flicker_entry.is_empty():
+		_set_flicker_base_energy(value, light)
+	else:
+		light.light_energy = value
+	return true
+
+
 func find_light_by_id(light_id: String) -> Light3D:
 	return _find_light_by_name(self, light_id)
 

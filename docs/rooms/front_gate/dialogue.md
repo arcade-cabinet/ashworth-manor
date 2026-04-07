@@ -6,14 +6,12 @@ Complete `.dialogue` file content for the front_gate room. This will be written 
 ~ gate_plaque
 if GameManager.has_flag("knows_full_truth")
 	"ASHWORTH MANOR — Est. 1847."
-	
-	Below, in smaller script: "Abandon memory, all ye who enter."
-	
-	They meant it literally. They tried to make the world forget Elizabeth existed.
+
+	The family name looks different now. Not larger. Just less complete. Elizabeth was always inside it, even when they tried to strike her out.
 else
 	"ASHWORTH MANOR — Est. 1847."
-	
-	The iron lettering is green with verdigris. Below, in smaller script barely legible: "Abandon memory, all ye who enter."
+
+	The brass has gone green at the edges, but someone has kept the name legible. It feels less abandoned than unattended.
 do GameManager.set_flag("examined_gate_plaque")
 
 
@@ -29,20 +27,20 @@ do GameManager.set_flag("found_helena_luggage")
 if GameManager.has_flag("knows_full_truth")
 	The children sat here the night they fled. Charles, Margaret, William. They looked back once. None of them ever returned.
 else
-	Cold stone. Snow has settled in the seat — undisturbed for decades. Someone sat here once, looking at the house, deciding whether to go in.
+	Cold stone, damp at the edges. The sort of bench where a child might have been told to wait while adults decided something out of earshot.
 
 
 ~ iron_gate
 if GameManager.has_flag("elizabeth_aware")
-	The gate hangs open like a mouth. You notice now: the iron bars are bent outward. Whatever left this house was stronger than iron.
+	You notice now how deliberate the opening feels. Not forced. Not welcoming either. Simply waiting.
 else
-	Iron bars, rusted open. The lock is broken — not from outside. Someone burst through from within. The hinges scream when the wind catches them.
+	One iron leaf stands partly open. The chain has been unhooked, not cleanly put away. Someone expected arrival, or failed to finish departing.
 do GameManager.set_flag("examined_iron_gate")
 
 
 ~ gate_lamp
 if GameManager.has_flag("elizabeth_aware")
-	The lamp pulses in rhythm. You realize you've been breathing in sync with it. Since when?
+	The flame gutters once as you near it, though the air is otherwise still. That is enough.
 else
-	Still lit. After over a century, the gas lamp by the gate still burns. The flame doesn't flicker like fire — it pulses, like breathing.
+	Still lit. The flame is small, sheltered behind glass, and steady enough to suggest recent tending. For a supposedly empty estate, that is unsettling enough.
 ```

@@ -3,6 +3,20 @@ extends Node
 ## Save/load via SaveMadeEasy. Inventory backed by gloot.
 
 const ProtoTreeCache = preload("res://addons/gloot/core/prototree/proto_tree_cache.gd")
+const ELIZABETH_ROUTE_ORDER := ["adult", "elder", "child"]
+const LEGACY_THREAD_FOR_ROUTE := {
+	"adult": "mourning",
+	"elder": "sovereign",
+	"child": "captive",
+}
+const POSITIVE_ROUTE_ENDINGS := [
+	"freedom",
+	"forgiveness",
+	"acceptance",
+	"adult",
+	"elder",
+	"child",
+]
 
 signal state_changed(key: String, value: Variant)
 signal item_acquired(item_id: String)
@@ -19,6 +33,7 @@ var visited_rooms: Array[String] = []
 var interacted_objects: Array[String] = []
 var flags: Dictionary = {}
 var lights_toggled: Dictionary = {}
+var completed_routes: Array[String] = []
 
 # Gloot inventory (replaces Array[String] inventory)
 var _gloot_inventory: Inventory = null
@@ -31,6 +46,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_load_world_declaration()
 	_setup_inventory()
+	_restore_route_progression()
 
 func _setup_inventory() -> void:
 	_gloot_inventory = Inventory.new()
@@ -57,7 +73,7 @@ func new_game() -> void:
 	flags.clear()
 	lights_toggled.clear()
 	_gloot_inventory.clear()
-	_assign_macro_thread_for_new_game()
+	_assign_elizabeth_route_for_new_game()
 	current_screen = Screen.GAME
 	screen_changed.emit("game")
 
@@ -126,6 +142,8 @@ func toggle_light(light_id: String) -> bool:
 	return state
 
 func trigger_ending(ending_id: String) -> void:
+	if POSITIVE_ROUTE_ENDINGS.has(ending_id):
+		mark_route_completed()
 	ending_triggered.emit(ending_id)
 
 # --- Save / Load via SaveMadeEasy ---
@@ -139,6 +157,7 @@ func save_game() -> void:
 	SaveSystem.set_var("interacted_objects", interacted_objects.duplicate())
 	SaveSystem.set_var("flags", flags.duplicate())
 	SaveSystem.set_var("lights_toggled", lights_toggled.duplicate())
+	SaveSystem.set_var("completed_routes", completed_routes.duplicate())
 	if is_instance_valid(QuestSystem):
 		SaveSystem.set_var("quest_pool_state", QuestSystem.pool_state_as_dict())
 		SaveSystem.set_var("quest_data", QuestSystem.serialize_quests())
@@ -171,6 +190,11 @@ func load_game() -> bool:
 			interacted_objects.append(o)
 	flags = SaveSystem.get_var("flags", {})
 	lights_toggled = SaveSystem.get_var("lights_toggled", {})
+	var saved_completed_routes: Array = SaveSystem.get_var("completed_routes", [])
+	completed_routes.clear()
+	for route in saved_completed_routes:
+		if route is String and ELIZABETH_ROUTE_ORDER.has(route) and not completed_routes.has(route):
+			completed_routes.append(route)
 	if is_instance_valid(QuestSystem):
 		var pool_state: Dictionary = SaveSystem.get_var("quest_pool_state", {})
 		if not pool_state.is_empty():
@@ -213,9 +237,71 @@ func _get_starting_room() -> String:
 	return "front_gate"
 
 
-func _assign_macro_thread_for_new_game() -> void:
-	if _world_declaration == null or _world_declaration.macro_threads.is_empty():
+func _assign_elizabeth_route_for_new_game() -> void:
+	var route_id := _select_elizabeth_route_for_new_game()
+	if route_id.is_empty():
 		return
+	set_state("elizabeth_route", route_id)
+	var legacy_thread := get_legacy_thread_for_route(route_id)
+	if not legacy_thread.is_empty():
+		set_state("macro_thread", legacy_thread)
+	else:
+		flags.erase("macro_thread")
+		state_changed.emit("macro_thread", "")
+
+
+func _select_elizabeth_route_for_new_game() -> String:
+	for route_id in ELIZABETH_ROUTE_ORDER:
+		if not completed_routes.has(route_id):
+			return route_id
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	return ELIZABETH_ROUTE_ORDER[rng.randi_range(0, ELIZABETH_ROUTE_ORDER.size() - 1)]
+
+
+func get_active_route() -> String:
+	return String(get_state("elizabeth_route", ""))
+
+
+func get_completed_routes() -> Array[String]:
+	return completed_routes.duplicate()
+
+
+func mark_route_completed(route_id: String = "") -> void:
+	var resolved_route := route_id if not route_id.is_empty() else get_active_route()
+	if resolved_route.is_empty() or completed_routes.has(resolved_route):
+		return
+	completed_routes.append(resolved_route)
+	_persist_route_progression()
+
+
+func reset_route_progression() -> void:
+	completed_routes.clear()
+	_persist_route_progression()
+
+
+func get_legacy_thread_for_route(route_id: String) -> String:
+	return String(LEGACY_THREAD_FOR_ROUTE.get(route_id, ""))
+
+
+func _restore_route_progression() -> void:
+	if not is_instance_valid(SaveSystem):
+		return
+	var saved_completed_routes: Array = SaveSystem.get_var("completed_routes", [])
+	completed_routes.clear()
+	for route in saved_completed_routes:
+		if route is String and ELIZABETH_ROUTE_ORDER.has(route) and not completed_routes.has(route):
+			completed_routes.append(route)
+
+
+func _persist_route_progression() -> void:
+	if not is_instance_valid(SaveSystem):
+		return
+	SaveSystem.set_var("completed_routes", completed_routes.duplicate())
+	SaveSystem.save()
+
+
+func _assign_macro_thread_for_new_game() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.randomize()
 	var index := rng.randi_range(0, _world_declaration.macro_threads.size() - 1)

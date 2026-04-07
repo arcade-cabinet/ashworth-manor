@@ -163,7 +163,7 @@ spawn_rotation_y = 0.0
 to_anchor_id = "entry_from_gate"
 focal_anchor_id = "focus_drive_forward"
 required_state = "front_gate_threshold_acknowledged"
-blocked_text = "The manor waits at the end of the drive. Something in you resists crossing the threshold before you read the plaque."
+blocked_text = "The drive feels wrong while your valise still sits unopened beneath the sign."
 
 [sub_resource type="Resource" id="conn_drive_lower_to_front_gate"]
 script = ExtResource("3")
@@ -243,6 +243,8 @@ spawn_rotation_y = 12.0
 to_anchor_id = "entry_front_door"
 presentation_type = "facade_door"
 mechanism_type = "swing"
+locked = true
+key_id = "front_door_key"
 door_texture = "res://assets/shared/textures/retro/door_texture_01.png"
 frame_texture = "wall0_texture"
 
@@ -599,12 +601,19 @@ id = "kitchen_to_storage_basement"
 from_room = "kitchen"
 to_room = "storage_basement"
 direction = "down"
-type = "stairs"
-position_in_from = Vector3(0, 0.5, -4)
+type = "trapdoor"
+position_in_from = Vector3(2.35, 0.0, 3.15)
 position_in_to = Vector3(0, 0, -1.4)
 spawn_rotation_y = 180.0
 to_anchor_id = "entry_stairs"
 focal_anchor_id = "focus_service_stack"
+presentation_type = "service_hatch"
+mechanism_type = "lift"
+interaction_size = Vector3(1.25, 0.6, 1.25)
+door_texture = "res://assets/shared/textures/retro/door_texture_03.png"
+required_state = "current_light_tool == firebrand"
+blocked_text = "A service hatch is cut into the kitchen floor. Without a live brand, the black below feels deeper than the room."
+open_sfx = "res://assets/audio/sfx/impact/pl_impact_wood_04.ogg"
 
 [sub_resource type="Resource" id="conn_storage_basement_to_kitchen"]
 script = ExtResource("3")
@@ -614,7 +623,7 @@ to_room = "kitchen"
 direction = "up"
 type = "stairs"
 position_in_from = Vector3(0, 1, -4)
-position_in_to = Vector3(0, 0, -3)
+position_in_to = Vector3(2.35, 0, 3.15)
 spawn_rotation_y = 0.0
 
 ; -- Basement: Storage <-> Boiler Room --

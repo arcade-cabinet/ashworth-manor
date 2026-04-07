@@ -41,7 +41,7 @@ position: (0, 1.5, 3.5)
 
 **Default:**
 > **Boiler**
-> "Massive cast iron. Still warm to the touch. The firebox has ash in it — grey, not black. Someone fed this boiler recently. But who? The house has been abandoned for over a century."
+> "Massive cast iron. Still warm to the touch. The firebox has ash in it — grey, not black. Someone fed this boiler recently. But who? The house was supposed to have gone still."
 
 **After `elizabeth_aware`:**
 > **Boiler**

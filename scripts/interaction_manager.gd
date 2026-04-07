@@ -4,6 +4,26 @@ extends Node
 ## Phantom Camera inspection on key objects.
 
 const InteractableVisuals = preload("res://engine/interactable_visuals.gd")
+const OPENING_PACKET_TITLE := "Ashworth Manor"
+const OPENING_PACKET_PAGE := """Re: Ashworth Manor, Ashworth Parish
+
+Sir,
+
+I write to confirm that, following the death of Mr. Edwin Vale, final acting caretaker of Ashworth Manor, the estate and its remaining appurtenances now devolve to you as the last surviving heir of the Ashworth line.
+
+Your personal attendance at the house is required at the earliest practicable opportunity, certain inventories and household papers having not yet been regularized.
+
+This page forms part of the enclosed packet respecting the manor and its immediate condition.
+
+H. Calder & Sons
+Solicitors"""
+const FRONT_GATE_VALISE_TITLE := "Travel Valise"
+const FRONT_GATE_VALISE_TEXT := """The driver has left your valise beneath the sign. The clasps give with a stiff complaint.
+
+Inside are the solicitor's packet, the front-door key, your notebook, and the little brass winding key you packed years ago for reasons you have never properly explained."""
+const FRONT_GATE_VALISE_TEXT_EMPTY := """The valise sags open in the damp. The packet and small necessities are already in your keeping."""
+const FRONT_GATE_OPENING_ITEMS := ["solicitor_packet", "front_door_key", "notebook", "music_box_winding_key"]
+const ELIZABETH_LAUGH_SFX := "res://assets/audio/sfx/echoes/laughing_ghost.mp3"
 
 var _player: Node = null
 var _room_manager: Node = null
@@ -85,6 +105,9 @@ func _on_room_loaded(room_id: String) -> void:
 	else:
 		_current_dialogue_resource = load(path)
 	_refresh_current_room_visuals()
+	_sync_persistent_room_state(room_id)
+	if room_id == "front_gate" and GameManager.get_state("front_gate_packet_pending", false):
+		call_deferred("_present_front_gate_packet")
 
 
 func _on_game_state_changed(_key: String, _value: Variant) -> void:
@@ -145,15 +168,19 @@ func _handle_special_interactable(decl: InteractableDecl) -> bool:
 	if decl.state_tags.has("gate_menu_settings"):
 		_handle_front_gate_settings()
 		return true
+	if decl.id == "gate_luggage":
+		_handle_front_gate_valise()
+		return true
+	if decl.id == "parlor_fireplace":
+		return _handle_parlor_fireplace(decl)
 	return false
 
 
 func _handle_front_gate_new_game() -> void:
 	GameManager.new_game()
 	GameManager.set_state("front_gate_menu_selection", "new_game")
-	GameManager.set_state("front_gate_threshold_acknowledged", true)
 	GameManager.set_state("front_gate_menu_committed", true)
-	_play_declared_sfx("gate_creak")
+	GameManager.set_state("front_gate_packet_pending", true)
 	if _room_manager != null and _room_manager.has_method("load_room"):
 		_room_manager.load_room("front_gate")
 
@@ -173,6 +200,35 @@ func _handle_front_gate_load_game() -> void:
 func _handle_front_gate_settings() -> void:
 	if _ui_overlay != null and _ui_overlay.has_method("toggle_pause_menu"):
 		_ui_overlay.toggle_pause_menu()
+
+
+func _handle_front_gate_valise() -> void:
+	var already_opened: bool = GameManager.get_state("front_gate_valise_opened", false)
+	if not already_opened:
+		for item_id in FRONT_GATE_OPENING_ITEMS:
+			if not GameManager.has_item(item_id):
+				GameManager.give_item(item_id)
+		GameManager.set_state("front_gate_valise_opened", true)
+		GameManager.set_state("front_gate_threshold_acknowledged", true)
+		GameManager.set_state("front_gate_packet_pending", false)
+		_show(FRONT_GATE_VALISE_TITLE, FRONT_GATE_VALISE_TEXT)
+		return
+	_show(FRONT_GATE_VALISE_TITLE, FRONT_GATE_VALISE_TEXT_EMPTY)
+
+
+func _handle_parlor_fireplace(decl: InteractableDecl) -> bool:
+	var was_lit: bool = GameManager.get_state("parlor_fire_lit", false)
+	var handled := _handle_declared_interaction(decl)
+	if not handled:
+		return false
+	if not was_lit and GameManager.get_state("parlor_fire_lit", false):
+		var room = _room_manager.get_current_room() if _room_manager != null and _room_manager.has_method("get_current_room") else null
+		if room != null:
+			if room.has_method("set_light_energy"):
+				room.set_light_energy("parlor_fireplace_light", 1.5)
+			elif room.has_method("tween_light_energy"):
+				room.tween_light_energy("parlor_fireplace_light", 1.5, 0.18)
+	return true
 
 func _apply_flags(data: Dictionary) -> void:
 	var flags_val: Variant = data.get("on_read_flags", [])
@@ -275,6 +331,27 @@ func _refresh_current_room_visuals() -> void:
 			InteractableVisuals.ensure_visual(area as Area3D)
 
 
+func _sync_persistent_room_state(room_id: String) -> void:
+	if _room_manager == null or not _room_manager.has_method("get_current_room"):
+		return
+	var room = _room_manager.get_current_room()
+	if room == null or not room.has_method("tween_light_energy"):
+		return
+	match room_id:
+		"foyer":
+			var chandelier_energy := 1.85 if GameManager.get_state("foyer_chandelier_awakened", false) else 0.0
+			if room.has_method("set_light_energy"):
+				room.set_light_energy("foyer_chandelier", chandelier_energy)
+			else:
+				room.tween_light_energy("foyer_chandelier", chandelier_energy, 0.01)
+		"parlor":
+			var fireplace_energy := 1.5 if GameManager.get_state("parlor_fire_lit", false) else 0.0
+			if room.has_method("set_light_energy"):
+				room.set_light_energy("parlor_fireplace_light", fireplace_energy)
+			else:
+				room.tween_light_energy("parlor_fireplace_light", fireplace_energy, 0.01)
+
+
 func _evaluate_state_expression(expression: String) -> bool:
 	var state_machine := StateMachine.new()
 	if _state_schema != null:
@@ -374,6 +451,8 @@ func _on_door_tapped(target_room: String, connection_id: String = "") -> void:
 				if connection_id.is_empty():
 					connection_id = area_connection_id
 				break
+	if await _handle_special_connection(target_room, conn_type, connection_id, matched_area):
+		return
 	if target_room == "front_gate" and GameManager.current_room != "front_gate":
 		if GameManager.has_flag("counter_ritual_complete"):
 			await _play_threshold_visual(matched_area)
@@ -388,6 +467,29 @@ func _on_door_tapped(target_room: String, connection_id: String = "") -> void:
 	await _play_threshold_visual(matched_area)
 	_transition_with_type(target_room, conn_type, connection_id)
 	GameManager.save_game()
+
+
+func _handle_special_connection(target_room: String, conn_type: String, connection_id: String, matched_area: Area3D) -> bool:
+	if connection_id != "kitchen_to_storage_basement":
+		return false
+	if GameManager.get_state("kitchen_service_descent_triggered", false):
+		return false
+	GameManager.set_state("kitchen_service_descent_triggered", true)
+	GameManager.set_state("storage_basement_fall_landing_pending", true)
+	GameManager.set_state("elizabeth_aware", true)
+	GameManager.set_state("connection_opened_kitchen_to_storage_basement", true)
+	if GameManager.has_item("firebrand"):
+		GameManager.remove_item("firebrand")
+	GameManager.set_state("current_light_tool", "")
+	_play_declared_sfx(ELIZABETH_LAUGH_SFX)
+	await get_tree().create_timer(0.18).timeout
+	await _play_threshold_visual(matched_area)
+	if _room_manager != null and _room_manager.has_method("load_room"):
+		_room_manager.load_room(target_room, connection_id)
+	else:
+		_transition_with_type(target_room, conn_type, connection_id)
+	GameManager.save_game()
+	return true
 
 # === HELPERS ===
 
@@ -420,13 +522,15 @@ func _show(title: String, content: String) -> void:
 func _play_declared_sfx(sfx_ref: String) -> void:
 	if _audio_manager == null or not _audio_manager.has_method("play_sfx"):
 		return
-	if sfx_ref.begins_with("res://assets/audio/sfx/"):
-		var trimmed := sfx_ref.trim_prefix("res://assets/audio/sfx/")
-		if trimmed.ends_with(".ogg"):
-			trimmed = trimmed.substr(0, trimmed.length() - 4)
-		_audio_manager.play_sfx(trimmed)
-		return
 	_audio_manager.play_sfx(sfx_ref)
+
+
+func _present_front_gate_packet() -> void:
+	if GameManager.get_state("front_gate_packet_presented", false):
+		return
+	GameManager.set_state("front_gate_packet_pending", false)
+	GameManager.set_state("front_gate_packet_presented", true)
+	_show(OPENING_PACKET_TITLE, OPENING_PACKET_PAGE)
 
 func _has_dialogue_manager() -> bool:
 	return get_node_or_null("/root/DialogueManager") != null

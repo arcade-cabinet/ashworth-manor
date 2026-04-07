@@ -11,7 +11,7 @@
 | Fence Section | `grounds/front_gate/metalfence_both_sides_topbar.glb` | (-7, 0, -10) | Default | Iron fence left of gate |
 | Brick Wall Pole | `grounds/front_gate/brick_wall_pole.glb` | (6, 0, -10) | Default | Fence post right side |
 | Fence Section R | `grounds/front_gate/metalfence_one_side_topbar.glb` | (7.2, 0, -10) | Rot 180° Y | Iron fence right of gate |
-| Off Lamp | `grounds/front_gate/lamp_mx_1_b_on.glb` | (4, 0, -10) | Default | Right gate lamp now lit so the opening reads as an attended threshold instead of a one-sided blackout |
+| Off Lamp | `grounds/front_gate/lamp_mx_1_b_on.glb` | (4, 0, -10) | Default | Right gate lamp can stay dark or secondary, but the left lamp remains the dominant warm practical |
 | Moon Disc | procedural sphere | (-11.6, 14.4, 18.8) | Scale 2.3 | Visible moon built as a procedural sky prop for the opening composition |
 | Step Center | `shared/structure/floor3.glb` | (0, 0, 8.6) | Scale 1.3 | Shallow front step/read before the door |
 | Step Left | `shared/structure/floor3.glb` | (-1.8, 0, 8.2) | Rot -5° Y, Scale 1.15 | Left widening stone near house |
@@ -89,4 +89,4 @@ The statuary and plinths are deliberate `Clue`-style theatrical anchors. They sh
 
 ## Opening Setpiece Note
 
-The hanging gate menu is not a detached UI screen. The three boards (`New Game`, `Load Game`, `Settings`) are procedural threshold dressing generated from the interactable declarations themselves so the opening remains part of the world and can be captured/tested from the live player camera.
+The hanging estate sign is not a detached UI screen. The three boards (`Enter the Grounds`, `Resume the Visit`, `Adjust the House`) hang beneath the main brass plaque as part of a respectable country-estate marker. They are procedural threshold dressing generated from the interactable declarations themselves so the opening remains part of the world and can be captured/tested from the live player camera.

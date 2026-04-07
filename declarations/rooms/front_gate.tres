@@ -58,7 +58,7 @@ set_state = {"examined_gate_plaque": true}
 script = ExtResource("3")
 condition = ""
 title = "Ashworth Manor"
-text = "ASHWORTH MANOR -- Est. 1847. The iron lettering is green with verdigris. Below, in smaller script barely legible: 'Abandon memory, all ye who enter.'"
+text = "ASHWORTH MANOR -- Est. 1847. The brass has gone dark with weather, but the lettering is still exact. It reads like an estate marker, not a welcome."
 set_state = {"examined_gate_plaque": true}
 
 [sub_resource type="Resource" id="resp_plaque_captive"]
@@ -85,16 +85,16 @@ set_state = {"examined_gate_plaque": true}
 [sub_resource type="Resource" id="resp_luggage_ledger"]
 script = ExtResource("3")
 condition = "read_guest_ledger"
-title = "Abandoned Suitcase"
-text = "Helena Pierce's suitcase. She arrived November 3rd, 1891. Her departure date was left blank. Now you know why -- she never left the house alive."
-set_state = {"found_helena_luggage": true}
+title = "Travel Valise"
+text = "Your valise, left neatly beneath the sign by the departing driver. The packet is inside, along with the key and a few small necessities."
+set_state = {"front_gate_valise_opened": true}
 
 [sub_resource type="Resource" id="resp_luggage_default"]
 script = ExtResource("3")
 condition = ""
-title = "Abandoned Suitcase"
-text = "A leather traveling case, clasps still fastened. Packed but never carried beyond the gate. The luggage tag reads: 'H. Pierce -- London.' The ink has run in the rain."
-set_state = {"found_helena_luggage": true}
+title = "Travel Valise"
+text = "A leather travelling valise with the dust of the station still on it. The driver has left it beneath the sign, close enough to your hand that ignoring it would be a decision."
+set_state = {"front_gate_valise_opened": true}
 
 [sub_resource type="Resource" id="resp_bench_truth"]
 script = ExtResource("3")
@@ -153,7 +153,7 @@ text = "The lamp pulses in rhythm. You realize you've been breathing in sync wit
 script = ExtResource("3")
 condition = ""
 title = "Gas Lamp"
-text = "Still lit. After over a century, the gas lamp by the gate still burns. The flame doesn't flicker like fire -- it pulses, like breathing."
+text = "One gate lamp still burns. The brass is streaked by weather, the glass clouded with soot, but the flame itself is steady enough to prove the place was maintained until recently."
 
 [sub_resource type="Resource" id="resp_lamp_captive"]
 script = ExtResource("3")
@@ -183,13 +183,13 @@ position = Vector3(-2, 1.5, -0.15)
 wall = "south"
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_plaque_truth"), SubResource("resp_plaque_default")])
-thread_responses = {"captive": [SubResource("resp_plaque_captive")], "mourning": [SubResource("resp_plaque_mourning")], "sovereign": [SubResource("resp_plaque_sovereign")]}
+thread_responses = {}
 
 [sub_resource type="Resource" id="inter_gate_luggage"]
 script = ExtResource("2")
 id = "gate_luggage"
 type = "observation"
-position = Vector3(6.2, 0.3, 1.7)
+position = Vector3(0, 0.25, -2.15)
 collision_size = Vector3(1.5, 1.0, 1.0)
 model = "res://assets/grounds/front_gate/luggage_mp_1.glb"
 responses = Array[Resource]([SubResource("resp_luggage_ledger"), SubResource("resp_luggage_default")])
@@ -211,7 +211,7 @@ position = Vector3(0, 1.5, 0)
 collision_size = Vector3(3.0, 3.0, 1.0)
 model = ""
 responses = Array[Resource]([SubResource("resp_gate_aware"), SubResource("resp_gate_default")])
-thread_responses = {"captive": [SubResource("resp_gate_captive")], "mourning": [SubResource("resp_gate_mourning")], "sovereign": [SubResource("resp_gate_sovereign")]}
+thread_responses = {}
 
 [sub_resource type="Resource" id="inter_gate_lamp"]
 script = ExtResource("2")
@@ -221,7 +221,7 @@ position = Vector3(-4, 2.5, 0)
 collision_size = Vector3(1.0, 2.0, 1.0)
 model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
 responses = Array[Resource]([SubResource("resp_lamp_aware"), SubResource("resp_lamp_default")])
-thread_responses = {"captive": [SubResource("resp_lamp_captive")], "mourning": [SubResource("resp_lamp_mourning")], "sovereign": [SubResource("resp_lamp_sovereign")]}
+thread_responses = {}
 
 [sub_resource type="Resource" id="inter_gate_sign_new_game"]
 script = ExtResource("2")
@@ -230,7 +230,7 @@ type = "observation"
 scene_role = "threshold_control"
 position = Vector3(0, 2.34, -2.85)
 collision_size = Vector3(1.9, 0.72, 0.8)
-visual_effects = {"world_label": "NEW GAME", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(1.4, 0.38, 0.08), "world_label_board_texture": "res://assets/grounds/front_gate/bench_mx_1_planks_hr_2.png", "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 24, "world_label_hanger_color": Color(0.22, 0.22, 0.25, 1), "world_label_hanger_height": 0.76, "world_label_hanger_offset_x": 0.42, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 180.0}
+visual_effects = {"world_label": "Enter the Grounds", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(1.82, 0.38, 0.08), "world_label_board_texture": "res://assets/grounds/front_gate/bench_mx_1_planks_hr_2.png", "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 21, "world_label_hanger_color": Color(0.22, 0.22, 0.25, 1), "world_label_hanger_height": 0.76, "world_label_hanger_offset_x": 0.58, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 180.0}
 state_tags = PackedStringArray("gate_menu_new_game")
 
 [sub_resource type="Resource" id="inter_gate_sign_load_game"]
@@ -240,7 +240,7 @@ type = "observation"
 scene_role = "threshold_control"
 position = Vector3(-2.12, 2.16, -2.85)
 collision_size = Vector3(1.28, 0.62, 0.75)
-visual_effects = {"world_label": "LOAD GAME", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(1.05, 0.3, 0.08), "world_label_board_texture": "res://assets/grounds/front_gate/bench_mx_1_planks_hr_2.png", "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 18, "world_label_hanger_color": Color(0.22, 0.22, 0.25, 1), "world_label_hanger_height": 0.82, "world_label_hanger_offset_x": 0.31, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 180.0}
+visual_effects = {"world_label": "Resume the Visit", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(1.58, 0.3, 0.08), "world_label_board_texture": "res://assets/grounds/front_gate/bench_mx_1_planks_hr_2.png", "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 16, "world_label_hanger_color": Color(0.22, 0.22, 0.25, 1), "world_label_hanger_height": 0.82, "world_label_hanger_offset_x": 0.45, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 180.0}
 state_tags = PackedStringArray("gate_menu_load_game")
 
 [sub_resource type="Resource" id="inter_gate_sign_settings"]
@@ -250,7 +250,7 @@ type = "observation"
 scene_role = "threshold_control"
 position = Vector3(2.12, 2.16, -2.85)
 collision_size = Vector3(1.28, 0.62, 0.75)
-visual_effects = {"world_label": "SETTINGS", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(1.02, 0.3, 0.08), "world_label_board_texture": "res://assets/grounds/front_gate/bench_mx_1_planks_hr_2.png", "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 18, "world_label_hanger_color": Color(0.22, 0.22, 0.25, 1), "world_label_hanger_height": 0.82, "world_label_hanger_offset_x": 0.31, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 180.0}
+visual_effects = {"world_label": "Adjust the House", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(1.52, 0.3, 0.08), "world_label_board_texture": "res://assets/grounds/front_gate/bench_mx_1_planks_hr_2.png", "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 16, "world_label_hanger_color": Color(0.22, 0.22, 0.25, 1), "world_label_hanger_height": 0.82, "world_label_hanger_offset_x": 0.45, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 180.0}
 state_tags = PackedStringArray("gate_menu_settings")
 
 ; === Lights ===
@@ -1074,15 +1074,15 @@ set_state = {"visited_front_gate": true, "game_started": true}
 
 [sub_resource type="Resource" id="act_first_entry_captive_text"]
 script = ExtResource("7")
-show_text = "The gate stands open, but nothing about it feels like welcome. The gravel drive narrows into a corridor of hedges and dead branches, guiding you toward a house that looks less abandoned than sealed."
+show_text = ""
 
 [sub_resource type="Resource" id="act_first_entry_mourning_text"]
 script = ExtResource("7")
-show_text = "The drive unfolds ahead in silence, every hedge clipped into the shape of old discipline and old grief. The manor waits at the far end like a memory no one had the courage to bury."
+show_text = ""
 
 [sub_resource type="Resource" id="act_first_entry_sovereign_text"]
 script = ExtResource("7")
-show_text = "The house does not loom so much as attend. Two warm windows hold against the cold, and the lamp at the gate breathes once, as if noticing that you have finally arrived."
+show_text = ""
 
 [sub_resource type="Resource" id="act_first_entry_gate_creak"]
 script = ExtResource("7")
@@ -1193,7 +1193,7 @@ camera_shake = 0.02
 [sub_resource type="Resource" id="cond_threshold_ack"]
 script = ExtResource("9")
 event_id = "front_gate_threshold_ack"
-condition = "examined_gate_plaque AND NOT front_gate_threshold_acknowledged"
+condition = "front_gate_valise_opened AND NOT front_gate_threshold_acknowledged"
 once = true
 actions = Array[Resource]([SubResource("act_threshold_ack_flag"), SubResource("act_threshold_ack_light"), SubResource("act_threshold_ack_sfx"), SubResource("act_threshold_ack_sway")])
 
@@ -1236,8 +1236,8 @@ focal_anchors = Array[Resource]([SubResource("anchor_focus_mansion"), SubResourc
 interactables = Array[Resource]([SubResource("inter_gate_sign_new_game"), SubResource("inter_gate_sign_load_game"), SubResource("inter_gate_sign_settings"), SubResource("inter_gate_plaque"), SubResource("inter_gate_luggage"), SubResource("inter_gate_bench"), SubResource("inter_iron_gate"), SubResource("inter_gate_lamp")])
 lights = Array[Resource]([SubResource("light_moonlight"), SubResource("light_gate_lamp"), SubResource("light_gate_lamp_r")])
 props = Array[Resource]([SubResource("prop_gate_pillar_l"), SubResource("prop_gate_pillar_r"), SubResource("prop_gate_center"), SubResource("prop_gate_center_r"), SubResource("prop_boundary_wall"), SubResource("prop_boundary_corner"), SubResource("prop_fence"), SubResource("prop_boundary_pole_r"), SubResource("prop_fence_r"), SubResource("prop_tree1"), SubResource("prop_tree2"), SubResource("prop_bush1"), SubResource("prop_bush2"), SubResource("prop_bush3"), SubResource("prop_hedge_left_gate"), SubResource("prop_hedge_left_mid_gate"), SubResource("prop_hedge_left_near"), SubResource("prop_hedge_right_gate"), SubResource("prop_hedge_right_mid_gate"), SubResource("prop_hedge_right_near"), SubResource("prop_off_lamp"), SubResource("prop_moon_disc"), SubResource("prop_menu_sign"), SubResource("prop_drive_stone_0"), SubResource("prop_drive_stone_1"), SubResource("prop_drive_stone_2")])
-on_entry = Array[Resource]([SubResource("trig_first_entry_captive"), SubResource("trig_first_entry_mourning"), SubResource("trig_first_entry_sovereign"), SubResource("trig_first_entry")])
+on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([SubResource("ambient_gate_creak"), SubResource("ambient_wind_gust")])
-conditional_events = Array[Resource]([SubResource("cond_threshold_ack"), SubResource("cond_post_attic")])
+conditional_events = Array[Resource]([SubResource("cond_post_attic")])
 flashbacks = Array[Resource]([])

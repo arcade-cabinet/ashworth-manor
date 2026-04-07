@@ -24,7 +24,7 @@ if GameManager.has_flag("elizabeth_aware")
 else
 	Massive cast iron. Still warm to the touch. The firebox has ash in it — grey, not black.
 	
-	Someone fed this boiler recently. But who? The house has been abandoned for over a century.
+	Someone fed this boiler recently. But who? The house was supposed to have gone still.
 
 
 ~ boiler_pipes

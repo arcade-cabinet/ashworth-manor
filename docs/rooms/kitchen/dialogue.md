@@ -40,7 +40,7 @@ do GameManager.set_flag("noticed_missing_knife")
 
 
 ~ kitchen_bucket
-	A wooden bucket, half-full of water that should have evaporated decades ago.
+	A wooden bucket, half-full of water that should not have sat this clean for so long.
 	
 	The water is perfectly still. No reflection of the ceiling. Just dark.
 ```

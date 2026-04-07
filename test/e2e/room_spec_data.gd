@@ -20,7 +20,7 @@ static func get_all() -> Dictionary:
 			"min_lights": 2, "has_flickering": true, "require_spawn": true,
 		},
 		"front_steps": {
-			"interactables": ["front_steps_door", "front_steps_lamp"],
+			"interactables": ["front_steps_door", "front_steps_lamp", "front_steps_service_gate", "front_steps_garden_gate"],
 			"connections": ["drive_upper", "foyer"],
 			"min_lights": 4, "has_flickering": true, "require_spawn": true,
 		},

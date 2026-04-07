@@ -84,5 +84,40 @@
 		"weight": 0.01,
 		"category": "ritual_components",
 		"ritual": true
+	},
+	"solicitor_packet": {
+		"name": "Solicitor's Packet",
+		"description": "A packet of inheritance papers concerning Ashworth Manor, including the manor page and an altered estate schedule.",
+		"weight": 0.25,
+		"category": "documents",
+		"ritual": false
+	},
+	"front_door_key": {
+		"name": "Front Door Key",
+		"description": "A well-kept brass key on a leather tab, labeled for the manor's main entrance.",
+		"weight": 0.08,
+		"category": "keys",
+		"ritual": false
+	},
+	"notebook": {
+		"name": "Notebook",
+		"description": "A small travelling notebook with pencil tucked into the spine.",
+		"weight": 0.18,
+		"category": "tools",
+		"ritual": false
+	},
+	"firebrand": {
+		"name": "Firebrand",
+		"description": "A length of burning wood drawn from the first hearth you managed to wake. It throws light only as long as the fire holds.",
+		"weight": 0.35,
+		"category": "tools",
+		"ritual": false
+	},
+	"music_box_winding_key": {
+		"name": "Brass Winding Key",
+		"description": "A small brass winding key kept since childhood. Its teeth match a music box you almost remember.",
+		"weight": 0.02,
+		"category": "artifacts",
+		"ritual": false
 	}
 }

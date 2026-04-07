@@ -7,13 +7,13 @@
 
 ## Narrative Purpose
 
-The servants' world. Below the grandeur of the foyer, the kitchen is where truth lives. The cook knew something was wrong — her note proves it. This is also the descent point to the basement.
+The servants' world. Below the grandeur of the foyer, the kitchen is where truth lives. The cook knew something was wrong — her note proves it. This is also the first authored seizure point: the player eventually inspects a service hatch here and Elizabeth forces the first descent.
 
 The kitchen establishes:
 - **Servant awareness** — the cook heard "rats that whisper names"
 - **Interrupted life** — vegetables half-chopped, pot burned black
 - **Class divide** — from marble to stone, wallpaper to plaster
-- **Vertical descent** — stairs down to the basement begin here
+- **Vertical descent** — a service hatch drops the player into the service basement
 
 ## Atmosphere
 
@@ -33,3 +33,5 @@ The kitchen establishes:
 **Tone:** This is where pretense ends. The foyer was theater. The kitchen is backstage. The servants saw everything — and one of them wrote it down.
 
 **First Entry Beat:** The room should immediately read as interrupted labor rather than tidy abandonment: knives, boards, jars, and wet stone imply that the staff did not finish their shift because something in the house made continuing impossible.
+
+**Critical Transition Beat:** Once the player has reclaimed the parlor fire and is carrying the firebrand, the kitchen service hatch becomes the first undeniable Elizabeth event. Her laugh is heard here, the brand is lost here, and the player is bodily redirected below.

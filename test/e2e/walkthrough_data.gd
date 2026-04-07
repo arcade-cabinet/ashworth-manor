@@ -8,7 +8,7 @@ static func get_play_order() -> Array:
 		["front_gate", ["gate_sign_new_game", "gate_sign_load_game", "gate_sign_settings", "gate_plaque", "iron_gate", "gate_luggage", "gate_bench", "gate_lamp"], ""],
 		["drive_lower", ["drive_lower_path", "drive_lower_hedge"], "front_gate"],
 		["drive_upper", ["drive_upper_ascent", "drive_upper_statue"], "drive_lower"],
-		["front_steps", ["front_steps_door", "front_steps_lamp"], "drive_upper"],
+		["front_steps", ["front_steps_door", "front_steps_lamp", "front_steps_service_gate", "front_steps_garden_gate"], "drive_upper"],
 		["foyer", ["foyer_painting", "foyer_mirror", "foyer_clock", "entry_switch", "foyer_mail", "foyer_stairs"], "front_steps"],
 		["parlor", ["parlor_painting_1", "parlor_note", "music_box", "parlor_fireplace", "parlor_tea"], "foyer"],
 		["dining_room", ["dinner_photo", "pushed_chair", "wine_glass", "dining_candles", "service_bell"], "foyer"],

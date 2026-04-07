@@ -16,7 +16,7 @@ actions:
   - play_sfx: "distant_settling" (positional, from ceiling)
   - light_flicker: foyer_chandelier, energy 4.0→4.8 over 1.4s
   - brief camera sway (shaky-camera-3d, trauma 0.025)
-  - observation: "The front door settles somewhere behind you with the soft finality of a verdict. The chandelier brightens overhead, and the hall stops feeling entered. It starts feeling inhabited."
+  - observation: "The front door settles somewhere behind you with the soft finality of a verdict. The chandelier brightens overhead. The hall feels less entered than resumed."
 ```
 
 The room dressing should reinforce that beat:
@@ -68,6 +68,8 @@ actions:
 ## Flashbacks
 
 ### None in default game state
+
+Childhood-memory flashes belong here eventually, but they should remain quieter and more fragmentary than the Victorian apparitions. The first foyer crossing should not immediately spend that card.
 
 ### Post-`knows_full_truth` return:
 ```yaml

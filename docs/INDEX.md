@@ -1,30 +1,51 @@
 # Ashworth Manor — Documentation Index
 
-Every document in this game's design. Any agent working on this project reads this first.
+This index now distinguishes canonical source-of-truth docs from support and
+legacy material.
+
+If you need the actual shipped game, start with the canonical surface below.
 
 ---
 
-## Master Script & Narrative
+## Canonical Surface
 
 | Document | What It Covers |
 |----------|---------------|
-| **[MASTER_SCRIPT.md](./MASTER_SCRIPT.md)** | **START HERE.** Complete start-to-finish game experience. Every room in play order, every dialogue line, every conditional variant, every flashback, every phase transition. |
-| [NARRATIVE.md](./NARRATIVE.md) | Story, characters, timeline, document catalog, themes, endings |
+| **[GAME_BIBLE.md](./GAME_BIBLE.md)** | **START HERE.** Whole-game canonical reference: premise, room program, shared spine, routes, tools, endings, and acceptance surface. |
+| **[MASTER_SCRIPT.md](./MASTER_SCRIPT.md)** | Canonical narrative spine and stage order. |
+| [PLAYER_PREMISE.md](./PLAYER_PREMISE.md) | Playable-present framing, player position, packet, arrival, and lighting doctrine. |
+| [ELIZABETH_ROUTE_PROGRAM.md](./ELIZABETH_ROUTE_PROGRAM.md) | The three-route authored structure: `Adult`, `Elder`, `Child`. |
+| [NARRATIVE.md](./NARRATIVE.md) | Story overview, route signatures, shared spine, and narrative priorities. |
+| [script/MASTER_SCRIPT.md](./script/MASTER_SCRIPT.md) | Script-facing mirror of the canonical story spine. |
+
+## Execution Surface
+
+| Document | What It Covers |
+|----------|---------------|
+| **[batches/ashworth-master-task-graph.md](./batches/ashworth-master-task-graph.md)** | **Primary execution contract.** Full implementation graph for the whole game. |
+| [../PLAN.md](../PLAN.md) | Current high-level execution priorities and product status. |
+| [../MEMORY.md](../MEMORY.md) | Execution memory, discoveries, misalignments, and acceptance notes. |
+| [../STRUCTURE.md](../STRUCTURE.md) | Runtime architecture, canonical source map, and acceptance surfaces. |
+
+## Design and Support Docs
+
+| Document | What It Covers |
+|----------|---------------|
 | [VISION.md](./VISION.md) | Design philosophy — Myst-inspired, "world that exists without you", no horror tricks |
 | [ART_DIRECTION.md](./ART_DIRECTION.md) | Color palette, lighting philosophy, materials, post-processing, emotional tone |
+| [puzzles/README.md](./puzzles/README.md) | Puzzle and solve-system support material |
+| [items/README.md](./items/README.md) | Item catalog and support material |
+| [AUDIO_WIRING_PLAN.md](./AUDIO_WIRING_PLAN.md) | Audio support plan and event wiring reference |
+| [MAESTRO_E2E_PLAN.md](./MAESTRO_E2E_PLAN.md) | Android/export validation and Maestro automation direction |
 
 ---
 
-## Game Systems
+## Game Systems and Support Plans
 
 | Document | What It Covers |
 |----------|---------------|
-| [puzzles/README.md](./puzzles/README.md) | All 6 puzzles: flowcharts, flag chains, clue redundancy, counter-ritual |
-| [items/README.md](./items/README.md) | Complete item catalog: keys, documents, artifacts, ritual components |
 | [ADDON_EVALUATION.md](./ADDON_EVALUATION.md) | Master addon registry, rejected addons, interconnection diagram |
-| [INTERACTIVE_DOORS_PLAN.md](./INTERACTIVE_DOORS_PLAN.md) | Procedural door/window frames from retro textures, hinge animation, door types per room |
-| [AUDIO_WIRING_PLAN.md](./AUDIO_WIRING_PLAN.md) | How all 280 audio files connect to game systems — every SFX, when it plays, which script fires it |
-| [MAESTRO_E2E_PLAN.md](./MAESTRO_E2E_PLAN.md) | APK build → emulator → Maestro flows pipeline with MaestroHelper world-to-screen bridge |
+| [INTERACTIVE_DOORS_PLAN.md](./INTERACTIVE_DOORS_PLAN.md) | Procedural door/window frames and threshold implementation support |
 
 ---
 
@@ -50,7 +71,14 @@ Each addon has a focused plan doc in `docs/addons/`:
 
 ## Room Directories
 
-Each room has its own directory at `docs/rooms/{room}/` containing: README, floorplan, interactables, dialogue, lighting, connections, triggers, props.
+Each room has its own directory at `docs/rooms/{room}/`.
+
+Important:
+
+- room folders are support material unless and until they are migrated to match
+  the canonical surface
+- when a room folder disagrees with `GAME_BIBLE.md` or the canonical top-level
+  docs, the canonical top-level docs win
 
 ### Grounds (Exterior)
 | Room | Directory | Status |
@@ -109,7 +137,7 @@ Each room has its own directory at `docs/rooms/{room}/` containing: README, floo
 
 ## What a Complete Room Doc Contains
 
-Every room doc must include (see [foyer.md](./floors/ground-floor/foyer.md) as reference):
+Every room doc should eventually include:
 
 1. **Room Overview** — Narrative purpose, what it feels like
 2. **Specifications** — Dimensions, materials, atmosphere (ambient_darkness, fog)
@@ -131,8 +159,10 @@ Every room doc must include (see [foyer.md](./floors/ground-floor/foyer.md) as r
 
 ## Implementation Order
 
-1. **Update declarations first** for room/world/item/puzzle changes
-2. **Sync room docs** under `docs/rooms/` to the live declaration behavior
-3. **Extend declaration-era tests** for new interactions, routing, and endings
-4. **Only touch legacy floor docs** when they add overview value or need de-staling
-5. **Run the acceptance lanes** — boot, declarations, interaction E2E, room specs, full playthrough, walkthrough
+1. Update declarations first for room/world/item/puzzle changes
+2. Sync canonical top-level docs with the live declaration behavior
+3. Sync critical-path room docs under `docs/rooms/`
+4. Extend declaration/runtime tests for interactions, routing, and endings
+5. Touch legacy floor docs only when they add overview value or need de-staling
+6. Run the acceptance lanes: boot, declarations, interaction E2E, room specs,
+   full playthrough, walkthrough

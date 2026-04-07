@@ -187,14 +187,7 @@ func _execute_action(action: ActionDecl) -> void:
 	if not action.show_text.is_empty() and _ui_overlay and _ui_overlay.has_method("show_document"):
 		_ui_overlay.show_document("", action.show_text)
 	if not action.play_sfx.is_empty() and _audio and _audio.has_method("play_sfx"):
-		var sfx_ref: String = action.play_sfx
-		if sfx_ref.begins_with("res://assets/audio/sfx/"):
-			var trimmed := sfx_ref.trim_prefix("res://assets/audio/sfx/")
-			if trimmed.ends_with(".ogg"):
-				trimmed = trimmed.substr(0, trimmed.length() - 4)
-			_audio.play_sfx(trimmed)
-		else:
-			_audio.play_sfx(sfx_ref)
+		_audio.play_sfx(action.play_sfx)
 	if not action.light_change.is_empty():
 		_apply_light_changes(action.light_change)
 	if action.camera_shake > 0.0:

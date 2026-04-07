@@ -11,18 +11,18 @@
 | Position | (4, 1.2, 0) |
 | Locked | No |
 
-### 2. To Storage Basement (Stairs Down)
+### 2. To Storage Basement (Service Hatch)
 
 | Property | Value |
 |----------|-------|
 | Target | `storage_basement` |
-| Type | `stairs` |
-| Position | (0, 0.5, -4) |
+| Type | `trapdoor` |
+| Position | (2.35, 0.0, 3.15) |
 | Locked | No |
 
-**Narrative:** The stairs down are in the back of the kitchen — servants' access to storage and service areas below. The descent from light to dark begins here.
+**Narrative:** A service hatch cut into the kitchen floor. Before the player has live fire, it reads as an unsafe black opening. Once the firebrand phase has begun, this is where Elizabeth's first major seizure occurs.
 
-**Transition:** Stairs fade (0.8s fade, 0.3s hold, 0.8s fade out).
+**Transition:** The first use is not a voluntary traversal. Elizabeth laughs, the hatch answers, and the player is forced below. After that event, the opening can function as a normal threshold.
 
 ### 3. To Garden (Rear Grounds Path)
 
@@ -40,5 +40,5 @@
 | Coming From | Spawn Position | Spawn Rotation Y | First View |
 |-------------|---------------|-------------------|------------|
 | Foyer | (-3, 0, 0) | 270.0 (facing west, into kitchen) | Work table, cutting board, hearth ahead |
-| Storage Basement | (0, 0, -3) | 0.0 (facing north) | Kitchen from stairs, hearth visible |
+| Storage Basement | (2.35, 0, 3.15) | 0.0 (facing north) | Kitchen from the opened service hatch |
 | Garden | (0, 0, 3) | 180.0 (facing south) | Kitchen interior, work table and hearth |

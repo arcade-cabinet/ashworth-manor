@@ -1,320 +1,175 @@
 # Narrative Design
 
-This document outlines the story, characters, and narrative structure of Ashworth Manor.
+This document defines the current narrative structure for Ashworth Manor.
+
+It supersedes the older macro-thread framing built around `Captive`,
+`Mourning`, and `Sovereign`. Those materials now survive only as legacy
+reference while the game is migrated to the new authored route model.
+
+See also:
+
+- [PLAYER_PREMISE.md](./PLAYER_PREMISE.md)
+- [ELIZABETH_ROUTE_PROGRAM.md](./ELIZABETH_ROUTE_PROGRAM.md)
+- [MASTER_SCRIPT.md](./MASTER_SCRIPT.md)
+
+---
 
 ## Story Overview
 
-### The Ashworth Family
+Ashworth Manor is a first-person haunted-estate mystery about inheritance,
+repressed family history, and a return to a house that remembers the player
+more completely than the player remembers it.
 
-**Lord Edmund Ashworth** (1820-1891)
-- Patriarch of the family
-- Successful industrialist, built the manor in 1847
-- Became increasingly obsessed with occult practices
-- Responsible for Elizabeth's confinement
-- Died under mysterious circumstances
+The player arrives shortly after the Victorian collapse of the Ashworth family.
+They come not as a stranger but as the estate's legal heir, summoned by a
+solicitor's packet after the death of the final caretaker. They already know
+they are Ashworth blood. What they do not know is what became of Elizabeth
+Ashworth, why their childhood visits ended, and why the manor still seems to
+answer them.
 
-**Lady Victoria Ashworth** (1825-1891)
-- Wife of Edmund, mother of four
-- Complicit in Elizabeth's imprisonment
-- Wore mourning clothes even before any family deaths
-- Vanished the same night as Edmund
-
-**The Three Acknowledged Children**
-- Charles (born 1855) - Eldest son, heir
-- Margaret (born 1858) - Eldest daughter
-- William (born 1862) - Youngest son
-- All survived and fled the manor in 1891
-
-**Elizabeth Ashworth** (1880-1889)
-- The forgotten fourth child
-- Born with unexplained abilities (second sight)
-- Confined to the attic at age 7
-- Officially died of "consumption" in 1889
-- Never truly left the house
+The game is built around three authored Elizabeth storylines. Each one
+culminates in the same solve object, Elizabeth's music box, but makes the
+player reach it through a different life-truth.
 
 ---
 
-## Timeline
+## Canonical Storyline Order
 
-### 1847
-- Lord Ashworth completes construction of the manor
-- Family moves in, establishes social standing
+Ashworth Manor should no longer treat its macro narrative as PRNG.
 
-### 1855-1862
-- Birth of Charles, Margaret, and William
-- Normal family life, social engagements
+The intended route order is:
 
-### 1880
-- Elizabeth born, exhibits unusual behaviors early
-- Speaks of "seeing things others cannot"
+1. `Adult`
+2. `Elder`
+3. `Child`
 
-### 1884
-- Elizabeth's abilities become impossible to hide
-- Servants begin whispering, guests uncomfortable
-- Lord Ashworth consults occult texts
-
-### 1887
-- Elizabeth confined to attic "for her health"
-- Official story: tuberculosis requiring isolation
-- In reality: family feared her and what she saw
-
-### 1889
-- Elizabeth officially "dies" of consumption
-- No funeral held, no grave marker
-- Elizabeth remains in the attic, changed
-
-### December 1891
-- Final dinner party held
-- Three guests die within the week
-- Lord and Lady Ashworth vanish
-- Children flee, manor abandoned
-
-### Present Day
-- Player explores the abandoned manor
-- Discovers the truth through artifacts
-- Confronts what Elizabeth has become
+After all three have been completed, later runs may randomize among unlocked
+routes. The first three completions are not random.
 
 ---
 
-## Narrative Layers
+## Elizabeth Storylines
 
-### Layer 1: Surface (Ground Floor)
+### Adult Elizabeth
 
-**What the player sees**: A grand but faded Victorian home
-**What they learn**: The Ashworth family was wealthy and respected
+- Signature feeling: a life stolen and partially erased
+- Dominant spaces: parlor, library, attic
+- Dominant clue types: letters, portraits, private effects, unfinished adult
+  selfhood
+- Final truth: Elizabeth lived into adulthood but was denied a normal life
+- Final chamber: attic
+- Music box meaning: the treasured object of a life interrupted, not a nursery
+  relic alone
 
-**Key artifacts**:
-- Portrait of Lord Ashworth (foyer)
-  - "Stern patriarch, hand on occult book"
-- Portrait of Lady Ashworth (parlor)
-  - "Wearing mourning dress before any deaths"
-- Grandfather clock (foyer)
-  - Stopped at 3:33 AM
-- Dinner party photo (dining room)
-  - "Three guests would be dead within the week"
+### Elder Elizabeth
 
-**Questions raised**: Why the mourning dress? Why did guests die?
+- Signature feeling: continuity that should have ended
+- Dominant spaces: great hall, wine cellar, crypt
+- Dominant clue types: burial records, caretaking residue, altered family
+  memory, old-age endurance
+- Final truth: Elizabeth lived into old age and was still not released
+- Final chamber: crypt
+- Music box meaning: a keepsake buried with a woman the family never admitted
+  had fully lived
 
----
+### Child Elizabeth
 
-### Layer 2: Unease (Upper Floor, Basement)
-
-**What the player sees**: Private family spaces, signs of secrecy
-**What they learn**: Something was hidden, someone was confined
-
-**Key artifacts**:
-- Children's painting (hallway)
-  - "Three children in white" - but there should be four
-- Lord Ashworth's diary (master bedroom)
-  - "She won't stop crying... I hear her sobbing through the walls"
-  - Reveals the attic key location
-- Family tree (library)
-  - Fourth name scratched out: "E_iza_eth"
-- Rituals of Binding (library)
-  - "To trap a spirit, one must first give it form"
-- Guest ledger (guest room)
-  - Departure date left blank
-
-**Questions raised**: Who was the fourth child? What happened in the attic?
+- Signature feeling: sealed childhood horror and recovered family shame
+- Dominant spaces: attic, childhood memory intrusions, hidden sealed room
+- Dominant clue types: nursery traces, blocked architecture, family concealment
+- Final truth: the deepest wound is a child erased inside the house itself
+- Final chamber: hidden room discovered through attic clues
+- Music box meaning: the core childhood object preserved inside the sealed lie
 
 ---
 
-### Layer 3: Horror (Deep Basement, Attic)
+## Shared Spine
 
-**What the player sees**: Evidence of imprisonment, the truth
-**What they learn**: Elizabeth was real, she was trapped, she's still here
+All three playthroughs share the same broad early and midgame spine.
 
-**Key artifacts**:
-- Elizabeth's portrait (attic storage)
-  - "Eyes painted over in black"
-  - "Beloved daughter. Forgotten by none."
-- The porcelain doll (attic storage)
-  - "SHE NEVER LEFT" scratched behind it
-- Unsent letter (attic storage)
-  - Elizabeth's own words about her imprisonment
-- Elizabeth's final note (hidden chamber)
-  - The complete truth: "I was never sick—they were afraid"
-  - "The house has eyes. The walls have ears."
-  - "Find me. Free me. Or join me."
+### Prologue and Arrival
 
----
+- Open on an inner page from a solicitor's packet
+- Resolve first-person at the front gate as the hired cab departs
+- Establish inventory by opening the valise beneath the estate sign
+- Walk the long ceremonial drive and unlock the front door personally
 
-## Document Catalog
+### First House Occupation
 
-### Ground Floor Documents
+- Enter a dark mansion
+- Receive the first unmistakable house answer in a family-centered space
+- Solve the first warmth and light problem through hearth- and room-driven play
+- Learn the house through parlor/kitchen/foyer relations rather than abstract
+  exposition
 
-**Cook's Note** (Kitchen)
-```
-The master has forbidden anyone from the attic.
-Says the rats have grown too bold.
-But I've heard no rats that whisper names...
-```
+### First Supernatural Seizure
 
-**Torn Diary Page** (Parlor)
-```
-The children have been hearing whispers from 
-the attic again. I've locked the door but they 
-say she still calls to them at night...
-```
+- After meaningful early exploration, Elizabeth's laugh heralds the first major
+  event
+- The player is forced through service architecture into the basement layer
+- The fall is dangerous but intentional, not a random trap kill
 
----
+### Service Reclamation
 
-### Upper Floor Documents
+- The player relights themselves under pressure
+- The service basement reveals how the estate actually functioned
+- Restoring gas returns stable house light and changes the manor's state
+- The player re-emerges through practical circulation rather than the grand
+  stair fantasy
 
-**Lord Ashworth's Diary** (Master Bedroom)
-```
-She won't stop crying. Even after we locked her 
-away, I hear her sobbing through the walls. My 
-wife says I'm mad, but I know what I hear. The 
-attic key is hidden in the library globe. No one 
-must find her.
-```
+### Midgame Possession
 
-**Rituals of Binding** (Library)
-```
-To trap a spirit, one must first give it form. 
-The doll shall be the vessel, the blood the seal, 
-and the attic the prison eternal...
-```
-
-**Family Tree Entry** (Library)
-```
-The tree shows four children, but the household 
-records only mention three. The fourth name has 
-been scratched out: "E_iza_eth".
-```
-
-**Guest Room Note** (Guest Room)
-```
-Mrs. Helena Pierce, arriving Nov 3rd 1891.
-DEPARTED: [The entry is blank]
-```
+- The player graduates from improvised survival to deliberate investigation
+- The house becomes legible in rooms, grounds, and classed circulation
+- The route-specific Elizabeth truth gradually biases which clues feel most
+  charged
 
 ---
 
-### Basement Documents
+## Equipment and Light Progression
 
-**Family Portrait Note** (Storage Basement)
-```
-A stern-looking family stands before the mansion.
-The youngest child's face has been scratched out.
-```
+These are story and mood systems, not just mechanics.
 
-**Maintenance Log** (Boiler Room)
-```
-Dec 15, 1891 - Strange sounds from the pipes again.
-The staff refuse to come down here after dark.
-Something is wrong with this house.
-```
+### Early Game
 
----
+- Held state: `firebrand`
+- Meaning: fragile, improvised habitation
 
-### Deep Basement Documents
+### Midgame
 
-**Wine Cellar Inventory** (Wine Cellar)
-```
-The 1872 Bordeaux has been moved to the hidden 
-alcove. Master insists no one shall find it. 
-The key is with the portrait.
-```
+- Held state: `walking stick`
+- Meaning: steadiness, probing, bodily investigation
+- Trigger: restored house light and reclaimed circulation
+
+### Late Game
+
+- Transitional state: `lantern on hook`
+- Final held state: `lantern hook`
+- Meaning: descent, reach, pull, forbidden access
+
+Each major transition should consume the previous held tool rather than letting
+the player accumulate every prior affordance forever.
 
 ---
 
-### Attic Documents
+## Design Rules
 
-**Elizabeth's Unsent Letter** (Attic Storage)
-```
-Dearest Mother,
-
-They say I'm sick but I feel fine. Father won't 
-let me leave my room anymore. The doll talks to 
-me now. She says I'll be here forever.
-
-I'm scared.
-
-- Your Elizabeth
-```
-
-**Elizabeth's Final Words** (Hidden Chamber)
-```
-I understand now. The doll showed me.
-
-I was never sick - they were afraid of what I 
-could see. The house has eyes. The walls have 
-ears. And now I am part of it forever.
-
-Find me. Free me. Or join me.
-```
+- Outside paperwork and estate signage remain neutral. The house owns the
+  uncanny layer.
+- Elizabeth's laugh is never ambient flavor. When heard, a meaningful event is
+  happening.
+- The house should not default to source-less ambient uplift. Light must have a
+  visible or narratively coherent source.
+- The music box is always the final solve object.
+- The three routes should feel like three authored storylines, not cosmetic
+  variants of one seed.
 
 ---
 
-## Themes
+## Narrative Priorities
 
-### Visibility and Blindness
-- Elizabeth could "see" what others couldn't
-- The family chose blindness over acceptance
-- The player must see to understand
-
-### Confinement and Freedom
-- Physical confinement (Elizabeth in attic)
-- Social confinement (family appearances)
-- Spiritual confinement (bound to the house)
-
-### Memory and Forgetting
-- Elizabeth was deliberately forgotten
-- Documents reveal what was erased
-- The house remembers everything
-
-### Guilt and Consequences
-- Lord Ashworth's guilt manifests in his diary
-- Lady Ashworth's mourning clothes predict doom
-- The house itself becomes the consequence
-
----
-
-## Player's Emotional Journey
-
-1. **Curiosity**: "What happened here?"
-2. **Unease**: "Something is wrong with this family"
-3. **Discovery**: "There was a fourth child"
-4. **Horror**: "They locked her in the attic"
-5. **Understanding**: "She never left"
-6. **Choice**: "What do I do now?"
-
----
-
-## Future Story Expansion
-
-### Potential Endings
-
-**Free Elizabeth**
-- Find all artifacts
-- Perform counter-ritual
-- Release her spirit
-- House collapses/transforms
-
-**Join Elizabeth**
-- Ignore warnings
-- Stay too long
-- Become part of the house
-- New player finds your notes
-
-**Escape**
-- Reach exit before sunrise
-- Leave with partial knowledge
-- House remains
-- Ending implies return
-
-### Additional Characters
-
-**Helena Pierce** (Guest who never left)
-- Her story told through guest room
-- Potential apparition encounter
-
-**The Cook** (Servant who knew)
-- Notes in kitchen and basement
-- Knew more than she told
-
-**The Other Children** (Charles, Margaret, William)
-- Letters about their guilt
-- Why they never returned
+1. Make the arrival and first occupation of the house socially believable.
+2. Make the player's childhood relation to the estate emotionally legible.
+3. Make each Elizabeth route feel distinct in signature, geography, and ending.
+4. Keep the game melancholic, bodily, and haunted by omission rather than
+   noisy.

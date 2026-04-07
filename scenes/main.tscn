@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://5eui3rcsybrj"]
 
+[ext_resource type="Script" uid="uid://dkiaihpglepod" path="res://scripts/world_runtime_manager.gd" id="1b_world"]
 [ext_resource type="Script" uid="uid://4yyvvyyu84gt" path="res://scripts/room_manager.gd" id="1_tefeu"]
-[ext_resource type="Script" path="res://scripts/world_runtime_manager.gd" id="1b_world"]
 [ext_resource type="Script" uid="uid://qc31dvxqfwmu" path="res://scripts/player_controller.gd" id="2_o6xl0"]
 [ext_resource type="Script" uid="uid://dn72vpn5cp67t" path="res://scripts/audio_manager.gd" id="3_tipki"]
 [ext_resource type="Script" uid="uid://uii3fsr7c4i6" path="res://scripts/interaction_manager.gd" id="4_85g3d"]
@@ -29,29 +29,9 @@ background_mode = 2
 sky = SubResource("Sky_trceg")
 ambient_light_source = 3
 ambient_light_color = Color(0.12, 0.08, 0.06, 1)
-ambient_light_energy = 1.0
 ambient_light_sky_contribution = 0.3
 tonemap_mode = 1
-tonemap_exposure = 1.0
 tonemap_white = 2.5
-volumetric_fog_enabled = true
-volumetric_fog_density = 0.015
-volumetric_fog_albedo = Color(0.2, 0.15, 0.1, 1)
-volumetric_fog_emission = Color(0, 0, 0, 1)
-volumetric_fog_length = 30.0
-volumetric_fog_detail_spread = 2.0
-volumetric_fog_gi_inject = 0.5
-volumetric_fog_ambient_inject = 0.1
-volumetric_fog_anisotropy = 0.6
-fog_enabled = true
-fog_light_color = Color(0.08, 0.05, 0.04, 1)
-fog_density = 0.008
-fog_aerial_perspective = 0.3
-glow_enabled = true
-glow_intensity = 0.8
-glow_bloom = 0.3
-glow_hdr_threshold = 0.6
-glow_hdr_scale = 2.0
 ssao_enabled = true
 ssao_radius = 1.5
 ssao_intensity = 3.0
@@ -59,9 +39,22 @@ ssao_detail = 0.7
 ssao_light_affect = 0.2
 ssil_enabled = true
 ssil_radius = 4.0
-ssil_intensity = 1.0
+glow_enabled = true
+glow_intensity = 0.8
+glow_bloom = 0.3
+glow_hdr_threshold = 0.6
+fog_enabled = true
+fog_light_color = Color(0.08, 0.05, 0.04, 1)
+fog_density = 0.008
+fog_aerial_perspective = 0.3
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.015
+volumetric_fog_albedo = Color(0.2, 0.15, 0.1, 1)
+volumetric_fog_gi_inject = 0.5
+volumetric_fog_anisotropy = 0.6
+volumetric_fog_length = 30.0
+volumetric_fog_ambient_inject = 0.1
 adjustment_enabled = true
-adjustment_brightness = 1.0
 adjustment_contrast = 1.2
 adjustment_saturation = 0.8
 

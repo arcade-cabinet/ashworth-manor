@@ -45,7 +45,7 @@ if GameManager.has_flag("elizabeth_aware")
 	
 	The same rhythm as the gate lamp. The same rhythm as the mirrors.
 else
-	Embers still glow faintly. After 130 years? The iron grate holds ash that should have gone cold a century ago.
+	Embers still glow faintly. The iron grate holds ash that should have gone cold years ago.
 	
 	The warmth is real — you can feel it on your face.
 

@@ -2,18 +2,19 @@
 
 **Room ID:** `front_gate`
 **Floor:** Grounds (exterior)
-**Starting Room:** Yes — player begins here on New Game
+**Starting Room:** Yes — first embodied room after the solicitor-letter prologue
 
 ---
 
 ## Narrative Purpose
 
 The front gate is the player's first and last threshold at Ashworth Manor. It establishes:
-- **Threshold** — the player stands at the broken estate boundary, not yet on the ceremonial drive proper
-- **Time** — December night, frozen, moonlit
-- **Trespass** — you are not supposed to be here
-- **Wrongness** — the gate is open from inside. Someone left in a hurry. Or something pushed out.
-- **Commitment** — a freestanding chained sign between timber posts is the diegetic boot flow: `New Game`, `Load Game`, `Settings`, then the walk through the gates and up the drive
+- **Threshold** — the player stands at the estate boundary, not yet on the ceremonial drive proper
+- **Obligation** — the return is legal and familial, not random trespass; that makes the discomfort worse
+- **Time** — winter twilight, cold blue sky, long grounds, one warm lamp
+- **Wealth** — clipped hedges, masonry, brass, and distance should imply extravagant country-estate scale
+- **Commitment** — a freestanding chained sign between timber posts is the diegetic boot flow: `Enter the Grounds`, `Resume the Visit`, `Adjust the House`
+- **Wrongness** — nothing supernatural is overt yet, but the estate feels too still and too ready for your arrival
 
 This room also serves as the **ending trigger zone**. Reaching the gate again from the house-side approach is where Ashworth Manor resolves whether the player escapes, joins Elizabeth, or walks free after the ritual.
 
@@ -35,13 +36,13 @@ the gate itself.
 
 | Property | Value |
 |----------|-------|
-| Ambient Darkness | 0.3 (moonlit exterior) |
+| Ambient Darkness | 0.3 (twilight / moonlit exterior) |
 | Audio Loop | "Moonlight Loop1" |
 | Is Exterior | true |
 | Boundary Size | 18 x 6 x 18 |
 | Footstep Surface | gravel (path), grass (off-path) |
 
-**Visual:** This beat is now the threshold itself, not the whole front lawn. Gate pillars, fence runs, bent iron leaves, a freestanding timber-and-brass menu sign, one burning lamp, and the first flagstones of the drive create a compressed prologue tableau. The player should feel the drive continuing beyond the gate, but the mansion proper belongs to later beats: `drive_lower`, `drive_upper`, and `front_steps`.
+**Visual:** This beat is now the threshold itself, not the whole front lawn. Gate pillars, fence runs, a freestanding timber-and-brass estate sign, one burning lamp, and the first flagstones of the drive create a compressed prologue tableau. The player should feel the drive continuing beyond the gate, but the mansion proper belongs to later beats: `drive_lower`, `drive_upper`, and `front_steps`.
 
 The front approach should be occluded enough that the player does not casually
 see beyond the estate boundary. Hedges, side walls, gate runs, and tree masses
@@ -49,4 +50,4 @@ should imply a much larger property than the first room can literally show.
 
 **Audio:** Wind through bare branches. Distant owl. Gate creaking on hinges (intermittent). Gravel crunch underfoot. Dead silence between gusts.
 
-**Tone:** You are small. You are late. Everything important already happened. The house is waiting.
+**Tone:** You belong here on paper, but not in your body. The house is not trying to frighten you yet. It is simply standing ready.

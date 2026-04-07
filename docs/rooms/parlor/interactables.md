@@ -102,7 +102,7 @@ collision: BoxShape3D(2.0, 1.5, 1.0)
 
 **Default:**
 > **Fireplace**
-> "Embers still glow faintly. After 130 years? The iron grate holds ash that should have gone cold a century ago. The warmth is real — you can feel it on your face."
+> "Embers still glow faintly. The iron grate holds ash that should have gone cold years ago. The warmth is real — you can feel it on your face."
 
 **After `elizabeth_aware`:**
 > **Fireplace**

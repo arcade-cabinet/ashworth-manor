@@ -17,8 +17,8 @@ First descent into darkness. The family stored what they didn't want seen — ol
 | Ambient Darkness | 0.75 |
 | Footstep Surface | `stone` |
 
-**Visual:** Stone walls, rough floor, one bad bulb, shelves, crates, cage, ladder, mattress, and debris. The room should feel like discarded house-memory piled around a service route no guest was meant to notice.
+**Visual:** Stone walls, rough floor, dead service lights, shelves, crates, cage, ladder, mattress, and debris. The room should feel like discarded house-memory piled around a service route no guest was meant to notice.
 
 **Tone:** The veneer falls away. From marble to stone. From wallpaper to brick. The truth lives underground.
 
-**First Entry Beat:** The room name should land with an immediate sense that the manor pushed everything unbeautiful and unadmitted down here. The basement is not only storage; it is the estate's refuse of memory.
+**First Entry Beat:** On the shared-spine route the player does not arrive here calmly. They hit old oily rags after the kitchen hatch drop, lose the firebrand, and immediately understand that the basement is dark, badly aired, and not yet functioning as a lit service world.

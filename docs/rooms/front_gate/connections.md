@@ -13,7 +13,7 @@
 | Locked | No conventional lock |
 | Key | `required_state: front_gate_threshold_acknowledged` |
 
-**Narrative:** This is the real start of the ceremonial approach. The diegetic gate signs are part of the commitment beat; selecting `New Game` acknowledges the threshold. The plaque can still perform the same acknowledgment if the player stops to read it first.
+**Narrative:** This is the real start of the ceremonial approach. The diegetic estate sign is part of the commitment beat; selecting `Enter the Grounds` acknowledges the threshold. The plaque can still perform the same acknowledgment if the player stops to read it first.
 
 **Transition:** Same-world path traversal. No hard world swap should happen here.
 
@@ -21,7 +21,7 @@
 
 | Coming From | Spawn Position | Spawn Rotation Y | First View |
 |-------------|---------------|-------------------|------------|
-| New Game | `(0, 0, -5.4)` | 180.0 (facing north) | Hanging sign at the gate, moon overhead, drive beyond |
+| Solicitor letter / New Game | `(0, 0, -5.4)` | 180.0 (facing north) | Estate sign at the gate, lamp glow, drive beyond |
 | `drive_lower` | `(0, 0, 6.8)` | anchor-driven | Broken gate leaves, sign boards, and the estate threshold behind |
 
 ## Ending Trigger Zone
