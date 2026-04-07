@@ -1,0 +1,271 @@
+[gd_resource type="Resource" script_class="RoomDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/room_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
+[ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="6"]
+
+[sub_resource type="Resource" id="anchor_entry_from_lower"]
+script = ExtResource("6")
+anchor_id = "entry_from_lower"
+anchor_type = "entry"
+position = Vector3(0, 0, -5.6)
+rotation_y = 180.0
+target_anchor_id = "focus_steps"
+tags = PackedStringArray("default", "arrival")
+
+[sub_resource type="Resource" id="anchor_entry_from_steps"]
+script = ExtResource("6")
+anchor_id = "entry_from_steps"
+anchor_type = "entry"
+position = Vector3(0, 0, 5.1)
+rotation_y = 0.0
+target_anchor_id = "focus_return"
+tags = PackedStringArray("return")
+
+[sub_resource type="Resource" id="anchor_focus_steps"]
+script = ExtResource("6")
+anchor_id = "focus_steps"
+anchor_type = "focal"
+position = Vector3(0, 2.2, 5.8)
+rotation_y = 180.0
+tags = PackedStringArray("stairs", "facade_pull")
+
+[sub_resource type="Resource" id="anchor_focus_return"]
+script = ExtResource("6")
+anchor_id = "focus_return"
+anchor_type = "focal"
+position = Vector3(0, 1.9, -5.8)
+rotation_y = 0.0
+tags = PackedStringArray("return", "gate")
+
+[sub_resource type="Resource" id="resp_ascent"]
+script = ExtResource("3")
+condition = ""
+title = "Upper Drive"
+text = "The drive widens just enough to become ceremonial. Statues flank the ascent, and the hedges part only where the manor wants the eye to travel: up the shallow rise, toward the lamps and the front door."
+
+[sub_resource type="Resource" id="resp_statue"]
+script = ExtResource("3")
+condition = ""
+title = "Weathered Statue"
+text = "The stone figure is soft with rain and frost, its face long since surrendered to weather. It does not decorate the drive so much as witness it."
+
+[sub_resource type="Resource" id="inter_drive_ascent"]
+script = ExtResource("2")
+id = "drive_upper_ascent"
+type = "observation"
+scene_role = "observation"
+position = Vector3(0, 0.3, 1.0)
+collision_size = Vector3(2.4, 1.0, 2.4)
+responses = Array[Resource]([SubResource("resp_ascent")])
+
+[sub_resource type="Resource" id="inter_drive_statue"]
+script = ExtResource("2")
+id = "drive_upper_statue"
+type = "observation"
+scene_role = "clue_dressing"
+position = Vector3(-8.6, 1.1, 0.7)
+collision_size = Vector3(1.6, 2.2, 1.6)
+responses = Array[Resource]([SubResource("resp_statue")])
+
+[sub_resource type="Resource" id="light_moonlight"]
+script = ExtResource("4")
+id = "drive_upper_moonlight"
+type = "directional"
+position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(-42, 34, 0)
+color = Color(0.58, 0.64, 0.86, 1)
+energy = 1.05
+range = 0.0
+shadows = true
+flickering = false
+
+[sub_resource type="Resource" id="light_steps_pull"]
+script = ExtResource("4")
+id = "drive_upper_steps_pull"
+type = "omni"
+position = Vector3(0, 2.0, 5.8)
+color = Color(0.97, 0.77, 0.48, 1)
+energy = 1.3
+range = 7.0
+shadows = false
+flickering = true
+flicker_pattern = "gas"
+
+[sub_resource type="Resource" id="prop_hedge_left_far"]
+script = ExtResource("5")
+id = "drive_upper_hedge_left_far"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(-6.2, 0, -2.0)
+rotation_y = -8.0
+scale = 1.18
+
+[sub_resource type="Resource" id="prop_hedge_left_mid_mansion"]
+script = ExtResource("5")
+id = "drive_upper_hedge_left_mid_mansion"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(-6.25, 0, 2.2)
+rotation_y = -10.0
+scale = 1.08
+
+[sub_resource type="Resource" id="prop_hedge_left_mansion"]
+script = ExtResource("5")
+id = "drive_upper_hedge_left_mansion"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(-7.0, 0, 5.8)
+rotation_y = -14.0
+scale = 1.08
+
+[sub_resource type="Resource" id="prop_hedge_right_far"]
+script = ExtResource("5")
+id = "drive_upper_hedge_right_far"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(6.2, 0, -1.7)
+rotation_y = 172.0
+scale = 1.18
+
+[sub_resource type="Resource" id="prop_hedge_right_mid_mansion"]
+script = ExtResource("5")
+id = "drive_upper_hedge_right_mid_mansion"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(6.25, 0, 2.5)
+rotation_y = 170.0
+scale = 1.08
+
+[sub_resource type="Resource" id="prop_hedge_right_mansion"]
+script = ExtResource("5")
+id = "drive_upper_hedge_right_mansion"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(7.0, 0, 6.0)
+rotation_y = 166.0
+scale = 1.08
+
+[sub_resource type="Resource" id="prop_drive_stone_1"]
+script = ExtResource("5")
+id = "drive_upper_stone_1"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(0, 0, -4.0)
+scale = 1.1
+
+[sub_resource type="Resource" id="prop_drive_stone_2"]
+script = ExtResource("5")
+id = "drive_upper_stone_2"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(0, 0, 0.0)
+scale = 1.1
+
+[sub_resource type="Resource" id="prop_drive_stone_3"]
+script = ExtResource("5")
+id = "drive_upper_stone_3"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(-2.4, 0, 2.7)
+rotation_y = -6.0
+scale = 1.16
+
+[sub_resource type="Resource" id="prop_drive_stone_4"]
+script = ExtResource("5")
+id = "drive_upper_stone_4"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(2.4, 0, 2.7)
+rotation_y = 6.0
+scale = 1.16
+
+[sub_resource type="Resource" id="prop_drive_step_center"]
+script = ExtResource("5")
+id = "drive_upper_step_center"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(0, 0, 4.6)
+scale = 1.05
+
+[sub_resource type="Resource" id="prop_drive_step_left"]
+script = ExtResource("5")
+id = "drive_upper_step_left"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(-1.8, 0, 4.2)
+rotation_y = -5.0
+scale = 1.15
+
+[sub_resource type="Resource" id="prop_drive_step_right"]
+script = ExtResource("5")
+id = "drive_upper_step_right"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(1.8, 0, 4.2)
+rotation_y = 5.0
+scale = 1.15
+
+[sub_resource type="Resource" id="prop_statue_plinth_left"]
+script = ExtResource("5")
+id = "drive_upper_statue_plinth_left"
+model = "res://assets/shared/structure/pillar0_002.glb"
+position = Vector3(-9.2, 0, 0.9)
+rotation_y = 22.0
+scale = 0.72
+
+[sub_resource type="Resource" id="prop_statue_left"]
+script = ExtResource("5")
+id = "drive_upper_statue_left"
+model = "res://assets/shared/decor/statue.glb"
+position = Vector3(-8.8, 1.0, 0.5)
+rotation_y = 14.0
+scale = 0.58
+
+[sub_resource type="Resource" id="prop_statue_plinth_right"]
+script = ExtResource("5")
+id = "drive_upper_statue_plinth_right"
+model = "res://assets/shared/structure/pillar0_003.glb"
+position = Vector3(9.3, 0, 1.2)
+rotation_y = -22.0
+scale = 0.72
+
+[sub_resource type="Resource" id="prop_statue_right"]
+script = ExtResource("5")
+id = "drive_upper_statue_right"
+model = "res://assets/shared/decor/statue.glb"
+position = Vector3(8.9, 1.0, 0.7)
+rotation_y = -12.0
+scale = 0.58
+
+[sub_resource type="Resource" id="prop_rocks"]
+script = ExtResource("5")
+id = "drive_upper_rocks"
+model = "res://assets/grounds/front_gate/rocks.glb"
+position = Vector3(-10.1, 0, 5.4)
+
+[resource]
+script = ExtResource("1")
+room_id = "drive_upper"
+room_name = "Upper Drive"
+floor_name = "grounds"
+environment_preset = "grounds"
+dimensions = Vector3(24, 6, 14)
+is_exterior = true
+spatial_class = "exterior_ground"
+exposure_faces = PackedStringArray("north", "south", "east", "west", "roof")
+outlook_zones = {"north": "front_steps_commitment", "south": "gate_return_axis", "east": "hedge_wall_boundary", "west": "hedge_wall_boundary", "roof": "open_sky"}
+window_view_mode = "distant_backdrop"
+wall_texture = ""
+floor_texture = "res://assets/grounds/front_gate/rocks_Rokcs 2.png"
+ceiling_texture = ""
+wall_north = PackedStringArray()
+wall_south = PackedStringArray()
+wall_east = PackedStringArray()
+wall_west = PackedStringArray()
+ambient_loop = "res://assets/audio/loops/Moonlight Loop1.ogg"
+tension_loop = "res://assets/audio/tension/tension_exploration.wav"
+reverb_bus = "OpenAir"
+footstep_surface = "gravel"
+spawn_position = Vector3(0, 0, -5.6)
+spawn_rotation_y = 180.0
+entry_anchors = Array[Resource]([SubResource("anchor_entry_from_lower"), SubResource("anchor_entry_from_steps")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_steps"), SubResource("anchor_focus_return")])
+interactables = Array[Resource]([SubResource("inter_drive_ascent"), SubResource("inter_drive_statue")])
+lights = Array[Resource]([SubResource("light_moonlight"), SubResource("light_steps_pull")])
+props = Array[Resource]([SubResource("prop_hedge_left_far"), SubResource("prop_hedge_left_mid_mansion"), SubResource("prop_hedge_left_mansion"), SubResource("prop_hedge_right_far"), SubResource("prop_hedge_right_mid_mansion"), SubResource("prop_hedge_right_mansion"), SubResource("prop_drive_stone_1"), SubResource("prop_drive_stone_2"), SubResource("prop_drive_stone_3"), SubResource("prop_drive_stone_4"), SubResource("prop_drive_step_center"), SubResource("prop_drive_step_left"), SubResource("prop_drive_step_right"), SubResource("prop_statue_plinth_left"), SubResource("prop_statue_left"), SubResource("prop_statue_plinth_right"), SubResource("prop_statue_right"), SubResource("prop_rocks")])
+on_entry = Array[Resource]([])
+on_exit = Array[Resource]([])
+ambient_events = Array[Resource]([])
+conditional_events = Array[Resource]([])
+flashbacks = Array[Resource]([])

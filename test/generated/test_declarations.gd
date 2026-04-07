@@ -45,7 +45,7 @@ func _run_all_tests() -> void:
 func _test_rooms() -> void:
 	_test_name = "ROOMS"
 	var ids := [
-		"front_gate", "foyer", "parlor", "dining_room", "kitchen",
+		"front_gate", "drive_lower", "drive_upper", "front_steps", "foyer", "parlor", "dining_room", "kitchen",
 		"upper_hallway", "master_bedroom", "library", "guest_room",
 		"storage_basement", "boiler_room", "wine_cellar",
 		"attic_stairs", "attic_storage", "hidden_chamber",

@@ -6,12 +6,27 @@ static func get_all() -> Dictionary:
 	return {
 		"front_gate": {
 			"interactables": ["gate_sign_new_game", "gate_sign_load_game", "gate_sign_settings", "gate_plaque", "gate_luggage", "gate_bench", "iron_gate", "gate_lamp"],
-			"connections": ["foyer"],
+			"connections": ["drive_lower"],
+			"min_lights": 3, "has_flickering": true, "require_spawn": true,
+		},
+		"drive_lower": {
+			"interactables": ["drive_lower_path", "drive_lower_hedge"],
+			"connections": ["front_gate", "drive_upper"],
+			"min_lights": 1, "has_flickering": false, "require_spawn": true,
+		},
+		"drive_upper": {
+			"interactables": ["drive_upper_ascent", "drive_upper_statue"],
+			"connections": ["drive_lower", "front_steps"],
+			"min_lights": 2, "has_flickering": true, "require_spawn": true,
+		},
+		"front_steps": {
+			"interactables": ["front_steps_door", "front_steps_lamp"],
+			"connections": ["drive_upper", "foyer"],
 			"min_lights": 4, "has_flickering": true, "require_spawn": true,
 		},
 		"foyer": {
 			"interactables": ["foyer_painting", "foyer_mirror", "foyer_clock", "entry_switch", "foyer_mail", "foyer_stairs"],
-			"connections": ["parlor", "dining_room", "kitchen", "upper_hallway", "front_gate"],
+			"connections": ["parlor", "dining_room", "kitchen", "upper_hallway", "front_steps"],
 			"min_lights": 6, "has_flickering": true, "require_spawn": true,
 		},
 		"parlor": {

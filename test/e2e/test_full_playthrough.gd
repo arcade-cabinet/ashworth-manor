@@ -56,8 +56,15 @@ func _test_freedom_route() -> void:
 	await _load_room("front_gate")
 	await _interact("gate_plaque")
 	_assert("front gate threshold acknowledged", _gm.get_state("front_gate_threshold_acknowledged", false) == true)
+	await _door_to("drive_lower")
+	_assert("front gate to drive_lower transition works", _gm.current_room == "drive_lower")
+	_assert("front drive stays in entrance path world", _rm.get_loaded_compiled_world_id() == "entrance_path_world")
+	await _door_to("drive_upper")
+	_assert("drive_lower to drive_upper transition works", _gm.current_room == "drive_upper")
+	await _door_to("front_steps")
+	_assert("drive_upper to front_steps transition works", _gm.current_room == "front_steps")
 	await _door_to("foyer")
-	_assert("front_gate to foyer transition works", _gm.current_room == "foyer")
+	_assert("front_steps to foyer transition works", _gm.current_room == "foyer")
 	_assert("foyer loads manor interior compiled world", _rm.get_loaded_compiled_world_id() == "manor_interior_world")
 	_assert("manor interior world keeps multiple room roots loaded", _rm.get_loaded_compiled_world_room_ids().size() >= 8)
 
@@ -148,7 +155,10 @@ func _test_escape_front_gate_path() -> void:
 	_gm.set_flag("knows_full_truth")
 	_gm.flags.erase("counter_ritual_complete")
 	_ending_events.clear()
-	_im._on_door_tapped("front_gate")
+	await _door_to("front_steps")
+	await _door_to("drive_upper")
+	await _door_to("drive_lower")
+	_im._on_door_tapped("front_gate", "drive_lower_to_front_gate")
 	await process_frame
 	await process_frame
 	_assert("escape ending fired from front gate return", _ending_events.has("escape"))
@@ -161,7 +171,10 @@ func _test_joined_front_gate_path() -> void:
 	_gm.flags.erase("knows_full_truth")
 	_gm.flags.erase("counter_ritual_complete")
 	_ending_events.clear()
-	_im._on_door_tapped("front_gate")
+	await _door_to("front_steps")
+	await _door_to("drive_upper")
+	await _door_to("drive_lower")
+	_im._on_door_tapped("front_gate", "drive_lower_to_front_gate")
 	await process_frame
 	await process_frame
 	_assert("joined ending fired from front gate return", _ending_events.has("joined"))

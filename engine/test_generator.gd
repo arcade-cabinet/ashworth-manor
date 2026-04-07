@@ -21,7 +21,10 @@ const CRITICAL_ENTRY_ROOMS := {
 	"hidden_chamber": true,
 }
 const CRITICAL_ENTRY_CONNECTION_IDS := {
-	"front_gate_to_foyer": true,
+	"front_gate_to_drive_lower": true,
+	"drive_lower_to_drive_upper": true,
+	"drive_upper_to_front_steps": true,
+	"front_steps_to_foyer": true,
 	"foyer_to_parlor": true,
 	"foyer_to_dining_room": true,
 	"foyer_to_kitchen": true,
@@ -33,8 +36,8 @@ const CRITICAL_ENTRY_CONNECTION_IDS := {
 	"attic_storage_to_hidden_chamber": true,
 }
 const EXPECTED_INTER_WORLD_CONNECTION_IDS := {
-	"front_gate_to_foyer": true,
-	"foyer_to_front_gate": true,
+	"front_steps_to_foyer": true,
+	"foyer_to_front_steps": true,
 	"kitchen_to_garden": true,
 	"garden_to_kitchen": true,
 	"kitchen_to_storage_basement": true,

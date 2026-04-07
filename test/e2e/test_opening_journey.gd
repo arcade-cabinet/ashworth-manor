@@ -65,25 +65,43 @@ func _run() -> void:
 	await _capture("01_new_game_selected")
 
 	await _stage_pose("02_gate_threshold", Vector3(0, 0, -11.9), 180.0)
-	await _stage_pose("03_drive_lower", Vector3(0, 0, -7.4), 180.0)
-	await _stage_pose("04_drive_middle", Vector3(0, 0, -2.2), 180.0)
-	await _stage_pose("05_drive_upper", Vector3(0, 0, 3.6), 180.0)
-	await _stage_pose("06_front_steps", Vector3(0, 0, 8.8), 180.0)
 
-	var room_loaded: Signal = _rm.room_loaded
-	var transition_finished: Signal = _rm.room_transition_finished
-	_im._on_door_tapped("foyer", "front_gate_to_foyer")
-	var loaded_room: String = await room_loaded
-	await transition_finished
+	_im._on_door_tapped("drive_lower", "front_gate_to_drive_lower")
+	var reached_drive_lower := await _await_room_id("drive_lower", 180)
+	await _await_transition_idle()
 	await _settle()
-	_assert("opening reaches foyer", loaded_room == "foyer" and _rm.get_current_room_id() == "foyer")
+	_assert("opening reaches drive_lower", reached_drive_lower and _rm.get_current_room_id() == "drive_lower")
+	await _capture("03_drive_lower_entry")
+	await _stage_pose("04_drive_lower_commit", Vector3(0, 0, 0.6), 180.0)
+
+	_im._on_door_tapped("drive_upper", "drive_lower_to_drive_upper")
+	var reached_drive_upper := await _await_room_id("drive_upper", 180)
+	await _await_transition_idle()
+	await _settle()
+	_assert("opening reaches drive_upper", reached_drive_upper and _rm.get_current_room_id() == "drive_upper")
+	await _capture("05_drive_upper_entry")
+	await _stage_pose("06_drive_upper_commit", Vector3(0, 0, 1.0), 180.0)
+
+	_im._on_door_tapped("front_steps", "drive_upper_to_front_steps")
+	var reached_front_steps := await _await_room_id("front_steps", 180)
+	await _await_transition_idle()
+	await _settle()
+	_assert("opening reaches front_steps", reached_front_steps and _rm.get_current_room_id() == "front_steps")
+	await _capture("07_front_steps_entry")
+	await _stage_pose("08_front_steps_commit", Vector3(0, 0, -0.8), 180.0)
+
+	_im._on_door_tapped("foyer", "front_steps_to_foyer")
+	var reached_foyer := await _await_room_id("foyer", 180)
+	await _await_transition_idle()
+	await _settle()
+	_assert("opening reaches foyer", reached_foyer and _rm.get_current_room_id() == "foyer")
 	if _rm.has_method("get_visible_compiled_world_room_ids"):
 		var visible_rooms: PackedStringArray = _rm.get_visible_compiled_world_room_ids()
 		_assert("opening foyer keeps upper side rooms hidden", not visible_rooms.has("master_bedroom"))
 		_assert("opening foyer hides upper hallway shell", not visible_rooms.has("upper_hallway"))
-	await _capture("07_foyer_handoff")
-	await _stage_pose("08_foyer_commit", Vector3(0.35, 0, -1.35), 176.0, -4.0)
-	await _stage_pose("09_stairs_pull", Vector3(0.18, 0, -0.78), 176.0, -14.0)
+	await _capture("09_foyer_handoff")
+	await _stage_pose("10_foyer_commit", Vector3(0.35, 0, -1.35), 176.0, -4.0)
+	await _stage_pose("11_stairs_pull", Vector3(0.18, 0, -0.78), 176.0, -14.0)
 
 	_finish()
 
@@ -97,10 +115,12 @@ func _stage_pose(name: String, position: Vector3, rotation_y: float, pitch_degre
 func _set_player_pose(position: Vector3, rotation_y: float, pitch_degrees: float = 0.0) -> void:
 	if _player == null:
 		return
+	var room_origin := _get_current_room_origin()
+	var world_position := position + room_origin
 	if _player.has_method("set_room_position"):
-		_player.set_room_position(position)
+		_player.set_room_position(world_position)
 	else:
-		_player.global_position = position
+		_player.global_position = world_position
 	if _player.has_method("set_room_rotation_y"):
 		_player.set_room_rotation_y(rotation_y)
 	else:
@@ -119,6 +139,17 @@ func _find_decl(object_id: String) -> InteractableDecl:
 			if decl is InteractableDecl:
 				return decl
 	return null
+
+
+func _get_current_room_origin() -> Vector3:
+	if _rm == null:
+		return Vector3.ZERO
+	if _rm.has_method("get_room_world_origin"):
+		return _rm.get_room_world_origin()
+	var room: Node = _rm.get_current_room() if _rm.has_method("get_current_room") else null
+	if room is Node3D:
+		return (room as Node3D).global_position
+	return Vector3.ZERO
 
 
 func _capture(name: String) -> void:
@@ -143,6 +174,21 @@ func _settle() -> void:
 	await process_frame
 	await process_frame
 	await process_frame
+
+
+func _await_room_id(room_id: String, max_frames: int = 120) -> bool:
+	for _i in range(max_frames):
+		if _rm != null and _rm.get_current_room_id() == room_id:
+			return true
+		await process_frame
+	return _rm != null and _rm.get_current_room_id() == room_id
+
+
+func _await_transition_idle(max_frames: int = 180) -> void:
+	for _i in range(max_frames):
+		if _rm == null or not _rm.get("_is_transitioning"):
+			return
+		await process_frame
 
 
 func _disable_nonessential_runtime_systems() -> void:

@@ -206,6 +206,9 @@ The pond and woods are approved because they:
 ### Existing exterior rooms to preserve
 
 - `front_gate`
+- `drive_lower`
+- `drive_upper`
+- `front_steps`
 - `garden`
 - `greenhouse`
 - `carriage_house`
@@ -214,9 +217,6 @@ The pond and woods are approved because they:
 
 ### Planned new exterior rooms
 
-- `drive_lower`
-- `drive_upper`
-- `front_steps`
 - `west_side_path`
 - `east_side_path`
 - `rear_court`

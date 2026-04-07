@@ -29,12 +29,27 @@
 [ext_resource type="Resource" path="res://declarations/regions/attic.tres" id="27"]
 [ext_resource type="Resource" path="res://declarations/regions/rear_estate.tres" id="28"]
 
-; === Room References (20 rooms) ===
+; === Room References (23 rooms) ===
 
 [sub_resource type="Resource" id="room_front_gate"]
 script = ExtResource("2")
 room_id = "front_gate"
 declaration_path = "res://declarations/rooms/front_gate.tres"
+
+[sub_resource type="Resource" id="room_drive_lower"]
+script = ExtResource("2")
+room_id = "drive_lower"
+declaration_path = "res://declarations/rooms/drive_lower.tres"
+
+[sub_resource type="Resource" id="room_drive_upper"]
+script = ExtResource("2")
+room_id = "drive_upper"
+declaration_path = "res://declarations/rooms/drive_upper.tres"
+
+[sub_resource type="Resource" id="room_front_steps"]
+script = ExtResource("2")
+room_id = "front_steps"
+declaration_path = "res://declarations/rooms/front_steps.tres"
 
 [sub_resource type="Resource" id="room_foyer"]
 script = ExtResource("2")
@@ -131,37 +146,118 @@ script = ExtResource("2")
 room_id = "family_crypt"
 declaration_path = "res://declarations/rooms/family_crypt.tres"
 
-; === Connections (34 bidirectional = 34 one-way entries) ===
+; === Connections (42 bidirectional = 42 one-way entries) ===
 
 ; -- Grounds --
 
-[sub_resource type="Resource" id="conn_front_gate_to_foyer"]
+[sub_resource type="Resource" id="conn_front_gate_to_drive_lower"]
 script = ExtResource("3")
-id = "front_gate_to_foyer"
+id = "front_gate_to_drive_lower"
 from_room = "front_gate"
-to_room = "foyer"
+to_room = "drive_lower"
 direction = "north"
 type = "path"
-position_in_from = Vector3(0, 1.5, 10.7)
-position_in_to = Vector3(-0.3, 0, -3.7)
-spawn_rotation_y = 12.0
-to_anchor_id = "entry_front_door"
-focal_anchor_id = ""
+position_in_from = Vector3(0, 1.5, 8.2)
+position_in_to = Vector3(0, 0, -6.8)
+spawn_rotation_y = 0.0
+to_anchor_id = "entry_from_gate"
+focal_anchor_id = "focus_drive_forward"
 required_state = "front_gate_threshold_acknowledged"
 blocked_text = "The manor waits at the end of the drive. Something in you resists crossing the threshold before you read the plaque."
 
-[sub_resource type="Resource" id="conn_foyer_to_front_gate"]
+[sub_resource type="Resource" id="conn_drive_lower_to_front_gate"]
 script = ExtResource("3")
-id = "foyer_to_front_gate"
-from_room = "foyer"
+id = "drive_lower_to_front_gate"
+from_room = "drive_lower"
 to_room = "front_gate"
 direction = "south"
-type = "door"
-position_in_from = Vector3(0, 1.5, -5)
-position_in_to = Vector3(0, 0, 8)
+type = "path"
+position_in_from = Vector3(0, 1.5, -6.2)
+position_in_to = Vector3(0, 0, 6.8)
 spawn_rotation_y = 0.0
 to_anchor_id = "entry_drive"
 focal_anchor_id = "focus_gate_sign"
+
+[sub_resource type="Resource" id="conn_drive_lower_to_drive_upper"]
+script = ExtResource("3")
+id = "drive_lower_to_drive_upper"
+from_room = "drive_lower"
+to_room = "drive_upper"
+direction = "north"
+type = "path"
+position_in_from = Vector3(0, 1.5, 6.2)
+position_in_to = Vector3(0, 0, -6.2)
+spawn_rotation_y = 0.0
+to_anchor_id = "entry_from_lower"
+focal_anchor_id = "focus_steps"
+
+[sub_resource type="Resource" id="conn_drive_upper_to_drive_lower"]
+script = ExtResource("3")
+id = "drive_upper_to_drive_lower"
+from_room = "drive_upper"
+to_room = "drive_lower"
+direction = "south"
+type = "path"
+position_in_from = Vector3(0, 1.5, -6.0)
+position_in_to = Vector3(0, 0, 5.3)
+spawn_rotation_y = 180.0
+to_anchor_id = "entry_from_upper"
+focal_anchor_id = "focus_gate_return"
+
+[sub_resource type="Resource" id="conn_drive_upper_to_front_steps"]
+script = ExtResource("3")
+id = "drive_upper_to_front_steps"
+from_room = "drive_upper"
+to_room = "front_steps"
+direction = "north"
+type = "path"
+position_in_from = Vector3(0, 1.5, 6.0)
+position_in_to = Vector3(0, 0, -5.2)
+spawn_rotation_y = 0.0
+to_anchor_id = "entry_from_drive"
+focal_anchor_id = "focus_front_door"
+
+[sub_resource type="Resource" id="conn_front_steps_to_drive_upper"]
+script = ExtResource("3")
+id = "front_steps_to_drive_upper"
+from_room = "front_steps"
+to_room = "drive_upper"
+direction = "south"
+type = "path"
+position_in_from = Vector3(0, 1.5, -5.0)
+position_in_to = Vector3(0, 0, 5.1)
+spawn_rotation_y = 180.0
+to_anchor_id = "entry_from_steps"
+focal_anchor_id = "focus_return"
+
+[sub_resource type="Resource" id="conn_front_steps_to_foyer"]
+script = ExtResource("3")
+id = "front_steps_to_foyer"
+from_room = "front_steps"
+to_room = "foyer"
+direction = "north"
+type = "door"
+position_in_from = Vector3(0, 1.5, 5.0)
+position_in_to = Vector3(-0.3, 0, -3.7)
+spawn_rotation_y = 12.0
+to_anchor_id = "entry_front_door"
+presentation_type = "facade_door"
+mechanism_type = "swing"
+door_texture = "res://assets/shared/textures/retro/door_texture_01.png"
+frame_texture = "wall0_texture"
+
+[sub_resource type="Resource" id="conn_foyer_to_front_steps"]
+script = ExtResource("3")
+id = "foyer_to_front_steps"
+from_room = "foyer"
+to_room = "front_steps"
+direction = "south"
+type = "door"
+position_in_from = Vector3(0, 1.5, -5)
+position_in_to = Vector3(0, 0, 3.9)
+spawn_rotation_y = 0.0
+to_anchor_id = "entry_front_door"
+focal_anchor_id = "focus_forecourt"
 presentation_type = "facade_door"
 mechanism_type = "swing"
 door_texture = "res://assets/shared/textures/retro/door_texture_01.png"
@@ -1068,8 +1164,8 @@ script = ExtResource("1")
 starting_room = "front_gate"
 starting_position = Vector3(0, 0, -8)
 starting_rotation_y = 180.0
-rooms = Array[Resource]([SubResource("room_front_gate"), SubResource("room_foyer"), SubResource("room_parlor"), SubResource("room_dining_room"), SubResource("room_kitchen"), SubResource("room_upper_hallway"), SubResource("room_master_bedroom"), SubResource("room_library"), SubResource("room_guest_room"), SubResource("room_storage_basement"), SubResource("room_boiler_room"), SubResource("room_wine_cellar"), SubResource("room_attic_stairs"), SubResource("room_attic_storage"), SubResource("room_hidden_chamber"), SubResource("room_garden"), SubResource("room_chapel"), SubResource("room_greenhouse"), SubResource("room_carriage_house"), SubResource("room_family_crypt")])
-connections = Array[Resource]([SubResource("conn_front_gate_to_foyer"), SubResource("conn_foyer_to_front_gate"), SubResource("conn_front_gate_to_garden"), SubResource("conn_garden_to_front_gate"), SubResource("conn_front_gate_to_carriage_house"), SubResource("conn_carriage_house_to_front_gate"), SubResource("conn_foyer_to_parlor"), SubResource("conn_parlor_to_foyer"), SubResource("conn_foyer_to_dining_room"), SubResource("conn_dining_room_to_foyer"), SubResource("conn_foyer_to_kitchen"), SubResource("conn_kitchen_to_foyer"), SubResource("conn_foyer_to_upper_hallway"), SubResource("conn_upper_hallway_to_foyer"), SubResource("conn_upper_hallway_to_master_bedroom"), SubResource("conn_master_bedroom_to_upper_hallway"), SubResource("conn_upper_hallway_to_library"), SubResource("conn_library_to_upper_hallway"), SubResource("conn_upper_hallway_to_guest_room"), SubResource("conn_guest_room_to_upper_hallway"), SubResource("conn_upper_hallway_to_attic_stairs"), SubResource("conn_attic_stairs_to_upper_hallway"), SubResource("conn_attic_stairs_to_attic_storage"), SubResource("conn_attic_storage_to_attic_stairs"), SubResource("conn_attic_storage_to_hidden_chamber"), SubResource("conn_hidden_chamber_to_attic_storage"), SubResource("conn_kitchen_to_storage_basement"), SubResource("conn_storage_basement_to_kitchen"), SubResource("conn_storage_basement_to_boiler_room"), SubResource("conn_boiler_room_to_storage_basement"), SubResource("conn_storage_basement_to_wine_cellar"), SubResource("conn_wine_cellar_to_storage_basement"), SubResource("conn_garden_to_chapel"), SubResource("conn_chapel_to_garden"), SubResource("conn_garden_to_greenhouse"), SubResource("conn_greenhouse_to_garden"), SubResource("conn_garden_to_family_crypt"), SubResource("conn_family_crypt_to_garden")])
+rooms = Array[Resource]([SubResource("room_front_gate"), SubResource("room_drive_lower"), SubResource("room_drive_upper"), SubResource("room_front_steps"), SubResource("room_foyer"), SubResource("room_parlor"), SubResource("room_dining_room"), SubResource("room_kitchen"), SubResource("room_upper_hallway"), SubResource("room_master_bedroom"), SubResource("room_library"), SubResource("room_guest_room"), SubResource("room_storage_basement"), SubResource("room_boiler_room"), SubResource("room_wine_cellar"), SubResource("room_attic_stairs"), SubResource("room_attic_storage"), SubResource("room_hidden_chamber"), SubResource("room_garden"), SubResource("room_chapel"), SubResource("room_greenhouse"), SubResource("room_carriage_house"), SubResource("room_family_crypt")])
+connections = Array[Resource]([SubResource("conn_front_gate_to_drive_lower"), SubResource("conn_drive_lower_to_front_gate"), SubResource("conn_drive_lower_to_drive_upper"), SubResource("conn_drive_upper_to_drive_lower"), SubResource("conn_drive_upper_to_front_steps"), SubResource("conn_front_steps_to_drive_upper"), SubResource("conn_front_steps_to_foyer"), SubResource("conn_foyer_to_front_steps"), SubResource("conn_front_gate_to_garden"), SubResource("conn_garden_to_front_gate"), SubResource("conn_front_gate_to_carriage_house"), SubResource("conn_carriage_house_to_front_gate"), SubResource("conn_foyer_to_parlor"), SubResource("conn_parlor_to_foyer"), SubResource("conn_foyer_to_dining_room"), SubResource("conn_dining_room_to_foyer"), SubResource("conn_foyer_to_kitchen"), SubResource("conn_kitchen_to_foyer"), SubResource("conn_foyer_to_upper_hallway"), SubResource("conn_upper_hallway_to_foyer"), SubResource("conn_upper_hallway_to_master_bedroom"), SubResource("conn_master_bedroom_to_upper_hallway"), SubResource("conn_upper_hallway_to_library"), SubResource("conn_library_to_upper_hallway"), SubResource("conn_upper_hallway_to_guest_room"), SubResource("conn_guest_room_to_upper_hallway"), SubResource("conn_upper_hallway_to_attic_stairs"), SubResource("conn_attic_stairs_to_upper_hallway"), SubResource("conn_attic_stairs_to_attic_storage"), SubResource("conn_attic_storage_to_attic_stairs"), SubResource("conn_attic_storage_to_hidden_chamber"), SubResource("conn_hidden_chamber_to_attic_storage"), SubResource("conn_kitchen_to_storage_basement"), SubResource("conn_storage_basement_to_kitchen"), SubResource("conn_storage_basement_to_boiler_room"), SubResource("conn_boiler_room_to_storage_basement"), SubResource("conn_storage_basement_to_wine_cellar"), SubResource("conn_wine_cellar_to_storage_basement"), SubResource("conn_garden_to_chapel"), SubResource("conn_chapel_to_garden"), SubResource("conn_garden_to_greenhouse"), SubResource("conn_greenhouse_to_garden"), SubResource("conn_garden_to_family_crypt"), SubResource("conn_family_crypt_to_garden")])
 secret_passages = Array[Resource]([SubResource("passage_storage_to_carriage")])
 regions = Array[Resource]([ExtResource("23"), ExtResource("24"), ExtResource("25"), ExtResource("26"), ExtResource("27"), ExtResource("28")])
 area_environments = {}

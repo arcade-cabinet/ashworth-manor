@@ -1,0 +1,236 @@
+[gd_resource type="Resource" script_class="RoomDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/room_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
+[ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="6"]
+
+[sub_resource type="Resource" id="anchor_entry_from_gate"]
+script = ExtResource("6")
+anchor_id = "entry_from_gate"
+anchor_type = "entry"
+position = Vector3(0, 0, -5.6)
+rotation_y = 180.0
+target_anchor_id = "focus_drive_forward"
+tags = PackedStringArray("default", "front_approach")
+
+[sub_resource type="Resource" id="anchor_entry_from_upper"]
+script = ExtResource("6")
+anchor_id = "entry_from_upper"
+anchor_type = "entry"
+position = Vector3(0, 0, 5.3)
+rotation_y = 0.0
+target_anchor_id = "focus_gate_return"
+tags = PackedStringArray("return")
+
+[sub_resource type="Resource" id="anchor_focus_drive_forward"]
+script = ExtResource("6")
+anchor_id = "focus_drive_forward"
+anchor_type = "focal"
+position = Vector3(0, 1.6, 5.8)
+rotation_y = 180.0
+tags = PackedStringArray("approach", "mansion_pull")
+
+[sub_resource type="Resource" id="anchor_focus_gate_return"]
+script = ExtResource("6")
+anchor_id = "focus_gate_return"
+anchor_type = "focal"
+position = Vector3(0, 2.1, -5.8)
+rotation_y = 0.0
+tags = PackedStringArray("return", "gate")
+
+[sub_resource type="Resource" id="resp_drive_path"]
+script = ExtResource("3")
+condition = ""
+title = "Ceremonial Drive"
+text = "The gravel narrows into a disciplined corridor of clipped hedge and stone. Whoever built Ashworth Manor wanted every arrival to feel like an approach to judgment, not hospitality."
+
+[sub_resource type="Resource" id="resp_drive_hedge"]
+script = ExtResource("3")
+condition = ""
+title = "Clipped Hedge Wall"
+text = "The hedge rises shoulder-high and then some, clipped so tightly it feels less like gardening than enclosure. You could be crossing a great estate or merely being funneled toward a decision someone already made."
+
+[sub_resource type="Resource" id="inter_drive_path"]
+script = ExtResource("2")
+id = "drive_lower_path"
+type = "observation"
+scene_role = "observation"
+position = Vector3(0, 0.2, 0.6)
+collision_size = Vector3(2.4, 1.0, 2.4)
+responses = Array[Resource]([SubResource("resp_drive_path")])
+
+[sub_resource type="Resource" id="inter_drive_hedge"]
+script = ExtResource("2")
+id = "drive_lower_hedge"
+type = "observation"
+scene_role = "clue_dressing"
+position = Vector3(-5.9, 1.1, 0.8)
+collision_size = Vector3(2.0, 2.0, 1.4)
+responses = Array[Resource]([SubResource("resp_drive_hedge")])
+
+[sub_resource type="Resource" id="light_moonlight"]
+script = ExtResource("4")
+id = "drive_lower_moonlight"
+type = "directional"
+position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(-42, 34, 0)
+color = Color(0.58, 0.64, 0.86, 1)
+energy = 1.05
+range = 0.0
+shadows = true
+flickering = false
+
+[sub_resource type="Resource" id="prop_hedge_left_gate"]
+script = ExtResource("5")
+id = "drive_lower_hedge_left_gate"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(-6.7, 0, -6.7)
+rotation_y = 6.0
+scale = 1.06
+
+[sub_resource type="Resource" id="prop_hedge_left_mid"]
+script = ExtResource("5")
+id = "drive_lower_hedge_left_mid"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(-6.1, 0, -3.1)
+rotation_y = 10.0
+scale = 1.08
+
+[sub_resource type="Resource" id="prop_hedge_left_near"]
+script = ExtResource("5")
+id = "drive_lower_hedge_left_near"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(-6.0, 0, 0.5)
+rotation_y = -2.0
+scale = 1.12
+
+[sub_resource type="Resource" id="prop_hedge_left_far"]
+script = ExtResource("5")
+id = "drive_lower_hedge_left_far"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(-6.2, 0, 4.0)
+rotation_y = -8.0
+scale = 1.16
+
+[sub_resource type="Resource" id="prop_hedge_right_gate"]
+script = ExtResource("5")
+id = "drive_lower_hedge_right_gate"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(6.7, 0, -6.5)
+rotation_y = 194.0
+scale = 1.06
+
+[sub_resource type="Resource" id="prop_hedge_right_mid"]
+script = ExtResource("5")
+id = "drive_lower_hedge_right_mid"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(6.1, 0, -2.8)
+rotation_y = 186.0
+scale = 1.08
+
+[sub_resource type="Resource" id="prop_hedge_right_near"]
+script = ExtResource("5")
+id = "drive_lower_hedge_right_near"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(6.0, 0, 0.9)
+rotation_y = 182.0
+scale = 1.12
+
+[sub_resource type="Resource" id="prop_hedge_right_far"]
+script = ExtResource("5")
+id = "drive_lower_hedge_right_far"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(6.2, 0, 4.3)
+rotation_y = 172.0
+scale = 1.16
+
+[sub_resource type="Resource" id="prop_tree_left"]
+script = ExtResource("5")
+id = "drive_lower_tree_left"
+model = "res://assets/grounds/front_gate/tree01_winter.glb"
+position = Vector3(-12.6, 0, -2.6)
+scale = 0.92
+
+[sub_resource type="Resource" id="prop_tree_right"]
+script = ExtResource("5")
+id = "drive_lower_tree_right"
+model = "res://assets/grounds/front_gate/tree02_winter.glb"
+position = Vector3(12.9, 0, -1.8)
+rotation_y = 30.0
+scale = 0.92
+
+[sub_resource type="Resource" id="prop_bush_left"]
+script = ExtResource("5")
+id = "drive_lower_bush_left"
+model = "res://assets/grounds/front_gate/bush03_winter.glb"
+position = Vector3(-8.0, 0, 0.1)
+rotation_y = -8.0
+scale = 0.94
+
+[sub_resource type="Resource" id="prop_bush_right"]
+script = ExtResource("5")
+id = "drive_lower_bush_right"
+model = "res://assets/grounds/front_gate/bush04_winter.glb"
+position = Vector3(8.0, 0, 4.5)
+rotation_y = 18.0
+scale = 0.94
+
+[sub_resource type="Resource" id="prop_drive_stone_1"]
+script = ExtResource("5")
+id = "drive_lower_stone_1"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(0, 0, -4.0)
+scale = 1.1
+
+[sub_resource type="Resource" id="prop_drive_stone_2"]
+script = ExtResource("5")
+id = "drive_lower_stone_2"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(0, 0, 0.0)
+scale = 1.1
+
+[sub_resource type="Resource" id="prop_drive_stone_3"]
+script = ExtResource("5")
+id = "drive_lower_stone_3"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(0, 0, 4.0)
+scale = 1.1
+
+[resource]
+script = ExtResource("1")
+room_id = "drive_lower"
+room_name = "Lower Drive"
+floor_name = "grounds"
+environment_preset = "grounds"
+dimensions = Vector3(22, 6, 14)
+is_exterior = true
+spatial_class = "exterior_ground"
+exposure_faces = PackedStringArray("north", "south", "east", "west", "roof")
+outlook_zones = {"north": "upper_drive_pull", "south": "front_gate_threshold", "east": "hedge_wall_boundary", "west": "hedge_wall_boundary", "roof": "open_sky"}
+window_view_mode = "distant_backdrop"
+wall_texture = ""
+floor_texture = "res://assets/grounds/front_gate/rocks_Rokcs 2.png"
+ceiling_texture = ""
+wall_north = PackedStringArray()
+wall_south = PackedStringArray()
+wall_east = PackedStringArray()
+wall_west = PackedStringArray()
+ambient_loop = "res://assets/audio/loops/Moonlight Loop1.ogg"
+tension_loop = "res://assets/audio/tension/tension_exploration.wav"
+reverb_bus = "OpenAir"
+footstep_surface = "gravel"
+spawn_position = Vector3(0, 0, -5.6)
+spawn_rotation_y = 180.0
+entry_anchors = Array[Resource]([SubResource("anchor_entry_from_gate"), SubResource("anchor_entry_from_upper")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_drive_forward"), SubResource("anchor_focus_gate_return")])
+interactables = Array[Resource]([SubResource("inter_drive_path"), SubResource("inter_drive_hedge")])
+lights = Array[Resource]([SubResource("light_moonlight")])
+props = Array[Resource]([SubResource("prop_hedge_left_gate"), SubResource("prop_hedge_left_mid"), SubResource("prop_hedge_left_near"), SubResource("prop_hedge_left_far"), SubResource("prop_hedge_right_gate"), SubResource("prop_hedge_right_mid"), SubResource("prop_hedge_right_near"), SubResource("prop_hedge_right_far"), SubResource("prop_tree_left"), SubResource("prop_tree_right"), SubResource("prop_bush_left"), SubResource("prop_bush_right"), SubResource("prop_drive_stone_1"), SubResource("prop_drive_stone_2"), SubResource("prop_drive_stone_3")])
+on_entry = Array[Resource]([])
+on_exit = Array[Resource]([])
+ambient_events = Array[Resource]([])
+conditional_events = Array[Resource]([])
+flashbacks = Array[Resource]([])

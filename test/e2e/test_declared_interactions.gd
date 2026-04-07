@@ -92,7 +92,7 @@ func _test_front_gate_threshold_gate() -> void:
 	_gm.set_state("macro_thread", "captive")
 	_rm.load_room("front_gate")
 	_ui.hide_document()
-	_im._on_door_tapped("foyer")
+	_im._on_door_tapped("drive_lower")
 	_assert("front_gate threshold blocked text", "read the plaque" in _get_document_content())
 	_ui.hide_document()
 	var decl: InteractableDecl = _find_decl("gate_plaque")
@@ -112,10 +112,9 @@ func _test_front_gate_threshold_gate() -> void:
 		gate_light_base = room.get_light_base_energy("gate_lamp_light")
 	_assert("front_gate threshold lamp found", gate_light != null)
 	_assert("front_gate threshold lamp pulses", gate_light_base > 2.5)
-	var room_loaded: Signal = _rm.room_loaded
-	_im._on_door_tapped("foyer")
-	var loaded_room: String = await room_loaded
-	_assert("front_gate threshold transitions to foyer", loaded_room == "foyer" and _gm.current_room == "foyer")
+	_im._on_door_tapped("drive_lower")
+	var loaded_room := await _await_room_id("drive_lower")
+	_assert("front_gate threshold transitions to drive_lower", loaded_room and _gm.current_room == "drive_lower")
 	_ui.hide_document()
 
 
@@ -165,6 +164,14 @@ func _clear_save_data() -> void:
 	var save_system := root.get_node_or_null("SaveSystem")
 	if save_system != null and save_system.has_method("delete_all"):
 		save_system.delete_all()
+
+
+func _await_room_id(room_id: String, max_frames: int = 120) -> bool:
+	for _i in range(max_frames):
+		if _rm != null and _rm.get_current_room_id() == room_id:
+			return true
+		await process_frame
+	return _rm != null and _rm.get_current_room_id() == room_id
 
 
 func _test_front_gate_conditional_response() -> void:

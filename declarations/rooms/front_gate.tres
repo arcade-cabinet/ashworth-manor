@@ -15,7 +15,7 @@
 script = ExtResource("10")
 anchor_id = "entry_opening"
 anchor_type = "entry"
-position = Vector3(0, 0, -15.4)
+position = Vector3(0, 0, -5.4)
 rotation_y = 180.0
 target_anchor_id = "focus_gate_sign"
 tags = PackedStringArray("default", "prologue", "menu")
@@ -24,24 +24,24 @@ tags = PackedStringArray("default", "prologue", "menu")
 script = ExtResource("10")
 anchor_id = "entry_drive"
 anchor_type = "entry"
-position = Vector3(0, 0, 8.6)
+position = Vector3(0, 0, 6.8)
 rotation_y = 0.0
-target_anchor_id = "focus_gate_sign"
+target_anchor_id = "focus_drive"
 tags = PackedStringArray("return", "threshold")
 
 [sub_resource type="Resource" id="anchor_focus_mansion"]
 script = ExtResource("10")
-anchor_id = "focus_mansion"
+anchor_id = "focus_drive"
 anchor_type = "focal"
-position = Vector3(0, 4.0, 12.6)
+position = Vector3(0, 2.4, 7.6)
 rotation_y = 180.0
-tags = PackedStringArray("mansion", "threshold")
+tags = PackedStringArray("drive", "threshold")
 
 [sub_resource type="Resource" id="anchor_focus_gate_sign"]
 script = ExtResource("10")
 anchor_id = "focus_gate_sign"
 anchor_type = "focal"
-position = Vector3(0, 2.45, -10.1)
+position = Vector3(0, 2.45, -0.1)
 rotation_y = 0.0
 tags = PackedStringArray("menu", "gate")
 
@@ -179,7 +179,7 @@ text = "The flame breathes. Not metaphorically. Deliberately. The pressure rises
 script = ExtResource("2")
 id = "gate_plaque"
 type = "note"
-position = Vector3(-2, 1.5, -10)
+position = Vector3(-2, 1.5, -0.15)
 wall = "south"
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_plaque_truth"), SubResource("resp_plaque_default")])
@@ -189,7 +189,7 @@ thread_responses = {"captive": [SubResource("resp_plaque_captive")], "mourning":
 script = ExtResource("2")
 id = "gate_luggage"
 type = "observation"
-position = Vector3(6.2, 0.3, -8.3)
+position = Vector3(6.2, 0.3, 1.7)
 collision_size = Vector3(1.5, 1.0, 1.0)
 model = "res://assets/grounds/front_gate/luggage_mp_1.glb"
 responses = Array[Resource]([SubResource("resp_luggage_ledger"), SubResource("resp_luggage_default")])
@@ -198,7 +198,7 @@ responses = Array[Resource]([SubResource("resp_luggage_ledger"), SubResource("re
 script = ExtResource("2")
 id = "gate_bench"
 type = "observation"
-position = Vector3(-6.5, 0.5, -6.4)
+position = Vector3(-6.5, 0.5, 3.6)
 collision_size = Vector3(2.0, 1.0, 1.0)
 model = "res://assets/grounds/front_gate/bench_mx_1.glb"
 responses = Array[Resource]([SubResource("resp_bench_truth"), SubResource("resp_bench_default")])
@@ -207,7 +207,7 @@ responses = Array[Resource]([SubResource("resp_bench_truth"), SubResource("resp_
 script = ExtResource("2")
 id = "iron_gate"
 type = "observation"
-position = Vector3(0, 1.5, -10)
+position = Vector3(0, 1.5, 0)
 collision_size = Vector3(3.0, 3.0, 1.0)
 model = ""
 responses = Array[Resource]([SubResource("resp_gate_aware"), SubResource("resp_gate_default")])
@@ -217,7 +217,7 @@ thread_responses = {"captive": [SubResource("resp_gate_captive")], "mourning": [
 script = ExtResource("2")
 id = "gate_lamp"
 type = "observation"
-position = Vector3(-4, 2.5, -10)
+position = Vector3(-4, 2.5, 0)
 collision_size = Vector3(1.0, 2.0, 1.0)
 model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
 responses = Array[Resource]([SubResource("resp_lamp_aware"), SubResource("resp_lamp_default")])
@@ -228,7 +228,7 @@ script = ExtResource("2")
 id = "gate_sign_new_game"
 type = "observation"
 scene_role = "threshold_control"
-position = Vector3(0, 2.44, -10.12)
+position = Vector3(0, 2.44, -0.12)
 collision_size = Vector3(1.6, 0.64, 0.7)
 visual_effects = {"world_label": "NEW GAME", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(1.22, 0.34, 0.08), "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 22, "world_label_hanger_height": 0.2, "world_label_hanger_offset_x": 0.38, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 180.0}
 state_tags = PackedStringArray("gate_menu_new_game")
@@ -238,7 +238,7 @@ script = ExtResource("2")
 id = "gate_sign_load_game"
 type = "observation"
 scene_role = "threshold_control"
-position = Vector3(-4.95, 2.28, -10.15)
+position = Vector3(-4.95, 2.28, -0.15)
 collision_size = Vector3(1.15, 0.56, 0.7)
 visual_effects = {"world_label": "LOAD GAME", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(0.94, 0.28, 0.08), "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 17, "world_label_hanger_height": 0.18, "world_label_hanger_offset_x": 0.28, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 176.0}
 state_tags = PackedStringArray("gate_menu_load_game")
@@ -248,7 +248,7 @@ script = ExtResource("2")
 id = "gate_sign_settings"
 type = "observation"
 scene_role = "threshold_control"
-position = Vector3(4.95, 2.28, -10.15)
+position = Vector3(4.95, 2.28, -0.15)
 collision_size = Vector3(1.15, 0.56, 0.7)
 visual_effects = {"world_label": "SETTINGS", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(0.92, 0.28, 0.08), "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 17, "world_label_hanger_height": 0.18, "world_label_hanger_offset_x": 0.28, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 184.0}
 state_tags = PackedStringArray("gate_menu_settings")
@@ -271,7 +271,7 @@ flickering = false
 script = ExtResource("4")
 id = "gate_lamp_light"
 type = "omni"
-position = Vector3(-4, 3, -10)
+position = Vector3(-4, 3, 0)
 color = Color(1.0, 0.85, 0.5, 1)
 energy = 3.9
 range = 12.5
@@ -283,7 +283,7 @@ flicker_pattern = "gas"
 script = ExtResource("4")
 id = "gate_lamp_light_r"
 type = "omni"
-position = Vector3(4, 3, -10)
+position = Vector3(4, 3, 0)
 color = Color(1.0, 0.82, 0.48, 1)
 energy = 2.8
 range = 9.5
@@ -388,50 +388,50 @@ flicker_pattern = "gas"
 script = ExtResource("5")
 id = "gate_pillar_l"
 model = "res://assets/shared/structure/pillar0.glb"
-position = Vector3(-4, 0, -10)
+position = Vector3(-4, 0, 0)
 
 [sub_resource type="Resource" id="prop_gate_pillar_r"]
 script = ExtResource("5")
 id = "gate_pillar_r"
 model = "res://assets/shared/structure/pillar0_001.glb"
-position = Vector3(4, 0, -10)
+position = Vector3(4, 0, 0)
 
 [sub_resource type="Resource" id="prop_boundary_wall"]
 script = ExtResource("5")
 id = "boundary_wall"
 model = "res://assets/grounds/front_gate/brick_wall.glb"
-position = Vector3(-9, 0, -10)
+position = Vector3(-9, 0, 0)
 
 [sub_resource type="Resource" id="prop_boundary_corner"]
 script = ExtResource("5")
 id = "boundary_corner"
 model = "res://assets/grounds/front_gate/brick_Wall_corner.glb"
-position = Vector3(9, 0, -10)
+position = Vector3(9, 0, 0)
 
 [sub_resource type="Resource" id="prop_fence"]
 script = ExtResource("5")
 id = "fence_section"
 model = "res://assets/grounds/front_gate/metalfence_both_sides_topbar.glb"
-position = Vector3(-7, 0, -10)
+position = Vector3(-7, 0, 0)
 
 [sub_resource type="Resource" id="prop_boundary_pole_r"]
 script = ExtResource("5")
 id = "boundary_pole_r"
 model = "res://assets/grounds/front_gate/brick_wall_pole.glb"
-position = Vector3(6, 0, -10)
+position = Vector3(6, 0, 0)
 
 [sub_resource type="Resource" id="prop_fence_r"]
 script = ExtResource("5")
 id = "fence_section_r"
 model = "res://assets/grounds/front_gate/metalfence_one_side_topbar.glb"
-position = Vector3(7.2, 0, -10)
+position = Vector3(7.2, 0, 0)
 rotation_y = 180.0
 
 [sub_resource type="Resource" id="prop_gate_center"]
 script = ExtResource("5")
 id = "iron_gate_center"
 model = "res://assets/grounds/front_gate/iron_gate.glb"
-position = Vector3(-3.0, 0, -9.85)
+position = Vector3(-3.0, 0, 0.15)
 rotation_y = 118.0
 scale = 0.56
 
@@ -439,7 +439,7 @@ scale = 0.56
 script = ExtResource("5")
 id = "iron_gate_center_r"
 model = "res://assets/grounds/front_gate/iron_gate.glb"
-position = Vector3(3.0, 0, -9.85)
+position = Vector3(3.0, 0, 0.15)
 rotation_y = 242.0
 scale = 0.56
 
@@ -447,14 +447,14 @@ scale = 0.56
 script = ExtResource("5")
 id = "tree1"
 model = "res://assets/grounds/front_gate/tree01_winter.glb"
-position = Vector3(-13.2, 0, -6.4)
+position = Vector3(-13.2, 0, 3.6)
 scale = 1.04
 
 [sub_resource type="Resource" id="prop_tree2"]
 script = ExtResource("5")
 id = "tree2"
 model = "res://assets/grounds/front_gate/tree02_winter.glb"
-position = Vector3(13.0, 0, -5.1)
+position = Vector3(13.0, 0, 4.9)
 rotation_y = 30.0
 scale = 1.04
 
@@ -502,21 +502,21 @@ scale = 0.88
 script = ExtResource("5")
 id = "bush1"
 model = "res://assets/grounds/front_gate/bush01_winter.glb"
-position = Vector3(-6, 0, -9)
+position = Vector3(-6, 0, 1.0)
 scale = 0.95
 
 [sub_resource type="Resource" id="prop_bush2"]
 script = ExtResource("5")
 id = "bush2"
 model = "res://assets/grounds/front_gate/bush02_winter.glb"
-position = Vector3(6, 0, -9)
+position = Vector3(6, 0, 1.0)
 scale = 0.95
 
 [sub_resource type="Resource" id="prop_bush3"]
 script = ExtResource("5")
 id = "bush3"
 model = "res://assets/grounds/front_gate/bush03_winter.glb"
-position = Vector3(-6.9, 0, -2.0)
+position = Vector3(-6.9, 0, 8.0)
 rotation_y = -8.0
 scale = 0.94
 
@@ -548,7 +548,7 @@ scale = 0.76
 script = ExtResource("5")
 id = "drive_hedge_left_near"
 model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(-6.2, 0, -1.8)
+position = Vector3(-6.2, 0, 8.2)
 rotation_y = 12.0
 scale = 1.12
 
@@ -556,7 +556,7 @@ scale = 1.12
 script = ExtResource("5")
 id = "drive_hedge_left_gate"
 model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(-6.7, 0, -8.9)
+position = Vector3(-6.7, 0, 1.1)
 rotation_y = 6.0
 scale = 1.06
 
@@ -580,7 +580,7 @@ scale = 1.08
 script = ExtResource("5")
 id = "drive_hedge_left_mid_gate"
 model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(-6.1, 0, -5.3)
+position = Vector3(-6.1, 0, 4.7)
 rotation_y = 10.0
 scale = 1.08
 
@@ -604,7 +604,7 @@ scale = 1.08
 script = ExtResource("5")
 id = "drive_hedge_right_near"
 model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(6.2, 0, -1.0)
+position = Vector3(6.2, 0, 9.0)
 rotation_y = 188.0
 scale = 1.12
 
@@ -612,7 +612,7 @@ scale = 1.12
 script = ExtResource("5")
 id = "drive_hedge_right_gate"
 model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(6.7, 0, -8.6)
+position = Vector3(6.7, 0, 1.4)
 rotation_y = 194.0
 scale = 1.06
 
@@ -636,7 +636,7 @@ scale = 1.08
 script = ExtResource("5")
 id = "drive_hedge_right_mid_gate"
 model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(6.1, 0, -5.0)
+position = Vector3(6.1, 0, 5.0)
 rotation_y = 186.0
 scale = 1.08
 
@@ -666,7 +666,7 @@ position = Vector3(-10.1, 0, 10.9)
 script = ExtResource("5")
 id = "gate_lamp_off"
 model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
-position = Vector3(4, 0, -10)
+position = Vector3(4, 0, 0)
 
 [sub_resource type="Resource" id="prop_moon_disc"]
 script = ExtResource("5")
@@ -680,21 +680,21 @@ tags = PackedStringArray("procedural_moon")
 script = ExtResource("5")
 id = "drive_stone_1"
 model = "res://assets/shared/structure/floor3.glb"
-position = Vector3(0, 0, -6)
+position = Vector3(0, 0, 4.0)
 scale = 1.1
 
 [sub_resource type="Resource" id="prop_drive_stone_0"]
 script = ExtResource("5")
 id = "drive_stone_0"
 model = "res://assets/shared/structure/floor3.glb"
-position = Vector3(0, 0, -10.2)
+position = Vector3(0, 0, -0.2)
 scale = 1.08
 
 [sub_resource type="Resource" id="prop_drive_stone_2"]
 script = ExtResource("5")
 id = "drive_stone_2"
 model = "res://assets/shared/structure/floor3.glb"
-position = Vector3(0, 0, -2)
+position = Vector3(0, 0, 8.0)
 scale = 1.1
 
 [sub_resource type="Resource" id="prop_drive_stone_3"]
@@ -1205,11 +1205,11 @@ room_id = "front_gate"
 room_name = "Front Gate"
 floor_name = "grounds"
 environment_preset = "grounds"
-dimensions = Vector3(26, 6, 38)
+dimensions = Vector3(18, 6, 18)
 is_exterior = true
 spatial_class = "exterior_ground"
 exposure_faces = PackedStringArray("north", "south", "east", "west", "roof")
-outlook_zones = {"north": "mansion_facade_destination", "south": "estate_drive_departure", "east": "tree_line_boundary", "west": "tree_line_boundary", "roof": "open_sky"}
+outlook_zones = {"north": "ceremonial_drive_continuation", "south": "estate_drive_departure", "east": "tree_line_boundary", "west": "tree_line_boundary", "roof": "open_sky"}
 window_view_mode = "distant_backdrop"
 wall_texture = ""
 floor_texture = "res://assets/grounds/front_gate/rocks_Rokcs 2.png"
@@ -1222,14 +1222,13 @@ ambient_loop = "res://assets/audio/loops/Moonlight Loop1.ogg"
 tension_loop = "res://assets/audio/tension/tension_exploration.wav"
 reverb_bus = "OpenAir"
 footstep_surface = "gravel"
-spawn_position = Vector3(0, 0, -15.4)
+spawn_position = Vector3(0, 0, -5.4)
 spawn_rotation_y = 180.0
 entry_anchors = Array[Resource]([SubResource("anchor_entry_opening"), SubResource("anchor_entry_drive")])
 focal_anchors = Array[Resource]([SubResource("anchor_focus_mansion"), SubResource("anchor_focus_gate_sign")])
 interactables = Array[Resource]([SubResource("inter_gate_sign_new_game"), SubResource("inter_gate_sign_load_game"), SubResource("inter_gate_sign_settings"), SubResource("inter_gate_plaque"), SubResource("inter_gate_luggage"), SubResource("inter_gate_bench"), SubResource("inter_iron_gate"), SubResource("inter_gate_lamp")])
-lights = Array[Resource]([SubResource("light_moonlight"), SubResource("light_gate_lamp"), SubResource("light_window_glow_l"), SubResource("light_window_glow_r"), SubResource("light_window_glow_c"), SubResource("light_upper_window_glow_l"), SubResource("light_upper_window_glow_r"), SubResource("light_doorway_glow")])
-lights = Array[Resource]([SubResource("light_moonlight"), SubResource("light_gate_lamp"), SubResource("light_gate_lamp_r"), SubResource("light_window_glow_l"), SubResource("light_window_glow_r"), SubResource("light_window_glow_c"), SubResource("light_upper_window_glow_l"), SubResource("light_upper_window_glow_r"), SubResource("light_doorway_glow"), SubResource("light_facade_lamp_left"), SubResource("light_facade_lamp_right")])
-props = Array[Resource]([SubResource("prop_gate_pillar_l"), SubResource("prop_gate_pillar_r"), SubResource("prop_gate_center"), SubResource("prop_gate_center_r"), SubResource("prop_boundary_wall"), SubResource("prop_boundary_corner"), SubResource("prop_fence"), SubResource("prop_boundary_pole_r"), SubResource("prop_fence_r"), SubResource("prop_tree1"), SubResource("prop_tree2"), SubResource("prop_tree3"), SubResource("prop_tree4"), SubResource("prop_tree5"), SubResource("prop_tree6"), SubResource("prop_tree7"), SubResource("prop_bush1"), SubResource("prop_bush2"), SubResource("prop_bush3"), SubResource("prop_bush4"), SubResource("prop_bush5"), SubResource("prop_bush6"), SubResource("prop_hedge_left_gate"), SubResource("prop_hedge_left_mid_gate"), SubResource("prop_hedge_left_near"), SubResource("prop_hedge_left_mid_center"), SubResource("prop_hedge_left_far"), SubResource("prop_hedge_left_mid_mansion"), SubResource("prop_hedge_left_mansion"), SubResource("prop_hedge_right_gate"), SubResource("prop_hedge_right_mid_gate"), SubResource("prop_hedge_right_near"), SubResource("prop_hedge_right_mid_center"), SubResource("prop_hedge_right_far"), SubResource("prop_hedge_right_mid_mansion"), SubResource("prop_hedge_right_mansion"), SubResource("prop_rocks"), SubResource("prop_off_lamp"), SubResource("prop_moon_disc"), SubResource("prop_drive_stone_0"), SubResource("prop_drive_stone_1"), SubResource("prop_drive_stone_2"), SubResource("prop_drive_stone_3"), SubResource("prop_drive_stone_4"), SubResource("prop_drive_stone_5"), SubResource("prop_drive_stone_6"), SubResource("prop_drive_step_center"), SubResource("prop_drive_step_left"), SubResource("prop_drive_step_right"), SubResource("prop_drive_step_far"), SubResource("prop_facade_wall_center"), SubResource("prop_facade_wall_left"), SubResource("prop_facade_wall_right"), SubResource("prop_facade_wing_left"), SubResource("prop_facade_wing_right"), SubResource("prop_facade_pillar_left"), SubResource("prop_facade_pillar_right"), SubResource("prop_facade_upper_left"), SubResource("prop_facade_upper_center"), SubResource("prop_facade_upper_right"), SubResource("prop_facade_upper_wing_left"), SubResource("prop_facade_upper_wing_right"), SubResource("prop_facade_roof_left"), SubResource("prop_facade_roof_center"), SubResource("prop_facade_roof_right"), SubResource("prop_facade_roof_wing_left"), SubResource("prop_facade_roof_wing_right"), SubResource("prop_facade_molding_left"), SubResource("prop_facade_molding_center"), SubResource("prop_facade_molding_right"), SubResource("prop_facade_chimney_left"), SubResource("prop_facade_chimney_right"), SubResource("prop_facade_doorway"), SubResource("prop_facade_door"), SubResource("prop_facade_lamp_left"), SubResource("prop_facade_lamp_right"), SubResource("prop_statue_plinth_left"), SubResource("prop_statue_left"), SubResource("prop_statue_plinth_right"), SubResource("prop_statue_right")])
+lights = Array[Resource]([SubResource("light_moonlight"), SubResource("light_gate_lamp"), SubResource("light_gate_lamp_r")])
+props = Array[Resource]([SubResource("prop_gate_pillar_l"), SubResource("prop_gate_pillar_r"), SubResource("prop_gate_center"), SubResource("prop_gate_center_r"), SubResource("prop_boundary_wall"), SubResource("prop_boundary_corner"), SubResource("prop_fence"), SubResource("prop_boundary_pole_r"), SubResource("prop_fence_r"), SubResource("prop_tree1"), SubResource("prop_tree2"), SubResource("prop_bush1"), SubResource("prop_bush2"), SubResource("prop_bush3"), SubResource("prop_hedge_left_gate"), SubResource("prop_hedge_left_mid_gate"), SubResource("prop_hedge_left_near"), SubResource("prop_hedge_right_gate"), SubResource("prop_hedge_right_mid_gate"), SubResource("prop_hedge_right_near"), SubResource("prop_off_lamp"), SubResource("prop_moon_disc"), SubResource("prop_drive_stone_0"), SubResource("prop_drive_stone_1"), SubResource("prop_drive_stone_2")])
 on_entry = Array[Resource]([SubResource("trig_first_entry_captive"), SubResource("trig_first_entry_mourning"), SubResource("trig_first_entry_sovereign"), SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([SubResource("ambient_gate_creak"), SubResource("ambient_wind_gust")])

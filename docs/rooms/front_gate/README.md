@@ -8,14 +8,14 @@
 
 ## Narrative Purpose
 
-The front gate is the player's first and last view of Ashworth Manor. It establishes:
-- **Scale** — the mansion looms, dwarfing the player
+The front gate is the player's first and last threshold at Ashworth Manor. It establishes:
+- **Threshold** — the player stands at the broken estate boundary, not yet on the ceremonial drive proper
 - **Time** — December night, frozen, moonlit
 - **Trespass** — you are not supposed to be here
 - **Wrongness** — the gate is open from inside. Someone left in a hurry. Or something pushed out.
-- **Commitment** — the hanging sign is the diegetic boot flow: `New Game`, `Load Game`, `Settings`, then the hedge-lined approach toward the manor door
+- **Commitment** — the hanging sign is the diegetic boot flow: `New Game`, `Load Game`, `Settings`, then the walk through the gates and up the drive
 
-This room also serves as the **ending trigger zone** — exiting back through the gate triggers ending checks (escape, joined, or freedom) based on game state.
+This room also serves as the **ending trigger zone**. Reaching the gate again from the house-side approach is where Ashworth Manor resolves whether the player escapes, joins Elizabeth, or walks free after the ritual.
 
 The important topology rule is that `front_gate` is only the first beat of the
 front approach. It is not "the whole grounds."
@@ -38,10 +38,10 @@ the gate itself.
 | Ambient Darkness | 0.3 (moonlit exterior) |
 | Audio Loop | "Moonlight Loop1" |
 | Is Exterior | true |
-| Boundary Size | 26 x 6 x 38 |
+| Boundary Size | 18 x 6 x 18 |
 | Footstep Surface | gravel (path), grass (off-path) |
 
-**Visual:** Bare winter trees and clipped hedge masses frame the drive like a neglected allée. The threshold itself is visually open, with the gate read coming from its pillars, fence runs, and bent threshold volume rather than a shut slab. Three hanging sign boards at the gate act as the diegetic opening menu before the player walks up the gravel-and-flagstone approach toward the manor facade, shallow steps, and front door. Moonlight casts long shadows, and the visible moon is part of the opening composition. One gas lamp still burns on the left pillar while its twin on the right has gone dark. Two upper windows hold a faint warm glow deep in the house.
+**Visual:** This beat is now the threshold itself, not the whole front lawn. Gate pillars, fence runs, bent iron leaves, sign boards, one burning lamp, and the first flagstones of the drive create a compressed prologue tableau. The player should feel the drive continuing beyond the gate, but the mansion proper belongs to later beats: `drive_lower`, `drive_upper`, and `front_steps`.
 
 The front approach should be occluded enough that the player does not casually
 see beyond the estate boundary. Hedges, side walls, gate runs, and tree masses
