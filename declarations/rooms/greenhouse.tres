@@ -14,7 +14,7 @@
 script = ExtResource("9")
 anchor_id = "entry_garden"
 anchor_type = "entry"
-position = Vector3(0, 0, 2.7)
+position = Vector3(0.35, 0, 3.55)
 rotation_y = 0.0
 target_anchor_id = "focus_lily_tableau"
 tags = PackedStringArray("grounds", "garden_return", "critical_path")
@@ -23,7 +23,7 @@ tags = PackedStringArray("grounds", "garden_return", "critical_path")
 script = ExtResource("9")
 anchor_id = "focus_lily_tableau"
 anchor_type = "focal"
-position = Vector3(0, 1.0, -0.2)
+position = Vector3(0.1, 1.55, -1.95)
 rotation_y = 180.0
 tags = PackedStringArray("grounds", "clue_tableau", "greenhouse_core")
 
@@ -95,8 +95,13 @@ text = "Several panes have burst outward. Not collapsed from age, but pushed. Th
 script = ExtResource("2")
 id = "greenhouse_pot"
 type = "observation"
-position = Vector3(0, 0.8, 0)
-collision_size = Vector3(1.5, 1.5, 1.5)
+position = Vector3(0, 0.82, -1.95)
+collision_size = Vector3(1.2, 1.4, 1.2)
+scene_path = "res://scenes/shared/greenhouse/greenhouse_lily_pot_intact.tscn"
+default_visual_state = "intact"
+state_model_map = {"disturbed": "res://scenes/shared/greenhouse/greenhouse_lily_pot_disturbed.tscn"}
+visual_state_order = PackedStringArray("disturbed")
+visual_state_conditions = {"disturbed": "found_gate_key_pot"}
 responses = Array[Resource]([SubResource("resp_pot_dig"), SubResource("resp_pot_default")])
 thread_responses = {"captive": [SubResource("resp_pot_captive")], "mourning": [SubResource("resp_pot_mourning")], "sovereign": [SubResource("resp_pot_sovereign")]}
 
@@ -104,7 +109,7 @@ thread_responses = {"captive": [SubResource("resp_pot_captive")], "mourning": [S
 script = ExtResource("2")
 id = "greenhouse_dead_plants"
 type = "observation"
-position = Vector3(-3, 0.5, 2)
+position = Vector3(-2.45, 0.5, 0.35)
 collision_size = Vector3(2.0, 1.0, 1.5)
 responses = Array[Resource]([SubResource("resp_dead_plants")])
 
@@ -112,7 +117,7 @@ responses = Array[Resource]([SubResource("resp_dead_plants")])
 script = ExtResource("2")
 id = "greenhouse_bench"
 type = "observation"
-position = Vector3(3, 0.8, -2)
+position = Vector3(2.75, 0.8, -1.7)
 collision_size = Vector3(2.0, 1.0, 1.5)
 responses = Array[Resource]([SubResource("resp_bench_default")])
 
@@ -120,7 +125,7 @@ responses = Array[Resource]([SubResource("resp_bench_default")])
 script = ExtResource("2")
 id = "greenhouse_glass"
 type = "observation"
-position = Vector3(0, 2.2, -3.2)
+position = Vector3(0, 2.1, -3.05)
 collision_size = Vector3(2.5, 2.5, 0.8)
 responses = Array[Resource]([SubResource("resp_glass_default")])
 
@@ -130,10 +135,10 @@ responses = Array[Resource]([SubResource("resp_glass_default")])
 script = ExtResource("4")
 id = "greenhouse_moonlight"
 type = "omni"
-position = Vector3(0, 3.5, 0)
+position = Vector3(0, 3.45, -1.7)
 color = Color(0.5, 0.6, 0.9, 1)
-energy = 1.55
-range = 10.0
+energy = 1.25
+range = 8.5
 shadows = false
 flickering = false
 
@@ -141,10 +146,10 @@ flickering = false
 script = ExtResource("4")
 id = "greenhouse_glass_glow"
 type = "omni"
-position = Vector3(0.0, 2.6, -3.0)
+position = Vector3(0.0, 2.55, -2.8)
 color = Color(0.62, 0.72, 0.92, 1)
-energy = 1.05
-range = 6.5
+energy = 1.25
+range = 5.6
 shadows = false
 flickering = false
 
@@ -152,98 +157,110 @@ flickering = false
 script = ExtResource("4")
 id = "greenhouse_east_glass"
 type = "omni"
-position = Vector3(2.7, 2.1, -0.4)
+position = Vector3(2.65, 2.0, -0.9)
 color = Color(0.56, 0.67, 0.88, 1)
-energy = 0.78
-range = 5.5
+energy = 0.92
+range = 4.8
 shadows = false
 flickering = false
+
+[sub_resource type="Resource" id="light_lantern"]
+script = ExtResource("4")
+id = "greenhouse_lantern"
+type = "omni"
+position = Vector3(0, 2.08, -1.95)
+color = Color(1, 0.78, 0.46, 1)
+energy = 4.2
+range = 6.6
+shadows = false
+flickering = true
 
 ; === Props ===
 
 [sub_resource type="Resource" id="prop_table"]
 script = ExtResource("5")
 id = "greenhouse_table"
-model = "res://assets/shared/furniture/table.glb"
-position = Vector3(0, 0, 0)
+scene_role = "clue_dressing"
+scene_path = "res://scenes/shared/greenhouse/greenhouse_lily_pedestal.tscn"
+position = Vector3(0, 0, -1.95)
 
 [sub_resource type="Resource" id="prop_plank_bench"]
 script = ExtResource("5")
 id = "plank_bench"
 model = "res://assets/grounds/greenhouse/wooden_plank_1.glb"
-position = Vector3(3.0, 0.0, -2.0)
+position = Vector3(2.9, 0.0, -1.75)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_plank_shelf"]
 script = ExtResource("5")
 id = "plank_shelf"
 model = "res://assets/grounds/greenhouse/wooden_plank_2.glb"
-position = Vector3(2.6, 0.8, -2.0)
+position = Vector3(2.55, 0.8, -1.78)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_bucket_left"]
 script = ExtResource("5")
 id = "bucket_left"
 model = "res://assets/grounds/greenhouse/bucket_mx_2.glb"
-position = Vector3(2.7, 0, -1.2)
+position = Vector3(2.75, 0, -0.95)
 
 [sub_resource type="Resource" id="prop_bucket_right"]
 script = ExtResource("5")
 id = "bucket_right"
 model = "res://assets/grounds/greenhouse/bucket_mx_3.glb"
-position = Vector3(3.4, 0, -2.8)
+position = Vector3(3.25, 0, -2.35)
 
 [sub_resource type="Resource" id="prop_bottle"]
 script = ExtResource("5")
 id = "fertilizer_bottle"
 model = "res://assets/grounds/greenhouse/glass_bottle_mx_2.glb"
-position = Vector3(3.0, 0.85, -2.0)
+position = Vector3(3.0, 0.85, -1.76)
 
 [sub_resource type="Resource" id="prop_dead_row_w"]
 script = ExtResource("5")
 id = "dead_row_w"
 model = "res://assets/grounds/greenhouse/bush_long_dead.glb"
-position = Vector3(-2.6, 0, 1.5)
+position = Vector3(-2.7, 0, 0.35)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_dead_row_e"]
 script = ExtResource("5")
 id = "dead_row_e"
 model = "res://assets/grounds/greenhouse/bush_long_dead.glb"
-position = Vector3(-1.2, 0, 1.5)
+position = Vector3(-2.68, 0, -1.0)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_dead_end"]
 script = ExtResource("5")
 id = "dead_end_cap"
 model = "res://assets/grounds/greenhouse/bush_end_dead.glb"
-position = Vector3(-1.9, 0, 3.0)
+position = Vector3(-2.62, 0, 1.72)
 rotation_y = 180.0
 
 [sub_resource type="Resource" id="prop_tall_dead"]
 script = ExtResource("5")
 id = "tall_dead_growth"
 model = "res://assets/grounds/greenhouse/bush_tall_dead.glb"
-position = Vector3(-3.0, 0, -0.5)
+position = Vector3(-2.8, 0, -2.15)
 
 [sub_resource type="Resource" id="prop_winter_growth"]
 script = ExtResource("5")
 id = "winter_growth"
 model = "res://assets/grounds/greenhouse/bush05_winter.glb"
-position = Vector3(0.8, 0, 1.8)
+position = Vector3(1.6, 0, 1.35)
 
 [sub_resource type="Resource" id="prop_winter_growth_back"]
 script = ExtResource("5")
 id = "winter_growth_back"
 model = "res://assets/grounds/greenhouse/bush06_winter.glb"
-position = Vector3(-0.8, 0, 2.3)
+position = Vector3(0.9, 0, -2.35)
 
 [sub_resource type="Resource" id="prop_nature_cluster"]
 script = ExtResource("5")
 id = "nature_cluster"
 model = "res://assets/grounds/greenhouse/nature.glb"
-position = Vector3(0.0, 0, 2.6)
-scale = 0.8
+position = Vector3(-0.95, 0, 1.95)
+scale = 0.7
 
 [sub_resource type="Resource" id="prop_window_ray"]
 script = ExtResource("5")
@@ -262,20 +279,27 @@ position = Vector3(0, 0, 0)
 script = ExtResource("5")
 id = "greenhouse_side_table"
 model = "res://assets/shared/furniture/table.glb"
-position = Vector3(-2.4, 0.0, 1.8)
-scale = 0.75
+position = Vector3(-2.3, 0.0, -1.8)
+scale = 0.62
 
 [sub_resource type="Resource" id="prop_bottle_secondary"]
 script = ExtResource("5")
 id = "greenhouse_bottle_secondary"
 model = "res://assets/grounds/greenhouse/glass_bottle_mx_2.glb"
-position = Vector3(-2.2, 0.82, 1.65)
+position = Vector3(-2.12, 0.82, -1.78)
 
 [sub_resource type="Resource" id="prop_bucket_center"]
 script = ExtResource("5")
 id = "greenhouse_bucket_center"
 model = "res://assets/grounds/greenhouse/bucket_mx_2.glb"
-position = Vector3(0.4, 0.0, 0.7)
+position = Vector3(1.15, 0.0, 0.65)
+
+[sub_resource type="Resource" id="prop_lantern"]
+script = ExtResource("5")
+id = "greenhouse_hanging_lantern"
+scene_role = "architectural_trim"
+scene_path = "res://scenes/shared/greenhouse/greenhouse_hanging_lantern.tscn"
+position = Vector3(0, 2.62, -1.95)
 
 ; === Entry Trigger ===
 
@@ -336,8 +360,8 @@ footstep_surface = "dirt"
 spawn_position = Vector3(0, 0, 0)
 spawn_rotation_y = 0.0
 interactables = Array[Resource]([SubResource("inter_pot"), SubResource("inter_dead_plants"), SubResource("inter_bench"), SubResource("inter_glass")])
-lights = Array[Resource]([SubResource("light_moon"), SubResource("light_glass"), SubResource("light_east_glass")])
-props = Array[Resource]([SubResource("prop_glass_shell"), SubResource("prop_table"), SubResource("prop_plank_bench"), SubResource("prop_plank_shelf"), SubResource("prop_bucket_left"), SubResource("prop_bucket_right"), SubResource("prop_bottle"), SubResource("prop_dead_row_w"), SubResource("prop_dead_row_e"), SubResource("prop_dead_end"), SubResource("prop_tall_dead"), SubResource("prop_winter_growth"), SubResource("prop_winter_growth_back"), SubResource("prop_nature_cluster"), SubResource("prop_window_ray"), SubResource("prop_table_secondary"), SubResource("prop_bottle_secondary"), SubResource("prop_bucket_center")])
+lights = Array[Resource]([SubResource("light_moon"), SubResource("light_glass"), SubResource("light_east_glass"), SubResource("light_lantern")])
+props = Array[Resource]([SubResource("prop_glass_shell"), SubResource("prop_lantern"), SubResource("prop_table"), SubResource("prop_plank_bench"), SubResource("prop_plank_shelf"), SubResource("prop_bucket_left"), SubResource("prop_bucket_right"), SubResource("prop_bottle"), SubResource("prop_dead_row_w"), SubResource("prop_dead_row_e"), SubResource("prop_dead_end"), SubResource("prop_tall_dead"), SubResource("prop_winter_growth"), SubResource("prop_winter_growth_back"), SubResource("prop_nature_cluster"), SubResource("prop_table_secondary"), SubResource("prop_bottle_secondary")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([SubResource("ambient_crack")])

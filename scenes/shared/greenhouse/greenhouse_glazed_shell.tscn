@@ -3,9 +3,9 @@
 [ext_resource type="Material" path="res://resources/glass/estate_greenhouse_glass_material.tres" id="1_gw0f4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_frame"]
-albedo_color = Color(0.2, 0.24, 0.22, 1)
-roughness = 0.62
-metallic = 0.12
+albedo_color = Color(0.28, 0.24, 0.18, 1)
+roughness = 0.56
+metallic = 0.18
 
 [sub_resource type="BoxMesh" id="BoxMesh_post"]
 size = Vector3(0.14, 2.4, 0.14)
@@ -71,6 +71,60 @@ scale = Vector3(0.36, 1, 1)
 material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_long")
 
+[node name="NorthSill" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.52, -3.2)
+material_override = SubResource("StandardMaterial3D_frame")
+mesh = SubResource("BoxMesh_beam_long")
+
+[node name="SouthSillLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-2.05, 0.52, 3.2)
+scale = Vector3(0.36, 1, 1)
+material_override = SubResource("StandardMaterial3D_frame")
+mesh = SubResource("BoxMesh_beam_long")
+
+[node name="SouthSillRight" type="MeshInstance3D" parent="."]
+position = Vector3(2.05, 0.52, 3.2)
+scale = Vector3(0.36, 1, 1)
+material_override = SubResource("StandardMaterial3D_frame")
+mesh = SubResource("BoxMesh_beam_long")
+
+[node name="WestSill" type="MeshInstance3D" parent="."]
+position = Vector3(-3.2, 0.52, 0)
+material_override = SubResource("StandardMaterial3D_frame")
+mesh = SubResource("BoxMesh_beam_deep")
+
+[node name="EastSill" type="MeshInstance3D" parent="."]
+position = Vector3(3.2, 0.52, 0)
+material_override = SubResource("StandardMaterial3D_frame")
+mesh = SubResource("BoxMesh_beam_deep")
+
+[node name="NorthMidRail" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.46, -3.2)
+material_override = SubResource("StandardMaterial3D_frame")
+mesh = SubResource("BoxMesh_beam_long")
+
+[node name="SouthMidRailLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-2.05, 1.46, 3.2)
+scale = Vector3(0.36, 1, 1)
+material_override = SubResource("StandardMaterial3D_frame")
+mesh = SubResource("BoxMesh_beam_long")
+
+[node name="SouthMidRailRight" type="MeshInstance3D" parent="."]
+position = Vector3(2.05, 1.46, 3.2)
+scale = Vector3(0.36, 1, 1)
+material_override = SubResource("StandardMaterial3D_frame")
+mesh = SubResource("BoxMesh_beam_long")
+
+[node name="WestMidRail" type="MeshInstance3D" parent="."]
+position = Vector3(-3.2, 1.46, 0)
+material_override = SubResource("StandardMaterial3D_frame")
+mesh = SubResource("BoxMesh_beam_deep")
+
+[node name="EastMidRail" type="MeshInstance3D" parent="."]
+position = Vector3(3.2, 1.46, 0)
+material_override = SubResource("StandardMaterial3D_frame")
+mesh = SubResource("BoxMesh_beam_deep")
+
 [node name="WestBeam" type="MeshInstance3D" parent="."]
 position = Vector3(-3.2, 2.4, 0)
 material_override = SubResource("StandardMaterial3D_frame")
@@ -83,6 +137,30 @@ mesh = SubResource("BoxMesh_beam_deep")
 
 [node name="RidgeBeam" type="MeshInstance3D" parent="."]
 position = Vector3(0, 3.22, 0)
+material_override = SubResource("StandardMaterial3D_frame")
+mesh = SubResource("BoxMesh_beam_deep")
+
+[node name="RoofRibNorthWest" type="MeshInstance3D" parent="."]
+position = Vector3(-0.8, 2.66, 0)
+rotation_degrees = Vector3(0, 0, -14.5)
+material_override = SubResource("StandardMaterial3D_frame")
+mesh = SubResource("BoxMesh_beam_deep")
+
+[node name="RoofRibSouthWest" type="MeshInstance3D" parent="."]
+position = Vector3(-2.35, 2.26, 0)
+rotation_degrees = Vector3(0, 0, -14.5)
+material_override = SubResource("StandardMaterial3D_frame")
+mesh = SubResource("BoxMesh_beam_deep")
+
+[node name="RoofRibNorthEast" type="MeshInstance3D" parent="."]
+position = Vector3(0.8, 2.66, 0)
+rotation_degrees = Vector3(0, 0, 14.5)
+material_override = SubResource("StandardMaterial3D_frame")
+mesh = SubResource("BoxMesh_beam_deep")
+
+[node name="RoofRibSouthEast" type="MeshInstance3D" parent="."]
+position = Vector3(2.35, 2.26, 0)
+rotation_degrees = Vector3(0, 0, 14.5)
 material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_deep")
 

@@ -601,7 +601,7 @@ to_room = "greenhouse"
 direction = "north"
 type = "path"
 position_in_from = Vector3(0, 1.5, 8)
-position_in_to = Vector3(0, 0, 2.7)
+position_in_to = Vector3(0.35, 0, 3.55)
 spawn_rotation_y = 0.0
 target_anchor_id = "entry_garden"
 focal_anchor_id = "focus_lily_tableau"
@@ -613,7 +613,7 @@ from_room = "greenhouse"
 to_room = "garden"
 direction = "south"
 type = "path"
-position_in_from = Vector3(0, 1.5, 3.4)
+position_in_from = Vector3(0.35, 1.5, 3.85)
 position_in_to = Vector3(0, 0, 7)
 spawn_rotation_y = 180.0
 
