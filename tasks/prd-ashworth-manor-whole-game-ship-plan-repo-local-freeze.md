@@ -1,10 +1,10 @@
-# PRD: Ashworth Manor Whole-Game Ship Plan, Repo-Local Freeze
+# PRD: Ashworth Manor Whole-Game Ship Plan, Freeze, and Release Validation
 
 ## Overview
 
-Ship Ashworth Manor as one coherent, fully playable, polished declaration-first game from the front-gate arrival through the authored `Adult -> Elder -> Child` Elizabeth route order. This PRD covers canonical docs convergence, shared-spine completion, all three route implementations, unified music-box finale logic, `gdUnit4`-backed end-to-end playthrough proof, renderer-backed Godot debug-view acceptance, freeze, archive/handoff hygiene, and post-freeze maintenance posture.
+Ship Ashworth Manor as one coherent, fully playable, polished declaration-first game from the front-gate arrival through the authored `Adult -> Elder -> Child` Elizabeth route order. This PRD covers canonical docs convergence, shared-spine completion, all three route implementations, unified music-box finale logic, `gdUnit4`-backed end-to-end playthrough proof, renderer-backed Godot debug-view acceptance, repo-local freeze, archive/handoff hygiene, post-freeze maintenance posture, and downstream Android release-candidate/export validation.
 
-This PRD intentionally excludes Android/export work. The success bar is repo-local product truth: runtime, declarations, docs, tests, and visual evidence must all describe the same shipped game.
+Repo-local product truth remains the primary convergence gate, but the whole-game ship plan is not complete until packaged Android/export validation has been audited, authored, and evidenced as part of the downstream release tranche.
 
 ## Goals
 
@@ -14,6 +14,7 @@ This PRD intentionally excludes Android/export work. The success bar is repo-loc
 - Prove playability with automated coverage that actually plays the game from a player perspective through `Adult`, `Elder`, and `Child`.
 - Require renderer-backed Godot debug-view review for perception-sensitive beats and critical rooms.
 - End in a frozen, documented, maintainable repo state with archived legacy weave-era material clearly separated from canonical truth.
+- Carry the plan through release-candidate/export readiness so packaged build, install, and launch proof are part of the same whole-game ship contract.
 
 ## Quality Gates
 
@@ -42,6 +43,11 @@ Freeze-only gate:
 - `godot --path . --script test/e2e/test_room_walkthrough.gd`
 - `godot --path . --script test/e2e/test_opening_journey.gd`
 
+Release-validation gate:
+- `godot --headless --path . --export-release "Android" build/ashworth-manor.apk`
+- Run the current packaged smoke and critical-path validation flow described in `docs/MAESTRO_E2E_PLAN.md` or its canonical successor.
+- Record install/launch proof on emulator or device, or record a real environment blocker honestly.
+
 Quality rules:
 - Full-playthrough proof must reflect actual player progression, not only flag injection.
 - Perception-sensitive stories are not done until renderer-backed debug-view captures are reviewed.
@@ -68,7 +74,7 @@ The graph is intentionally shaped so Ralph `auto` mode can detect meaningful par
 **Acceptance Criteria:**
 - [ ] One canonical doc surface defines premise, route order, shared spine, endings, critical rooms, tools, and acceptance lanes.
 - [ ] `docs/GAME_BIBLE.md`, `docs/PLAYER_PREMISE.md`, `docs/ELIZABETH_ROUTE_PROGRAM.md`, `docs/NARRATIVE.md`, and `docs/MASTER_SCRIPT.md` no longer conflict about the shipped game.
-- [ ] The canonical docs state that Android/export validation is out of scope for this PRD.
+- [ ] The canonical docs distinguish repo-local freeze from downstream Android/export validation without treating release validation as out of scope.
 
 ### US-002: Repoint the repo source map to the canonical docs and master graph
 **Depends On:** US-001  
@@ -148,6 +154,7 @@ The graph is intentionally shaped so Ralph `auto` mode can detect meaningful par
 
 **Acceptance Criteria:**
 - [ ] Adult late-game access clearly aims at attic truth and the attic functions as the true final room.
+- [ ] Adult late transition includes the route-specific late darkness / lantern-on-hook progression that opens attic truth rather than bypassing it.
 - [ ] The Adult music-box solve completes cleanly and records route completion without breaking fixed route order.
 - [ ] Adult docs and renderer-backed debug-view captures agree on the implemented route.
 
@@ -165,6 +172,7 @@ The graph is intentionally shaped so Ralph `auto` mode can detect meaningful par
 **Description:** As a player on the Elder timeline, I want the late route to descend into personal burial truth so the second canonical completion hands off cleanly to Child.
 
 **Acceptance Criteria:**
+- [ ] Elder late-game includes attic rupture, blackout descent, lantern-on-hook transition, wine-cellar bypass, and crypt-gate resolution as one coherent sequence.
 - [ ] Wine cellar traversal and crypt chamber feel route-specific, intimate, and accusatory.
 - [ ] The Elder music-box solve resolves the route and advances progression toward `Child`.
 - [ ] Elder docs and renderer-backed debug-view captures agree on blackout, cellar, crypt, and finale behavior.
@@ -184,6 +192,7 @@ The graph is intentionally shaped so Ralph `auto` mode can detect meaningful par
 
 **Acceptance Criteria:**
 - [ ] Hidden-room discovery is architectural and authored, not arbitrary.
+- [ ] Child late-game initially resembles attic truth, then redirects through attic clues into the sealed-room reveal.
 - [ ] The hidden chamber reads as erased domestic truth rather than occult residue.
 - [ ] The Child music-box solve, route completion, docs, and renderer-backed debug-view captures all agree.
 
@@ -268,6 +277,42 @@ The graph is intentionally shaped so Ralph `auto` mode can detect meaningful par
 - [ ] The maintenance register names flaky lanes, high-risk rooms/systems, and likely future regression fronts.
 - [ ] The repo is left in a clear maintenance posture rather than implicit ongoing feature development.
 
+### US-024: Audit Android export and packaged-validation prerequisites
+**Depends On:** US-021  
+**Description:** As a releaser, I want a concrete packaged-validation prerequisite map so release work starts from honest Android/export assumptions rather than wishful thinking.
+
+**Acceptance Criteria:**
+- [ ] `export_presets.cfg`, build paths, and packaged-validation docs are audited together.
+- [ ] SDK, signing, emulator/device, and automation prerequisites are recorded explicitly.
+- [ ] Any missing local prerequisites are marked as real blockers, not silently ignored.
+
+### US-025: Finish debug-gated packaged test-helper support
+**Depends On:** US-024  
+**Description:** As a maintainer, I want packaged debug/test helper support to be stable and safely gated so device automation can target the critical path without leaking test affordances into normal play.
+
+**Acceptance Criteria:**
+- [ ] Packaged debug/test builds expose stable automation hooks where needed.
+- [ ] Test-helper affordances are clearly gated away from normal player-facing runtime.
+- [ ] Helper support is documented well enough for packaged smoke validation to consume it.
+
+### US-026: Author packaged smoke and critical-path validation flows
+**Depends On:** US-025  
+**Description:** As a reviewer, I want packaged smoke and critical-path validation flows so release readiness is backed by repeatable launch-to-critical-path evidence.
+
+**Acceptance Criteria:**
+- [ ] A packaged validation flow covers launch, valise, dark-house entry, first warmth, and one deeper continuation.
+- [ ] Emulator/device validation steps are documented in an executable order.
+- [ ] Packaged validation evidence can be gathered without ad hoc rediscovery.
+
+### US-027: Build the release candidate, validate install and launch, and close release-readiness docs
+**Depends On:** US-024, US-025, US-026  
+**Description:** As the project owner, I want one final packaged-validation proof point so the whole-game ship plan ends with actual build/install/launch evidence rather than repo-local confidence alone.
+
+**Acceptance Criteria:**
+- [ ] The Android release build completes successfully.
+- [ ] Install and launch are proven on emulator or device, with honest evidence captured.
+- [ ] Release-readiness docs record actual packaged-validation scope, evidence, and remaining caveats.
+
 ## Functional Requirements
 
 1. FR-1: Declarations and declaration-driven runtime content remain the source of truth for shipped content.
@@ -283,11 +328,11 @@ The graph is intentionally shaped so Ralph `auto` mode can detect meaningful par
 11. FR-11: Automated playthrough coverage must actually play the game from a player perspective across all three authored timelines.
 12. FR-12: The automated route surface must be runnable through the repo's `gdUnit4` command path and produce reports.
 13. FR-13: Perception-sensitive acceptance must include renderer-backed Godot debug-view capture review.
-14. FR-14: Repo-local freeze, archive/handoff, and maintenance posture are in scope; Android/export validation is not.
+14. FR-14: Repo-local freeze, archive/handoff, and maintenance posture are in scope as the canonical convergence gate.
+15. FR-15: Android/export readiness, packaged smoke validation, and device launch proof are downstream whole-game ship requirements, not optional future work.
 
 ## Non-Goals
 
-- Android export, APK creation, packaged smoke tests, or device validation
 - New routes beyond `Adult`, `Elder`, and `Child`
 - Combat, enemies, or HUD-first redesign
 - Revival of the old `Captive / Mourning / Sovereign` weave as active game design
@@ -299,6 +344,7 @@ The graph is intentionally shaped so Ralph `auto` mode can detect meaningful par
 - Primary implementation surfaces are expected to include `declarations/*.tres`, `declarations/rooms/`, `engine/`, `scripts/game_manager.gd`, `scripts/room_manager.gd`, `scripts/world_runtime_manager.gd`, `scripts/interaction_manager.gd`, `scripts/room_base.gd`, `scripts/ui_overlay.gd`, `test/e2e/`, and canonical docs under `docs/`.
 - The current repo already contains a `gdUnit4` install and a documented CLI at `godot --headless --path . -s addons/gdUnit4/bin/GdUnitCmdTool.gd`; the PRD expects the three-route proof to be available through that harness.
 - `test/e2e/test_full_playthrough.gd` currently reflects legacy compatibility semantics; part of this PRD is upgrading that surface to authored route truth.
+- Downstream release work is expected to touch `export_presets.cfg`, `build/`, and packaged-validation docs such as `docs/MAESTRO_E2E_PLAN.md`.
 - To preserve Ralph `auto` parallelism, route clue-map artifacts should live in route-specific or partitioned surfaces rather than forcing unrelated stories to fight over the same checkpoint file.
 - Shared checkpoint files such as `PLAN.md`, `MEMORY.md`, and `STRUCTURE.md` should be updated by the stories that own source-map, freeze, archive, or maintenance outcomes to reduce parallel merge conflicts.
 
@@ -309,9 +355,11 @@ The graph is intentionally shaped so Ralph `auto` mode can detect meaningful par
 - Renderer-backed Godot debug-view review signs off the opening, basement, attic, crypt, hidden room, and each route finale.
 - Canonical doc surfaces and declaration text no longer present weave-era truth as current design.
 - Post-freeze contributors can identify canonical sources, archived history, and regression lanes without archaeology.
+- The Android release candidate builds, installs, launches, and has critical-path validation evidence recorded honestly.
 
 ## Open Questions
 
 - Should route clue-topology artifacts live in route-specific docs, or in partitioned sections of `MEMORY.md`?
 - Should legacy `macro_thread` values remain as internal compatibility shims after the new route-order surface is complete, or be removed entirely?
 - Should renderer-backed debug-view captures remain generated artifacts outside version control, or should a curated subset be committed as stable review evidence?
+- If Android/export prerequisites are incomplete on the current machine, what is the canonical blocked-state evidence format for release stories?

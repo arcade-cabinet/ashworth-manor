@@ -1,6 +1,6 @@
 {
-  "name": "Ashworth Manor Whole-Game Ship Plan, Repo-Local Freeze",
-  "branchName": "ralph/ashworth-manor-whole-game-ship-plan-repo-local-freeze",
+  "name": "Ashworth Manor Whole-Game Ship Plan, Freeze, and Release Validation",
+  "branchName": "ralph/ashworth-manor-whole-game-ship-plan-freeze-and-release-validation",
   "userStories": [
     {
       "id": "US-001",
@@ -9,7 +9,7 @@
       "acceptanceCriteria": [
         "One canonical doc surface defines premise, route order, shared spine, endings, critical rooms, tools, and acceptance lanes.",
         "`docs/GAME_BIBLE.md`, `docs/PLAYER_PREMISE.md`, `docs/ELIZABETH_ROUTE_PROGRAM.md`, `docs/NARRATIVE.md`, and `docs/MASTER_SCRIPT.md` no longer conflict about the shipped game.",
-        "The canonical docs state that Android/export validation is out of scope for this PRD.",
+        "The canonical docs distinguish repo-local freeze from downstream Android/export validation without treating release validation as out of scope.",
         "`godot --headless --path . --quit-after 1` exits successfully."
       ],
       "priority": 1,
@@ -163,6 +163,7 @@
       "description": "As a player on the Adult timeline, I want the attic to resolve the route through the music box so the first canonical completion feels definitive.",
       "acceptanceCriteria": [
         "Adult late-game access clearly aims at attic truth and the attic functions as the true final room.",
+        "Adult late transition includes the route-specific late darkness / lantern-on-hook progression that opens attic truth rather than bypassing it.",
         "The Adult music-box solve completes cleanly and records route completion without breaking fixed route order.",
         "Adult docs and renderer-backed debug-view captures agree on the implemented route.",
         "`godot --headless --path . --quit-after 1` exits successfully.",
@@ -198,6 +199,7 @@
       "title": "Deliver the Elder cellar-to-crypt resolution, ending, docs, and capture proof",
       "description": "As a player on the Elder timeline, I want the late route to descend into personal burial truth so the second canonical completion hands off cleanly to Child.",
       "acceptanceCriteria": [
+        "Elder late-game includes attic rupture, blackout descent, lantern-on-hook transition, wine-cellar bypass, and crypt-gate resolution as one coherent sequence.",
         "Wine cellar traversal and crypt chamber feel route-specific, intimate, and accusatory.",
         "The Elder music-box solve resolves the route and advances progression toward `Child`.",
         "Elder docs and renderer-backed debug-view captures agree on blackout, cellar, crypt, and finale behavior.",
@@ -235,6 +237,7 @@
       "description": "As a player on the Child timeline, I want the hidden room to reveal erased domestic truth through the music box so the deepest route lands as the final canonical revelation.",
       "acceptanceCriteria": [
         "Hidden-room discovery is architectural and authored, not arbitrary.",
+        "Child late-game initially resembles attic truth, then redirects through attic clues into the sealed-room reveal.",
         "The hidden chamber reads as erased domestic truth rather than occult residue.",
         "The Child music-box solve, route completion, docs, and renderer-backed debug-view captures all agree.",
         "`godot --headless --path . --quit-after 1` exits successfully.",
@@ -304,7 +307,7 @@
     },
     {
       "id": "US-018",
-      "title": "Expand gdUnit4-backed automated coverage for the full three-route program",
+      "title": "Expand `gdUnit4`-backed automated coverage for the full three-route program",
       "description": "As a maintainer, I want automated coverage that actually plays the shipped game through all three Elizabeth timelines so regressions are caught as player-visible failures.",
       "acceptanceCriteria": [
         "The full-playthrough surface drives real route progression from a clean start through `Adult -> Elder -> Child`.",
@@ -409,6 +412,89 @@
       "passes": false,
       "dependsOn": [
         "US-021"
+      ]
+    },
+    {
+      "id": "US-023",
+      "title": "Establish the post-freeze maintenance baseline and regression register",
+      "description": "As a maintainer, I want a known-good maintenance baseline so future fixes start from an honest verified state rather than from assumptions.",
+      "acceptanceCriteria": [
+        "A post-freeze baseline rerun is recorded from the frozen repo state.",
+        "The maintenance register names flaky lanes, high-risk rooms/systems, and likely future regression fronts.",
+        "The repo is left in a clear maintenance posture rather than implicit ongoing feature development.",
+        "`godot --headless --path . --quit-after 1` exits successfully."
+      ],
+      "priority": 14,
+      "passes": false,
+      "dependsOn": [
+        "US-021",
+        "US-022"
+      ]
+    },
+    {
+      "id": "US-024",
+      "title": "Audit Android export and packaged-validation prerequisites",
+      "description": "As a releaser, I want a concrete packaged-validation prerequisite map so release work starts from honest Android/export assumptions rather than wishful thinking.",
+      "acceptanceCriteria": [
+        "`export_presets.cfg`, build paths, and packaged-validation docs are audited together.",
+        "SDK, signing, emulator/device, and automation prerequisites are recorded explicitly.",
+        "Any missing local prerequisites are marked as real blockers, not silently ignored.",
+        "`godot --headless --path . --quit-after 1` exits successfully."
+      ],
+      "priority": 15,
+      "passes": false,
+      "dependsOn": [
+        "US-021"
+      ]
+    },
+    {
+      "id": "US-025",
+      "title": "Finish debug-gated packaged test-helper support",
+      "description": "As a maintainer, I want packaged debug/test helper support to be stable and safely gated so device automation can target the critical path without leaking test affordances into normal play.",
+      "acceptanceCriteria": [
+        "Packaged debug/test builds expose stable automation hooks where needed.",
+        "Test-helper affordances are clearly gated away from normal player-facing runtime.",
+        "Helper support is documented well enough for packaged smoke validation to consume it.",
+        "`godot --headless --path . --quit-after 1` exits successfully."
+      ],
+      "priority": 15,
+      "passes": false,
+      "dependsOn": [
+        "US-024"
+      ]
+    },
+    {
+      "id": "US-026",
+      "title": "Author packaged smoke and critical-path validation flows",
+      "description": "As a reviewer, I want packaged smoke and critical-path validation flows so release readiness is backed by repeatable launch-to-critical-path evidence.",
+      "acceptanceCriteria": [
+        "A packaged validation flow covers launch, valise, dark-house entry, first warmth, and one deeper continuation.",
+        "Emulator/device validation steps are documented in an executable order.",
+        "Packaged validation evidence can be gathered without ad hoc rediscovery.",
+        "`godot --headless --path . --quit-after 1` exits successfully."
+      ],
+      "priority": 16,
+      "passes": false,
+      "dependsOn": [
+        "US-025"
+      ]
+    },
+    {
+      "id": "US-027",
+      "title": "Build the release candidate, validate install and launch, and close release-readiness docs",
+      "description": "As the project owner, I want one final packaged-validation proof point so the whole-game ship plan ends with actual build/install/launch evidence rather than repo-local confidence alone.",
+      "acceptanceCriteria": [
+        "The Android release build completes successfully.",
+        "Install and launch are proven on emulator or device, with honest evidence captured.",
+        "Release-readiness docs record actual packaged-validation scope, evidence, and remaining caveats.",
+        "`godot --headless --path . --export-release \"Android\" build/ashworth-manor.apk` exits successfully."
+      ],
+      "priority": 17,
+      "passes": false,
+      "dependsOn": [
+        "US-024",
+        "US-025",
+        "US-026"
       ]
     }
   ]
