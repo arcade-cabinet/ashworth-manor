@@ -192,6 +192,17 @@ func get_visible_compiled_world_room_ids() -> PackedStringArray:
 	return room_ids
 
 
+func get_room_world_origin(room_id: String = "") -> Vector3:
+	if room_id.is_empty():
+		return _get_room_world_origin(_current_room)
+	var room_instance: Node = _compiled_world_instances.get(room_id, null)
+	if room_instance != null:
+		return _get_room_world_origin(room_instance)
+	if _current_room_id == room_id:
+		return _get_room_world_origin(_current_room)
+	return Vector3.ZERO
+
+
 func get_region_for_room_id(room_id: String):
 	if _world == null or room_id.is_empty():
 		return null

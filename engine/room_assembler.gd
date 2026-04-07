@@ -216,6 +216,8 @@ func _build_interactables(decls: Array[InteractableDecl], parent: Node3D) -> voi
 		area.set_meta("data", _build_legacy_interactable_data(decl))
 		area.set_meta("interactable_id", decl.id)
 		area.set_meta("interactable_type", decl.type)
+		area.set_meta("scene_role", decl.scene_role)
+		area.set_meta("state_tags", decl.state_tags)
 		area.set_meta("declaration", decl)
 
 		var shape := CollisionShape3D.new()

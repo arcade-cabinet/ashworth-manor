@@ -29,6 +29,8 @@ A data-driven game engine for first-person PSX horror exploration games. Inspire
 
 9. **Stateful visuals should bias procedural or hybrid.** If a setpiece visibly changes state, the changing part should usually be procedural, shader-driven, or state-swapped inside an authored scene, while static silhouette and ornament can stay model-driven.
 
+10. **The camera must behave like a body.** Entry framing, inspection focus, and pickup beats should bias toward live first-person yaw/pitch/FOV/lean adjustments rather than disembodied cut cameras. Structural awareness matters: walls, columns, door frames, and banisters must not dominate the center view unless that crowding is intentional.
+
 ---
 
 ## File Structure

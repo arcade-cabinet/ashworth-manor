@@ -45,6 +45,8 @@ const EXPECTED_INTER_WORLD_CONNECTION_IDS := {
 const ENTRY_MAX_BLOCKER_DISTANCE := 1.3
 const ENTRY_MAX_BLOCKER_ANGLE_DEG := 28.0
 const ENTRY_MAX_BLOCKER_HEIGHT_DELTA := 1.5
+const ENTRY_MAX_STRUCTURAL_DISTANCE := 1.6
+const ENTRY_MAX_STRUCTURAL_ANGLE_DEG := 32.0
 
 
 func _init(world: WorldDeclaration) -> void:
@@ -364,13 +366,22 @@ func _validate_entry_composition(room_id: String, room: RoomDeclaration) -> Arra
 	for prop in room.props:
 		var offset := prop.position - entry_anchor.position
 		var flat_dist := Vector2(offset.x, offset.z).length()
-		if flat_dist > ENTRY_MAX_BLOCKER_DISTANCE:
+		var structural := _is_structural_blocker_prop(prop)
+		var max_dist := ENTRY_MAX_STRUCTURAL_DISTANCE if structural else ENTRY_MAX_BLOCKER_DISTANCE
+		var max_angle := ENTRY_MAX_STRUCTURAL_ANGLE_DEG if structural else ENTRY_MAX_BLOCKER_ANGLE_DEG
+		if flat_dist > max_dist:
 			continue
 		if absf(offset.y) > ENTRY_MAX_BLOCKER_HEIGHT_DELTA:
 			continue
 		var angle := _flat_angle_deg(forward, offset)
-		if angle <= ENTRY_MAX_BLOCKER_ANGLE_DEG:
-			errors.append("Critical room '%s' prop '%s' intrudes into the entry cone (%.2fm / %.1fdeg)" % [room_id, prop.id, flat_dist, angle])
+		if angle <= max_angle:
+			errors.append("Critical room '%s' %s '%s' intrudes into the entry cone (%.2fm / %.1fdeg)" % [
+				room_id,
+				"structural prop" if structural else "prop",
+				prop.id,
+				flat_dist,
+				angle,
+			])
 			break
 	return errors
 
@@ -390,3 +401,19 @@ func _flat_angle_deg(forward: Vector3, offset: Vector3) -> float:
 	if flat_forward.length_squared() <= 0.001 or flat_offset.length_squared() <= 0.001:
 		return 180.0
 	return rad_to_deg(acos(clampf(flat_forward.normalized().dot(flat_offset.normalized()), -1.0, 1.0)))
+
+
+func _is_structural_blocker_prop(prop: PropDecl) -> bool:
+	if prop == null:
+		return false
+	if prop.scene_role in ["architectural_trim", "threshold_trim"]:
+		return true
+	for tag in prop.tags:
+		var lower_tag := String(tag).to_lower()
+		if lower_tag.contains("column") or lower_tag.contains("pillar") or lower_tag.contains("wall") or lower_tag.contains("frame") or lower_tag.contains("trim") or lower_tag.contains("banister"):
+			return true
+	var haystack := ("%s %s %s" % [prop.id, prop.model, prop.scene_path]).to_lower()
+	for keyword in ["column", "pillar", "wall", "frame", "trim", "banister", "frieze", "molding", "moulding", "arch", "post"]:
+		if haystack.contains(keyword):
+			return true
+	return false

@@ -16,6 +16,13 @@ const PITCH_LIMIT: float = 45.0
 const LAYER_WALKABLE: int = 1
 const LAYER_INTERACTABLE: int = 3
 const LAYER_DOOR: int = 4
+const INSPECT_FOCUS_DURATION: float = 0.22
+const INSPECT_RELEASE_DURATION: float = 0.14
+const INSPECT_LEAN_MAX: float = 0.28
+const INSPECT_DROP_MAX: float = 0.12
+const INSPECT_RISE_MAX: float = 0.08
+const INSPECT_FOV_MIN: float = 54.0
+const INSPECT_FOV_PICKUP: float = 50.0
 
 var _camera: Camera3D = null
 var _cam_ctrl: Node = null
@@ -28,6 +35,7 @@ var _walk_marker: MeshInstance3D = null
 var _traversal_tween: Tween = null
 var _is_traversal_locked: bool = false
 var _body_tween: Tween = null
+var _interaction_focus_tween: Tween = null
 
 
 func _ready() -> void:
@@ -130,6 +138,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _rotate_camera(relative: Vector2) -> void:
+	_cancel_interaction_focus()
 	_yaw -= relative.x * SENSITIVITY
 	_pitch -= relative.y * SENSITIVITY
 	_pitch = clampf(_pitch, deg_to_rad(-PITCH_LIMIT), deg_to_rad(PITCH_LIMIT))
@@ -153,13 +162,23 @@ func _handle_tap(screen_pos: Vector2) -> void:
 	if not hit.is_empty() and hit["collider"] is Area3D:
 		var a: Area3D = hit["collider"] as Area3D
 		if a.has_meta("id"):
+			var interaction_data: Dictionary = a.get_meta("data") if a.has_meta("data") else {}
+			interaction_data = interaction_data.duplicate(true)
+			interaction_data["interaction_world_position"] = hit.get("position", a.global_position)
+			interaction_data["interaction_normal"] = hit.get("normal", Vector3.ZERO)
+			interaction_data["interaction_distance"] = from.distance_to(interaction_data["interaction_world_position"])
+			if a.has_meta("scene_role"):
+				interaction_data["scene_role"] = a.get_meta("scene_role")
+			if a.has_meta("state_tags"):
+				interaction_data["state_tags"] = a.get_meta("state_tags")
 			interacted.emit(a.get_meta("id"),
 				a.get_meta("type") if a.has_meta("type") else "",
-				a.get_meta("data") if a.has_meta("data") else {})
+				interaction_data)
 			return
 
 	hit = _raycast(space, from, to, 1 << (LAYER_DOOR - 1), true)
 	if not hit.is_empty() and hit["collider"] is Area3D:
+		release_interaction_focus()
 		var a: Area3D = hit["collider"] as Area3D
 		if a.has_meta("target_room"):
 			var connection_id: String = a.get_meta("connection_id") if a.has_meta("connection_id") else ""
@@ -168,6 +187,7 @@ func _handle_tap(screen_pos: Vector2) -> void:
 
 	hit = _raycast(space, from, to, 1 << (LAYER_WALKABLE - 1), false)
 	if not hit.is_empty():
+		release_interaction_focus()
 		_target_position = hit["position"]
 		_target_position.y = global_position.y
 		_is_walking = true
@@ -201,6 +221,7 @@ func _on_room_loaded(_room_id: String) -> void:
 func set_room_position(pos: Vector3) -> void:
 	_cancel_traversal_animation()
 	_cancel_body_tween()
+	_cancel_interaction_focus()
 	global_position = pos
 	_target_position = Vector3.INF
 	_is_walking = false
@@ -212,6 +233,7 @@ func set_room_position(pos: Vector3) -> void:
 func set_room_rotation_y(rotation_y_deg: float) -> void:
 	_cancel_traversal_animation()
 	_cancel_body_tween()
+	_cancel_interaction_focus()
 	rotation_degrees.y = rotation_y_deg
 	_yaw = rotation.y
 	_pitch = 0.0
@@ -249,6 +271,7 @@ func get_eye_height() -> float:
 func play_traversal_animation(conn_type: String, duration: float, on_complete: Callable = Callable()) -> void:
 	_cancel_traversal_animation()
 	_cancel_body_tween()
+	_cancel_interaction_focus()
 	_is_traversal_locked = true
 	_target_position = Vector3.INF
 	_is_walking = false
@@ -308,6 +331,7 @@ func _cancel_traversal_animation() -> void:
 
 func tween_to_pose(target_position: Vector3, target_rotation_y: float, duration: float, on_complete: Callable = Callable()) -> void:
 	_cancel_body_tween()
+	_cancel_interaction_focus()
 	_is_traversal_locked = true
 	_target_position = Vector3.INF
 	_is_walking = false
@@ -337,6 +361,110 @@ func _cancel_body_tween() -> void:
 		_body_tween.kill()
 	_body_tween = null
 	_is_traversal_locked = false
+
+
+func begin_interaction_focus(focus_hint: Dictionary) -> void:
+	if _camera == null or _is_traversal_locked:
+		return
+	var target_world: Variant = focus_hint.get("interaction_focus_position", focus_hint.get("interaction_world_position", null))
+	if target_world is not Vector3:
+		return
+	var eye := _camera.global_position
+	var to_target: Vector3 = (target_world as Vector3) - eye
+	if to_target.length_squared() <= 0.001:
+		return
+	_cancel_interaction_focus(false)
+	var flat := Vector2(to_target.x, to_target.z)
+	var target_yaw_deg := get_view_yaw_degrees()
+	if flat.length() > 0.001:
+		target_yaw_deg = rad_to_deg(atan2(-flat.x, -flat.y))
+	var target_pitch_deg := clampf(rad_to_deg(atan2(to_target.y, maxf(flat.length(), 0.01))), -PITCH_LIMIT, PITCH_LIMIT)
+	var focus_kind := String(focus_hint.get("focus_kind", "inspect"))
+	var target_offset := _calculate_focus_camera_offset(target_world as Vector3, focus_kind)
+	var target_fov := _calculate_focus_fov(to_target.length(), focus_kind)
+	var tween := create_tween()
+	_interaction_focus_tween = tween
+	tween.set_parallel(true)
+	tween.tween_method(_set_yaw_degrees, get_view_yaw_degrees(), target_yaw_deg, INSPECT_FOCUS_DURATION)
+	tween.parallel().tween_method(_set_pitch_degrees, get_view_pitch_degrees(), target_pitch_deg, INSPECT_FOCUS_DURATION)
+	tween.parallel().tween_property(_camera, "position", target_offset, INSPECT_FOCUS_DURATION)
+	tween.parallel().tween_property(_camera, "fov", target_fov, INSPECT_FOCUS_DURATION)
+	tween.set_parallel(false)
+	tween.tween_callback(func() -> void:
+		_interaction_focus_tween = null
+	)
+
+
+func release_interaction_focus() -> void:
+	if _camera == null:
+		return
+	_cancel_interaction_focus(false)
+	var tween := create_tween()
+	_interaction_focus_tween = tween
+	tween.set_parallel(true)
+	tween.tween_property(_camera, "position", Vector3(0, CAMERA_HEIGHT, 0), INSPECT_RELEASE_DURATION)
+	tween.parallel().tween_property(_camera, "fov", DEFAULT_FOV, INSPECT_RELEASE_DURATION)
+	tween.set_parallel(false)
+	tween.tween_callback(func() -> void:
+		_interaction_focus_tween = null
+	)
+
+
+func _cancel_interaction_focus(reset_camera: bool = true) -> void:
+	if _interaction_focus_tween != null and _interaction_focus_tween.is_valid():
+		_interaction_focus_tween.kill()
+	_interaction_focus_tween = null
+	if reset_camera and _camera != null:
+		_camera.position = Vector3(0, CAMERA_HEIGHT, 0)
+		_camera.fov = DEFAULT_FOV
+
+
+func _calculate_focus_camera_offset(target_world: Vector3, focus_kind: String) -> Vector3:
+	var eye := _camera.global_position
+	var to_target := target_world - eye
+	var distance := to_target.length()
+	var lean_amount := clampf((1.2 - distance) * 0.32, 0.0, INSPECT_LEAN_MAX)
+	if focus_kind == "pickup":
+		lean_amount = minf(INSPECT_LEAN_MAX, lean_amount + 0.08)
+	lean_amount = _compute_safe_focus_lean(eye, to_target, lean_amount)
+	var vertical_offset := clampf(to_target.y * 0.12, -INSPECT_DROP_MAX, INSPECT_RISE_MAX)
+	if focus_kind == "pickup":
+		vertical_offset = clampf(vertical_offset + 0.04, -INSPECT_DROP_MAX, INSPECT_RISE_MAX)
+	return Vector3(0, CAMERA_HEIGHT + vertical_offset, -lean_amount)
+
+
+func _calculate_focus_fov(distance: float, focus_kind: String) -> float:
+	if focus_kind == "pickup":
+		return INSPECT_FOV_PICKUP
+	return clampf(58.0 + distance * 6.0, INSPECT_FOV_MIN, DEFAULT_FOV)
+
+
+func _compute_safe_focus_lean(eye: Vector3, to_target: Vector3, desired_lean: float) -> float:
+	if desired_lean <= 0.0:
+		return 0.0
+	var space := get_world_3d().direct_space_state
+	if space == null:
+		return desired_lean
+	var forward_flat := Vector3(to_target.x, 0.0, to_target.z)
+	if forward_flat.length_squared() <= 0.001:
+		return 0.0
+	forward_flat = forward_flat.normalized()
+	var query := PhysicsRayQueryParameters3D.create(eye, eye + forward_flat * (desired_lean + 0.35))
+	query.collision_mask = (1 << 0) | (1 << 1)
+	query.collide_with_bodies = true
+	query.collide_with_areas = false
+	var hit := space.intersect_ray(query)
+	if hit.is_empty():
+		return desired_lean
+	var safe_distance := eye.distance_to(hit.get("position", eye)) - 0.22
+	return clampf(minf(desired_lean, safe_distance), 0.0, desired_lean)
+
+
+func _set_yaw_degrees(value: float) -> void:
+	_yaw = deg_to_rad(value)
+	rotation.y = _yaw
+	if _camera != null:
+		_camera.global_rotation = Vector3(_pitch, _yaw, 0.0)
 
 
 func _set_pitch_degrees(value: float) -> void:

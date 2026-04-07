@@ -49,6 +49,10 @@ const ENTRY_MAX_FOCAL_ANGLE_DEG := 35.0
 const ENTRY_MAX_BLOCKER_DISTANCE := 1.2
 const ENTRY_MAX_BLOCKER_ANGLE_DEG := 26.0
 const ENTRY_MAX_BLOCKER_HEIGHT_DELTA := 1.4
+const ENTRY_MAX_STRUCTURAL_DISTANCE := 1.55
+const ENTRY_MAX_STRUCTURAL_ANGLE_DEG := 30.0
+const ENTRY_MIN_WALL_CLEARANCE := 0.75
+const ENTRY_NEAR_SURFACE_DISTANCE := 0.68
 const CRITICAL_MILESTONE_CAPTURES := {
 	"front_gate_entry": true,
 	"foyer_entry": true,
@@ -378,17 +382,18 @@ func _set_player_yaw(rotation_y_deg: float) -> void:
 
 
 func _resolve_entry_pose(room: RoomBase, room_id: String, entry_connection_id: String) -> Dictionary:
-	var spawn_position: Vector3 = room.spawn_position
+	var room_origin := _get_room_world_origin(room)
+	var spawn_position: Vector3 = room.spawn_position + room_origin
 	var spawn_rotation_y: float = room.spawn_rotation_y
 	var decl = room.get_meta("declaration") if room.has_meta("declaration") else null
 	if decl != null:
 		var entry_anchor = _get_primary_anchor(decl.get("entry_anchors"))
 		if entry_anchor != null:
-			spawn_position = entry_anchor.position
+			spawn_position = entry_anchor.position + room_origin
 			spawn_rotation_y = entry_anchor.rotation_y
 			var focal_anchor = _find_target_focal_anchor(decl, entry_anchor)
 			if focal_anchor != null:
-				spawn_rotation_y = _yaw_to_target(entry_anchor.position, focal_anchor.position)
+				spawn_rotation_y = _yaw_to_target(entry_anchor.position + room_origin, focal_anchor.position + room_origin)
 	if _world == null or entry_connection_id.is_empty():
 		return {"position": spawn_position, "rotation_y": spawn_rotation_y}
 	for conn in _world.connections:
@@ -397,12 +402,12 @@ func _resolve_entry_pose(room: RoomBase, room_id: String, entry_connection_id: S
 				var entry_anchor = _find_anchor_by_id(decl.get("entry_anchors"), conn.to_anchor_id)
 				var focal_anchor = _find_anchor_by_id(decl.get("focal_anchors"), conn.focal_anchor_id)
 				if entry_anchor != null:
-					spawn_position = entry_anchor.position
+					spawn_position = entry_anchor.position + room_origin
 					spawn_rotation_y = entry_anchor.rotation_y
 					if focal_anchor != null:
-						spawn_rotation_y = _yaw_to_target(entry_anchor.position, focal_anchor.position)
+						spawn_rotation_y = _yaw_to_target(entry_anchor.position + room_origin, focal_anchor.position + room_origin)
 					return {"position": spawn_position, "rotation_y": spawn_rotation_y}
-			return {"position": conn.position_in_to, "rotation_y": conn.spawn_rotation_y}
+			return {"position": conn.position_in_to + room_origin, "rotation_y": conn.spawn_rotation_y}
 	return {"position": spawn_position, "rotation_y": spawn_rotation_y}
 
 
@@ -438,9 +443,10 @@ func _validate_entry_framing(name: String) -> void:
 	var decl = room.get_meta("declaration") as RoomDeclaration
 	if decl == null:
 		return
+	var room_origin := _get_room_world_origin(room)
 	var focal_anchor = _resolve_entry_focal_anchor(decl)
 	if focal_anchor != null:
-		var to_focal: Vector3 = focal_anchor.position - view_camera.global_position
+		var to_focal: Vector3 = (focal_anchor.position + room_origin) - view_camera.global_position
 		var forward: Vector3 = -view_camera.global_transform.basis.z
 		if to_focal.length_squared() > 0.001 and forward.length_squared() > 0.001:
 			var angle_deg := rad_to_deg(acos(clampf(forward.normalized().dot(to_focal.normalized()), -1.0, 1.0)))
@@ -448,8 +454,10 @@ func _validate_entry_framing(name: String) -> void:
 				_log_framing_issue(room_id, "failure" if is_critical else "warning",
 					"Focal anchor '%s' sits %.1f deg off the entry forward cone" % [focal_anchor.anchor_id, angle_deg], is_critical)
 
-	_validate_spawn_blockers(room_id, decl, view_camera.global_position, -view_camera.global_transform.basis.z, is_critical)
+	_validate_wall_clearance(room_id, decl, room_origin, view_camera.global_position, -view_camera.global_transform.basis.z, is_critical)
+	_validate_spawn_blockers(room_id, decl, room_origin, view_camera.global_position, -view_camera.global_transform.basis.z, is_critical)
 	_validate_frame_surface_balance(room_id, view_camera, is_critical)
+	_validate_near_surface_intrusion(room_id, view_camera, is_critical)
 
 
 func _resolve_entry_focal_anchor(decl: RoomDeclaration) -> Variant:
@@ -460,22 +468,30 @@ func _resolve_entry_focal_anchor(decl: RoomDeclaration) -> Variant:
 	return focal_anchor
 
 
-func _validate_spawn_blockers(room_id: String, decl: RoomDeclaration, eye_pos: Vector3, forward: Vector3, is_critical: bool) -> void:
+func _validate_spawn_blockers(room_id: String, decl: RoomDeclaration, room_origin: Vector3, eye_pos: Vector3, forward: Vector3, is_critical: bool) -> void:
 	var forward_flat := forward.normalized()
 	for prop in decl.props:
 		if prop == null:
 			continue
-		var to_prop: Vector3 = prop.position - eye_pos
+		var to_prop: Vector3 = (prop.position + room_origin) - eye_pos
 		var flat_dist := Vector2(to_prop.x, to_prop.z).length()
-		if flat_dist > ENTRY_MAX_BLOCKER_DISTANCE:
+		var structural := _is_structural_blocker_prop(prop)
+		var max_dist := ENTRY_MAX_STRUCTURAL_DISTANCE if structural else ENTRY_MAX_BLOCKER_DISTANCE
+		var max_angle := ENTRY_MAX_STRUCTURAL_ANGLE_DEG if structural else ENTRY_MAX_BLOCKER_ANGLE_DEG
+		if flat_dist > max_dist:
 			continue
 		if absf(to_prop.y) > ENTRY_MAX_BLOCKER_HEIGHT_DELTA:
 			continue
 		var angle_deg := _angle_to_forward_deg(forward_flat, to_prop)
-		if angle_deg > ENTRY_MAX_BLOCKER_ANGLE_DEG:
+		if angle_deg > max_angle:
 			continue
 		_log_framing_issue(room_id, "failure" if is_critical else "warning",
-			"Prop '%s' intrudes into the entry cone at %.2fm / %.1f deg" % [prop.id, flat_dist, angle_deg], is_critical)
+			"%s '%s' intrudes into the entry cone at %.2fm / %.1f deg" % [
+				"Structural prop" if structural else "Prop",
+				prop.id,
+				flat_dist,
+				angle_deg,
+			], is_critical)
 		return
 
 
@@ -485,6 +501,93 @@ func _angle_to_forward_deg(forward: Vector3, offset: Vector3) -> float:
 	if flat_forward.length_squared() <= 0.001 or flat_offset.length_squared() <= 0.001:
 		return 180.0
 	return rad_to_deg(acos(clampf(flat_forward.normalized().dot(flat_offset.normalized()), -1.0, 1.0)))
+
+
+func _validate_wall_clearance(room_id: String, decl: RoomDeclaration, room_origin: Vector3, eye_pos: Vector3, forward: Vector3, is_critical: bool) -> void:
+	if decl == null or decl.is_exterior:
+		return
+	var local_eye := eye_pos - room_origin
+	var half_width := decl.dimensions.x * 0.5
+	var half_depth := decl.dimensions.z * 0.5
+	var forward_flat := Vector3(forward.x, 0.0, forward.z)
+	if forward_flat.length_squared() <= 0.001:
+		return
+	forward_flat = forward_flat.normalized()
+	var wall_name := ""
+	var wall_distance := INF
+	if forward_flat.z < -0.28:
+		wall_name = "north"
+		wall_distance = absf(local_eye.z + half_depth)
+	elif forward_flat.z > 0.28:
+		wall_name = "south"
+		wall_distance = absf(half_depth - local_eye.z)
+	elif forward_flat.x > 0.28:
+		wall_name = "east"
+		wall_distance = absf(half_width - local_eye.x)
+	elif forward_flat.x < -0.28:
+		wall_name = "west"
+		wall_distance = absf(local_eye.x + half_width)
+	if wall_name.is_empty():
+		return
+	if wall_distance < ENTRY_MIN_WALL_CLEARANCE:
+		_log_framing_issue(room_id, "failure" if is_critical else "warning",
+			"Entry camera sits only %.2fm from the %s wall and risks a cramped threshold read" % [wall_distance, wall_name], is_critical)
+
+
+func _validate_near_surface_intrusion(room_id: String, view_camera: Camera3D, is_critical: bool) -> void:
+	var viewport := _main.get_viewport() if _main != null else null
+	if viewport == null:
+		return
+	var size := viewport.get_visible_rect().size
+	if size.x <= 0 or size.y <= 0:
+		return
+	var world3d := view_camera.get_world_3d()
+	if world3d == null:
+		return
+	var space := world3d.direct_space_state
+	if space == null:
+		return
+	var intrusive_hits := 0
+	var center_intrusions := 0
+	var nearest_intrusion := INF
+	for sample_x in [0.28, 0.5, 0.72]:
+		for sample_y in [0.38, 0.54, 0.7]:
+			var screen_pos := Vector2(size.x * sample_x, size.y * sample_y)
+			var from := view_camera.project_ray_origin(screen_pos)
+			var to := from + view_camera.project_ray_normal(screen_pos) * 1.2
+			var hit := _raycast_view(space, from, to)
+			if hit.is_empty():
+				continue
+			var collider_name := _get_collider_name(hit)
+			if collider_name.begins_with("FloorCollision") or collider_name.begins_with("CeilingCollision"):
+				continue
+			var hit_distance := from.distance_to(hit.get("position", from))
+			if hit_distance > ENTRY_NEAR_SURFACE_DISTANCE:
+				continue
+			intrusive_hits += 1
+			nearest_intrusion = minf(nearest_intrusion, hit_distance)
+			if absf(sample_x - 0.5) <= 0.12:
+				center_intrusions += 1
+	if center_intrusions >= 3 or (center_intrusions >= 2 and nearest_intrusion <= 0.52) or intrusive_hits >= 5:
+		_log_framing_issue(room_id, "failure" if is_critical else "warning",
+			"Near wall or column geometry crowds the first-person frame", is_critical)
+
+
+func _is_structural_blocker_prop(prop: PropDecl) -> bool:
+	if prop == null:
+		return false
+	if prop.scene_role in ["architectural_trim", "threshold_trim"]:
+		return true
+	for tag in prop.tags:
+		var lower_tag := String(tag).to_lower()
+		if lower_tag.contains("column") or lower_tag.contains("pillar") or lower_tag.contains("wall") or lower_tag.contains("frame") or lower_tag.contains("trim") or lower_tag.contains("banister"):
+			return true
+	var haystack := "%s %s %s" % [prop.id, prop.model, prop.scene_path]
+	haystack = haystack.to_lower()
+	for keyword in ["column", "pillar", "wall", "frame", "trim", "banister", "frieze", "molding", "moulding", "arch", "post"]:
+		if haystack.contains(keyword):
+			return true
+	return false
 
 
 func _log_framing_issue(room_id: String, severity: String, message: String, counts_as_failure: bool) -> void:
@@ -556,8 +659,7 @@ func _sample_surface_band(view_camera: Camera3D, space: PhysicsDirectSpaceState3
 		var hit := _raycast_view(space, from, to)
 		if hit.is_empty():
 			continue
-		var collider: Object = hit.get("collider")
-		var collider_name := String(collider.name) if collider != null else ""
+		var collider_name := _get_collider_name(hit)
 		if collider_name.begins_with("FloorCollision"):
 			result["floor"] += 1
 		elif collider_name.begins_with("CeilingCollision"):
@@ -573,6 +675,19 @@ func _raycast_view(space: PhysicsDirectSpaceState3D, from: Vector3, to: Vector3)
 	query.collide_with_bodies = true
 	query.collide_with_areas = false
 	return space.intersect_ray(query)
+
+
+func _get_collider_name(hit: Dictionary) -> String:
+	var collider: Object = hit.get("collider")
+	return String(collider.name) if collider != null else ""
+
+
+func _get_room_world_origin(room: Node) -> Vector3:
+	if room == null:
+		return Vector3.ZERO
+	if room is Node3D:
+		return (room as Node3D).global_position
+	return Vector3.ZERO
 
 
 func _get_primary_anchor(anchors: Array) -> Variant:

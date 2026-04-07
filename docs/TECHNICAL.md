@@ -66,6 +66,8 @@ Important behavior:
 - conditional responses can override default authored text
 - macro-thread flavor augments authored responses but does not replace higher-priority truth states
 - declaration responses may set state, give items, and play SFX directly
+- interaction focus now biases toward embodied motion: tap targets can pull yaw, pitch, FOV, and a small head-lean toward the object before the authored response resolves
+- close-range interaction focus is collision-aware and intentionally limited so walls, columns, and frames do not get shoved into the center of the view
 
 ## Event Pipeline
 
@@ -105,6 +107,11 @@ Primary interaction model:
 - swipe/drag to look
 
 `PlayerController` remains the movement shell, but progression and interaction meaning come from declarations.
+
+Camera contract:
+- room entry framing uses the live player camera, not a QA-only framing transform
+- walkthrough framing evaluates compiled-world world-space positions, not local room-space guesses
+- entry validation explicitly checks for structural crowding from nearby walls, columns, and threshold trim
 
 ## Transitions
 

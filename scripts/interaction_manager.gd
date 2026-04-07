@@ -96,6 +96,7 @@ func _on_game_item_changed(_item_id: String) -> void:
 
 func _on_interacted(object_id: String, object_type: String, object_data: Dictionary) -> void:
 	GameManager.mark_interacted(object_id)
+	_begin_embodied_focus(object_id, object_data)
 	_try_inspect_camera(object_id)
 	var decl: InteractableDecl = _find_interactable_decl(object_id)
 	if decl != null and _handle_special_interactable(decl):
@@ -302,6 +303,8 @@ func _try_inspect_camera(object_id: String) -> void:
 			cam_ctrl.set_inspection_camera(pcam)
 
 func _release_inspect_cam() -> void:
+	if _player != null and _player.has_method("release_interaction_focus"):
+		_player.release_interaction_focus()
 	if _active_inspect_cam:
 		var cam_ctrl: Node = null
 		if _player:
@@ -440,4 +443,50 @@ func _find_node(node_name: String) -> Node:
 		if n.name == node_name:
 			return n
 		stack.append_array(n.get_children())
+	return null
+
+
+func _begin_embodied_focus(object_id: String, object_data: Dictionary) -> void:
+	if _player == null or not _player.has_method("begin_interaction_focus"):
+		return
+	var decl := _find_interactable_decl(object_id)
+	var hint := _build_interaction_focus_hint(object_id, object_data, decl)
+	if hint.is_empty():
+		return
+	_player.begin_interaction_focus(hint)
+
+
+func _build_interaction_focus_hint(object_id: String, object_data: Dictionary, decl: InteractableDecl) -> Dictionary:
+	var focus_hint: Dictionary = object_data.duplicate(true)
+	var area := _find_interactable_area(object_id)
+	if not focus_hint.has("interaction_world_position"):
+		if area != null:
+			focus_hint["interaction_world_position"] = area.global_position
+		elif decl != null:
+			focus_hint["interaction_world_position"] = decl.position
+	var target_pos: Variant = focus_hint.get("interaction_world_position", null)
+	if target_pos is not Vector3:
+		return {}
+	if area != null:
+		var collision := area.get_node_or_null("CollisionShape3D") as CollisionShape3D
+		if collision != null and collision.shape is BoxShape3D:
+			var box := collision.shape as BoxShape3D
+			target_pos = area.global_position + Vector3(0, clampf(box.size.y * 0.16, 0.05, 0.18), 0)
+			focus_hint["interaction_world_position"] = target_pos
+	var focus_kind := "inspect"
+	if decl != null and (decl.scene_role == "portable_item" or not decl.gives_item.is_empty()):
+		focus_kind = "pickup"
+	focus_hint["focus_kind"] = focus_kind
+	return focus_hint
+
+
+func _find_interactable_area(object_id: String) -> Area3D:
+	if _room_manager == null or not _room_manager.has_method("get_current_room"):
+		return null
+	var room = _room_manager.get_current_room()
+	if room == null or not room.has_method("get_interactables"):
+		return null
+	for area in room.get_interactables():
+		if area is Area3D and area.has_meta("id") and area.get_meta("id") == object_id:
+			return area as Area3D
 	return null
