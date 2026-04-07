@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="RegionDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/region_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+region_id = "upper_floor"
+region_type = "private_interior"
+compiled_world_id = "manor_interior_world"
+compiled_world_type = "interior_world"
+room_ids = PackedStringArray("upper_hallway", "master_bedroom", "library", "guest_room")
+streaming_neighbors = PackedStringArray("ground_floor", "attic")
+notes = "Family-private truth layer and attic approach."

@@ -45,13 +45,10 @@ This document outlines the gameplay systems, mechanics, and design philosophy fo
 
 ### Session Flow
 ```
-Landing Screen
-    │
-    ▼
-New Game / Continue
-    │
-    ▼
 PROLOGUE: Front Gate & Drive (Exterior)
+    │
+    ▼
+Threshold acknowledgement at the gate
     │
     ▼
 Foyer (Ground Floor)
@@ -59,20 +56,23 @@ Foyer (Ground Floor)
     ├──► Explore Ground Floor
     │    (Foyer, Parlor, Dining, Kitchen)
     │
-    ├──► Descend to Basement
+    ├──► Reach Rear Grounds through Kitchen
+    │    (Garden, then Chapel / Greenhouse / Family Crypt)
+    │
+    ├──► Descend to Basement through Kitchen
     │    (Storage, Boiler Room)
     │
-    ├──► Descend to Deep Basement
+    ├──► Descend deeper from Storage Basement
     │    (Wine Cellar)
     │
-    ├──► Ascend to Upper Floor
-    │    (Hallway, Bedrooms, Library)
+    ├──► Reveal hidden service route from Storage Basement
+    │    (Carriage House)
     │
-    ├──► Explore Grounds (after ground floor)
-    │    (Carriage House, Chapel, Greenhouse, Crypt)
+    ├──► Ascend to Upper Floor
+    │    (Hallway, Master Bedroom, Library, Guest Room)
     │
     └──► Find Attic Key → Unlock Attic
-         (Stairwell, Storage, Hidden Chamber)
+     (Stairwell, Storage, Hidden Chamber)
               │
               └──► Counter-Ritual → Ending
                    (Collect 6 components → Hidden Chamber)
@@ -158,7 +158,7 @@ Foyer (Ground Floor)
 | Item | Location | Unlocks |
 |------|----------|---------|
 | Attic Key | Library Globe | Attic Door |
-| Cellar Key | Carriage House (behind portrait) | Wine Cellar Box |
+| Cellar Key | Carriage House (behind portrait, reached from Storage Basement service route) | Wine Cellar Box |
 | Hidden Key | Inside Porcelain Doll (Attic) | Hidden Chamber |
 | Jewelry Key | Family Crypt (loose flagstone) | Jewelry Box |
 | Gate Key | Greenhouse (pot near lily) | Crypt Iron Gate |

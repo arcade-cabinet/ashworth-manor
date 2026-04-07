@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "elizabeth_letter"
+object_type = "note"
+title = "Unsent Letter"
+content = "Dearest Mother, They say I'm sick but I feel fine. Father won't let me leave my room anymore. The doll talks to me now. She says I'll be here forever. I'm scared. — Your Elizabeth"
+on_read_flags = PackedStringArray("read_elizabeth_letter")

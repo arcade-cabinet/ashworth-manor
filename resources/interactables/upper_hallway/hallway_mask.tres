@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "hallway_mask"
+object_type = "observation"
+title = "Mask"
+content = "A theatrical mask mounted on the wall. The expression is frozen between comedy and tragedy."
+on_read_flags = PackedStringArray()

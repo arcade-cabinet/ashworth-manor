@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "grandfather_clock"
+object_type = "clock"
+title = "Grandfather Clock"
+content = "The hands point to 3:33. The pendulum hangs motionless. No ticking breaks the silence. The moon phase dial shows a full moon. December 24th, 1891."
+on_read_flags = PackedStringArray("examined_foyer_clock")

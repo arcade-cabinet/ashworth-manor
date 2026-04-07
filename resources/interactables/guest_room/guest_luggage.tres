@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "guest_luggage"
+object_type = "observation"
+title = "Luggage"
+content = "Packed and ready. The clasps are undone — she was about to close it when she stopped."
+on_read_flags = PackedStringArray()

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "storage_trunk"
+object_type = "observation"
+title = "Sealed Trunk"
+content = "Locked without a keyhole — sealed with wax and iron bands. The wax bears a sigil from the binding book."
+on_read_flags = PackedStringArray()

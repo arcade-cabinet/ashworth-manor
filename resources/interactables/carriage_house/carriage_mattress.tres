@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "carriage_mattress"
+object_type = "observation"
+title = "Old Mattress"
+content = "Someone slept here. Not in the house — here. A servant who refused to sleep inside."
+on_read_flags = PackedStringArray()

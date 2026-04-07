@@ -1,0 +1,123 @@
+{
+	"attic_key": {
+		"name": "Brass Key",
+		"description": "An old brass key labeled 'ATTIC.' Hidden inside the library globe.",
+		"weight": 0.1,
+		"category": "keys",
+		"ritual": false
+	},
+	"jewelry_key": {
+		"name": "Tiny Brass Key",
+		"description": "A tiny brass key with a heart-shaped bow. Found beneath the crypt flagstone.",
+		"weight": 0.05,
+		"category": "keys",
+		"ritual": false
+	},
+	"cellar_key": {
+		"name": "Iron Key",
+		"description": "A small iron key. Found behind the portrait in the carriage house.",
+		"weight": 0.2,
+		"category": "keys",
+		"ritual": false
+	},
+	"gate_key": {
+		"name": "Iron Gate Key",
+		"description": "An iron key, warm to the touch. Found in the greenhouse pot.",
+		"weight": 0.2,
+		"category": "keys",
+		"ritual": false
+	},
+	"hidden_key": {
+		"name": "Tarnished Key",
+		"description": "A tarnished key found inside the porcelain doll's hollow body.",
+		"weight": 0.1,
+		"category": "keys",
+		"ritual": false
+	},
+	"binding_book": {
+		"name": "Rituals of Binding",
+		"description": "An occult text describing how to trap a spirit using a doll as vessel.",
+		"weight": 0.5,
+		"category": "documents",
+		"ritual": true,
+		"pickable": true
+	},
+	"mothers_confession": {
+		"name": "Lady Ashworth's Confession",
+		"description": "A letter of guilt and admission, written December 23rd, 1891.",
+		"weight": 0.1,
+		"category": "documents",
+		"ritual": true
+	},
+	"porcelain_doll": {
+		"name": "Elizabeth's Doll",
+		"description": "A porcelain doll with cracked features. The vessel of the binding ritual.",
+		"weight": 0.3,
+		"category": "artifacts",
+		"ritual": true
+	},
+	"elizabeths_locket": {
+		"name": "Silver Locket",
+		"description": "A tarnished silver locket inscribed 'Our Elizabeth, born in light.'",
+		"weight": 0.05,
+		"category": "artifacts",
+		"ritual": false
+	},
+	"elizabeth_locket": {
+		"name": "Elizabeth's Locket",
+		"description": "A tarnished silver locket inscribed 'Our Elizabeth, born in light.'",
+		"weight": 0.05,
+		"category": "artifacts",
+		"ritual": false
+	},
+	"blessed_water": {
+		"name": "Vial of Holy Water",
+		"description": "Water from the chapel baptismal font. Impossibly cold.",
+		"weight": 0.1,
+		"category": "ritual_components",
+		"ritual": true,
+		"consumable": true
+	},
+	"lock_of_hair": {
+		"name": "Lock of Hair",
+		"description": "A tiny lock of golden hair tied with white ribbon. Found inside the locket.",
+		"weight": 0.01,
+		"category": "ritual_components",
+		"ritual": true
+	},
+	"solicitor_packet": {
+		"name": "Solicitor's Packet",
+		"description": "A packet of inheritance papers concerning Ashworth Manor, including the manor page and an altered estate schedule.",
+		"weight": 0.25,
+		"category": "documents",
+		"ritual": false
+	},
+	"front_door_key": {
+		"name": "Front Door Key",
+		"description": "A well-kept brass key on a leather tab, labeled for the manor's main entrance.",
+		"weight": 0.08,
+		"category": "keys",
+		"ritual": false
+	},
+	"notebook": {
+		"name": "Notebook",
+		"description": "A small travelling notebook with pencil tucked into the spine.",
+		"weight": 0.18,
+		"category": "tools",
+		"ritual": false
+	},
+	"firebrand": {
+		"name": "Firebrand",
+		"description": "A length of burning wood drawn from the first hearth you managed to wake. It throws light only as long as the fire holds.",
+		"weight": 0.35,
+		"category": "tools",
+		"ritual": false
+	},
+	"music_box_winding_key": {
+		"name": "Brass Winding Key",
+		"description": "A small brass winding key kept since childhood. Its teeth match a music box you almost remember.",
+		"weight": 0.02,
+		"category": "artifacts",
+		"ritual": false
+	}
+}

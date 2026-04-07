@@ -1,0 +1,62 @@
+# Parlor — Dialogue
+
+Complete `.dialogue` file content for `dialogue/ground_floor/parlor.dialogue`.
+
+```
+~ parlor_painting_1
+if GameManager.has_flag("has_mothers_confession")
+	"I am complicit in what was done to our daughter." Her own words, written the night before everything ended.
+	
+	In this portrait she already wears her guilt. The mourning dress wasn't prescience — it was penance.
+elif GameManager.has_flag("read_ashworth_diary")
+	Victoria Ashworth. She knew. The diary says "my wife says I'm mad" — but she heard the crying too.
+	
+	She chose the mourning dress for this portrait. She was mourning Elizabeth before Elizabeth was gone.
+else
+	She wears a black mourning dress despite this being painted before any family deaths.
+	
+	Her expression is distant, resigned — as if she already knows what's coming. Her hands are folded in her lap. Hiding something? Or holding herself together?
+do GameManager.set_flag("examined_lady_portrait")
+
+
+~ parlor_note
+The children have been hearing whispers from the attic again. I've locked the door but they say she still calls to them at night...
+
+The handwriting is Lady Ashworth's — precise, controlled, trembling only at the edges.
+do GameManager.set_flag("found_first_clue")
+do GameManager.set_flag("knows_attic_girl")
+
+
+~ music_box
+if GameManager.has_flag("elizabeth_aware") and GameManager.has_flag("reached_attic_storage")
+	The music box begins to play on its own. A lullaby you've never heard before.
+	
+	The ballerina turns, slow and deliberate. The mechanism was never jammed. It was waiting.
+else
+	A delicate music box with a dancing ballerina. The mechanism is jammed — it doesn't play when you try to open it.
+	
+	Dust covers the hinges. Someone loved this once.
+do GameManager.set_flag("examined_music_box")
+
+
+~ parlor_fireplace
+if GameManager.has_flag("elizabeth_aware")
+	The embers pulse. Not like dying coals — like breathing. In. Out.
+	
+	The same rhythm as the gate lamp. The same rhythm as the mirrors.
+else
+	Embers still glow faintly. The iron grate holds ash that should have gone cold years ago.
+	
+	The warmth is real — you can feel it on your face.
+
+
+~ parlor_tea
+if GameManager.has_flag("read_guest_ledger")
+	Two cups — Lady Ashworth and Helena Pierce? The guest who arrived November 3rd and never left.
+	
+	Did they sit here, making small talk, while Elizabeth cried above them?
+else
+	Two cups. One used, one untouched. The teapot is empty. Dried leaves cling to the inside.
+	
+	Someone made tea for two and only one person drank.
+```

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "foyer_mirror"
+object_type = "mirror"
+title = "Mirror"
+content = "Your reflection stares back from a full-length mirror in an ornate dark wood frame. The silver is tarnished. For a moment, you could swear it moved independently."
+on_read_flags = PackedStringArray("examined_foyer_mirror")

@@ -155,16 +155,16 @@ content:
 - Ornate dark wood frame
 - Slightly tarnished silver
 
-**Future Development**:
-- Mirror reflection progressively delays
-- Eventually shows Elizabeth behind player
-- Part of `event_mirror_progression` system
+**Current Runtime Direction**:
+- The foyer mirror remains an escalating supernatural motif rather than a one-off prop
+- Later declaration-driven mirror beats can build on this without changing the room's role as the first perceptual breach
+- Keep any stronger apparition work tied to the existing mirror progression logic, not detached cutscene behavior
 
 ---
 
 ### 3. Grandfather Clock
 ```yaml
-id: grandfather_clock
+id: foyer_clock
 type: clock
 position: { x: 5, y: 1.5, z: -4 }
 rotation: { x: 0, y: -π/4, z: 0 }

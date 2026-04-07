@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "library_gears"
+object_type = "observation"
+title = "Clockwork Gears"
+content = "Disassembled clock mechanisms. Every clock in this house stopped at 3:33."
+on_read_flags = PackedStringArray()

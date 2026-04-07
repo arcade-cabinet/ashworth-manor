@@ -1,283 +1,91 @@
 # Environment Design
 
-This document details the mansion layout, room specifications, and environmental storytelling elements.
+This document summarizes the intended shipped estate layout and environmental zoning.
 
-## Mansion Overview
+## Estate Structure
 
-```
-                    FULL ESTATE LAYOUT (Side View)
+Ashworth Manor is one coherent estate with one exterior topology and staged access.
 
-    ┌─────────────────────────────────────────┐
-    │              ATTIC (+2)                 │  y = 8
-    │   Stairwell ─── Storage ─── Hidden      │
-    └─────────────────────────────────────────┘
-    ┌─────────────────────────────────────────┐
-    │           UPPER FLOOR (+1)              │  y = 4
-    │ Library ─ Hallway ─ Guest Room          │
-    │ Master Bedroom ──┘                      │
-    └─────────────────────────────────────────┘
-    ┌─────────────────────────────────────────┐
-    │           GROUND FLOOR (0)              │  y = 0
-    │ Kitchen ─ Foyer ─ Dining Room           │
-    │            └─ Parlor                    │
-    └─────────────────────────────────────────┘
-    ┌─────────────────────────────────────────┐
-    │            BASEMENT (-1)                │  y = -3
-    │         Storage ─ Boiler Room           │
-    └─────────────────────────────────────────┘
-    ┌─────────────────────────────────────────┐
-    │         DEEP BASEMENT (-2)              │  y = -6
-    │              Wine Cellar                │
-    └─────────────────────────────────────────┘
+The exterior is best understood as:
 
-                    GROUNDS (Exterior, y = 0)
+- `Front Approach`: gate, hedge-lined drive, and front steps
+- `Side Circulation`: west/service and east/garden-side wraparound routes
+- `Rear Grounds`: rear court, garden, pond, woods, chapel, crypt, greenhouse, carriage house
 
-    ┌─────────────────────────────────────────────────────┐
-    │                                                     │
-    │    CRYPT (N)     MANSION      GREENHOUSE (E)        │
-    │                                                     │
-    │    CHAPEL (W)                 CARRIAGE HOUSE (SW)   │
-    │                                                     │
-    │              FRONT GATE & DRIVE (S)                  │
-    │                                                     │
-    └─────────────────────────────────────────────────────┘
-```
+The live declaration world graph is still partially split, but the shipped goal
+is one coherent grounds world.
 
-### Total Room Count: 20
-- **Interior**: 14 rooms across 5 floors
-- **Exterior**: 6 areas (Front Gate, Garden, Chapel, Greenhouse, Carriage House, Family Crypt)
+## Spatial Layers
 
-Each room is a standalone `.tscn` scene file in `scenes/rooms/{floor}/{room}.tscn`.
+### Interior
+- Ground Floor: public/formal rooms
+- Upper Floor: private family rooms
+- Basement / Deep Basement: service depth and buried truth
+- Attic: confinement, revelation, endgame
 
-## Floor Specifications
+### Exterior
+- `front_gate`, `drive_lower`, `drive_upper`, `front_steps`: ceremonial arrival chain
+- `west_side_path`: service-side circulation
+- `east_side_path`: greenhouse/garden-side circulation
+- `rear_court`, `garden`, `pond_edge`, `woodland_path`: rear estate backbone
+- `chapel`, `greenhouse`, `family_crypt`, `carriage_house`: destination beats on that backbone
 
-### Deep Basement (Floor -2)
-**Theme**: Ancient, forgotten, dread
+## Current Route Logic
 
-| Room | Dimensions (WxDxH) | Position | Character |
-|------|-------------------|----------|-----------|
-| Wine Cellar | 8x10x3 | (0, -6, 0) | Dusty wine racks, cold stone |
+```text
+front_gate -> drive_lower -> drive_upper -> front_steps -> foyer
+front_steps -> west_side_path -> carriage_house / rear_court
+front_steps -> east_side_path -> greenhouse / rear_court
+rear_court -> garden -> pond_edge / woodland_path
+woodland_path -> chapel / family_crypt
 
-**Lighting**: Torches only (flickering, warm)
-**Materials**: Dark stone floors, rough stone walls
-**Atmosphere**: Oppressive, claustrophobic
-
----
-
-### Basement (Floor -1)
-**Theme**: Service areas, industrial menace
-
-| Room | Dimensions | Position | Character |
-|------|------------|----------|-----------|
-| Storage Room | 8x8x3 | (0, -3, 0) | Forgotten belongings, cobwebs |
-| Boiler Room | 6x8x4 | (10, -3, 0) | Iron machinery, pipes |
-
-**Connections**:
-- Storage ↔ Boiler Room (door, east-west)
-- Storage ↔ Wine Cellar (ladder, down)
-- Storage ↔ Kitchen (stairs, up)
-
-**Lighting**: Single candle (storage), fireplace glow (boiler)
-**Materials**: Brick, metal grates, exposed pipes
-
----
-
-### Ground Floor (Floor 0)
-**Theme**: Faded grandeur, public face of the family
-
-| Room | Dimensions | Position | Character |
-|------|------------|----------|-----------|
-| Grand Foyer | 12x14x6 | (0, 0, 0) | Entrance, grand staircase |
-| Parlor | 10x10x4 | (0, 0, 16) | Velvet, portraits, cold fireplace |
-| Dining Room | 8x12x4 | (14, 0, 0) | Long table, dusty china |
-| Kitchen | 8x10x3.5 | (-14, 0, 0) | Cast iron, hearth |
-
-**Connections**:
-- Foyer ↔ Parlor (north)
-- Foyer ↔ Dining Room (east)
-- Foyer ↔ Kitchen (west)
-- Foyer ↔ Upper Hallway (stairs, up)
-- Kitchen ↔ Storage Basement (stairs, down)
-
-**Lighting**: Chandelier (foyer), sconces, candles, fireplaces, windows
-**Materials**: Marble floors, Victorian wallpaper, ornate plaster ceilings
-
----
-
-### Upper Floor (Floor +1)
-**Theme**: Private spaces, family secrets
-
-| Room | Dimensions | Position | Character |
-|------|------------|----------|-----------|
-| Upper Hallway | 4x16x3.5 | (4, 4, 0) | Long corridor, many doors |
-| Master Bedroom | 10x10x4 | (-8, 4, -3) | Four-poster bed, mirror |
-| Library | 8x10x4 | (-8, 4, 10) | Books, globe (hides key) |
-| Guest Room | 8x8x3.5 | (14, 4, 0) | Modest, scratched door |
-
-**Connections**:
-- Hallway ↔ Master Bedroom (west)
-- Hallway ↔ Library (west)
-- Hallway ↔ Guest Room (east)
-- Hallway ↔ Foyer (stairs, down)
-- Hallway ↔ Attic Stairs (door, up) **LOCKED**
-
-**Lighting**: Sconces, candles, window moonlight
-**Materials**: Wood floors with runners, dark wallpaper
-
----
-
-### Attic (Floor +2)
-**Theme**: Hidden truth, Elizabeth's prison
-
-| Room | Dimensions | Position | Character |
-|------|------------|----------|-----------|
-| Attic Stairwell | 4x6x3 | (4, 8, 10) | Creaking stairs, dust |
-| Attic Storage | 14x12x4 | (0, 8, 22) | Trunks, doll, painting |
-| Hidden Chamber | 6x6x3 | (-12, 8, 22) | Drawings on walls |
-
-**Connections**:
-- Stairwell ↔ Upper Hallway (down)
-- Stairwell ↔ Storage (north)
-- Storage ↔ Hidden Chamber (west) **LOCKED**
-
-**Lighting**: Window light, single candles
-**Materials**: Rough wood, exposed rafters, cracked plaster
-
----
-
-## Room Connection Graph
-
-```
-                         Hidden Chamber
-                              │
-                              │ (locked)
-                              ▼
-Wine Cellar ◄──────── Storage ◄────────► Attic Storage
-     │                Basement              │
-     │ (ladder)          │                  │
-     ▼                   │ (stairs)         │
-  Boiler ◄───────────────┤                  │
-   Room                  │                  │
-                         ▼                  ▼
-                      Kitchen ◄────► Foyer ────► Dining
-                                       │          Room
-                                       │
-                                       │ (stairs)
-                                       ▼
-    Guest ◄────────────► Upper ◄────────► Library
-    Room                Hallway              │
-                          │                  │
-                          │ (locked)    Globe (key)
-                          ▼
-                    Attic Stairwell ◄────► Master
-                          │               Bedroom
-                          │                  │
-                    Attic Storage       Diary (key clue)
+foyer -> parlor / dining_room / kitchen / upper_hallway / front_gate
+kitchen -> storage_basement -> boiler_room / wine_cellar / carriage_house
+upper_hallway -> master_bedroom / library / guest_room / attic_stairs
+attic_stairs -> attic_storage -> hidden_chamber
 ```
 
-## Environmental Storytelling Elements
+## Environmental Read
 
-### Ground Floor - The Public Facade
+### Front Approach
+- controlled, theatrical, invitational
+- hedge-lined allée and gate threshold
+- distant mansion silhouette and lit-window pull
 
-**Foyer**
-- Lord Ashworth's portrait: Stern patriarch, hand on occult book
-- Grandfather clock: Stopped at 3:33 AM
-- Mirror: First hint that reflections are "wrong"
+### Side Circulation
+- west side should read practical and servant-coded
+- east side should read ornamental and greenhouse-adjacent
+- both should hug hedge/wall and mansion massing rather than exposing open voids
 
-**Parlor**
-- Lady Ashworth's portrait: Wearing mourning dress before any deaths
-- Torn diary page: "Children hearing whispers from the attic"
-- Music box: Plays melody associated with Elizabeth
+### Rear Grounds
+- less ceremonial, more secluded and expansive
+- includes pond and wooded boundary to increase scale and occlusion
+- supports the deeper puzzle-bearing exterior path
 
-**Dining Room**
-- Table set for dinner never served
-- Photograph of final dinner party (guests died within a week)
-- Chandelier switch (functional)
+### Service Side
+- storage/basement/carriage route expresses hidden labor and concealment
 
-**Kitchen**
-- Cook's note about "rats that whisper names"
-- Stairs to basement (servant access)
-- Cold hearth despite signs of recent use
+### Attic / Hidden Chamber
+- progressively stripped and pressurized
+- final transition from concealed domestic ruin to revelation space
 
----
+## Room Authoring Model
 
-### Upper Floor - Private Truths
+Room environment is primarily defined through declarations:
+- dimensions
+- textures/material presets
+- wall openings
+- props
+- lights
+- audio loop
+- atmosphere triggers
 
-**Hallway**
-- Painting of "three children" but there were four
-- Locked attic door (requires key)
-- Scratches on inside of Guest Room door
+The room docs under `docs/rooms/` are the room-by-room environmental reference.
 
-**Master Bedroom**
-- Lord Ashworth's diary: Confession about locking Elizabeth away
-- Clue: "attic key hidden in library globe"
-- Large mirror (increasingly disturbing reflections)
+## Design Rules
 
-**Library**
-- Globe that opens (contains ATTIC KEY)
-- "Rituals of Binding" - occult book about trapping spirits
-- Family tree with fourth name scratched out: "E_iza_eth"
-
-**Guest Room**
-- Guest ledger with blank departure date
-- Photograph of woman at attic window
-- Note: "She sees you too"
-
----
-
-### Basement - Beneath the Surface
-
-**Storage Room**
-- Old family photograph (youngest face scratched)
-- Mirror covered in dust
-- Access to both wine cellar and boiler room
-
-**Boiler Room**
-- Maintenance log: "Strange sounds from pipes"
-- Staff refused to come here after dark
-- Industrial feel contrasts domestic upper floors
-
----
-
-### Deep Basement - Buried Secrets
-
-**Wine Cellar**
-- Inventory note: "1872 Bordeaux in hidden alcove"
-- Reference to "the key is with the portrait"
-- Feeling of being watched
-
----
-
-### Attic - Elizabeth's Prison
-
-**Attic Stairwell**
-- Transition space building dread
-- Dust shows single set of footprints
-- Cold despite no windows
-
-**Attic Storage**
-- Painting of Elizabeth: Eyes painted over in black
-- Porcelain doll with cracked face
-- "SHE NEVER LEFT" scratched into wood
-- Unsent letter from Elizabeth to her mother
-
-**Hidden Chamber**
-- Children's drawings covering walls (same figure repeated)
-- Elizabeth's final note explaining the truth
-- Mirror showing... what?
-
----
-
-## Atmosphere Progression
-
-| Area | Fear Type | Lighting | Player Feeling |
-|------|-----------|----------|----------------|
-| Ground Floor | Unease | Moderate | Something's not right |
-| Upper Floor | Tension | Dim | Being watched |
-| Basement | Dread | Very dim | Shouldn't be here |
-| Deep Basement | Isolation | Minimal | Can't escape |
-| Attic | Revelation | Variable | Understanding horror |
-
-## Audio Design (Implemented)
-
-Each room has an assigned OGG ambient loop. See ASSETS.md for the full audio loop assignment table. AudioManager crossfades between loops on room transitions.
+- atmosphere must come from visible sources
+- room identity should be legible from composition and dressing before text
+- exterior spaces must reinforce the mansion’s world model, not fragment it
+- the front drive is not a puzzle hub
+- the grounds should eventually wrap around the mansion as a coherent place

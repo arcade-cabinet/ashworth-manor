@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/item_declaration.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_id = "cellar_key"
+name = "Cellar Key"
+description = "A small brass key taped behind the spare portrait in the carriage house."
+category = "key"
+is_ritual_component = false
+is_consumable = false
+functional_slot = "wine_box_key"
+thread_active = PackedStringArray()
+found_in_room = "carriage_house"
+found_at_interactable = "carriage_portrait"
+found_condition = "read_wine_note"
+unlocks_interactable = "wine_box"
+unlocks_in_room = "wine_cellar"

@@ -1,0 +1,641 @@
+class_name RoomAssembler
+extends RefCounted
+## Core engine: reads RoomDeclaration → generates complete Node3D scene tree.
+## Calls builders for geometry, places interactables, connections, lights, props, audio.
+
+var _world: WorldDeclaration
+var _room_base_script := load("res://scripts/room_base.gd")
+const WORLD_LABEL_FONT = preload("res://assets/fonts/Cinzel-SemiBold.ttf")
+const SecretPassageDecl = preload("res://engine/declarations/secret_passage_decl.gd")
+const ConnectionAssembly = preload("res://builders/connection_assembly.gd")
+const InteractableVisuals = preload("res://engine/interactable_visuals.gd")
+const MODEL_SCALE_OVERRIDES := {
+	"res://assets/shared/furniture/bookcase.glb": 0.32,
+	"res://assets/shared/furniture/table.glb": 0.52,
+	"res://assets/shared/furniture/study_desk.glb": 0.48,
+	"res://assets/shared/decor/fireplace.glb": 0.34,
+	"res://assets/shared/structure/stairs0.glb": 0.72,
+	"res://assets/shared/structure/stairs1.glb": 0.72,
+	"res://assets/shared/structure/stairbanister.glb": 0.68,
+	"res://assets/shared/structure/banisterbase.glb": 0.28,
+	"res://assets/shared/structure/window_clean.glb": 0.86,
+	"res://assets/shared/structure/window_ray.glb": 0.38,
+	"res://assets/shared/decor/statue.glb": 0.22,
+	"res://assets/shared/decor/candle_holder.glb": 0.52,
+}
+
+
+func _init(world: WorldDeclaration) -> void:
+	_world = world
+
+
+## Assemble a complete room scene from its declaration.
+## Returns the root Node3D ready to be added to the scene tree.
+func assemble(room_decl: RoomDeclaration) -> Node3D:
+	var root := Node3D.new()
+	root.set_script(_room_base_script)
+	root.name = room_decl.room_id.capitalize().replace("_", "")
+
+	# Populate room_base exports and keep metadata for backward compatibility.
+	root.set("room_id", room_decl.room_id)
+	root.set("room_name", room_decl.room_name)
+	root.set("audio_loop", room_decl.ambient_loop)
+	root.set("is_exterior", room_decl.is_exterior)
+	root.set("spawn_position", room_decl.spawn_position)
+	root.set("spawn_rotation_y", room_decl.spawn_rotation_y)
+	root.set_meta("room_id", room_decl.room_id)
+	root.set_meta("room_name", room_decl.room_name)
+	root.set_meta("audio_loop", room_decl.ambient_loop)
+	root.set_meta("tension_loop", room_decl.tension_loop)
+	root.set_meta("spawn_position", room_decl.spawn_position)
+	root.set_meta("spawn_rotation_y", room_decl.spawn_rotation_y)
+	root.set_meta("environment_preset", room_decl.environment_preset)
+	root.set_meta("is_exterior", room_decl.is_exterior)
+	root.set_meta("footstep_surface", room_decl.footstep_surface)
+	root.set_meta("declaration", room_decl)
+
+	var w := room_decl.dimensions.x
+	var h := room_decl.dimensions.y
+	var d := room_decl.dimensions.z
+
+	# --- Geometry ---
+	var geometry := Node3D.new()
+	geometry.name = "Geometry"
+
+	if not room_decl.is_exterior:
+		# Floor
+		var floor_node := FloorBuilder.build(w, d, room_decl.floor_texture, room_decl.footstep_surface)
+		geometry.add_child(floor_node)
+
+		# Ceiling
+		var ceiling_node := CeilingBuilder.build(w, h, d, room_decl.ceiling_texture)
+		geometry.add_child(ceiling_node)
+
+		# Walls
+		var wall_tex := room_decl.wall_texture
+		if room_decl.wall_north.size() > 0:
+			geometry.add_child(WallBuilder.build(room_decl.wall_north, wall_tex, "north", w, d, h))
+		if room_decl.wall_south.size() > 0:
+			geometry.add_child(WallBuilder.build(room_decl.wall_south, wall_tex, "south", w, d, h))
+		if room_decl.wall_east.size() > 0:
+			geometry.add_child(WallBuilder.build(room_decl.wall_east, wall_tex, "east", w, d, h))
+		if room_decl.wall_west.size() > 0:
+			geometry.add_child(WallBuilder.build(room_decl.wall_west, wall_tex, "west", w, d, h))
+	else:
+		# Exterior: ground plane only, no walls/ceiling
+		var floor_node := FloorBuilder.build(w, d, room_decl.floor_texture, room_decl.footstep_surface)
+		geometry.add_child(floor_node)
+
+	root.add_child(geometry)
+
+	# --- Doors ---
+	var doors := Node3D.new()
+	doors.name = "Doors"
+	_build_doors(room_decl, doors)
+	root.add_child(doors)
+
+	# --- Windows ---
+	var windows := Node3D.new()
+	windows.name = "Windows"
+	_build_windows(room_decl, windows)
+	root.add_child(windows)
+
+	# --- Lighting ---
+	var lighting := Node3D.new()
+	lighting.name = "Lighting"
+	_build_lights(room_decl.lights, lighting)
+	root.add_child(lighting)
+
+	# --- Interactables ---
+	var interactables := Node3D.new()
+	interactables.name = "Interactables"
+	_build_interactables(room_decl.interactables, interactables)
+	root.add_child(interactables)
+
+	# --- Connections (non-door) ---
+	var connections := Node3D.new()
+	connections.name = "Connections"
+	_build_connection_areas(room_decl, connections)
+	root.add_child(connections)
+
+	# --- Props ---
+	var props := Node3D.new()
+	props.name = "Props"
+	_build_props(room_decl.props, props)
+	root.add_child(props)
+
+	# --- Audio ---
+	var audio := Node3D.new()
+	audio.name = "Audio"
+	_build_audio_zone(room_decl, audio)
+	root.add_child(audio)
+
+	return root
+
+
+func _build_doors(room_decl: RoomDeclaration, parent: Node3D) -> void:
+	# Find connections that reference this room as from_room
+	for conn in _world.connections:
+		if conn.from_room != room_decl.room_id:
+			continue
+		if conn.type in ["door", "double_door", "heavy_door", "hidden_door", "gate"]:
+			var door := ConnectionAssembly.build(conn, room_decl.dimensions.y)
+			var door_pos := conn.position_in_from
+			door_pos.y = 0.0
+			door.position = door_pos
+			_apply_secret_passage_metadata(conn, door)
+			parent.add_child(door)
+
+
+func _build_windows(room_decl: RoomDeclaration, parent: Node3D) -> void:
+	# Scan wall layouts for window segments
+	var walls := {
+		"north": room_decl.wall_north,
+		"south": room_decl.wall_south,
+		"east": room_decl.wall_east,
+		"west": room_decl.wall_west,
+	}
+	for direction in walls:
+		var layout: PackedStringArray = walls[direction]
+		var segment_count := layout.size()
+		for i in range(segment_count):
+			if layout[i].begins_with("window"):
+				var local_x := (i * 2.0) - (segment_count * 2.0 * 0.5) + 1.0
+				var window := WindowBuilder.build(layout[i], "")
+				window.position = WallBuilder._get_segment_position(
+					direction, local_x, room_decl.dimensions.x, room_decl.dimensions.z
+				)
+				window.rotation_degrees.y = WallBuilder._get_wall_rotation(direction)
+				parent.add_child(window)
+
+
+func _build_lights(lights: Array[LightDecl], parent: Node3D) -> void:
+	for light_decl in lights:
+		var light: Light3D
+		match light_decl.type:
+			"spot":
+				light = SpotLight3D.new()
+			"directional":
+				light = DirectionalLight3D.new()
+			_:
+				light = OmniLight3D.new()
+				(light as OmniLight3D).omni_range = light_decl.range
+
+		light.name = light_decl.id if not light_decl.id.is_empty() else "Light"
+		light.position = light_decl.position
+		light.rotation_degrees = light_decl.rotation_degrees
+		light.light_color = light_decl.color
+		light.light_energy = light_decl.energy
+		light.shadow_enabled = light_decl.shadows
+
+		# Metadata for flickering system
+		if light_decl.flickering:
+			light.set_meta("flickering", true)
+			light.set_meta("flicker_pattern", light_decl.flicker_pattern)
+			light.set_meta("base_energy", light_decl.energy)
+
+		if light_decl.switchable:
+			light.set_meta("switchable", true)
+			light.set_meta("switch_id", light_decl.switch_id)
+
+		parent.add_child(light)
+
+
+func _build_interactables(decls: Array[InteractableDecl], parent: Node3D) -> void:
+	for decl in decls:
+		var area := Area3D.new()
+		area.name = decl.id
+		area.position = decl.position
+		area.collision_layer = 4  # Layer 3 -- Interactable
+		area.collision_mask = 0
+		area.add_to_group("interactables")
+
+		# Store full declaration and legacy metadata consumed by the current runtime.
+		area.set_meta("id", decl.id)
+		area.set_meta("type", decl.type)
+		area.set_meta("data", _build_legacy_interactable_data(decl))
+		area.set_meta("interactable_id", decl.id)
+		area.set_meta("interactable_type", decl.type)
+		area.set_meta("scene_role", decl.scene_role)
+		area.set_meta("state_tags", decl.state_tags)
+		area.set_meta("declaration", decl)
+
+		var shape := CollisionShape3D.new()
+		var box := BoxShape3D.new()
+		box.size = decl.collision_size
+		shape.shape = box
+		area.add_child(shape)
+
+		_add_interactable_world_label(decl, area)
+		InteractableVisuals.ensure_visual(area)
+
+		parent.add_child(area)
+
+
+func _build_connection_areas(room_decl: RoomDeclaration, parent: Node3D) -> void:
+	# Non-door connections (stairs, trapdoor, ladder, path)
+	for conn in _world.connections:
+		if conn.from_room != room_decl.room_id:
+			continue
+		match conn.type:
+			"stairs":
+				var stairs := ConnectionAssembly.build(conn, _get_vertical_connection_span(room_decl, conn))
+				var stairs_pos := conn.position_in_from
+				stairs_pos.y = 0.0
+				stairs.position = stairs_pos
+				parent.add_child(stairs)
+			"trapdoor":
+				var trapdoor := ConnectionAssembly.build(conn, _get_vertical_connection_span(room_decl, conn))
+				var trapdoor_pos := conn.position_in_from
+				trapdoor_pos.y = 0.0
+				trapdoor.position = trapdoor_pos
+				parent.add_child(trapdoor)
+			"ladder":
+				var ladder := ConnectionAssembly.build(conn, _get_vertical_connection_span(room_decl, conn))
+				var ladder_pos := conn.position_in_from
+				ladder_pos.y = 0.0
+				ladder.position = ladder_pos
+				parent.add_child(ladder)
+			"path":
+				var path_threshold := ConnectionAssembly.build(conn, room_decl.dimensions.y)
+				var path_pos := conn.position_in_from
+				path_pos.y = 0.0
+				path_threshold.position = path_pos
+				_apply_secret_passage_metadata(conn, path_threshold)
+				parent.add_child(path_threshold)
+
+
+func _build_props(props: Array[PropDecl], parent: Node3D) -> void:
+	for prop_decl in props:
+		var procedural_prop := _build_procedural_prop(prop_decl)
+		if procedural_prop != null:
+			parent.add_child(procedural_prop)
+			continue
+		var scene_path := _resolve_prop_scene_path(prop_decl)
+		if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
+			continue
+		var scene: PackedScene = load(scene_path)
+		if not scene:
+			continue
+		var inst := scene.instantiate() as Node3D
+		if inst == null:
+			continue
+		inst.name = prop_decl.id if not prop_decl.id.is_empty() else "Prop"
+		inst.position = prop_decl.position
+		inst.rotation_degrees.y = prop_decl.rotation_y
+		var resolved_scale := prop_decl.scale
+		if scene_path == prop_decl.model:
+			resolved_scale *= _get_model_scale_override(prop_decl.model)
+		var final_scale := prop_decl.scale_3d * resolved_scale
+		if final_scale != Vector3.ONE:
+			inst.scale = final_scale
+		parent.add_child(inst)
+
+
+func _resolve_prop_scene_path(prop_decl: PropDecl) -> String:
+	if not prop_decl.scene_path.is_empty():
+		return prop_decl.scene_path
+	return prop_decl.model
+
+
+func _get_vertical_connection_span(room_decl: RoomDeclaration, conn: Connection) -> float:
+	var source_height := room_decl.dimensions.y if room_decl != null else 2.4
+	var target_height := source_height
+	if _world != null:
+		for room_ref in _world.rooms:
+			if room_ref == null or room_ref.room_id != conn.to_room:
+				continue
+			if room_ref.declaration_path.is_empty() or not ResourceLoader.exists(room_ref.declaration_path):
+				break
+			var target_decl := load(room_ref.declaration_path) as RoomDeclaration
+			if target_decl != null:
+				target_height = target_decl.dimensions.y
+			break
+	var resolved := minf(source_height, target_height)
+	return clampf(resolved, 2.1, 3.2)
+
+
+func _add_interactable_world_label(decl: InteractableDecl, area: Area3D) -> void:
+	var label_text := String(decl.visual_effects.get("world_label", ""))
+	if label_text.is_empty():
+		return
+	if bool(decl.visual_effects.get("world_label_board", false)):
+		area.add_child(_build_world_label_board(decl))
+	var label := Label3D.new()
+	label.name = "WorldLabel"
+	label.text = label_text
+	label.font = WORLD_LABEL_FONT
+	label.font_size = int(decl.visual_effects.get("world_label_font_size", 86))
+	label.pixel_size = float(decl.visual_effects.get("world_label_pixel_size", 0.012))
+	label.billboard = BaseMaterial3D.BILLBOARD_DISABLED
+	label.double_sided = true
+	label.shaded = false
+	label.no_depth_test = true
+	label.modulate = _coerce_color(
+		decl.visual_effects.get("world_label_color", Color(0.86, 0.77, 0.55, 1.0)),
+		Color(0.86, 0.77, 0.55, 1.0)
+	)
+	label.outline_modulate = _coerce_color(
+		decl.visual_effects.get("world_label_outline_color", Color(0.05, 0.03, 0.02, 0.95)),
+		Color(0.05, 0.03, 0.02, 0.95)
+	)
+	label.outline_size = int(decl.visual_effects.get("world_label_outline_size", 10))
+	label.position = _coerce_vector3(decl.visual_effects.get("world_label_offset", Vector3.ZERO), Vector3.ZERO)
+	label.rotation_degrees = Vector3(
+		float(decl.visual_effects.get("world_label_rotation_x", 0.0)),
+		float(decl.visual_effects.get("world_label_rotation_y", 0.0)),
+		float(decl.visual_effects.get("world_label_rotation_z", 0.0))
+	)
+	area.add_child(label)
+
+
+func _build_world_label_board(decl: InteractableDecl) -> Node3D:
+	var root := Node3D.new()
+	root.name = "WorldLabelBoard"
+
+	var board := MeshInstance3D.new()
+	board.name = "Board"
+	var board_mesh := BoxMesh.new()
+	var board_size := _coerce_vector3(
+		decl.visual_effects.get("world_label_board_size", Vector3(2.3, 0.65, 0.08)),
+		Vector3(2.3, 0.65, 0.08)
+	)
+	board_mesh.size = board_size
+	board.mesh = board_mesh
+	board.position = _coerce_vector3(
+		decl.visual_effects.get("world_label_board_offset", Vector3(0, 0, -0.03)),
+		Vector3(0, 0, -0.03)
+	)
+	var board_mat := StandardMaterial3D.new()
+	var board_texture_path := String(decl.visual_effects.get("world_label_board_texture", "res://assets/grounds/front_gate/bench_mx_1_planks_hr_2.png"))
+	if ResourceLoader.exists(board_texture_path):
+		board_mat.albedo_texture = load(board_texture_path)
+	board_mat.albedo_color = _coerce_color(
+		decl.visual_effects.get("world_label_board_color", Color(0.31, 0.20, 0.12, 1.0)),
+		Color(0.31, 0.20, 0.12, 1.0)
+	)
+	board_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	board_mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+	board.set_surface_override_material(0, board_mat)
+	root.add_child(board)
+
+	var hanger_height := float(decl.visual_effects.get("world_label_hanger_height", 0.55))
+	var hanger_offset := float(decl.visual_effects.get("world_label_hanger_offset_x", maxf(0.4, board_size.x * 0.32)))
+	for hanger_x in [-hanger_offset, hanger_offset]:
+		var hanger := MeshInstance3D.new()
+		var hanger_mesh := BoxMesh.new()
+		hanger_mesh.size = Vector3(0.03, hanger_height, 0.03)
+		hanger.mesh = hanger_mesh
+		hanger.position = Vector3(float(hanger_x), board.position.y + hanger_height * 0.5 + board_size.y * 0.5, board.position.z)
+		var hanger_mat := StandardMaterial3D.new()
+		hanger_mat.albedo_color = _coerce_color(
+			decl.visual_effects.get("world_label_hanger_color", Color(0.22, 0.16, 0.11, 1.0)),
+			Color(0.22, 0.16, 0.11, 1.0)
+		)
+		hanger_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		hanger.set_surface_override_material(0, hanger_mat)
+		root.add_child(hanger)
+
+	return root
+
+
+func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
+	if prop_decl.tags.has("procedural_moon"):
+		var moon := MeshInstance3D.new()
+		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"
+		var mesh := SphereMesh.new()
+		mesh.radius = 0.65
+		mesh.height = 1.3
+		moon.mesh = mesh
+		var material := StandardMaterial3D.new()
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		material.albedo_color = Color(0.93, 0.95, 1.0, 1.0)
+		material.emission_enabled = true
+		material.emission = Color(0.67, 0.73, 1.0, 1.0)
+		material.emission_energy_multiplier = 1.35
+		moon.set_surface_override_material(0, material)
+		moon.position = prop_decl.position
+		moon.rotation_degrees.y = prop_decl.rotation_y
+		moon.scale = Vector3.ONE * maxf(0.1, prop_decl.scale)
+		return moon
+	return null
+
+
+func _coerce_vector3(value: Variant, fallback: Vector3) -> Vector3:
+	return value if value is Vector3 else fallback
+
+
+func _coerce_color(value: Variant, fallback: Color) -> Color:
+	return value if value is Color else fallback
+
+
+func _get_model_scale_override(model_path: String) -> float:
+	return float(MODEL_SCALE_OVERRIDES.get(model_path, 1.0))
+
+
+func _build_audio_zone(room_decl: RoomDeclaration, parent: Node3D) -> void:
+	# Reverb zone covering the room
+	var reverb_area := Area3D.new()
+	reverb_area.name = "ReverbZone"
+	reverb_area.collision_layer = 0
+	reverb_area.collision_mask = 0
+	reverb_area.set_meta("reverb_bus", room_decl.reverb_bus)
+
+	var shape := CollisionShape3D.new()
+	var box := BoxShape3D.new()
+	box.size = room_decl.dimensions
+	shape.shape = box
+	shape.position = Vector3(0, room_decl.dimensions.y * 0.5, 0)
+	reverb_area.add_child(shape)
+	parent.add_child(reverb_area)
+
+
+func _apply_secret_passage_metadata(conn: Connection, node: Node) -> void:
+	var passage: SecretPassageDecl = _find_secret_passage(conn.from_room, conn.to_room)
+	if passage == null:
+		return
+
+	var is_revealed := _is_secret_passage_revealed(passage)
+	node.set_meta("secret_passage", passage)
+	node.set_meta("secret_passage_id", passage.passage_id)
+	node.set_meta("secret_passage_role", passage.functional_role)
+	node.set_meta("secret_passage_discovery_mode", passage.discovery_mode)
+	node.set_meta("secret_passage_revealed", is_revealed)
+	var cover := node.get_node_or_null("SecretPanelMask")
+	if cover is Node3D:
+		(cover as Node3D).visible = not is_revealed
+
+	for area in _collect_areas(node):
+		area.set_meta("secret_passage", passage)
+		area.set_meta("secret_passage_id", passage.passage_id)
+		area.set_meta("secret_passage_role", passage.functional_role)
+		area.set_meta("secret_passage_discovery_mode", passage.discovery_mode)
+		area.set_meta("secret_passage_revealed", is_revealed)
+		if passage.presentation != null:
+			area.set_meta("secret_passage_closed_text", passage.presentation.closed_text)
+			area.set_meta("secret_passage_discovered_text", passage.presentation.discovered_text)
+			area.set_meta("secret_passage_opened_text", passage.presentation.opened_text)
+
+
+func _find_secret_passage(from_room: String, to_room: String) -> SecretPassageDecl:
+	for passage in _world.secret_passages:
+		if passage.from_room == from_room and passage.to_room == to_room:
+			return passage
+	return null
+
+
+func _is_secret_passage_revealed(passage: SecretPassageDecl) -> bool:
+	if passage.initially_known:
+		return true
+	if passage.reveal_condition.is_empty():
+		return true
+	return GameManager.has_flag(passage.reveal_condition)
+
+
+func _collect_areas(node: Node) -> Array[Area3D]:
+	var result: Array[Area3D] = []
+	_collect_areas_recursive(node, result)
+	return result
+
+
+func _collect_areas_recursive(node: Node, result: Array[Area3D]) -> void:
+	if node is Area3D:
+		result.append(node as Area3D)
+	for child in node.get_children():
+		_collect_areas_recursive(child, result)
+
+
+func _build_legacy_interactable_data(decl: InteractableDecl) -> Dictionary:
+	var data: Dictionary = {}
+	if decl.type == "doll":
+		var default_response: ResponseDecl = null
+		var reward_response: ResponseDecl = null
+		for candidate in decl.responses:
+			if candidate == null:
+				continue
+			if reward_response == null and not candidate.gives_item.is_empty():
+				reward_response = candidate
+			if default_response == null and candidate.condition.is_empty():
+				default_response = candidate
+		if default_response != null:
+			data["title"] = default_response.title
+			data["content"] = default_response.text
+			data["first_content"] = default_response.text
+			if not default_response.set_state.is_empty():
+				data["on_read_flags"] = PackedStringArray(default_response.set_state.keys())
+				data["on_first_flags"] = PackedStringArray(default_response.set_state.keys())
+		if reward_response != null:
+			data["second_content"] = reward_response.text
+			data["item_found"] = reward_response.gives_item
+			data["pickable_after_key"] = true
+			data["item_id"] = decl.id
+			if not reward_response.condition.is_empty() and not reward_response.condition.contains(" "):
+				data["requires_flag"] = reward_response.condition
+			if not reward_response.set_state.is_empty():
+				data["on_second_flags"] = PackedStringArray(reward_response.set_state.keys())
+		return data
+
+	var response: ResponseDecl = null
+	if not decl.responses.is_empty():
+		response = decl.responses[0]
+	elif decl.fallback_response != null:
+		response = decl.fallback_response
+
+	if response != null:
+		data["title"] = response.title
+		data["content"] = response.text
+		if not response.set_state.is_empty():
+			data["on_read_flags"] = PackedStringArray(response.set_state.keys())
+
+	if decl.locked:
+		data["locked"] = true
+		data["key_id"] = decl.key_id
+
+	if not decl.gives_item.is_empty():
+		data["pickable"] = true
+		data["item_id"] = decl.gives_item
+
+	if not decl.controls_light.is_empty():
+		data["controls_light"] = decl.controls_light
+
+	if not decl.target_room.is_empty():
+		data["target_room"] = decl.target_room
+
+	return data
+
+
+# ===== Phantom Camera Integration (P5-06) =====
+
+## Add inspection PhantomCamera3D for wall-mounted interactables (painting, note, photo).
+## Also adds room reveal camera for first-entry sweep.
+func add_phantom_cameras(root: Node3D, room_decl: RoomDeclaration) -> void:
+	var cameras := Node3D.new()
+	cameras.name = "PhantomCameras"
+
+	# Inspection cameras for wall-mounted interactables
+	for decl in room_decl.interactables:
+		if decl.type in ["painting", "note", "photo", "document"]:
+			var pcam := _create_inspection_camera(decl)
+			if pcam:
+				cameras.add_child(pcam)
+
+	# Room reveal camera (sweeps on first entry)
+	var reveal_cam := _create_room_reveal_camera(room_decl)
+	if reveal_cam:
+		cameras.add_child(reveal_cam)
+
+	root.add_child(cameras)
+
+
+func _create_inspection_camera(decl: InteractableDecl) -> Node3D:
+	# PhantomCamera3D positioned to look at the interactable
+	var pcam := Node3D.new()
+	pcam.name = "InspectCam_%s" % decl.id
+
+	# Position the camera 1.5m in front of the interactable, at eye height
+	var offset := Vector3(0, 0, -1.5)
+	pcam.position = decl.position + offset
+	pcam.set_meta("inspection_target", decl.id)
+	pcam.set_meta("pcam_priority", 0)  # Inactive by default, set to 20 on interact
+	pcam.set_meta("pcam_type", "inspection")
+
+	return pcam
+
+
+func _create_room_reveal_camera(room_decl: RoomDeclaration) -> Node3D:
+	# Room reveal: sweeps from corner to spawn position on first entry
+	var has_reveal := false
+	for trigger in room_decl.on_entry:
+		for action in trigger.actions:
+			if "show_room_name" in action.show_text:
+				has_reveal = true
+				break
+
+	if not has_reveal:
+		return null
+
+	var pcam := Node3D.new()
+	pcam.name = "RoomRevealCam"
+	pcam.position = room_decl.spawn_position + Vector3(0, 3, -2)
+	pcam.set_meta("pcam_type", "room_reveal")
+	pcam.set_meta("pcam_priority", 0)
+	pcam.set_meta("reveal_target", room_decl.spawn_position)
+
+	return pcam
+
+
+# ===== Footstep Surface Tagging (P5-05) =====
+
+## Tag floor collision bodies with footstep_surface metadata.
+## godot-material-footsteps reads this metadata to select audio.
+func tag_floor_surfaces(root: Node3D, room_decl: RoomDeclaration) -> void:
+	var geometry := root.get_node_or_null("Geometry")
+	if not geometry:
+		return
+
+	for child in geometry.get_children():
+		if child is StaticBody3D:
+			# Tag all floor collision bodies
+			child.set_meta("footstep_surface", room_decl.footstep_surface)
+			child.set_meta("footstep_audio_dir",
+				"res://assets/audio/footsteps/%s/" % room_decl.footstep_surface)

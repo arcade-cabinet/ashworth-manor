@@ -1,0 +1,244 @@
+[gd_resource type="Resource" script_class="RoomDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/room_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
+[ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
+[ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
+[ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="8"]
+
+[sub_resource type="Resource" id="anchor_entry_attic_door"]
+script = ExtResource("8")
+anchor_id = "entry_attic_door"
+anchor_type = "entry"
+position = Vector3(0.85, 0, -1.3)
+rotation_y = 154.0
+target_anchor_id = "focus_upper_rise"
+tags = PackedStringArray("default", "threshold")
+
+[sub_resource type="Resource" id="anchor_focus_upper_rise"]
+script = ExtResource("8")
+anchor_id = "focus_upper_rise"
+anchor_type = "focal"
+position = Vector3(0.0, 2.9, 1.85)
+rotation_y = 0.0
+tags = PackedStringArray("attic", "vertical")
+
+[sub_resource type="Resource" id="resp_debris_default"]
+script = ExtResource("3")
+condition = ""
+title = "Debris"
+text = "Gravel, plaster dust, and splintered wood collect in the stair corners. Your steps disturb the first clean surface in decades. Each print feels like a trespass the house has been waiting to register."
+
+[sub_resource type="Resource" id="resp_wall_default"]
+script = ExtResource("3")
+condition = ""
+title = "Cracked Plaster"
+text = "The plaster has split wide enough to show lath beneath. The wood bears long scratches from the far side, four close lines repeated over and over. Not one outburst. Repetition. Persistence."
+
+[sub_resource type="Resource" id="inter_debris"]
+script = ExtResource("2")
+id = "stairwell_debris"
+type = "observation"
+position = Vector3(0, 0.2, 0)
+collision_size = Vector3(1.5, 0.6, 1.5)
+responses = Array[Resource]([SubResource("resp_debris_default")])
+
+[sub_resource type="Resource" id="inter_wall"]
+script = ExtResource("2")
+id = "stairwell_wall"
+type = "observation"
+position = Vector3(-1.5, 1.5, 2)
+wall = "west"
+collision_size = Vector3(1.0, 1.2, 0.5)
+responses = Array[Resource]([SubResource("resp_wall_default")])
+
+[sub_resource type="Resource" id="light_window"]
+script = ExtResource("4")
+id = "attic_window_light"
+type = "omni"
+position = Vector3(1.35, 2.35, 0.95)
+color = Color(0.5, 0.55, 0.75, 1)
+energy = 2.1
+range = 6.0
+shadows = false
+flickering = false
+
+[sub_resource type="Resource" id="light_candle"]
+script = ExtResource("4")
+id = "attic_stair_candle"
+type = "omni"
+position = Vector3(-0.95, 0.8, 1.05)
+color = Color(1.0, 0.82, 0.58, 1)
+energy = 1.45
+range = 4.2
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+[sub_resource type="Resource" id="light_lamp_fill"]
+script = ExtResource("4")
+id = "attic_lamp_fill"
+type = "omni"
+position = Vector3(-1.1, 1.6, -0.6)
+color = Color(0.95, 0.75, 0.5, 1)
+energy = 1.0
+range = 3.3
+shadows = false
+flickering = false
+
+[sub_resource type="Resource" id="prop_gravel"]
+script = ExtResource("5")
+id = "gravel_pile"
+model = "res://assets/attic/stairwell/gravel_pile_hr_1.glb"
+position = Vector3(0.0, 0, 0.2)
+
+[sub_resource type="Resource" id="prop_plank_a"]
+script = ExtResource("5")
+id = "broken_plank_a"
+model = "res://assets/attic/stairwell/wooden_plank_4.glb"
+position = Vector3(-0.7, 0, -0.4)
+rotation_y = 20.0
+
+[sub_resource type="Resource" id="prop_plank_b"]
+script = ExtResource("5")
+id = "broken_plank_b"
+model = "res://assets/attic/stairwell/wooden_plank_5.glb"
+position = Vector3(0.8, 0, 1.1)
+rotation_y = -35.0
+
+[sub_resource type="Resource" id="prop_plank_c"]
+script = ExtResource("5")
+id = "broken_plank_c"
+model = "res://assets/attic/stairwell/wooden_plank_4.glb"
+position = Vector3(1.15, 0.0, -1.1)
+rotation_y = 72.0
+scale = 0.8
+
+[sub_resource type="Resource" id="prop_lamp"]
+script = ExtResource("5")
+id = "dead_lamp"
+model = "res://assets/attic/stairwell/lamp_mx_1_a_off.glb"
+position = Vector3(-1.2, 1.9, -0.8)
+rotation_y = 35.0
+
+[sub_resource type="Resource" id="prop_window"]
+script = ExtResource("5")
+id = "stairwell_window"
+model = "res://assets/shared/structure/window_clean.glb"
+position = Vector3(1.55, 1.9, 0.95)
+rotation_y = 270.0
+scale = 1.05
+
+[sub_resource type="Resource" id="prop_window_ray"]
+script = ExtResource("5")
+id = "stairwell_window_ray"
+model = "res://assets/shared/structure/window_ray.glb"
+position = Vector3(1.2, 1.95, 0.8)
+rotation_y = 270.0
+scale = 1.1
+
+[sub_resource type="Resource" id="prop_banister_base"]
+script = ExtResource("5")
+id = "attic_banister_base"
+model = "res://assets/shared/structure/banisterbase.glb"
+position = Vector3(-0.85, 0.0, 1.55)
+rotation_y = 0.0
+scale = 0.8
+
+[sub_resource type="Resource" id="prop_bucket"]
+script = ExtResource("5")
+id = "leak_bucket"
+model = "res://assets/attic/storage/bucket_mx_1.glb"
+position = Vector3(1.15, 0.0, 1.95)
+rotation_y = -18.0
+scale = 0.75
+
+[sub_resource type="Resource" id="prop_mask"]
+script = ExtResource("5")
+id = "discarded_mask"
+model = "res://assets/attic/storage/mask_mx_3.glb"
+position = Vector3(-1.1, 0.2, 1.55)
+rotation_y = 145.0
+scale = 0.7
+
+[sub_resource type="Resource" id="prop_page"]
+script = ExtResource("5")
+id = "loose_page"
+model = "res://assets/shared/items/page5.glb"
+position = Vector3(0.35, 0.02, -0.9)
+rotation_y = -26.0
+
+[sub_resource type="Resource" id="prop_candle"]
+script = ExtResource("5")
+id = "spent_candle"
+model = "res://assets/shared/items/candle0.glb"
+position = Vector3(-1.05, 0.02, 0.85)
+rotation_y = 18.0
+scale = 0.9
+
+[sub_resource type="Resource" id="act_entered_attic"]
+script = ExtResource("7")
+set_state = {"visited_attic_stairs": true, "entered_attic": true, "elizabeth_aware": true}
+
+[sub_resource type="Resource" id="act_show_name"]
+script = ExtResource("7")
+show_room_name = "Attic"
+
+[sub_resource type="Resource" id="act_creak"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/floorboard_creak.ogg"
+subtitle_text = "A long creak answers from above."
+
+[sub_resource type="Resource" id="act_shake"]
+script = ExtResource("7")
+camera_shake = 0.08
+
+[sub_resource type="Resource" id="act_whisper"]
+script = ExtResource("7")
+show_text = "A whisper slips down the stairwell after the creak, so close it feels spoken beside your ear. Not words. Recognition."
+
+[sub_resource type="Resource" id="trig_first_entry"]
+script = ExtResource("6")
+condition = "NOT entered_attic"
+once = true
+trigger_id = "attic_first_entry"
+actions = Array[Resource]([SubResource("act_entered_attic"), SubResource("act_show_name"), SubResource("act_creak"), SubResource("act_shake"), SubResource("act_whisper")])
+
+[resource]
+script = ExtResource("1")
+room_id = "attic_stairs"
+room_name = "Attic Stairwell"
+floor_name = "attic"
+environment_preset = "attic"
+dimensions = Vector3(4, 4, 6)
+is_exterior = false
+spatial_class = "threshold_room"
+exposure_faces = PackedStringArray("east")
+outlook_zones = {"east": "attic_window_moon_view"}
+window_view_mode = "local_outlook"
+wall_texture = "wall7_texture"
+floor_texture = "floor1_texture"
+ceiling_texture = "ceiling2_texture"
+wall_north = PackedStringArray("wall", "doorway:attic_stairs_to_attic_storage")
+wall_south = PackedStringArray("wall", "wall")
+wall_east = PackedStringArray("wall", "window", "wall")
+wall_west = PackedStringArray("wall", "wall", "wall")
+ambient_loop = "res://assets/audio/loops/Silent Voices Loop1.ogg"
+tension_loop = "res://assets/audio/tension/tension_attic.wav"
+reverb_bus = "SmallRoom"
+footstep_surface = "rough_wood"
+spawn_position = Vector3(1.0, 0, -1.55)
+spawn_rotation_y = 148.0
+entry_anchors = Array[Resource]([SubResource("anchor_entry_attic_door")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_upper_rise")])
+interactables = Array[Resource]([SubResource("inter_debris"), SubResource("inter_wall")])
+lights = Array[Resource]([SubResource("light_window"), SubResource("light_candle"), SubResource("light_lamp_fill")])
+props = Array[Resource]([SubResource("prop_gravel"), SubResource("prop_plank_a"), SubResource("prop_plank_b"), SubResource("prop_plank_c"), SubResource("prop_lamp"), SubResource("prop_bucket"), SubResource("prop_mask"), SubResource("prop_page"), SubResource("prop_candle")])
+on_entry = Array[Resource]([SubResource("trig_first_entry")])
+on_exit = Array[Resource]([])
+ambient_events = Array[Resource]([])
+conditional_events = Array[Resource]([])
+flashbacks = Array[Resource]([])

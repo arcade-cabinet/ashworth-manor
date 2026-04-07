@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/item_declaration.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_id = "attic_key"
+name = "Attic Key"
+description = "A tarnished brass key found in the library globe. It feels heavier than it should."
+category = "key"
+is_ritual_component = false
+is_consumable = false
+functional_slot = "attic_access_key"
+thread_active = PackedStringArray()
+found_in_room = "library"
+found_at_interactable = "library_globe"
+found_condition = "knows_key_location"
+unlocks_interactable = "attic_door"
+unlocks_in_room = "upper_hallway"

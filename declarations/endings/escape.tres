@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="EndingDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/ending_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+ending_id = "escape"
+trigger_condition = "knows_full_truth AND NOT counter_ritual_complete"
+trigger_room = "front_gate"
+text_sequence = PackedStringArray("You walk through the gate. The iron bars close behind you.", "The gas lamp flickers once and goes dark.", "You know the truth now. All of it. And you are leaving.", "Behind you, a whisper: 'You could have helped.'", "You don't look back. You never will.")
+timing = [3.0, 3.0, 3.0, 4.0, 5.0]
+stinger_sfx = "res://assets/audio/sfx/stinger/pl_horror_stinger_09_slam.wav"

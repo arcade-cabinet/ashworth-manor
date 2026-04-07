@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "binding_book"
+object_type = "note"
+title = "Rituals of Binding"
+content = "To trap a spirit, one must first give it form. The doll shall be the vessel, the blood the seal, and the attic the prison eternal..."
+on_read_flags = PackedStringArray("knows_binding_ritual")
+pickable = true
+item_id = "binding_book"

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "bedroom_book"
+object_type = "observation"
+title = "Book"
+content = "Open to a page about 'childhood afflictions of the mind.' Underlined: 'confinement is the only cure.'"
+on_read_flags = PackedStringArray("read_afflictions_book")

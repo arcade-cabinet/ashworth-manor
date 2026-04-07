@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MacroThread" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/macro_thread.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+thread_id = "mourning"
+question = "How do I honor her?"
+elizabeth_nature = "A grieving soul, frozen in unprocessed sorrow"
+house_nature = "A memorial -- preserved grief, unsent letters, stopped time"
+ending_id = "forgiveness"
+diary_page_text = "December 19th, 1891.\n\nI can hear her crying again. Through the ceiling, through the plaster, through the years between us. Victoria found me at the attic door this morning with my hand on the lock. She asked what I was doing. I told her I was listening.\n\nThe house remembers what we did. Every room holds a piece of it. The parlor where we decided. The bedroom where Victoria wept. The kitchen where Cook pretended not to know.\n\nWe are all mourning something we will not name. The house mourns with us. The fires die. The clocks stop. Even the dust settles like grief -- slowly, covering everything, impossible to clean.\n\nI hear her crying. I always will."
+elizabeth_letter_text = "Dear Mama,\n\nI found your mourning dress in the trunk today. The black one you wore in the portrait. You wore it before anyone died. You were mourning me before I was gone.\n\nDid you know? Did you know what Papa was planning when you sat for that painting? Your hands are folded in your lap in the portrait. Were you holding yourself together? Or were you holding something you could not put down?\n\nI am not angry, Mama. I was angry for a long time but anger is exhausting and this room is very quiet and I have had such a long time to think.\n\nI think you were afraid too. I think everyone in this house was afraid and no one knew how to say it.\n\nI forgive you. I want you to know that. Even if you never read this.\n\nYour Elizabeth"
+elizabeth_final_note_text = "If you are reading this, you understand.\n\nNot what they did -- anyone can understand that. Cruelty is simple. What I need you to understand is that they were not cruel. They were terrified. Papa heard whispers he could not explain. Mama saw things move that should not move. Cook felt the kitchen grow cold when I walked past.\n\nThey were a family confronted with something impossible, and they did what frightened people do. They hid it. They locked the door and pretended the crying was the wind.\n\nI have been here so long that anger turned to sadness and sadness turned to understanding and understanding turned to something I think might be peace.\n\nForgive them. Forgive me. Let the grief go. It has lived in these walls long enough.\n\nSome things cannot be fixed. They can only be mourned. And then released."
+ritual_sequence_texts = PackedStringArray("Place Lady Ashworth's confession on the circle. The ink runs like tears. Her guilt made visible at last.", "Place Lord Ashworth's diary beside it. The pages flutter open to December 19th. The day it all went wrong.", "Place Elizabeth's letter between them. Three voices. Three griefs. The circle completes itself. Forgiveness.")

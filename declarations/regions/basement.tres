@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="RegionDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/region_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+region_id = "basement"
+region_type = "service_interior"
+compiled_world_id = "service_basement_world"
+compiled_world_type = "service_world"
+room_ids = PackedStringArray("storage_basement", "boiler_room", "wine_cellar")
+streaming_neighbors = PackedStringArray("ground_floor", "rear_estate")
+notes = "Service circulation, machinery, and cellar routes."

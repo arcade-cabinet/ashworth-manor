@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "foyer_mail"
+object_type = "observation"
+title = "Unopened Letters"
+content = "A stack of letters on the hall table. Addressed to Lord Ashworth. Postmarked November and December 1891. None opened. He stopped reading his mail."
+on_read_flags = PackedStringArray("found_unopened_mail")

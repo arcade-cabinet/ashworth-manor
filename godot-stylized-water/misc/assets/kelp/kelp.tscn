@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dojr6msmt0r82"]
+
+[ext_resource type="ArrayMesh" uid="uid://bsvk2v4f6nneo" path="res://misc/assets/kelp/kelpmodel.tres" id="1_lya0y"]
+
+[node name="Kelp" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.884, 5.416, -1.352)
+mesh = ExtResource("1_lya0y")

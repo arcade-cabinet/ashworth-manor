@@ -1,0 +1,656 @@
+[gd_resource type="Resource" script_class="RoomDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/room_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
+[ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
+[ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
+[ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+[ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
+[ext_resource type="Script" path="res://engine/declarations/conditional_event_decl.gd" id="9"]
+[ext_resource type="Script" path="res://engine/declarations/flashback_decl.gd" id="10"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="11"]
+
+[sub_resource type="Resource" id="anchor_entry_front_door"]
+script = ExtResource("11")
+anchor_id = "entry_front_door"
+anchor_type = "entry"
+position = Vector3(0.55, 0, -2.75)
+rotation_y = 164.0
+target_anchor_id = "focus_hall_axis"
+tags = PackedStringArray("default", "front_door")
+
+[sub_resource type="Resource" id="anchor_focus_hall_axis"]
+script = ExtResource("11")
+anchor_id = "focus_hall_axis"
+anchor_type = "focal"
+position = Vector3(1.75, 1.1, 2.75)
+rotation_y = 0.0
+tags = PackedStringArray("stairs", "parlor_pull")
+
+; === Painting Responses (shared/default) ===
+
+[sub_resource type="Resource" id="resp_painting_truth"]
+script = ExtResource("3")
+condition = "knows_full_truth"
+title = "Lord Ashworth"
+text = "Edmund Ashworth. Father. Industrialist. Jailer. You know what those hollow eyes saw. You know what that book taught him to do. The portrait is the only part of him that remained in this house."
+set_state = {"examined_foyer_painting": true}
+
+[sub_resource type="Resource" id="resp_painting_diary"]
+script = ExtResource("3")
+condition = "read_ashworth_diary"
+title = "Lord Ashworth"
+text = "The patriarch who locked his daughter in the attic. His hand rests on 'Rites of Passage' -- the book that started it all. The hollow eyes make sense now. That is not authority. That is guilt."
+set_state = {"examined_foyer_painting": true}
+
+[sub_resource type="Resource" id="resp_painting_default"]
+script = ExtResource("3")
+condition = ""
+title = "Lord Ashworth"
+text = "The patriarch stares down with hollow eyes. His hand rests on a book titled 'Rites of Passage.' The oil paint has darkened with age, but the eyes remain vivid -- as if they were painted last."
+set_state = {"examined_foyer_painting": true}
+
+; === Painting Thread Variants ===
+; CAPTIVE: Iron authority, control, imprisonment
+[sub_resource type="Resource" id="resp_painting_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Lord Ashworth"
+text = "Iron authority radiates from the portrait. His posture says: I own everything in this house. His hand grips the book like a warden grips a set of keys. The front door behind you is locked. His doing, even now."
+set_state = {"examined_foyer_painting": true}
+
+; MOURNING: Faded grandeur, guilt preserved in oil
+[sub_resource type="Resource" id="resp_painting_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Lord Ashworth"
+text = "The portrait has yellowed with age. Edmund Ashworth looks tired -- not commanding, not proud. Just tired. His hand rests on the book but his fingers are slack. He was already mourning when this was painted. You can see it in the way the light avoids his eyes."
+set_state = {"examined_foyer_painting": true}
+
+; SOVEREIGN: The eyes that follow you are not his
+[sub_resource type="Resource" id="resp_painting_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Lord Ashworth"
+text = "The portrait watches you. Not in the way all portraits seem to watch -- this one TRACKS you. The eyes shift as you move. Edmund Ashworth's painted gaze was still and dead for a century. Something else is looking through them now."
+set_state = {"examined_foyer_painting": true}
+
+; === Mirror Responses (shared/default) ===
+
+[sub_resource type="Resource" id="resp_mirror_chamber"]
+script = ExtResource("3")
+condition = "found_hidden_chamber"
+title = "Mirror"
+text = "In the mirror, behind your reflection -- a girl in white. Small. Pale. Eyes dark as ink. When you blink, she is gone. But the mirror is warm to the touch."
+set_state = {"examined_foyer_mirror": true}
+
+[sub_resource type="Resource" id="resp_mirror_aware"]
+script = ExtResource("3")
+condition = "elizabeth_aware"
+title = "Mirror"
+text = "Your reflection stares back. It moved independently. You are sure of it this time. The delay is fractional -- but real."
+set_state = {"examined_foyer_mirror": true}
+
+[sub_resource type="Resource" id="resp_mirror_default"]
+script = ExtResource("3")
+condition = ""
+title = "Mirror"
+text = "Your reflection stares back from a full-length mirror in an ornate dark wood frame. The silver is tarnished. For a moment, you could swear it moved independently."
+set_state = {"examined_foyer_mirror": true}
+
+; === Mirror Thread Variants ===
+; CAPTIVE: Trapped reflection, the mirror as cage
+[sub_resource type="Resource" id="resp_mirror_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Mirror"
+text = "Your reflection looks back from behind the glass. Behind, not through. As if the mirror were a window into a room just like this one -- same furniture, same dust, same silence -- but locked. Your reflection raises its hand a half-second late. It is not copying you. It is trapped."
+set_state = {"examined_foyer_mirror": true}
+
+; MOURNING: Grief-aged reflection, time's weight visible
+[sub_resource type="Resource" id="resp_mirror_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Mirror"
+text = "The mirror shows you, but older. No -- not older. Sadder. The tarnish on the silver gives everything a sepia cast, as if the reflection belongs to a different century. Moisture beads on the glass. Not condensation. The mirror is weeping."
+set_state = {"examined_foyer_mirror": true}
+
+; SOVEREIGN: The mirror moves BEFORE you, she is watching
+[sub_resource type="Resource" id="resp_mirror_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Mirror"
+text = "Your reflection turns its head before you do. Not after -- BEFORE. It looked toward the stairs a full second before you thought to glance that way. The mirror is not reflecting you. It is showing you where to look. Someone is directing your attention through the glass."
+set_state = {"examined_foyer_mirror": true}
+
+; === Clock Responses (same all threads) ===
+
+[sub_resource type="Resource" id="resp_clock_allseen"]
+script = ExtResource("3")
+condition = "examined_boiler_clock"
+title = "Grandfather Clock"
+text = "3:33. Every clock in this house shows the same time. Whatever happened, happened everywhere at once."
+set_state = {"examined_foyer_clock": true}
+
+[sub_resource type="Resource" id="resp_clock_default"]
+script = ExtResource("3")
+condition = ""
+title = "Grandfather Clock"
+text = "The hands point to 3:33. The pendulum hangs motionless. No ticking breaks the silence. The moon phase dial shows a full moon. December 24th, 1891."
+set_state = {"examined_foyer_clock": true}
+
+; === Mail Responses (same all threads) ===
+
+[sub_resource type="Resource" id="resp_mail_diary"]
+script = ExtResource("3")
+condition = "read_ashworth_diary"
+title = "Unopened Letters"
+text = "The letters are from solicitors, creditors, a physician. He ignored them all. The last letter is from a doctor at Bethlem Hospital: 'Regarding your daughter's condition...' Still sealed."
+set_state = {"found_unopened_mail": true}
+
+[sub_resource type="Resource" id="resp_mail_default"]
+script = ExtResource("3")
+condition = ""
+title = "Unopened Letters"
+text = "A stack of letters on the hall table. Addressed to Lord Ashworth. Postmarked November and December 1891. None opened. He stopped reading his mail."
+set_state = {"found_unopened_mail": true}
+
+; === Stairs Responses (same all threads) ===
+
+[sub_resource type="Resource" id="resp_stairs_attic"]
+script = ExtResource("3")
+condition = "entered_attic"
+title = "Grand Staircase"
+text = "The stairs feel different now. You know what is above the upper floor. What is above the ceiling. Who has been there this whole time."
+
+[sub_resource type="Resource" id="resp_stairs_default"]
+script = ExtResource("3")
+condition = ""
+title = "Grand Staircase"
+text = "The staircase sweeps upward into shadow. Carved banisters wound with wooden vines. A carpet runner, faded crimson, muffles imagined footsteps. The upper floor is dark."
+
+[sub_resource type="Resource" id="resp_switch_default"]
+script = ExtResource("3")
+condition = ""
+title = "Gas Wall Plate"
+text = "The wall plate has gone cold in its housing. However well this house was once supplied, no gas answers the hall now."
+
+; === Interactables ===
+
+[sub_resource type="Resource" id="inter_painting"]
+script = ExtResource("2")
+id = "foyer_painting"
+type = "painting"
+position = Vector3(0, 2.5, -4.5)
+wall = "south"
+collision_size = Vector3(1.5, 1.5, 1.5)
+model = "res://assets/shared/decor/picture_blank.glb"
+responses = Array[Resource]([SubResource("resp_painting_truth"), SubResource("resp_painting_diary"), SubResource("resp_painting_default")])
+thread_responses = {"captive": [SubResource("resp_painting_captive")], "mourning": [SubResource("resp_painting_mourning")], "sovereign": [SubResource("resp_painting_sovereign")]}
+
+[sub_resource type="Resource" id="inter_mirror"]
+script = ExtResource("2")
+id = "foyer_mirror"
+type = "mirror"
+position = Vector3(-5, 2, 3)
+wall = "west"
+collision_size = Vector3(1.5, 1.5, 1.5)
+visual_effects = {"mirror_delay": 0.0}
+responses = Array[Resource]([SubResource("resp_mirror_chamber"), SubResource("resp_mirror_aware"), SubResource("resp_mirror_default")])
+thread_responses = {"captive": [SubResource("resp_mirror_captive")], "mourning": [SubResource("resp_mirror_mourning")], "sovereign": [SubResource("resp_mirror_sovereign")]}
+
+[sub_resource type="Resource" id="inter_clock"]
+script = ExtResource("2")
+id = "foyer_clock"
+type = "clock"
+position = Vector3(5, 1, -4)
+wall = "east"
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_clock_allseen"), SubResource("resp_clock_default")])
+
+[sub_resource type="Resource" id="inter_switch"]
+script = ExtResource("2")
+id = "entry_switch"
+type = "observation"
+position = Vector3(5.5, 1.3, -5)
+wall = "east"
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_switch_default")])
+
+[sub_resource type="Resource" id="inter_mail"]
+script = ExtResource("2")
+id = "foyer_mail"
+type = "observation"
+position = Vector3(-5, 0.9, -4)
+collision_size = Vector3(1.0, 0.5, 0.5)
+responses = Array[Resource]([SubResource("resp_mail_diary"), SubResource("resp_mail_default")])
+
+[sub_resource type="Resource" id="inter_stairs"]
+script = ExtResource("2")
+id = "foyer_stairs"
+type = "observation"
+position = Vector3(1.95, 1.0, 1.55)
+collision_size = Vector3(2.0, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_stairs_attic"), SubResource("resp_stairs_default")])
+
+; === Lights ===
+
+[sub_resource type="Resource" id="light_chandelier"]
+script = ExtResource("4")
+id = "foyer_chandelier"
+type = "omni"
+position = Vector3(0, 4.4, -0.05)
+color = Color(1.0, 0.9, 0.7, 1)
+energy = 0.0
+range = 9.2
+shadows = true
+flickering = false
+
+[sub_resource type="Resource" id="light_sconce_w"]
+script = ExtResource("4")
+id = "foyer_sconce_west"
+type = "omni"
+position = Vector3(-5, 3, -3)
+color = Color(1.0, 0.7, 0.4, 1)
+energy = 0.0
+range = 5.0
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+[sub_resource type="Resource" id="light_sconce_e"]
+script = ExtResource("4")
+id = "foyer_sconce_east"
+type = "omni"
+position = Vector3(5, 3, -3)
+color = Color(1.0, 0.7, 0.4, 1)
+energy = 0.0
+range = 5.0
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+[sub_resource type="Resource" id="light_window"]
+script = ExtResource("4")
+id = "foyer_moonlight"
+type = "omni"
+position = Vector3(-0.6, 3.7, -4.8)
+color = Color(0.6, 0.7, 0.9, 1)
+energy = 0.75
+range = 7.2
+shadows = false
+flickering = false
+
+[sub_resource type="Resource" id="light_north_sconce_left"]
+script = ExtResource("4")
+id = "foyer_north_sconce_left"
+type = "omni"
+position = Vector3(-1.85, 2.85, 4.25)
+color = Color(1.0, 0.76, 0.46, 1)
+energy = 0.0
+range = 4.0
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+[sub_resource type="Resource" id="light_north_sconce_right"]
+script = ExtResource("4")
+id = "foyer_north_sconce_right"
+type = "omni"
+position = Vector3(1.85, 2.85, 4.25)
+color = Color(1.0, 0.76, 0.46, 1)
+energy = 0.0
+range = 4.0
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+; === Props ===
+
+[sub_resource type="Resource" id="prop_chandelier"]
+script = ExtResource("5")
+id = "chandelier_model"
+model = "res://assets/shared/decor/chandelier.glb"
+position = Vector3(0, 3.98, 0.0)
+scale = 0.42
+
+[sub_resource type="Resource" id="prop_rug"]
+script = ExtResource("5")
+id = "rug"
+model = "res://assets/shared/decor/rug0.glb"
+position = Vector3(0, 0.01, 0)
+
+[sub_resource type="Resource" id="prop_runner_entry"]
+script = ExtResource("5")
+id = "runner_entry"
+model = "res://assets/shared/decor/rug2.glb"
+position = Vector3(0, 0.02, -2.1)
+scale = 1.05
+
+[sub_resource type="Resource" id="prop_runner_north"]
+script = ExtResource("5")
+id = "runner_north"
+model = "res://assets/shared/decor/rug1.glb"
+position = Vector3(0, 0.02, 2.1)
+scale = 1.15
+
+[sub_resource type="Resource" id="prop_drawers"]
+script = ExtResource("5")
+id = "drawers"
+model = "res://assets/shared/furniture/drawers.glb"
+position = Vector3(-5, 0, -4)
+
+[sub_resource type="Resource" id="prop_drawers_east"]
+script = ExtResource("5")
+id = "drawers_east"
+model = "res://assets/shared/furniture/drawers.glb"
+position = Vector3(4.95, 0, -1.45)
+rotation_y = 180.0
+
+[sub_resource type="Resource" id="prop_coat_stand"]
+script = ExtResource("5")
+id = "coat_stand"
+model = "res://assets/ground_floor/foyer/stand_mx_1.glb"
+position = Vector3(4.7, 0, 0.65)
+
+[sub_resource type="Resource" id="prop_package"]
+script = ExtResource("5")
+id = "package"
+model = "res://assets/ground_floor/foyer/package_hr_1.glb"
+position = Vector3(4.1, 0, -3.6)
+
+[sub_resource type="Resource" id="prop_wall_map"]
+script = ExtResource("5")
+id = "wall_map"
+model = "res://assets/ground_floor/foyer/map_mx_1.glb"
+position = Vector3(-5, 1.5, 4)
+
+[sub_resource type="Resource" id="prop_wall_picture_east"]
+script = ExtResource("5")
+id = "wall_picture_east"
+model = "res://assets/shared/decor/picture_blank_001.glb"
+position = Vector3(5, 1.75, -1.1)
+rotation_y = 180.0
+scale = 0.9
+
+[sub_resource type="Resource" id="prop_table_lamp"]
+script = ExtResource("5")
+id = "table_lamp"
+model = "res://assets/attic/stairwell/lamp_mx_1_a_off.glb"
+position = Vector3(-5, 0.8, -3)
+
+[sub_resource type="Resource" id="prop_table_lamp_east"]
+script = ExtResource("5")
+id = "table_lamp_east"
+model = "res://assets/attic/stairwell/lamp_mx_1_a_off.glb"
+position = Vector3(4.95, 0.8, -1.4)
+
+[sub_resource type="Resource" id="prop_pillar_l"]
+script = ExtResource("5")
+id = "pillar_left"
+model = "res://assets/shared/structure/pillar1.glb"
+position = Vector3(-3, 0, -4)
+
+[sub_resource type="Resource" id="prop_pillar_r"]
+script = ExtResource("5")
+id = "pillar_right"
+model = "res://assets/shared/structure/pillar1.glb"
+position = Vector3(3, 0, -4)
+
+[sub_resource type="Resource" id="prop_stairs"]
+script = ExtResource("5")
+id = "staircase"
+model = "res://assets/shared/structure/stairs0.glb"
+position = Vector3(3.15, 0, 2.55)
+rotation_y = 90.0
+scale = 0.9
+
+[sub_resource type="Resource" id="prop_banister"]
+script = ExtResource("5")
+id = "stair_banister"
+model = "res://assets/shared/structure/stairbanister.glb"
+position = Vector3(2.55, 0, 2.35)
+rotation_y = 90.0
+scale = 0.42
+
+[sub_resource type="Resource" id="prop_banister_base"]
+script = ExtResource("5")
+id = "stair_banister_base"
+model = "res://assets/shared/structure/banisterbase.glb"
+position = Vector3(0.8, 0, 0.45)
+rotation_y = 270.0
+scale = 1.2
+
+[sub_resource type="Resource" id="prop_candle_w"]
+script = ExtResource("5")
+id = "candle_holder_west"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(-5, 2.5, -3)
+
+[sub_resource type="Resource" id="prop_candle_e"]
+script = ExtResource("5")
+id = "candle_holder_east"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(5, 2.5, -3)
+
+[sub_resource type="Resource" id="prop_north_door_frame"]
+script = ExtResource("5")
+id = "north_door_frame"
+model = "res://assets/mansion_psx/models/SM_Door_Frame.glb"
+position = Vector3(0, 0, 4.95)
+rotation_y = 180.0
+scale = 0.82
+
+[sub_resource type="Resource" id="prop_north_wall_column_left"]
+script = ExtResource("5")
+id = "north_wall_column_left"
+model = "res://assets/mansion_psx/models/SM_Wall_Column.glb"
+position = Vector3(-1.5, 0, 4.88)
+rotation_y = 180.0
+scale = 0.8
+
+[sub_resource type="Resource" id="prop_north_wall_column_right"]
+script = ExtResource("5")
+id = "north_wall_column_right"
+model = "res://assets/mansion_psx/models/SM_Wall_Column.glb"
+position = Vector3(1.5, 0, 4.88)
+rotation_y = 180.0
+scale = 0.8
+
+[sub_resource type="Resource" id="prop_upper_frieze_left"]
+script = ExtResource("5")
+id = "upper_frieze_left"
+model = "res://assets/mansion_psx/models/SM_Big_Wall_Molding.glb"
+position = Vector3(-3.25, 2.58, 4.92)
+rotation_y = 180.0
+scale = 0.82
+
+[sub_resource type="Resource" id="prop_upper_frieze_right"]
+script = ExtResource("5")
+id = "upper_frieze_right"
+model = "res://assets/mansion_psx/models/SM_Big_Wall_Molding.glb"
+position = Vector3(3.25, 2.58, 4.92)
+rotation_y = 180.0
+scale = 0.82
+
+[sub_resource type="Resource" id="prop_east_door_frame"]
+script = ExtResource("5")
+id = "east_door_frame"
+model = "res://assets/mansion_psx/models/SM_Door_Frame.glb"
+position = Vector3(5.88, 0, 0.25)
+rotation_y = 270.0
+scale = 0.82
+
+[sub_resource type="Resource" id="prop_west_door_frame"]
+script = ExtResource("5")
+id = "west_door_frame"
+model = "res://assets/mansion_psx/models/SM_Door_Frame.glb"
+position = Vector3(-5.88, 0, 0.25)
+rotation_y = 90.0
+scale = 0.82
+
+[sub_resource type="Resource" id="prop_upper_portrait"]
+script = ExtResource("5")
+id = "upper_portrait"
+model = "res://assets/shared/decor/picture_blank.glb"
+position = Vector3(0, 3.25, 4.82)
+rotation_y = 180.0
+scale = 1.4
+
+[sub_resource type="Resource" id="prop_north_candle_left"]
+script = ExtResource("5")
+id = "north_candle_left"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(-1.85, 2.45, 4.72)
+
+[sub_resource type="Resource" id="prop_north_candle_right"]
+script = ExtResource("5")
+id = "north_candle_right"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(1.85, 2.45, 4.72)
+
+[sub_resource type="Resource" id="prop_window_ray"]
+script = ExtResource("5")
+id = "window_ray"
+model = "res://assets/shared/structure/window_ray.glb"
+position = Vector3(0, 3, -5)
+scale = 1.2
+
+[sub_resource type="Resource" id="light_table_west"]
+script = ExtResource("4")
+id = "foyer_table_lamp_west"
+type = "omni"
+position = Vector3(-5, 1.5, -3)
+color = Color(1.0, 0.8, 0.55, 1)
+energy = 0.0
+range = 3.2
+shadows = false
+flickering = false
+
+[sub_resource type="Resource" id="light_table_east"]
+script = ExtResource("4")
+id = "foyer_table_lamp_east"
+type = "omni"
+position = Vector3(5, 1.5, -3)
+color = Color(1.0, 0.78, 0.52, 1)
+energy = 0.0
+range = 3.0
+shadows = false
+flickering = false
+
+; === Entry Trigger ===
+
+[sub_resource type="Resource" id="act_visited_foyer"]
+script = ExtResource("7")
+set_state = {"foyer_threshold_crossed": true, "visited_foyer": true}
+
+[sub_resource type="Resource" id="act_visited_foyer_sovereign"]
+script = ExtResource("7")
+set_state = {"foyer_chandelier_awakened": true, "foyer_threshold_crossed": true, "visited_foyer": true}
+
+[sub_resource type="Resource" id="act_show_foyer"]
+script = ExtResource("7")
+show_room_name = "Grand Foyer"
+
+[sub_resource type="Resource" id="act_threshold_text"]
+script = ExtResource("7")
+show_text = "The front door shuts against the weather. Beyond a thin wash of moonlight, the hall offers only extinguished brass and the black curve of the stair. Whatever warmth once lived here will have to be made by hand."
+
+[sub_resource type="Resource" id="act_threshold_text_sovereign"]
+script = ExtResource("7")
+show_text = "The front door shuts behind you. Before your eyes can settle, the chandelier answers overhead with a thin gold bloom, as if the hall has chosen to acknowledge you before any living host could."
+
+[sub_resource type="Resource" id="act_settling_sfx"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/distant_settling.ogg"
+
+[sub_resource type="Resource" id="act_threshold_light"]
+script = ExtResource("7")
+light_change = {"foyer_chandelier": {"energy": 1.85, "duration": 0.18}}
+
+[sub_resource type="Resource" id="act_threshold_sway"]
+script = ExtResource("7")
+camera_shake = 0.025
+
+[sub_resource type="Resource" id="trig_first_entry"]
+script = ExtResource("6")
+condition = "NOT visited_foyer AND macro_thread != sovereign"
+once = true
+trigger_id = "foyer_first_entry"
+actions = Array[Resource]([SubResource("act_visited_foyer"), SubResource("act_show_foyer"), SubResource("act_settling_sfx"), SubResource("act_threshold_sway"), SubResource("act_threshold_text")])
+
+[sub_resource type="Resource" id="trig_first_entry_sovereign"]
+script = ExtResource("6")
+condition = "NOT visited_foyer AND macro_thread == sovereign"
+once = true
+trigger_id = "foyer_first_entry_sovereign"
+actions = Array[Resource]([SubResource("act_visited_foyer_sovereign"), SubResource("act_show_foyer"), SubResource("act_settling_sfx"), SubResource("act_threshold_light"), SubResource("act_threshold_sway"), SubResource("act_threshold_text_sovereign")])
+
+; === Ambient Events ===
+
+[sub_resource type="Resource" id="act_crystal_tinkle"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/crystal_tinkle.ogg"
+
+[sub_resource type="Resource" id="ambient_chandelier"]
+script = ExtResource("8")
+event_id = "chandelier_tinkle"
+interval_min = 30.0
+interval_max = 60.0
+condition = "foyer_chandelier_awakened"
+actions = Array[Resource]([SubResource("act_crystal_tinkle")])
+
+; === Flashback: Post-Truth ===
+
+[sub_resource type="Resource" id="flashback_elizabeth"]
+script = ExtResource("10")
+flashback_id = "foyer_family_flashback"
+condition = "knows_full_truth"
+once = true
+model = "res://assets/horror/models/bloodwraith.glb"
+model_position = Vector3(0, 0, 0)
+model_scale = 0.6
+duration = 4.0
+fade_amount = 0.8
+stinger_sfx = "res://assets/audio/sfx/stinger/pl_horror_stinger_05_slow.wav"
+camera_shake = 0.1
+
+; === Main Resource ===
+
+[resource]
+script = ExtResource("1")
+room_id = "foyer"
+room_name = "Grand Foyer"
+floor_name = "ground_floor"
+environment_preset = "ground_floor"
+dimensions = Vector3(12, 4.7, 10)
+is_exterior = false
+spatial_class = "threshold_room"
+exposure_faces = PackedStringArray("south")
+outlook_zones = {"south": "front_drive_and_night_glow"}
+window_view_mode = "local_outlook"
+wall_texture = "wall0_texture"
+floor_texture = "floor0_texture"
+ceiling_texture = "ceiling0_texture"
+wall_north = PackedStringArray("wall", "wall", "doorway:foyer_to_parlor", "wall", "wall", "wall")
+wall_south = PackedStringArray("wall", "wall", "doorway:foyer_to_front_steps", "wall", "wall", "wall")
+wall_east = PackedStringArray("wall", "wall", "doorway:foyer_to_dining_room", "wall", "wall")
+wall_west = PackedStringArray("wall", "wall", "doorway:foyer_to_kitchen", "wall", "wall")
+ambient_loop = "res://assets/audio/loops/Moonlight Loop1.ogg"
+tension_loop = "res://assets/audio/tension/tension_ground.wav"
+reverb_bus = "Hall"
+footstep_surface = "marble"
+spawn_position = Vector3(-0.3, 0, -3.7)
+spawn_rotation_y = 8.0
+entry_anchors = Array[Resource]([SubResource("anchor_entry_front_door")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_hall_axis")])
+interactables = Array[Resource]([SubResource("inter_painting"), SubResource("inter_mirror"), SubResource("inter_clock"), SubResource("inter_switch"), SubResource("inter_mail"), SubResource("inter_stairs")])
+lights = Array[Resource]([SubResource("light_chandelier"), SubResource("light_sconce_w"), SubResource("light_sconce_e"), SubResource("light_window"), SubResource("light_north_sconce_left"), SubResource("light_north_sconce_right"), SubResource("light_table_west"), SubResource("light_table_east")])
+props = Array[Resource]([SubResource("prop_chandelier"), SubResource("prop_rug"), SubResource("prop_runner_entry"), SubResource("prop_runner_north"), SubResource("prop_drawers"), SubResource("prop_drawers_east"), SubResource("prop_coat_stand"), SubResource("prop_package"), SubResource("prop_wall_map"), SubResource("prop_wall_picture_east"), SubResource("prop_table_lamp"), SubResource("prop_table_lamp_east"), SubResource("prop_pillar_l"), SubResource("prop_pillar_r"), SubResource("prop_candle_w"), SubResource("prop_candle_e"), SubResource("prop_north_door_frame"), SubResource("prop_north_wall_column_left"), SubResource("prop_north_wall_column_right"), SubResource("prop_upper_frieze_left"), SubResource("prop_upper_frieze_right"), SubResource("prop_east_door_frame"), SubResource("prop_west_door_frame"), SubResource("prop_upper_portrait"), SubResource("prop_north_candle_left"), SubResource("prop_north_candle_right")])
+on_entry = Array[Resource]([SubResource("trig_first_entry"), SubResource("trig_first_entry_sovereign")])
+on_exit = Array[Resource]([])
+ambient_events = Array[Resource]([SubResource("ambient_chandelier")])
+conditional_events = Array[Resource]([])
+flashbacks = Array[Resource]([SubResource("flashback_elizabeth")])

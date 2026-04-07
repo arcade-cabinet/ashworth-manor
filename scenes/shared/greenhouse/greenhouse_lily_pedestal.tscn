@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_base"]
+albedo_color = Color(0.22, 0.18, 0.14, 1)
+roughness = 0.86
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_foot"]
+top_radius = 0.26
+bottom_radius = 0.3
+height = 0.08
+radial_segments = 16
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_column"]
+top_radius = 0.07
+bottom_radius = 0.09
+height = 0.56
+radial_segments = 14
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_top"]
+top_radius = 0.24
+bottom_radius = 0.24
+height = 0.05
+radial_segments = 16
+
+[node name="GreenhouseLilyPedestal" type="Node3D"]
+
+[node name="Foot" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.04, 0)
+material_override = SubResource("StandardMaterial3D_base")
+mesh = SubResource("CylinderMesh_foot")
+
+[node name="Column" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.34, 0)
+material_override = SubResource("StandardMaterial3D_base")
+mesh = SubResource("CylinderMesh_column")
+
+[node name="Top" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.625, 0)
+material_override = SubResource("StandardMaterial3D_base")
+mesh = SubResource("CylinderMesh_top")

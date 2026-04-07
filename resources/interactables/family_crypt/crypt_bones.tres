@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "crypt_bones"
+object_type = "observation"
+title = "Scattered Bones"
+content = "Not in the graves. Outside them. Disturbed. Whatever moved these bones had a key."
+on_read_flags = PackedStringArray()

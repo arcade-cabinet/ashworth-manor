@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="PuzzleDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/puzzle_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/puzzle_step_decl.gd" id="2"]
+
+[sub_resource type="Resource" id="step_find_key"]
+script = ExtResource("2")
+step_id = "find_jewelry_key"
+description = "Find the jewelry key under a flagstone in the family crypt"
+action = "interact"
+target_interactable = "crypt_flagstone"
+target_room = "family_crypt"
+result_items = PackedStringArray("jewelry_key")
+
+[sub_resource type="Resource" id="step_unlock"]
+script = ExtResource("2")
+step_id = "open_jewelry_box"
+description = "Use the jewelry key to open the jewelry box in the master bedroom"
+action = "use_item"
+target_interactable = "jewelry_box"
+target_room = "master_bedroom"
+required_items = PackedStringArray("jewelry_key")
+result_items = PackedStringArray("elizabeth_locket")
+
+[resource]
+script = ExtResource("1")
+puzzle_id = "jewelry_key_puzzle"
+name = "Find Elizabeth's Locket"
+description = "Lady Ashworth kept Elizabeth's locket in her jewelry box. The key is in the family crypt."
+steps = Array[Resource]([SubResource("step_find_key"), SubResource("step_unlock")])
+sequential = true
+requires_puzzles = PackedStringArray("gate_key_puzzle")
+completion_state = "HAS elizabeth_locket"
+reward_states = {}
+reward_items = PackedStringArray("elizabeth_locket")
+clue_chain = Array[Resource]([])
+variation_points = Array[Resource]([])

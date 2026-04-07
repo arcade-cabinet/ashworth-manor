@@ -1,0 +1,289 @@
+[gd_resource type="Resource" script_class="RoomDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/room_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
+[ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
+[ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
+[ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+
+; === Wine Box Responses (Diamond #3 A-path) ===
+
+[sub_resource type="Resource" id="resp_box_key"]
+script = ExtResource("3")
+condition = "HAS cellar_key"
+title = "Wine Box"
+text = "The key turns in the small brass lock. Inside the wine box, wrapped in velvet: Lady Ashworth's confession. A letter in her hand, sealed with wax. She hid the truth with the wine because wine keeps secrets."
+set_state = {"opened_wine_box": true}
+gives_item = "mothers_confession"
+play_sfx = "res://assets/audio/sfx/inventory/chest_open.ogg"
+
+[sub_resource type="Resource" id="resp_box_default"]
+script = ExtResource("3")
+condition = ""
+title = "Wine Box"
+text = "A wooden wine box on the lowest shelf. Unlike the bottles, it has a brass lock. Someone put something valuable inside and wanted it to stay hidden among the vintages. The lock is small but sturdy."
+
+; Wine box thread variants (what the confession says)
+[sub_resource type="Resource" id="resp_box_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Wine Box"
+text = "A locked wine box on the lowest shelf. The brass lock is cold. Someone scratched initials into the wood: V.A. Victoria Ashworth. She hid something here -- far from her husband, far from the attic, in the deepest part of the house. Whatever is inside, she did not want Edmund to find it."
+
+[sub_resource type="Resource" id="resp_box_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Wine Box"
+text = "A locked wine box on the lowest shelf. The wood is stained with something that is not wine -- watermarks, round, the size of teardrops. Victoria came here to cry where no one could hear her. She hid something in the box and wept over it. The truth she could not speak aloud, preserved in wood and brass."
+
+[sub_resource type="Resource" id="resp_box_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Wine Box"
+text = "A locked wine box on the lowest shelf. The box is the only thing in the cellar without dust. Everything else is coated -- bottles, shelves, walls. Not the box. Something keeps it clean. Elizabeth knows it is here. She has been maintaining it. Preserving the truth Victoria hid, waiting for someone to find the key."
+
+; === Wine Note ===
+
+[sub_resource type="Resource" id="resp_note_default"]
+script = ExtResource("3")
+condition = ""
+title = "Wine Note"
+text = "A note tucked between bottles: 'The 1889 is for the Christmas dinner. The box on the bottom shelf is NOT wine -- do not open. V.A.' Victoria left instructions. She wanted someone to find this. Eventually."
+set_state = {"read_wine_note": true}
+
+[sub_resource type="Resource" id="resp_racks_default"]
+script = ExtResource("3")
+condition = ""
+title = "Wine Racks"
+text = "Rows of bottles sleeping in dust. Most have not been touched in decades, but several slots sit empty and clean. Whatever was taken from these racks was removed long after the house died."
+
+[sub_resource type="Resource" id="resp_footprints_default"]
+script = ExtResource("3")
+condition = ""
+title = "Footprints"
+text = "Dusty prints lead in from the basement stairs and stop at the stone wall. No return prints. No second trail. Whoever came this way did not leave by any route you can see."
+
+; === Interactables ===
+
+[sub_resource type="Resource" id="inter_box"]
+script = ExtResource("2")
+id = "wine_box"
+type = "box"
+position = Vector3(-3.5, 0.3, 0)
+collision_size = Vector3(1.5, 1.0, 1.0)
+locked = true
+key_id = "cellar_key"
+locked_response_no_key = "The wine box is locked with a small brass lock. You need a key."
+locked_response_wrong_key = "This key does not fit the wine box lock."
+responses = Array[Resource]([SubResource("resp_box_key"), SubResource("resp_box_default")])
+thread_responses = {"captive": [SubResource("resp_box_key"), SubResource("resp_box_captive")], "mourning": [SubResource("resp_box_key"), SubResource("resp_box_mourning")], "sovereign": [SubResource("resp_box_key"), SubResource("resp_box_sovereign")]}
+
+[sub_resource type="Resource" id="inter_note"]
+script = ExtResource("2")
+id = "wine_note"
+type = "note"
+position = Vector3(-3.5, 1.2, 2)
+collision_size = Vector3(1.0, 0.5, 0.5)
+responses = Array[Resource]([SubResource("resp_note_default")])
+
+[sub_resource type="Resource" id="inter_racks"]
+script = ExtResource("2")
+id = "wine_racks"
+type = "observation"
+position = Vector3(-3.3, 1.0, 0.0)
+collision_size = Vector3(1.5, 2.0, 2.0)
+responses = Array[Resource]([SubResource("resp_racks_default")])
+
+[sub_resource type="Resource" id="inter_footprints"]
+script = ExtResource("2")
+id = "wine_footprints"
+type = "observation"
+position = Vector3(0.0, 0.1, 3.0)
+collision_size = Vector3(2.0, 0.5, 1.5)
+responses = Array[Resource]([SubResource("resp_footprints_default")])
+
+; === Lights ===
+
+[sub_resource type="Resource" id="light_candle"]
+script = ExtResource("4")
+id = "cellar_candle"
+type = "omni"
+position = Vector3(0, 1.5, 0)
+color = Color(1.0, 0.7, 0.3, 1)
+energy = 0.8
+range = 4.0
+shadows = true
+flickering = true
+flicker_pattern = "candle"
+
+[sub_resource type="Resource" id="light_box_candle"]
+script = ExtResource("4")
+id = "cellar_box_candle"
+type = "omni"
+position = Vector3(-2.8, 1.1, -2.2)
+color = Color(1.0, 0.76, 0.46, 1)
+energy = 0.28
+range = 2.5
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+; === Entry Trigger ===
+
+[sub_resource type="Resource" id="prop_rack_left"]
+script = ExtResource("5")
+id = "rack_left"
+model = "res://assets/shared/furniture/bookcase.glb"
+position = Vector3(-3.5, 0, 0.0)
+rotation_y = 90.0
+
+[sub_resource type="Resource" id="prop_rack_right"]
+script = ExtResource("5")
+id = "rack_right"
+model = "res://assets/shared/furniture/bookcase.glb"
+position = Vector3(3.5, 0, 0.0)
+rotation_y = 270.0
+
+[sub_resource type="Resource" id="prop_bottles_left"]
+script = ExtResource("5")
+id = "bottles_left"
+model = "res://assets/deep_basement/wine_cellar/bottles.glb"
+position = Vector3(-3.2, 0.2, -0.8)
+rotation_y = 90.0
+
+[sub_resource type="Resource" id="prop_bottles_right"]
+script = ExtResource("5")
+id = "bottles_right"
+model = "res://assets/deep_basement/wine_cellar/bottles.glb"
+position = Vector3(3.2, 0.2, 0.6)
+rotation_y = 270.0
+
+[sub_resource type="Resource" id="prop_box"]
+script = ExtResource("5")
+id = "locked_box"
+model = "res://assets/deep_basement/wine_cellar/treasure_chest.glb"
+position = Vector3(-3.4, 0, -2.0)
+scale = 0.6
+
+[sub_resource type="Resource" id="prop_barrel_1"]
+script = ExtResource("5")
+id = "barrel_1"
+model = "res://assets/deep_basement/wine_cellar/barrel.glb"
+position = Vector3(2.4, 0, -2.8)
+
+[sub_resource type="Resource" id="prop_barrel_2"]
+script = ExtResource("5")
+id = "barrel_2"
+model = "res://assets/deep_basement/wine_cellar/barrel.glb"
+position = Vector3(2.9, 0, -1.8)
+scale = 0.9
+
+[sub_resource type="Resource" id="prop_lamp"]
+script = ExtResource("5")
+id = "cellar_lamp"
+model = "res://assets/deep_basement/wine_cellar/lamp_mx_3_on.glb"
+position = Vector3(0.0, 0, 0.0)
+
+[sub_resource type="Resource" id="prop_bricks_l"]
+script = ExtResource("5")
+id = "bricks_l"
+model = "res://assets/deep_basement/wine_cellar/brick_mx_1.glb"
+position = Vector3(-2.6, 0, 3.0)
+
+[sub_resource type="Resource" id="prop_bricks_r"]
+script = ExtResource("5")
+id = "bricks_r"
+model = "res://assets/deep_basement/wine_cellar/brick_mx_2.glb"
+position = Vector3(2.8, 0, 2.4)
+
+[sub_resource type="Resource" id="prop_plank"]
+script = ExtResource("5")
+id = "plank"
+model = "res://assets/deep_basement/wine_cellar/wooden_plank_3.glb"
+position = Vector3(0.8, 0, -3.4)
+rotation_y = 25.0
+
+[sub_resource type="Resource" id="prop_loose_bottle"]
+script = ExtResource("5")
+id = "loose_bottle"
+model = "res://assets/deep_basement/wine_cellar/glass_bottle_mx_3.glb"
+position = Vector3(1.8, 0, 2.8)
+
+[sub_resource type="Resource" id="prop_box_candle"]
+script = ExtResource("5")
+id = "box_candle"
+model = "res://assets/shared/items/candle0.glb"
+position = Vector3(-2.8, 0.82, -2.2)
+
+[sub_resource type="Resource" id="prop_bottle_cluster_a"]
+script = ExtResource("5")
+id = "bottle_cluster_a"
+model = "res://assets/deep_basement/wine_cellar/glass_bottle_mx_2.glb"
+position = Vector3(2.5, 0.0, 1.9)
+
+[sub_resource type="Resource" id="prop_bottle_cluster_b"]
+script = ExtResource("5")
+id = "bottle_cluster_b"
+model = "res://assets/deep_basement/wine_cellar/glass_bottle_mx_1.glb"
+position = Vector3(-2.1, 0.0, 2.5)
+
+[sub_resource type="Resource" id="act_visited"]
+script = ExtResource("7")
+set_state = {"visited_wine_cellar": true}
+
+[sub_resource type="Resource" id="act_reached_deepest"]
+script = ExtResource("7")
+set_state = {"reached_deepest": true}
+
+[sub_resource type="Resource" id="act_show_name"]
+script = ExtResource("7")
+show_room_name = "Wine Cellar"
+
+[sub_resource type="Resource" id="act_entry_sfx"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/pl_ambient_dungeon_02.ogg"
+
+[sub_resource type="Resource" id="act_entry_text"]
+script = ExtResource("7")
+show_text = "The weight of the house presses down. Stone, earth, old bottles, old lies. You are far enough below the manor now that daylight feels theoretical."
+
+[sub_resource type="Resource" id="trig_first_entry"]
+script = ExtResource("6")
+condition = "NOT visited_wine_cellar"
+once = true
+trigger_id = "wine_cellar_first_entry"
+actions = Array[Resource]([SubResource("act_visited"), SubResource("act_reached_deepest"), SubResource("act_show_name"), SubResource("act_entry_sfx"), SubResource("act_entry_text")])
+
+; === Main Resource ===
+
+[resource]
+script = ExtResource("1")
+room_id = "wine_cellar"
+room_name = "Wine Cellar"
+floor_name = "deep_basement"
+environment_preset = "deep_basement"
+dimensions = Vector3(8, 3, 10)
+is_exterior = false
+wall_texture = "wall6_texture"
+floor_texture = "floor3_texture"
+ceiling_texture = "ceiling2_texture"
+wall_north = PackedStringArray("wall", "wall", "wall", "wall")
+wall_south = PackedStringArray("wall", "wall", "wall", "wall")
+wall_east = PackedStringArray("wall", "wall", "wall", "wall", "wall")
+wall_west = PackedStringArray("wall", "wall", "wall", "wall", "wall")
+ambient_loop = "res://assets/audio/loops/Empty Hope Loop1.ogg"
+tension_loop = "res://assets/audio/tension/tension_deep.wav"
+reverb_bus = "Dungeon"
+footstep_surface = "stone"
+spawn_position = Vector3(0, 0, 0)
+spawn_rotation_y = 0.0
+interactables = Array[Resource]([SubResource("inter_box"), SubResource("inter_note"), SubResource("inter_racks"), SubResource("inter_footprints")])
+lights = Array[Resource]([SubResource("light_candle"), SubResource("light_box_candle")])
+props = Array[Resource]([SubResource("prop_rack_left"), SubResource("prop_rack_right"), SubResource("prop_bottles_left"), SubResource("prop_bottles_right"), SubResource("prop_box"), SubResource("prop_barrel_1"), SubResource("prop_barrel_2"), SubResource("prop_lamp"), SubResource("prop_bricks_l"), SubResource("prop_bricks_r"), SubResource("prop_plank"), SubResource("prop_loose_bottle"), SubResource("prop_box_candle"), SubResource("prop_bottle_cluster_a"), SubResource("prop_bottle_cluster_b")])
+on_entry = Array[Resource]([SubResource("trig_first_entry")])
+on_exit = Array[Resource]([])
+ambient_events = Array[Resource]([])
+conditional_events = Array[Resource]([])
+flashbacks = Array[Resource]([])

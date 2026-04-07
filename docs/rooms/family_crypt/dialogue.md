@@ -1,0 +1,38 @@
+# Family Crypt — Dialogue
+
+```
+~ crypt_gate
+if GameManager.has_item("gate_key")
+	The iron gate swings open. The hinges are silent — oiled recently? Impossible.
+else
+	An iron gate, locked. The metalwork is ornate but corroded. The key must be somewhere on the grounds.
+
+
+~ crypt_graves
+if GameManager.has_flag("knows_full_truth")
+	Edmund. Victoria. They buried themselves here but left no room for Elizabeth.
+	
+	There was never going to be a grave for her.
+else
+	Three headstones. Edmund. Victoria. And one blank, weathered stone.
+	
+	No grave for a fourth child.
+
+
+~ crypt_note
+	I hid the locket key here because I cannot bear to see her face.
+	
+	Forgive me, Elizabeth. Forgive us all.
+
+
+~ crypt_flagstone
+	Beneath the flagstone — a tiny brass key with a heart-shaped bow.
+	
+	Hidden by a mother who loved her daughter but helped destroy her.
+
+
+~ crypt_bones
+	Not in the graves. Outside them. Disturbed.
+	
+	Not by animals — the crypt gate was locked. Whatever moved these bones had a key.
+```

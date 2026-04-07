@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "elizabeth_portrait"
+object_type = "painting"
+title = "The Fourth Child"
+content = "A young girl in a white dress clutches a porcelain doll. Her eyes have been painted over in black. Plaque: 'Elizabeth Ashworth, 1880-1889.'"
+on_read_flags = PackedStringArray("seen_elizabeth_portrait")

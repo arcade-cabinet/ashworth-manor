@@ -1,183 +1,366 @@
 [gd_scene format=3 uid="uid://btdu6wsn0281y"]
 
-[ext_resource type="Script" uid="uid://dju1o7yp5wn6v" path="res://scripts/room_base.gd" id="1_c0ebd"]
-[ext_resource type="Texture2D" uid="uid://o073hamgr1o3" path="res://assets/shared/textures/floor3_texture.png" id="2_b4cvp"]
-[ext_resource type="Texture2D" uid="uid://br2ys4b4p338o" path="res://assets/shared/textures/wall6_texture.png" id="3_iw4xp"]
-[ext_resource type="PackedScene" uid="uid://clhmuugrt7jdk" path="res://assets/shared/furniture/bookcase.glb" id="4_miw4u"]
-[ext_resource type="PackedScene" uid="uid://bcgghxtsu0htq" path="res://assets/shared/decor/candle_holder.glb" id="5_uyeq8"]
-[ext_resource type="PackedScene" uid="uid://j01cq43jeouy" path="res://assets/deep_basement/wine_cellar/bottles.glb" id="6_jtlru"]
-[ext_resource type="PackedScene" uid="uid://jscbemyvl5fg" path="res://assets/deep_basement/wine_cellar/barrel.glb" id="7_pjfft"]
-[ext_resource type="PackedScene" uid="uid://dn5nw8m48865r" path="res://assets/deep_basement/wine_cellar/treasure_chest.glb" id="8_p2dof"]
-[ext_resource type="PackedScene" uid="uid://cs0a5iadrdgg1" path="res://assets/shared/items/page3.glb" id="9_51gh6"]
-[ext_resource type="PackedScene" uid="uid://bfarni58tdn13" path="res://assets/deep_basement/wine_cellar/brick_mx_1.glb" id="10_380c7"]
-[ext_resource type="PackedScene" uid="uid://vpl40kxuykc" path="res://assets/deep_basement/wine_cellar/brick_mx_2.glb" id="11_m0yhk"]
-[ext_resource type="PackedScene" uid="uid://d1wgul1exr47y" path="res://assets/deep_basement/wine_cellar/glass_bottle_mx_1.glb" id="12_6eh0j"]
-[ext_resource type="PackedScene" uid="uid://d2wmh8olj8w08" path="res://assets/deep_basement/wine_cellar/glass_bottle_mx_2.glb" id="13_paver"]
-[ext_resource type="PackedScene" uid="uid://bv25gbprd764q" path="res://assets/deep_basement/wine_cellar/wooden_plank_3.glb" id="14_oegkh"]
+[ext_resource type="Script" path="res://scripts/room_base.gd" id="1"]
+[ext_resource type="PackedScene" path="res://assets/shared/structure/wall_6.glb" id="2"]
+[ext_resource type="PackedScene" path="res://assets/shared/structure/floor3.glb" id="3"]
+[ext_resource type="PackedScene" path="res://assets/shared/structure/cieling2.glb" id="4"]
+[ext_resource type="PackedScene" path="res://assets/shared/furniture/bookcase.glb" id="5"]
+[ext_resource type="PackedScene" path="res://assets/shared/decor/candle_holder.glb" id="6"]
+[ext_resource type="PackedScene" path="res://assets/deep_basement/wine_cellar/bottles.glb" id="7"]
+[ext_resource type="PackedScene" path="res://assets/deep_basement/wine_cellar/barrel.glb" id="8"]
+[ext_resource type="PackedScene" path="res://assets/deep_basement/wine_cellar/treasure_chest.glb" id="9"]
+[ext_resource type="PackedScene" path="res://assets/shared/items/page3.glb" id="10"]
+[ext_resource type="PackedScene" path="res://assets/deep_basement/wine_cellar/brick_mx_1.glb" id="11"]
+[ext_resource type="PackedScene" path="res://assets/deep_basement/wine_cellar/brick_mx_2.glb" id="12"]
+[ext_resource type="PackedScene" path="res://assets/deep_basement/wine_cellar/glass_bottle_mx_1.glb" id="13"]
+[ext_resource type="PackedScene" path="res://assets/deep_basement/wine_cellar/wooden_plank_3.glb" id="14"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yo05i"]
-albedo_color = Color(0.28, 0.25, 0.22, 1)
-albedo_texture = ExtResource("2_b4cvp")
-roughness = 0.95
-uv1_scale = Vector3(6, 7.5, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(8, 0.2, 8)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cvgt7"]
-albedo_color = Color(0.25, 0.22, 0.2, 1)
-albedo_texture = ExtResource("2_b4cvp")
-roughness = 0.95
-uv1_scale = Vector3(6, 7.5, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallN"]
+size = Vector3(8, 2.4, 0.2)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p46tu"]
-albedo_color = Color(0.32, 0.28, 0.25, 1)
-albedo_texture = ExtResource("3_iw4xp")
-roughness = 0.95
-uv1_scale = Vector3(5, 1.5, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallS"]
+size = Vector3(8, 2.4, 0.2)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_brtcb"]
-albedo_color = Color(0.32, 0.28, 0.25, 1)
-albedo_texture = ExtResource("3_iw4xp")
-roughness = 0.95
-uv1_scale = Vector3(5, 1.5, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallE"]
+size = Vector3(0.2, 2.4, 8)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hy5b8"]
-albedo_color = Color(0.32, 0.28, 0.25, 1)
-albedo_texture = ExtResource("3_iw4xp")
-roughness = 0.95
-uv1_scale = Vector3(5, 1.5, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallW"]
+size = Vector3(0.2, 2.4, 8)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e2b7c"]
-albedo_color = Color(0.32, 0.28, 0.25, 1)
-albedo_texture = ExtResource("3_iw4xp")
-roughness = 0.95
-uv1_scale = Vector3(5, 1.5, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact1"]
+size = Vector3(1.5, 1.5, 1.5)
 
-[node name="WineCellar" type="Node3D" unique_id=2018493413]
-script = ExtResource("1_c0ebd")
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact2"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_conn1"]
+size = Vector3(2, 3, 1)
+
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i00"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i01"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i02"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i03"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c04"]
+size = Vector3(2, 3, 1)
+
+[node name="WineCellar" type="Node3D"]
+script = ExtResource("1")
 room_id = "wine_cellar"
 room_name = "Wine Cellar"
 audio_loop = "Empty Hope Loop1"
 ambient_darkness = 0.85
-spawn_position = Vector3(0, 0, -6)
+spawn_position = Vector3(0, 0, -3)
 spawn_rotation_y = 180.0
 
-[node name="Geometry" type="Node3D" parent="." unique_id=1909282516]
+[node name="Geometry" type="Node3D" parent="."]
 
-[node name="Floor" type="CSGBox3D" parent="Geometry" unique_id=1341592095]
+[node name="Floor_0_0" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3)
+
+[node name="Floor_1_0" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3)
+
+[node name="Floor_2_0" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -3)
+
+[node name="Floor_3_0" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -3)
+
+[node name="Floor_0_1" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -1)
+
+[node name="Floor_1_1" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
+
+[node name="Floor_2_1" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)
+
+[node name="Floor_3_1" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -1)
+
+[node name="Floor_0_2" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 1)
+
+[node name="Floor_1_2" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+
+[node name="Floor_2_2" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+
+[node name="Floor_3_2" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
+
+[node name="Floor_0_3" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 3)
+
+[node name="Floor_1_3" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 3)
+
+[node name="Floor_2_3" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 3)
+
+[node name="Floor_3_3" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 3)
+
+[node name="Ceil_0_0" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.4, -3)
+
+[node name="Ceil_1_0" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2.4, -3)
+
+[node name="Ceil_2_0" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.4, -3)
+
+[node name="Ceil_3_0" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2.4, -3)
+
+[node name="Ceil_0_1" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.4, -1)
+
+[node name="Ceil_1_1" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2.4, -1)
+
+[node name="Ceil_2_1" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.4, -1)
+
+[node name="Ceil_3_1" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2.4, -1)
+
+[node name="Ceil_0_2" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.4, 1)
+
+[node name="Ceil_1_2" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2.4, 1)
+
+[node name="Ceil_2_2" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.4, 1)
+
+[node name="Ceil_3_2" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2.4, 1)
+
+[node name="Ceil_0_3" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.4, 3)
+
+[node name="Ceil_1_3" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2.4, 3)
+
+[node name="Ceil_2_3" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.4, 3)
+
+[node name="Ceil_3_3" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2.4, 3)
+
+[node name="Wall_N_0" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -3, 0, 4)
+
+[node name="Wall_N_1" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -1, 0, 4)
+
+[node name="Wall_N_2" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 1, 0, 4)
+
+[node name="Wall_N_3" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 3, 0, 4)
+
+[node name="Wall_S_0" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -4)
+
+[node name="Wall_S_1" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -4)
+
+[node name="Wall_S_2" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -4)
+
+[node name="Wall_S_3" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -4)
+
+[node name="Wall_E_0" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4, 0, -3)
+
+[node name="Wall_E_1" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4, 0, -1)
+
+[node name="Wall_E_2" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4, 0, 1)
+
+[node name="Wall_E_3" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4, 0, 3)
+
+[node name="Wall_W_0" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4, 0, -3)
+
+[node name="Wall_W_1" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4, 0, -1)
+
+[node name="Wall_W_2" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4, 0, 1)
+
+[node name="Wall_W_3" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4, 0, 3)
+
+[node name="FloorCollision" type="StaticBody3D" parent="Geometry"]
+collision_layer = 1
+metadata/surface_type = "stone"
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/FloorCollision"]
+shape = SubResource("BoxShape3D_floor")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
-use_collision = true
-size = Vector3(12, 0.2, 15)
-material = SubResource("StandardMaterial3D_yo05i")
 
-[node name="Ceiling" type="CSGBox3D" parent="Geometry" unique_id=1810148428]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0)
-use_collision = true
+[node name="WallN" type="StaticBody3D" parent="Geometry"]
 collision_layer = 2
-size = Vector3(12, 0.2, 15)
-material = SubResource("StandardMaterial3D_cvgt7")
 
-[node name="WallNorth" type="CSGBox3D" parent="Geometry" unique_id=1573534290]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 7.5)
-use_collision = true
+[node name="Shape" type="CollisionShape3D" parent="Geometry/WallN"]
+shape = SubResource("BoxShape3D_wallN")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 4)
+
+[node name="WallS" type="StaticBody3D" parent="Geometry"]
 collision_layer = 2
-size = Vector3(12, 3, 0.3)
-material = SubResource("StandardMaterial3D_p46tu")
 
-[node name="WallSouth" type="CSGBox3D" parent="Geometry" unique_id=1899272612]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -7.5)
-use_collision = true
+[node name="Shape" type="CollisionShape3D" parent="Geometry/WallS"]
+shape = SubResource("BoxShape3D_wallS")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -4)
+
+[node name="WallE" type="StaticBody3D" parent="Geometry"]
 collision_layer = 2
-size = Vector3(12, 3, 0.3)
-material = SubResource("StandardMaterial3D_brtcb")
 
-[node name="WallEast" type="CSGBox3D" parent="Geometry" unique_id=2032334726]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.5, 0)
-use_collision = true
+[node name="Shape" type="CollisionShape3D" parent="Geometry/WallE"]
+shape = SubResource("BoxShape3D_wallE")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.2, 0)
+
+[node name="WallW" type="StaticBody3D" parent="Geometry"]
 collision_layer = 2
-size = Vector3(0.3, 3, 15)
-material = SubResource("StandardMaterial3D_hy5b8")
 
-[node name="WallWest" type="CSGBox3D" parent="Geometry" unique_id=2076272840]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.5, 0)
-use_collision = true
-collision_layer = 2
-size = Vector3(0.3, 3, 15)
-material = SubResource("StandardMaterial3D_e2b7c")
+[node name="Shape" type="CollisionShape3D" parent="Geometry/WallW"]
+shape = SubResource("BoxShape3D_wallW")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.2, 0)
 
-[node name="Models" type="Node3D" parent="." unique_id=1880029556]
+[node name="Models" type="Node3D" parent="."]
 
-[node name="WineRackWest1" type="Node3D" parent="Models" unique_id=1407288254 instance=ExtResource("4_miw4u")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.5, 0, -4)
+[node name="WineRackW1" type="Node3D" parent="Models" instance=ExtResource("5")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5, 0, -2)
 
-[node name="WineRackWest2" type="Node3D" parent="Models" unique_id=748664859 instance=ExtResource("4_miw4u")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.5, 0, 0)
+[node name="WineRackW2" type="Node3D" parent="Models" instance=ExtResource("5")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5, 0, 1)
 
-[node name="WineRackWest3" type="Node3D" parent="Models" unique_id=1325628439 instance=ExtResource("4_miw4u")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.5, 0, 4)
+[node name="WineRackE1" type="Node3D" parent="Models" instance=ExtResource("5")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 3.5, 0, -2)
 
-[node name="WineRackEast1" type="Node3D" parent="Models" unique_id=2065647673 instance=ExtResource("4_miw4u")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.5, 0, -4)
+[node name="WineRackE2" type="Node3D" parent="Models" instance=ExtResource("5")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 3.5, 0, 1)
 
-[node name="WineRackEast2" type="Node3D" parent="Models" unique_id=358784023 instance=ExtResource("4_miw4u")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.5, 0, 0)
+[node name="TorchW" type="Node3D" parent="Models" instance=ExtResource("6")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5, 2.2, -1)
 
-[node name="WineRackEast3" type="Node3D" parent="Models" unique_id=727842076 instance=ExtResource("4_miw4u")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.5, 0, 4)
+[node name="TorchE" type="Node3D" parent="Models" instance=ExtResource("6")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 3.5, 2.2, 1)
 
-[node name="TorchWest" type="Node3D" parent="Models" unique_id=385947617 instance=ExtResource("5_uyeq8")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.5, 2.2, -2)
+[node name="WineBottles" type="Node3D" parent="Models" instance=ExtResource("7")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -2, 1, -3)
 
-[node name="TorchEast" type="Node3D" parent="Models" unique_id=1173737481 instance=ExtResource("5_uyeq8")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5.5, 2.2, 2)
+[node name="WineBarrel" type="Node3D" parent="Models" instance=ExtResource("8")]
+transform = Transform3D(0.94, 0, 0.342, 0, 1, 0, -0.342, 0, 0.94, 2, 0, 3)
 
-[node name="WineBottles" type="Node3D" parent="Models" unique_id=785071954 instance=ExtResource("6_jtlru")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -4, 1, -5)
+[node name="LockedBox" type="Node3D" parent="Models" instance=ExtResource("9")]
+transform = Transform3D(0.58, 0, -0.155, 0, 0.6, 0, 0.155, 0, 0.58, 2, 0.5, -3)
 
-[node name="WineBarrel" type="Node3D" parent="Models" unique_id=490675640 instance=ExtResource("7_pjfft")]
-transform = Transform3D(0.9396926, 0, 0.34202012, 0, 1, 0, -0.34202012, 0, 0.9396926, 3, 0, 5)
+[node name="WineInventory" type="Node3D" parent="Models" instance=ExtResource("10")]
+transform = Transform3D(0.985, 0, 0.174, 0, 1, 0, -0.174, 0, 0.985, -2, 1.5, -3.5)
 
-[node name="LockedBox" type="Node3D" parent="Models" unique_id=2079832294 instance=ExtResource("8_p2dof")]
-transform = Transform3D(0.5795555, 0, -0.15529144, 0, 0.6, 0, 0.15529144, 0, 0.5795555, 3, 0.5, -5)
+[node name="LooseBrick1" type="Node3D" parent="Models" instance=ExtResource("11")]
+transform = Transform3D(1.5, 0, 2.598, 0, 3, 0, -2.598, 0, 1.5, 1, 0, 1)
 
-[node name="WineInventory" type="Node3D" parent="Models" unique_id=1530026305 instance=ExtResource("9_51gh6")]
-transform = Transform3D(0.9848077, 0, 0.17364818, 0, 1, 0, -0.17364818, 0, 0.9848077, -4, 1.5, -6)
+[node name="LooseBrick2" type="Node3D" parent="Models" instance=ExtResource("12")]
+transform = Transform3D(2.598, 0, -1.5, 0, 3, 0, 1.5, 0, 2.598, -1, 0, 3)
 
-[node name="LooseBrick1" type="Node3D" parent="Models" unique_id=131390088 instance=ExtResource("10_380c7")]
-transform = Transform3D(1.4999999, 0, 2.5980763, 0, 3, 0, -2.5980763, 0, 1.4999999, 2, 0, 2)
+[node name="ScatteredBottle" type="Node3D" parent="Models" instance=ExtResource("13")]
+transform = Transform3D(3, 0, 0, 0, 0.521, -2.954, 0, 2.954, 0.521, -1, 0, 2)
 
-[node name="LooseBrick2" type="Node3D" parent="Models" unique_id=654861715 instance=ExtResource("11_m0yhk")]
-transform = Transform3D(2.598076, 0, -1.5, 0, 3, 0, 1.5, 0, 2.598076, -2, 0, 6)
+[node name="CollapsedShelf" type="Node3D" parent="Models" instance=ExtResource("14")]
+transform = Transform3D(2, 0, 0, 0, 1.932, -0.518, 0, 0.518, 1.932, 0, 0, 3.5)
 
-[node name="ScatteredBottle1" type="Node3D" parent="Models" unique_id=1924431796 instance=ExtResource("12_6eh0j")]
-transform = Transform3D(3, 0, 0, 0, 0.52094465, -2.9544232, 0, 2.9544232, 0.52094465, -1, 0, 3)
+[node name="Lighting" type="Node3D" parent="."]
 
-[node name="ScatteredBottle2" type="Node3D" parent="Models" unique_id=963217135 instance=ExtResource("13_paver")]
-transform = Transform3D(2.598076, 1.4488888, 0.3882286, 0, 0.7764572, -2.8977776, -1.5, 2.5095487, 0.6724317, 1, 0, -3)
-
-[node name="CollapsedShelf" type="Node3D" parent="Models" unique_id=1973219559 instance=ExtResource("14_oegkh")]
-transform = Transform3D(2, 0, 0, 0, 1.9318516, -0.5176381, 0, 0.5176381, 1.9318516, 0, 0, 6)
-
-[node name="Lighting" type="Node3D" parent="." unique_id=1569605727]
-
-[node name="TorchWestLight" type="OmniLight3D" parent="Lighting" unique_id=1117547024]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 2.5, -2)
+[node name="TorchWLight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2.5, -1)
 light_color = Color(1, 0.6, 0.2, 1)
 light_energy = 3.0
-omni_range = 8.0
+omni_range = 7.0
 metadata/flickering = true
 
-[node name="TorchEastLight" type="OmniLight3D" parent="Lighting" unique_id=1829273161]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 2.5, 2)
+[node name="TorchELight" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 2.5, 1)
 light_color = Color(1, 0.6, 0.2, 1)
 light_energy = 3.0
-omni_range = 8.0
+omni_range = 7.0
 metadata/flickering = true
 
-[node name="Interactables" type="Node3D" parent="." unique_id=604256279]
 
-[node name="Connections" type="Node3D" parent="." unique_id=1636633271]
+[node name="Interactables" type="Node3D" parent="."]
+
+[node name="wine_note" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.5, -4)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "wine_note"
+metadata/type = "note"
+metadata/data = {"title": "Wine Ledger", "content": "A cellar inventory. The last entry is circled: '1 btl. Chateau Margaux 1858 — opened Dec 24.' Below, in different handwriting: 'The blood of the grape for the blood of the lamb.'", "on_read_flags": "read_wine_note"}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/wine_note"]
+shape = SubResource("BoxShape3D_i00")
+
+[node name="wine_box" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.5, -3)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "wine_box"
+metadata/type = "box"
+metadata/data = {"title": "Locked Wine Crate", "content": "A heavy wooden crate, locked with a padlock. Through the slats you can see paper — not bottles. Documents. Someone hid something here that wasn't wine.", "locked": true, "key_id": "cellar_key", "item_found": "mothers_confession"}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/wine_box"]
+shape = SubResource("BoxShape3D_i01")
+
+[node name="wine_racks" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 0)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "wine_racks"
+metadata/type = "observation"
+metadata/data = {"title": "Wine Racks", "content": "Rows of bottles, coated in dust. But one rack is different — the bottles have been moved. Recently. Fingerprints in the dust. Small fingerprints."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/wine_racks"]
+shape = SubResource("BoxShape3D_i02")
+
+[node name="wine_footprints" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 3)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "wine_footprints"
+metadata/type = "observation"
+metadata/data = {"title": "Footprints", "content": "In the dust on the floor: footprints. Small, bare feet. They lead from the ladder to the wine racks and back. Over and over. A child pacing."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/wine_footprints"]
+shape = SubResource("BoxShape3D_i03")
+
+[node name="Connections" type="Node3D" parent="."]
+
+[node name="to_storage_basement" type="Area3D" parent="Connections"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 4)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "storage_basement"
+metadata/type = "ladder"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_storage_basement"]
+shape = SubResource("BoxShape3D_c04")

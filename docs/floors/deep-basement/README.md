@@ -261,9 +261,9 @@ event_open_wine_box:
     - has_item: cellar_key
   actions:
     - unlock: wine_box
-    - give_item: [contents TBD]
+    - give_item: mothers_confession
     - set_flag: opened_wine_box
-    - show_message: "The lock opens with a reluctant click. Inside you find..."
+    - show_message: "The lock opens with a reluctant click. Inside lies Lady Ashworth's confession."
     - play_sound: chest_open
 ```
 
@@ -289,7 +289,7 @@ event_open_wine_box:
 
 ---
 
-## Future Development Ideas
+## Follow-On Opportunities
 
 ### Hidden Alcove
 The inventory note mentions a "hidden alcove." This could be:
@@ -351,5 +351,5 @@ The wine cellar should feel acoustically dead. Sound doesn't carry well in stone
 ## Related Documentation
 
 - [Wine Cellar](./wine-cellar.md) - Complete room specification
-- [Cellar Key Puzzle](../puzzles/README.md#puzzle-wine-cellar-secret-planned) - Planned puzzle
+- [Cellar Box Puzzle](../puzzles/README.md#puzzle-cellar-box) - Live declaration puzzle
 - [Basement Floor](../basement/README.md) - Connected floor above

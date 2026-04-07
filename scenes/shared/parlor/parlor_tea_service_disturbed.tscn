@@ -1,0 +1,158 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Material" path="res://resources/water/parlor_tea_disturbed_material.tres" id="1_ij4f8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_table"]
+albedo_color = Color(0.26666668, 0.16078432, 0.09019608, 1)
+roughness = 0.92
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tray"]
+albedo_color = Color(0.35686275, 0.23529412, 0.12156863, 1)
+roughness = 0.82
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ceramic"]
+albedo_color = Color(0.87058824, 0.83137256, 0.7529412, 1)
+roughness = 0.78
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_brass"]
+albedo_color = Color(0.5882353, 0.45490196, 0.23137255, 1)
+metallic = 0.35
+roughness = 0.42
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_table_top"]
+top_radius = 0.42
+bottom_radius = 0.4
+height = 0.06
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_table_pedestal"]
+top_radius = 0.08
+bottom_radius = 0.11
+height = 0.34
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_table_base"]
+top_radius = 0.2
+bottom_radius = 0.18
+height = 0.04
+
+[sub_resource type="BoxMesh" id="BoxMesh_tray"]
+size = Vector3(0.48, 0.025, 0.3)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_saucer"]
+top_radius = 0.07
+bottom_radius = 0.07
+height = 0.01
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cup"]
+top_radius = 0.045
+bottom_radius = 0.038
+height = 0.07
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tea_surface"]
+top_radius = 0.031
+bottom_radius = 0.031
+height = 0.003
+radial_segments = 18
+
+[sub_resource type="SphereMesh" id="SphereMesh_pot_body"]
+radius = 0.09
+height = 0.16
+
+[sub_resource type="SphereMesh" id="SphereMesh_pot_lid"]
+radius = 0.035
+height = 0.06
+
+[sub_resource type="BoxMesh" id="BoxMesh_pot_spout"]
+size = Vector3(0.12, 0.03, 0.03)
+
+[sub_resource type="BoxMesh" id="BoxMesh_handle_top"]
+size = Vector3(0.02, 0.05, 0.02)
+
+[sub_resource type="BoxMesh" id="BoxMesh_handle_side"]
+size = Vector3(0.02, 0.02, 0.06)
+
+[node name="ParlorTeaServiceDisturbed" type="Node3D"]
+
+[node name="TeaTableTop" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.34, 0)
+material_override = SubResource("StandardMaterial3D_table")
+mesh = SubResource("CylinderMesh_table_top")
+
+[node name="TeaTablePedestal" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.17, 0)
+material_override = SubResource("StandardMaterial3D_table")
+mesh = SubResource("CylinderMesh_table_pedestal")
+
+[node name="TeaTableBase" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.02, 0)
+material_override = SubResource("StandardMaterial3D_table")
+mesh = SubResource("CylinderMesh_table_base")
+
+[node name="Tray" type="MeshInstance3D" parent="."]
+position = Vector3(0.01, 0.385, -0.005)
+rotation = Vector3(0, 0.06, 0)
+material_override = SubResource("StandardMaterial3D_tray")
+mesh = SubResource("BoxMesh_tray")
+
+[node name="SaucerUsed" type="MeshInstance3D" parent="."]
+position = Vector3(0.11, 0.404, -0.075)
+material_override = SubResource("StandardMaterial3D_ceramic")
+mesh = SubResource("CylinderMesh_saucer")
+
+[node name="CupUsed" type="MeshInstance3D" parent="."]
+position = Vector3(0.11, 0.443, -0.075)
+rotation = Vector3(0, -0.15, 0)
+material_override = SubResource("StandardMaterial3D_ceramic")
+mesh = SubResource("CylinderMesh_cup")
+
+[node name="TeaUsed" type="MeshInstance3D" parent="."]
+position = Vector3(0.11, 0.468, -0.075)
+material_override = ExtResource("1_ij4f8")
+mesh = SubResource("CylinderMesh_tea_surface")
+
+[node name="SaucerUntouched" type="MeshInstance3D" parent="."]
+position = Vector3(0.13, 0.404, 0.085)
+material_override = SubResource("StandardMaterial3D_ceramic")
+mesh = SubResource("CylinderMesh_saucer")
+
+[node name="CupUntouched" type="MeshInstance3D" parent="."]
+position = Vector3(0.13, 0.443, 0.085)
+rotation = Vector3(0, 0.12, 0)
+material_override = SubResource("StandardMaterial3D_ceramic")
+mesh = SubResource("CylinderMesh_cup")
+
+[node name="TeaUntouched" type="MeshInstance3D" parent="."]
+position = Vector3(0.13, 0.485, 0.085)
+material_override = ExtResource("1_ij4f8")
+mesh = SubResource("CylinderMesh_tea_surface")
+
+[node name="TeapotBody" type="MeshInstance3D" parent="."]
+position = Vector3(-0.09, 0.45, 0.01)
+material_override = SubResource("StandardMaterial3D_ceramic")
+mesh = SubResource("SphereMesh_pot_body")
+
+[node name="TeapotLid" type="MeshInstance3D" parent="."]
+position = Vector3(-0.085, 0.545, 0.015)
+rotation = Vector3(0.0, 0.2, 0.14)
+material_override = SubResource("StandardMaterial3D_brass")
+mesh = SubResource("SphereMesh_pot_lid")
+
+[node name="TeapotSpout" type="MeshInstance3D" parent="."]
+position = Vector3(-0.18, 0.46, -0.01)
+rotation = Vector3(0, 0, -0.38)
+material_override = SubResource("StandardMaterial3D_ceramic")
+mesh = SubResource("BoxMesh_pot_spout")
+
+[node name="TeapotHandleTop" type="MeshInstance3D" parent="."]
+position = Vector3(0.0, 0.48, 0.01)
+material_override = SubResource("StandardMaterial3D_brass")
+mesh = SubResource("BoxMesh_handle_top")
+
+[node name="TeapotHandleBottom" type="MeshInstance3D" parent="."]
+position = Vector3(0.0, 0.43, 0.01)
+material_override = SubResource("StandardMaterial3D_brass")
+mesh = SubResource("BoxMesh_handle_top")
+
+[node name="TeapotHandleSide" type="MeshInstance3D" parent="."]
+position = Vector3(0.0, 0.455, 0.035)
+material_override = SubResource("StandardMaterial3D_brass")
+mesh = SubResource("BoxMesh_handle_side")

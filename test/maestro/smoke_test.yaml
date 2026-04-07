@@ -1,0 +1,61 @@
+appId: com.arcadecabinet.ashworthmanor
+name: "Smoke Test - App launches and renders"
+tags:
+  - smoke
+  - ci
+---
+
+# Launch the app
+- launchApp
+
+# Dismiss Android's fullscreen notification if it appears
+- tapOn:
+    text: "Got it"
+    optional: true
+
+# Wait for Godot to load
+- extendedWaitUntil:
+    timeout: 15000
+    visible: ".*"
+
+- takeScreenshot: screenshots/maestro/smoke_01_launch
+
+# Godot renders on GPU canvas - text assertions won't work
+# Instead verify app didn't crash by tapping and screenshotting
+
+# Tap center (should be landing screen area)
+- tapOn:
+    point: "50%,60%"
+- takeScreenshot: screenshots/maestro/smoke_02_after_tap
+
+# Tap where "New Game" button approximately is (center, lower third)
+- tapOn:
+    point: "50%,55%"
+- extendedWaitUntil:
+    timeout: 5000
+    visible: ".*"
+- takeScreenshot: screenshots/maestro/smoke_03_game_started
+
+# Look around by swiping (camera rotation)
+- swipe:
+    start: "70%,50%"
+    end: "30%,50%"
+    duration: 500
+- takeScreenshot: screenshots/maestro/smoke_04_look_right
+
+- swipe:
+    start: "30%,50%"
+    end: "70%,50%"
+    duration: 500
+- takeScreenshot: screenshots/maestro/smoke_05_look_left
+
+# Tap to walk forward
+- tapOn:
+    point: "50%,40%"
+- extendedWaitUntil:
+    timeout: 3000
+    visible: ".*"
+- takeScreenshot: screenshots/maestro/smoke_06_walked
+
+# App is still running (didn't crash)
+- takeScreenshot: screenshots/maestro/smoke_07_stable

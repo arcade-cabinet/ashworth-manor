@@ -400,6 +400,7 @@ Every GLB model, texture, and audio loop mapped to its room, puzzle, or scene el
 | Chapel | Silent Voices Loop2 | Sacred silence | Low |
 | Greenhouse | Subtle Changes Loop2 | Organic unease | Low |
 | Carriage House | Echoes at Dusk Loop1 | Abandoned | Medium |
+| Garden | Subtle Changes Loop3_D | Unease outdoors | Low |
 | Family Crypt | Empty Hope Loop2 | Grief | High |
 
 ### Event-Triggered Audio

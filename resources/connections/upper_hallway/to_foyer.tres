@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RoomConnection" format=3]
+
+[ext_resource type="Script" path="res://scripts/room_connection.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+target_scene_path = "res://scenes/rooms/ground_floor/foyer.tscn"
+direction = "down"
+conn_type = "stairs"
+locked = false
+key_id = ""

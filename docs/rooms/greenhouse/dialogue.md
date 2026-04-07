@@ -1,0 +1,25 @@
+# Greenhouse — Dialogue
+
+```
+~ greenhouse_pot
+if GameManager.has_flag("knows_attic_girl")
+	Another of Elizabeth's lilies. She kept growing them even after death.
+	
+	The key was hers — she wanted it found.
+else
+	A terra cotta pot with a white lily. Identical to the garden's.
+	
+	Behind the pot, pushed into the soil — an iron key. It's warm.
+
+
+~ greenhouse_dead
+	Everything dead except the lilies. Rows of withered stems. Pots cracked by frost.
+	
+	But wherever Elizabeth's flowers grow, the soil is warm and the leaves are green.
+
+
+~ greenhouse_glass
+	Several glass panels shattered. The shards point outward — something pushed through from inside.
+	
+	Not wind. Not decay. Force.
+```

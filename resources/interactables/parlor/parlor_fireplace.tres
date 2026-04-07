@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "parlor_fireplace"
+object_type = "observation"
+title = "Fireplace"
+content = "Embers still glow faintly. After 130 years? The iron grate holds ash that should have gone cold a century ago. The warmth is real."
+on_read_flags = PackedStringArray()

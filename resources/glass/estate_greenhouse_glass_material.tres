@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://shaders/glass/estate_glass_forward_plus.gdshader" id="1_dprq8"]
+
+[resource]
+shader = ExtResource("1_dprq8")
+shader_parameter/base_color = Color(0.6, 0.74, 0.84, 0.34)
+shader_parameter/edge_color = Color(0.88, 0.94, 0.98, 1)
+shader_parameter/roughness = 0.06
+shader_parameter/metallic = 0.0
+shader_parameter/base_specular = 0.82
+shader_parameter/fresnel_power = 3.6
+shader_parameter/min_alpha = 0.24
+shader_parameter/edge_alpha_boost = 0.38
+shader_parameter/refraction_strength = 0.007
+shader_parameter/refraction_mix = 0.32
+shader_parameter/tint_strength = 0.52
+shader_parameter/clearcoat = 0.45
+shader_parameter/rim_strength = 0.24
+shader_parameter/refracted_edge_boost = 0.08
+shader_parameter/edge_emission_strength = 0.12

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "children_painting"
+object_type = "painting"
+title = "Children's Portrait"
+content = "Three children in white stand before a summer garden. The painting is titled 'The Ashworth Children, 1886.' But the household records say there were four."
+on_read_flags = PackedStringArray("examined_children_painting")

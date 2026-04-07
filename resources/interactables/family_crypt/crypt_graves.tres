@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "crypt_graves"
+object_type = "observation"
+title = "Graves"
+content = "Three headstones. Edmund. Victoria. And one blank, weathered stone. No grave for a fourth child."
+on_read_flags = PackedStringArray()

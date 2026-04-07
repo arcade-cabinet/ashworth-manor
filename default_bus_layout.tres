@@ -1,0 +1,104 @@
+[gd_resource type="AudioBusLayout" format=3 uid="uid://b2n7xxhjybfkr"]
+
+[sub_resource type="AudioEffectReverb" id="reverb_hall"]
+damping = 0.3
+spread = 0.8
+dry = 0.7
+wet = 0.3
+
+[sub_resource type="AudioEffectReverb" id="reverb_room"]
+room_size = 0.5
+damping = 0.4
+spread = 0.6
+dry = 0.75
+wet = 0.25
+
+[sub_resource type="AudioEffectReverb" id="reverb_small"]
+room_size = 0.3
+spread = 0.4
+dry = 0.8
+wet = 0.2
+
+[sub_resource type="AudioEffectReverb" id="reverb_stone"]
+room_size = 0.7
+damping = 0.2
+spread = 0.9
+dry = 0.6
+wet = 0.4
+
+[sub_resource type="AudioEffectReverb" id="reverb_dungeon"]
+room_size = 0.9
+damping = 0.15
+dry = 0.55
+wet = 0.45
+
+[sub_resource type="AudioEffectReverb" id="reverb_wood"]
+room_size = 0.4
+spread = 0.5
+dry = 0.8
+wet = 0.2
+
+[sub_resource type="AudioEffectReverb" id="reverb_open"]
+room_size = 0.1
+damping = 0.8
+spread = 0.2
+dry = 0.9
+wet = 0.1
+
+[resource]
+bus/1/name = &"Hall"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = 0.0
+bus/1/send = &"Master"
+bus/1/effect/0/effect = SubResource("reverb_hall")
+bus/1/effect/0/enabled = true
+bus/2/name = &"Room"
+bus/2/solo = false
+bus/2/mute = false
+bus/2/bypass_fx = false
+bus/2/volume_db = 0.0
+bus/2/send = &"Master"
+bus/2/effect/0/effect = SubResource("reverb_room")
+bus/2/effect/0/enabled = true
+bus/3/name = &"SmallRoom"
+bus/3/solo = false
+bus/3/mute = false
+bus/3/bypass_fx = false
+bus/3/volume_db = 0.0
+bus/3/send = &"Master"
+bus/3/effect/0/effect = SubResource("reverb_small")
+bus/3/effect/0/enabled = true
+bus/4/name = &"StoneCorridor"
+bus/4/solo = false
+bus/4/mute = false
+bus/4/bypass_fx = false
+bus/4/volume_db = 0.0
+bus/4/send = &"Master"
+bus/4/effect/0/effect = SubResource("reverb_stone")
+bus/4/effect/0/enabled = true
+bus/5/name = &"Dungeon"
+bus/5/solo = false
+bus/5/mute = false
+bus/5/bypass_fx = false
+bus/5/volume_db = 0.0
+bus/5/send = &"Master"
+bus/5/effect/0/effect = SubResource("reverb_dungeon")
+bus/5/effect/0/enabled = true
+bus/6/name = &"WoodenHall"
+bus/6/solo = false
+bus/6/mute = false
+bus/6/bypass_fx = false
+bus/6/volume_db = 0.0
+bus/6/send = &"Master"
+bus/6/effect/0/effect = SubResource("reverb_wood")
+bus/6/effect/0/enabled = true
+bus/7/name = &"OpenAir"
+bus/7/solo = false
+bus/7/mute = false
+bus/7/bypass_fx = false
+bus/7/volume_db = 0.0
+bus/7/send = &"Master"
+bus/7/effect/0/effect = SubResource("reverb_open")
+bus/7/effect/0/enabled = true

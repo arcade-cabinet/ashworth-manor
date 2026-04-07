@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "wine_note"
+object_type = "note"
+title = "Inventory List"
+content = "The 1872 Bordeaux has been moved to the hidden alcove. The key is with the portrait."
+on_read_flags = PackedStringArray("read_wine_note")

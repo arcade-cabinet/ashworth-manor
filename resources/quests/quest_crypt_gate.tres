@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Quest" format=3]
+
+[ext_resource type="Script" path="res://addons/quest_system/quest_resource.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = 5
+quest_name = "Open the Crypt Gate"
+quest_description = "The family burial ground lies beyond the locked gate."
+quest_objective = "Find the gate key and enter the family crypt"

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "hidden_door"
+object_type = "locked_door"
+title = "Hidden Door"
+content = "A door, almost invisible behind the trunks."
+locked = true
+key_id = "hidden_key"
+on_read_flags = PackedStringArray()
+target_room = "hidden_room"
+message_locked = "A door, almost invisible behind the trunks. The lock is shaped like an open hand."

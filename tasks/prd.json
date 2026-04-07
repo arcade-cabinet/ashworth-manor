@@ -1,0 +1,501 @@
+{
+  "name": "Ashworth Manor Whole-Game Ship Plan, Freeze, and Release Validation",
+  "branchName": "ralph/ashworth-manor-whole-game-ship-plan-freeze-and-release-validation",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Consolidate the canonical whole-game source of truth",
+      "description": "As a contributor, I want one canonical whole-game documentation surface so implementation, testing, and polish converge on the same shipped game.",
+      "acceptanceCriteria": [
+        "One canonical doc surface defines premise, route order, shared spine, endings, critical rooms, tools, and acceptance lanes.",
+        "`docs/GAME_BIBLE.md`, `docs/PLAYER_PREMISE.md`, `docs/ELIZABETH_ROUTE_PROGRAM.md`, `docs/NARRATIVE.md`, and `docs/MASTER_SCRIPT.md` no longer conflict about the shipped game.",
+        "The canonical docs distinguish repo-local freeze from downstream Android/export validation without treating release validation as out of scope.",
+        "`godot --headless --path . --quit-after 1` exits successfully."
+      ],
+      "priority": 1,
+      "passes": false,
+      "dependsOn": []
+    },
+    {
+      "id": "US-002",
+      "title": "Repoint the repo source map to the canonical docs and master graph",
+      "description": "As a contributor, I want the repo entry points to name the canonical sources first so work does not depend on archaeology.",
+      "acceptanceCriteria": [
+        "`docs/INDEX.md`, `PLAN.md`, `MEMORY.md`, and `STRUCTURE.md` clearly point to the canonical whole-game docs.",
+        "`docs/batches/ashworth-master-task-graph.md` is identified as the primary execution contract.",
+        "Canonical surfaces and historical support surfaces are distinguished explicitly.",
+        "`godot --headless --path . --quit-after 1` exits successfully."
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-001"
+      ]
+    },
+    {
+      "id": "US-003",
+      "title": "Capture the runtime baseline and define the shared-spine state map",
+      "description": "As an implementer, I want a verified starting baseline and canonical state map so shared-spine and route work target concrete runtime semantics.",
+      "acceptanceCriteria": [
+        "The current runtime baseline, active test lanes, and known gaps are recorded in checkpoint docs.",
+        "Canonical state keys are defined for basement relight, bad air, gas restored, basement lights awake, stable house light, walking-stick phase, and route-order progression.",
+        "The baseline notes how the current test surface must evolve from legacy weave semantics to `Adult`, `Elder`, and `Child`.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_route_progression.gd` exits successfully."
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-001"
+      ]
+    },
+    {
+      "id": "US-004",
+      "title": "Finalize the arrival sequence from packet to dark foyer handoff",
+      "description": "As a player, I want the arrival sequence to establish legal duty, distance, and cold entry so the game opens as a coherent embodied journey.",
+      "acceptanceCriteria": [
+        "Packet, valise, threshold acknowledgment, gate, drive, forecourt, and dark-house entry all follow the canonical heir-return sequence.",
+        "The front-gate approach reads as materially grounded and socially legible without flattening the reveal.",
+        "The foyer handoff preserves darkness, hostility, and route-program intent.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_room_specs.gd` exits successfully.",
+        "`godot --path . --script test/e2e/test_opening_journey.gd` and `godot --path . --script test/e2e/test_room_walkthrough.gd` run successfully for the touched spaces, and the renderer-backed captures are reviewed."
+      ],
+      "priority": 3,
+      "passes": false,
+      "dependsOn": [
+        "US-003"
+      ]
+    },
+    {
+      "id": "US-005",
+      "title": "Finalize first warmth, firebrand acquisition, and the forced kitchen descent",
+      "description": "As a player, I want the first house answer and Elizabeth's first seizure beat to feel authored so the early game turns decisively into the service-world descent.",
+      "acceptanceCriteria": [
+        "Early foyer, parlor, kitchen, and dining flow produce one coherent first-warmth rule set.",
+        "The player reliably acquires the firebrand through the parlor hearth.",
+        "Elizabeth's laugh, firebrand loss, and kitchen-side forced descent trigger cleanly and intentionally.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_declared_interactions.gd` exits successfully.",
+        "`godot --path . --script test/e2e/test_opening_journey.gd` and `godot --path . --script test/e2e/test_room_walkthrough.gd` run successfully for the touched spaces, and the renderer-backed captures are reviewed."
+      ],
+      "priority": 4,
+      "passes": false,
+      "dependsOn": [
+        "US-004"
+      ]
+    },
+    {
+      "id": "US-006",
+      "title": "Implement the storage-basement landing, improvised relight, and bad-air pressure",
+      "description": "As a player, I want the basement arrival to be consequential and hostile so recovery of light and survival pressure become embodied play rather than abstract state changes.",
+      "acceptanceCriteria": [
+        "The storage-basement fall lands as an authored event with immediate bodily consequence.",
+        "The player must reclaim light through concise improvised relight logic.",
+        "Bad air creates meaningful pressure and failure consequence without HUD-style timers.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_declared_interactions.gd` exits successfully.",
+        "`godot --path . --script test/e2e/test_opening_journey.gd` and `godot --path . --script test/e2e/test_room_walkthrough.gd` run successfully for the touched spaces, and the renderer-backed captures are reviewed."
+      ],
+      "priority": 5,
+      "passes": false,
+      "dependsOn": [
+        "US-003",
+        "US-005"
+      ]
+    },
+    {
+      "id": "US-007",
+      "title": "Re-author the boiler and restore estate lighting coherently",
+      "description": "As a player, I want gas restoration to feel like reclaiming infrastructure so the house visibly changes when service machinery is brought back.",
+      "acceptanceCriteria": [
+        "The boiler room reads as concise service machinery rather than stale occult residue.",
+        "Gas restoration is a short, meaningful sequence that immediately wakes basement sconces.",
+        "Stable restored-light state propagates across the shared accessible mansion on subsequent loads.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_declared_interactions.gd` exits successfully.",
+        "`godot --path . --script test/e2e/test_opening_journey.gd` and `godot --path . --script test/e2e/test_room_walkthrough.gd` run successfully for the touched spaces, and the renderer-backed captures are reviewed."
+      ],
+      "priority": 6,
+      "passes": false,
+      "dependsOn": [
+        "US-006"
+      ]
+    },
+    {
+      "id": "US-008",
+      "title": "Build the service-world return and walking-stick transition",
+      "description": "As a player, I want re-emergence from the basement and the next tool phase to feel socially and mechanically coherent so midgame identity changes are legible.",
+      "acceptanceCriteria": [
+        "The player exits the service world through utilitarian circulation rather than a magical snap-back.",
+        "The walking stick cleanly replaces the early carried-light phase.",
+        "The walking stick gets an immediate first meaningful use.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_route_progression.gd` exits successfully.",
+        "`godot --path . --script test/e2e/test_opening_journey.gd` and `godot --path . --script test/e2e/test_room_walkthrough.gd` run successfully for the touched spaces, and the renderer-backed captures are reviewed."
+      ],
+      "priority": 7,
+      "passes": false,
+      "dependsOn": [
+        "US-007"
+      ]
+    },
+    {
+      "id": "US-009",
+      "title": "Author the Adult-route clue topology and shared-room bias",
+      "description": "As a player entering the Adult timeline, I want the house to bias me toward denied adulthood and private life so the attic resolution feels earned.",
+      "acceptanceCriteria": [
+        "An Adult-route clue topology is recorded in canonical working surfaces.",
+        "Shared and upper-house content biases toward letters, portraits, private effects, and denied adulthood.",
+        "The Adult route is legible before the attic becomes the final chamber.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/generated/test_declarations.gd` exits successfully."
+      ],
+      "priority": 8,
+      "passes": false,
+      "dependsOn": [
+        "US-008"
+      ]
+    },
+    {
+      "id": "US-010",
+      "title": "Deliver the Adult attic resolution, ending, docs, and capture proof",
+      "description": "As a player on the Adult timeline, I want the attic to resolve the route through the music box so the first canonical completion feels definitive.",
+      "acceptanceCriteria": [
+        "Adult late-game access clearly aims at attic truth and the attic functions as the true final room.",
+        "Adult late transition includes the route-specific late darkness / lantern-on-hook progression that opens attic truth rather than bypassing it.",
+        "The Adult music-box solve completes cleanly and records route completion without breaking fixed route order.",
+        "Adult docs and renderer-backed debug-view captures agree on the implemented route.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_full_playthrough.gd` exits successfully.",
+        "`godot --path . --script test/e2e/test_opening_journey.gd` and `godot --path . --script test/e2e/test_room_walkthrough.gd` run successfully for the touched spaces, and the renderer-backed captures are reviewed."
+      ],
+      "priority": 9,
+      "passes": false,
+      "dependsOn": [
+        "US-009"
+      ]
+    },
+    {
+      "id": "US-011",
+      "title": "Author the Elder-route clue topology and blackout grammar",
+      "description": "As a player entering the Elder timeline, I want the route to bias toward burial, caretaking, and altered memory so the later descent reads as distinct from Adult.",
+      "acceptanceCriteria": [
+        "An Elder-route clue topology is recorded in canonical working surfaces.",
+        "Shared and upper-house content biases toward burial records, caretaker residue, and altered memory.",
+        "The Elder rupture, blackout, and lantern-on-hook grammar are distinct from the Adult route.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_route_progression.gd` exits successfully.",
+        "`godot --path . --script test/e2e/test_opening_journey.gd` and `godot --path . --script test/e2e/test_room_walkthrough.gd` run successfully for the touched spaces, and the renderer-backed captures are reviewed."
+      ],
+      "priority": 8,
+      "passes": false,
+      "dependsOn": [
+        "US-008"
+      ]
+    },
+    {
+      "id": "US-012",
+      "title": "Deliver the Elder cellar-to-crypt resolution, ending, docs, and capture proof",
+      "description": "As a player on the Elder timeline, I want the late route to descend into personal burial truth so the second canonical completion hands off cleanly to Child.",
+      "acceptanceCriteria": [
+        "Elder late-game includes attic rupture, blackout descent, lantern-on-hook transition, wine-cellar bypass, and crypt-gate resolution as one coherent sequence.",
+        "Wine cellar traversal and crypt chamber feel route-specific, intimate, and accusatory.",
+        "The Elder music-box solve resolves the route and advances progression toward `Child`.",
+        "Elder docs and renderer-backed debug-view captures agree on blackout, cellar, crypt, and finale behavior.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_full_playthrough.gd` exits successfully.",
+        "`godot --path . --script test/e2e/test_opening_journey.gd` and `godot --path . --script test/e2e/test_room_walkthrough.gd` run successfully for the touched spaces, and the renderer-backed captures are reviewed."
+      ],
+      "priority": 9,
+      "passes": false,
+      "dependsOn": [
+        "US-011"
+      ]
+    },
+    {
+      "id": "US-013",
+      "title": "Author the Child-route clue topology and blocked-architecture chain",
+      "description": "As a player entering the Child timeline, I want the route to bias toward hidden childhood and blocked architecture so the final reveal feels physical rather than symbolic.",
+      "acceptanceCriteria": [
+        "A Child-route clue topology is recorded in canonical working surfaces.",
+        "Shared and upper-house content biases toward nursery traces, concealment, blocked architecture, and memory intrusion.",
+        "The attic becomes a clue engine that redirects the player away from attic truth and toward hidden-room truth.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_room_specs.gd` exits successfully.",
+        "`godot --path . --script test/e2e/test_opening_journey.gd` and `godot --path . --script test/e2e/test_room_walkthrough.gd` run successfully for the touched spaces, and the renderer-backed captures are reviewed."
+      ],
+      "priority": 8,
+      "passes": false,
+      "dependsOn": [
+        "US-008"
+      ]
+    },
+    {
+      "id": "US-014",
+      "title": "Deliver the Child hidden-room resolution, ending, docs, and capture proof",
+      "description": "As a player on the Child timeline, I want the hidden room to reveal erased domestic truth through the music box so the deepest route lands as the final canonical revelation.",
+      "acceptanceCriteria": [
+        "Hidden-room discovery is architectural and authored, not arbitrary.",
+        "Child late-game initially resembles attic truth, then redirects through attic clues into the sealed-room reveal.",
+        "The hidden chamber reads as erased domestic truth rather than occult residue.",
+        "The Child music-box solve, route completion, docs, and renderer-backed debug-view captures all agree.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_full_playthrough.gd` exits successfully.",
+        "`godot --path . --script test/e2e/test_opening_journey.gd` and `godot --path . --script test/e2e/test_room_walkthrough.gd` run successfully for the touched spaces, and the renderer-backed captures are reviewed."
+      ],
+      "priority": 9,
+      "passes": false,
+      "dependsOn": [
+        "US-013"
+      ]
+    },
+    {
+      "id": "US-015",
+      "title": "Unify the winding-key/music-box system and harden route-order progression",
+      "description": "As a player, I want one coherent final-object arc and one stable route order so all three timelines feel like one shipped game rather than separate prototypes.",
+      "acceptanceCriteria": [
+        "The winding key and music box form one coherent mechanical and symbolic system across all routes.",
+        "Runtime progression is fixed to `Adult -> Elder -> Child` with explicit post-third-run behavior.",
+        "Any legacy `macro_thread` compatibility is hidden implementation detail only, not canonical design truth.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_route_progression.gd` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_full_playthrough.gd` exits successfully."
+      ],
+      "priority": 10,
+      "passes": false,
+      "dependsOn": [
+        "US-010",
+        "US-012",
+        "US-014"
+      ]
+    },
+    {
+      "id": "US-016",
+      "title": "Migrate critical-path room docs off the old weave",
+      "description": "As a contributor, I want critical-path room docs to describe the shipped route program so the room corpus no longer misleads implementation or review.",
+      "acceptanceCriteria": [
+        "Critical-path room docs no longer frame current gameplay through `Captive`, `Mourning`, `Sovereign`, or the old weave.",
+        "Opening, basement, attic, crypt, and hidden-room docs all match the shipped route program.",
+        "Any remaining weave-era references in room docs are clearly archived or historical.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_room_specs.gd` exits successfully."
+      ],
+      "priority": 11,
+      "passes": false,
+      "dependsOn": [
+        "US-001",
+        "US-015"
+      ]
+    },
+    {
+      "id": "US-017",
+      "title": "Migrate declaration-authored route text off the old weave",
+      "description": "As a player, I want declaration-authored text to speak the shipped game so interactions, endings, and room language do not leak superseded route logic.",
+      "acceptanceCriteria": [
+        "Route-facing declarations align with `Adult`, `Elder`, and `Child`.",
+        "Critical-path declaration text no longer presents weave-era route framing as canonical.",
+        "Search-based audits over `declarations/` only leave intentional compatibility shims or archived references.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/generated/test_declarations.gd` exits successfully."
+      ],
+      "priority": 11,
+      "passes": false,
+      "dependsOn": [
+        "US-015"
+      ]
+    },
+    {
+      "id": "US-018",
+      "title": "Expand `gdUnit4`-backed automated coverage for the full three-route program",
+      "description": "As a maintainer, I want automated coverage that actually plays the shipped game through all three Elizabeth timelines so regressions are caught as player-visible failures.",
+      "acceptanceCriteria": [
+        "The full-playthrough surface drives real route progression from a clean start through `Adult -> Elder -> Child`.",
+        "Route-order, shared-spine, and ending coverage distinguish the three authored timelines rather than only legacy compatibility outcomes.",
+        "The suite runs through the repo's documented `gdUnit4` CLI and emits usable reports under the existing reporting flow.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_full_playthrough.gd` exits successfully.",
+        "`godot --headless --path . -s addons/gdUnit4/bin/GdUnitCmdTool.gd` exits successfully."
+      ],
+      "priority": 11,
+      "passes": false,
+      "dependsOn": [
+        "US-008",
+        "US-010",
+        "US-012",
+        "US-014",
+        "US-015"
+      ]
+    },
+    {
+      "id": "US-019",
+      "title": "Rebuild renderer-backed debug-view acceptance lanes for product-truth review",
+      "description": "As a reviewer, I want renderer-backed Godot debug-view acceptance lanes so visual and traversal regressions can be judged against stable evidence.",
+      "acceptanceCriteria": [
+        "`test/e2e/test_opening_journey.gd` and `test/e2e/test_room_walkthrough.gd` reflect the shipped opening, shared spine, and route finales.",
+        "Capture manifests cover the opening, basement, attic, crypt, hidden room, and each route finale.",
+        "Review evidence is organized so failures are actionable without ad hoc manual capture work.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --path . --script test/e2e/test_opening_journey.gd` exits successfully.",
+        "`godot --path . --script test/e2e/test_room_walkthrough.gd` exits successfully, and the renderer-backed captures are reviewed."
+      ],
+      "priority": 12,
+      "passes": false,
+      "dependsOn": [
+        "US-007",
+        "US-010",
+        "US-012",
+        "US-014",
+        "US-018"
+      ]
+    },
+    {
+      "id": "US-020",
+      "title": "Polish critical-path assets, materials, silhouette, and sourced lighting",
+      "description": "As a player, I want the critical path to feel visually intentional and fully sourced so the final product reads as polished rather than merely complete.",
+      "acceptanceCriteria": [
+        "Opening, basement, attic, crypt, and hidden room each have distinct visual identity and disciplined materials.",
+        "All dramatic lighting remains visibly sourced by candles, sconces, windows, lanterns, or machinery.",
+        "Polish changes preserve declaration-first runtime behavior and do not regress automated route coverage.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_room_specs.gd` exits successfully.",
+        "`godot --path . --script test/e2e/test_opening_journey.gd` and `godot --path . --script test/e2e/test_room_walkthrough.gd` run successfully for the touched spaces, and the renderer-backed captures are reviewed."
+      ],
+      "priority": 12,
+      "passes": false,
+      "dependsOn": [
+        "US-007",
+        "US-010",
+        "US-012",
+        "US-014",
+        "US-018"
+      ]
+    },
+    {
+      "id": "US-021",
+      "title": "Run the repo-local integration freeze and convergence proof",
+      "description": "As the project owner, I want one freeze gate where runtime, docs, tests, and visual evidence all converge so repo-local completion is defensible.",
+      "acceptanceCriteria": [
+        "The full freeze-only command set passes.",
+        "A clean-save player journey can complete the shared spine and all three Elizabeth timelines in the shipped order.",
+        "Canonical docs, declarations, test reports, and renderer-backed captures all describe the same finished game.",
+        "`godot --headless --path . --quit-after 1` exits successfully.",
+        "`godot --headless --path . --script test/generated/test_declarations.gd` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_room_specs.gd` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_declared_interactions.gd` exits successfully.",
+        "`godot --headless --path . --script test/e2e/test_full_playthrough.gd` exits successfully.",
+        "`godot --path . --script test/e2e/test_room_walkthrough.gd` exits successfully.",
+        "`godot --path . --script test/e2e/test_opening_journey.gd` exits successfully, and the renderer-backed captures are reviewed."
+      ],
+      "priority": 13,
+      "passes": false,
+      "dependsOn": [
+        "US-015",
+        "US-016",
+        "US-017",
+        "US-018",
+        "US-019",
+        "US-020"
+      ]
+    },
+    {
+      "id": "US-022",
+      "title": "Archive historical weave-era material and tighten contributor handoff",
+      "description": "As a future contributor, I want archived historical material clearly separated from canonical truth so resuming work after freeze is low-friction and low-risk.",
+      "acceptanceCriteria": [
+        "Retained weave-era docs are marked archived or superseded and no longer read as current truth.",
+        "`docs/INDEX.md`, `PLAN.md`, `MEMORY.md`, and `STRUCTURE.md` clearly distinguish canonical, archived, and maintenance surfaces.",
+        "Contributor-facing handoff instructions name the canonical source map, regression lanes, and route-order invariants.",
+        "`godot --headless --path . --quit-after 1` exits successfully."
+      ],
+      "priority": 14,
+      "passes": false,
+      "dependsOn": [
+        "US-021"
+      ]
+    },
+    {
+      "id": "US-023",
+      "title": "Establish the post-freeze maintenance baseline and regression register",
+      "description": "As a maintainer, I want a known-good maintenance baseline so future fixes start from an honest verified state rather than from assumptions.",
+      "acceptanceCriteria": [
+        "A post-freeze baseline rerun is recorded from the frozen repo state.",
+        "The maintenance register names flaky lanes, high-risk rooms/systems, and likely future regression fronts.",
+        "The repo is left in a clear maintenance posture rather than implicit ongoing feature development.",
+        "`godot --headless --path . --quit-after 1` exits successfully."
+      ],
+      "priority": 14,
+      "passes": false,
+      "dependsOn": [
+        "US-021",
+        "US-022"
+      ]
+    },
+    {
+      "id": "US-024",
+      "title": "Audit Android export and packaged-validation prerequisites",
+      "description": "As a releaser, I want a concrete packaged-validation prerequisite map so release work starts from honest Android/export assumptions rather than wishful thinking.",
+      "acceptanceCriteria": [
+        "`export_presets.cfg`, build paths, and packaged-validation docs are audited together.",
+        "SDK, signing, emulator/device, and automation prerequisites are recorded explicitly.",
+        "Any missing local prerequisites are marked as real blockers, not silently ignored.",
+        "`godot --headless --path . --quit-after 1` exits successfully."
+      ],
+      "priority": 15,
+      "passes": false,
+      "dependsOn": [
+        "US-021"
+      ]
+    },
+    {
+      "id": "US-025",
+      "title": "Finish debug-gated packaged test-helper support",
+      "description": "As a maintainer, I want packaged debug/test helper support to be stable and safely gated so device automation can target the critical path without leaking test affordances into normal play.",
+      "acceptanceCriteria": [
+        "Packaged debug/test builds expose stable automation hooks where needed.",
+        "Test-helper affordances are clearly gated away from normal player-facing runtime.",
+        "Helper support is documented well enough for packaged smoke validation to consume it.",
+        "`godot --headless --path . --quit-after 1` exits successfully."
+      ],
+      "priority": 15,
+      "passes": false,
+      "dependsOn": [
+        "US-024"
+      ]
+    },
+    {
+      "id": "US-026",
+      "title": "Author packaged smoke and critical-path validation flows",
+      "description": "As a reviewer, I want packaged smoke and critical-path validation flows so release readiness is backed by repeatable launch-to-critical-path evidence.",
+      "acceptanceCriteria": [
+        "A packaged validation flow covers launch, valise, dark-house entry, first warmth, and one deeper continuation.",
+        "Emulator/device validation steps are documented in an executable order.",
+        "Packaged validation evidence can be gathered without ad hoc rediscovery.",
+        "`godot --headless --path . --quit-after 1` exits successfully."
+      ],
+      "priority": 16,
+      "passes": false,
+      "dependsOn": [
+        "US-025"
+      ]
+    },
+    {
+      "id": "US-027",
+      "title": "Build the release candidate, validate install and launch, and close release-readiness docs",
+      "description": "As the project owner, I want one final packaged-validation proof point so the whole-game ship plan ends with actual build/install/launch evidence rather than repo-local confidence alone.",
+      "acceptanceCriteria": [
+        "The Android release build completes successfully.",
+        "Install and launch are proven on emulator or device, with honest evidence captured.",
+        "Release-readiness docs record actual packaged-validation scope, evidence, and remaining caveats.",
+        "`godot --headless --path . --export-release \"Android\" build/ashworth-manor.apk` exits successfully."
+      ],
+      "priority": 17,
+      "passes": false,
+      "dependsOn": [
+        "US-024",
+        "US-025",
+        "US-026"
+      ]
+    }
+  ]
+}

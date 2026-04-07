@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "boiler_mask"
+object_type = "observation"
+title = "Mask"
+content = "A metallic mask on a nail. The expression is frozen in a scream. The inside is stained dark."
+on_read_flags = PackedStringArray()

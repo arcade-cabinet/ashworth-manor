@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Material" path="res://resources/glass/estate_crystal_glass_material.tres" id="1_7d6ix"]
+[ext_resource type="Material" path="res://resources/water/dining_wine_agitated_material.tres" id="1_wy1r4"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_base"]
+top_radius = 0.045
+bottom_radius = 0.05
+height = 0.01
+radial_segments = 20
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_stem"]
+top_radius = 0.008
+bottom_radius = 0.01
+height = 0.11
+radial_segments = 16
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bowl"]
+top_radius = 0.05
+bottom_radius = 0.03
+height = 0.1
+radial_segments = 20
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wine"]
+top_radius = 0.035
+bottom_radius = 0.032
+height = 0.02
+radial_segments = 18
+
+[node name="DiningWineGlassAgitated" type="Node3D"]
+
+[node name="Base" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.005, 0)
+material_override = ExtResource("1_7d6ix")
+mesh = SubResource("CylinderMesh_base")
+
+[node name="Stem" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.065, 0)
+material_override = ExtResource("1_7d6ix")
+mesh = SubResource("CylinderMesh_stem")
+
+[node name="Bowl" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.165, 0)
+rotation = Vector3(0.0, 0.08, 0.04)
+material_override = ExtResource("1_7d6ix")
+mesh = SubResource("CylinderMesh_bowl")
+
+[node name="Wine" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.16, 0)
+material_override = ExtResource("1_wy1r4")
+mesh = SubResource("CylinderMesh_wine")

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "music_box"
+object_type = "box"
+title = "Music Box"
+content = "A delicate music box with a dancing ballerina. The mechanism is jammed — it doesn't play when opened."
+on_read_flags = PackedStringArray("examined_music_box")

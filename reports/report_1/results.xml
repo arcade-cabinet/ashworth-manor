@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites id="2026-04-05" name="report_1" tests="6" failures="24" skipped="0" flaky="0" time="0.000">
+	<testsuite id="0" name="test_full_playthrough" package="test/e2e" timestamp="2026-04-06T03:37:05" hostname="localhost" tests="6" failures="24" errors="1" skipped="0" flaky="0" time="1.332">
+		<testcase name="test_full_freedom_ending_playthrough" classname="test_full_playthrough" time="1.151">
+			<error message="ERROR: res://test/e2e/test_full_playthrough.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Invalid access to property or key 'inventory' on a base object of type 'Node (game_manager.gd)'.'
+	at res://test/e2e/test_full_playthrough.gd:352
+]]>
+			</error>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:188" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:189" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:541" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:213" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:530" type="FAILURE">
+<![CDATA[
+Expecting:
+ 'Hedge Garden'
+ but was
+ 'Hedge Garden'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:541" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:541" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:249" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:270" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:271" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:295" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:541" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:320" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:321" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:327" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:328" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:331" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:332" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:336" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:340" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:341" type="FAILURE">
+<![CDATA[
+Expecting: 'false' but is 'true'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:345" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:346" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+			<failure message="FAILED: res://test/e2e/test_full_playthrough.gd:347" type="FAILURE">
+<![CDATA[
+Expecting: 'true' but is 'false'
+]]>
+			</failure>
+		</testcase>
+	</testsuite>
+</testsuites>

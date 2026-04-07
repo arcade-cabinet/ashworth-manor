@@ -1,0 +1,451 @@
+[gd_resource type="Resource" script_class="RoomDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/room_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
+[ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="6"]
+
+[sub_resource type="Resource" id="anchor_entry_from_drive"]
+script = ExtResource("6")
+anchor_id = "entry_from_drive"
+anchor_type = "entry"
+position = Vector3(0, 0, -4.8)
+rotation_y = 180.0
+target_anchor_id = "focus_front_door"
+tags = PackedStringArray("default", "forecourt")
+
+[sub_resource type="Resource" id="anchor_entry_front_door"]
+script = ExtResource("6")
+anchor_id = "entry_front_door"
+anchor_type = "entry"
+position = Vector3(0, 0, 3.9)
+rotation_y = 0.0
+target_anchor_id = "focus_forecourt"
+tags = PackedStringArray("return", "doorway")
+
+[sub_resource type="Resource" id="anchor_focus_front_door"]
+script = ExtResource("6")
+anchor_id = "focus_front_door"
+anchor_type = "focal"
+position = Vector3(0, 2.0, 4.8)
+rotation_y = 180.0
+tags = PackedStringArray("door", "threshold")
+
+[sub_resource type="Resource" id="anchor_focus_forecourt"]
+script = ExtResource("6")
+anchor_id = "focus_forecourt"
+anchor_type = "focal"
+position = Vector3(0, 1.8, -4.9)
+rotation_y = 0.0
+tags = PackedStringArray("return", "drive")
+
+[sub_resource type="Resource" id="resp_door"]
+script = ExtResource("3")
+condition = ""
+title = "Front Door"
+text = "The front door is shut fast against the weather. No light slips under it. The brass key from your valise is the only civil answer the house is likely to give."
+
+[sub_resource type="Resource" id="resp_lamp"]
+script = ExtResource("3")
+condition = ""
+title = "Forecourt Lamp"
+text = "The lamp glass is sooty and old, yet the flame holds with stubborn steadiness. Wealth here was meant to be seen before it was heard."
+
+[sub_resource type="Resource" id="resp_service_gate"]
+script = ExtResource("3")
+condition = ""
+title = "Service-Side Gate"
+text = "A locked iron gate bars the west path. The metalwork is plainer than the front approach, practical rather than ceremonial. Whatever lies that way was never meant to receive callers first."
+
+[sub_resource type="Resource" id="resp_garden_gate"]
+script = ExtResource("3")
+condition = ""
+title = "Garden-Side Gate"
+text = "The east gate is finer in its patterning but no less shut. Beyond it, hedge and darkness swallow what should be the gentler side of the estate."
+
+[sub_resource type="Resource" id="inter_front_door"]
+script = ExtResource("2")
+id = "front_steps_door"
+type = "observation"
+scene_role = "threshold_control"
+position = Vector3(0, 1.6, 4.2)
+collision_size = Vector3(2.2, 2.8, 1.0)
+responses = Array[Resource]([SubResource("resp_door")])
+
+[sub_resource type="Resource" id="inter_front_lamp"]
+script = ExtResource("2")
+id = "front_steps_lamp"
+type = "observation"
+scene_role = "clue_dressing"
+position = Vector3(-2.2, 1.5, 3.5)
+collision_size = Vector3(1.0, 2.0, 1.0)
+responses = Array[Resource]([SubResource("resp_lamp")])
+
+[sub_resource type="Resource" id="inter_service_gate"]
+script = ExtResource("2")
+id = "front_steps_service_gate"
+type = "observation"
+scene_role = "clue_dressing"
+position = Vector3(-9.0, 1.5, 0.7)
+collision_size = Vector3(2.0, 2.6, 1.4)
+responses = Array[Resource]([SubResource("resp_service_gate")])
+
+[sub_resource type="Resource" id="inter_garden_gate"]
+script = ExtResource("2")
+id = "front_steps_garden_gate"
+type = "observation"
+scene_role = "clue_dressing"
+position = Vector3(9.0, 1.5, 0.7)
+collision_size = Vector3(2.0, 2.6, 1.4)
+responses = Array[Resource]([SubResource("resp_garden_gate")])
+
+[sub_resource type="Resource" id="light_moonlight"]
+script = ExtResource("4")
+id = "front_steps_moonlight"
+type = "directional"
+position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(-42, 36, 0)
+color = Color(0.58, 0.64, 0.86, 1)
+energy = 1.0
+range = 0.0
+shadows = true
+flickering = false
+
+[sub_resource type="Resource" id="light_doorway_glow"]
+script = ExtResource("4")
+id = "front_steps_doorway_glow"
+type = "omni"
+position = Vector3(0, 1.8, 4.5)
+color = Color(1.0, 0.75, 0.45, 1)
+energy = 0.0
+range = 5.2
+shadows = false
+flickering = false
+
+[sub_resource type="Resource" id="light_lamp_left"]
+script = ExtResource("4")
+id = "front_steps_lamp_left"
+type = "omni"
+position = Vector3(-2.25, 1.65, 4.1)
+color = Color(1.0, 0.8, 0.52, 1)
+energy = 2.1
+range = 4.8
+shadows = false
+flickering = true
+flicker_pattern = "gas"
+
+[sub_resource type="Resource" id="light_lamp_right"]
+script = ExtResource("4")
+id = "front_steps_lamp_right"
+type = "omni"
+position = Vector3(2.25, 1.65, 4.1)
+color = Color(1.0, 0.8, 0.52, 1)
+energy = 2.1
+range = 4.8
+shadows = false
+flickering = true
+flicker_pattern = "gas"
+
+[sub_resource type="Resource" id="prop_step_center"]
+script = ExtResource("5")
+id = "front_steps_center"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(0, 0, -1.6)
+scale = 1.08
+
+[sub_resource type="Resource" id="prop_step_left"]
+script = ExtResource("5")
+id = "front_steps_left"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(-1.8, 0, -1.9)
+rotation_y = -5.0
+scale = 1.14
+
+[sub_resource type="Resource" id="prop_step_right"]
+script = ExtResource("5")
+id = "front_steps_right"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(1.8, 0, -1.9)
+rotation_y = 5.0
+scale = 1.14
+
+[sub_resource type="Resource" id="prop_step_far"]
+script = ExtResource("5")
+id = "front_steps_far"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(0, 0, 0.8)
+scale = 1.08
+
+[sub_resource type="Resource" id="prop_statue_plinth_left"]
+script = ExtResource("5")
+id = "front_steps_statue_plinth_left"
+model = "res://assets/shared/structure/pillar0_002.glb"
+position = Vector3(-9.2, 0, -0.8)
+rotation_y = 22.0
+scale = 0.72
+
+[sub_resource type="Resource" id="prop_statue_left"]
+script = ExtResource("5")
+id = "front_steps_statue_left"
+model = "res://assets/shared/decor/statue.glb"
+position = Vector3(-8.8, 1.0, -1.2)
+rotation_y = 14.0
+scale = 0.58
+
+[sub_resource type="Resource" id="prop_statue_plinth_right"]
+script = ExtResource("5")
+id = "front_steps_statue_plinth_right"
+model = "res://assets/shared/structure/pillar0_003.glb"
+position = Vector3(9.3, 0, -0.5)
+rotation_y = -22.0
+scale = 0.72
+
+[sub_resource type="Resource" id="prop_statue_right"]
+script = ExtResource("5")
+id = "front_steps_statue_right"
+model = "res://assets/shared/decor/statue.glb"
+position = Vector3(8.9, 1.0, -0.9)
+rotation_y = -12.0
+scale = 0.58
+
+[sub_resource type="Resource" id="prop_facade_wall_center"]
+script = ExtResource("5")
+id = "front_steps_facade_wall_center"
+model = "res://assets/mansion_psx/models/SM_Door_Wall.glb"
+position = Vector3(0, 0, 4.9)
+rotation_y = 90.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_wall_left"]
+script = ExtResource("5")
+id = "front_steps_facade_wall_left"
+model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+position = Vector3(-4.6, 0, 5.4)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_wall_right"]
+script = ExtResource("5")
+id = "front_steps_facade_wall_right"
+model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+position = Vector3(4.6, 0, 5.4)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_wing_left"]
+script = ExtResource("5")
+id = "front_steps_facade_wing_left"
+model = "res://assets/mansion_psx/models/SM_Big_Wall.glb"
+position = Vector3(-9.0, 0, 5.9)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_wing_right"]
+script = ExtResource("5")
+id = "front_steps_facade_wing_right"
+model = "res://assets/mansion_psx/models/SM_Big_Wall.glb"
+position = Vector3(9.0, 0, 5.9)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_pillar_left"]
+script = ExtResource("5")
+id = "front_steps_facade_pillar_left"
+model = "res://assets/mansion_psx/models/SM_Wall_Column.glb"
+position = Vector3(-2.3, 0, 4.8)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_pillar_right"]
+script = ExtResource("5")
+id = "front_steps_facade_pillar_right"
+model = "res://assets/mansion_psx/models/SM_Wall_Column.glb"
+position = Vector3(2.3, 0, 4.8)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_upper_center"]
+script = ExtResource("5")
+id = "front_steps_facade_upper_center"
+model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+position = Vector3(0, 4.05, 5.15)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_upper_left"]
+script = ExtResource("5")
+id = "front_steps_facade_upper_left"
+model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+position = Vector3(-4.6, 4.05, 5.55)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_upper_right"]
+script = ExtResource("5")
+id = "front_steps_facade_upper_right"
+model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+position = Vector3(4.6, 4.05, 5.55)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_roof_left"]
+script = ExtResource("5")
+id = "front_steps_facade_roof_left"
+model = "res://assets/mansion_psx/models/SM_Roof.glb"
+position = Vector3(-4.6, 8.08, 5.65)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_roof_center"]
+script = ExtResource("5")
+id = "front_steps_facade_roof_center"
+model = "res://assets/mansion_psx/models/SM_Roof.glb"
+position = Vector3(0, 8.08, 5.25)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_roof_right"]
+script = ExtResource("5")
+id = "front_steps_facade_roof_right"
+model = "res://assets/mansion_psx/models/SM_Roof.glb"
+position = Vector3(4.6, 8.08, 5.65)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_doorway"]
+script = ExtResource("5")
+id = "front_steps_facade_doorway"
+model = "res://assets/mansion_psx/models/SM_Door_Frame.glb"
+position = Vector3(0, 0, 4.9)
+rotation_y = 90.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_door"]
+script = ExtResource("5")
+id = "front_steps_facade_door"
+model = "res://assets/shared/structure/door1.glb"
+position = Vector3(0.94, 0, 4.55)
+rotation_y = 112.0
+scale = 1.06
+
+[sub_resource type="Resource" id="prop_facade_lamp_left"]
+script = ExtResource("5")
+id = "front_steps_facade_lamp_left"
+model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+position = Vector3(-2.2, 0, 4.05)
+rotation_y = 8.0
+scale = 0.76
+
+[sub_resource type="Resource" id="prop_facade_lamp_right"]
+script = ExtResource("5")
+id = "front_steps_facade_lamp_right"
+model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+position = Vector3(2.2, 0, 4.05)
+rotation_y = -8.0
+scale = 0.76
+
+[sub_resource type="Resource" id="prop_service_gate_inner_pillar"]
+script = ExtResource("5")
+id = "front_steps_service_gate_inner_pillar"
+model = "res://assets/grounds/family_crypt/drystone_column_capped.glb"
+position = Vector3(-7.9, 0, 0.7)
+
+[sub_resource type="Resource" id="prop_service_gate"]
+script = ExtResource("5")
+id = "front_steps_service_gate_prop"
+model = "res://assets/grounds/family_crypt/metalfence_gate_only_sides.glb"
+position = Vector3(-9.2, 0, 0.7)
+rotation_y = 90.0
+
+[sub_resource type="Resource" id="prop_service_gate_outer_pillar"]
+script = ExtResource("5")
+id = "front_steps_service_gate_outer_pillar"
+model = "res://assets/grounds/family_crypt/drystone_column_capped.glb"
+position = Vector3(-10.5, 0, 0.7)
+
+[sub_resource type="Resource" id="prop_service_fence_stub"]
+script = ExtResource("5")
+id = "front_steps_service_fence_stub"
+model = "res://assets/grounds/family_crypt/metal_fence_1.glb"
+position = Vector3(-11.8, 0, 0.7)
+rotation_y = 90.0
+
+[sub_resource type="Resource" id="prop_service_hedge_stub"]
+script = ExtResource("5")
+id = "front_steps_service_hedge_stub"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(-12.7, 0, 0.9)
+rotation_y = -28.0
+scale = 0.72
+
+[sub_resource type="Resource" id="prop_garden_gate_inner_pillar"]
+script = ExtResource("5")
+id = "front_steps_garden_gate_inner_pillar"
+model = "res://assets/grounds/family_crypt/drystone_column_capped.glb"
+position = Vector3(7.9, 0, 0.7)
+
+[sub_resource type="Resource" id="prop_garden_gate"]
+script = ExtResource("5")
+id = "front_steps_garden_gate_prop"
+model = "res://assets/grounds/family_crypt/metalfence_gate_only_sides.glb"
+position = Vector3(9.2, 0, 0.7)
+rotation_y = 270.0
+
+[sub_resource type="Resource" id="prop_garden_gate_outer_pillar"]
+script = ExtResource("5")
+id = "front_steps_garden_gate_outer_pillar"
+model = "res://assets/grounds/family_crypt/drystone_column_capped.glb"
+position = Vector3(10.5, 0, 0.7)
+
+[sub_resource type="Resource" id="prop_garden_fence_stub"]
+script = ExtResource("5")
+id = "front_steps_garden_fence_stub"
+model = "res://assets/grounds/family_crypt/metal_fence_1.glb"
+position = Vector3(11.8, 0, 0.7)
+rotation_y = 270.0
+
+[sub_resource type="Resource" id="prop_garden_hedge_stub"]
+script = ExtResource("5")
+id = "front_steps_garden_hedge_stub"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(12.7, 0, 0.9)
+rotation_y = 28.0
+scale = 0.72
+
+[resource]
+script = ExtResource("1")
+room_id = "front_steps"
+room_name = "Front Steps"
+floor_name = "grounds"
+environment_preset = "grounds"
+dimensions = Vector3(26, 10, 12)
+is_exterior = true
+spatial_class = "threshold_room"
+exposure_faces = PackedStringArray("south", "east", "west", "roof")
+outlook_zones = {"north": "front_door_threshold", "south": "ceremonial_drive_return", "east": "side_path_gate_east", "west": "side_path_gate_west", "roof": "open_sky"}
+window_view_mode = "facade_view"
+wall_texture = ""
+floor_texture = "res://assets/grounds/front_gate/rocks_Rokcs 2.png"
+ceiling_texture = ""
+wall_north = PackedStringArray()
+wall_south = PackedStringArray()
+wall_east = PackedStringArray()
+wall_west = PackedStringArray()
+ambient_loop = "res://assets/audio/loops/Moonlight Loop1.ogg"
+tension_loop = "res://assets/audio/tension/tension_exploration.wav"
+reverb_bus = "OpenAir"
+footstep_surface = "stone"
+spawn_position = Vector3(0, 0, -4.8)
+spawn_rotation_y = 180.0
+entry_anchors = Array[Resource]([SubResource("anchor_entry_from_drive"), SubResource("anchor_entry_front_door")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_front_door"), SubResource("anchor_focus_forecourt")])
+interactables = Array[Resource]([SubResource("inter_front_door"), SubResource("inter_front_lamp"), SubResource("inter_service_gate"), SubResource("inter_garden_gate")])
+lights = Array[Resource]([SubResource("light_moonlight"), SubResource("light_doorway_glow"), SubResource("light_lamp_left"), SubResource("light_lamp_right")])
+props = Array[Resource]([SubResource("prop_step_center"), SubResource("prop_step_left"), SubResource("prop_step_right"), SubResource("prop_step_far"), SubResource("prop_statue_plinth_left"), SubResource("prop_statue_left"), SubResource("prop_statue_plinth_right"), SubResource("prop_statue_right"), SubResource("prop_facade_wall_center"), SubResource("prop_facade_wall_left"), SubResource("prop_facade_wall_right"), SubResource("prop_facade_wing_left"), SubResource("prop_facade_wing_right"), SubResource("prop_facade_pillar_left"), SubResource("prop_facade_pillar_right"), SubResource("prop_facade_upper_center"), SubResource("prop_facade_upper_left"), SubResource("prop_facade_upper_right"), SubResource("prop_facade_roof_left"), SubResource("prop_facade_roof_center"), SubResource("prop_facade_roof_right"), SubResource("prop_facade_doorway"), SubResource("prop_facade_door"), SubResource("prop_facade_lamp_left"), SubResource("prop_facade_lamp_right"), SubResource("prop_service_gate_inner_pillar"), SubResource("prop_service_gate"), SubResource("prop_service_gate_outer_pillar"), SubResource("prop_service_fence_stub"), SubResource("prop_service_hedge_stub"), SubResource("prop_garden_gate_inner_pillar"), SubResource("prop_garden_gate"), SubResource("prop_garden_gate_outer_pillar"), SubResource("prop_garden_fence_stub"), SubResource("prop_garden_hedge_stub")])
+on_entry = Array[Resource]([])
+on_exit = Array[Resource]([])
+ambient_events = Array[Resource]([])
+conditional_events = Array[Resource]([])
+flashbacks = Array[Resource]([])

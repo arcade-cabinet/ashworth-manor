@@ -397,13 +397,13 @@ SOLUTION: Loose Flagstone in Family Crypt
     │
     ▼
 RESOLUTION: Open Jewelry Box (Master Bedroom)
-    Item Added: elizabeths_locket
+    Item Added: elizabeth_locket
 ```
 
 ### Jewelry Box Contents
 ```yaml
-elizabeths_locket:
-  id: elizabeths_locket
+elizabeth_locket:
+  id: elizabeth_locket
   name: "Elizabeth's Locket"
   category: artifact
   description: |

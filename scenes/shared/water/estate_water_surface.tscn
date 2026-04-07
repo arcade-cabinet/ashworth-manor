@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Material" path="res://resources/water/estate_pond_water_material.tres" id="1_1wq5w"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_m3mnn"]
+size = Vector2(1, 1)
+subdivide_width = 24
+subdivide_depth = 24
+
+[node name="EstateWaterSurface" type="Node3D"]
+
+[node name="WaterSurface" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.02, 0)
+material_override = ExtResource("1_1wq5w")
+mesh = SubResource("PlaneMesh_m3mnn")

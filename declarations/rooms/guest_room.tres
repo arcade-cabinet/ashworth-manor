@@ -1,0 +1,281 @@
+[gd_resource type="Resource" script_class="RoomDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/room_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
+[ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
+[ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
+[ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+
+; === Guest Ledger Responses ===
+
+[sub_resource type="Resource" id="resp_ledger_default"]
+script = ExtResource("3")
+condition = ""
+title = "Guest Ledger"
+text = "A leather guest book. Most entries are perfunctory: 'Lovely stay, splendid hospitality.' The last entry is from Helena Pierce, November 3rd, 1891: 'Arrived for research on spiritual phenomena. Lord Ashworth most accommodating. The house is remarkable.' She never wrote a departure entry."
+set_state = {"read_guest_ledger": true}
+
+[sub_resource type="Resource" id="resp_ledger_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Guest Ledger"
+text = "Helena Pierce arrived November 3rd. Her entry: 'Lord Ashworth invited me to study the phenomena. He says his daughter is the source. He says she must be contained. I am here to determine if his methods are sound.' She was here to validate the imprisonment. A scientist confirming the cage. She never left. The last page of the ledger has been torn out."
+set_state = {"read_guest_ledger": true}
+
+[sub_resource type="Resource" id="resp_ledger_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Guest Ledger"
+text = "Helena Pierce arrived November 3rd. Her entry: 'The Ashworths are a family in mourning. I see it in everything -- the way Lady Ashworth stares at the ceiling, the way Lord Ashworth avoids the upper floors. They asked me to help their daughter. I do not think they mean medically.' She came to help. She could not. Another person who tried and failed to reach Elizabeth."
+set_state = {"read_guest_ledger": true}
+
+[sub_resource type="Resource" id="resp_ledger_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Guest Ledger"
+text = "Helena Pierce arrived November 3rd. Her entry: 'Something extraordinary is happening in this house. The girl has abilities I have only read about in folklore. She moved a teacup across the table without touching it. Lord Ashworth calls it dangerous. I call it remarkable.' Helena was not afraid. She was fascinated. Elizabeth let her watch. Showed her things. The guest ledger was their correspondence -- Helena asked questions in ink, and the answers appeared on the next page in a child's handwriting."
+set_state = {"read_guest_ledger": true}
+
+; === Bed Observation ===
+
+[sub_resource type="Resource" id="resp_bed_default"]
+script = ExtResource("3")
+condition = ""
+title = "Guest Bed"
+text = "The bed is made but not pristine. The pillow still holds an impression. Helena slept here for seven weeks before she vanished. Her valise is open at the foot of the bed -- half unpacked, as if she planned to stay longer."
+
+[sub_resource type="Resource" id="resp_photo_truth"]
+script = ExtResource("3")
+condition = "knows_full_truth"
+title = "Photograph"
+text = "Helena Pierce. She came for a weekend and the house kept her. The smile in the photograph belongs to someone who still believed haunted houses were subjects to be studied instead of mouths that close."
+set_state = {"examined_helena_photo": true}
+
+[sub_resource type="Resource" id="resp_photo_default"]
+script = ExtResource("3")
+condition = ""
+title = "Photograph"
+text = "A woman in traveling clothes, smiling at the camera with the confidence of someone who expects to return home and tell a story about all this. Helena Pierce before Ashworth Manor corrected that assumption."
+set_state = {"examined_helena_photo": true}
+
+[sub_resource type="Resource" id="resp_luggage_default"]
+script = ExtResource("3")
+condition = ""
+title = "Luggage"
+text = "Packed and nearly closed. One clasp is still open. Helena was preparing to leave, or pretending to. The folds inside are neat until the top layer, where everything becomes hurried and uncertain."
+
+[sub_resource type="Resource" id="resp_lamp_default"]
+script = ExtResource("3")
+condition = ""
+title = "Lamp"
+text = "A dry oil lamp on the desk. The wick was trimmed for one more night and never lit. Helena wrote by moonlight after this. Or she stopped writing entirely."
+
+; === Interactables ===
+
+[sub_resource type="Resource" id="inter_ledger"]
+script = ExtResource("2")
+id = "guest_ledger"
+type = "note"
+position = Vector3(-3.5, 0.9, -3)
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_ledger_default")])
+thread_responses = {"captive": [SubResource("resp_ledger_captive")], "mourning": [SubResource("resp_ledger_mourning")], "sovereign": [SubResource("resp_ledger_sovereign")]}
+
+[sub_resource type="Resource" id="inter_bed"]
+script = ExtResource("2")
+id = "guest_bed"
+type = "observation"
+position = Vector3(2, 0.8, 0)
+collision_size = Vector3(2.0, 1.0, 2.0)
+responses = Array[Resource]([SubResource("resp_bed_default")])
+
+[sub_resource type="Resource" id="inter_photo"]
+script = ExtResource("2")
+id = "helena_photo"
+type = "photo"
+position = Vector3(-3.5, 1.6, 0)
+wall = "west"
+collision_size = Vector3(0.8, 0.8, 0.4)
+model = "res://assets/shared/decor/picture_blank_004.glb"
+responses = Array[Resource]([SubResource("resp_photo_truth"), SubResource("resp_photo_default")])
+
+[sub_resource type="Resource" id="inter_luggage"]
+script = ExtResource("2")
+id = "guest_luggage"
+type = "observation"
+position = Vector3(3.0, 0.3, 2.0)
+collision_size = Vector3(1.0, 0.8, 0.8)
+model = "res://assets/upper_floor/guest_room/luggage_mp_1.glb"
+responses = Array[Resource]([SubResource("resp_luggage_default")])
+
+[sub_resource type="Resource" id="inter_lamp"]
+script = ExtResource("2")
+id = "guest_lamp"
+type = "observation"
+position = Vector3(3.0, 0.8, 0.0)
+collision_size = Vector3(0.8, 0.8, 0.8)
+model = "res://assets/upper_floor/guest_room/lamp_mx_3_off.glb"
+responses = Array[Resource]([SubResource("resp_lamp_default")])
+
+; === Lights ===
+
+[sub_resource type="Resource" id="light_window"]
+script = ExtResource("4")
+id = "guest_moonlight"
+type = "omni"
+position = Vector3(0, 2, 3.5)
+color = Color(0.5, 0.6, 0.9, 1)
+energy = 0.8
+range = 5.0
+shadows = false
+flickering = false
+
+[sub_resource type="Resource" id="light_candle"]
+script = ExtResource("4")
+id = "guest_desk_candle"
+type = "omni"
+position = Vector3(-2.0, 1.0, 0.0)
+color = Color(1.0, 0.82, 0.58, 1)
+energy = 0.35
+range = 2.8
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+; === Props ===
+
+[sub_resource type="Resource" id="prop_bed"]
+script = ExtResource("5")
+id = "guest_bed_model"
+model = "res://assets/shared/furniture/bed.glb"
+position = Vector3(2, 0, 0)
+
+[sub_resource type="Resource" id="prop_desk"]
+script = ExtResource("5")
+id = "guest_desk"
+model = "res://assets/shared/furniture/drawers.glb"
+position = Vector3(-3.5, 0, -3)
+scale = 0.7
+
+[sub_resource type="Resource" id="prop_luggage"]
+script = ExtResource("5")
+id = "guest_luggage_prop"
+model = "res://assets/upper_floor/guest_room/luggage_mp_1.glb"
+position = Vector3(3.0, 0, 2.0)
+
+[sub_resource type="Resource" id="prop_lamp"]
+script = ExtResource("5")
+id = "guest_lamp_prop"
+model = "res://assets/upper_floor/guest_room/lamp_mx_3_off.glb"
+position = Vector3(3.0, 0.8, 0.0)
+
+[sub_resource type="Resource" id="prop_photo"]
+script = ExtResource("5")
+id = "helena_photo_frame"
+model = "res://assets/shared/decor/picture_blank_004.glb"
+position = Vector3(-3.5, 1.6, 0.0)
+
+[sub_resource type="Resource" id="prop_bottle"]
+script = ExtResource("5")
+id = "guest_bottle"
+model = "res://assets/upper_floor/guest_room/glass_bottle_mx_1.glb"
+position = Vector3(-3.0, 0.8, -3.0)
+
+[sub_resource type="Resource" id="prop_soap"]
+script = ExtResource("5")
+id = "guest_soap"
+model = "res://assets/upper_floor/guest_room/soap_mx_1.glb"
+position = Vector3(3.0, 0.8, -3.0)
+
+[sub_resource type="Resource" id="prop_candle_holder"]
+script = ExtResource("5")
+id = "guest_candle_holder"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(-2.0, 0.8, 0.0)
+
+[sub_resource type="Resource" id="prop_candle"]
+script = ExtResource("5")
+id = "guest_candle"
+model = "res://assets/shared/items/candle0.glb"
+position = Vector3(-2.0, 0.8, 0.0)
+
+[sub_resource type="Resource" id="prop_rug"]
+script = ExtResource("5")
+id = "guest_rug"
+model = "res://assets/shared/decor/rug2.glb"
+position = Vector3(1.4, 0.02, 0.3)
+scale = 0.9
+
+[sub_resource type="Resource" id="prop_chair"]
+script = ExtResource("5")
+id = "guest_chair"
+model = "res://assets/shared/furniture/chair.glb"
+position = Vector3(-2.8, 0.0, -1.9)
+rotation_y = 35.0
+
+[sub_resource type="Resource" id="prop_openbook"]
+script = ExtResource("5")
+id = "guest_openbook"
+model = "res://assets/shared/items/openbook1.glb"
+position = Vector3(-3.25, 0.82, -2.75)
+
+[sub_resource type="Resource" id="prop_window_ray"]
+script = ExtResource("5")
+id = "guest_window_ray"
+model = "res://assets/shared/structure/window_ray.glb"
+position = Vector3(0.0, 0.0, 3.2)
+
+; === Entry Trigger ===
+
+[sub_resource type="Resource" id="act_visited"]
+script = ExtResource("7")
+set_state = {"visited_guest_room": true}
+
+[sub_resource type="Resource" id="act_show_name"]
+script = ExtResource("7")
+show_room_name = "Guest Room"
+
+[sub_resource type="Resource" id="act_entry_text"]
+script = ExtResource("7")
+show_text = "Someone tried to keep this room ready for departure long after departure stopped being possible."
+
+[sub_resource type="Resource" id="trig_first_entry"]
+script = ExtResource("6")
+condition = "NOT visited_guest_room"
+once = true
+trigger_id = "guest_room_first_entry"
+actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name"), SubResource("act_entry_text")])
+
+; === Main Resource ===
+
+[resource]
+script = ExtResource("1")
+room_id = "guest_room"
+room_name = "Guest Room"
+floor_name = "upper_floor"
+environment_preset = "upper_floor"
+dimensions = Vector3(8, 2.4, 8)
+is_exterior = false
+wall_texture = "wall0_texture"
+floor_texture = "floor1_texture"
+ceiling_texture = "ceiling1_texture"
+wall_north = PackedStringArray("wall", "wall", "wall", "wall")
+wall_south = PackedStringArray("wall", "wall", "doorway:guest_room_to_upper_hallway", "wall")
+wall_east = PackedStringArray("wall", "wall", "wall", "wall")
+wall_west = PackedStringArray("wall", "wall", "wall", "wall")
+ambient_loop = "res://assets/audio/loops/Lost in Polaroids Loop1.ogg"
+tension_loop = "res://assets/audio/tension/tension_upper.wav"
+reverb_bus = "Room"
+footstep_surface = "wood_parquet"
+spawn_position = Vector3(0, 0, -3)
+spawn_rotation_y = 0.0
+interactables = Array[Resource]([SubResource("inter_ledger"), SubResource("inter_bed"), SubResource("inter_photo"), SubResource("inter_luggage"), SubResource("inter_lamp")])
+lights = Array[Resource]([SubResource("light_window"), SubResource("light_candle")])
+props = Array[Resource]([SubResource("prop_bed"), SubResource("prop_desk"), SubResource("prop_luggage"), SubResource("prop_lamp"), SubResource("prop_photo"), SubResource("prop_bottle"), SubResource("prop_soap"), SubResource("prop_candle_holder"), SubResource("prop_candle"), SubResource("prop_rug"), SubResource("prop_chair"), SubResource("prop_openbook"), SubResource("prop_window_ray")])
+on_entry = Array[Resource]([SubResource("trig_first_entry")])
+on_exit = Array[Resource]([])
+ambient_events = Array[Resource]([])
+conditional_events = Array[Resource]([])
+flashbacks = Array[Resource]([])

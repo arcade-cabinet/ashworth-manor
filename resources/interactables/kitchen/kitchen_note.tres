@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "kitchen_note"
+object_type = "note"
+title = "Cook's Note"
+content = "The master has forbidden anyone from the attic. Says the rats have grown too bold. But I've heard no rats that whisper names..."
+on_read_flags = PackedStringArray("read_cook_note")

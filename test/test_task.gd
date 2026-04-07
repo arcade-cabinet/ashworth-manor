@@ -54,14 +54,6 @@ func _start_game() -> void:
 		_cam.global_position = Vector3(0, 1.7, -4)
 		_cam.rotation_degrees = Vector3(0, 0, 0)
 
-	# Hide landing screen
-	var ui: Control = _find_by_name(_main, "UIOverlay") as Control
-	if ui:
-		var landing: Node = _find_by_name(ui, "LandingScreen")
-		if landing:
-			landing.visible = false
-
-
 func _process(delta: float) -> bool:
 	_frame += 1
 

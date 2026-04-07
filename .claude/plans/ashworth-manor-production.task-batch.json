@@ -1,0 +1,1643 @@
+{
+  "batch_name": "Ashworth Manor \u2014 Production Build",
+  "created": "2026-04-05T00:00:00Z",
+  "source_prd": "tasks/prd-ashworth-manor-production.md",
+  "config": {
+    "stop_on_failure": false,
+    "auto_commit": true,
+    "commit_per_task": true,
+    "teammates": [
+      "coder",
+      "reviewer"
+    ]
+  },
+  "phases": [
+    {
+      "id": "phase-1",
+      "name": "Foundation (Shader + Addons + Scene Rebuild)",
+      "depends_on": [],
+      "description": "Delete custom shaders, install addons, rebuild all 20 room scenes with interactables, connections, and lighting."
+    },
+    {
+      "id": "phase-2",
+      "name": "Dialogue + Inventory + Audio Integration",
+      "depends_on": [
+        "phase-1"
+      ],
+      "description": "Create .dialogue files for all 20 rooms, integrate gloot inventory, AdaptiSound audio, and surface footsteps."
+    },
+    {
+      "id": "phase-3",
+      "name": "State Machine + Camera + Events",
+      "depends_on": [
+        "phase-2"
+      ],
+      "description": "LimboAI HSM for game phases, Phantom Camera inspection, flashback system, room entry events."
+    },
+    {
+      "id": "phase-4",
+      "name": "Save System + Quest Tracking + Polish",
+      "depends_on": [
+        "phase-3"
+      ],
+      "description": "SaveMadeEasy integration, quest tracking, UI decomposition, PSX dither fade transitions."
+    },
+    {
+      "id": "phase-5",
+      "name": "Testing + Visual QA + Android Build",
+      "depends_on": [
+        "phase-4"
+      ],
+      "description": "All tests passing, screenshot walkthrough, 3 endings verified, Android APK export."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task-1.1.1",
+      "story": "US-1.1",
+      "phase": "phase-1",
+      "description": "Delete custom shaders and install godot-psx screen-space shaders",
+      "priority": 1,
+      "dependencies": [],
+      "parallel_group": "p1-infra",
+      "files": [
+        "shaders/psx.gdshader",
+        "shaders/psx.gdshader.uid",
+        "shaders/psx_post.gdshader",
+        "shaders/psx_post.gdshader.uid",
+        "scenes/main.tscn"
+      ],
+      "acceptance_criteria": [
+        "shaders/psx.gdshader and its .uid are deleted",
+        "shaders/psx_post.gdshader replaced with godot-psx psx_dither.gdshader",
+        "psx_fade.gdshader copied from godot-psx for room transitions",
+        "main.tscn references psx_dither.gdshader (not psx_post)"
+      ],
+      "verification": [
+        {
+          "type": "file_absent",
+          "path": "shaders/psx.gdshader"
+        },
+        {
+          "type": "file_exists",
+          "path": "shaders/psx_dither.gdshader"
+        },
+        {
+          "type": "file_exists",
+          "path": "shaders/psx_fade.gdshader"
+        }
+      ],
+      "ref": "docs/addons/shader-plan.md"
+    },
+    {
+      "id": "task-1.1.2",
+      "story": "US-1.1",
+      "phase": "phase-1",
+      "description": "Update room_manager.gd fade system to use psx_fade shader instead of ColorRect alpha tween",
+      "priority": 1,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "files": [
+        "scripts/room_manager.gd"
+      ],
+      "acceptance_criteria": [
+        "room_manager.gd fade system uses psx_fade shader alpha uniform",
+        "No ColorRect alpha tween remains for room transitions",
+        "Fade in/out still functional after shader swap"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scripts/room_manager.gd",
+          "pattern": "psx_fade"
+        }
+      ],
+      "ref": "docs/addons/shader-plan.md"
+    },
+    {
+      "id": "task-1.1.3",
+      "story": "US-1.1",
+      "phase": "phase-1",
+      "description": "Verify all texture PNGs import with filter_nearest and no room .tscn has custom shader material overrides",
+      "priority": 1,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "files": [],
+      "acceptance_criteria": [
+        "All texture PNGs confirmed importing with filter_nearest",
+        "No room .tscn has any material override with custom shaders",
+        "Game renders with visible dithering and color depth reduction"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "grep -rL 'filter=nearest' assets/**/*.import 2>/dev/null | wc -l | xargs test 0 -eq"
+        }
+      ],
+      "ref": "docs/addons/shader-plan.md"
+    },
+    {
+      "id": "task-1.2.1",
+      "story": "US-1.2",
+      "phase": "phase-1",
+      "description": "Update plug.gd with 3 new addon entries and run gd-plug install",
+      "priority": 1,
+      "dependencies": [],
+      "parallel_group": "p1-infra",
+      "files": [
+        "plug.gd",
+        "project.godot"
+      ],
+      "acceptance_criteria": [
+        "plug.gd updated with plug() calls for godot-material-footsteps, phantom-camera, and limboai",
+        "godot --headless --script addons/gd-plug/plug.gd install runs successfully",
+        "addons/ contains material_footsteps, phantom_camera, limboai directories",
+        "All 3 addons enabled in project.godot plugin section"
+      ],
+      "verification": [
+        {
+          "type": "file_exists",
+          "path": "addons/material_footsteps"
+        },
+        {
+          "type": "file_exists",
+          "path": "addons/phantom_camera"
+        },
+        {
+          "type": "file_exists",
+          "path": "addons/limboai"
+        }
+      ],
+      "ref": "docs/addons/footsteps-plan.md, docs/addons/phantom-camera-plan.md, docs/addons/state-machine-plan.md"
+    },
+    {
+      "id": "task-1.3.1",
+      "story": "US-1.3",
+      "phase": "phase-1",
+      "description": "Rebuild front_gate.tscn with 5 interactables (gate_plaque, gate_luggage, gate_bench, iron_gate, gate_lamp), 2 connections (to_foyer, to_garden), flickering gate lamp, and moonlight",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/grounds/front_gate.tscn"
+      ],
+      "acceptance_criteria": [
+        "gate_plaque Area3D with metadata/id, metadata/type, collision layer 4",
+        "gate_luggage Area3D on luggage model position",
+        "gate_bench Area3D on bench model position",
+        "iron_gate Area3D on gate model position",
+        "gate_lamp Area3D + lamp model (lamp_mx_1_b_on.glb) added",
+        "to_foyer connection Area3D at (0, 1.5, 10) with collision layer 8",
+        "to_garden connection Area3D at (10, 1.5, 0) with collision layer 8",
+        "Gate lamp OmniLight3D has metadata/flickering = true",
+        "Moonlight DirectionalLight3D has shadow enabled",
+        "test_room_specs.gd passes for front_gate"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "grep -c 'metadata/id' scenes/rooms/grounds/front_gate.tscn"
+        }
+      ],
+      "ref": "docs/rooms/front_gate/"
+    },
+    {
+      "id": "task-1.4.1",
+      "story": "US-1.4",
+      "phase": "phase-1",
+      "description": "Rebuild foyer.tscn: enrich 4 existing interactables, add foyer_mail and foyer_stairs Area3Ds, wire 5 connections (parlor, dining_room, kitchen, upper_hallway, front_gate), add flickering sconces and chandelier",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/ground_floor/foyer.tscn"
+      ],
+      "acceptance_criteria": [
+        "Existing 4 interactables updated with enriched metadata/data content",
+        "foyer_mail Area3D added at (-5, 0.9, -4) on drawers",
+        "foyer_stairs Area3D added at (2, 1, -2) near staircase",
+        "All 5 connections present: parlor, dining_room, kitchen, upper_hallway, front_gate",
+        "Chandelier light switchable via entry_switch",
+        "Both sconces have metadata/flickering = true",
+        "Window light provides cold moonlight contrast",
+        "test_room_specs.gd passes for foyer"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "grep -c 'metadata/id' scenes/rooms/ground_floor/foyer.tscn"
+        }
+      ],
+      "ref": "docs/rooms/foyer/"
+    },
+    {
+      "id": "task-1.5.1",
+      "story": "US-1.5",
+      "phase": "phase-1",
+      "description": "Rebuild parlor.tscn: enrich parlor_painting_1, parlor_note, music_box; add parlor_fireplace and parlor_tea Area3Ds; fireplace and candle flickering; parlor_note sets found_first_clue and knows_attic_girl flags",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/ground_floor/parlor.tscn"
+      ],
+      "acceptance_criteria": [
+        "parlor_painting_1, parlor_note, music_box updated with enriched content",
+        "parlor_fireplace Area3D added at (0, 1, 4.5)",
+        "parlor_tea Area3D added at (0, 0.8, -1)",
+        "Fireplace light has metadata/flickering = true with slow breathing pattern",
+        "Both candle lights have metadata/flickering = true",
+        "Connection to foyer present",
+        "parlor_note interaction sets found_first_clue and knows_attic_girl flags",
+        "test_room_specs.gd passes for parlor"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "grep -c 'metadata/id' scenes/rooms/ground_floor/parlor.tscn"
+        }
+      ],
+      "ref": "docs/rooms/parlor/"
+    },
+    {
+      "id": "task-1.6.1",
+      "story": "US-1.6",
+      "phase": "phase-1",
+      "description": "Rebuild dining_room.tscn from scratch: add 6 new interactables (dinner_photo, dining_pushed_chair, dining_wine_glass, dining_place_settings, dining_candles, dining_vessel), table candle flickering, connection to foyer",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/ground_floor/dining_room.tscn"
+      ],
+      "acceptance_criteria": [
+        "6 new Area3D interactables added with correct metadata/id, metadata/type, metadata/data",
+        "Both table candle lights have metadata/flickering = true",
+        "Connection to foyer present and correctly positioned at doorway",
+        "test_room_specs.gd passes for dining_room"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "grep -c 'metadata/id' scenes/rooms/ground_floor/dining_room.tscn"
+        }
+      ],
+      "ref": "docs/rooms/dining_room/"
+    },
+    {
+      "id": "task-1.7.1",
+      "story": "US-1.7",
+      "phase": "phase-1",
+      "description": "Rebuild kitchen.tscn from scratch: add 5 new interactables (kitchen_note, kitchen_cutting_board, kitchen_hearth, kitchen_knives, kitchen_bucket), hearth flickering, connections to foyer and storage_basement",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/ground_floor/kitchen.tscn"
+      ],
+      "acceptance_criteria": [
+        "5 new Area3D interactables with correct metadata",
+        "Connections to foyer AND storage_basement (stairs) both present",
+        "Hearth light with metadata/flickering = true",
+        "test_room_specs.gd passes for kitchen"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "grep -c 'metadata/id' scenes/rooms/ground_floor/kitchen.tscn"
+        }
+      ],
+      "ref": "docs/rooms/kitchen/"
+    },
+    {
+      "id": "task-1.8.1",
+      "story": "US-1.8",
+      "phase": "phase-1",
+      "description": "Rebuild upper hallway (hallway.tscn): add 5 interactables (attic_door locked_door, children_painting, hallway_mask, hallway_poster, hallway_switch), wire attic_door locked=true with key_id=attic_key, 4 connections, 2 flickering sconces",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/upper_floor/hallway.tscn"
+      ],
+      "acceptance_criteria": [
+        "5 interactables: attic_door (locked_door type), children_painting, hallway_mask, hallway_poster, hallway_switch",
+        "attic_door has locked=true, key_id=attic_key, target_room=attic_stairs",
+        "4 connections: foyer (stairs), master_bedroom, library, guest_room",
+        "2 sconces with metadata/flickering = true",
+        "test_room_specs.gd passes for upper_hallway"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scenes/rooms/upper_floor/hallway.tscn",
+          "pattern": "attic_key"
+        }
+      ],
+      "ref": "docs/rooms/hallway/"
+    },
+    {
+      "id": "task-1.9.1",
+      "story": "US-1.9",
+      "phase": "phase-1",
+      "description": "Rebuild master_bedroom.tscn: enrich 3 existing interactables (diary, mirror, jewelry_box), add 4 new (bedroom_bed, bedroom_book, bedroom_wardrobe, bedroom_broken_bottle), wire jewelry_box locked puzzle, candle flickering",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/upper_floor/master_bedroom.tscn"
+      ],
+      "acceptance_criteria": [
+        "Existing 3 interactables (diary, mirror, jewelry_box) metadata enriched",
+        "4 new Area3Ds: bedroom_bed, bedroom_book, bedroom_wardrobe, bedroom_broken_bottle",
+        "jewelry_box wired: locked=true, key_id=jewelry_key, item_found=elizabeths_locket, gives_also=lock_of_hair",
+        "Both candle lights flickering",
+        "test_room_specs.gd passes for master_bedroom"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scenes/rooms/upper_floor/master_bedroom.tscn",
+          "pattern": "jewelry_key"
+        }
+      ],
+      "ref": "docs/rooms/master_bedroom/"
+    },
+    {
+      "id": "task-1.10.1",
+      "story": "US-1.10",
+      "phase": "phase-1",
+      "description": "Rebuild library.tscn: enrich 3 existing interactables, add 3 new (library_artifact, library_shelves, library_gears), wire library_globe to give attic_key, wire binding_book as pickable, 3 flickering lights",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/upper_floor/library.tscn"
+      ],
+      "acceptance_criteria": [
+        "Existing 3 interactables enriched",
+        "3 new Area3Ds: library_artifact, library_shelves, library_gears",
+        "library_globe gives attic_key on interaction",
+        "binding_book is pickable (pickable=true, item_id=binding_book)",
+        "3 lights with flickering",
+        "test_room_specs.gd passes for library"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scenes/rooms/upper_floor/library.tscn",
+          "pattern": "attic_key"
+        }
+      ],
+      "ref": "docs/rooms/library/"
+    },
+    {
+      "id": "task-1.11.1",
+      "story": "US-1.11",
+      "phase": "phase-1",
+      "description": "Rebuild guest_room.tscn from scratch: add 5 interactables (guest_ledger, helena_photo, guest_luggage, guest_bed, guest_lamp), connection to upper_hallway, candle flickering and window moonlight",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/upper_floor/guest_room.tscn"
+      ],
+      "acceptance_criteria": [
+        "5 new Area3Ds: guest_ledger, helena_photo, guest_luggage, guest_bed, guest_lamp",
+        "Connection to upper_hallway",
+        "Candle flickering, window moonlight",
+        "test_room_specs.gd passes for guest_room"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "grep -c 'metadata/id' scenes/rooms/upper_floor/guest_room.tscn"
+        }
+      ],
+      "ref": "docs/rooms/guest_room/"
+    },
+    {
+      "id": "task-1.12.1",
+      "story": "US-1.12",
+      "phase": "phase-1",
+      "description": "Rebuild storage_basement (storage.tscn in basement/): enrich scratched_portrait, add 3 new interactables (storage_mirror, storage_covered, storage_trunk), 3 connections (kitchen, boiler_room, wine_cellar), single candle flickering",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/basement/storage.tscn"
+      ],
+      "acceptance_criteria": [
+        "Existing scratched_portrait enriched",
+        "3 new Area3Ds: storage_mirror, storage_covered, storage_trunk",
+        "3 connections: kitchen (stairs), boiler_room, wine_cellar (ladder)",
+        "Single candle flickering",
+        "test_room_specs.gd passes for storage_basement"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "grep -c 'metadata/id' scenes/rooms/basement/storage.tscn"
+        }
+      ],
+      "ref": "docs/rooms/storage_basement/"
+    },
+    {
+      "id": "task-1.13.1",
+      "story": "US-1.13",
+      "phase": "phase-1",
+      "description": "Rebuild boiler_room.tscn: enrich maintenance_log, add 4 new interactables (boiler_clock, boiler_observation, boiler_pipes, boiler_mask), boiler glow with aggressive flicker, connection to storage_basement",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/basement/boiler_room.tscn"
+      ],
+      "acceptance_criteria": [
+        "Existing maintenance_log enriched",
+        "4 new Area3Ds: boiler_clock, boiler_observation, boiler_pipes, boiler_mask",
+        "Boiler glow light with aggressive flicker",
+        "Connection to storage_basement",
+        "test_room_specs.gd passes for boiler_room"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "grep -c 'metadata/id' scenes/rooms/basement/boiler_room.tscn"
+        }
+      ],
+      "ref": "docs/rooms/boiler_room/"
+    },
+    {
+      "id": "task-1.14.1",
+      "story": "US-1.14",
+      "phase": "phase-1",
+      "description": "Rebuild wine_cellar.tscn: enrich wine_note and wine_box (locked puzzle), add 2 new interactables (wine_racks, wine_footprints), 2 torches with aggressive flicker, connection to storage_basement",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/deep_basement/wine_cellar.tscn"
+      ],
+      "acceptance_criteria": [
+        "Existing wine_note and wine_box enriched; box wired locked=true, key_id=cellar_key, item_found=mothers_confession",
+        "2 new Area3Ds: wine_racks, wine_footprints",
+        "2 torches with aggressive flicker",
+        "Connection to storage_basement (ladder)",
+        "test_room_specs.gd passes for wine_cellar"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scenes/rooms/deep_basement/wine_cellar.tscn",
+          "pattern": "cellar_key"
+        }
+      ],
+      "ref": "docs/rooms/wine_cellar/"
+    },
+    {
+      "id": "task-1.15.1",
+      "story": "US-1.15",
+      "phase": "phase-1",
+      "description": "Rebuild attic stairwell (stairwell.tscn): add 2 interactables (stairwell_debris, stairwell_wall), connections to upper_hallway and attic_storage, window moonlight, entry triggers entered_attic and elizabeth_aware flags",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/attic/stairwell.tscn"
+      ],
+      "acceptance_criteria": [
+        "2 new Area3Ds: stairwell_debris, stairwell_wall",
+        "Connections: upper_hallway (stairs down), attic_storage (door forward)",
+        "Window moonlight (cold, thin)",
+        "Entry triggers entered_attic and elizabeth_aware flags",
+        "test_room_specs.gd passes for attic_stairs"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "grep -c 'metadata/id' scenes/rooms/attic/stairwell.tscn"
+        }
+      ],
+      "ref": "docs/rooms/attic_stairwell/"
+    },
+    {
+      "id": "task-1.16.1",
+      "story": "US-1.16",
+      "phase": "phase-1",
+      "description": "Rebuild attic_storage.tscn: add 6 interactables (elizabeth_portrait, porcelain_doll, elizabeth_letter, hidden_door locked_door, attic_window, elizabeth_trunk), doll multi-step logic metadata, hidden_door locked with hidden_key, candle flickering",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/attic/storage.tscn"
+      ],
+      "acceptance_criteria": [
+        "6 Area3Ds: elizabeth_portrait, porcelain_doll (doll type), elizabeth_letter, hidden_door (locked_door), attic_window, elizabeth_trunk",
+        "Doll multi-step logic: first tap = examine, second (after letter) = extract hidden_key + make doll pickable",
+        "hidden_door locked with hidden_key, target=hidden_room",
+        "Candle near doll flickering, window moonlight",
+        "Connection to attic_stairs",
+        "test_room_specs.gd passes for attic_storage"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scenes/rooms/attic/storage.tscn",
+          "pattern": "hidden_key"
+        }
+      ],
+      "ref": "docs/rooms/attic_storage/"
+    },
+    {
+      "id": "task-1.17.1",
+      "story": "US-1.17",
+      "phase": "phase-1",
+      "description": "Rebuild hidden_chamber.tscn: add 5 interactables (elizabeth_final_note, chamber_drawings, hidden_mirror, ritual_circle ritual type, chamber_artifact), ritual_circle 3-step metadata, 2 candle flickering (ambient 0.9), connection to attic_storage, entry sets flags",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/attic/hidden_chamber.tscn"
+      ],
+      "acceptance_criteria": [
+        "5 Area3Ds: elizabeth_final_note, chamber_drawings, hidden_mirror, ritual_circle (ritual type), chamber_artifact",
+        "ritual_circle executes 3-step counter-ritual via interaction_manager",
+        "2 candles flickering (darkest room, ambient 0.9)",
+        "Connection to attic_storage",
+        "Entry sets found_hidden_chamber and knows_full_truth",
+        "test_room_specs.gd passes for hidden_room"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scenes/rooms/attic/hidden_chamber.tscn",
+          "pattern": "ritual_circle"
+        }
+      ],
+      "ref": "docs/rooms/hidden_chamber/"
+    },
+    {
+      "id": "task-1.18.1",
+      "story": "US-1.18",
+      "phase": "phase-1",
+      "description": "Rebuild garden.tscn: add 4 interactables + 3 connections (front_gate, chapel, greenhouse), moonlight and appropriate lighting",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/grounds/garden.tscn"
+      ],
+      "acceptance_criteria": [
+        "4 interactable Area3Ds with correct metadata",
+        "3 connections: front_gate, chapel, greenhouse",
+        "Directional/moonlight present",
+        "test_room_specs.gd passes for garden"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "grep -c 'metadata/id' scenes/rooms/grounds/garden.tscn"
+        }
+      ],
+      "ref": "docs/rooms/garden/"
+    },
+    {
+      "id": "task-1.18.2",
+      "story": "US-1.18",
+      "phase": "phase-1",
+      "description": "Rebuild chapel.tscn: add 5 interactables including baptismal_font (gives blessed_water), 1 connection to garden, appropriate flickering and lighting",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/grounds/chapel.tscn"
+      ],
+      "acceptance_criteria": [
+        "5 interactable Area3Ds with correct metadata",
+        "baptismal_font gives blessed_water on interaction",
+        "1 connection to garden",
+        "Appropriate flickering where documented",
+        "test_room_specs.gd passes for chapel"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scenes/rooms/grounds/chapel.tscn",
+          "pattern": "blessed_water"
+        }
+      ],
+      "ref": "docs/rooms/chapel/"
+    },
+    {
+      "id": "task-1.18.3",
+      "story": "US-1.18",
+      "phase": "phase-1",
+      "description": "Rebuild greenhouse.tscn: add 3 interactables including greenhouse_pot (gives gate_key), 1 connection to garden",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/grounds/greenhouse.tscn"
+      ],
+      "acceptance_criteria": [
+        "3 interactable Area3Ds with correct metadata",
+        "greenhouse_pot gives gate_key on interaction",
+        "1 connection to garden",
+        "test_room_specs.gd passes for greenhouse"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scenes/rooms/grounds/greenhouse.tscn",
+          "pattern": "gate_key"
+        }
+      ],
+      "ref": "docs/rooms/greenhouse/"
+    },
+    {
+      "id": "task-1.18.4",
+      "story": "US-1.18",
+      "phase": "phase-1",
+      "description": "Rebuild carriage_house.tscn: add 3 interactables including carriage_portrait (gives cellar_key), 1 connection to garden",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/grounds/carriage_house.tscn"
+      ],
+      "acceptance_criteria": [
+        "3 interactable Area3Ds with correct metadata",
+        "carriage_portrait gives cellar_key on interaction",
+        "1 connection to garden",
+        "test_room_specs.gd passes for carriage_house"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scenes/rooms/grounds/carriage_house.tscn",
+          "pattern": "cellar_key"
+        }
+      ],
+      "ref": "docs/rooms/carriage_house/"
+    },
+    {
+      "id": "task-1.18.5",
+      "story": "US-1.18",
+      "phase": "phase-1",
+      "description": "Rebuild family_crypt.tscn: add 4 interactables including crypt_flagstone (gives jewelry_key), 1 locked connection (gate_key), torch flickering",
+      "priority": 2,
+      "dependencies": [
+        "task-1.1.1"
+      ],
+      "parallel_group": "p1-rooms",
+      "files": [
+        "scenes/rooms/grounds/family_crypt.tscn"
+      ],
+      "acceptance_criteria": [
+        "4 interactable Area3Ds with correct metadata",
+        "crypt_flagstone gives jewelry_key on interaction",
+        "1 locked connection requiring gate_key",
+        "Torch flickering where documented",
+        "test_room_specs.gd passes for family_crypt"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scenes/rooms/grounds/family_crypt.tscn",
+          "pattern": "jewelry_key"
+        }
+      ],
+      "ref": "docs/rooms/family_crypt/"
+    },
+    {
+      "id": "task-2.1.1",
+      "story": "US-2.1",
+      "phase": "phase-2",
+      "description": "Create dialogue/ directory structure and write .dialogue files for ground floor rooms (foyer, parlor, dining_room, kitchen) with conditional text variants using GameManager.has_flag()",
+      "priority": 3,
+      "dependencies": [
+        "task-1.4.1",
+        "task-1.5.1",
+        "task-1.6.1",
+        "task-1.7.1"
+      ],
+      "files": [
+        "dialogue/ground_floor/foyer.dialogue",
+        "dialogue/ground_floor/parlor.dialogue",
+        "dialogue/ground_floor/dining_room.dialogue",
+        "dialogue/ground_floor/kitchen.dialogue"
+      ],
+      "acceptance_criteria": [
+        "dialogue/ground_floor/ directory created",
+        "4 .dialogue files written with ~ {id} titles for every interactable",
+        "Conditional variants using if GameManager.has_flag() / elif / else for 2-3 tiers",
+        "do GameManager.set_flag() mutations fire on read",
+        "All .dialogue files parse without errors"
+      ],
+      "verification": [
+        {
+          "type": "file_exists",
+          "path": "dialogue/ground_floor/foyer.dialogue"
+        },
+        {
+          "type": "file_exists",
+          "path": "dialogue/ground_floor/parlor.dialogue"
+        }
+      ],
+      "ref": "docs/addons/dialogue-plan.md, docs/rooms/foyer/dialogue.md, docs/rooms/parlor/dialogue.md"
+    },
+    {
+      "id": "task-2.1.2",
+      "story": "US-2.1",
+      "phase": "phase-2",
+      "description": "Write .dialogue files for upper floor rooms (upper_hallway, master_bedroom, library, guest_room) with conditional text variants",
+      "priority": 3,
+      "dependencies": [
+        "task-1.8.1",
+        "task-1.9.1",
+        "task-1.10.1",
+        "task-1.11.1"
+      ],
+      "files": [
+        "dialogue/upper_floor/upper_hallway.dialogue",
+        "dialogue/upper_floor/master_bedroom.dialogue",
+        "dialogue/upper_floor/library.dialogue",
+        "dialogue/upper_floor/guest_room.dialogue"
+      ],
+      "acceptance_criteria": [
+        "dialogue/upper_floor/ directory created",
+        "4 .dialogue files with conditional variants for all interactable IDs",
+        "Flag mutations for key discovery moments",
+        "All files parse without errors"
+      ],
+      "verification": [
+        {
+          "type": "file_exists",
+          "path": "dialogue/upper_floor/master_bedroom.dialogue"
+        }
+      ],
+      "ref": "docs/rooms/hallway/dialogue.md, docs/rooms/master_bedroom/dialogue.md, docs/rooms/library/dialogue.md, docs/rooms/guest_room/dialogue.md"
+    },
+    {
+      "id": "task-2.1.3",
+      "story": "US-2.1",
+      "phase": "phase-2",
+      "description": "Write .dialogue files for basement rooms (storage_basement, boiler_room, wine_cellar) with conditional text variants",
+      "priority": 3,
+      "dependencies": [
+        "task-1.12.1",
+        "task-1.13.1",
+        "task-1.14.1"
+      ],
+      "files": [
+        "dialogue/basement/storage_basement.dialogue",
+        "dialogue/basement/boiler_room.dialogue",
+        "dialogue/basement/wine_cellar.dialogue"
+      ],
+      "acceptance_criteria": [
+        "dialogue/basement/ directory created",
+        "3 .dialogue files with conditional variants",
+        "All files parse without errors"
+      ],
+      "verification": [
+        {
+          "type": "file_exists",
+          "path": "dialogue/basement/storage_basement.dialogue"
+        }
+      ],
+      "ref": "docs/rooms/storage_basement/dialogue.md, docs/rooms/boiler_room/dialogue.md, docs/rooms/wine_cellar/dialogue.md"
+    },
+    {
+      "id": "task-2.1.4",
+      "story": "US-2.1",
+      "phase": "phase-2",
+      "description": "Write .dialogue files for attic rooms (attic_stairs, attic_storage, hidden_chamber) with conditional text variants",
+      "priority": 3,
+      "dependencies": [
+        "task-1.15.1",
+        "task-1.16.1",
+        "task-1.17.1"
+      ],
+      "files": [
+        "dialogue/attic/attic_stairs.dialogue",
+        "dialogue/attic/attic_storage.dialogue",
+        "dialogue/attic/hidden_chamber.dialogue"
+      ],
+      "acceptance_criteria": [
+        "dialogue/attic/ directory created",
+        "3 .dialogue files with conditional variants including Elizabeth encounter text",
+        "All files parse without errors"
+      ],
+      "verification": [
+        {
+          "type": "file_exists",
+          "path": "dialogue/attic/attic_storage.dialogue"
+        }
+      ],
+      "ref": "docs/rooms/attic_stairwell/dialogue.md, docs/rooms/attic_storage/dialogue.md, docs/rooms/hidden_chamber/dialogue.md"
+    },
+    {
+      "id": "task-2.1.5",
+      "story": "US-2.1",
+      "phase": "phase-2",
+      "description": "Write .dialogue files for all 6 grounds rooms (front_gate, garden, chapel, greenhouse, carriage_house, family_crypt) with conditional text variants",
+      "priority": 3,
+      "dependencies": [
+        "task-1.3.1",
+        "task-1.18.1",
+        "task-1.18.2",
+        "task-1.18.3",
+        "task-1.18.4",
+        "task-1.18.5"
+      ],
+      "files": [
+        "dialogue/grounds/front_gate.dialogue",
+        "dialogue/grounds/garden.dialogue",
+        "dialogue/grounds/chapel.dialogue",
+        "dialogue/grounds/greenhouse.dialogue",
+        "dialogue/grounds/carriage_house.dialogue",
+        "dialogue/grounds/family_crypt.dialogue"
+      ],
+      "acceptance_criteria": [
+        "dialogue/grounds/ directory created",
+        "6 .dialogue files with conditional variants",
+        "All files parse without errors"
+      ],
+      "verification": [
+        {
+          "type": "file_exists",
+          "path": "dialogue/grounds/front_gate.dialogue"
+        }
+      ],
+      "ref": "docs/rooms/front_gate/dialogue.md, docs/rooms/garden/dialogue.md, docs/rooms/chapel/dialogue.md"
+    },
+    {
+      "id": "task-2.2.1",
+      "story": "US-2.2",
+      "phase": "phase-2",
+      "description": "Create custom dialogue balloon scene (scenes/ui/document_balloon.tscn) with Victorian paper aesthetic: aged paper background (#D1C1A6), serif text (#332619), typewriter effect, tap to dismiss",
+      "priority": 3,
+      "dependencies": [
+        "task-2.1.1"
+      ],
+      "files": [
+        "scenes/ui/document_balloon.tscn",
+        "scripts/ui/document_balloon.gd"
+      ],
+      "acceptance_criteria": [
+        "Custom balloon scene created at scenes/ui/document_balloon.tscn",
+        "Background color PAPER_COLOR (#D1C1A6) with shadow",
+        "Text color PAPER_TEXT (#332619) in serif font",
+        "Title centered, separated by decorative line",
+        "Text appears with typewriter effect (character by character)",
+        "Tap anywhere to dismiss",
+        "Registered as default balloon in Dialogue Manager settings"
+      ],
+      "verification": [
+        {
+          "type": "file_exists",
+          "path": "scenes/ui/document_balloon.tscn"
+        },
+        {
+          "type": "file_exists",
+          "path": "scripts/ui/document_balloon.gd"
+        }
+      ],
+      "ref": "docs/addons/dialogue-plan.md"
+    },
+    {
+      "id": "task-2.3.1",
+      "story": "US-2.3",
+      "phase": "phase-2",
+      "description": "Wire interaction_manager.gd to use Dialogue Manager: _handle_document() calls DialogueManager.show_dialogue_balloon() with room .dialogue resource and interactable ID as title",
+      "priority": 3,
+      "dependencies": [
+        "task-2.2.1"
+      ],
+      "files": [
+        "scripts/interaction_manager.gd"
+      ],
+      "acceptance_criteria": [
+        "_handle_document() calls DialogueManager.show_dialogue_balloon() with room .dialogue resource and interactable ID",
+        "Room .dialogue resource loaded on room_loaded signal",
+        "_show(title, content) method retained as fallback",
+        "All 97 interactables display correct text through Dialogue Manager"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scripts/interaction_manager.gd",
+          "pattern": "DialogueManager"
+        }
+      ],
+      "ref": "docs/addons/dialogue-plan.md"
+    },
+    {
+      "id": "task-2.4.1",
+      "story": "US-2.4",
+      "phase": "phase-2",
+      "description": "Create gloot item_prototypes.tres ProtoTree with all 10 game items (5 keys, binding_book, doll, locket, blessed_water, confession)",
+      "priority": 3,
+      "dependencies": [],
+      "files": [
+        "resources/item_prototypes.tres"
+      ],
+      "acceptance_criteria": [
+        "resources/item_prototypes.tres ProtoTree created with all 10 items",
+        "Items: attic_key, jewelry_key, cellar_key, gate_key, hidden_key, binding_book, porcelain_doll, elizabeths_locket, blessed_water, mothers_confession"
+      ],
+      "verification": [
+        {
+          "type": "file_exists",
+          "path": "resources/item_prototypes.tres"
+        }
+      ],
+      "ref": "docs/addons/inventory-plan.md"
+    },
+    {
+      "id": "task-2.4.2",
+      "story": "US-2.4",
+      "phase": "phase-2",
+      "description": "Integrate gloot Inventory node into GameManager autoload: add has_item(), give_item(), remove_item() wrappers, pause menu CtrlInventory grid, item acquisition notification",
+      "priority": 3,
+      "dependencies": [
+        "task-2.4.1"
+      ],
+      "files": [
+        "scripts/game_manager.gd",
+        "scenes/main.tscn"
+      ],
+      "acceptance_criteria": [
+        "Inventory node added to GameManager autoload",
+        "GameManager.has_item(), give_item(), remove_item() wrap gloot API",
+        "Items persist across room transitions",
+        "Item acquisition shows 'Acquired: {name}' notification"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scripts/game_manager.gd",
+          "pattern": "give_item"
+        }
+      ],
+      "ref": "docs/addons/inventory-plan.md"
+    },
+    {
+      "id": "task-2.5.1",
+      "story": "US-2.5",
+      "phase": "phase-2",
+      "description": "Configure AdaptiSound as autoload replacing audio_manager.gd: map all 36 OGG loops to room IDs, set up base ambient layer with crossfade on transition",
+      "priority": 3,
+      "dependencies": [],
+      "files": [
+        "scripts/audio_manager.gd",
+        "project.godot"
+      ],
+      "acceptance_criteria": [
+        "AdaptiSound configured as autoload (replaces audio_manager.gd)",
+        "All 36 OGG loops mapped to room IDs",
+        "Base ambient layer plays per room with crossfade on transition",
+        "Crossfade works correctly when walking between rooms"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "project.godot",
+          "pattern": "AdaptiSound"
+        }
+      ],
+      "ref": "docs/addons/audio-plan.md"
+    },
+    {
+      "id": "task-2.5.2",
+      "story": "US-2.5",
+      "phase": "phase-2",
+      "description": "Configure AdaptiSound tension layer activation on elizabeth_aware flag, set up 7 reverb audio bus presets, add Area3D reverb zones to each room scene",
+      "priority": 3,
+      "dependencies": [
+        "task-2.5.1"
+      ],
+      "files": [
+        "default_bus_layout.tres"
+      ],
+      "acceptance_criteria": [
+        "Tension layer activates when elizabeth_aware flag is set",
+        "Reverb audio buses configured per room type (7 presets)",
+        "Area3D reverb zones added to each room scene"
+      ],
+      "verification": [
+        {
+          "type": "file_exists",
+          "path": "default_bus_layout.tres"
+        }
+      ],
+      "ref": "docs/addons/audio-plan.md"
+    },
+    {
+      "id": "task-2.6.1",
+      "story": "US-2.6",
+      "phase": "phase-2",
+      "description": "Source/create 36 footstep audio files (9 surfaces x 4 variations), configure MaterialFootstepPlayer3D on PlayerController, map surface types, tag floor meshes in all 20 rooms with footstep_surface metadata",
+      "priority": 3,
+      "dependencies": [
+        "task-1.2.1"
+      ],
+      "files": [
+        "scripts/player_controller.gd",
+        "assets/audio/footsteps/"
+      ],
+      "acceptance_criteria": [
+        "36 footstep audio files exist (9 surfaces x 4 variations)",
+        "MaterialFootstepPlayer3D added to PlayerController",
+        "Surface-to-sound mappings configured for all 9 surface types",
+        "Floor meshes in all 20 room scenes tagged with footstep_surface metadata",
+        "Marble (foyer) sounds distinct from wood (parlor) from stone (basement) from metal (boiler)"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "ls assets/audio/footsteps/*.ogg 2>/dev/null | wc -l"
+        }
+      ],
+      "ref": "docs/addons/footsteps-plan.md"
+    },
+    {
+      "id": "task-3.1.1",
+      "story": "US-3.1",
+      "phase": "phase-3",
+      "description": "Create scripts/game_state_machine.gd extending LimboHSM with 4 game phase states (Exploration, Discovery, Horror, Resolution), wire GameManager.flag_set signal to HSM event dispatch",
+      "priority": 4,
+      "dependencies": [
+        "task-1.2.1",
+        "task-2.5.1"
+      ],
+      "files": [
+        "scripts/game_state_machine.gd"
+      ],
+      "acceptance_criteria": [
+        "scripts/game_state_machine.gd created extending LimboHSM (< 200 LOC)",
+        "4 states: Phase_Exploration, Phase_Discovery, Phase_Horror, Phase_Resolution",
+        "GameManager.flag_set signal dispatches events to HSM",
+        "found_first_clue triggers Exploration to Discovery transition",
+        "entered_attic triggers any to Horror transition",
+        "knows_full_truth triggers Horror to Resolution transition",
+        "State changes connected to AdaptiSound layer activation",
+        "State changes connected to lighting parameter adjustments"
+      ],
+      "verification": [
+        {
+          "type": "file_exists",
+          "path": "scripts/game_state_machine.gd"
+        },
+        {
+          "type": "command",
+          "command": "wc -l scripts/game_state_machine.gd | awk '{print ($1 <= 200) ? \"PASS\" : \"FAIL: \" $1 \" LOC\"}'"
+        }
+      ],
+      "ref": "docs/addons/state-machine-plan.md"
+    },
+    {
+      "id": "task-3.2.1",
+      "story": "US-3.2",
+      "phase": "phase-3",
+      "description": "Implement Elizabeth presence sub-HSM nested in Phase_Horror/Phase_Resolution with 4 states (Dormant, Watching, Active, Confrontation), driven by elizabeth_aware/entered_attic/found_hidden_chamber flags",
+      "priority": 4,
+      "dependencies": [
+        "task-3.1.1"
+      ],
+      "files": [
+        "scripts/elizabeth_presence.gd"
+      ],
+      "acceptance_criteria": [
+        "Elizabeth sub-HSM nested in Phase_Horror/Phase_Resolution",
+        "4 states: Dormant, Watching, Active, Confrontation",
+        "Watching: mirrors delay slightly, occasional peripheral shadow",
+        "Active: lights flicker, whispers audible, mirror shows her briefly",
+        "Confrontation: 'You found me' text, direct encounters",
+        "Transitions driven by flags: elizabeth_aware, entered_attic, found_hidden_chamber"
+      ],
+      "verification": [
+        {
+          "type": "file_exists",
+          "path": "scripts/elizabeth_presence.gd"
+        }
+      ],
+      "ref": "docs/addons/state-machine-plan.md"
+    },
+    {
+      "id": "task-3.3.1",
+      "story": "US-3.3",
+      "phase": "phase-3",
+      "description": "Integrate Phantom Camera: add PhantomCameraHost to PlayerController, create ExplorationCam (priority 10), place InspectionCam PhantomCamera3D nodes in 9 key rooms per plan, wire interaction to set inspection camera priority",
+      "priority": 4,
+      "dependencies": [
+        "task-1.2.1"
+      ],
+      "files": [
+        "scripts/player_controller.gd",
+        "scenes/rooms/ground_floor/foyer.tscn",
+        "scenes/rooms/ground_floor/parlor.tscn",
+        "scenes/rooms/upper_floor/master_bedroom.tscn",
+        "scenes/rooms/upper_floor/library.tscn",
+        "scenes/rooms/attic/storage.tscn",
+        "scenes/rooms/attic/hidden_chamber.tscn"
+      ],
+      "acceptance_criteria": [
+        "PhantomCameraHost added to PlayerController",
+        "ExplorationCam PhantomCamera3D (priority 10) follows player",
+        "Inspection PhantomCamera3D nodes placed in 9 key rooms",
+        "Interacting with key objects sets inspection camera priority to 20 for smooth transition",
+        "Dismissing document resets priority to 0 and camera returns",
+        "Room reveal cameras for foyer, attic_storage, hidden_chamber"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scripts/player_controller.gd",
+          "pattern": "PhantomCamera"
+        }
+      ],
+      "ref": "docs/addons/phantom-camera-plan.md"
+    },
+    {
+      "id": "task-3.4.1",
+      "story": "US-3.4",
+      "phase": "phase-3",
+      "description": "Integrate shaky-camera-3d: wire ShakyCamera3D to player camera with head bob, discovery shake, attic entry shake, mirror event shake, ritual completion shake profiles",
+      "priority": 4,
+      "dependencies": [
+        "task-3.3.1"
+      ],
+      "files": [
+        "scripts/player_controller.gd",
+        "scripts/interaction_manager.gd"
+      ],
+      "acceptance_criteria": [
+        "ShakyCamera3D integrated with player camera",
+        "Walking head bob: trauma 0.02, continuous",
+        "First clue discovery: trauma 0.15, 0.3s",
+        "Enter attic: trauma 0.1, 2s",
+        "Mirror Elizabeth event: trauma 0.3, 0.5s",
+        "Ritual completion: trauma 0.5 to 0.0, 2s",
+        "NO shake during normal exploration or document reading"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scripts/player_controller.gd",
+          "pattern": "ShakyCamera"
+        }
+      ],
+      "ref": "docs/addons/camera-fx-plan.md"
+    },
+    {
+      "id": "task-3.5.1",
+      "story": "US-3.5",
+      "phase": "phase-3",
+      "description": "Implement flashback system: psx_fade dither transition, spawn horror character model, display text, despawn, camera shake; create 6 room-specific flashback triggers as one-time flagged events",
+      "priority": 4,
+      "dependencies": [
+        "task-3.1.1",
+        "task-3.4.1"
+      ],
+      "files": [
+        "scripts/flashback_manager.gd"
+      ],
+      "acceptance_criteria": [
+        "Flashback function: psx_fade dither then spawn horror model then text then despawn then return",
+        "Parlor flashback: bloodwraith (child-scale, seated) - 'She used to sit here'",
+        "Master bedroom flashback: plague_doctor behind bed",
+        "Library flashback: plague_doctor at desk",
+        "Foyer flashback: bloodwraith in center",
+        "Dining room flashback: light surge - 'All eight, seated'",
+        "Family crypt flashback: Lady kneeling",
+        "All flashbacks are one-time events (flag prevents re-trigger)",
+        "Camera shake accompanies each flashback"
+      ],
+      "verification": [
+        {
+          "type": "file_exists",
+          "path": "scripts/flashback_manager.gd"
+        }
+      ],
+      "ref": "docs/MASTER_SCRIPT.md"
+    },
+    {
+      "id": "task-3.6.1",
+      "story": "US-3.6",
+      "phase": "phase-3",
+      "description": "Implement room entry events: first-entry visited_{room_id} flags, room name display, ambient timed events per room (gate creak, water drip, pipe whisper, etc.), conditional events tied to elizabeth_aware flag",
+      "priority": 4,
+      "dependencies": [
+        "task-3.1.1",
+        "task-2.3.1"
+      ],
+      "files": [
+        "scripts/room_base.gd",
+        "scripts/room_events.gd"
+      ],
+      "acceptance_criteria": [
+        "Every room sets visited_{room_id} flag on first entry",
+        "Every room shows room name on entry (via UIOverlay)",
+        "Front gate: gate creak every 15-30s, wind gust every 20-40s",
+        "Kitchen: water drip every 8-15s",
+        "Boiler room: pipe whisper after 30s if elizabeth_aware",
+        "Wine cellar: torch gutter after 60s if elizabeth_aware",
+        "Hallway: child crying near attic door if elizabeth_aware",
+        "Hallway: attic door rattle after 30s if knows_attic_locked and no key"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scripts/room_base.gd",
+          "pattern": "visited_"
+        }
+      ],
+      "ref": "docs/rooms/*/triggers.md"
+    },
+    {
+      "id": "task-4.1.1",
+      "story": "US-4.1",
+      "phase": "phase-4",
+      "description": "Replace GameManager save/load with SaveMadeEasy API: save current_room, inventory, flags, visited_rooms, interacted_objects, lights_toggled, quest states, HSM state; auto-save on room transitions, manual save in pause menu, encrypted save file",
+      "priority": 5,
+      "dependencies": [
+        "task-3.1.1",
+        "task-2.4.2"
+      ],
+      "files": [
+        "scripts/game_manager.gd"
+      ],
+      "acceptance_criteria": [
+        "GameManager.save_game()/load_game() use SaveMadeEasy API",
+        "Save data includes: current_room, inventory, flags, visited_rooms, interacted_objects, lights_toggled, quest states, HSM state",
+        "Auto-save triggers on room transitions",
+        "Manual save available in pause menu",
+        "Load game restores complete state including player position and room",
+        "Save file encrypted and device-bound"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scripts/game_manager.gd",
+          "pattern": "SaveMadeEasy"
+        }
+      ],
+      "ref": "docs/addons/save-plan.md"
+    },
+    {
+      "id": "task-4.2.1",
+      "story": "US-4.2",
+      "phase": "phase-4",
+      "description": "Create 6 Quest resources for each puzzle chain using quest_system addon, wire quest start on puzzle discovery, quest complete on flag set, pause menu quest progress display, completion notification",
+      "priority": 5,
+      "dependencies": [
+        "task-3.1.1"
+      ],
+      "files": [
+        "resources/quests/"
+      ],
+      "acceptance_criteria": [
+        "6 Quest resources created for each puzzle chain",
+        "Quests start when player discovers the puzzle (locked door, locked box, etc.)",
+        "Quests complete when completion flag is set",
+        "Quest progress visible in pause menu",
+        "Quest completion triggers 'Puzzle Solved' notification"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "ls resources/quests/*.tres 2>/dev/null | wc -l"
+        }
+      ],
+      "ref": "docs/addons/quest-plan.md"
+    },
+    {
+      "id": "task-4.3.1",
+      "story": "US-4.3",
+      "phase": "phase-4",
+      "description": "Decompose ui_overlay.gd (569 LOC) into 5 focused scripts: ui_landing.gd, ui_document.gd, ui_pause.gd, ui_ending.gd, ui_room_name.gd, each under 200 LOC; integrate gloot inventory display and quest progress into pause menu",
+      "priority": 5,
+      "dependencies": [
+        "task-2.4.2",
+        "task-4.2.1"
+      ],
+      "files": [
+        "scripts/ui_overlay.gd",
+        "scripts/ui/ui_landing.gd",
+        "scripts/ui/ui_document.gd",
+        "scripts/ui/ui_pause.gd",
+        "scripts/ui/ui_ending.gd",
+        "scripts/ui/ui_room_name.gd"
+      ],
+      "acceptance_criteria": [
+        "ui_overlay.gd split into: ui_landing.gd, ui_document.gd, ui_pause.gd, ui_ending.gd, ui_room_name.gd",
+        "Each script < 200 LOC",
+        "All UI functionality preserved",
+        "Pause menu includes gloot inventory display and quest progress"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "for f in scripts/ui/ui_landing.gd scripts/ui/ui_document.gd scripts/ui/ui_pause.gd scripts/ui/ui_ending.gd scripts/ui/ui_room_name.gd; do wc -l $f; done 2>/dev/null"
+        }
+      ],
+      "ref": "CLAUDE.md (max 200 LOC per script)"
+    },
+    {
+      "id": "task-4.4.1",
+      "story": "US-4.4",
+      "phase": "phase-4",
+      "description": "Implement PSX dither fade for room transitions in room_manager.gd: animate psx_fade.gdshader alpha 0-255-0, with door (0.6s), stairs (0.8s), ladder (1.0s), and path (0.5s) transition durations",
+      "priority": 5,
+      "dependencies": [
+        "task-1.1.2"
+      ],
+      "files": [
+        "scripts/room_manager.gd"
+      ],
+      "acceptance_criteria": [
+        "room_manager.gd fade system uses psx_fade.gdshader alpha uniform",
+        "Tween animates shader alpha parameter 0 to 255 to 0",
+        "Door transitions: 0.6s fade",
+        "Stairs transitions: 0.8s fade",
+        "Ladder transitions: 1.0s fade",
+        "Path transitions: 0.5s fade",
+        "Dither pattern visible during fade (not smooth gradient)"
+      ],
+      "verification": [
+        {
+          "type": "code_contains",
+          "path": "scripts/room_manager.gd",
+          "pattern": "psx_fade"
+        }
+      ],
+      "ref": "docs/addons/shader-plan.md"
+    },
+    {
+      "id": "task-5.1.1",
+      "story": "US-5.1",
+      "phase": "phase-5",
+      "description": "Run test_room_specs.gd and fix all failures: verify all 20 rooms load, all ~97 interactables found by ID, all ~34 connections found by target, minimum light counts met, flickering metadata present where required",
+      "priority": 6,
+      "dependencies": [
+        "task-4.3.1",
+        "task-4.4.1"
+      ],
+      "files": [
+        "test/e2e/test_room_specs.gd",
+        "test/e2e/room_spec_data.gd"
+      ],
+      "acceptance_criteria": [
+        "godot --headless --script test/e2e/test_room_specs.gd exits with code 0",
+        "All 20 rooms load successfully",
+        "All ~97 interactables found by ID",
+        "All ~34 connections found by target",
+        "All rooms have minimum light count met",
+        "All rooms with flickering have at least one metadata/flickering = true light"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "godot --headless --script test/e2e/test_room_specs.gd"
+        }
+      ],
+      "ref": "test/e2e/test_room_specs.gd"
+    },
+    {
+      "id": "task-5.2.1",
+      "story": "US-5.2",
+      "phase": "phase-5",
+      "description": "Run test_room_walkthrough.gd: visit every room, interact with all 97 objects, capture screenshots (overview + 4 directions + per-interactable per room), review for missing geometry/broken lighting/floating objects",
+      "priority": 6,
+      "dependencies": [
+        "task-5.1.1"
+      ],
+      "files": [
+        "test/e2e/test_room_walkthrough.gd",
+        "test/e2e/walkthrough_data.gd"
+      ],
+      "acceptance_criteria": [
+        "godot --headless --script test/e2e/test_room_walkthrough.gd exits with code 0",
+        "All 97 interactables found and interacted with (0 MISS)",
+        "Screenshots saved to user://screenshots/walkthrough/",
+        "Each room has overview + 4 direction shots + per-interactable shots",
+        "Visual QA review confirms no missing geometry, broken lighting, or floating objects"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "godot --headless --script test/e2e/test_room_walkthrough.gd"
+        }
+      ],
+      "ref": "test/e2e/test_room_walkthrough.gd"
+    },
+    {
+      "id": "task-5.3.1",
+      "story": "US-5.3",
+      "phase": "phase-5",
+      "description": "Run run_e2e.gd for all 3 endings: freedom ending (6 ritual components + counter-ritual + freed_elizabeth), escape ending (knows_full_truth + exit to front gate), joined ending (elizabeth_aware + !knows_full_truth + exit); also test save/load mid-game round-trip",
+      "priority": 6,
+      "dependencies": [
+        "task-5.1.1"
+      ],
+      "files": [
+        "test/e2e/run_e2e.gd",
+        "test/e2e/test_full_playthrough.gd"
+      ],
+      "acceptance_criteria": [
+        "Freedom ending: all 6 ritual components collected, counter-ritual done, freed_elizabeth flag set",
+        "Escape ending: knows_full_truth + exit to front gate triggers escape",
+        "Joined ending: elizabeth_aware + !knows_full_truth + exit triggers joined",
+        "Save/load test: save mid-game, new game, load, verify state restored",
+        "godot --headless --script test/e2e/run_e2e.gd exits with code 0"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "godot --headless --script test/e2e/run_e2e.gd"
+        }
+      ],
+      "ref": "test/e2e/run_e2e.gd"
+    },
+    {
+      "id": "task-5.4.1",
+      "story": "US-5.4",
+      "phase": "phase-5",
+      "description": "Configure Android APK export: export_presets.cfg with Android target, ETC2/ASTC compression, verify touch controls (tap-to-walk, swipe-to-look, tap-to-interact)",
+      "priority": 6,
+      "dependencies": [
+        "task-5.1.1"
+      ],
+      "files": [
+        "export_presets.cfg"
+      ],
+      "acceptance_criteria": [
+        "export_presets.cfg configured with Android target",
+        "ETC2/ASTC texture compression enabled",
+        "Touch controls working (tap-to-walk, swipe-to-look, tap-to-interact)"
+      ],
+      "verification": [
+        {
+          "type": "file_exists",
+          "path": "export_presets.cfg"
+        }
+      ],
+      "ref": "CLAUDE.md"
+    },
+    {
+      "id": "task-5.4.2",
+      "story": "US-5.4",
+      "phase": "phase-5",
+      "description": "Build APK, install on Android emulator, run Maestro E2E flows to verify installation, touch interaction, and basic navigation",
+      "priority": 6,
+      "dependencies": [
+        "task-5.4.1",
+        "task-5.3.1"
+      ],
+      "files": [],
+      "acceptance_criteria": [
+        "APK builds without errors",
+        "APK installs and runs on Android emulator",
+        "Maestro E2E flows pass on emulator"
+      ],
+      "verification": [
+        {
+          "type": "command",
+          "command": "ls build/*.apk 2>/dev/null | wc -l"
+        }
+      ],
+      "ref": "CLAUDE.md"
+    }
+  ],
+  "summary": {
+    "total_tasks": 51,
+    "by_phase": {
+      "phase-1": 24,
+      "phase-2": 12,
+      "phase-3": 6,
+      "phase-4": 4,
+      "phase-5": 5
+    },
+    "by_story": {
+      "US-1.1": 3,
+      "US-1.2": 1,
+      "US-1.3": 1,
+      "US-1.4": 1,
+      "US-1.5": 1,
+      "US-1.6": 1,
+      "US-1.7": 1,
+      "US-1.8": 1,
+      "US-1.9": 1,
+      "US-1.10": 1,
+      "US-1.11": 1,
+      "US-1.12": 1,
+      "US-1.13": 1,
+      "US-1.14": 1,
+      "US-1.15": 1,
+      "US-1.16": 1,
+      "US-1.17": 1,
+      "US-1.18": 5,
+      "US-2.1": 5,
+      "US-2.2": 1,
+      "US-2.3": 1,
+      "US-2.4": 2,
+      "US-2.5": 2,
+      "US-2.6": 1,
+      "US-3.1": 1,
+      "US-3.2": 1,
+      "US-3.3": 1,
+      "US-3.4": 1,
+      "US-3.5": 1,
+      "US-3.6": 1,
+      "US-4.1": 1,
+      "US-4.2": 1,
+      "US-4.3": 1,
+      "US-4.4": 1,
+      "US-5.1": 1,
+      "US-5.2": 1,
+      "US-5.3": 1,
+      "US-5.4": 2
+    },
+    "parallel_groups": {
+      "p1-infra": [
+        "task-1.1.1",
+        "task-1.2.1"
+      ],
+      "p1-rooms": [
+        "task-1.3.1",
+        "task-1.4.1",
+        "task-1.5.1",
+        "task-1.6.1",
+        "task-1.7.1",
+        "task-1.8.1",
+        "task-1.9.1",
+        "task-1.10.1",
+        "task-1.11.1",
+        "task-1.12.1",
+        "task-1.13.1",
+        "task-1.14.1",
+        "task-1.15.1",
+        "task-1.16.1",
+        "task-1.17.1",
+        "task-1.18.1",
+        "task-1.18.2",
+        "task-1.18.3",
+        "task-1.18.4",
+        "task-1.18.5"
+      ]
+    },
+    "dependency_chain": "phase-1 -> phase-2 -> phase-3 -> phase-4 -> phase-5",
+    "critical_path": [
+      "task-1.1.1 (shader swap)",
+      "task-1.4.1 (foyer rebuild - hub room)",
+      "task-2.1.1 (ground floor dialogue)",
+      "task-2.3.1 (wire dialogue manager)",
+      "task-3.1.1 (game state machine)",
+      "task-4.1.1 (save system)",
+      "task-5.1.1 (spec test pass)",
+      "task-5.3.1 (3 endings verified)"
+    ]
+  }
+}

@@ -1,129 +1,212 @@
 [gd_scene format=3 uid="uid://6mmxxtku6yom"]
 
-[ext_resource type="Script" uid="uid://dju1o7yp5wn6v" path="res://scripts/room_base.gd" id="1_l4lln"]
-[ext_resource type="Texture2D" uid="uid://o073hamgr1o3" path="res://assets/shared/textures/floor3_texture.png" id="2_u2e3h"]
-[ext_resource type="Texture2D" uid="uid://nte4dpvuob5k" path="res://assets/shared/textures/wall7_texture.png" id="3_pg1dr"]
-[ext_resource type="PackedScene" uid="uid://3eujdwpjp724" path="res://assets/shared/structure/stairs2.glb" id="4_ttsv3"]
-[ext_resource type="PackedScene" uid="uid://g5ehnwf8mxnc" path="res://assets/attic/stairwell/gravel_pile_hr_1.glb" id="5_cnovy"]
-[ext_resource type="PackedScene" uid="uid://bgpbdy7r4rth1" path="res://assets/attic/stairwell/wooden_plank_4.glb" id="6_hfnwa"]
-[ext_resource type="PackedScene" uid="uid://cq2nw8n6f1bwj" path="res://assets/attic/stairwell/wooden_plank_5.glb" id="7_kh2xj"]
-[ext_resource type="PackedScene" uid="uid://c2pwinmudt2iq" path="res://assets/attic/stairwell/lamp_mx_1_a_off.glb" id="8_ooclc"]
+[ext_resource type="Script" path="res://scripts/room_base.gd" id="1"]
+[ext_resource type="PackedScene" path="res://assets/shared/structure/wall_7.glb" id="2"]
+[ext_resource type="PackedScene" path="res://assets/shared/structure/floor2.glb" id="3"]
+[ext_resource type="PackedScene" path="res://assets/shared/structure/cieling2.glb" id="4"]
+[ext_resource type="PackedScene" path="res://assets/shared/structure/stairs2.glb" id="5"]
+[ext_resource type="PackedScene" path="res://assets/attic/stairwell/gravel_pile_hr_1.glb" id="6"]
+[ext_resource type="PackedScene" path="res://assets/attic/stairwell/wooden_plank_4.glb" id="7"]
+[ext_resource type="PackedScene" path="res://assets/attic/stairwell/wooden_plank_5.glb" id="8"]
+[ext_resource type="PackedScene" path="res://assets/attic/stairwell/lamp_mx_1_a_off.glb" id="9"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8jbjl"]
-albedo_color = Color(0.4, 0.32, 0.25, 1)
-albedo_texture = ExtResource("2_u2e3h")
-roughness = 0.9
-uv1_scale = Vector3(3, 4.5, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(4, 0.2, 4)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bhwp8"]
-albedo_color = Color(0.35, 0.28, 0.22, 1)
-roughness = 0.9
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallN"]
+size = Vector3(4, 2.4, 0.2)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vg5ix"]
-albedo_color = Color(0.55, 0.5, 0.45, 1)
-albedo_texture = ExtResource("3_pg1dr")
-roughness = 0.9
-uv1_scale = Vector3(3, 1.5, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallS"]
+size = Vector3(4, 2.4, 0.2)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1hovv"]
-albedo_color = Color(0.55, 0.5, 0.45, 1)
-albedo_texture = ExtResource("3_pg1dr")
-roughness = 0.9
-uv1_scale = Vector3(3, 1.5, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallE"]
+size = Vector3(0.2, 2.4, 4)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bsqgn"]
-albedo_color = Color(0.55, 0.5, 0.45, 1)
-albedo_texture = ExtResource("3_pg1dr")
-roughness = 0.9
-uv1_scale = Vector3(3, 1.5, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallW"]
+size = Vector3(0.2, 2.4, 4)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nr5ak"]
-albedo_color = Color(0.55, 0.5, 0.45, 1)
-albedo_texture = ExtResource("3_pg1dr")
-roughness = 0.9
-uv1_scale = Vector3(3, 1.5, 1)
-texture_filter = 0
+[sub_resource type="BoxShape3D" id="BoxShape3D_conn1"]
+size = Vector3(2, 3, 1)
 
-[node name="AtticStairwell" type="Node3D" unique_id=955488870]
-script = ExtResource("1_l4lln")
+[sub_resource type="BoxShape3D" id="BoxShape3D_conn2"]
+size = Vector3(2, 3, 1)
+
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i00"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i01"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c02"]
+size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c03"]
+size = Vector3(2, 3, 1)
+
+[node name="AtticStairwell" type="Node3D"]
+script = ExtResource("1")
 room_id = "attic_stairs"
 room_name = "Attic Stairwell"
 audio_loop = "Silent Voices Loop1"
 ambient_darkness = 0.75
 spawn_rotation_y = 180.0
 
-[node name="Geometry" type="Node3D" parent="." unique_id=127039334]
+[node name="Geometry" type="Node3D" parent="."]
 
-[node name="Floor" type="CSGBox3D" parent="Geometry" unique_id=170344898]
+[node name="Floor_0_0" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
+
+[node name="Floor_1_0" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)
+
+[node name="Floor_0_1" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+
+[node name="Floor_1_1" type="Node3D" parent="Geometry" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+
+[node name="Ceil_0_0" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2.4, -1)
+
+[node name="Ceil_1_0" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.4, -1)
+
+[node name="Ceil_0_1" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2.4, 1)
+
+[node name="Ceil_1_1" type="Node3D" parent="Geometry" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.4, 1)
+
+[node name="Wall_N_0" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -1, 0, 2)
+
+[node name="Wall_N_1" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 1, 0, 2)
+
+[node name="Wall_S_0" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2)
+
+[node name="Wall_S_1" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -2)
+
+[node name="Wall_E_0" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 2, 0, -1)
+
+[node name="Wall_E_1" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 2, 0, 1)
+
+[node name="Wall_W_0" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2, 0, -1)
+
+[node name="Wall_W_1" type="Node3D" parent="Geometry" instance=ExtResource("2")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -2, 0, 1)
+
+[node name="FloorCollision" type="StaticBody3D" parent="Geometry"]
+collision_layer = 1
+metadata/surface_type = "rough_wood"
+
+[node name="Shape" type="CollisionShape3D" parent="Geometry/FloorCollision"]
+shape = SubResource("BoxShape3D_floor")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
-use_collision = true
-size = Vector3(6, 0.2, 9)
-material = SubResource("StandardMaterial3D_8jbjl")
 
-[node name="Ceiling" type="CSGBox3D" parent="Geometry" unique_id=801163396]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0)
-use_collision = true
+[node name="WallN" type="StaticBody3D" parent="Geometry"]
 collision_layer = 2
-size = Vector3(6, 0.2, 9)
-material = SubResource("StandardMaterial3D_bhwp8")
 
-[node name="WallNorth" type="CSGBox3D" parent="Geometry" unique_id=1327048615]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 4.5)
-use_collision = true
+[node name="Shape" type="CollisionShape3D" parent="Geometry/WallN"]
+shape = SubResource("BoxShape3D_wallN")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 2)
+
+[node name="WallS" type="StaticBody3D" parent="Geometry"]
 collision_layer = 2
-size = Vector3(6, 3, 0.3)
-material = SubResource("StandardMaterial3D_vg5ix")
 
-[node name="WallSouth" type="CSGBox3D" parent="Geometry" unique_id=1405887473]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -4.5)
-use_collision = true
+[node name="Shape" type="CollisionShape3D" parent="Geometry/WallS"]
+shape = SubResource("BoxShape3D_wallS")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -2)
+
+[node name="WallE" type="StaticBody3D" parent="Geometry"]
 collision_layer = 2
-size = Vector3(6, 3, 0.3)
-material = SubResource("StandardMaterial3D_1hovv")
 
-[node name="WallEast" type="CSGBox3D" parent="Geometry" unique_id=252786320]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.5, 0)
-use_collision = true
+[node name="Shape" type="CollisionShape3D" parent="Geometry/WallE"]
+shape = SubResource("BoxShape3D_wallE")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.2, 0)
+
+[node name="WallW" type="StaticBody3D" parent="Geometry"]
 collision_layer = 2
-size = Vector3(0.3, 3, 9)
-material = SubResource("StandardMaterial3D_bsqgn")
 
-[node name="WallWest" type="CSGBox3D" parent="Geometry" unique_id=1831440047]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.5, 0)
-use_collision = true
-collision_layer = 2
-size = Vector3(0.3, 3, 9)
-material = SubResource("StandardMaterial3D_nr5ak")
+[node name="Shape" type="CollisionShape3D" parent="Geometry/WallW"]
+shape = SubResource("BoxShape3D_wallW")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.2, 0)
 
-[node name="Models" type="Node3D" parent="." unique_id=979757464]
+[node name="Models" type="Node3D" parent="."]
 
-[node name="AtticStairs" type="Node3D" parent="Models" unique_id=1220491223 instance=ExtResource("4_ttsv3")]
+[node name="AtticStairs" type="Node3D" parent="Models" instance=ExtResource("5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="DustPile" type="Node3D" parent="Models" unique_id=25089974 instance=ExtResource("5_cnovy")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -2, 0, 2)
+[node name="DustPile" type="Node3D" parent="Models" instance=ExtResource("6")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -1.5, 0, 1)
 
-[node name="LoosePlank1" type="Node3D" parent="Models" unique_id=236580283 instance=ExtResource("6_hfnwa")]
-transform = Transform3D(1.7320508, 0.08715574, 0.9961947, 0, 1.9923894, -0.17431147, -1, 0.15095817, 1.7254598, 1, 0, -2)
+[node name="LoosePlank1" type="Node3D" parent="Models" instance=ExtResource("7")]
+transform = Transform3D(1.732, 0.087, 0.996, 0, 1.992, -0.174, -1, 0.151, 1.725, 0.5, 0, -1)
 
-[node name="LoosePlank2" type="Node3D" parent="Models" unique_id=118021878 instance=ExtResource("7_kh2xj")]
-transform = Transform3D(1.8793852, 0.035799902, -0.6831028, 0, 1.997259, 0.10467192, 0.68404025, -0.09835943, 1.8768096, -1, 0, 3)
+[node name="LoosePlank2" type="Node3D" parent="Models" instance=ExtResource("8")]
+transform = Transform3D(1.879, 0.036, -0.683, 0, 1.997, 0.105, 0.684, -0.098, 1.877, -0.5, 0, 1.5)
 
-[node name="DeadWallLamp" type="Node3D" parent="Models" unique_id=427503502 instance=ExtResource("8_ooclc")]
-transform = Transform3D(-1.3113416e-07, 0, -3, 0, 3, 0, 3, 0, -1.3113416e-07, 2.5, 2, 0)
+[node name="DeadWallLamp" type="Node3D" parent="Models" instance=ExtResource("9")]
+transform = Transform3D(0, 0, -3, 0, 3, 0, 3, 0, 0, 1.5, 2, 0)
 
-[node name="Lighting" type="Node3D" parent="." unique_id=56786849]
+[node name="Lighting" type="Node3D" parent="."]
 
-[node name="ThinLight" type="SpotLight3D" parent="Lighting" unique_id=1918694211]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 2.8, 3)
+[node name="ThinLight" type="SpotLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 2.3, 1.5)
 light_color = Color(0.5, 0.55, 0.7, 1)
 light_energy = 1.5
-spot_range = 8.0
+spot_range = 6.0
 spot_angle = 30.0
 
-[node name="Interactables" type="Node3D" parent="." unique_id=727221267]
 
-[node name="Connections" type="Node3D" parent="." unique_id=1699687112]
+[node name="Interactables" type="Node3D" parent="."]
+
+[node name="stairwell_debris" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "stairwell_debris"
+metadata/type = "observation"
+metadata/data = {"title": "Debris", "content": "Plaster has fallen from the walls, exposing lath beneath. On the exposed wood: tally marks. Hundreds of them. Someone counting days."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/stairwell_debris"]
+shape = SubResource("BoxShape3D_i00")
+
+[node name="stairwell_wall" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.5, 2)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "stairwell_wall"
+metadata/type = "observation"
+metadata/data = {"title": "Wall Writing", "content": "Scratched into the plaster, barely visible: 'I CAN HEAR THEM BUT THEY CANT HEAR ME.' No punctuation. Written with a fingernail."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/stairwell_wall"]
+shape = SubResource("BoxShape3D_i01")
+
+[node name="Connections" type="Node3D" parent="."]
+
+[node name="to_upper_hallway" type="Area3D" parent="Connections"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -3)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "upper_hallway"
+metadata/type = "stairs"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_upper_hallway"]
+shape = SubResource("BoxShape3D_c02")
+
+[node name="to_attic_storage" type="Area3D" parent="Connections"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 3)
+collision_layer = 8
+collision_mask = 0
+metadata/target_room = "attic_storage"
+metadata/type = "door"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Connections/to_attic_storage"]
+shape = SubResource("BoxShape3D_c03")

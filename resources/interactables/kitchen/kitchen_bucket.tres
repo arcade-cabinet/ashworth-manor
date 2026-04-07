@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "kitchen_bucket"
+object_type = "observation"
+title = "Bucket"
+content = "A wooden bucket, half-full of water that should have evaporated decades ago. The water is perfectly still. Just dark."
+on_read_flags = PackedStringArray()

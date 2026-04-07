@@ -1,0 +1,292 @@
+[gd_resource type="Resource" script_class="RoomDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/room_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
+[ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
+[ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
+[ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+[ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="9"]
+
+[sub_resource type="Resource" id="anchor_entry_secret_panel"]
+script = ExtResource("9")
+anchor_id = "entry_secret_panel"
+anchor_type = "entry"
+position = Vector3(0.1, 0.0, -2.3)
+rotation_y = 8.0
+target_anchor_id = "focus_groom_nook"
+tags = PackedStringArray("service_route", "secret")
+
+[sub_resource type="Resource" id="anchor_focus_groom_nook"]
+script = ExtResource("9")
+anchor_id = "focus_groom_nook"
+anchor_type = "focal"
+position = Vector3(-2.2, 1.0, -1.1)
+rotation_y = 0.0
+tags = PackedStringArray("service_route", "occupancy")
+
+; === Portrait Responses (Diamond #3 A-path: cellar key behind frame) ===
+
+[sub_resource type="Resource" id="resp_portrait_key"]
+script = ExtResource("3")
+condition = "read_wine_note"
+title = "Carriage House Portrait"
+text = "You lift the portrait from the wall. Behind the frame, taped to the backing, is a small iron key. The wine note was right -- 'the key is with the portrait.' Someone moved it here from the main house, away from prying eyes."
+set_state = {"found_cellar_key_portrait": true}
+gives_item = "cellar_key"
+play_sfx = "res://assets/audio/sfx/inventory/key_find.ogg"
+
+[sub_resource type="Resource" id="resp_portrait_default"]
+script = ExtResource("3")
+condition = ""
+title = "Carriage House Portrait"
+text = "A portrait leaning against the wall, face out. Victoria Ashworth, painted in her wedding dress. It is a duplicate -- the original hangs in the master bedroom. Why is a copy here, in the carriage house? The frame is heavier than it looks. Something is taped to the back."
+
+; Portrait thread variants
+[sub_resource type="Resource" id="resp_portrait_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Carriage House Portrait"
+text = "Victoria Ashworth's portrait, exiled to the carriage house. Her expression in this copy is different from the original -- harder, more determined. As if the painter caught her on a day when she was deciding something. The frame has been moved recently. Dust outlines on the wall show it was turned around and then turned back."
+
+[sub_resource type="Resource" id="resp_portrait_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Carriage House Portrait"
+text = "Victoria's portrait, stored here after she died. Edmund could not look at her face anymore. Not guilt -- grief. The portrait shows her young, before Elizabeth, before the binding, before the house became what it became. She looks happy. The paint has water damage. Rain through the carriage house roof. Even the paintings are weeping."
+
+[sub_resource type="Resource" id="resp_portrait_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Carriage House Portrait"
+text = "Victoria's portrait. The eyes follow you. Not the old 'Mona Lisa' trick of painted perspective. These eyes actually move. Slowly, deliberately, tracking you as you walk. Elizabeth is in everything. She can see through painted eyes. This portrait was not stored here. It was PLACED here, watching the entrance. A sentry."
+
+; === Mattress / Sleeping Quarters ===
+
+[sub_resource type="Resource" id="resp_mattress_default"]
+script = ExtResource("3")
+condition = ""
+title = "Straw Mattress"
+text = "A straw mattress on the floor with a threadbare blanket. The groom slept here. The blanket is pulled aside as if he left in a hurry and never came back. A small prayer card sits on a tin plate beside it. He knew something was wrong with the house."
+
+; === Carriage Tools ===
+
+[sub_resource type="Resource" id="resp_tools_default"]
+script = ExtResource("3")
+condition = ""
+title = "Carriage Tools"
+text = "Whips, harnesses, horseshoes. The tools of a working carriage house, untouched for years. A leather bag holds grooming brushes still caked with horsehair. The Ashworths dismissed the staff one by one. The groom was the last to go."
+
+; === Interactables ===
+
+[sub_resource type="Resource" id="inter_portrait"]
+script = ExtResource("2")
+id = "carriage_portrait"
+type = "painting"
+position = Vector3(0, 1.5, 2.5)
+wall = "north"
+collision_size = Vector3(1.5, 2.0, 1.0)
+model = "res://assets/shared/decor/picture_blank_006.glb"
+responses = Array[Resource]([SubResource("resp_portrait_key"), SubResource("resp_portrait_default")])
+thread_responses = {"captive": [SubResource("resp_portrait_key"), SubResource("resp_portrait_captive")], "mourning": [SubResource("resp_portrait_key"), SubResource("resp_portrait_mourning")], "sovereign": [SubResource("resp_portrait_key"), SubResource("resp_portrait_sovereign")]}
+
+[sub_resource type="Resource" id="inter_mattress"]
+script = ExtResource("2")
+id = "carriage_mattress"
+type = "observation"
+position = Vector3(-3, 0.3, -1)
+collision_size = Vector3(2.0, 0.5, 2.0)
+responses = Array[Resource]([SubResource("resp_mattress_default")])
+
+[sub_resource type="Resource" id="inter_tools"]
+script = ExtResource("2")
+id = "carriage_tools"
+type = "observation"
+position = Vector3(3.5, 1.2, 0)
+wall = "east"
+collision_size = Vector3(1.0, 1.5, 2.0)
+responses = Array[Resource]([SubResource("resp_tools_default")])
+
+; === Lights ===
+
+[sub_resource type="Resource" id="light_window"]
+script = ExtResource("4")
+id = "carriage_moonlight"
+type = "omni"
+position = Vector3(0, 3, -2)
+color = Color(0.5, 0.6, 0.9, 1)
+energy = 0.6
+range = 6.0
+shadows = false
+flickering = false
+
+[sub_resource type="Resource" id="light_candle"]
+script = ExtResource("4")
+id = "carriage_candle"
+type = "omni"
+position = Vector3(-2.2, 0.9, -1.1)
+color = Color(1.0, 0.78, 0.52, 1)
+energy = 0.32
+range = 2.8
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+; === Props ===
+
+[sub_resource type="Resource" id="prop_mattress"]
+script = ExtResource("5")
+id = "mattress_model"
+model = "res://assets/grounds/carriage_house/old_mattress_mx_1.glb"
+position = Vector3(-3, 0, -1)
+
+[sub_resource type="Resource" id="prop_shed_a"]
+script = ExtResource("5")
+id = "shed_a"
+model = "res://assets/grounds/carriage_house/shed_ax_1.glb"
+position = Vector3(0, 0, 0)
+
+[sub_resource type="Resource" id="prop_shed_b"]
+script = ExtResource("5")
+id = "shed_b"
+model = "res://assets/grounds/carriage_house/shed_ax_2.glb"
+position = Vector3(0.2, 0, 0.2)
+
+[sub_resource type="Resource" id="prop_shed_c"]
+script = ExtResource("5")
+id = "shed_c"
+model = "res://assets/grounds/carriage_house/shed_ax_3.glb"
+position = Vector3(-0.2, 0, -0.1)
+
+[sub_resource type="Resource" id="prop_shed_d"]
+script = ExtResource("5")
+id = "shed_d"
+model = "res://assets/grounds/carriage_house/shed_ax_4.glb"
+position = Vector3(0, 0, 0.1)
+
+[sub_resource type="Resource" id="prop_board_1"]
+script = ExtResource("5")
+id = "board_1"
+model = "res://assets/grounds/carriage_house/wooden_board_1.glb"
+position = Vector3(2.2, 0.2, 0.8)
+rotation_y = 82.0
+
+[sub_resource type="Resource" id="prop_board_2"]
+script = ExtResource("5")
+id = "board_2"
+model = "res://assets/grounds/carriage_house/wooden_board_2.glb"
+position = Vector3(2.8, 0.15, 0.2)
+rotation_y = 24.0
+
+[sub_resource type="Resource" id="prop_shovel"]
+script = ExtResource("5")
+id = "shovel"
+model = "res://assets/grounds/carriage_house/shovel_mx_1.glb"
+position = Vector3(3.2, 0, 0.4)
+rotation_y = 90.0
+
+[sub_resource type="Resource" id="prop_luggage"]
+script = ExtResource("5")
+id = "luggage"
+model = "res://assets/grounds/carriage_house/luggage_mp_1.glb"
+position = Vector3(-1.4, 0, 1.7)
+rotation_y = -18.0
+
+[sub_resource type="Resource" id="prop_dead_lamp"]
+script = ExtResource("5")
+id = "dead_lamp"
+model = "res://assets/grounds/carriage_house/lamp_mx_2_off.glb"
+position = Vector3(1.3, 0.8, -1.9)
+
+[sub_resource type="Resource" id="prop_portrait_frame"]
+script = ExtResource("5")
+id = "portrait_frame"
+model = "res://assets/shared/decor/picture_blank_006.glb"
+position = Vector3(0, 1.5, 2.45)
+
+[sub_resource type="Resource" id="prop_candle"]
+script = ExtResource("5")
+id = "mattress_candle"
+model = "res://assets/shared/items/candle0.glb"
+position = Vector3(-2.2, 0.0, -1.1)
+
+[sub_resource type="Resource" id="prop_page"]
+script = ExtResource("5")
+id = "prayer_card_page"
+model = "res://assets/shared/items/page1.glb"
+position = Vector3(-1.7, 0.02, -0.7)
+rotation_y = -12.0
+
+[sub_resource type="Resource" id="prop_chair"]
+script = ExtResource("5")
+id = "groom_chair"
+model = "res://assets/shared/furniture/chair.glb"
+position = Vector3(1.6, 0.0, 1.8)
+rotation_y = 140.0
+
+; === Entry Trigger ===
+
+[sub_resource type="Resource" id="act_visited"]
+script = ExtResource("7")
+set_state = {"visited_carriage_house": true}
+
+[sub_resource type="Resource" id="act_show_name"]
+script = ExtResource("7")
+show_room_name = "Carriage House"
+
+[sub_resource type="Resource" id="trig_first_entry"]
+script = ExtResource("6")
+condition = "NOT visited_carriage_house"
+once = true
+trigger_id = "carriage_house_first_entry"
+actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name")])
+
+; === Ambient: Creaking wood ===
+
+[sub_resource type="Resource" id="act_creak"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/wood_creak.ogg"
+
+[sub_resource type="Resource" id="ambient_creak"]
+script = ExtResource("8")
+event_id = "carriage_creak"
+interval_min = 20.0
+interval_max = 45.0
+condition = ""
+actions = Array[Resource]([SubResource("act_creak")])
+
+; === Main Resource ===
+
+[resource]
+script = ExtResource("1")
+room_id = "carriage_house"
+room_name = "Carriage House"
+floor_name = "grounds"
+environment_preset = "grounds"
+dimensions = Vector3(8, 4, 6)
+is_exterior = true
+wall_texture = "wall8_texture"
+floor_texture = "floor1_texture"
+ceiling_texture = "ceiling2_texture"
+wall_north = PackedStringArray()
+wall_south = PackedStringArray()
+wall_east = PackedStringArray()
+wall_west = PackedStringArray()
+ambient_loop = "res://assets/audio/loops/Echoes at Dusk Loop1.ogg"
+tension_loop = "res://assets/audio/tension/tension_exploration.wav"
+reverb_bus = "WoodenHall"
+footstep_surface = "rough_wood"
+spawn_position = Vector3(0, 0, 0)
+spawn_rotation_y = 0.0
+entry_anchors = Array[Resource]([SubResource("anchor_entry_secret_panel")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_groom_nook")])
+interactables = Array[Resource]([SubResource("inter_portrait"), SubResource("inter_mattress"), SubResource("inter_tools")])
+lights = Array[Resource]([SubResource("light_window"), SubResource("light_candle")])
+props = Array[Resource]([SubResource("prop_shed_a"), SubResource("prop_shed_b"), SubResource("prop_shed_c"), SubResource("prop_shed_d"), SubResource("prop_mattress"), SubResource("prop_board_1"), SubResource("prop_board_2"), SubResource("prop_shovel"), SubResource("prop_luggage"), SubResource("prop_dead_lamp"), SubResource("prop_portrait_frame"), SubResource("prop_candle"), SubResource("prop_page"), SubResource("prop_chair")])
+on_entry = Array[Resource]([SubResource("trig_first_entry")])
+on_exit = Array[Resource]([])
+ambient_events = Array[Resource]([SubResource("ambient_creak")])
+conditional_events = Array[Resource]([])
+flashbacks = Array[Resource]([])

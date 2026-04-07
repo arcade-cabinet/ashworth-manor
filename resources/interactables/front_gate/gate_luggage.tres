@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "gate_luggage"
+object_type = "observation"
+title = "Abandoned Suitcase"
+content = "A leather traveling case, clasps still fastened. Packed but never carried beyond the gate. The luggage tag reads: 'H. Pierce — London.' The ink has run in the rain."
+on_read_flags = PackedStringArray("found_helena_luggage")

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="RegionDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/region_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+region_id = "rear_estate"
+region_type = "discovery_exterior"
+compiled_world_id = "rear_grounds_world"
+compiled_world_type = "grounds_world"
+room_ids = PackedStringArray("garden", "chapel", "greenhouse", "carriage_house", "family_crypt")
+streaming_neighbors = PackedStringArray("ground_floor", "basement")
+notes = "Rear/service/sacred/burial exterior discovery network."

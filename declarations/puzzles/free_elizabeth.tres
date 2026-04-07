@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="PuzzleDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/puzzle_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/puzzle_step_decl.gd" id="2"]
+
+[sub_resource type="Resource" id="step_read_note"]
+script = ExtResource("2")
+step_id = "read_final_note"
+description = "Read Elizabeth's final note in the hidden chamber"
+action = "interact"
+target_interactable = "final_note"
+target_room = "hidden_chamber"
+result_states = {"knows_full_truth": true, "read_final_note": true}
+
+[sub_resource type="Resource" id="step_ritual"]
+script = ExtResource("2")
+step_id = "perform_counter_ritual"
+description = "Perform the counter-ritual at the ritual circle with all 6 components"
+action = "interact"
+target_interactable = "ritual_circle"
+target_room = "hidden_chamber"
+required_state = "read_final_note"
+required_items = PackedStringArray("binding_book", "porcelain_doll", "lock_of_hair", "blessed_water", "mothers_confession")
+result_states = {"counter_ritual_complete": true}
+
+[resource]
+script = ExtResource("1")
+puzzle_id = "free_elizabeth_puzzle"
+name = "Free Elizabeth"
+description = "With the full truth revealed and all ritual components gathered, perform the counter-ritual to break the binding."
+steps = Array[Resource]([SubResource("step_read_note"), SubResource("step_ritual")])
+sequential = true
+requires_puzzles = PackedStringArray("hidden_key_puzzle", "cellar_key_puzzle", "jewelry_key_puzzle", "gate_key_puzzle")
+completion_state = "counter_ritual_complete"
+reward_states = {"counter_ritual_complete": true}
+reward_items = PackedStringArray()
+clue_chain = Array[Resource]([])
+variation_points = Array[Resource]([])

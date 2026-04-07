@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Quest" format=3]
+
+[ext_resource type="Script" path="res://addons/quest_system/quest_resource.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = 1
+quest_name = "Find the Attic Key"
+quest_description = "Something is hidden above. Find a way to reach the attic."
+quest_objective = "Discover the attic key in the library"

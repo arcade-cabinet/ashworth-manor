@@ -1,0 +1,1243 @@
+[gd_resource type="Resource" script_class="RoomDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/room_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/interactable_decl.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/response_decl.gd" id="3"]
+[ext_resource type="Script" path="res://engine/declarations/light_decl.gd" id="4"]
+[ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
+[ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
+[ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+[ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
+[ext_resource type="Script" path="res://engine/declarations/conditional_event_decl.gd" id="9"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="10"]
+
+[sub_resource type="Resource" id="anchor_entry_opening"]
+script = ExtResource("10")
+anchor_id = "entry_opening"
+anchor_type = "entry"
+position = Vector3(0, 0, -5.4)
+rotation_y = 180.0
+target_anchor_id = "focus_gate_sign"
+tags = PackedStringArray("default", "prologue", "menu")
+
+[sub_resource type="Resource" id="anchor_entry_drive"]
+script = ExtResource("10")
+anchor_id = "entry_drive"
+anchor_type = "entry"
+position = Vector3(0, 0, 6.8)
+rotation_y = 0.0
+target_anchor_id = "focus_drive"
+tags = PackedStringArray("return", "threshold")
+
+[sub_resource type="Resource" id="anchor_focus_mansion"]
+script = ExtResource("10")
+anchor_id = "focus_drive"
+anchor_type = "focal"
+position = Vector3(0, 2.4, 7.6)
+rotation_y = 180.0
+tags = PackedStringArray("drive", "threshold")
+
+[sub_resource type="Resource" id="anchor_focus_gate_sign"]
+script = ExtResource("10")
+anchor_id = "focus_gate_sign"
+anchor_type = "focal"
+position = Vector3(0, 2.4, -2.85)
+rotation_y = 0.0
+tags = PackedStringArray("menu", "gate")
+
+; === Interactable Responses ===
+
+[sub_resource type="Resource" id="resp_plaque_truth"]
+script = ExtResource("3")
+condition = "knows_full_truth"
+title = "Ashworth Manor"
+text = "'Abandon memory, all ye who enter.' They meant it literally. They tried to make the world forget Elizabeth existed."
+set_state = {"examined_gate_plaque": true}
+
+[sub_resource type="Resource" id="resp_plaque_default"]
+script = ExtResource("3")
+condition = ""
+title = "Ashworth Manor"
+text = "ASHWORTH MANOR -- Est. 1847. The brass has gone dark with weather, but the lettering is still exact. It reads like an estate marker, not a welcome."
+set_state = {"examined_gate_plaque": true}
+
+[sub_resource type="Resource" id="resp_plaque_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Ashworth Manor"
+text = "ASHWORTH MANOR -- Est. 1847. The plaque hangs like a warning plate on a cell door. 'Abandon memory, all ye who enter.' Not invitation. Instruction. This is a place built to keep truths locked up until they stop sounding human."
+set_state = {"examined_gate_plaque": true}
+
+[sub_resource type="Resource" id="resp_plaque_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Ashworth Manor"
+text = "ASHWORTH MANOR -- Est. 1847. Verdigris has softened every letter, as if even the metal has been grieving. 'Abandon memory, all ye who enter.' The house does not threaten. It laments."
+set_state = {"examined_gate_plaque": true}
+
+[sub_resource type="Resource" id="resp_plaque_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Ashworth Manor"
+text = "ASHWORTH MANOR -- Est. 1847. The green-black iron seems damp though no rain falls. 'Abandon memory, all ye who enter.' The plaque reads less like a motto than a command from the thing that now speaks through the estate."
+set_state = {"examined_gate_plaque": true}
+
+[sub_resource type="Resource" id="resp_luggage_ledger"]
+script = ExtResource("3")
+condition = "read_guest_ledger"
+title = "Travel Valise"
+text = "Your valise, left neatly beneath the sign by the departing driver. The packet is inside, along with the key and a few small necessities."
+set_state = {"front_gate_valise_opened": true}
+
+[sub_resource type="Resource" id="resp_luggage_default"]
+script = ExtResource("3")
+condition = ""
+title = "Travel Valise"
+text = "A leather travelling valise with the dust of the station still on it. The driver has left it beneath the sign, close enough to your hand that ignoring it would be a decision."
+set_state = {"front_gate_valise_opened": true}
+
+[sub_resource type="Resource" id="resp_bench_truth"]
+script = ExtResource("3")
+condition = "knows_full_truth"
+title = "Stone Bench"
+text = "The children sat here the night they fled. Charles, Margaret, William. They looked back once. None of them ever returned."
+
+[sub_resource type="Resource" id="resp_bench_default"]
+script = ExtResource("3")
+condition = ""
+title = "Stone Bench"
+text = "Cold stone. Snow has settled in the seat -- undisturbed for decades. Someone sat here once, looking at the house, deciding whether to go in."
+
+[sub_resource type="Resource" id="resp_gate_aware"]
+script = ExtResource("3")
+condition = "elizabeth_aware"
+title = "The Gate"
+text = "The gate hangs open like a mouth. You notice now: the iron bars are bent outward. Whatever left this house was stronger than iron."
+set_state = {"examined_iron_gate": true}
+
+[sub_resource type="Resource" id="resp_gate_default"]
+script = ExtResource("3")
+condition = ""
+title = "The Gate"
+text = "Iron bars, rusted open. The lock is broken -- not from outside. Someone burst through from within. The hinges scream when the wind catches them."
+set_state = {"examined_iron_gate": true}
+
+[sub_resource type="Resource" id="resp_gate_captive"]
+script = ExtResource("3")
+condition = ""
+title = "The Gate"
+text = "The broken lock tells the story plainly: something imprisoned here pushed against the bars until iron gave way. The gate is not an entrance feature. It is evidence."
+set_state = {"examined_iron_gate": true}
+
+[sub_resource type="Resource" id="resp_gate_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "The Gate"
+text = "The gate has been left open too long. Not flung wide in triumph. Left. Forgotten in the confusion after something terrible no one could undo. Even the hinges sound tired."
+set_state = {"examined_iron_gate": true}
+
+[sub_resource type="Resource" id="resp_gate_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "The Gate"
+text = "The bars bow outward as though the house exhaled through them. The iron did not fail from neglect. It yielded to a force that had already decided this threshold belonged to it."
+set_state = {"examined_iron_gate": true}
+
+[sub_resource type="Resource" id="resp_lamp_aware"]
+script = ExtResource("3")
+condition = "elizabeth_aware"
+title = "Gas Lamp"
+text = "The lamp pulses in rhythm. You realize you've been breathing in sync with it. Since when?"
+
+[sub_resource type="Resource" id="resp_lamp_default"]
+script = ExtResource("3")
+condition = ""
+title = "Gas Lamp"
+text = "One gate lamp still burns. The brass is streaked by weather, the glass clouded with soot, but the flame itself is steady enough to prove the place was maintained until recently."
+
+[sub_resource type="Resource" id="resp_lamp_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Gas Lamp"
+text = "The lamp keeps watch like a gaoler who never sleeps. Its pulse is too steady to be gas pressure and too patient to be weather. Something at the gate is keeping vigil."
+
+[sub_resource type="Resource" id="resp_lamp_mourning"]
+script = ExtResource("3")
+condition = ""
+title = "Gas Lamp"
+text = "The old lamp burns with the weak persistence of a memorial candle. Not bright enough to guide, only enough to remember. It feels less like illumination than mourning made visible."
+
+[sub_resource type="Resource" id="resp_lamp_sovereign"]
+script = ExtResource("3")
+condition = ""
+title = "Gas Lamp"
+text = "The flame breathes. Not metaphorically. Deliberately. The pressure rises and falls in a rhythm too intimate to ignore, as if the house has lungs and this is one of its visible breaths."
+
+; === Interactables ===
+
+[sub_resource type="Resource" id="inter_gate_plaque"]
+script = ExtResource("2")
+id = "gate_plaque"
+type = "note"
+position = Vector3(-2, 1.5, -0.15)
+wall = "south"
+collision_size = Vector3(1.5, 1.5, 1.5)
+responses = Array[Resource]([SubResource("resp_plaque_truth"), SubResource("resp_plaque_default")])
+thread_responses = {}
+
+[sub_resource type="Resource" id="inter_gate_luggage"]
+script = ExtResource("2")
+id = "gate_luggage"
+type = "observation"
+position = Vector3(0, 0.25, -2.15)
+collision_size = Vector3(1.5, 1.0, 1.0)
+model = "res://assets/grounds/front_gate/luggage_mp_1.glb"
+responses = Array[Resource]([SubResource("resp_luggage_ledger"), SubResource("resp_luggage_default")])
+
+[sub_resource type="Resource" id="inter_gate_bench"]
+script = ExtResource("2")
+id = "gate_bench"
+type = "observation"
+position = Vector3(-6.5, 0.5, 3.6)
+collision_size = Vector3(2.0, 1.0, 1.0)
+model = "res://assets/grounds/front_gate/bench_mx_1.glb"
+responses = Array[Resource]([SubResource("resp_bench_truth"), SubResource("resp_bench_default")])
+
+[sub_resource type="Resource" id="inter_iron_gate"]
+script = ExtResource("2")
+id = "iron_gate"
+type = "observation"
+position = Vector3(0, 1.5, 0)
+collision_size = Vector3(3.0, 3.0, 1.0)
+model = ""
+responses = Array[Resource]([SubResource("resp_gate_aware"), SubResource("resp_gate_default")])
+thread_responses = {}
+
+[sub_resource type="Resource" id="inter_gate_lamp"]
+script = ExtResource("2")
+id = "gate_lamp"
+type = "observation"
+position = Vector3(-4, 2.5, 0)
+collision_size = Vector3(1.0, 2.0, 1.0)
+model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+responses = Array[Resource]([SubResource("resp_lamp_aware"), SubResource("resp_lamp_default")])
+thread_responses = {}
+
+[sub_resource type="Resource" id="inter_gate_sign_new_game"]
+script = ExtResource("2")
+id = "gate_sign_new_game"
+type = "observation"
+scene_role = "threshold_control"
+position = Vector3(0, 2.34, -2.85)
+collision_size = Vector3(1.9, 0.72, 0.8)
+visual_effects = {"world_label": "Enter the Grounds", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(1.82, 0.38, 0.08), "world_label_board_texture": "res://assets/grounds/front_gate/bench_mx_1_planks_hr_2.png", "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 21, "world_label_hanger_color": Color(0.22, 0.22, 0.25, 1), "world_label_hanger_height": 0.76, "world_label_hanger_offset_x": 0.58, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 180.0}
+state_tags = PackedStringArray("gate_menu_new_game")
+
+[sub_resource type="Resource" id="inter_gate_sign_load_game"]
+script = ExtResource("2")
+id = "gate_sign_load_game"
+type = "observation"
+scene_role = "threshold_control"
+position = Vector3(-2.12, 2.16, -2.85)
+collision_size = Vector3(1.28, 0.62, 0.75)
+visual_effects = {"world_label": "Resume the Visit", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(1.58, 0.3, 0.08), "world_label_board_texture": "res://assets/grounds/front_gate/bench_mx_1_planks_hr_2.png", "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 16, "world_label_hanger_color": Color(0.22, 0.22, 0.25, 1), "world_label_hanger_height": 0.82, "world_label_hanger_offset_x": 0.45, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 180.0}
+state_tags = PackedStringArray("gate_menu_load_game")
+
+[sub_resource type="Resource" id="inter_gate_sign_settings"]
+script = ExtResource("2")
+id = "gate_sign_settings"
+type = "observation"
+scene_role = "threshold_control"
+position = Vector3(2.12, 2.16, -2.85)
+collision_size = Vector3(1.28, 0.62, 0.75)
+visual_effects = {"world_label": "Adjust the House", "world_label_board": true, "world_label_board_color": Color(0.31, 0.2, 0.12, 1), "world_label_board_offset": Vector3(0, 0, -0.03), "world_label_board_size": Vector3(1.52, 0.3, 0.08), "world_label_board_texture": "res://assets/grounds/front_gate/bench_mx_1_planks_hr_2.png", "world_label_color": Color(0.88, 0.79, 0.56, 1), "world_label_font_size": 16, "world_label_hanger_color": Color(0.22, 0.22, 0.25, 1), "world_label_hanger_height": 0.82, "world_label_hanger_offset_x": 0.45, "world_label_offset": Vector3(0, 0.02, 0.06), "world_label_outline_size": 4, "world_label_pixel_size": 0.0025, "world_label_rotation_y": 180.0}
+state_tags = PackedStringArray("gate_menu_settings")
+
+; === Lights ===
+
+[sub_resource type="Resource" id="light_moonlight"]
+script = ExtResource("4")
+id = "moonlight"
+type = "directional"
+position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(-42, 36, 0)
+color = Color(0.6, 0.65, 0.85, 1)
+energy = 1.15
+range = 0.0
+shadows = true
+flickering = false
+
+[sub_resource type="Resource" id="light_gate_lamp"]
+script = ExtResource("4")
+id = "gate_lamp_light"
+type = "omni"
+position = Vector3(-4, 3, 0)
+color = Color(1.0, 0.85, 0.5, 1)
+energy = 3.9
+range = 12.5
+shadows = false
+flickering = true
+flicker_pattern = "gas"
+
+[sub_resource type="Resource" id="light_gate_lamp_r"]
+script = ExtResource("4")
+id = "gate_lamp_light_r"
+type = "omni"
+position = Vector3(4, 3, 0)
+color = Color(1.0, 0.82, 0.48, 1)
+energy = 2.8
+range = 9.5
+shadows = false
+flickering = true
+flicker_pattern = "gas"
+
+[sub_resource type="Resource" id="light_window_glow_l"]
+script = ExtResource("4")
+id = "window_glow_left"
+type = "omni"
+position = Vector3(-4.6, 2.2, 13.1)
+color = Color(1.0, 0.82, 0.58, 1)
+energy = 3.8
+range = 5.8
+shadows = false
+flickering = false
+
+[sub_resource type="Resource" id="light_window_glow_r"]
+script = ExtResource("4")
+id = "window_glow_right"
+type = "omni"
+position = Vector3(4.6, 2.2, 13.1)
+color = Color(1.0, 0.82, 0.58, 1)
+energy = 3.8
+range = 5.8
+shadows = false
+flickering = false
+
+[sub_resource type="Resource" id="light_window_glow_c"]
+script = ExtResource("4")
+id = "window_glow_center"
+type = "omni"
+position = Vector3(0, 6.25, 12.72)
+color = Color(0.96, 0.8, 0.55, 1)
+energy = 2.9
+range = 4.8
+shadows = false
+flickering = false
+
+[sub_resource type="Resource" id="light_upper_window_glow_l"]
+script = ExtResource("4")
+id = "upper_window_glow_left"
+type = "omni"
+position = Vector3(-4.6, 6.0, 13.15)
+color = Color(0.95, 0.78, 0.52, 1)
+energy = 2.3
+range = 4.6
+shadows = false
+flickering = false
+
+[sub_resource type="Resource" id="light_upper_window_glow_r"]
+script = ExtResource("4")
+id = "upper_window_glow_right"
+type = "omni"
+position = Vector3(4.6, 6.0, 13.15)
+color = Color(0.95, 0.78, 0.52, 1)
+energy = 2.3
+range = 4.6
+shadows = false
+flickering = false
+
+[sub_resource type="Resource" id="light_doorway_glow"]
+script = ExtResource("4")
+id = "doorway_glow"
+type = "omni"
+position = Vector3(0, 1.8, 12.18)
+color = Color(1.0, 0.75, 0.45, 1)
+energy = 4.1
+range = 4.8
+shadows = false
+flickering = true
+flicker_pattern = "gas"
+
+[sub_resource type="Resource" id="light_facade_lamp_left"]
+script = ExtResource("4")
+id = "facade_lamp_left"
+type = "omni"
+position = Vector3(-2.25, 1.65, 11.8)
+color = Color(1.0, 0.8, 0.52, 1)
+energy = 2.3
+range = 4.8
+shadows = false
+flickering = true
+flicker_pattern = "gas"
+
+[sub_resource type="Resource" id="light_facade_lamp_right"]
+script = ExtResource("4")
+id = "facade_lamp_right"
+type = "omni"
+position = Vector3(2.25, 1.65, 11.8)
+color = Color(1.0, 0.8, 0.52, 1)
+energy = 2.3
+range = 4.8
+shadows = false
+flickering = true
+flicker_pattern = "gas"
+
+; === Props ===
+
+[sub_resource type="Resource" id="prop_gate_pillar_l"]
+script = ExtResource("5")
+id = "gate_pillar_l"
+model = "res://assets/shared/structure/pillar0.glb"
+position = Vector3(-4, 0, 0)
+
+[sub_resource type="Resource" id="prop_gate_pillar_r"]
+script = ExtResource("5")
+id = "gate_pillar_r"
+model = "res://assets/shared/structure/pillar0_001.glb"
+position = Vector3(4, 0, 0)
+
+[sub_resource type="Resource" id="prop_boundary_wall"]
+script = ExtResource("5")
+id = "boundary_wall"
+model = "res://assets/grounds/front_gate/brick_wall.glb"
+position = Vector3(-9, 0, 0)
+
+[sub_resource type="Resource" id="prop_boundary_corner"]
+script = ExtResource("5")
+id = "boundary_corner"
+model = "res://assets/grounds/front_gate/brick_Wall_corner.glb"
+position = Vector3(9, 0, 0)
+
+[sub_resource type="Resource" id="prop_fence"]
+script = ExtResource("5")
+id = "fence_section"
+model = "res://assets/grounds/front_gate/metalfence_both_sides_topbar.glb"
+position = Vector3(-7, 0, 0)
+
+[sub_resource type="Resource" id="prop_boundary_pole_r"]
+script = ExtResource("5")
+id = "boundary_pole_r"
+model = "res://assets/grounds/front_gate/brick_wall_pole.glb"
+position = Vector3(6, 0, 0)
+
+[sub_resource type="Resource" id="prop_fence_r"]
+script = ExtResource("5")
+id = "fence_section_r"
+model = "res://assets/grounds/front_gate/metalfence_one_side_topbar.glb"
+position = Vector3(7.2, 0, 0)
+rotation_y = 180.0
+
+[sub_resource type="Resource" id="prop_gate_center"]
+script = ExtResource("5")
+id = "iron_gate_center"
+model = "res://assets/grounds/front_gate/iron_gate.glb"
+position = Vector3(-3.0, 0, 0.15)
+rotation_y = 118.0
+scale = 0.56
+
+[sub_resource type="Resource" id="prop_gate_center_r"]
+script = ExtResource("5")
+id = "iron_gate_center_r"
+model = "res://assets/grounds/front_gate/iron_gate.glb"
+position = Vector3(3.0, 0, 0.15)
+rotation_y = 242.0
+scale = 0.56
+
+[sub_resource type="Resource" id="prop_tree1"]
+script = ExtResource("5")
+id = "tree1"
+model = "res://assets/grounds/front_gate/tree01_winter.glb"
+position = Vector3(-13.2, 0, 3.6)
+scale = 1.04
+
+[sub_resource type="Resource" id="prop_tree2"]
+script = ExtResource("5")
+id = "tree2"
+model = "res://assets/grounds/front_gate/tree02_winter.glb"
+position = Vector3(13.0, 0, 4.9)
+rotation_y = 30.0
+scale = 1.04
+
+[sub_resource type="Resource" id="prop_tree3"]
+script = ExtResource("5")
+id = "tree3"
+model = "res://assets/grounds/front_gate/tree03_winter.glb"
+position = Vector3(-15.0, 0, 8.0)
+rotation_y = -45.0
+scale = 0.96
+
+[sub_resource type="Resource" id="prop_tree4"]
+script = ExtResource("5")
+id = "tree4"
+model = "res://assets/grounds/front_gate/tree04_winter.glb"
+position = Vector3(15.2, 0, 10.0)
+rotation_y = 60.0
+scale = 0.96
+
+[sub_resource type="Resource" id="prop_tree5"]
+script = ExtResource("5")
+id = "tree5"
+model = "res://assets/grounds/front_gate/tree01_winter.glb"
+position = Vector3(-16.0, 0, 15.2)
+rotation_y = 20.0
+scale = 0.72
+
+[sub_resource type="Resource" id="prop_tree6"]
+script = ExtResource("5")
+id = "tree6"
+model = "res://assets/grounds/front_gate/tree02_winter.glb"
+position = Vector3(16.1, 0, 15.6)
+rotation_y = -35.0
+scale = 0.76
+
+[sub_resource type="Resource" id="prop_tree7"]
+script = ExtResource("5")
+id = "tree7"
+model = "res://assets/grounds/front_gate/tree03_winter.glb"
+position = Vector3(15.1, 0, 5.3)
+rotation_y = 40.0
+scale = 0.88
+
+[sub_resource type="Resource" id="prop_bush1"]
+script = ExtResource("5")
+id = "bush1"
+model = "res://assets/grounds/front_gate/bush01_winter.glb"
+position = Vector3(-6, 0, 1.0)
+scale = 0.95
+
+[sub_resource type="Resource" id="prop_bush2"]
+script = ExtResource("5")
+id = "bush2"
+model = "res://assets/grounds/front_gate/bush02_winter.glb"
+position = Vector3(6, 0, 1.0)
+scale = 0.95
+
+[sub_resource type="Resource" id="prop_bush3"]
+script = ExtResource("5")
+id = "bush3"
+model = "res://assets/grounds/front_gate/bush03_winter.glb"
+position = Vector3(-6.9, 0, 8.0)
+rotation_y = -8.0
+scale = 0.94
+
+[sub_resource type="Resource" id="prop_bush4"]
+script = ExtResource("5")
+id = "bush4"
+model = "res://assets/grounds/front_gate/bush04_winter.glb"
+position = Vector3(6.9, 0, 2.4)
+rotation_y = 18.0
+scale = 0.94
+
+[sub_resource type="Resource" id="prop_bush5"]
+script = ExtResource("5")
+id = "bush5"
+model = "res://assets/grounds/front_gate/bush01_winter.glb"
+position = Vector3(-9.4, 0, 7.4)
+rotation_y = -10.0
+scale = 0.76
+
+[sub_resource type="Resource" id="prop_bush6"]
+script = ExtResource("5")
+id = "bush6"
+model = "res://assets/grounds/front_gate/bush02_winter.glb"
+position = Vector3(9.5, 0, 7.8)
+rotation_y = 35.0
+scale = 0.76
+
+[sub_resource type="Resource" id="prop_hedge_left_near"]
+script = ExtResource("5")
+id = "drive_hedge_left_near"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(-6.2, 0, 8.2)
+rotation_y = 12.0
+scale = 1.12
+
+[sub_resource type="Resource" id="prop_hedge_left_gate"]
+script = ExtResource("5")
+id = "drive_hedge_left_gate"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(-6.7, 0, 1.1)
+rotation_y = 6.0
+scale = 1.06
+
+[sub_resource type="Resource" id="prop_hedge_left_far"]
+script = ExtResource("5")
+id = "drive_hedge_left_far"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(-6.35, 0, 4.5)
+rotation_y = -8.0
+scale = 1.18
+
+[sub_resource type="Resource" id="prop_hedge_left_mansion"]
+script = ExtResource("5")
+id = "drive_hedge_left_mansion"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(-7.0, 0, 11.6)
+rotation_y = -14.0
+scale = 1.08
+
+[sub_resource type="Resource" id="prop_hedge_left_mid_gate"]
+script = ExtResource("5")
+id = "drive_hedge_left_mid_gate"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(-6.1, 0, 4.7)
+rotation_y = 10.0
+scale = 1.08
+
+[sub_resource type="Resource" id="prop_hedge_left_mid_center"]
+script = ExtResource("5")
+id = "drive_hedge_left_mid_center"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(-6.0, 0, 1.2)
+rotation_y = -2.0
+scale = 1.12
+
+[sub_resource type="Resource" id="prop_hedge_left_mid_mansion"]
+script = ExtResource("5")
+id = "drive_hedge_left_mid_mansion"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(-6.25, 0, 8.2)
+rotation_y = -10.0
+scale = 1.08
+
+[sub_resource type="Resource" id="prop_hedge_right_near"]
+script = ExtResource("5")
+id = "drive_hedge_right_near"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(6.2, 0, 9.0)
+rotation_y = 188.0
+scale = 1.12
+
+[sub_resource type="Resource" id="prop_hedge_right_gate"]
+script = ExtResource("5")
+id = "drive_hedge_right_gate"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(6.7, 0, 1.4)
+rotation_y = 194.0
+scale = 1.06
+
+[sub_resource type="Resource" id="prop_hedge_right_far"]
+script = ExtResource("5")
+id = "drive_hedge_right_far"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(6.35, 0, 4.8)
+rotation_y = 172.0
+scale = 1.18
+
+[sub_resource type="Resource" id="prop_hedge_right_mansion"]
+script = ExtResource("5")
+id = "drive_hedge_right_mansion"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(7.0, 0, 11.8)
+rotation_y = 166.0
+scale = 1.08
+
+[sub_resource type="Resource" id="prop_hedge_right_mid_gate"]
+script = ExtResource("5")
+id = "drive_hedge_right_mid_gate"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(6.1, 0, 5.0)
+rotation_y = 186.0
+scale = 1.08
+
+[sub_resource type="Resource" id="prop_hedge_right_mid_center"]
+script = ExtResource("5")
+id = "drive_hedge_right_mid_center"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(6.0, 0, 1.5)
+rotation_y = 182.0
+scale = 1.12
+
+[sub_resource type="Resource" id="prop_hedge_right_mid_mansion"]
+script = ExtResource("5")
+id = "drive_hedge_right_mid_mansion"
+model = "res://assets/grounds/front_gate/nature.glb"
+position = Vector3(6.25, 0, 8.5)
+rotation_y = 170.0
+scale = 1.08
+
+[sub_resource type="Resource" id="prop_rocks"]
+script = ExtResource("5")
+id = "rocks"
+model = "res://assets/grounds/front_gate/rocks.glb"
+position = Vector3(-10.1, 0, 10.9)
+
+[sub_resource type="Resource" id="prop_off_lamp"]
+script = ExtResource("5")
+id = "gate_lamp_off"
+model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+position = Vector3(4, 0, 0)
+
+[sub_resource type="Resource" id="prop_moon_disc"]
+script = ExtResource("5")
+id = "moon_disc"
+scene_role = "clue_dressing"
+position = Vector3(11.8, 16.5, 24.0)
+scale = 1.5
+tags = PackedStringArray("procedural_moon")
+
+[sub_resource type="Resource" id="prop_menu_sign"]
+script = ExtResource("5")
+id = "front_gate_menu_sign"
+scene_role = "architectural_trim"
+scene_path = "res://scenes/shared/front_gate/front_gate_menu_sign.tscn"
+position = Vector3(0, 0, -2.85)
+
+[sub_resource type="Resource" id="prop_drive_stone_1"]
+script = ExtResource("5")
+id = "drive_stone_1"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(0, 0, 4.0)
+scale = 1.1
+
+[sub_resource type="Resource" id="prop_drive_stone_0"]
+script = ExtResource("5")
+id = "drive_stone_0"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(0, 0, -0.2)
+scale = 1.08
+
+[sub_resource type="Resource" id="prop_drive_stone_2"]
+script = ExtResource("5")
+id = "drive_stone_2"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(0, 0, 8.0)
+scale = 1.1
+
+[sub_resource type="Resource" id="prop_drive_stone_3"]
+script = ExtResource("5")
+id = "drive_stone_3"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(0, 0, 2)
+scale = 1.1
+
+[sub_resource type="Resource" id="prop_drive_stone_4"]
+script = ExtResource("5")
+id = "drive_stone_4"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(0, 0, 6)
+scale = 1.1
+
+[sub_resource type="Resource" id="prop_drive_stone_5"]
+script = ExtResource("5")
+id = "drive_stone_5"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(-2.5, 0, 8.5)
+rotation_y = -6.0
+scale = 1.2
+
+[sub_resource type="Resource" id="prop_drive_stone_6"]
+script = ExtResource("5")
+id = "drive_stone_6"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(2.5, 0, 8.5)
+rotation_y = 6.0
+scale = 1.2
+
+[sub_resource type="Resource" id="prop_drive_step_center"]
+script = ExtResource("5")
+id = "drive_step_center"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(0, 0, 8.6)
+scale = 1.05
+
+[sub_resource type="Resource" id="prop_drive_step_left"]
+script = ExtResource("5")
+id = "drive_step_left"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(-1.8, 0, 8.2)
+rotation_y = -5.0
+scale = 1.15
+
+[sub_resource type="Resource" id="prop_drive_step_right"]
+script = ExtResource("5")
+id = "drive_step_right"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(1.8, 0, 8.2)
+rotation_y = 5.0
+scale = 1.15
+
+[sub_resource type="Resource" id="prop_drive_step_far"]
+script = ExtResource("5")
+id = "drive_step_far"
+model = "res://assets/shared/structure/floor3.glb"
+position = Vector3(0, 0, 11.2)
+scale = 1.08
+
+[sub_resource type="Resource" id="prop_facade_wall_center"]
+script = ExtResource("5")
+id = "facade_wall_center"
+model = "res://assets/mansion_psx/models/SM_Door_Wall.glb"
+position = Vector3(0, 0, 12.55)
+rotation_y = 90.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_wall_left"]
+script = ExtResource("5")
+id = "facade_wall_left"
+model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+position = Vector3(-4.6, 0, 13.1)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_wall_right"]
+script = ExtResource("5")
+id = "facade_wall_right"
+model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+position = Vector3(4.6, 0, 13.1)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_wing_left"]
+script = ExtResource("5")
+id = "facade_wing_left"
+model = "res://assets/mansion_psx/models/SM_Big_Wall.glb"
+position = Vector3(-9.0, 0, 13.58)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_wing_right"]
+script = ExtResource("5")
+id = "facade_wing_right"
+model = "res://assets/mansion_psx/models/SM_Big_Wall.glb"
+position = Vector3(9.0, 0, 13.58)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_pillar_left"]
+script = ExtResource("5")
+id = "facade_pillar_left"
+model = "res://assets/mansion_psx/models/SM_Wall_Column.glb"
+position = Vector3(-2.3, 0, 12.48)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_pillar_right"]
+script = ExtResource("5")
+id = "facade_pillar_right"
+model = "res://assets/mansion_psx/models/SM_Wall_Column.glb"
+position = Vector3(2.3, 0, 12.48)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_window_left"]
+script = ExtResource("5")
+id = "facade_window_left"
+model = "res://assets/shared/structure/window_clean.glb"
+position = Vector3(-4.6, 2.18, 12.98)
+rotation_y = 180.0
+scale = 1.22
+
+[sub_resource type="Resource" id="prop_facade_window_right"]
+script = ExtResource("5")
+id = "facade_window_right"
+model = "res://assets/shared/structure/window_clean.glb"
+position = Vector3(4.6, 2.18, 12.98)
+rotation_y = 180.0
+scale = 1.22
+
+[sub_resource type="Resource" id="prop_facade_window_ray_left"]
+script = ExtResource("5")
+id = "facade_window_ray_left"
+model = "res://assets/shared/structure/window_ray.glb"
+position = Vector3(-4.6, 2.06, 12.82)
+rotation_y = 180.0
+scale = 0.52
+
+[sub_resource type="Resource" id="prop_facade_window_ray_right"]
+script = ExtResource("5")
+id = "facade_window_ray_right"
+model = "res://assets/shared/structure/window_ray.glb"
+position = Vector3(4.6, 2.06, 12.82)
+rotation_y = 180.0
+scale = 0.52
+
+[sub_resource type="Resource" id="prop_facade_window_center"]
+script = ExtResource("5")
+id = "facade_window_center"
+model = "res://assets/shared/structure/window_clean.glb"
+position = Vector3(0, 6.1, 12.62)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_window_ray_center"]
+script = ExtResource("5")
+id = "facade_window_ray_center"
+model = "res://assets/shared/structure/window_ray.glb"
+position = Vector3(0, 5.95, 12.45)
+rotation_y = 180.0
+scale = 0.38
+
+[sub_resource type="Resource" id="prop_facade_upper_window_left"]
+script = ExtResource("5")
+id = "facade_upper_window_left"
+model = "res://assets/shared/structure/window_clean.glb"
+position = Vector3(-4.6, 6.0, 13.05)
+rotation_y = 180.0
+scale = 1.02
+
+[sub_resource type="Resource" id="prop_facade_upper_window_right"]
+script = ExtResource("5")
+id = "facade_upper_window_right"
+model = "res://assets/shared/structure/window_clean.glb"
+position = Vector3(4.6, 6.0, 13.05)
+rotation_y = 180.0
+scale = 1.02
+
+[sub_resource type="Resource" id="prop_facade_chimney_left"]
+script = ExtResource("5")
+id = "facade_chimney_left"
+model = "res://assets/grounds/front_gate/chimney_a_2.glb"
+position = Vector3(-4.5, 4.55, 14.0)
+scale = 0.72
+
+[sub_resource type="Resource" id="prop_facade_chimney_right"]
+script = ExtResource("5")
+id = "facade_chimney_right"
+model = "res://assets/grounds/front_gate/chimney_a_3.glb"
+position = Vector3(4.5, 4.55, 14.0)
+scale = 0.72
+
+[sub_resource type="Resource" id="prop_facade_doorway"]
+script = ExtResource("5")
+id = "facade_doorway"
+model = "res://assets/mansion_psx/models/SM_Door_Frame.glb"
+position = Vector3(0, 0, 12.55)
+rotation_y = 90.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_upper_center"]
+script = ExtResource("5")
+id = "facade_upper_center"
+model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+position = Vector3(0, 4.05, 12.82)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_upper_left"]
+script = ExtResource("5")
+id = "facade_upper_left"
+model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+position = Vector3(-4.6, 4.05, 13.25)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_upper_right"]
+script = ExtResource("5")
+id = "facade_upper_right"
+model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+position = Vector3(4.6, 4.05, 13.25)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_upper_wing_left"]
+script = ExtResource("5")
+id = "facade_upper_wing_left"
+model = "res://assets/mansion_psx/models/SM_Big_Wall.glb"
+position = Vector3(-9.0, 4.05, 13.72)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_upper_wing_right"]
+script = ExtResource("5")
+id = "facade_upper_wing_right"
+model = "res://assets/mansion_psx/models/SM_Big_Wall.glb"
+position = Vector3(9.0, 4.05, 13.72)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_roof_left"]
+script = ExtResource("5")
+id = "facade_roof_left"
+model = "res://assets/mansion_psx/models/SM_Roof.glb"
+position = Vector3(-4.6, 8.08, 13.35)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_roof_center"]
+script = ExtResource("5")
+id = "facade_roof_center"
+model = "res://assets/mansion_psx/models/SM_Roof.glb"
+position = Vector3(0, 8.08, 12.95)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_roof_right"]
+script = ExtResource("5")
+id = "facade_roof_right"
+model = "res://assets/mansion_psx/models/SM_Roof.glb"
+position = Vector3(4.6, 8.08, 13.35)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_roof_wing_left"]
+script = ExtResource("5")
+id = "facade_roof_wing_left"
+model = "res://assets/mansion_psx/models/SM_Roof.glb"
+position = Vector3(-9.0, 8.08, 13.86)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_roof_wing_right"]
+script = ExtResource("5")
+id = "facade_roof_wing_right"
+model = "res://assets/mansion_psx/models/SM_Roof.glb"
+position = Vector3(9.0, 8.08, 13.86)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_molding_left"]
+script = ExtResource("5")
+id = "facade_molding_left"
+model = "res://assets/mansion_psx/models/SM_Big_Roof_Molding.glb"
+position = Vector3(-4.6, 8.04, 13.15)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_molding_center"]
+script = ExtResource("5")
+id = "facade_molding_center"
+model = "res://assets/mansion_psx/models/SM_Big_Roof_Molding.glb"
+position = Vector3(0, 8.04, 12.74)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_molding_right"]
+script = ExtResource("5")
+id = "facade_molding_right"
+model = "res://assets/mansion_psx/models/SM_Big_Roof_Molding.glb"
+position = Vector3(4.6, 8.04, 13.15)
+rotation_y = 180.0
+scale = 1.0
+
+[sub_resource type="Resource" id="prop_facade_door"]
+script = ExtResource("5")
+id = "facade_door"
+model = "res://assets/shared/structure/door1.glb"
+position = Vector3(0.94, 0, 12.22)
+rotation_y = 112.0
+scale = 1.06
+
+[sub_resource type="Resource" id="prop_facade_lamp_left"]
+script = ExtResource("5")
+id = "facade_lamp_left"
+model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+position = Vector3(-2.2, 0, 11.66)
+rotation_y = 8.0
+scale = 0.76
+
+[sub_resource type="Resource" id="prop_facade_lamp_right"]
+script = ExtResource("5")
+id = "facade_lamp_right"
+model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+position = Vector3(2.2, 0, 11.66)
+rotation_y = -8.0
+scale = 0.76
+
+[sub_resource type="Resource" id="prop_statue_plinth_left"]
+script = ExtResource("5")
+id = "statue_plinth_left"
+model = "res://assets/shared/structure/pillar0_002.glb"
+position = Vector3(-9.2, 0, 6.6)
+rotation_y = 22.0
+scale = 0.72
+
+[sub_resource type="Resource" id="prop_statue_left"]
+script = ExtResource("5")
+id = "statue_left"
+model = "res://assets/shared/decor/statue.glb"
+position = Vector3(-8.8, 1.0, 6.2)
+rotation_y = 14.0
+scale = 0.58
+
+[sub_resource type="Resource" id="prop_statue_plinth_right"]
+script = ExtResource("5")
+id = "statue_plinth_right"
+model = "res://assets/shared/structure/pillar0_003.glb"
+position = Vector3(9.3, 0, 6.9)
+rotation_y = -22.0
+scale = 0.72
+
+[sub_resource type="Resource" id="prop_statue_right"]
+script = ExtResource("5")
+id = "statue_right"
+model = "res://assets/shared/decor/statue.glb"
+position = Vector3(8.9, 1.0, 6.4)
+rotation_y = -12.0
+scale = 0.58
+
+; === Entry Trigger Actions ===
+
+[sub_resource type="Resource" id="act_set_visited"]
+script = ExtResource("7")
+set_state = {"visited_front_gate": true, "game_started": true}
+
+[sub_resource type="Resource" id="act_first_entry_captive_text"]
+script = ExtResource("7")
+show_text = ""
+
+[sub_resource type="Resource" id="act_first_entry_mourning_text"]
+script = ExtResource("7")
+show_text = ""
+
+[sub_resource type="Resource" id="act_first_entry_sovereign_text"]
+script = ExtResource("7")
+show_text = ""
+
+[sub_resource type="Resource" id="act_first_entry_gate_creak"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/gate_creak.ogg"
+
+[sub_resource type="Resource" id="act_first_entry_sway"]
+script = ExtResource("7")
+camera_shake = 0.03
+
+[sub_resource type="Resource" id="act_show_title"]
+script = ExtResource("7")
+show_room_name = "Ashworth Manor"
+
+[sub_resource type="Resource" id="trig_first_entry_captive"]
+script = ExtResource("6")
+condition = "NOT visited_front_gate AND macro_thread == captive"
+once = true
+trigger_id = "front_gate_first_entry_captive"
+actions = Array[Resource]([SubResource("act_first_entry_captive_text"), SubResource("act_first_entry_gate_creak"), SubResource("act_first_entry_sway")])
+
+[sub_resource type="Resource" id="trig_first_entry_mourning"]
+script = ExtResource("6")
+condition = "NOT visited_front_gate AND macro_thread == mourning"
+once = true
+trigger_id = "front_gate_first_entry_mourning"
+actions = Array[Resource]([SubResource("act_first_entry_mourning_text"), SubResource("act_first_entry_gate_creak")])
+
+[sub_resource type="Resource" id="trig_first_entry_sovereign"]
+script = ExtResource("6")
+condition = "NOT visited_front_gate AND macro_thread == sovereign"
+once = true
+trigger_id = "front_gate_first_entry_sovereign"
+actions = Array[Resource]([SubResource("act_first_entry_sovereign_text"), SubResource("act_first_entry_gate_creak"), SubResource("act_first_entry_sway")])
+
+; === Entry Trigger ===
+
+[sub_resource type="Resource" id="trig_first_entry"]
+script = ExtResource("6")
+condition = "NOT visited_front_gate"
+once = true
+trigger_id = "front_gate_first_entry"
+actions = Array[Resource]([SubResource("act_set_visited"), SubResource("act_show_title")])
+
+; === Ambient Events ===
+
+[sub_resource type="Resource" id="act_gate_creak"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/gate_creak.ogg"
+
+[sub_resource type="Resource" id="ambient_gate_creak"]
+script = ExtResource("8")
+event_id = "gate_creak_ambient"
+interval_min = 15.0
+interval_max = 30.0
+condition = ""
+actions = Array[Resource]([SubResource("act_gate_creak")])
+
+[sub_resource type="Resource" id="act_wind_gust_sfx"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/wind_gust.ogg"
+
+[sub_resource type="Resource" id="act_wind_gust_shake"]
+script = ExtResource("7")
+camera_shake = 0.03
+
+[sub_resource type="Resource" id="ambient_wind_gust"]
+script = ExtResource("8")
+event_id = "wind_gust"
+interval_min = 20.0
+interval_max = 40.0
+condition = ""
+actions = Array[Resource]([SubResource("act_wind_gust_sfx"), SubResource("act_wind_gust_shake")])
+
+; === Conditional Event: Post-Attic Return ===
+
+[sub_resource type="Resource" id="act_post_attic_flag"]
+script = ExtResource("7")
+set_state = {"front_gate_post_attic_triggered": true}
+
+[sub_resource type="Resource" id="act_post_attic_light"]
+script = ExtResource("7")
+light_change = {"gate_lamp_light": {"energy": 4.0, "duration": 3.0}}
+
+[sub_resource type="Resource" id="act_post_attic_whisper"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/horror/whisper_wind.ogg"
+
+[sub_resource type="Resource" id="act_post_attic_text"]
+script = ExtResource("7")
+show_text = "The gate lamp burns brighter as you approach. As if greeting you. Or warning you."
+
+[sub_resource type="Resource" id="act_threshold_ack_flag"]
+script = ExtResource("7")
+set_state = {"front_gate_threshold_acknowledged": true}
+
+[sub_resource type="Resource" id="act_threshold_ack_light"]
+script = ExtResource("7")
+light_change = {"gate_lamp_light": {"energy": 3.4, "duration": 1.2}}
+
+[sub_resource type="Resource" id="act_threshold_ack_sfx"]
+script = ExtResource("7")
+play_sfx = "gate_creak"
+
+[sub_resource type="Resource" id="act_threshold_ack_sway"]
+script = ExtResource("7")
+camera_shake = 0.02
+
+[sub_resource type="Resource" id="cond_threshold_ack"]
+script = ExtResource("9")
+event_id = "front_gate_threshold_ack"
+condition = "front_gate_valise_opened AND NOT front_gate_threshold_acknowledged"
+once = true
+actions = Array[Resource]([SubResource("act_threshold_ack_flag"), SubResource("act_threshold_ack_light"), SubResource("act_threshold_ack_sfx"), SubResource("act_threshold_ack_sway")])
+
+[sub_resource type="Resource" id="cond_post_attic"]
+script = ExtResource("9")
+event_id = "front_gate_post_attic"
+condition = "elizabeth_aware AND NOT front_gate_post_attic_triggered"
+once = true
+actions = Array[Resource]([SubResource("act_post_attic_flag"), SubResource("act_post_attic_light"), SubResource("act_post_attic_whisper"), SubResource("act_post_attic_text")])
+
+; === Main Resource ===
+
+[resource]
+script = ExtResource("1")
+room_id = "front_gate"
+room_name = "Front Gate"
+floor_name = "grounds"
+environment_preset = "grounds"
+dimensions = Vector3(18, 6, 18)
+is_exterior = true
+spatial_class = "exterior_ground"
+exposure_faces = PackedStringArray("north", "south", "east", "west", "roof")
+outlook_zones = {"north": "ceremonial_drive_continuation", "south": "estate_drive_departure", "east": "tree_line_boundary", "west": "tree_line_boundary", "roof": "open_sky"}
+window_view_mode = "distant_backdrop"
+wall_texture = ""
+floor_texture = "res://assets/grounds/front_gate/rocks_Rokcs 2.png"
+ceiling_texture = ""
+wall_north = PackedStringArray()
+wall_south = PackedStringArray()
+wall_east = PackedStringArray()
+wall_west = PackedStringArray()
+ambient_loop = "res://assets/audio/loops/Moonlight Loop1.ogg"
+tension_loop = "res://assets/audio/tension/tension_exploration.wav"
+reverb_bus = "OpenAir"
+footstep_surface = "gravel"
+spawn_position = Vector3(0, 0, -5.4)
+spawn_rotation_y = 180.0
+entry_anchors = Array[Resource]([SubResource("anchor_entry_opening"), SubResource("anchor_entry_drive")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_mansion"), SubResource("anchor_focus_gate_sign")])
+interactables = Array[Resource]([SubResource("inter_gate_sign_new_game"), SubResource("inter_gate_sign_load_game"), SubResource("inter_gate_sign_settings"), SubResource("inter_gate_plaque"), SubResource("inter_gate_luggage"), SubResource("inter_gate_bench"), SubResource("inter_iron_gate"), SubResource("inter_gate_lamp")])
+lights = Array[Resource]([SubResource("light_moonlight"), SubResource("light_gate_lamp"), SubResource("light_gate_lamp_r")])
+props = Array[Resource]([SubResource("prop_gate_pillar_l"), SubResource("prop_gate_pillar_r"), SubResource("prop_gate_center"), SubResource("prop_gate_center_r"), SubResource("prop_boundary_wall"), SubResource("prop_boundary_corner"), SubResource("prop_fence"), SubResource("prop_boundary_pole_r"), SubResource("prop_fence_r"), SubResource("prop_tree1"), SubResource("prop_tree2"), SubResource("prop_bush1"), SubResource("prop_bush2"), SubResource("prop_bush3"), SubResource("prop_hedge_left_gate"), SubResource("prop_hedge_left_mid_gate"), SubResource("prop_hedge_left_near"), SubResource("prop_hedge_right_gate"), SubResource("prop_hedge_right_mid_gate"), SubResource("prop_hedge_right_near"), SubResource("prop_off_lamp"), SubResource("prop_moon_disc"), SubResource("prop_menu_sign"), SubResource("prop_drive_stone_0"), SubResource("prop_drive_stone_1"), SubResource("prop_drive_stone_2")])
+on_entry = Array[Resource]([SubResource("trig_first_entry")])
+on_exit = Array[Resource]([])
+ambient_events = Array[Resource]([SubResource("ambient_gate_creak"), SubResource("ambient_wind_gust")])
+conditional_events = Array[Resource]([SubResource("cond_post_attic")])
+flashbacks = Array[Resource]([])

@@ -1,0 +1,54 @@
+[gd_resource type="Resource" script_class="PuzzleDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/puzzle_declaration.gd" id="1"]
+[ext_resource type="Script" path="res://engine/declarations/puzzle_step_decl.gd" id="2"]
+[ext_resource type="Script" path="res://engine/declarations/clue_decl.gd" id="3"]
+
+[sub_resource type="Resource" id="step_wine_note"]
+script = ExtResource("2")
+step_id = "read_wine_note"
+description = "Find the note in the wine cellar mentioning 'the key is with the portrait'"
+action = "interact"
+target_interactable = "wine_note"
+target_room = "wine_cellar"
+result_states = {"read_wine_note": true}
+
+[sub_resource type="Resource" id="step_find_key"]
+script = ExtResource("2")
+step_id = "find_cellar_key"
+description = "Find the cellar key behind the portrait in the carriage house"
+action = "interact"
+target_interactable = "carriage_portrait"
+target_room = "carriage_house"
+required_state = "read_wine_note"
+result_items = PackedStringArray("cellar_key")
+
+[sub_resource type="Resource" id="step_unlock"]
+script = ExtResource("2")
+step_id = "unlock_wine_box"
+description = "Use the cellar key to open the locked box in the wine cellar"
+action = "use_item"
+target_interactable = "wine_box"
+target_room = "wine_cellar"
+required_items = PackedStringArray("cellar_key")
+result_items = PackedStringArray("mothers_confession")
+
+[sub_resource type="Resource" id="clue_wine"]
+script = ExtResource("3")
+interactable_id = "wine_note"
+room_id = "wine_cellar"
+clue_text = "The key is with the portrait -- in the carriage house"
+
+[resource]
+script = ExtResource("1")
+puzzle_id = "cellar_key_puzzle"
+name = "Find the Mother's Confession"
+description = "A locked box in the wine cellar contains Lady Ashworth's confession. The key is hidden with a portrait."
+steps = Array[Resource]([SubResource("step_wine_note"), SubResource("step_find_key"), SubResource("step_unlock")])
+sequential = true
+requires_puzzles = PackedStringArray()
+completion_state = "HAS mothers_confession"
+reward_states = {}
+reward_items = PackedStringArray("mothers_confession")
+clue_chain = Array[Resource]([SubResource("clue_wine")])
+variation_points = Array[Resource]([])

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InteractableData" format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+object_id = "parlor_tea"
+object_type = "observation"
+title = "Tea Service"
+content = "Two cups. One used, one untouched. The teapot is empty. Someone made tea for two and only one person drank."
+on_read_flags = PackedStringArray()

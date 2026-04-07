@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemDeclaration" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/item_declaration.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_id = "gate_key"
+name = "Gate Key"
+description = "An iron key found in the greenhouse, nestled among Elizabeth's white lilies."
+category = "key"
+is_ritual_component = false
+is_consumable = false
+functional_slot = "crypt_gate_key"
+thread_active = PackedStringArray()
+found_in_room = "greenhouse"
+found_at_interactable = "greenhouse_pot"
+found_condition = ""
+unlocks_interactable = "crypt_gate"
+unlocks_in_room = "garden"
