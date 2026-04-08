@@ -21,7 +21,7 @@ set_state = {"read_guest_ledger": true}
 script = ExtResource("3")
 condition = ""
 title = "Guest Ledger"
-text = "Helena Pierce arrived November 3rd. Her entry: 'Lord Ashworth invited me to study the phenomena. He says his daughter is the source. He says she must be contained. I am here to determine if his methods are sound.' She was here to validate the imprisonment. A scientist confirming the cage. She never left. The last page of the ledger has been torn out."
+text = "Helena Pierce arrived November 3rd. Her entry: 'There is no attic invalid. There is a sealed wall. I heard a child speaking from behind it while the servants pretended not to hear a thing. Lord Ashworth says the arrangement is temporary. The plaster dates say otherwise.' Helena understood the architecture before she understood the haunting. The last page of the ledger has been torn out."
 set_state = {"read_guest_ledger": true}
 
 [sub_resource type="Resource" id="resp_ledger_mourning"]
@@ -89,7 +89,7 @@ type = "note"
 position = Vector3(-3.5, 0.9, -3)
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_ledger_default")])
-thread_responses = {"captive": [SubResource("resp_ledger_captive")], "mourning": [SubResource("resp_ledger_mourning")], "sovereign": [SubResource("resp_ledger_sovereign")], "adult": [SubResource("resp_ledger_adult")]}
+thread_responses = {"child": [SubResource("resp_ledger_captive")], "adult": [SubResource("resp_ledger_adult")], "elder": [SubResource("resp_ledger_sovereign")], "captive": [SubResource("resp_ledger_captive")], "mourning": [SubResource("resp_ledger_mourning")], "sovereign": [SubResource("resp_ledger_sovereign")]}
 
 [sub_resource type="Resource" id="inter_bed"]
 script = ExtResource("2")

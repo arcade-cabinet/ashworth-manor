@@ -6,56 +6,53 @@ tags:
 ---
 
 # Launch the app
-- launchApp
+- launchApp:
+    appId: com.arcadecabinet.ashworthmanor
+    stopApp: true
 
 # Dismiss Android's fullscreen notification if it appears
 - tapOn:
     text: "Got it"
     optional: true
 
-# Wait for Godot to load
+# Wait for the helper and opening room to become OCR-stable
 - extendedWaitUntil:
-    timeout: 15000
-    visible: ".*"
+    timeout: 30000
+    visible: "Maestro Helper"
+- extendedWaitUntil:
+    timeout: 30000
+    visible: "Room: Front Gate"
 
 - takeScreenshot: screenshots/maestro/smoke_01_launch
 
-# Godot renders on GPU canvas - text assertions won't work
-# Instead verify app didn't crash by tapping and screenshotting
-
-# Tap center (should be landing screen area)
-- tapOn:
-    point: "50%,60%"
-- takeScreenshot: screenshots/maestro/smoke_02_after_tap
-
-# Tap where "New Game" button approximately is (center, lower third)
-- tapOn:
-    point: "50%,55%"
+# Dismiss the opening document and confirm the debug helper still tracks state.
+- tapOn: "01 DISMISS"
+- waitForAnimationToEnd
 - extendedWaitUntil:
-    timeout: 5000
-    visible: ".*"
-- takeScreenshot: screenshots/maestro/smoke_03_game_started
+    timeout: 10000
+    visible: "Open Valise"
+- takeScreenshot: screenshots/maestro/smoke_02_front_gate
 
 # Look around by swiping (camera rotation)
 - swipe:
     start: "70%,50%"
     end: "30%,50%"
     duration: 500
-- takeScreenshot: screenshots/maestro/smoke_04_look_right
+- takeScreenshot: screenshots/maestro/smoke_03_look_right
 
 - swipe:
     start: "30%,50%"
     end: "70%,50%"
     duration: 500
-- takeScreenshot: screenshots/maestro/smoke_05_look_left
+- takeScreenshot: screenshots/maestro/smoke_04_look_left
 
 # Tap to walk forward
 - tapOn:
     point: "50%,40%"
 - extendedWaitUntil:
-    timeout: 3000
-    visible: ".*"
-- takeScreenshot: screenshots/maestro/smoke_06_walked
+    timeout: 10000
+    visible: "Drive Lower"
+- takeScreenshot: screenshots/maestro/smoke_05_walked
 
 # App is still running (didn't crash)
-- takeScreenshot: screenshots/maestro/smoke_07_stable
+- takeScreenshot: screenshots/maestro/smoke_06_stable

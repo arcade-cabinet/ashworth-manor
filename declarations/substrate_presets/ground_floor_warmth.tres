@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="SubstratePresetDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/substrate_preset_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+preset_id = "ground_floor_warmth"
+region_family = "manor_public_interior"
+primitive_families = PackedStringArray("surface", "architecture", "prop")
+dominant_material_recipes = PackedStringArray("surface/oak_dark", "surface/oak_board", "surface/brass")
+allowed_mount_families = PackedStringArray("wall", "floor", "ceiling", "threshold", "table", "shelf", "sill", "mantel")
+default_light_grammar = "sconce_fireplace_gas"
+approved_builders = PackedStringArray("wall_builder", "floor_builder", "ceiling_builder", "door_builder", "window_builder", "stairs_builder", "ladder_builder", "trapdoor_builder")
+notes = "Ground-floor envelope: warm wood, brass trim, and visibly sourced first-act light."

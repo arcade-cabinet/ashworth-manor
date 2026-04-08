@@ -3,6 +3,131 @@
 This file tracks progress across iterations. Agents update this file
 after each iteration and it's included in prompts for context.
 
+## Active Hard Substrate Freeze
+
+- The active execution contract is now
+  `docs/batches/hard-substrate-freeze.md`.
+- The substrate authority is now
+  `docs/SUBSTRATE_FOUNDATION.md`.
+- The whole-game ship-scope contract remains
+  `docs/batches/ashworth-master-task-graph.md`.
+- Current tranche status:
+  - `SF-001` canonical substrate inventory and freeze contract — done
+  - `SF-002` shared shader and material recipe library — in_progress
+  - `SF-003` shared builder and factory library promotion — in_progress
+  - `SF-004` declaration-facing mount and slot system — in_progress
+  - `SF-005` environment and region preset library — done
+  - `SF-006` grounds topology and exterior estate coverage — pending
+  - `SF-007` whole-house interior substrate coverage — pending
+  - `SF-008` route-state integration on top of the substrate — pending
+  - `SF-009` visual QA and evidence rebuild — pending
+  - `SF-010` whole-game sweep and rebaseline — pending
+
+## 2026-04-08 - Hard substrate freeze tranche started
+
+- Added `docs/SUBSTRATE_FOUNDATION.md` as the canonical substrate authority.
+- Added `docs/batches/hard-substrate-freeze.md` as the active execution
+  contract.
+- Added `docs/checkpoints/SF-001-substrate-inventory.md` to record the first
+  tree-based repo/NAS substrate census.
+- Added declaration-facing substrate resources:
+  - `MaterialRecipeDecl`
+  - `TerrainPresetDecl`
+  - `SkyPresetDecl`
+  - `SubstratePresetDecl`
+  - `MountSlotDecl`
+  - `MountPayloadDecl`
+- Added `builders/estate_substrate_registry.gd`.
+- Refactored shared material handling toward recipe/slot resolution in
+  `estate_material_kit.gd` and `pbr_texture_kit.gd`.
+- Added shared environment preset resolution in
+  `builders/estate_environment_registry.gd`.
+- Added concrete terrain presets under `declarations/terrain_presets/`.
+- Added a concrete sky preset under `declarations/sky_presets/`.
+- Added the first substrate preset matrix under
+  `declarations/substrate_presets/`.
+- Expanded environment and region declarations to carry substrate-facing
+  defaults and policy.
+- Wired `RoomAssembler` to resolve substrate preset metadata and mount payloads
+  before bespoke room hacks.
+- Wired `PSXBridge` to resolve authored sky presets into runtime sky
+  declarations.
+- Wired exterior floor assembly to resolve through the declared terrain preset
+  base recipe instead of only raw room texture strings.
+- Wired environment-level `surface_recipe_overrides` for `floor`, `wall`, and
+  `ceiling`, so interior region grammar can resolve shared surfaces directly.
+- The first substrate regressions were repaired:
+  - explicit preload typing for new declaration/resource classes
+  - `RoomAssembler` instantiation fixed in `room_manager.gd`
+  - constant-expression fixes in `pbr_texture_kit.gd` and
+    `estate_substrate_registry.gd`
+- Repo-local validation reran green:
+  - `godot --headless --path . --quit-after 1`
+  - `godot --headless --path . --script test/generated/test_declarations.gd`
+  - `godot --path . --script test/e2e/test_environment_probe.gd`
+  - `godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+- Runtime environment proof now shows the shared layer being consumed:
+  - `front_gate` resolves `terrain=carriage_approach`
+  - `front_gate` resolves `sky_preset=grounds_twilight_sky`
+  - `front_gate` resolves `floor=recipe:terrain/carriage_road`
+  - `foyer` resolves `floor=recipe:surface/oak_board`
+  - `foyer` resolves `wall=recipe:surface/cloth_brown`
+  - `foyer` resolves `ceiling=recipe:surface/lining_tan`
+
+## Downstream Finish Tranche (provisional / deferred)
+
+- `docs/batches/ralph-final-remaining-stories.md` remains the downstream finish
+  tranche for late Android/export work after the substrate sweep.
+- Current downstream status:
+  - `US-020` visual polish and readable renderer-backed evidence — done
+  - `US-021` repo-local freeze and convergence proof — done
+  - `US-022` archive/handoff cleanup — done
+  - `US-023` maintenance baseline and regression register — done
+  - `US-024` Android/export audit — done
+  - `US-025` packaged helper support — done
+  - `US-026` packaged critical-path validation flow — blocked on semantic
+    helper-label pickup on `ashworth_test`
+  - `US-027` release-candidate proof — blocked on release keystore credentials
+
+## 2026-04-07 - US-020 through US-027 closeout
+
+- `US-020` landed:
+  - late-room declaration lighting and walkthrough capture polish landed
+  - new checkpoint: `docs/checkpoints/US-020-visual-polish.md`
+- `US-021` landed:
+  - full freeze bundle reran green:
+    - boot
+    - declarations
+    - room specs
+    - declared interactions
+    - route progression
+    - gdUnit route program
+    - full playthrough
+    - opening journey
+    - walkthrough
+  - new checkpoint: `docs/checkpoints/US-021-freeze-and-convergence.md`
+- `US-022` landed:
+  - weave-era design docs now carry archived/historical banners
+  - source-map surfaces now distinguish archived docs explicitly
+- `US-023` landed:
+  - maintenance baseline and regression register recorded
+- `US-024` landed:
+  - Android audit recorded real local state: SDK/build-tools/AVD availability,
+    debug signing present, release signing absent
+- `US-025` landed:
+  - added `scripts/debug/maestro_helper.gd`
+  - helper is gated by debug build + non-headless + `--maestro-helper`
+- `US-026` is blocked:
+  - `maestro test test/maestro/smoke_test.yaml` passes on `ashworth_test`
+  - helper-backed `test/maestro/full_playthrough.yaml` exists but fails at
+    semantic label pickup (`dismiss document`) on the current AVD
+- `US-027` is blocked:
+  - debug export succeeds with Android SDK/build-tools on `PATH`
+  - debug APK installs and launches on `ashworth_test`
+  - debug device screenshot captured at `reports/android/debug-launch.png`
+  - release export fails at signing because no release keystore is configured
+
 ## Codebase Patterns (Study These First)
 
 ### Doc Hierarchy Pattern
@@ -69,6 +194,94 @@ after each iteration and it's included in prompts for context.
 - Tier 2 depends on Tier 1 passing first
 
 ---
+
+## Post-Ralph Integration Follow-up
+
+- On `codex/ralph-integration-harvest`, the stale `test/e2e/test_full_playthrough.gd`
+  freedom-path failures were repaired by updating the lane to the current
+  sign/valise opening, explicit threshold ids, parlor-firebrand prerequisite,
+  and service-hatch descent semantics. The full playthrough lane now passes
+  headless again.
+- `US-011` (Elder clue topology / blackout grammar checkpoint) has now landed
+  after Ralph's crash:
+  - added `docs/checkpoints/elder-route-clue-topology.md`
+  - added elder-biased declaration text in `foyer`, `upper_hallway`,
+    `wine_cellar`, and `family_crypt`
+  - extended `test/e2e/test_declared_interactions.gd` with elder route bias
+    assertions
+  - reran `test/e2e/test_room_walkthrough.gd` and regenerated walkthrough
+    captures for touched spaces
+- Remaining execution continues from `US-012` in
+  `docs/batches/ralph-remaining-stories-batch.md`.
+- `US-012` (Elder cellar-to-crypt resolution) has now landed:
+  - attic music box redirects in Elder rather than resolving the route
+  - `cellar_barrel_passage` now provides the burial-side bypass from the wine
+    cellar
+  - `crypt_gate_latch` and `crypt_music_box` now complete the Elder route in
+    `family_crypt`
+  - `new_game()` resets room-event runtime state so repeated route tests can
+    re-fire the rupture honestly
+  - headless declarations, room specs, route progression, declared
+    interactions, and full playthrough all pass
+  - walkthrough reran successfully, but generic burial-side entry captures are
+    still poor showcase evidence and should be revisited during later visual
+    polish
+- Remaining execution now continues from `US-015` in
+  `docs/batches/ralph-remaining-stories-batch.md`.
+- `US-013` and `US-014` (Child clue topology + hidden-room resolution) have now landed:
+  - added `docs/checkpoints/child-route-clue-topology.md`
+  - added `docs/checkpoints/US-014-child-hidden-room-resolution.md`
+  - child-biased declaration text landed in `upper_hallway`, `master_bedroom`,
+    `library`, `guest_room`, and `attic_storage`
+  - `attic_storage` now redirects Child route through `sealed_seam` into the
+    sealed room rather than resolving in the attic
+  - `hidden_chamber.tres` is now a sealed nursery and resolves through
+    `child_music_box`
+  - headless declarations, room specs, declared interactions, route
+    progression, and full playthrough pass
+  - renderer-backed opening journey and walkthrough reran successfully with the
+    hidden-room manifest updated to the shipped nursery set
+- `US-015` (route unification / progression hardening) has now landed:
+  - `GameManager` exposes `set_route_context()` and explicit route mode via
+    `get_route_mode()`
+  - `test_route_progression.gd` now verifies canonical progression plus
+    explicit post-third-run replay mode
+  - `test_full_playthrough.gd` now stages `adult`, `elder`, and `child`
+    directly through the route API instead of passing legacy thread ids as its
+    primary control surface
+- `US-016` and `US-017` have now landed:
+  - critical-path room docs now describe the shared spine, attic redirect,
+    burial bypass, and sealed-room route program in shipped terms
+  - critical-path declarations now carry `child / adult / elder` route keys in
+    the source-of-truth layer, with weave keys left only as compatibility shims
+- Remaining execution now continues from `US-018` in
+  `docs/batches/ralph-remaining-stories-batch.md`.
+- `US-018` (automated coverage expansion) has now landed:
+  - `test_full_playthrough.gd` drives the shipped `Adult -> Elder -> Child`
+    program and distinguishes route-specific darkness, redirect, solve, and
+    ending behavior
+  - `test_route_progression.gd` now proves canonical progression plus
+    post-third-run replay mode explicitly
+  - `test/unit/route_program_test.gd` plus `GdUnitRunner.cfg` re-enable gdUnit4
+    as a real repo-local route-program lane
+  - the working gdUnit command for this repo is:
+    `godot --headless --path . -s addons/gdUnit4/bin/GdUnitCmdTool.gd -a res://test/unit -c --ignoreHeadlessMode`
+  - headless declarations, room specs, declared interactions, route
+    progression, full playthrough, and gdUnit route-program coverage all pass
+- Remaining execution now continues from `US-019` in
+  `docs/batches/ralph-remaining-stories-batch.md`.
+- `US-019` (renderer-backed acceptance rebuild) has now landed:
+  - `test_opening_journey.gd` passes with the shipped opening capture manifest
+  - `test_room_walkthrough.gd` passes with a rebuilt milestone manifest that
+    now explicitly covers basement, boiler room, wine cellar, family crypt,
+    attic storage, and hidden-room finale evidence
+  - route-finale milestone captures now include `attic_storage_attic_music_box`,
+    `family_crypt_crypt_music_box`, and `hidden_chamber_child_music_box`
+  - the evidence surface is now reviewable, but the basement/cellar/crypt/attic
+    captures reveal genuine underlighting and placeholder-material issues that
+    should be treated as the real `US-020` polish front
+- Remaining execution now continues from `US-020` in
+  `docs/batches/ralph-remaining-stories-batch.md`.
 
 ## 2026-04-07 - US-001
 - Consolidated the canonical whole-game documentation surface
@@ -297,7 +510,7 @@ after each iteration and it's included in prompts for context.
 - Added `lantern_hook` item prototype to `item_prototypes.json`
 - Added 20 new test assertions: `_test_attic_stairs_lantern_hook` (9), `_test_attic_music_box_adult_resolution` (11), and `_test_adult_route` in full playthrough (8)
 - All headless tests pass: boot (exit 0), declarations (553/553, up from 549), room specs (375/375, up from 373), declared interactions (249/249, up from 226)
-- Full playthrough: Adult route test path passes all 8 assertions. 10 pre-existing failures in the `_test_freedom_route` function (room transition timing in headless mode) — these are not caused by US-010 changes and were present before this story.
+- Full playthrough: Adult route test path passes all 8 assertions. The previously stale `_test_freedom_route` headless failures were later repaired on `codex/ralph-integration-harvest` by updating the lane to the current sign/valise opening, explicit threshold ids, parlor-firebrand requirement, and service-hatch descent semantics. `test/e2e/test_full_playthrough.gd` now exits successfully headless.
 - Renderer-backed tests (opening journey, walkthrough) require manual review with display
 - Files changed:
   - `declarations/state_schema.tres` — 4 new state variables
@@ -320,6 +533,144 @@ after each iteration and it's included in prompts for context.
   - Response cascade ordering is critical for multi-blocking-condition interactables. When both "no lantern" and "no key" conditions can be true simultaneously, the more fundamental blocker (no lantern = can't see the box) must come first in the array. First-match-wins means the player gets the most relevant feedback.
   - The `interaction_manager` match statement only tries `_handle_declared_interaction` for known types (note, painting, observation, switch, box). The "puzzle" type falls to the default `_:` case which skips declaration handling. Using type "observation" for the attic music box ensures the response cascade runs through the declaration engine correctly.
   - The late rupture condition (`entered_attic AND walking_stick_phase AND NOT late_darkness_active`) is intentionally route-agnostic. Elder and Child routes will reuse the same trigger — the route-specific divergence happens downstream (where the music box is found, what the ending means). This avoids duplicating the rupture trigger per route.
-  - Pre-existing `_test_freedom_route` failures in `test_full_playthrough.gd` (10 failures, all in room transitions) are a headless-mode timing issue with `_door_to` that predates this story. Previous stories classified full_playthrough as "renderer-backed" but US-010 acceptance criteria lists it as headless. The Adult route path avoids the issue by using `_load_room` for initial state setup.
----
+  - The stale `_test_freedom_route` failures in `test_full_playthrough.gd` were not a runtime defect; they came from obsolete test assumptions. The repaired lane now uses the real front-gate sign/valise flow, explicit connection ids, and the parlor-firebrand prerequisite for the kitchen service hatch.
+  ---
 
+## 2026-04-08 - SF-003 / SF-005 Threshold Builder Adoption
+- Extended `EnvironmentDeclaration.surface_recipe_overrides` into active
+  threshold-facing roles: `threshold`, `door`, `gate_leaf`, and `window`
+- `RoomAssembler` now resolves and records those roles beside
+  `resolved_floor_surface`, `resolved_wall_surface`, and
+  `resolved_ceiling_surface`
+- `ConnectionAssembly`, `DoorBuilder`, and `WindowBuilder` now consume the
+  environment-owned threshold grammar directly; legacy connection/wall texture
+  strings remain only as geometry/model-selection compatibility fallbacks
+- `TrapdoorBuilder` now consumes the same threshold-facing substrate grammar,
+  so the threshold builder stack is no longer split between env-owned surfaces
+  and one raw-texture hatch exception
+- `StairsBuilder` and `LadderBuilder` now consume environment-owned circulation
+  roles (`stair_tread`, `stair_structure`, `stair_rail`, `ladder_rail`,
+  `ladder_rung`) instead of hardcoded wood-color defaults
+- Updated the environment matrix so the shared region presets now carry
+  threshold/door/window/gate policy for:
+  - `grounds`
+  - `forecourt_lamplit`
+  - `ground_floor`
+  - `upper_floor`
+  - `attic`
+  - `basement`
+  - `deep_basement`
+  - `garden_mist`
+  - `greenhouse_gaslit`
+  - `crypt_candle`
+- Updated the environment matrix for circulation policy in:
+  - `ground_floor`
+  - `upper_floor`
+  - `attic`
+  - `basement`
+  - `deep_basement`
+- `test_environment_probe.gd` now prints the resolved threshold surface grammar
+  in addition to floor/wall/ceiling
+- `test_environment_probe.gd` now also prints the resolved circulation grammar
+  and probes `upper_hallway` plus `storage_basement` so stair and ladder
+  adoption is visible in the runtime evidence surface
+- `test/generated/test_declarations.gd` now enforces that environments
+  declaring stair/ladder role grammar resolve through substrate presets whose
+  `approved_builders` explicitly include `stairs_builder` / `ladder_builder`
+- `test/generated/test_declarations.gd` now also derives required builders per
+  room from the actual assembled envelope/connection shape:
+  - every room requires `floor_builder`
+  - interior rooms require `wall_builder` and `ceiling_builder`
+  - window segments require `window_builder`
+  - outgoing connection types require the matching threshold/circulation builder
+- That room-aware gate caught and corrected real preset drift:
+  - `ground_floor_warmth` now explicitly approves `trapdoor_builder`
+  - `garden_mist` now explicitly approves `wall_builder` and `ceiling_builder`
+- The shared material/shader substrate now has its own static contract:
+  - `PBRTextureKit` exposes standardized slot support checks
+  - `EstateMaterialKit` exposes recipe family/kind introspection
+  - declaration validation now walks every recipe, verifies supported families
+    and kinds, and verifies each referenced slot asset exists on disk
+- The shared foliage shader path was upgraded instead of bypassed:
+  - `estate_foliage_forward_plus.gdshader` now supports richer gust-driven sway
+  - `EstateMaterialKit` exposes those controls through the foliage recipe path
+    used by the hedge card substrate
+- Mount-family governance is now enforced across the full substrate stack:
+  - `RoomAssembler` resolves `region_id`
+  - `RoomAssembler` records region/env/substrate mount-family metadata
+  - `RoomAssembler` resolves final `allowed_mount_families` as the
+    intersection of region, environment, and substrate policy
+  - mount payloads now fail closed if they target missing slots or disallowed
+    slot families
+- `test/generated/test_declarations.gd` now enforces that:
+  - environment mount families are approved by both the resolved substrate
+    preset and the room's region
+  - mount slot ids are unique per room
+  - mount payloads target declared slots
+  - mount payloads declare a real scene/model source
+- That gate exposed and corrected more matrix drift:
+  - `entrance_exterior` now admits `threshold`
+  - `rear_estate` now admits the broader union required by `garden_mist`,
+    `greenhouse_gaslit`, and `crypt_candle`
+  - `carriage_house_isolate` now matches the `garden_mist` mount-family set it
+    currently inherits
+- `test_environment_probe.gd` now prints `region=` and the resolved
+  `mounts=` family intersection in addition to substrate/material roles
+- Runtime proof:
+  - `front_gate` resolves `threshold=recipe:surface/brick_masonry`
+  - `front_gate` resolves `door=recipe:surface/oak_dark`
+  - `front_gate` resolves `gate_leaf=recipe:surface/wrought_iron`
+  - `front_gate` resolves `window=recipe:surface/wrought_iron`
+  - `foyer` resolves `threshold=recipe:surface/oak_header`
+  - `foyer` resolves `door=recipe:surface/oak_dark`
+  - `foyer` resolves `window=recipe:surface/oak_dark`
+  - `upper_hallway` resolves `stair_tread=recipe:surface/oak_dark`
+  - `upper_hallway` resolves `stair_structure=recipe:surface/oak_header`
+  - `upper_hallway` resolves `stair_rail=recipe:surface/oak_dark`
+  - `storage_basement` resolves `stair_tread=recipe:surface/oak_dark`
+  - `storage_basement` resolves `stair_structure=recipe:surface/oak_dark`
+  - `storage_basement` resolves `stair_rail=recipe:surface/wrought_iron`
+  - `storage_basement` resolves `ladder_rail=recipe:surface/wrought_iron`
+  - `storage_basement` resolves `ladder_rung=recipe:surface/chain_iron`
+  - `front_gate` resolves `region=entrance_exterior`
+  - `front_gate` resolves `mounts=path_edge,hedge_terminator,facade_anchor,gate_leaf`
+  - `foyer` resolves `region=ground_floor`
+  - `foyer` resolves `mounts=wall,floor,ceiling,threshold,table,shelf,sill,mantel`
+  - `storage_basement` resolves `region=basement`
+  - `storage_basement` resolves `mounts=wall,floor,ceiling,threshold,shelf,path_edge`
+- Verification:
+  - `godot --headless --path . --quit-after 1`
+  - `godot --headless --path . --script test/generated/test_declarations.gd`
+  - `godot --path . --script test/e2e/test_environment_probe.gd`
+  - `godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+- Mounted payloads are now live in representative rooms, not just declared:
+  - `foyer` now mounts table lamps, a wall picture, and a route-specific upper portrait
+  - `front_gate` now mounts the gate sign and gate lamp through facade anchors
+  - `storage_basement` now mounts the two wall sconces through declared wall slots
+- `RoomAssembler` route matching for mounted payloads now understands both
+  concrete route ids (`adult`, `elder`, `child`) and broader replay/progression
+  state, so route-specific mounted dressing can ride on the shared substrate
+- `test/e2e/test_mount_payloads.gd` now proves the representative live mount path
+- The shared material library now also covers shader-backed glass/liquid families:
+  - `EstateMaterialKit` supports `shader_material`
+  - supported recipe families now include `glass` and `liquid`
+  - the library now owns `glass/window_glass`, `glass/facade_dark`,
+    `glass/door_lamplit`, `glass/crystal_glass`,
+    `glass/greenhouse_glass`, and `liquid/estate_pond_water`
+- Shared builders now consume the shared glass recipes directly:
+  - `WindowBuilder`
+  - `estate_front_door.gd`
+  - `estate_entry_portico.gd`
+  - `estate_mansion_facade.gd`
+- Shared pond water scenes now consume the shared liquid recipe directly:
+  - `scenes/shared/water/estate_water_surface.gd` applies
+    `liquid/estate_pond_water`
+  - `estate_water_surface.tscn` and `estate_pond_water.tscn` no longer pin the
+    pond material by direct resource reference
+- Verification after the mount + glass/liquid substrate pass:
+  - `godot --headless --path . --script test/generated/test_declarations.gd`
+  - `godot --headless --path . --script test/e2e/test_mount_payloads.gd`
+  - `godot --path . --script test/e2e/test_environment_probe.gd`
+  - `godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `godot --headless --path . --script test/e2e/test_full_playthrough.gd`

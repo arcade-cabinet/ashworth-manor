@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="SubstratePresetDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/substrate_preset_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+preset_id = "basement_bad_air"
+region_family = "service_basement"
+primitive_families = PackedStringArray("surface", "architecture", "prop")
+dominant_material_recipes = PackedStringArray("surface/brick_masonry", "surface/masonry_cap", "surface/wrought_iron")
+allowed_mount_families = PackedStringArray("wall", "floor", "ceiling", "threshold", "shelf", "path_edge")
+default_light_grammar = "machine_gas_bad_air"
+approved_builders = PackedStringArray("wall_builder", "floor_builder", "ceiling_builder", "door_builder", "stairs_builder", "ladder_builder", "trapdoor_builder")
+notes = "Service-basement substrate for gas, brick, pipework, and bad-air hostility."

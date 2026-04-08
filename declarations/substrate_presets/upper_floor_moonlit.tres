@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="SubstratePresetDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/substrate_preset_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+preset_id = "upper_floor_moonlit"
+region_family = "manor_private_interior"
+primitive_families = PackedStringArray("surface", "architecture", "prop")
+dominant_material_recipes = PackedStringArray("surface/oak_dark", "surface/oak_header", "surface/cloth_brown")
+allowed_mount_families = PackedStringArray("wall", "floor", "ceiling", "threshold", "table", "shelf", "sill", "mantel")
+default_light_grammar = "moonlight_sconce"
+approved_builders = PackedStringArray("wall_builder", "floor_builder", "ceiling_builder", "door_builder", "window_builder", "stairs_builder", "ladder_builder")
+notes = "Upper-floor envelope for denied private life, carried by moonlight and isolated practical sources."

@@ -17,6 +17,8 @@ const POSITIVE_ROUTE_ENDINGS := [
 	"elder",
 	"child",
 ]
+const POST_CANONICAL_REPLAY_MODE := "post_canonical_replay"
+const CANONICAL_PROGRESS_MODE := "canonical_progression"
 
 signal state_changed(key: String, value: Variant)
 signal item_acquired(item_id: String)
@@ -47,6 +49,7 @@ func _ready() -> void:
 	_load_world_declaration()
 	_setup_inventory()
 	_restore_route_progression()
+	_maybe_enable_maestro_helper()
 
 func _setup_inventory() -> void:
 	_gloot_inventory = Inventory.new()
@@ -74,6 +77,7 @@ func new_game() -> void:
 	lights_toggled.clear()
 	_gloot_inventory.clear()
 	_assign_elizabeth_route_for_new_game()
+	_reset_room_runtime_state()
 	current_screen = Screen.GAME
 	screen_changed.emit("game")
 
@@ -231,6 +235,18 @@ func _load_world_declaration() -> void:
 		_world_declaration = load(WORLD_DECLARATION_PATH) as WorldDeclaration
 
 
+func _reset_room_runtime_state() -> void:
+	var tree := get_tree()
+	if tree == null:
+		return
+	var root := tree.root
+	if root == null:
+		return
+	var room_events := root.find_child("RoomEvents", true, false)
+	if room_events != null and room_events.has_method("reset_runtime_state"):
+		room_events.reset_runtime_state()
+
+
 func _get_starting_room() -> String:
 	if _world_declaration != null and not _world_declaration.starting_room.is_empty():
 		return _world_declaration.starting_room
@@ -241,13 +257,34 @@ func _assign_elizabeth_route_for_new_game() -> void:
 	var route_id := _select_elizabeth_route_for_new_game()
 	if route_id.is_empty():
 		return
-	set_state("elizabeth_route", route_id)
-	var legacy_thread := get_legacy_thread_for_route(route_id)
-	if not legacy_thread.is_empty():
-		set_state("macro_thread", legacy_thread)
-	else:
-		flags.erase("macro_thread")
-		state_changed.emit("macro_thread", "")
+	set_route_context(route_id)
+
+
+func _maybe_enable_maestro_helper() -> void:
+	if DisplayServer.get_name() == "headless":
+		return
+	var args := PackedStringArray(OS.get_cmdline_args())
+	for user_arg in OS.get_cmdline_user_args():
+		if not args.has(user_arg):
+			args.append(user_arg)
+	if not args.has("--maestro-helper"):
+		return
+	call_deferred("_spawn_maestro_helper")
+
+
+func _spawn_maestro_helper() -> void:
+	var tree := get_tree()
+	if tree == null or tree.root == null:
+		return
+	if tree.root.has_node("MaestroHelper"):
+		return
+	var helper_script := load("res://scripts/debug/maestro_helper.gd")
+	if helper_script == null:
+		push_warning("Maestro helper requested but script is missing.")
+		return
+	var helper: Node = helper_script.new()
+	helper.name = "MaestroHelper"
+	tree.root.add_child(helper)
 
 
 func _select_elizabeth_route_for_new_game() -> String:
@@ -263,8 +300,32 @@ func get_active_route() -> String:
 	return String(get_state("elizabeth_route", ""))
 
 
+func set_route_context(route_id: String) -> void:
+	if route_id.is_empty():
+		flags.erase("elizabeth_route")
+		state_changed.emit("elizabeth_route", "")
+		flags.erase("macro_thread")
+		state_changed.emit("macro_thread", "")
+		return
+	if not ELIZABETH_ROUTE_ORDER.has(route_id):
+		return
+	set_state("elizabeth_route", route_id)
+	var legacy_thread := get_legacy_thread_for_route(route_id)
+	if not legacy_thread.is_empty():
+		set_state("macro_thread", legacy_thread)
+	else:
+		flags.erase("macro_thread")
+		state_changed.emit("macro_thread", "")
+
+
 func get_completed_routes() -> Array[String]:
 	return completed_routes.duplicate()
+
+
+func get_route_mode() -> String:
+	if completed_routes.size() >= ELIZABETH_ROUTE_ORDER.size():
+		return POST_CANONICAL_REPLAY_MODE
+	return CANONICAL_PROGRESS_MODE
 
 
 func mark_route_completed(route_id: String = "") -> void:

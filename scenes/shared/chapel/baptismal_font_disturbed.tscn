@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/grounds/chapel/Horror_Stone_02-512x512.png" id="1_u0q0u"]
-[ext_resource type="Material" path="res://resources/water/chapel_font_water_disturbed_material.tres" id="2_f24el"]
+[ext_resource type="Script" path="res://scenes/shared/shared_recipe_applicator.gd" id="2_7e8lp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stone"]
 albedo_texture = ExtResource("1_u0q0u")
@@ -41,6 +41,8 @@ radius = 0.055
 height = 0.11
 
 [node name="BaptismalFontDisturbed" type="Node3D"]
+script = ExtResource("2_7e8lp")
+recipe_groups = {"liquid/font_disturbed": PackedStringArray("Water")}
 
 [node name="Base" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.25, 0)
@@ -59,7 +61,6 @@ mesh = SubResource("CylinderMesh_basin")
 
 [node name="Water" type="MeshInstance3D" parent="."]
 position = Vector3(0, 1.22, 0)
-material_override = ExtResource("2_f24el")
 mesh = SubResource("PlaneMesh_water")
 
 [node name="Glint" type="MeshInstance3D" parent="."]

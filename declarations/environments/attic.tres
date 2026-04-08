@@ -7,6 +7,26 @@ script = ExtResource("1")
 background_mode = "keep"
 background_color = Color(0, 0, 0, 1)
 sky = null
+substrate_preset_id = "attic_dust_lantern"
+terrain_preset_id = ""
+sky_preset_id = ""
+dominant_material_recipes = PackedStringArray("surface/oak_header", "surface/oak_board", "surface/cloth_brown")
+surface_recipe_overrides = {
+"ceiling": "surface/oak_header",
+"door": "surface/oak_header",
+"floor": "surface/oak_board",
+"ladder_rail": "surface/wrought_iron",
+"ladder_rung": "surface/chain_iron",
+"stair_rail": "surface/oak_header",
+"stair_structure": "surface/oak_header",
+"stair_tread": "surface/oak_board",
+"threshold": "surface/oak_header",
+"wall": "surface/oak_header",
+"window": "surface/oak_header"
+}
+allowed_mount_families = PackedStringArray("wall", "floor", "ceiling", "threshold", "shelf")
+light_grammar = "lantern_dust"
+hdri_backing_optional = true
 fog_enabled = true
 fog_density = 0.004
 fog_color = Color(0.08, 0.07, 0.1, 1)

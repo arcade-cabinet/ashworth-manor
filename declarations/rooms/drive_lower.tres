@@ -51,7 +51,7 @@ text = "The gravel narrows into a disciplined corridor of clipped hedge and ston
 script = ExtResource("3")
 condition = ""
 title = "Clipped Hedge Wall"
-text = "The hedge rises shoulder-high and then some, clipped so tightly it feels less like gardening than enclosure. You could be crossing a great estate or merely being funneled toward a decision someone already made."
+text = "The hedge rises like a living wall, clipped flat and stern enough to swallow any view beyond it. Only the sky is permitted above. Everything else has been trained to direct you forward."
 
 [sub_resource type="Resource" id="inter_drive_path"]
 script = ExtResource("2")
@@ -67,8 +67,8 @@ script = ExtResource("2")
 id = "drive_lower_hedge"
 type = "observation"
 scene_role = "clue_dressing"
-position = Vector3(-5.9, 1.1, 0.8)
-collision_size = Vector3(2.0, 2.0, 1.4)
+position = Vector3(-3.9, 1.2, 0.8)
+collision_size = Vector3(1.4, 2.2, 1.6)
 responses = Array[Resource]([SubResource("resp_drive_hedge")])
 
 [sub_resource type="Resource" id="light_moonlight"]
@@ -76,76 +76,117 @@ script = ExtResource("4")
 id = "drive_lower_moonlight"
 type = "directional"
 position = Vector3(0, 0, 0)
-rotation_degrees = Vector3(-42, 34, 0)
-color = Color(0.58, 0.64, 0.86, 1)
-energy = 1.05
+rotation_degrees = Vector3(-30, 22, 0)
+color = Color(0.62, 0.68, 0.9, 1)
+energy = 0.62
 range = 0.0
+shadows = false
 shadows = true
 flickering = false
+
+[sub_resource type="Resource" id="light_mansion_pull"]
+script = ExtResource("4")
+id = "drive_lower_mansion_pull"
+type = "omni"
+position = Vector3(1.6, 2.25, 6.4)
+color = Color(0.97, 0.76, 0.48, 1)
+energy = 1.54
+range = 13.8
+shadows = false
+flickering = true
+flicker_pattern = "gas"
+
+[sub_resource type="Resource" id="light_gate_spill"]
+script = ExtResource("4")
+id = "drive_lower_gate_spill"
+type = "omni"
+position = Vector3(-1.5, 2.2, -6.4)
+color = Color(0.94, 0.8, 0.56, 1)
+energy = 1.72
+range = 14.2
+shadows = false
+flickering = true
+flicker_pattern = "gas"
+
+[sub_resource type="Resource" id="prop_drive_road"]
+script = ExtResource("5")
+id = "drive_lower_road"
+scene_path = "res://scenes/shared/grounds/estate_carriage_road.tscn"
+position = Vector3(0, 0, -0.2)
+rotation_y = 0.0
+scale_3d = Vector3(0.94, 1.0, 0.92)
 
 [sub_resource type="Resource" id="prop_hedge_left_gate"]
 script = ExtResource("5")
 id = "drive_lower_hedge_left_gate"
-model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(-6.7, 0, -6.7)
-rotation_y = 6.0
-scale = 1.06
+model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+position = Vector3(-4.18, 0, -4.55)
+rotation_y = 0.0
+scale = 1.0
+scale_3d = Vector3(1.1, 1.16, 0.72)
 
 [sub_resource type="Resource" id="prop_hedge_left_mid"]
 script = ExtResource("5")
 id = "drive_lower_hedge_left_mid"
-model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(-6.1, 0, -3.1)
-rotation_y = 10.0
-scale = 1.08
+model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+position = Vector3(-4.08, 0, 0.0)
+rotation_y = 0.0
+scale = 1.0
+scale_3d = Vector3(1.08, 1.14, 1.7)
 
 [sub_resource type="Resource" id="prop_hedge_left_near"]
 script = ExtResource("5")
 id = "drive_lower_hedge_left_near"
-model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(-6.0, 0, 0.5)
-rotation_y = -2.0
-scale = 1.12
+model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+position = Vector3(-4.02, 0, 1.55)
+rotation_y = 0.0
+scale = 1.0
+scale_3d = Vector3(1.02, 1.08, 0.62)
 
 [sub_resource type="Resource" id="prop_hedge_left_far"]
 script = ExtResource("5")
 id = "drive_lower_hedge_left_far"
-model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(-6.2, 0, 4.0)
-rotation_y = -8.0
-scale = 1.16
+model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+position = Vector3(-4.16, 0, 4.6)
+rotation_y = 0.0
+scale = 1.0
+scale_3d = Vector3(1.12, 1.14, 0.78)
 
 [sub_resource type="Resource" id="prop_hedge_right_gate"]
 script = ExtResource("5")
 id = "drive_lower_hedge_right_gate"
-model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(6.7, 0, -6.5)
-rotation_y = 194.0
-scale = 1.06
+model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+position = Vector3(4.18, 0, -4.55)
+rotation_y = 180.0
+scale = 1.0
+scale_3d = Vector3(1.1, 1.16, 0.72)
 
 [sub_resource type="Resource" id="prop_hedge_right_mid"]
 script = ExtResource("5")
 id = "drive_lower_hedge_right_mid"
-model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(6.1, 0, -2.8)
-rotation_y = 186.0
-scale = 1.08
+model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+position = Vector3(4.08, 0, 0.0)
+rotation_y = 180.0
+scale = 1.0
+scale_3d = Vector3(1.08, 1.14, 1.7)
 
 [sub_resource type="Resource" id="prop_hedge_right_near"]
 script = ExtResource("5")
 id = "drive_lower_hedge_right_near"
-model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(6.0, 0, 0.9)
-rotation_y = 182.0
-scale = 1.12
+model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+position = Vector3(4.02, 0, 1.55)
+rotation_y = 180.0
+scale = 1.0
+scale_3d = Vector3(1.02, 1.08, 0.62)
 
 [sub_resource type="Resource" id="prop_hedge_right_far"]
 script = ExtResource("5")
 id = "drive_lower_hedge_right_far"
-model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(6.2, 0, 4.3)
-rotation_y = 172.0
-scale = 1.16
+model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+position = Vector3(4.16, 0, 4.6)
+rotation_y = 180.0
+scale = 1.0
+scale_3d = Vector3(1.12, 1.14, 0.78)
 
 [sub_resource type="Resource" id="prop_tree_left"]
 script = ExtResource("5")
@@ -199,6 +240,13 @@ model = "res://assets/shared/structure/floor3.glb"
 position = Vector3(0, 0, 4.0)
 scale = 1.1
 
+[sub_resource type="Resource" id="prop_drive_lower_starfield"]
+script = ExtResource("5")
+id = "drive_lower_starfield"
+scene_path = "res://scenes/shared/grounds/estate_starfield.tscn"
+position = Vector3(0, 0, 0)
+scale_3d = Vector3(1.0, 1.0, 1.0)
+
 [resource]
 script = ExtResource("1")
 room_id = "drive_lower"
@@ -212,7 +260,7 @@ exposure_faces = PackedStringArray("north", "south", "east", "west", "roof")
 outlook_zones = {"north": "upper_drive_pull", "south": "front_gate_threshold", "east": "hedge_wall_boundary", "west": "hedge_wall_boundary", "roof": "open_sky"}
 window_view_mode = "distant_backdrop"
 wall_texture = ""
-floor_texture = "res://assets/grounds/front_gate/rocks_Rokcs 2.png"
+floor_texture = "res://assets/shared/pbr/grounds/estate_earth_color.jpg"
 ceiling_texture = ""
 wall_north = PackedStringArray()
 wall_south = PackedStringArray()
@@ -227,8 +275,8 @@ spawn_rotation_y = 180.0
 entry_anchors = Array[Resource]([SubResource("anchor_entry_from_gate"), SubResource("anchor_entry_from_upper")])
 focal_anchors = Array[Resource]([SubResource("anchor_focus_drive_forward"), SubResource("anchor_focus_gate_return")])
 interactables = Array[Resource]([SubResource("inter_drive_path"), SubResource("inter_drive_hedge")])
-lights = Array[Resource]([SubResource("light_moonlight")])
-props = Array[Resource]([SubResource("prop_hedge_left_gate"), SubResource("prop_hedge_left_mid"), SubResource("prop_hedge_left_near"), SubResource("prop_hedge_left_far"), SubResource("prop_hedge_right_gate"), SubResource("prop_hedge_right_mid"), SubResource("prop_hedge_right_near"), SubResource("prop_hedge_right_far"), SubResource("prop_tree_left"), SubResource("prop_tree_right"), SubResource("prop_bush_left"), SubResource("prop_bush_right"), SubResource("prop_drive_stone_1"), SubResource("prop_drive_stone_2"), SubResource("prop_drive_stone_3")])
+lights = Array[Resource]([SubResource("light_moonlight"), SubResource("light_mansion_pull"), SubResource("light_gate_spill")])
+props = Array[Resource]([SubResource("prop_drive_road"), SubResource("prop_hedge_left_mid"), SubResource("prop_hedge_right_mid"), SubResource("prop_tree_left"), SubResource("prop_tree_right"), SubResource("prop_bush_left"), SubResource("prop_bush_right"), SubResource("prop_drive_lower_starfield")])
 on_entry = Array[Resource]([])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([])

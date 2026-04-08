@@ -4,21 +4,44 @@ extends RefCounted
 
 const ConnectionMechanism = preload("res://scripts/connection_mechanism.gd")
 
-static func build(connection: Connection, room_height: float = 2.4) -> Node3D:
+static func build(connection: Connection, room_height: float = 2.4, surface_overrides: Dictionary = {}) -> Node3D:
 	var root: Node3D = null
 	match connection.type:
 		"door", "double_door", "heavy_door", "hidden_door", "gate":
-			root = DoorBuilder.build(connection)
+			root = DoorBuilder.build(
+				connection,
+				String(surface_overrides.get("threshold", "")),
+				_resolve_leaf_surface(connection, surface_overrides)
+			)
 		"stairs":
-			root = StairsBuilder.build(connection, room_height)
+			root = StairsBuilder.build(
+				connection,
+				room_height,
+				String(surface_overrides.get("stair_tread", "")),
+				String(surface_overrides.get("stair_structure", "")),
+				String(surface_overrides.get("stair_rail", ""))
+			)
 		"trapdoor":
-			root = TrapdoorBuilder.build(connection)
+			root = TrapdoorBuilder.build(
+				connection,
+				String(surface_overrides.get("threshold", "")),
+				_resolve_leaf_surface(connection, surface_overrides)
+			)
 		"ladder":
-			root = LadderBuilder.build(connection, room_height)
+			root = LadderBuilder.build(
+				connection,
+				room_height,
+				String(surface_overrides.get("ladder_rail", "")),
+				String(surface_overrides.get("ladder_rung", ""))
+			)
 		"path":
 			root = _build_path_threshold(connection)
 		_:
-			root = DoorBuilder.build(connection)
+			root = DoorBuilder.build(
+				connection,
+				String(surface_overrides.get("threshold", "")),
+				_resolve_leaf_surface(connection, surface_overrides)
+			)
 
 	_apply_threshold_metadata(root, connection)
 	_attach_mechanism_controller(root, connection)
@@ -142,3 +165,9 @@ static func _resolve_reveal_state(connection: Connection) -> String:
 	if not connection.reveal_state.is_empty():
 		return connection.reveal_state
 	return "concealed" if connection.type == "hidden_door" else "visible"
+
+
+static func _resolve_leaf_surface(connection: Connection, surface_overrides: Dictionary) -> String:
+	if connection.type == "gate" and surface_overrides.has("gate_leaf"):
+		return String(surface_overrides.get("gate_leaf", ""))
+	return String(surface_overrides.get("door", ""))

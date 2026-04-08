@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="SubstratePresetDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/substrate_preset_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+preset_id = "greenhouse_gaslit"
+region_family = "glasshouse"
+primitive_families = PackedStringArray("surface", "architecture", "foliage", "liquid_glass_sky", "prop")
+dominant_material_recipes = PackedStringArray("surface/wrought_iron", "surface/brick_masonry", "foliage/hedge_mass")
+allowed_mount_families = PackedStringArray("floor", "table", "shelf", "sill", "facade_anchor")
+default_light_grammar = "gas_glass_green"
+approved_builders = PackedStringArray("floor_builder", "window_builder", "estate_boundary_wall", "estate_fence_run")
+notes = "Glazed rear-estate space with iron, condensation, and gaslit horticulture."

@@ -28,6 +28,7 @@
 [ext_resource type="Resource" path="res://declarations/regions/basement.tres" id="26"]
 [ext_resource type="Resource" path="res://declarations/regions/attic.tres" id="27"]
 [ext_resource type="Resource" path="res://declarations/regions/rear_estate.tres" id="28"]
+[ext_resource type="Resource" path="res://declarations/regions/carriage_house_isolate.tres" id="29"]
 
 ; === Room References (23 rooms) ===
 
@@ -275,6 +276,8 @@ type = "path"
 position_in_from = Vector3(3, 1.2, 4)
 position_in_to = Vector3(-8, 0, 0)
 spawn_rotation_y = 0.0
+to_anchor_id = "entry_kitchen"
+focal_anchor_id = "focus_fountain_axis"
 
 [sub_resource type="Resource" id="conn_garden_to_front_gate"]
 script = ExtResource("3")
@@ -578,9 +581,9 @@ position_in_from = Vector3(-6, 1.2, 0)
 position_in_to = Vector3(0, 0, -2)
 spawn_rotation_y = 0.0
 to_anchor_id = "entry_secret_door"
-focal_anchor_id = "focus_circle"
-locked = true
-key_id = "hidden_key"
+focal_anchor_id = "focus_child_bed"
+required_state = "child_hidden_room_revealed OR HAS hidden_key"
+blocked_text = "The west wall is sealed in lath and plaster. From here it is only a wall until you find the place where the room was hidden."
 
 [sub_resource type="Resource" id="conn_hidden_chamber_to_attic_storage"]
 script = ExtResource("3")
@@ -688,6 +691,8 @@ type = "path"
 position_in_from = Vector3(8, 1.5, 5)
 position_in_to = Vector3(-2, 0, -4)
 spawn_rotation_y = 0.0
+to_anchor_id = "entry_garden"
+focal_anchor_id = "focus_altar"
 
 [sub_resource type="Resource" id="conn_chapel_to_garden"]
 script = ExtResource("3")
@@ -699,6 +704,8 @@ type = "path"
 position_in_from = Vector3(-3, 1.5, -5)
 position_in_to = Vector3(7, 0, 4)
 spawn_rotation_y = 270.0
+to_anchor_id = "entry_chapel"
+focal_anchor_id = "focus_fountain_axis"
 
 ; -- Grounds: Garden <-> Greenhouse --
 
@@ -725,6 +732,8 @@ type = "path"
 position_in_from = Vector3(0.35, 1.5, 3.85)
 position_in_to = Vector3(0, 0, 7)
 spawn_rotation_y = 180.0
+to_anchor_id = "entry_greenhouse"
+focal_anchor_id = "focus_lily_tableau"
 
 ; -- Grounds: Garden <-> Family Crypt (LOCKED) --
 
@@ -738,6 +747,8 @@ type = "gate"
 position_in_from = Vector3(5, 1.5, 8)
 position_in_to = Vector3(0, 0, -3)
 spawn_rotation_y = 0.0
+to_anchor_id = "entry_gate"
+focal_anchor_id = "focus_blank_grave"
 locked = true
 key_id = "gate_key"
 
@@ -751,6 +762,8 @@ type = "gate"
 position_in_from = Vector3(0, 1.5, -4)
 position_in_to = Vector3(5, 0, 7)
 spawn_rotation_y = 180.0
+to_anchor_id = "entry_crypt"
+focal_anchor_id = "focus_fountain_axis"
 
 [sub_resource type="Resource" id="anchor_storage_to_carriage"]
 script = ExtResource("21")
@@ -1176,7 +1189,7 @@ starting_rotation_y = 180.0
 rooms = Array[Resource]([SubResource("room_front_gate"), SubResource("room_drive_lower"), SubResource("room_drive_upper"), SubResource("room_front_steps"), SubResource("room_foyer"), SubResource("room_parlor"), SubResource("room_dining_room"), SubResource("room_kitchen"), SubResource("room_upper_hallway"), SubResource("room_master_bedroom"), SubResource("room_library"), SubResource("room_guest_room"), SubResource("room_storage_basement"), SubResource("room_boiler_room"), SubResource("room_wine_cellar"), SubResource("room_attic_stairs"), SubResource("room_attic_storage"), SubResource("room_hidden_chamber"), SubResource("room_garden"), SubResource("room_chapel"), SubResource("room_greenhouse"), SubResource("room_carriage_house"), SubResource("room_family_crypt")])
 connections = Array[Resource]([SubResource("conn_front_gate_to_drive_lower"), SubResource("conn_drive_lower_to_front_gate"), SubResource("conn_drive_lower_to_drive_upper"), SubResource("conn_drive_upper_to_drive_lower"), SubResource("conn_drive_upper_to_front_steps"), SubResource("conn_front_steps_to_drive_upper"), SubResource("conn_front_steps_to_foyer"), SubResource("conn_foyer_to_front_steps"), SubResource("conn_front_gate_to_garden"), SubResource("conn_garden_to_front_gate"), SubResource("conn_front_gate_to_carriage_house"), SubResource("conn_carriage_house_to_front_gate"), SubResource("conn_foyer_to_parlor"), SubResource("conn_parlor_to_foyer"), SubResource("conn_foyer_to_dining_room"), SubResource("conn_dining_room_to_foyer"), SubResource("conn_foyer_to_kitchen"), SubResource("conn_kitchen_to_foyer"), SubResource("conn_foyer_to_upper_hallway"), SubResource("conn_upper_hallway_to_foyer"), SubResource("conn_upper_hallway_to_master_bedroom"), SubResource("conn_master_bedroom_to_upper_hallway"), SubResource("conn_upper_hallway_to_library"), SubResource("conn_library_to_upper_hallway"), SubResource("conn_upper_hallway_to_guest_room"), SubResource("conn_guest_room_to_upper_hallway"), SubResource("conn_upper_hallway_to_attic_stairs"), SubResource("conn_attic_stairs_to_upper_hallway"), SubResource("conn_attic_stairs_to_attic_storage"), SubResource("conn_attic_storage_to_attic_stairs"), SubResource("conn_attic_storage_to_hidden_chamber"), SubResource("conn_hidden_chamber_to_attic_storage"), SubResource("conn_kitchen_to_storage_basement"), SubResource("conn_storage_basement_to_kitchen"), SubResource("conn_storage_basement_to_boiler_room"), SubResource("conn_boiler_room_to_storage_basement"), SubResource("conn_storage_basement_to_wine_cellar"), SubResource("conn_wine_cellar_to_storage_basement"), SubResource("conn_garden_to_chapel"), SubResource("conn_chapel_to_garden"), SubResource("conn_garden_to_greenhouse"), SubResource("conn_greenhouse_to_garden"), SubResource("conn_garden_to_family_crypt"), SubResource("conn_family_crypt_to_garden")])
 secret_passages = Array[Resource]([SubResource("passage_storage_to_carriage")])
-regions = Array[Resource]([ExtResource("23"), ExtResource("24"), ExtResource("25"), ExtResource("26"), ExtResource("27"), ExtResource("28")])
+regions = Array[Resource]([ExtResource("23"), ExtResource("24"), ExtResource("25"), ExtResource("26"), ExtResource("27"), ExtResource("28"), ExtResource("29")])
 area_environments = {}
 macro_threads = Array[Resource]([ExtResource("10"), ExtResource("11"), ExtResource("12")])
 junctions = Array[Resource]([SubResource("junc_attic_access"), SubResource("junc_hidden_chamber"), SubResource("junc_cellar_box"), SubResource("junc_jewelry_box"), SubResource("junc_crypt_gate"), SubResource("junc_counter_ritual"), SubResource("swap_foyer"), SubResource("swap_boiler"), SubResource("swap_garden")])

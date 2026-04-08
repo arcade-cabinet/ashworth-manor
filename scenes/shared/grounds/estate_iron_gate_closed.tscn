@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/shared/grounds/estate_iron_gate.tscn" id="1_b3s7e"]
+
+[node name="EstateIronGateClosed" instance=ExtResource("1_b3s7e")]
+leaf_open_angle = 0.0

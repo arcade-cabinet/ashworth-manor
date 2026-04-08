@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="SubstratePresetDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/substrate_preset_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+preset_id = "attic_dust_lantern"
+region_family = "attic_revelation"
+primitive_families = PackedStringArray("surface", "architecture", "prop")
+dominant_material_recipes = PackedStringArray("surface/oak_header", "surface/oak_board", "surface/cloth_brown")
+allowed_mount_families = PackedStringArray("wall", "floor", "ceiling", "threshold", "shelf")
+default_light_grammar = "lantern_dust"
+approved_builders = PackedStringArray("wall_builder", "floor_builder", "ceiling_builder", "door_builder", "window_builder", "stairs_builder", "ladder_builder", "trapdoor_builder")
+notes = "Attic envelope: dust, beams, sloped confinement, and lantern-led truth."

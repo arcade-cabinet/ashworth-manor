@@ -7,6 +7,24 @@
 [ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="8"]
+
+[sub_resource type="Resource" id="anchor_entry_gate"]
+script = ExtResource("8")
+anchor_id = "entry_gate"
+anchor_type = "entry"
+position = Vector3(0.0, 0.0, -3.15)
+rotation_y = 0.0
+target_anchor_id = "focus_blank_grave"
+tags = PackedStringArray("critical_path", "elder_route")
+
+[sub_resource type="Resource" id="anchor_focus_blank_grave"]
+script = ExtResource("8")
+anchor_id = "focus_blank_grave"
+anchor_type = "focal"
+position = Vector3(1.55, 0.72, 1.25)
+rotation_y = 0.0
+tags = PackedStringArray("critical_path", "burial_truth")
 
 ; === Crypt Graves Responses ===
 
@@ -35,7 +53,7 @@ set_state = {"examined_crypt_graves": true}
 script = ExtResource("3")
 condition = ""
 title = "Ashworth Graves"
-text = "Four children's graves. The missing fifth space is not empty. Something is growing from the soil -- not a plant, not a flower. Roots. Thick, dark roots that spread from the empty grave into the stone of the crypt itself. They crack the mortar between the floor stones. They climb the walls. The roots are the house. Elizabeth extended herself into the crypt, into the ground, into the foundations. She does not need a grave. She IS the ground."
+text = "Four children's graves. The fifth place has been altered over and over: fresh mortar under old stone, layers of candle wax, dates scratched and recut until the surface turned smooth. No single memorial would hold. Someone kept trying to prepare a grave for Elizabeth as the years went on and she kept outliving every version of it."
 set_state = {"examined_crypt_graves": true}
 
 ; === Flagstone (Diamond #4 A-path) ===
@@ -59,6 +77,51 @@ condition = ""
 title = "Scattered Bones"
 text = "Bones lie outside the graves instead of within them. The crypt gate was locked. No animal did this. Something with purpose crossed the threshold and disturbed what should have remained sealed."
 
+[sub_resource type="Resource" id="resp_gate_latch_done"]
+script = ExtResource("3")
+condition = "crypt_gate_unlocked"
+title = "Gate Latch"
+text = "The inner latch hangs loose where you dragged it free. The crypt gate can no longer pretend to be sealed."
+
+[sub_resource type="Resource" id="resp_gate_latch_with_hook"]
+script = ExtResource("3")
+condition = "HAS lantern_hook"
+title = "Gate Latch"
+text = "The latch is mounted just beyond the bars, too far for a hand but not for the iron hook. You catch it, drag it upward, and feel the old weight give with a wet metallic crack. Whatever was kept shut here was being kept shut from the wrong side."
+set_state = {"crypt_gate_unlocked": true}
+
+[sub_resource type="Resource" id="resp_gate_latch_default"]
+script = ExtResource("3")
+condition = ""
+title = "Gate Latch"
+text = "An inner latch sits beyond the bars where the family could work it from within. It is too far to reach bare-handed. Someone expected service tools, not mourners."
+
+[sub_resource type="Resource" id="resp_music_box_wound"]
+script = ExtResource("3")
+condition = "elder_music_box_wound"
+title = "Elizabeth's Music Box"
+text = "The melody lingers against the crypt stones long after the mechanism should have spent itself. The box sits open beside the grave, as if it had been waiting for witness rather than rescue."
+
+[sub_resource type="Resource" id="resp_music_box_need_gate"]
+script = ExtResource("3")
+condition = "NOT crypt_gate_unlocked"
+title = "Elizabeth's Music Box"
+text = "Something glints beyond the old gate, tucked into the recessed shelf beside the blank grave. You can see brass fittings, but the crypt still holds them at a distance."
+
+[sub_resource type="Resource" id="resp_music_box_no_key"]
+script = ExtResource("3")
+condition = "NOT has_music_box_winding_key"
+title = "Elizabeth's Music Box"
+text = "The box is here at last, wrapped in blackened velvet beside the grave that never held her. The keyhole is empty. You still need the little brass key from your valise."
+
+[sub_resource type="Resource" id="resp_music_box_default"]
+script = ExtResource("3")
+condition = ""
+title = "Elizabeth's Music Box"
+text = "The brass winding key turns without resistance, as if the mechanism has been waiting in readiness all these years. The tune that failed in the attic completes itself here in the crypt.\n\nElizabeth Ashworth did not vanish young. She lived on into old age while the house, the cellar, and the family records kept trying to settle her into death. The crypt became another room of maintenance. Another place someone kept in readiness for a burial that never answered the truth.\n\nThe final notes do not plead. They accuse. They hold every year the family tried to close around her and failed.\n\nWhen the melody ends, the crypt sounds larger, emptier, and honest for the first time."
+set_state = {"elder_music_box_wound": true, "elder_route_complete": true}
+play_sfx = "res://assets/audio/sfx/music_box/music_box_melody_01.ogg"
+
 ; === Interactables ===
 
 [sub_resource type="Resource" id="inter_graves"]
@@ -68,7 +131,7 @@ type = "observation"
 position = Vector3(0, 0.5, 0)
 collision_size = Vector3(3.0, 1.0, 3.0)
 responses = Array[Resource]([SubResource("resp_graves_default")])
-thread_responses = {"captive": [SubResource("resp_graves_captive")], "mourning": [SubResource("resp_graves_mourning")], "sovereign": [SubResource("resp_graves_sovereign")]}
+thread_responses = {"child": [SubResource("resp_graves_captive")], "adult": [SubResource("resp_graves_mourning")], "elder": [SubResource("resp_graves_sovereign")], "captive": [SubResource("resp_graves_captive")], "mourning": [SubResource("resp_graves_mourning")], "sovereign": [SubResource("resp_graves_sovereign")]}
 
 [sub_resource type="Resource" id="inter_flagstone"]
 script = ExtResource("2")
@@ -94,18 +157,26 @@ position = Vector3(3.0, 0.2, -2.0)
 collision_size = Vector3(1.5, 0.5, 1.5)
 responses = Array[Resource]([SubResource("resp_bones_default")])
 
-; === Lights ===
+[sub_resource type="Resource" id="inter_gate_latch"]
+script = ExtResource("2")
+id = "crypt_gate_latch"
+type = "observation"
+position = Vector3(0.0, 1.1, -3.45)
+collision_size = Vector3(1.2, 1.0, 0.6)
+thread_active = PackedStringArray("elder", "sovereign")
+responses = Array[Resource]([SubResource("resp_gate_latch_done"), SubResource("resp_gate_latch_with_hook"), SubResource("resp_gate_latch_default")])
 
-[sub_resource type="Resource" id="light_moonlight"]
-script = ExtResource("4")
-id = "crypt_moonlight"
-type = "omni"
-position = Vector3(0, 2, 0)
-color = Color(0.5, 0.6, 0.9, 1)
-energy = 0.6
-range = 6.0
-shadows = true
-flickering = false
+[sub_resource type="Resource" id="inter_music_box"]
+script = ExtResource("2")
+id = "crypt_music_box"
+type = "observation"
+position = Vector3(2.0, 0.85, 1.0)
+collision_size = Vector3(1.0, 0.8, 1.0)
+thread_active = PackedStringArray("elder", "sovereign")
+model = "res://assets/shared/items/music_box.glb"
+responses = Array[Resource]([SubResource("resp_music_box_wound"), SubResource("resp_music_box_need_gate"), SubResource("resp_music_box_no_key"), SubResource("resp_music_box_default")])
+
+; === Lights ===
 
 [sub_resource type="Resource" id="light_grave_candle"]
 script = ExtResource("4")
@@ -113,8 +184,55 @@ id = "crypt_grave_candle"
 type = "omni"
 position = Vector3(2.0, 0.95, 1.4)
 color = Color(1.0, 0.82, 0.58, 1)
-energy = 0.3
-range = 2.6
+energy = 1.86
+range = 6.4
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+[sub_resource type="Resource" id="light_gate_candle"]
+script = ExtResource("4")
+id = "crypt_gate_candle"
+type = "omni"
+position = Vector3(-0.95, 0.95, -2.85)
+color = Color(1.0, 0.8, 0.52, 1)
+energy = 1.42
+range = 5.8
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+[sub_resource type="Resource" id="light_grave_bounce"]
+script = ExtResource("4")
+id = "crypt_grave_bounce"
+type = "omni"
+position = Vector3(1.9, 0.42, 1.5)
+color = Color(0.94, 0.67, 0.4, 1)
+energy = 0.78
+range = 6.1
+shadows = false
+flickering = false
+
+[sub_resource type="Resource" id="light_side_candle_w"]
+script = ExtResource("4")
+id = "crypt_side_candle_w"
+type = "omni"
+position = Vector3(-2.6, 0.95, 0.7)
+color = Color(1.0, 0.8, 0.54, 1)
+energy = 1.14
+range = 5.4
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+[sub_resource type="Resource" id="light_side_candle_e"]
+script = ExtResource("4")
+id = "crypt_side_candle_e"
+type = "omni"
+position = Vector3(2.8, 0.95, -0.15)
+color = Color(1.0, 0.8, 0.54, 1)
+energy = 1.14
+range = 5.4
 shadows = false
 flickering = true
 flicker_pattern = "candle"
@@ -124,20 +242,23 @@ flicker_pattern = "candle"
 [sub_resource type="Resource" id="prop_gate"]
 script = ExtResource("5")
 id = "crypt_gate_prop"
-model = "res://assets/grounds/family_crypt/metalfence_gate_only_sides.glb"
+scene_path = "res://scenes/shared/grounds/estate_iron_gate_closed.tscn"
 position = Vector3(0.0, 0, -4.0)
+scale_3d = Vector3(0.52, 0.88, 0.46)
 
 [sub_resource type="Resource" id="prop_gate_column_l"]
 script = ExtResource("5")
 id = "gate_column_l"
-model = "res://assets/grounds/family_crypt/drystone_column_capped.glb"
+scene_path = "res://scenes/shared/grounds/estate_gate_post_stone.tscn"
 position = Vector3(-1.4, 0, -4.0)
+scale_3d = Vector3(0.72, 0.9, 0.72)
 
 [sub_resource type="Resource" id="prop_gate_column_r"]
 script = ExtResource("5")
 id = "gate_column_r"
-model = "res://assets/grounds/family_crypt/drystone_column_capped.glb"
+scene_path = "res://scenes/shared/grounds/estate_gate_post_stone.tscn"
 position = Vector3(1.4, 0, -4.0)
+scale_3d = Vector3(0.72, 0.9, 0.72)
 
 [sub_resource type="Resource" id="prop_wall_n"]
 script = ExtResource("5")
@@ -228,6 +349,50 @@ id = "grave_candle"
 model = "res://assets/shared/items/candle0.glb"
 position = Vector3(2.0, 0.78, 1.4)
 
+[sub_resource type="Resource" id="prop_gate_candle_holder"]
+script = ExtResource("5")
+id = "gate_candle_holder"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(-0.95, 0.78, -2.85)
+
+[sub_resource type="Resource" id="prop_gate_candle"]
+script = ExtResource("5")
+id = "gate_candle"
+model = "res://assets/shared/items/candle0.glb"
+position = Vector3(-0.95, 0.78, -2.85)
+
+[sub_resource type="Resource" id="prop_side_candle_holder_w"]
+script = ExtResource("5")
+id = "side_candle_holder_w"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(-2.6, 0.78, 0.7)
+
+[sub_resource type="Resource" id="prop_side_candle_w"]
+script = ExtResource("5")
+id = "side_candle_w"
+model = "res://assets/shared/items/candle0.glb"
+position = Vector3(-2.6, 0.78, 0.7)
+
+[sub_resource type="Resource" id="prop_side_candle_holder_e"]
+script = ExtResource("5")
+id = "side_candle_holder_e"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(2.8, 0.78, -0.15)
+
+[sub_resource type="Resource" id="prop_side_candle_e"]
+script = ExtResource("5")
+id = "side_candle_e"
+model = "res://assets/shared/items/candle0.glb"
+position = Vector3(2.8, 0.78, -0.15)
+
+[sub_resource type="Resource" id="prop_music_box_cloth"]
+script = ExtResource("5")
+id = "music_box_cloth"
+model = "res://assets/shared/items/page5.glb"
+position = Vector3(2.0, 0.79, 1.0)
+rotation_y = 15.0
+scale = 0.85
+
 [sub_resource type="Resource" id="act_visited"]
 script = ExtResource("7")
 set_state = {"visited_family_crypt": true}
@@ -250,9 +415,12 @@ script = ExtResource("1")
 room_id = "family_crypt"
 room_name = "Family Crypt"
 floor_name = "grounds"
-environment_preset = "grounds"
+environment_preset = "crypt_candle"
 dimensions = Vector3(8, 3, 10)
 is_exterior = true
+spatial_class = "exterior_ground"
+exposure_faces = PackedStringArray("north", "south", "east", "west")
+window_view_mode = "local_outlook"
 wall_texture = "wall6_texture"
 floor_texture = "floor2_texture"
 ceiling_texture = ""
@@ -264,11 +432,13 @@ ambient_loop = "res://assets/audio/loops/Empty Hope Loop2.ogg"
 tension_loop = "res://assets/audio/tension/tension_exploration.wav"
 reverb_bus = "StoneCorridor"
 footstep_surface = "stone"
-spawn_position = Vector3(0, 0, -4)
+spawn_position = Vector3(0, 0, -3.1)
 spawn_rotation_y = 0.0
-interactables = Array[Resource]([SubResource("inter_graves"), SubResource("inter_flagstone"), SubResource("inter_note"), SubResource("inter_bones")])
-lights = Array[Resource]([SubResource("light_moonlight"), SubResource("light_grave_candle")])
-props = Array[Resource]([SubResource("prop_gate"), SubResource("prop_gate_column_l"), SubResource("prop_gate_column_r"), SubResource("prop_wall_n"), SubResource("prop_wall_w"), SubResource("prop_wall_e"), SubResource("prop_fence_w"), SubResource("prop_fence_e"), SubResource("prop_grave_edmund"), SubResource("prop_grave_victoria"), SubResource("prop_grave_blank"), SubResource("prop_debris_l"), SubResource("prop_debris_r"), SubResource("prop_bottle"), SubResource("prop_scattered_bones"), SubResource("prop_grave_candle_holder"), SubResource("prop_grave_candle")])
+entry_anchors = Array[Resource]([SubResource("anchor_entry_gate")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_blank_grave")])
+interactables = Array[Resource]([SubResource("inter_graves"), SubResource("inter_flagstone"), SubResource("inter_note"), SubResource("inter_bones"), SubResource("inter_gate_latch"), SubResource("inter_music_box")])
+lights = Array[Resource]([SubResource("light_grave_candle"), SubResource("light_gate_candle"), SubResource("light_grave_bounce"), SubResource("light_side_candle_w"), SubResource("light_side_candle_e")])
+props = Array[Resource]([SubResource("prop_gate"), SubResource("prop_gate_column_l"), SubResource("prop_gate_column_r"), SubResource("prop_wall_n"), SubResource("prop_wall_w"), SubResource("prop_wall_e"), SubResource("prop_fence_w"), SubResource("prop_fence_e"), SubResource("prop_grave_edmund"), SubResource("prop_grave_victoria"), SubResource("prop_grave_blank"), SubResource("prop_debris_l"), SubResource("prop_debris_r"), SubResource("prop_bottle"), SubResource("prop_scattered_bones"), SubResource("prop_grave_candle_holder"), SubResource("prop_grave_candle"), SubResource("prop_gate_candle_holder"), SubResource("prop_gate_candle"), SubResource("prop_side_candle_holder_w"), SubResource("prop_side_candle_w"), SubResource("prop_side_candle_holder_e"), SubResource("prop_side_candle_e"), SubResource("prop_music_box_cloth")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([])

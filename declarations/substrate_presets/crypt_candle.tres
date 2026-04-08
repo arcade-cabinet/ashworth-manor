@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="SubstratePresetDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/substrate_preset_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+preset_id = "crypt_candle"
+region_family = "burial_threshold"
+primitive_families = PackedStringArray("surface", "architecture", "terrain_path", "prop")
+dominant_material_recipes = PackedStringArray("surface/brick_masonry", "surface/masonry_cap", "surface/wrought_iron")
+allowed_mount_families = PackedStringArray("threshold", "wall", "floor", "gate_leaf", "facade_anchor")
+default_light_grammar = "candle_burial"
+approved_builders = PackedStringArray("estate_boundary_wall", "estate_gate_post", "estate_iron_gate", "door_builder", "wall_builder", "floor_builder")
+notes = "Burial-side exterior/interior threshold language for the family crypt and grave approach."

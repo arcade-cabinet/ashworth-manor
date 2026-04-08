@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="SubstratePresetDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/substrate_preset_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+preset_id = "deep_basement_service"
+region_family = "deep_service_below"
+primitive_families = PackedStringArray("surface", "architecture", "prop")
+dominant_material_recipes = PackedStringArray("surface/brick_masonry", "surface/wrought_iron", "surface/chain_iron")
+allowed_mount_families = PackedStringArray("wall", "floor", "ceiling", "threshold", "shelf", "path_edge")
+default_light_grammar = "cellar_lamp"
+approved_builders = PackedStringArray("wall_builder", "floor_builder", "ceiling_builder", "door_builder", "stairs_builder", "ladder_builder")
+notes = "Deep service/burial underlayer for cellar routes, heavier stone, and reduced ambient lift."

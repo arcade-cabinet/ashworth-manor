@@ -2,17 +2,19 @@ class_name TrapdoorBuilder
 extends RefCounted
 ## Generates floor hatch with hinge on one edge (rotates on X axis).
 
+const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
+
 const DEFAULT_SIZE := 1.0
 const FRAME_WIDTH := 0.08
 
 ## Build a trapdoor from a Connection declaration.
 ## Returns Node3D with frame, panel on hinge, and interaction zone.
-static func build(connection: Connection) -> Node3D:
+static func build(connection: Connection, frame_surface_ref: String = "", panel_surface_ref: String = "") -> Node3D:
 	var trapdoor_root := Node3D.new()
 	trapdoor_root.name = "Trapdoor_%s" % connection.id
 
 	# Floor-level frame
-	var frame := _build_frame(connection.frame_texture)
+	var frame := _build_frame(frame_surface_ref if not frame_surface_ref.is_empty() else connection.frame_texture)
 	trapdoor_root.add_child(frame)
 
 	# Trapdoor panel on hinge (hinge at north edge, opens toward south)
@@ -27,7 +29,7 @@ static func build(connection: Connection) -> Node3D:
 	quad.orientation = PlaneMesh.FACE_Y
 	panel.mesh = quad
 	panel.position = Vector3(0, 0, DEFAULT_SIZE * 0.5)
-	_apply_texture(panel, connection.door_texture)
+	_apply_texture(panel, panel_surface_ref if not panel_surface_ref.is_empty() else connection.door_texture)
 
 	# AnimatableBody3D for physics
 	var body := AnimatableBody3D.new()
@@ -71,11 +73,13 @@ static func build(connection: Connection) -> Node3D:
 	area_shape.position = Vector3(0, -0.25, 0)
 	area.add_child(area_shape)
 	trapdoor_root.add_child(area)
+	trapdoor_root.set_meta("resolved_threshold_surface", frame_surface_ref if not frame_surface_ref.is_empty() else connection.frame_texture)
+	trapdoor_root.set_meta("resolved_panel_surface", panel_surface_ref if not panel_surface_ref.is_empty() else connection.door_texture)
 
 	return trapdoor_root
 
 
-static func _build_frame(texture_path: String) -> Node3D:
+static func _build_frame(surface_ref: String) -> Node3D:
 	var frame := Node3D.new()
 	frame.name = "TrapdoorFrame"
 
@@ -98,22 +102,16 @@ static func _build_frame(texture_path: String) -> Node3D:
 		box.size = beams[i]
 		beam.mesh = box
 		beam.position = positions[i]
-		if not texture_path.is_empty() and ResourceLoader.exists(texture_path):
-			var mat := StandardMaterial3D.new()
-			mat.albedo_texture = load(texture_path)
-			mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+		if not surface_ref.is_empty():
+			var mat := EstateMaterialKit.build_surface_reference(surface_ref)
 			beam.set_surface_override_material(0, mat)
 		frame.add_child(beam)
 
 	return frame
 
 
-static func _apply_texture(mesh: MeshInstance3D, texture_path: String) -> void:
-	if texture_path.is_empty():
+static func _apply_texture(mesh: MeshInstance3D, surface_ref: String) -> void:
+	if surface_ref.is_empty():
 		return
-	var mat := StandardMaterial3D.new()
-	if ResourceLoader.exists(texture_path):
-		mat.albedo_texture = load(texture_path)
-	mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
-	mat.cull_mode = BaseMaterial3D.CULL_DISABLED
+	var mat := EstateMaterialKit.build_surface_reference(surface_ref, {"double_sided": true})
 	mesh.set_surface_override_material(0, mat)

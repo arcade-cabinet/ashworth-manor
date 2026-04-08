@@ -49,7 +49,7 @@ play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
 script = ExtResource("3")
 condition = ""
 title = "Lord Ashworth's Diary"
-text = "The diary is chained to the nightstand with a small padlock. Even his own words are imprisoned. The November entries describe locks purchased, doors reinforced, windows boarded. December entries are shorter: 'The key is safe. She cannot reach it. The binding holds.' The final entry, December 24th: 'I have hidden the last key. No one will open that door again. God forgive me.'"
+text = "The November entries are practical in the worst possible way: plaster invoices, lath measurements, instructions to have a wall finished before Christmas callers arrive. Edmund stops calling Elizabeth 'the girl' and starts calling her 'the room.' December entries shrink to single lines: 'No one must hear her through the wall.' The final entry, December 24th: 'If the room is sealed, perhaps mercy and memory will finally mean the same thing.'"
 set_state = {"read_ashworth_diary": true}
 play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
 
@@ -101,7 +101,7 @@ set_state = {"examined_bedroom_mirror": true}
 script = ExtResource("3")
 condition = ""
 title = "Vanity Mirror"
-text = "The vanity mirror is cracked. A single fracture runs from top to bottom, splitting your reflection in two. One half shows you as you are. The other half shows you slightly behind -- as if the reflection is on a delay, trying to catch up, trapped behind the glass a moment longer than it should be. Lady Ashworth's hairbrush lies beside it. She stopped looking at herself."
+text = "The vanity mirror gives you the room at the wrong height. For a moment the reflected doorknob sits too high, the wardrobe too broad, the chair too far away -- the room as it would have looked to a child standing here and waiting for someone to open the door. Then the scale rights itself. Lady Ashworth used this mirror and still could not bear to look at what the house had done at a child's eye level."
 set_state = {"examined_bedroom_mirror": true}
 
 ; MOURNING mirror: Aged, sad, time-worn
@@ -195,7 +195,7 @@ type = "note"
 position = Vector3(-4, 0.9, -4)
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_diary_truth"), SubResource("resp_diary_default")])
-thread_responses = {"captive": [SubResource("resp_diary_captive")], "mourning": [SubResource("resp_diary_mourning")], "sovereign": [SubResource("resp_diary_sovereign")], "adult": [SubResource("resp_diary_adult")]}
+thread_responses = {"child": [SubResource("resp_diary_captive")], "adult": [SubResource("resp_diary_adult")], "elder": [SubResource("resp_diary_sovereign")], "captive": [SubResource("resp_diary_captive")], "mourning": [SubResource("resp_diary_mourning")], "sovereign": [SubResource("resp_diary_sovereign")]}
 
 [sub_resource type="Resource" id="inter_mirror"]
 script = ExtResource("2")
@@ -205,7 +205,7 @@ position = Vector3(4.5, 1.2, 0)
 wall = "east"
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_mirror_aware"), SubResource("resp_mirror_default")])
-thread_responses = {"captive": [SubResource("resp_mirror_captive")], "mourning": [SubResource("resp_mirror_mourning")], "sovereign": [SubResource("resp_mirror_sovereign")], "adult": [SubResource("resp_mirror_adult")]}
+thread_responses = {"child": [SubResource("resp_mirror_captive")], "adult": [SubResource("resp_mirror_adult")], "elder": [SubResource("resp_mirror_sovereign")], "captive": [SubResource("resp_mirror_captive")], "mourning": [SubResource("resp_mirror_mourning")], "sovereign": [SubResource("resp_mirror_sovereign")]}
 
 [sub_resource type="Resource" id="inter_jewelry"]
 script = ExtResource("2")

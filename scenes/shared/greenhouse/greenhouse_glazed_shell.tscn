@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3]
 
-[ext_resource type="Material" path="res://resources/glass/estate_greenhouse_glass_material.tres" id="1_gw0f4"]
+[ext_resource type="Script" path="res://scenes/shared/shared_recipe_applicator.gd" id="1_eb7th"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_frame"]
 albedo_color = Color(0.28, 0.24, 0.18, 1)
@@ -23,6 +23,8 @@ size = Vector3(2.0, 2.0, 0.03)
 size = Vector3(3.28, 0.03, 6.45)
 
 [node name="GreenhouseGlazedShell" type="Node3D"]
+script = ExtResource("1_eb7th")
+recipe_groups = {"glass/greenhouse_glass": PackedStringArray("NorthPaneLeft", "NorthPaneRight", "SouthPaneLeft", "SouthPaneRight", "WestPaneNorth", "WestPaneSouth", "EastPaneNorth", "EastPaneSouth", "RoofPaneWest", "RoofPaneEast", "BrokenShardA", "BrokenShardB")}
 
 [node name="CornerPostNW" type="MeshInstance3D" parent="."]
 position = Vector3(-3.2, 1.2, -3.2)
@@ -166,70 +168,58 @@ mesh = SubResource("BoxMesh_beam_deep")
 
 [node name="NorthPaneLeft" type="MeshInstance3D" parent="."]
 position = Vector3(-2.0, 1.35, -3.16)
-material_override = ExtResource("1_gw0f4")
 mesh = SubResource("BoxMesh_wall_glass")
 
 [node name="NorthPaneRight" type="MeshInstance3D" parent="."]
 position = Vector3(2.0, 1.35, -3.16)
-material_override = ExtResource("1_gw0f4")
 mesh = SubResource("BoxMesh_wall_glass")
 
 [node name="SouthPaneLeft" type="MeshInstance3D" parent="."]
 position = Vector3(-2.0, 1.35, 3.16)
-material_override = ExtResource("1_gw0f4")
 mesh = SubResource("BoxMesh_wall_glass")
 
 [node name="SouthPaneRight" type="MeshInstance3D" parent="."]
 position = Vector3(2.0, 1.35, 3.16)
-material_override = ExtResource("1_gw0f4")
 mesh = SubResource("BoxMesh_wall_glass")
 
 [node name="WestPaneNorth" type="MeshInstance3D" parent="."]
 position = Vector3(-3.16, 1.35, -1.6)
 rotation_degrees = Vector3(0, 90, 0)
-material_override = ExtResource("1_gw0f4")
 mesh = SubResource("BoxMesh_wall_glass")
 
 [node name="WestPaneSouth" type="MeshInstance3D" parent="."]
 position = Vector3(-3.16, 1.35, 1.6)
 rotation_degrees = Vector3(0, 90, 0)
-material_override = ExtResource("1_gw0f4")
 mesh = SubResource("BoxMesh_wall_glass")
 
 [node name="EastPaneNorth" type="MeshInstance3D" parent="."]
 position = Vector3(3.16, 1.35, -1.6)
 rotation_degrees = Vector3(0, 90, 0)
-material_override = ExtResource("1_gw0f4")
 mesh = SubResource("BoxMesh_wall_glass")
 
 [node name="EastPaneSouth" type="MeshInstance3D" parent="."]
 position = Vector3(3.16, 1.35, 1.6)
 rotation_degrees = Vector3(0, 90, 0)
-material_override = ExtResource("1_gw0f4")
 mesh = SubResource("BoxMesh_wall_glass")
 
 [node name="RoofPaneWest" type="MeshInstance3D" parent="."]
 position = Vector3(-1.58, 2.82, 0)
 rotation_degrees = Vector3(0, 0, -14.5)
-material_override = ExtResource("1_gw0f4")
 mesh = SubResource("BoxMesh_roof_glass")
 
 [node name="RoofPaneEast" type="MeshInstance3D" parent="."]
 position = Vector3(1.58, 2.82, 0)
 rotation_degrees = Vector3(0, 0, 14.5)
-material_override = ExtResource("1_gw0f4")
 mesh = SubResource("BoxMesh_roof_glass")
 
 [node name="BrokenShardA" type="MeshInstance3D" parent="."]
 position = Vector3(-0.42, 2.18, -3.08)
 rotation_degrees = Vector3(0, 0, 21)
 scale = Vector3(0.45, 0.2, 1)
-material_override = ExtResource("1_gw0f4")
 mesh = SubResource("BoxMesh_wall_glass")
 
 [node name="BrokenShardB" type="MeshInstance3D" parent="."]
 position = Vector3(0.55, 1.5, -3.06)
 rotation_degrees = Vector3(0, 0, -16)
 scale = Vector3(0.28, 0.26, 1)
-material_override = ExtResource("1_gw0f4")
 mesh = SubResource("BoxMesh_wall_glass")

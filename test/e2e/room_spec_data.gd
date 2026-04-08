@@ -90,9 +90,9 @@ static func get_all() -> Dictionary:
 			"min_lights": 2, "has_flickering": true, "require_spawn": true,
 		},
 		"hidden_chamber": {
-			"interactables": ["elizabeth_final_note", "chamber_drawings", "hidden_mirror", "ritual_circle", "chamber_artifact"],
+			"interactables": ["child_music_box", "nursery_drawings", "child_bed", "height_marks", "nursery_mirror"],
 			"connections": ["attic_storage"],
-			"min_lights": 3, "has_flickering": true, "require_spawn": true,
+			"min_lights": 2, "has_flickering": true, "require_spawn": true,
 		},
 		"garden": {
 			"interactables": ["garden_lily", "garden_fountain", "garden_gazebo", "garden_beds", "garden_bench"],

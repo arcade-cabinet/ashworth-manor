@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="SkyPresetDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/sky_preset_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+preset_id = "grounds_twilight_sky"
+sky_mode = "generated_twilight"
+hdri_path = ""
+sky_color_top = Color(0.02, 0.03, 0.07, 1)
+sky_color_horizon = Color(0.1, 0.09, 0.12, 1)
+star_density = 0.86
+star_brightness = 1.55
+moon_size = 0.022
+moon_color = Color(0.69, 0.72, 0.78, 1)
+cloud_density = 0.05
+cloud_color = Color(0.12, 0.13, 0.17, 1)
+distant_glow_color = Color(0.14, 0.1, 0.08, 1)
+notes = "Shared twilight sky for the estate grounds and open exterior approaches."

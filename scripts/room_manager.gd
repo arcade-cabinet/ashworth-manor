@@ -3,6 +3,8 @@ extends Node3D
 
 const RegionCompilerScript = preload("res://engine/region_compiler.gd")
 const RoomAnchorDeclScript = preload("res://engine/declarations/room_anchor_decl.gd")
+const RoomAssemblerScript = preload("res://engine/room_assembler.gd")
+const PSXBridgeScript = preload("res://engine/psx_bridge.gd")
 
 signal room_loaded(room_id: String)
 signal room_transition_started
@@ -39,6 +41,9 @@ var _region_plan: Dictionary = {}
 var _compiled_world_plan: Dictionary = {}
 var _loaded_compiled_world_id: String = ""
 var _compiled_world_instances: Dictionary = {}
+var _world_environment: WorldEnvironment = null
+var _environment_cache: Dictionary = {}
+var _psx_bridge := PSXBridgeScript.new()
 
 # Room registry: room_id -> scene path
 var _room_registry: Dictionary = {
@@ -67,6 +72,7 @@ var _room_registry: Dictionary = {
 
 func _ready() -> void:
 	_load_world_registry()
+	_world_environment = get_node_or_null("/root/Main/WorldEnvironment") as WorldEnvironment
 	_room_container = Node3D.new()
 	_room_container.name = "RoomContainer"
 	add_child(_room_container)
@@ -450,6 +456,7 @@ func _activate_room_instance(room_instance: Node, room_id: String, reposition_pl
 		GameManager.set_flag("entered_attic")
 	if reposition_player:
 		_position_player_for_room_instance(room_instance, _current_room_id, _pending_entry_connection_id)
+	_apply_room_environment(room_instance)
 	room_loaded.emit(_current_room_id)
 
 
@@ -653,7 +660,7 @@ func _load_world_registry() -> void:
 	if _world == null:
 		push_warning("RoomManager: Failed to load world declaration")
 		return
-	_assembler = RoomAssembler.new(_world)
+	_assembler = RoomAssemblerScript.new(_world)
 	var room_decls: Dictionary = {}
 	for room_ref in _world.rooms:
 		if room_ref != null and not room_ref.room_id.is_empty() and not room_ref.declaration_path.is_empty():
@@ -700,3 +707,28 @@ func _instantiate_room(room_id: String) -> Node:
 		push_warning("RoomManager: Failed to load '%s'" % scene_path)
 		return null
 	return scene.instantiate()
+
+
+func _apply_room_environment(room_instance: Node) -> void:
+	if _world_environment == null or room_instance == null:
+		return
+	var preset := ""
+	if room_instance.has_meta("environment_preset"):
+		preset = String(room_instance.get_meta("environment_preset"))
+	if preset.is_empty():
+		return
+	var environment := _environment_cache.get(preset, null) as Environment
+	if environment == null:
+		var env_path := "res://declarations/environments/%s.tres" % preset
+		if not ResourceLoader.exists(env_path):
+			push_warning("RoomManager: Environment preset '%s' missing at %s" % [preset, env_path])
+			return
+		var env_decl := load(env_path) as EnvironmentDeclaration
+		if env_decl == null:
+			push_warning("RoomManager: Failed to load environment preset '%s'" % preset)
+			return
+		environment = _psx_bridge.build_environment(env_decl)
+		if environment == null:
+			return
+		_environment_cache[preset] = environment
+	_world_environment.environment = environment

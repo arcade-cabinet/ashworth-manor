@@ -23,6 +23,7 @@
   - interaction resolution
   - graph compilation
   - region and compiled-world planning
+  - substrate preset and mount resolution
   - validation and generated test coverage
 
 ## Canonical Surfaces
@@ -32,10 +33,21 @@
 `docs/GAME_BIBLE.md` is the single canonical authority for the shipped game.
 If any other doc disagrees with it, GAME_BIBLE.md wins.
 
-### Execution Contract
+### Substrate Authority
 
-`docs/batches/ashworth-master-task-graph.md` is the primary execution contract
-— the single task graph that drives all implementation work.
+`docs/SUBSTRATE_FOUNDATION.md` is the single canonical authority for the shared
+physical language of the game. If a room or builder bypasses it, that usage
+needs an explicit waiver.
+
+### Active Execution Contract
+
+`docs/batches/hard-substrate-freeze.md` is the active execution contract while
+the substrate is being rebuilt and reapplied across the whole game.
+
+### Whole-Game Scope Contract
+
+`docs/batches/ashworth-master-task-graph.md` remains the whole-game task graph
+and ship-scope contract.
 
 ### Focused Supplements (canonical, defer to GAME_BIBLE on overlap)
 
@@ -52,6 +64,12 @@ If any other doc disagrees with it, GAME_BIBLE.md wins.
 - Floor-level overviews under `docs/floors/` — legacy reference only
 - Individual batch files under `docs/batches/` (other than the master task
   graph) — historical implementation detail, superseded by master task graph
+- Weave-era design artifacts:
+  - `docs/WEAVE_ARCHITECTURE.md`
+  - `docs/WEAVE_BALANCE.md`
+  - `docs/WEAVE_PLAYTEST.md`
+  - `docs/PAPER_PLAYTEST.md`
+  These are archived historical references, not current route or puzzle truth.
 - Any doc or declaration text that still assumes the old
   `Captive / Mourning / Sovereign` weave — legacy material pending migration
 
@@ -155,10 +173,60 @@ composition.
 
 ## Architectural Stack
 
+### Substrate-First Policy
+
+- primary architecture, terrain, hedges, gates, roads, water, glass, and sky
+  must resolve through shared builders, shaders, and factories
+- imported models are reserved for props and hero objects
+- declarations remain canonical; the substrate is a richer implementation layer
+  underneath them
+
+### Declaration-Facing Substrate Types
+
+- `SubstratePresetDecl`
+- `MaterialRecipeDecl`
+- `TerrainPresetDecl`
+- `SkyPresetDecl`
+- `MountSlotDecl`
+- `MountPayloadDecl`
+
+### Shared Substrate Registries
+
+- `builders/estate_material_kit.gd`
+- `builders/pbr_texture_kit.gd`
+- `builders/estate_environment_registry.gd`
+- `builders/estate_substrate_registry.gd`
+
+### Environment-Owned Surface Grammar
+
+- `EnvironmentDeclaration.surface_recipe_overrides` is now the shared region
+  grammar for:
+  - `floor`
+  - `wall`
+  - `ceiling`
+  - `threshold`
+  - `door`
+  - `gate_leaf`
+  - `window`
+  - `stair_tread`
+  - `stair_structure`
+  - `stair_rail`
+  - `ladder_rail`
+  - `ladder_rung`
+- `RoomAssembler` resolves those roles before legacy per-room/per-connection
+  texture strings
+- `DoorBuilder`, `WindowBuilder`, and `ConnectionAssembly` now consume that
+  environment-owned grammar while preserving legacy texture strings only as
+  compatibility/model-selection fallbacks
+- `StairsBuilder` and `LadderBuilder` now consume the same environment-owned
+  role grammar, so circulation thresholds no longer sit on hardcoded material
+  defaults
+
 ### Procedural > Model > Procedural
 
-- walls, floors, and ceilings are procedural textured shells
-- frame, moulding, newel, and trim assets are inset models
+- walls, floors, and ceilings are shared procedural shells
+- frame, moulding, newel, and trim assets are inset models where they earn
+  their keep
 - doors, windows, trapdoors, ladders, and stairs should stay procedural where
   motion or scaling matters
 
@@ -175,6 +243,31 @@ composition.
 - `builders/connection_assembly.gd`
 - `builders/arch_model_fitter.gd`
 - `builders/shape_kit.gd`
+
+### Shader / Material Families
+
+- `estate_surface`
+- `estate_foliage`
+- `estate_terrain`
+- `estate_glass`
+- `estate_water`
+- `estate_sky_twilight`
+
+### Stable Mount Families
+
+- `wall`
+- `floor`
+- `ceiling`
+- `threshold`
+- `gate_leaf`
+- `table`
+- `shelf`
+- `sill`
+- `mantel`
+- `path_edge`
+- `hedge_terminator`
+- `water_edge`
+- `facade_anchor`
 
 ## Stateful Scene Surfaces
 
@@ -206,5 +299,6 @@ composition.
 
 - `test/e2e/test_room_walkthrough.gd`
 - `test/e2e/test_opening_journey.gd`
+- `test/e2e/test_environment_probe.gd`
 
 The visual lanes are part of product acceptance, not optional debug helpers.

@@ -1,77 +1,86 @@
 # Wine Cellar — Interactables
 
+The wine cellar is now a late-route preservation layer, not a generic puzzle
+item room. On `Elder`, it becomes the maintained lateral bypass toward burial
+truth.
+
 ## 1. Wine Inventory Note
+
 ```yaml
 id: wine_note
 type: note
-position: (-3.5, 1.2, 2)
 ```
 
-### Text
-> **Inventory List — 1887**
-> "The 1872 Bordeaux has been moved to the hidden alcove. Master insists no one shall find it. The key is with the portrait."
-
-### Flags Set: `read_wine_note`
+Function:
+- establishes the cellar as a place of management and repeated upkeep
+- supports the idea that certain cellar spaces were deliberately moved,
+  concealed, and revisited
 
 ---
 
-## 2. Locked Box — Puzzle Item
+## 2. Wine Box
+
 ```yaml
 id: wine_box
-type: box
-locked: true
-key_id: cellar_key
-item_found: mothers_confession
-position: (-3.5, 0.3, 0)
+type: observation
 ```
 
-### Text — Locked
-> "A wooden chest, bound with iron. Heavy padlock. The inventory note mentioned 'the key is with the portrait' — but which one?"
+Route reading:
+- on `Elder`, the brass, dust gaps, and handling wear imply repeated
+  maintenance rather than forgotten wealth
 
-### Text — Unlocked (has `cellar_key`)
-> **Lady Ashworth's Confession**
-> "I am complicit in what was done to our daughter. When Elizabeth first spoke of seeing the dead, I told myself she was ill. When Edmund brought the occultist, I told myself it was medicine. When they locked her in the attic with that horrible doll, I told myself it was for her safety.
->
-> I lied. To everyone. To myself.
->
-> Elizabeth was never dangerous. She was gifted. And we destroyed her for it.
->
-> If anyone finds this, know that we deserve what is coming. The house knows. Elizabeth knows. And soon, so shall we.
->
-> — Victoria Ashworth, December 23rd, 1891"
-
-### Items Given: `mothers_confession` (counter-ritual component)
+This is no longer documented as the main puzzle reward of the shipped route
+program.
 
 ---
 
 ## 3. Wine Racks
+
 ```yaml
 id: wine_racks
 type: observation
-position: (-3.3, 1, 0)
 ```
 
-### Text
-> "Most bottles covered in dust — decades undisturbed. But several gaps where bottles were recently removed. No dust in those spots. Recently? That's impossible."
+Function:
+- reinforces that order has been maintained selectively
+- supports the cellar as a serviced space rather than abandoned storage
 
 ---
 
 ## 4. Footprints
+
 ```yaml
 id: wine_footprints
 type: observation
-position: (0, 0.1, 3)
 ```
 
-### Text
-> "Footprints in the dust. They lead from the ladder to the wall. And stop. No return prints. Whoever walked here went to the wall and... through it?"
+Route reading:
+- on `Elder`, the track toward the wall reads as routine and repeated
+- the wall is not just suspicious; it is part of a used burial-side route
+
+---
+
+## 5. Barrel Passage
+
+```yaml
+id: cellar_barrel_passage
+type: observation
+```
+
+Function:
+- blocks early
+- opens only after the attic redirect and hook phase
+- carries the player into `family_crypt`
+- marks the wine cellar as the sideways approach into burial truth
 
 ---
 
 ## Summary
-| ID | Status |
-|----|--------|
-| `wine_note` | Implemented |
-| `wine_box` | Active |
-| `wine_racks` | Active |
-| `wine_footprints` | Active |
+
+| ID | Role |
+|----|------|
+| `wine_note` | preservation/admin residue |
+| `wine_box` | maintained object evidence |
+| `wine_racks` | selective order / upkeep |
+| `wine_footprints` | repeated route evidence |
+| `cellar_barrel_passage` | burial-side bypass into the crypt |

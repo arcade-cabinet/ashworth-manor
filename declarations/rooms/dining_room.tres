@@ -135,7 +135,7 @@ position = Vector3(-3.5, 2, 0)
 wall = "west"
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_photo_truth"), SubResource("resp_photo_log"), SubResource("resp_photo_default")])
-thread_responses = {"captive": [SubResource("resp_photo_captive")], "mourning": [SubResource("resp_photo_mourning")], "sovereign": [SubResource("resp_photo_sovereign")]}
+thread_responses = {"child": [SubResource("resp_photo_captive")], "adult": [SubResource("resp_photo_mourning")], "elder": [SubResource("resp_photo_sovereign")], "captive": [SubResource("resp_photo_captive")], "mourning": [SubResource("resp_photo_mourning")], "sovereign": [SubResource("resp_photo_sovereign")]}
 
 [sub_resource type="Resource" id="inter_chair"]
 script = ExtResource("2")
@@ -157,7 +157,7 @@ state_model_map = {"agitated": "res://scenes/shared/dining_room/dining_wine_glas
 visual_state_order = PackedStringArray("agitated")
 visual_state_conditions = {"agitated": "examined_wine_glass"}
 responses = Array[Resource]([SubResource("resp_wine_default")])
-thread_responses = {"captive": [SubResource("resp_wine_captive")], "mourning": [SubResource("resp_wine_mourning")], "sovereign": [SubResource("resp_wine_sovereign")]}
+thread_responses = {"child": [SubResource("resp_wine_captive")], "adult": [SubResource("resp_wine_mourning")], "elder": [SubResource("resp_wine_sovereign")], "captive": [SubResource("resp_wine_captive")], "mourning": [SubResource("resp_wine_mourning")], "sovereign": [SubResource("resp_wine_sovereign")]}
 
 [sub_resource type="Resource" id="inter_candles"]
 script = ExtResource("2")

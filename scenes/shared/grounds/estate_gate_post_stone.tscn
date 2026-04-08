@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/shared/grounds/estate_gate_post.tscn" id="1_0qlqf"]
+
+[node name="EstateGatePostStone" instance=ExtResource("1_0qlqf")]
+material_mode = "stone"

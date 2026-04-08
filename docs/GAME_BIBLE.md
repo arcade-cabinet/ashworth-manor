@@ -432,6 +432,10 @@ Clue types:
 - altered family memory
 - preserved objects that lasted too long
 
+Clue topology:
+- see `docs/checkpoints/elder-route-clue-topology.md` for the complete
+  room-by-room clue map, late-rupture grammar, and state-tracking notes
+
 Late structure:
 - the attic becomes the rupture point, not the answer
 - clues drive the player toward wine cellar and crypt
@@ -501,12 +505,25 @@ All three routes share:
 - clue emphasis turns funerary and residual
 - attic becomes rupture, not resolution
 - crypt becomes the final answer
+- late darkness strips stable house light before the descent
+- lantern-on-hook replaces the walking stick at the rupture
+- attic music box redirects the player downward instead of resolving the route
+- wine cellar opens the maintained barrel-side bypass into the crypt
+- crypt gate is opened from the burial side with the hook
+- the crypt music box is wound with the brass valise key
+- ending fires via `trigger_ending("elder")` on `elder_music_box_wound`
 
 ### Child Late Game
 
 - clue emphasis turns architectural and remembered
 - attic becomes false answer / clue engine
 - hidden room becomes final answer
+- late darkness strips stable house light before the last attic return
+- lantern hook replaces the walking stick at attic stairs
+- attic music box only echoes and redirects the player to the west wall
+- sealed seam requires hook leverage and reveals the erased room
+- child music box is wound in the sealed room with the brass valise key
+- ending fires via `trigger_ending("child")` on `child_music_box_wound`
 
 ---
 
@@ -549,6 +566,11 @@ The ending system must record progression through the canonical order:
 - complete `Adult` -> unlock `Elder`
 - complete `Elder` -> unlock `Child`
 - complete `Child` -> enter post-canonical repeat-run state
+
+Post-canonical repeat-run state:
+- route unlocks stop progressing
+- replay mode stays inside `Adult / Elder / Child`
+- the canonical story order remains recorded even when later runs replay
 
 ---
 
@@ -610,6 +632,7 @@ before the repo can be considered frozen for release.
 | Declaration integrity | `godot --headless --path . --script test/generated/test_declarations.gd` |
 | Room specs | `godot --headless --path . --script test/e2e/test_room_specs.gd` |
 | Declared interactions | `godot --headless --path . --script test/e2e/test_declared_interactions.gd` |
+| gdUnit route program | `godot --headless --path . -s addons/gdUnit4/bin/GdUnitCmdTool.gd -a res://test/unit -c --ignoreHeadlessMode` |
 | Full playthrough | `godot --headless --path . --script test/e2e/test_full_playthrough.gd` |
 | Room walkthrough | `godot --path . --script test/e2e/test_room_walkthrough.gd` |
 | Opening journey | `godot --path . --script test/e2e/test_opening_journey.gd` |
@@ -622,9 +645,9 @@ device infrastructure beyond the repo itself.
 
 | Lane | Scope |
 |------|-------|
-| Android export build | `godot --headless --export-release "Android" build/ashworth.apk` succeeds |
-| APK smoke test | Install on device/emulator, confirm boot and main menu |
-| Critical-path Maestro flows | Automated tap-through of packet → gate → drive → door → parlor sequence |
+| Android export build | `godot --headless --path . --export-release "Android" build/android/ashworth-manor-release.apk` succeeds |
+| Debug APK smoke test | `godot --headless --path . --export-debug "Android" build/android/ashworth-manor-debug.apk`, then install on device/emulator and confirm boot |
+| Critical-path Maestro flows | Automated tap-through of landing → packet → valise → drive → dark entry → first warmth → one deeper continuation |
 | Device walkthrough capture | Renderer-backed opening journey on target hardware |
 | Release-candidate evidence | Collected screenshots, logs, and flow results archived per RC |
 

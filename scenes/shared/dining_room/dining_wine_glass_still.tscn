@@ -1,7 +1,6 @@
 [gd_scene load_steps=6 format=3]
 
-[ext_resource type="Material" path="res://resources/glass/estate_crystal_glass_material.tres" id="1_kt2iv"]
-[ext_resource type="Material" path="res://resources/water/dining_wine_still_material.tres" id="1_lb1v8"]
+[ext_resource type="Script" path="res://scenes/shared/shared_recipe_applicator.gd" id="1_hl03b"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_base"]
 top_radius = 0.045
@@ -28,23 +27,21 @@ height = 0.02
 radial_segments = 18
 
 [node name="DiningWineGlassStill" type="Node3D"]
+script = ExtResource("1_hl03b")
+recipe_groups = {"glass/crystal_glass": PackedStringArray("Base", "Stem", "Bowl"), "liquid/wine_still": PackedStringArray("Wine")}
 
 [node name="Base" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.005, 0)
-material_override = ExtResource("1_kt2iv")
 mesh = SubResource("CylinderMesh_base")
 
 [node name="Stem" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.065, 0)
-material_override = ExtResource("1_kt2iv")
 mesh = SubResource("CylinderMesh_stem")
 
 [node name="Bowl" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.165, 0)
-material_override = ExtResource("1_kt2iv")
 mesh = SubResource("CylinderMesh_bowl")
 
 [node name="Wine" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.16, 0)
-material_override = ExtResource("1_lb1v8")
 mesh = SubResource("CylinderMesh_wine")

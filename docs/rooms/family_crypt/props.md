@@ -12,4 +12,4 @@ From `assets/grounds/family_crypt/`:
 | Bottle | `glass_bottle_mx_3.glb` | Left by Victoria? |
 | Scattered bones | `scattered_bones.glb` | Disturbed remains |
 | Headstones | `drystone_column.glb` used as markers | Edmund, Victoria, blank child stone |
-| Shared candle + holder | `assets/shared/items/candle0.glb`, `assets/shared/decor/candle_holder.glb` | Mourning offering at the blank child marker |
+| Shared candle + holder | `assets/shared/items/candle0.glb`, `assets/shared/decor/candle_holder.glb` | Burial-side offering at the blank child marker |

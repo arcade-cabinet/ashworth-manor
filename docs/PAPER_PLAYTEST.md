@@ -1,5 +1,10 @@
 # Paper Playtest — Tearing the Engine Spec Apart
 
+> Historical design/playtest artifact.
+> This document predates the shipped route program and survives only as
+> reference material. When it conflicts with the current game, the canonical
+> source remains [`GAME_BIBLE.md`](./GAME_BIBLE.md).
+
 Three player personas play through the entire game using only the ENGINE_SPEC declaration format. Every time something can't be expressed in the format, or would break, or feels wrong — it's a gap.
 
 ---

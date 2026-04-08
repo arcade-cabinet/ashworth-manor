@@ -7,7 +7,13 @@ var _world: WorldDeclaration
 var _room_base_script := load("res://scripts/room_base.gd")
 const WORLD_LABEL_FONT = preload("res://assets/fonts/Cinzel-SemiBold.ttf")
 const SecretPassageDecl = preload("res://engine/declarations/secret_passage_decl.gd")
+const MountSlotDecl = preload("res://engine/declarations/mount_slot_decl.gd")
+const MountPayloadDecl = preload("res://engine/declarations/mount_payload_decl.gd")
+const RegionDecl = preload("res://engine/declarations/region_decl.gd")
 const ConnectionAssembly = preload("res://builders/connection_assembly.gd")
+const EstateEnvironmentRegistry = preload("res://builders/estate_environment_registry.gd")
+const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
+const EstateSubstrateRegistry = preload("res://builders/estate_substrate_registry.gd")
 const InteractableVisuals = preload("res://engine/interactable_visuals.gd")
 const MODEL_SCALE_OVERRIDES := {
 	"res://assets/shared/furniture/bookcase.glb": 0.32,
@@ -35,6 +41,21 @@ func assemble(room_decl: RoomDeclaration) -> Node3D:
 	var root := Node3D.new()
 	root.set_script(_room_base_script)
 	root.name = room_decl.room_id.capitalize().replace("_", "")
+	var resolved_environment_preset := room_decl.environment_preset
+	if _world != null:
+		resolved_environment_preset = _world.resolve_environment_preset_for_room(room_decl)
+	var resolved_region_id := ""
+	var region_decl: RegionDecl = null
+	if _world != null:
+		region_decl = _world.get_region_for_room(room_decl.room_id)
+		if region_decl != null:
+			resolved_region_id = region_decl.region_id
+	var resolved_substrate_preset := EstateSubstrateRegistry.resolve_room_substrate_preset_id(_world, room_decl)
+	var env_decl: EnvironmentDeclaration = null
+	if _world != null and not resolved_environment_preset.is_empty():
+		env_decl = _world.get_environment_declaration(resolved_environment_preset)
+	var substrate_decl := EstateSubstrateRegistry.load_preset(resolved_substrate_preset)
+	var resolved_allowed_mount_families := _resolve_allowed_mount_families(region_decl, env_decl, substrate_decl)
 
 	# Populate room_base exports and keep metadata for backward compatibility.
 	root.set("room_id", room_decl.room_id)
@@ -49,7 +70,21 @@ func assemble(room_decl: RoomDeclaration) -> Node3D:
 	root.set_meta("tension_loop", room_decl.tension_loop)
 	root.set_meta("spawn_position", room_decl.spawn_position)
 	root.set_meta("spawn_rotation_y", room_decl.spawn_rotation_y)
-	root.set_meta("environment_preset", room_decl.environment_preset)
+	root.set_meta("environment_preset", resolved_environment_preset)
+	root.set_meta("region_id", resolved_region_id)
+	root.set_meta("substrate_preset_id", resolved_substrate_preset)
+	root.set_meta("terrain_preset_id", "" if env_decl == null else env_decl.terrain_preset_id)
+	root.set_meta("sky_preset_id", "" if env_decl == null else env_decl.sky_preset_id)
+	root.set_meta("light_grammar", "" if env_decl == null else env_decl.light_grammar)
+	root.set_meta("dominant_material_recipes", PackedStringArray() if env_decl == null else env_decl.dominant_material_recipes)
+	root.set_meta("region_allowed_mount_families", PackedStringArray() if region_decl == null else region_decl.allowed_mount_families)
+	root.set_meta("environment_allowed_mount_families", PackedStringArray() if env_decl == null else env_decl.allowed_mount_families)
+	root.set_meta("substrate_allowed_mount_families", PackedStringArray() if substrate_decl == null else substrate_decl.allowed_mount_families)
+	root.set_meta("allowed_mount_families", resolved_allowed_mount_families)
+	root.set_meta("primary_architecture_source", room_decl.primary_architecture_source)
+	root.set_meta("material_recipe_overrides", room_decl.material_recipe_overrides)
+	root.set_meta("mount_slot_count", room_decl.mount_slots.size())
+	root.set_meta("mount_payload_count", room_decl.mount_payloads.size())
 	root.set_meta("is_exterior", room_decl.is_exterior)
 	root.set_meta("footstep_surface", room_decl.footstep_surface)
 	root.set_meta("declaration", room_decl)
@@ -57,6 +92,55 @@ func assemble(room_decl: RoomDeclaration) -> Node3D:
 	var w := room_decl.dimensions.x
 	var h := room_decl.dimensions.y
 	var d := room_decl.dimensions.z
+	var resolved_floor_surface := _resolve_floor_surface_ref(room_decl, env_decl)
+	var resolved_wall_surface := _resolve_surface_ref(room_decl, env_decl, "wall", room_decl.wall_texture)
+	var resolved_ceiling_surface := _resolve_surface_ref(room_decl, env_decl, "ceiling", room_decl.ceiling_texture)
+	var resolved_threshold_surface := _resolve_surface_ref(room_decl, env_decl, "threshold", "")
+	var resolved_door_surface := _resolve_surface_ref(room_decl, env_decl, "door", "")
+	var resolved_gate_leaf_surface := _resolve_surface_ref(room_decl, env_decl, "gate_leaf", resolved_door_surface)
+	var resolved_window_surface := _resolve_surface_ref(
+		room_decl,
+		env_decl,
+		"window",
+		resolved_threshold_surface if not resolved_threshold_surface.is_empty() else resolved_wall_surface
+	)
+	var resolved_stair_tread_surface := _resolve_surface_ref(room_decl, env_decl, "stair_tread", resolved_floor_surface)
+	var resolved_stair_structure_surface := _resolve_surface_ref(
+		room_decl,
+		env_decl,
+		"stair_structure",
+		resolved_threshold_surface if not resolved_threshold_surface.is_empty() else resolved_wall_surface
+	)
+	var resolved_stair_rail_surface := _resolve_surface_ref(
+		room_decl,
+		env_decl,
+		"stair_rail",
+		resolved_door_surface if not resolved_door_surface.is_empty() else resolved_threshold_surface
+	)
+	var resolved_ladder_rail_surface := _resolve_surface_ref(
+		room_decl,
+		env_decl,
+		"ladder_rail",
+		resolved_threshold_surface if not resolved_threshold_surface.is_empty() else resolved_wall_surface
+	)
+	var resolved_ladder_rung_surface := _resolve_surface_ref(
+		room_decl,
+		env_decl,
+		"ladder_rung",
+		resolved_door_surface if not resolved_door_surface.is_empty() else resolved_ladder_rail_surface
+	)
+	root.set_meta("resolved_floor_surface", resolved_floor_surface)
+	root.set_meta("resolved_wall_surface", resolved_wall_surface)
+	root.set_meta("resolved_ceiling_surface", resolved_ceiling_surface)
+	root.set_meta("resolved_threshold_surface", resolved_threshold_surface)
+	root.set_meta("resolved_door_surface", resolved_door_surface)
+	root.set_meta("resolved_gate_leaf_surface", resolved_gate_leaf_surface)
+	root.set_meta("resolved_window_surface", resolved_window_surface)
+	root.set_meta("resolved_stair_tread_surface", resolved_stair_tread_surface)
+	root.set_meta("resolved_stair_structure_surface", resolved_stair_structure_surface)
+	root.set_meta("resolved_stair_rail_surface", resolved_stair_rail_surface)
+	root.set_meta("resolved_ladder_rail_surface", resolved_ladder_rail_surface)
+	root.set_meta("resolved_ladder_rung_surface", resolved_ladder_rung_surface)
 
 	# --- Geometry ---
 	var geometry := Node3D.new()
@@ -64,15 +148,15 @@ func assemble(room_decl: RoomDeclaration) -> Node3D:
 
 	if not room_decl.is_exterior:
 		# Floor
-		var floor_node := FloorBuilder.build(w, d, room_decl.floor_texture, room_decl.footstep_surface)
+		var floor_node := FloorBuilder.build(w, d, resolved_floor_surface, room_decl.footstep_surface)
 		geometry.add_child(floor_node)
 
 		# Ceiling
-		var ceiling_node := CeilingBuilder.build(w, h, d, room_decl.ceiling_texture)
+		var ceiling_node := CeilingBuilder.build(w, h, d, resolved_ceiling_surface)
 		geometry.add_child(ceiling_node)
 
 		# Walls
-		var wall_tex := room_decl.wall_texture
+		var wall_tex := resolved_wall_surface
 		if room_decl.wall_north.size() > 0:
 			geometry.add_child(WallBuilder.build(room_decl.wall_north, wall_tex, "north", w, d, h))
 		if room_decl.wall_south.size() > 0:
@@ -83,7 +167,7 @@ func assemble(room_decl: RoomDeclaration) -> Node3D:
 			geometry.add_child(WallBuilder.build(room_decl.wall_west, wall_tex, "west", w, d, h))
 	else:
 		# Exterior: ground plane only, no walls/ceiling
-		var floor_node := FloorBuilder.build(w, d, room_decl.floor_texture, room_decl.footstep_surface)
+		var floor_node := FloorBuilder.build(w, d, resolved_floor_surface, room_decl.footstep_surface)
 		geometry.add_child(floor_node)
 
 	root.add_child(geometry)
@@ -91,13 +175,13 @@ func assemble(room_decl: RoomDeclaration) -> Node3D:
 	# --- Doors ---
 	var doors := Node3D.new()
 	doors.name = "Doors"
-	_build_doors(room_decl, doors)
+	_build_doors(room_decl, doors, resolved_threshold_surface, resolved_door_surface, resolved_gate_leaf_surface)
 	root.add_child(doors)
 
 	# --- Windows ---
 	var windows := Node3D.new()
 	windows.name = "Windows"
-	_build_windows(room_decl, windows)
+	_build_windows(room_decl, windows, resolved_window_surface)
 	root.add_child(windows)
 
 	# --- Lighting ---
@@ -115,7 +199,18 @@ func assemble(room_decl: RoomDeclaration) -> Node3D:
 	# --- Connections (non-door) ---
 	var connections := Node3D.new()
 	connections.name = "Connections"
-	_build_connection_areas(room_decl, connections)
+	_build_connection_areas(
+		room_decl,
+		connections,
+		resolved_threshold_surface,
+		resolved_door_surface,
+		resolved_gate_leaf_surface,
+		resolved_stair_tread_surface,
+		resolved_stair_structure_surface,
+		resolved_stair_rail_surface,
+		resolved_ladder_rail_surface,
+		resolved_ladder_rung_surface
+	)
 	root.add_child(connections)
 
 	# --- Props ---
@@ -123,6 +218,7 @@ func assemble(room_decl: RoomDeclaration) -> Node3D:
 	props.name = "Props"
 	_build_props(room_decl.props, props)
 	root.add_child(props)
+	_build_mount_payloads(room_decl, root, props)
 
 	# --- Audio ---
 	var audio := Node3D.new()
@@ -133,13 +229,53 @@ func assemble(room_decl: RoomDeclaration) -> Node3D:
 	return root
 
 
-func _build_doors(room_decl: RoomDeclaration, parent: Node3D) -> void:
+func _resolve_floor_surface_ref(room_decl: RoomDeclaration, env_decl: EnvironmentDeclaration) -> String:
+	var explicit_surface := _resolve_surface_ref(room_decl, env_decl, "floor", room_decl.floor_texture)
+	if not room_decl.is_exterior:
+		return explicit_surface
+	if room_decl.material_recipe_overrides.has("terrain"):
+		return _ensure_recipe_prefix(String(room_decl.material_recipe_overrides.get("terrain", "")))
+	if env_decl != null and not env_decl.terrain_preset_id.is_empty():
+		var terrain_preset := EstateEnvironmentRegistry.load_terrain_preset(env_decl.terrain_preset_id)
+		if terrain_preset != null and not terrain_preset.base_recipe_id.is_empty():
+			return _ensure_recipe_prefix(terrain_preset.base_recipe_id)
+	return explicit_surface if not explicit_surface.is_empty() else "recipe:terrain/roadside_earth"
+
+
+func _resolve_surface_ref(room_decl: RoomDeclaration, env_decl: EnvironmentDeclaration, key: String, fallback_surface: String) -> String:
+	if room_decl.material_recipe_overrides.has(key):
+		return _ensure_recipe_prefix(String(room_decl.material_recipe_overrides.get(key, "")))
+	if env_decl != null and env_decl.surface_recipe_overrides.has(key):
+		return _ensure_recipe_prefix(String(env_decl.surface_recipe_overrides.get(key, "")))
+	if not fallback_surface.is_empty():
+		return fallback_surface
+	if env_decl != null:
+		var desired_family := "terrain_path" if key == "terrain" else "surface"
+		for recipe_id in env_decl.dominant_material_recipes:
+			if EstateMaterialKit.get_recipe_family(recipe_id) == desired_family:
+				return _ensure_recipe_prefix(recipe_id)
+	return ""
+
+
+func _ensure_recipe_prefix(surface_ref: String) -> String:
+	if surface_ref.is_empty():
+		return ""
+	if surface_ref.begins_with("recipe:") or surface_ref.begins_with("res://"):
+		return surface_ref
+	return "recipe:%s" % surface_ref
+
+
+func _build_doors(room_decl: RoomDeclaration, parent: Node3D, threshold_surface: String, door_surface: String, gate_leaf_surface: String) -> void:
 	# Find connections that reference this room as from_room
 	for conn in _world.connections:
 		if conn.from_room != room_decl.room_id:
 			continue
 		if conn.type in ["door", "double_door", "heavy_door", "hidden_door", "gate"]:
-			var door := ConnectionAssembly.build(conn, room_decl.dimensions.y)
+			var door := ConnectionAssembly.build(conn, room_decl.dimensions.y, {
+				"threshold": threshold_surface,
+				"door": door_surface,
+				"gate_leaf": gate_leaf_surface,
+			})
 			var door_pos := conn.position_in_from
 			door_pos.y = 0.0
 			door.position = door_pos
@@ -147,7 +283,7 @@ func _build_doors(room_decl: RoomDeclaration, parent: Node3D) -> void:
 			parent.add_child(door)
 
 
-func _build_windows(room_decl: RoomDeclaration, parent: Node3D) -> void:
+func _build_windows(room_decl: RoomDeclaration, parent: Node3D, window_surface: String) -> void:
 	# Scan wall layouts for window segments
 	var walls := {
 		"north": room_decl.wall_north,
@@ -161,7 +297,7 @@ func _build_windows(room_decl: RoomDeclaration, parent: Node3D) -> void:
 		for i in range(segment_count):
 			if layout[i].begins_with("window"):
 				var local_x := (i * 2.0) - (segment_count * 2.0 * 0.5) + 1.0
-				var window := WindowBuilder.build(layout[i], "")
+				var window := WindowBuilder.build(layout[i], room_decl.wall_texture, window_surface)
 				window.position = WallBuilder._get_segment_position(
 					direction, local_x, room_decl.dimensions.x, room_decl.dimensions.z
 				)
@@ -232,26 +368,37 @@ func _build_interactables(decls: Array[InteractableDecl], parent: Node3D) -> voi
 		parent.add_child(area)
 
 
-func _build_connection_areas(room_decl: RoomDeclaration, parent: Node3D) -> void:
+func _build_connection_areas(room_decl: RoomDeclaration, parent: Node3D, threshold_surface: String, door_surface: String, gate_leaf_surface: String, stair_tread_surface: String, stair_structure_surface: String, stair_rail_surface: String, ladder_rail_surface: String, ladder_rung_surface: String) -> void:
 	# Non-door connections (stairs, trapdoor, ladder, path)
 	for conn in _world.connections:
 		if conn.from_room != room_decl.room_id:
 			continue
 		match conn.type:
 			"stairs":
-				var stairs := ConnectionAssembly.build(conn, _get_vertical_connection_span(room_decl, conn))
+				var stairs := ConnectionAssembly.build(conn, _get_vertical_connection_span(room_decl, conn), {
+					"stair_tread": stair_tread_surface,
+					"stair_structure": stair_structure_surface,
+					"stair_rail": stair_rail_surface,
+				})
 				var stairs_pos := conn.position_in_from
 				stairs_pos.y = 0.0
 				stairs.position = stairs_pos
 				parent.add_child(stairs)
 			"trapdoor":
-				var trapdoor := ConnectionAssembly.build(conn, _get_vertical_connection_span(room_decl, conn))
+				var trapdoor := ConnectionAssembly.build(conn, _get_vertical_connection_span(room_decl, conn), {
+					"threshold": threshold_surface,
+					"door": door_surface,
+					"gate_leaf": gate_leaf_surface,
+				})
 				var trapdoor_pos := conn.position_in_from
 				trapdoor_pos.y = 0.0
 				trapdoor.position = trapdoor_pos
 				parent.add_child(trapdoor)
 			"ladder":
-				var ladder := ConnectionAssembly.build(conn, _get_vertical_connection_span(room_decl, conn))
+				var ladder := ConnectionAssembly.build(conn, _get_vertical_connection_span(room_decl, conn), {
+					"ladder_rail": ladder_rail_surface,
+					"ladder_rung": ladder_rung_surface,
+				})
 				var ladder_pos := conn.position_in_from
 				ladder_pos.y = 0.0
 				ladder.position = ladder_pos
@@ -292,10 +439,122 @@ func _build_props(props: Array[PropDecl], parent: Node3D) -> void:
 		parent.add_child(inst)
 
 
+func _build_mount_payloads(room_decl: RoomDeclaration, root: Node3D, default_parent: Node3D) -> void:
+	if room_decl.mount_payloads.is_empty():
+		return
+	var slot_map: Dictionary = {}
+	var allowed_mount_families := root.get_meta("allowed_mount_families", PackedStringArray()) as PackedStringArray
+	for slot in room_decl.mount_slots:
+		if slot != null and not slot.slot_id.is_empty():
+			slot_map[slot.slot_id] = slot
+	for payload in room_decl.mount_payloads:
+		if payload == null or not _payload_route_matches(payload):
+			continue
+		if not payload.state_condition.is_empty() and not GameManager.has_flag(payload.state_condition):
+			continue
+		var inst := _instantiate_mount_payload(payload)
+		if inst == null:
+			continue
+		var slot := slot_map.get(payload.slot_id, null) as MountSlotDecl
+		if slot == null:
+			push_warning("Mount payload %s in room %s targets missing slot %s" % [payload.payload_id, room_decl.room_id, payload.slot_id])
+			continue
+		if not allowed_mount_families.has(slot.slot_family):
+			push_warning(
+				"Mount payload %s in room %s uses disallowed slot family %s" %
+				[payload.payload_id, room_decl.room_id, slot.slot_family]
+			)
+			continue
+		var target_parent := _resolve_mount_parent(root, slot, default_parent)
+		var final_position := payload.offset
+		var final_rotation := payload.rotation_degrees
+		var final_scale := payload.scale_3d
+		if slot != null:
+			final_position += slot.position
+			final_rotation += slot.rotation_degrees
+			final_scale = slot.scale_3d * payload.scale_3d
+		inst.name = payload.payload_id if not payload.payload_id.is_empty() else inst.name
+		inst.position = final_position
+		inst.rotation_degrees = final_rotation
+		inst.scale = final_scale
+		inst.set_meta("mount_payload_id", payload.payload_id)
+		inst.set_meta("mount_slot_id", payload.slot_id)
+		inst.set_meta("scene_role", payload.scene_role)
+		target_parent.add_child(inst)
+
+
 func _resolve_prop_scene_path(prop_decl: PropDecl) -> String:
 	if not prop_decl.scene_path.is_empty():
 		return prop_decl.scene_path
 	return prop_decl.model
+
+
+func _instantiate_mount_payload(payload: MountPayloadDecl) -> Node3D:
+	var scene_path := payload.scene_path if not payload.scene_path.is_empty() else payload.model
+	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
+		return null
+	var scene: PackedScene = load(scene_path)
+	if scene == null:
+		return null
+	var inst := scene.instantiate() as Node3D
+	if inst == null:
+		return null
+	if scene_path == payload.model:
+		inst.scale *= _get_model_scale_override(payload.model)
+	return inst
+
+
+func _resolve_mount_parent(root: Node3D, slot: MountSlotDecl, default_parent: Node3D) -> Node3D:
+	if slot != null and not slot.target_node.is_empty():
+		var target := root.get_node_or_null(slot.target_node)
+		if target is Node3D:
+			return target as Node3D
+	return default_parent
+
+
+func _payload_route_matches(payload: MountPayloadDecl) -> bool:
+	if payload.route_modes.is_empty():
+		return true
+	var active_modes := PackedStringArray()
+	if GameManager.has_method("get_active_route"):
+		var active_route := String(GameManager.get_active_route())
+		if not active_route.is_empty() and not active_modes.has(active_route):
+			active_modes.append(active_route)
+	if GameManager.has_method("get_route_mode"):
+		var route_mode := String(GameManager.get_route_mode())
+		if not route_mode.is_empty() and not active_modes.has(route_mode):
+			active_modes.append(route_mode)
+	if GameManager.has_method("get_state"):
+		var macro_thread := String(GameManager.get_state("macro_thread", ""))
+		if not macro_thread.is_empty() and not active_modes.has(macro_thread):
+			active_modes.append(macro_thread)
+	for route_mode in payload.route_modes:
+		if active_modes.has(String(route_mode)):
+			return true
+	return false
+
+
+func _resolve_allowed_mount_families(region_decl: RegionDecl, env_decl: EnvironmentDeclaration, substrate_decl) -> PackedStringArray:
+	var resolved := PackedStringArray()
+	var candidate_sources: Array = []
+	if region_decl != null:
+		candidate_sources.append(region_decl.allowed_mount_families)
+	if env_decl != null:
+		candidate_sources.append(env_decl.allowed_mount_families)
+	if substrate_decl != null:
+		candidate_sources.append(substrate_decl.allowed_mount_families)
+	if candidate_sources.is_empty():
+		return resolved
+
+	for family in candidate_sources[0]:
+		var allowed := true
+		for i in range(1, candidate_sources.size()):
+			if not candidate_sources[i].has(family):
+				allowed = false
+				break
+		if allowed and not resolved.has(family):
+			resolved.append(family)
+	return resolved
 
 
 func _get_vertical_connection_span(room_decl: RoomDeclaration, conn: Connection) -> float:
@@ -375,7 +634,7 @@ func _build_world_label_board(decl: InteractableDecl) -> Node3D:
 		Color(0.31, 0.20, 0.12, 1.0)
 	)
 	board_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	board_mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+	board_mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	board.set_surface_override_material(0, board_mat)
 	root.add_child(board)
 
@@ -404,15 +663,15 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		var moon := MeshInstance3D.new()
 		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"
 		var mesh := SphereMesh.new()
-		mesh.radius = 0.65
-		mesh.height = 1.3
+		mesh.radius = 0.54
+		mesh.height = 1.08
 		moon.mesh = mesh
 		var material := StandardMaterial3D.new()
 		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-		material.albedo_color = Color(0.93, 0.95, 1.0, 1.0)
+		material.albedo_color = Color(0.76, 0.8, 0.88, 1.0)
 		material.emission_enabled = true
-		material.emission = Color(0.67, 0.73, 1.0, 1.0)
-		material.emission_energy_multiplier = 1.35
+		material.emission = Color(0.44, 0.5, 0.64, 1.0)
+		material.emission_energy_multiplier = 0.46
 		moon.set_surface_override_material(0, material)
 		moon.position = prop_decl.position
 		moon.rotation_degrees.y = prop_decl.rotation_y

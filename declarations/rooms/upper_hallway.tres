@@ -40,7 +40,7 @@ set_state = {"examined_children_painting": true}
 script = ExtResource("3")
 condition = ""
 title = "Children's Portrait"
-text = "Five children on the garden lawn. Four faces. The fifth has been painted over -- but poorly. Beneath the dark pigment, if you look closely, you can see the outline of a small face. Dark eyes. A serious expression. She was there. They painted her out. As if erasing her face could undo what they had done to her."
+text = "Five children on the garden lawn. Four faces remain. The fifth is not simply painted out -- the varnish over that spot has been sanded and touched again and again, as if the family kept returning to make the child disappear more completely. The outline of a small shoulder still survives under the work. They erased a child and called the blank space order."
 set_state = {"examined_children_painting": true}
 
 [sub_resource type="Resource" id="resp_children_mourning"]
@@ -54,7 +54,7 @@ set_state = {"examined_children_painting": true}
 script = ExtResource("3")
 condition = ""
 title = "Children's Portrait"
-text = "Five children on the garden lawn. Four faces smiling. The fifth child's face is not painted over. It is MOVED. Look at the composition -- there is a gap second from right where a child should stand. But in the far background, barely visible, a small figure stands at the attic window. She is in the painting. She moved herself to where she wanted to be."
+text = "Five children on the garden lawn. Four remain children. The fifth has been worked and reworked until the face no longer belongs in the scene -- darker dress, hollows at the eyes, hands folded too still for a child. Someone kept returning to the canvas to age her a little more. The portrait became a record of years the family would not admit were passing overhead."
 set_state = {"examined_children_painting": true}
 
 ; ADULT children: the fifth child has been repainted older
@@ -78,7 +78,7 @@ set_state = {"examined_hallway_poster": true}
 script = ExtResource("3")
 condition = ""
 title = "Notice"
-text = "'ATTIC -- CLOSED. NO ENTRY BY ORDER OF LORD ASHWORTH.' The notice is formal, severe. Below it, in smaller letters: 'Any servant found on the attic stairs will be dismissed without reference.' He made imprisonment official. He made looking away a condition of employment."
+text = "'ATTIC -- SEALED. NO ENTRY BY ORDER OF LORD ASHWORTH.' The first line is formal. The second was added later in another hand: 'Plaster to be inspected each Michaelmas.' This was no longer a forbidden room. It became a maintenance problem. A child reduced to a wall the household was expected not to discuss."
 set_state = {"examined_hallway_poster": true}
 
 [sub_resource type="Resource" id="resp_poster_mourning"]
@@ -92,7 +92,7 @@ set_state = {"examined_hallway_poster": true}
 script = ExtResource("3")
 condition = ""
 title = "Notice"
-text = "'ATTIC -- DO NOT ENTER.' But the notice has been modified. Additional words in a different hand -- a child's hand: 'I can hear you reading this.' The pencil marks are faint but clear. Elizabeth wrote on the notice from inside the attic. Through the ceiling. Through the floor."
+text = "'ATTIC -- DO NOT ENTER.' The original notice remains, but beneath it years of additions accumulate in different inks. 'Coal sent up Michaelmas 1894.' 'Laundry left at landing 1897.' 'Do not answer if she asks for the hour. 1902.' The attic ceased to be closed for repairs. It became a permanent household duty."
 set_state = {"examined_hallway_poster": true}
 
 ; ADULT notice: amended in mature handwriting
@@ -134,7 +134,7 @@ wall = "east"
 collision_size = Vector3(1.5, 1.5, 1.5)
 model = "res://assets/shared/decor/picture_blank.glb"
 responses = Array[Resource]([SubResource("resp_children_default")])
-thread_responses = {"captive": [SubResource("resp_children_captive")], "mourning": [SubResource("resp_children_mourning")], "sovereign": [SubResource("resp_children_sovereign")], "adult": [SubResource("resp_children_adult")]}
+thread_responses = {"child": [SubResource("resp_children_captive")], "adult": [SubResource("resp_children_adult")], "elder": [SubResource("resp_children_sovereign")], "captive": [SubResource("resp_children_captive")], "mourning": [SubResource("resp_children_mourning")], "sovereign": [SubResource("resp_children_sovereign")]}
 
 [sub_resource type="Resource" id="inter_poster"]
 script = ExtResource("2")
@@ -145,7 +145,7 @@ wall = "west"
 collision_size = Vector3(1.5, 1.5, 1.5)
 model = "res://assets/upper_floor/hallway/poster_cx_11.glb"
 responses = Array[Resource]([SubResource("resp_poster_default")])
-thread_responses = {"captive": [SubResource("resp_poster_captive")], "mourning": [SubResource("resp_poster_mourning")], "sovereign": [SubResource("resp_poster_sovereign")], "adult": [SubResource("resp_poster_adult")]}
+thread_responses = {"child": [SubResource("resp_poster_captive")], "adult": [SubResource("resp_poster_adult")], "elder": [SubResource("resp_poster_sovereign")], "captive": [SubResource("resp_poster_captive")], "mourning": [SubResource("resp_poster_mourning")], "sovereign": [SubResource("resp_poster_sovereign")]}
 
 [sub_resource type="Resource" id="inter_mask"]
 script = ExtResource("2")

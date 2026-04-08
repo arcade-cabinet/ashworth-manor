@@ -15,8 +15,8 @@
 script = ExtResource("9")
 anchor_id = "entry_storage"
 anchor_type = "entry"
-position = Vector3(-1.55, 0, 0.15)
-rotation_y = 62.0
+position = Vector3(-2.35, 0, -1.25)
+rotation_y = 44.0
 target_anchor_id = "focus_boiler_core"
 tags = PackedStringArray("default", "storage")
 
@@ -167,7 +167,7 @@ type = "note"
 position = Vector3(-2.5, 1, -3)
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_log_default")])
-thread_responses = {"captive": [SubResource("resp_log_captive")], "mourning": [SubResource("resp_log_mourning")], "sovereign": [SubResource("resp_log_sovereign")]}
+thread_responses = {"child": [SubResource("resp_log_captive")], "adult": [SubResource("resp_log_mourning")], "elder": [SubResource("resp_log_sovereign")], "captive": [SubResource("resp_log_captive")], "mourning": [SubResource("resp_log_mourning")], "sovereign": [SubResource("resp_log_sovereign")]}
 
 [sub_resource type="Resource" id="inter_boiler"]
 script = ExtResource("2")
@@ -177,7 +177,7 @@ position = Vector3(0, 1.5, 3.5)
 wall = "north"
 collision_size = Vector3(2.0, 2.0, 1.5)
 responses = Array[Resource]([SubResource("resp_boiler_restored"), SubResource("resp_boiler_default")])
-thread_responses = {"captive": [SubResource("resp_boiler_captive")], "mourning": [SubResource("resp_boiler_mourning")], "sovereign": [SubResource("resp_boiler_sovereign")]}
+thread_responses = {"child": [SubResource("resp_boiler_captive")], "adult": [SubResource("resp_boiler_mourning")], "elder": [SubResource("resp_boiler_sovereign")], "captive": [SubResource("resp_boiler_captive")], "mourning": [SubResource("resp_boiler_mourning")], "sovereign": [SubResource("resp_boiler_sovereign")]}
 
 [sub_resource type="Resource" id="inter_clock"]
 script = ExtResource("2")
@@ -221,8 +221,8 @@ id = "boiler_glow"
 type = "omni"
 position = Vector3(0, 1, 3.5)
 color = Color(1.0, 0.4, 0.1, 1)
-energy = 0.3
-range = 4.0
+energy = 1.56
+range = 7.2
 shadows = true
 flickering = true
 flicker_pattern = "ember"
@@ -233,8 +233,8 @@ id = "boiler_panel_glow"
 type = "omni"
 position = Vector3(-2.5, 1.2, 3.4)
 color = Color(0.55, 0.7, 1.0, 1)
-energy = 0.2
-range = 2.0
+energy = 1.18
+range = 5.2
 shadows = false
 flickering = true
 flicker_pattern = "bulb"

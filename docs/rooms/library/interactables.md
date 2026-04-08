@@ -21,9 +21,9 @@ item_found: attic_key
 > "The diary mentioned the globe. 'The key is inside the globe -- she will never think to look there.' You turn the northern hemisphere. It clicks. A hidden compartment opens. Inside: an iron key."
 
 **Macro-thread variants:**
-- `captive`: the globe reads as part of Elizabeth's imprisonment
-- `mourning`: the globe reads as a map of places Elizabeth never saw
-- `sovereign`: the globe turns toward England as if the house is orienting you itself
+- `child`: the globe reads as part of Elizabeth's imprisonment
+- `adult`: the globe reads as a map of places Elizabeth never saw
+- `elder`: the globe turns toward England as if the house is orienting you itself
 
 ### Flags Set
 - `found_attic_key_globe`
@@ -53,9 +53,9 @@ item_id: binding_book
 > The default version presents `Rites of Passage: The Binding and Loosing of Spirits, 1743`, with annotations in Edmund Ashworth's hand and bookmarks at `Containment` and `The Vessel`.
 
 **Macro-thread variants:**
-- `captive`: emphasizes the book as the manual for Elizabeth's cage
-- `mourning`: emphasizes Edmund's remorse and the pressed lily
-- `sovereign`: emphasizes Elizabeth re-reading and reinterpreting the rite
+- `child`: emphasizes the book as the manual for Elizabeth's cage
+- `adult`: emphasizes Edmund's remorse and the pressed lily
+- `elder`: emphasizes Elizabeth re-reading and reinterpreting the rite
 
 ### Flags Set
 - `examined_binding_book`
@@ -88,9 +88,9 @@ collision: BoxShape3D(1.5, 1.5, 1.5)
 > "Five branches for five children. The fourth name -- Elizabeth -- has been scratched out so deeply the paper tore. Someone erased her from the family. The scratches look fresh. Recent. As if this happened after everything else."
 
 **Macro-thread variants:**
-- `captive`: the erasure reads as violence
-- `mourning`: the blank branch reads as grief and refusal
-- `sovereign`: the scratches imply Elizabeth renamed herself
+- `child`: the erasure reads as violence
+- `adult`: the blank branch reads as grief and refusal
+- `elder`: the scratches imply Elizabeth renamed herself
 
 ### Flags Set
 - `examined_family_tree`

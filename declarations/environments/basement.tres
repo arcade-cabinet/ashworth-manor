@@ -7,6 +7,26 @@ script = ExtResource("1")
 background_mode = "keep"
 background_color = Color(0, 0, 0, 1)
 sky = null
+substrate_preset_id = "basement_bad_air"
+terrain_preset_id = ""
+sky_preset_id = ""
+dominant_material_recipes = PackedStringArray("surface/brick_masonry", "surface/masonry_cap", "surface/wrought_iron")
+surface_recipe_overrides = {
+"ceiling": "surface/masonry_cap",
+"door": "surface/oak_dark",
+"floor": "surface/masonry_cap",
+"ladder_rail": "surface/wrought_iron",
+"ladder_rung": "surface/chain_iron",
+"stair_rail": "surface/wrought_iron",
+"stair_structure": "surface/oak_dark",
+"stair_tread": "surface/oak_dark",
+"threshold": "surface/brick_masonry",
+"wall": "surface/brick_masonry",
+"window": "surface/wrought_iron"
+}
+allowed_mount_families = PackedStringArray("wall", "floor", "ceiling", "threshold", "shelf", "path_edge")
+light_grammar = "machine_gas_bad_air"
+hdri_backing_optional = true
 fog_enabled = true
 fog_density = 0.008
 fog_color = Color(0.1, 0.1, 0.12, 1)

@@ -24,15 +24,15 @@ model: picture_blank_002.glb
 > **Dinner Party Photo**
 > "The last dinner. December 23rd, 1891. Three guests dead within the week. And somewhere above them, behind a locked door, a child they had all agreed to forget."
 
-**Captive thread:**
+**Child route:**
 > **Dinner Party Photo**
 > "Eight guests at dinner. Everyone smiling. But look at the background -- the ceiling above them. Is that a shadow? A handprint on the plaster, directly above the table? She was there. Above them. Listening to them laugh while she sat in the dark. The photograph captured the party. It also captured her prison."
 
-**Mourning thread:**
+**Adult route:**
 > **Dinner Party Photo**
 > "Eight guests at dinner. Seven smiling. Victoria, at the far end of the table, is not smiling. She is looking at the empty chair -- the ninth place setting. Set but unused. She set a plate for Elizabeth every night. The servants knew not to clear it. Grief made visible in china and silverware."
 
-**Sovereign thread:**
+**Elder route:**
 > **Dinner Party Photo**
 > "Eight guests at dinner. The candles in the photograph are all tilted the same direction -- toward Lord Ashworth's end of the table. Not from a draft. From her. She was pulling the flames. Testing her reach. Everyone in the photograph is smiling at the camera. The candles are looking at something else entirely."
 
@@ -79,15 +79,15 @@ state_model_map:
 > **Wine Glass**
 > "A single wine glass, still full. Dark red, almost black. It should have gone stale, clouded, or spoiled by now, but the surface still trembles faintly -- as if something beneath the table breathes."
 
-**Captive thread:**
+**Child route:**
 > **Wine Glass**
 > "A full wine glass. The liquid is dark, still, preserved. Was it poisoned? In a house where a child is locked in the attic, the wine at the dinner table feels like evidence. Someone poured this glass and no one drank it. Someone knew what was in it. Or what was above them."
 
-**Mourning thread:**
+**Adult route:**
 > **Wine Glass**
 > "A full wine glass. Untouched. Saved for someone who never came down to dinner. Victoria poured this glass -- you know it the way you know everything about grief in this house. She poured it for Elizabeth. Every night. And every night it sat untouched. And every morning she poured it out and set a fresh glass. The ritual of a mother who cannot let go."
 
-**Sovereign thread:**
+**Elder route:**
 > **Wine Glass**
 > "A full wine glass. The liquid trembles. Not from vibration -- from within. Small ripples pulse outward from the center at regular intervals. A heartbeat. The wine is not preserved. It is maintained. She is keeping it fresh. She is keeping everything in this room exactly as it was on the night of December 23rd, 1891. The whole room is a display case and she is the curator."
 

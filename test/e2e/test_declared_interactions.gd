@@ -57,6 +57,10 @@ func _run() -> void:
 	await _test_foyer_sovereign_entry_threshold()
 	_test_foyer_thread_response()
 	_test_foyer_conditional_beats_thread_flavor()
+	_test_foyer_elder_route_bias()
+	_test_upper_hallway_elder_route_bias()
+	_test_burial_space_elder_route_bias()
+	_test_child_route_bias()
 	await _test_attic_stairwell_threshold()
 	_test_storage_basement_service_stack()
 	_test_storage_basement_entry_beat()
@@ -74,7 +78,12 @@ func _run() -> void:
 	_test_kitchen_service_return()
 	_test_attic_stairs_lantern_hook()
 	_test_attic_music_box_adult_resolution()
+	_test_attic_music_box_elder_redirect()
+	_test_attic_music_box_child_redirect()
 	_test_wine_cellar_core_interactions()
+	await _test_elder_cellar_bypass()
+	_test_elder_crypt_resolution()
+	_test_child_sealed_seam_reveal()
 	_test_library_key_and_book_path()
 	_test_guest_room_core_interactions()
 	await _test_threshold_mechanism_assemblies()
@@ -106,6 +115,8 @@ func _test_front_gate_threshold_gate() -> void:
 	_assert("gate valise grants solicitor packet", _gm.has_item("solicitor_packet"))
 	_assert("gate valise grants front door key", _gm.has_item("front_door_key"))
 	_assert("gate valise grants winding key", _gm.has_item("music_box_winding_key"))
+	_assert("gate valise presents solicitor packet", _gm.get_state("front_gate_packet_presented", false) == true)
+	_assert("gate valise packet includes caretaker notice", "final acting caretaker" in _get_document_content())
 	_assert("front_gate threshold acknowledged", _gm.get_state("front_gate_threshold_acknowledged", false) == true)
 	await create_timer(0.2).timeout
 	var room = _rm.get_current_room()
@@ -133,8 +144,8 @@ func _test_front_gate_menu_new_game() -> void:
 	await process_frame
 	await process_frame
 	_assert("gate_sign_new_game stores selection", _gm.get_state("front_gate_menu_selection", "") == "new_game")
-	_assert("gate_sign_new_game presents packet", _gm.get_state("front_gate_packet_presented", false) == true)
-	_assert("gate_sign_new_game shows solicitor packet", "final acting caretaker" in _get_document_content())
+	_assert("gate_sign_new_game does not force the packet", _gm.get_state("front_gate_packet_presented", false) == false)
+	_assert("gate_sign_new_game gives the arrival prompt", "No one to receive me" in _get_document_content())
 	_assert("gate_sign_new_game does not skip the valise gate", _gm.get_state("front_gate_threshold_acknowledged", false) == false)
 	_assert("gate_sign_new_game keeps front gate active", _rm.get_current_room_id() == "front_gate")
 	_ui.hide_document()
@@ -282,7 +293,7 @@ func _test_foyer_sovereign_entry_threshold() -> void:
 	_rm.load_room("foyer")
 	_assert("foyer sovereign threshold crossed state", _gm.get_state("foyer_threshold_crossed", false) == true)
 	_assert("foyer sovereign chandelier awakened state", _gm.get_state("foyer_chandelier_awakened", false) == true)
-	_assert("foyer sovereign text", "thin gold bloom" in _get_document_content())
+	_assert("foyer sovereign text", "thin gold bloom" in _get_document_content() and "memorial lamp" in _get_document_content())
 	await create_timer(0.2).timeout
 	var room = _rm.get_current_room()
 	var chandelier_base: float = -1.0
@@ -290,6 +301,127 @@ func _test_foyer_sovereign_entry_threshold() -> void:
 		chandelier_base = room.get_light_base_energy("foyer_chandelier")
 	_assert("foyer sovereign chandelier answers on entry", chandelier_base > 1.5)
 	_ui.hide_document()
+
+
+func _test_foyer_elder_route_bias() -> void:
+	_gm.new_game()
+	_gm.set_state("macro_thread", "sovereign")
+	_gm.set_state("elizabeth_route", "elder")
+	_rm.load_room("foyer")
+	_ui.hide_document()
+
+	var painting_decl: InteractableDecl = _find_decl("foyer_painting")
+	_assert("foyer_painting declaration found for elder route", painting_decl != null)
+	if painting_decl != null:
+		var handled_painting: bool = _im._handle_declared_interaction(painting_decl)
+		_assert("foyer elder painting handled", handled_painting)
+		_assert("foyer elder painting text", "mausoleum that refused to close" in _get_document_content())
+		_ui.hide_document()
+
+	var mail_decl: InteractableDecl = _find_decl("foyer_mail")
+	_assert("foyer_mail declaration found for elder route", mail_decl != null)
+	if mail_decl != null:
+		var handled_mail: bool = _im._handle_declared_interaction(mail_decl)
+		_assert("foyer elder mail handled", handled_mail)
+		_assert("foyer elder mail text", "private memorial" in _get_document_content() and "kept in readiness" in _get_document_content())
+		_ui.hide_document()
+
+
+func _test_upper_hallway_elder_route_bias() -> void:
+	_gm.new_game()
+	_gm.set_state("macro_thread", "sovereign")
+	_gm.set_state("elizabeth_route", "elder")
+	_rm.load_room("upper_hallway")
+
+	var children_decl: InteractableDecl = _find_decl("children_painting")
+	_assert("children_painting declaration found for elder route", children_decl != null)
+	if children_decl != null:
+		var handled_children: bool = _im._handle_declared_interaction(children_decl)
+		_assert("upper hallway elder children painting handled", handled_children)
+		_assert("upper hallway elder children text", "age her a little more" in _get_document_content())
+		_ui.hide_document()
+
+	var poster_decl: InteractableDecl = _find_decl("hallway_poster")
+	_assert("hallway_poster declaration found for elder route", poster_decl != null)
+	if poster_decl != null:
+		var handled_poster: bool = _im._handle_declared_interaction(poster_decl)
+		_assert("upper hallway elder poster handled", handled_poster)
+		_assert("upper hallway elder poster text", "permanent household duty" in _get_document_content())
+		_ui.hide_document()
+
+
+func _test_burial_space_elder_route_bias() -> void:
+	_gm.new_game()
+	_gm.set_state("macro_thread", "sovereign")
+	_gm.set_state("elizabeth_route", "elder")
+	_rm.load_room("wine_cellar")
+
+	var footprints_decl: InteractableDecl = _find_decl("wine_footprints")
+	_assert("wine_footprints declaration found for elder route", footprints_decl != null)
+	if footprints_decl != null:
+		var handled_footprints: bool = _im._handle_declared_interaction(footprints_decl)
+		_assert("wine_footprints elder route handled", handled_footprints)
+		_assert("wine_footprints elder text", "records routine instead of trespass" in _get_document_content())
+		_ui.hide_document()
+
+	_rm.load_room("family_crypt")
+	var graves_decl: InteractableDecl = _find_decl("crypt_graves")
+	_assert("crypt_graves declaration found for elder route", graves_decl != null)
+	if graves_decl != null:
+		var handled_graves: bool = _im._handle_declared_interaction(graves_decl)
+		_assert("crypt_graves elder route handled", handled_graves)
+		_assert("crypt_graves elder text", "outliving every version of it" in _get_document_content())
+		_ui.hide_document()
+
+
+func _test_child_route_bias() -> void:
+	_gm.new_game()
+	_gm.set_state("macro_thread", "captive")
+	_gm.set_state("elizabeth_route", "child")
+
+	_rm.load_room("upper_hallway")
+	var children_decl: InteractableDecl = _find_decl("children_painting")
+	_assert("children_painting declaration found for child route", children_decl != null)
+	if children_decl != null:
+		var handled_children: bool = _im._handle_declared_interaction(children_decl)
+		_assert("upper hallway child children painting handled", handled_children)
+		_assert("upper hallway child children text", "erased a child" in _get_document_content())
+		_ui.hide_document()
+
+	var poster_decl: InteractableDecl = _find_decl("hallway_poster")
+	_assert("hallway_poster declaration found for child route", poster_decl != null)
+	if poster_decl != null:
+		var handled_poster: bool = _im._handle_declared_interaction(poster_decl)
+		_assert("upper hallway child poster handled", handled_poster)
+		_assert("upper hallway child poster text", "maintenance problem" in _get_document_content())
+		_ui.hide_document()
+
+	_rm.load_room("master_bedroom")
+	var diary_decl: InteractableDecl = _find_decl("diary_lord")
+	_assert("diary_lord declaration found for child route", diary_decl != null)
+	if diary_decl != null:
+		var handled_diary: bool = _im._handle_declared_interaction(diary_decl)
+		_assert("master bedroom child diary handled", handled_diary)
+		_assert("master bedroom child diary text", "plaster invoices" in _get_document_content())
+		_ui.hide_document()
+
+	_rm.load_room("library")
+	var book_decl: InteractableDecl = _find_decl("binding_book")
+	_assert("binding_book declaration found for child route", book_decl != null)
+	if book_decl != null:
+		var handled_book: bool = _im._handle_declared_interaction(book_decl)
+		_assert("library child binding book handled", handled_book)
+		_assert("library child binding book text", "erase the fact that the child had ever needed a room" in _get_document_content())
+		_ui.hide_document()
+
+	_rm.load_room("guest_room")
+	var ledger_decl: InteractableDecl = _find_decl("guest_ledger")
+	_assert("guest_ledger declaration found for child route", ledger_decl != null)
+	if ledger_decl != null:
+		var handled_ledger: bool = _im._handle_declared_interaction(ledger_decl)
+		_assert("guest room child ledger handled", handled_ledger)
+		_assert("guest room child ledger text", "sealed wall" in _get_document_content())
+		_ui.hide_document()
 
 
 func _test_front_gate_thread_response() -> void:
@@ -885,6 +1017,66 @@ func _test_attic_music_box_adult_resolution() -> void:
 	_ui.hide_document()
 
 
+func _test_attic_music_box_elder_redirect() -> void:
+	_gm.new_game()
+	_gm.set_state("macro_thread", "sovereign")
+	_gm.set_state("elizabeth_route", "elder")
+	_gm.set_state("entered_attic", true)
+	_gm.set_state("late_darkness_active", true)
+	_gm.set_state("lantern_hook_phase", true)
+	_gm.set_state("elder_attic_redirected", false)
+	_gm.set_state("attic_music_box_wound", false)
+	_gm.give_item("music_box_winding_key")
+	_rm.load_room("attic_storage")
+
+	var box_decl: InteractableDecl = _find_decl("attic_music_box")
+	_assert("attic_music_box declaration found for elder redirect", box_decl != null)
+	if box_decl == null:
+		return
+
+	var handled_redirect: bool = _im._handle_declared_interaction(box_decl)
+	_assert("elder attic music box handled", handled_redirect)
+	_assert("elder attic redirect state set", _gm.get_state("elder_attic_redirected", false) == true)
+	_assert("elder attic does not set adult music-box state", _gm.get_state("attic_music_box_wound", false) == false)
+	_assert("elder attic redirect text", "Whatever still answers the tune is below" in _get_document_content())
+	_ui.hide_document()
+
+	var handled_done: bool = _im._handle_declared_interaction(box_decl)
+	_assert("elder attic music box handled after redirect", handled_done)
+	_assert("elder attic redirect-done text", "moved below" in _get_document_content())
+	_ui.hide_document()
+
+
+func _test_attic_music_box_child_redirect() -> void:
+	_gm.new_game()
+	_gm.set_state("macro_thread", "captive")
+	_gm.set_state("elizabeth_route", "child")
+	_gm.set_state("entered_attic", true)
+	_gm.set_state("late_darkness_active", true)
+	_gm.set_state("lantern_hook_phase", true)
+	_gm.set_state("child_attic_redirected", false)
+	_gm.set_state("attic_music_box_wound", false)
+	_gm.give_item("music_box_winding_key")
+	_rm.load_room("attic_storage")
+
+	var box_decl: InteractableDecl = _find_decl("attic_music_box")
+	_assert("attic_music_box declaration found for child redirect", box_decl != null)
+	if box_decl == null:
+		return
+
+	var handled_redirect: bool = _im._handle_declared_interaction(box_decl)
+	_assert("child attic music box handled", handled_redirect)
+	_assert("child attic redirect state set", _gm.get_state("child_attic_redirected", false) == true)
+	_assert("child attic does not set adult music-box state", _gm.get_state("attic_music_box_wound", false) == false)
+	_assert("child attic redirect text", "west wall" in _get_document_content())
+	_ui.hide_document()
+
+	var handled_done: bool = _im._handle_declared_interaction(box_decl)
+	_assert("child attic music box handled after redirect", handled_done)
+	_assert("child attic redirect-done text", "only an echo" in _get_document_content())
+	_ui.hide_document()
+
+
 func _test_wine_cellar_core_interactions() -> void:
 	_gm.new_game()
 	_gm.set_state("visited_wine_cellar", false)
@@ -921,6 +1113,120 @@ func _test_wine_cellar_core_interactions() -> void:
 		_assert("wine_footprints handled", handled_footprints)
 		_assert("wine_footprints text", "did not leave by any route you can see" in _get_document_content())
 		_ui.hide_document()
+
+
+func _test_elder_cellar_bypass() -> void:
+	_gm.new_game()
+	_gm.set_state("macro_thread", "sovereign")
+	_gm.set_state("elizabeth_route", "elder")
+	_gm.set_state("late_darkness_active", true)
+	_gm.set_state("elder_attic_redirected", false)
+	_gm.set_state("elder_cellar_bypass_opened", false)
+	_rm.load_room("wine_cellar")
+
+	var passage_decl: InteractableDecl = _find_decl("cellar_barrel_passage")
+	_assert("cellar_barrel_passage declaration found", passage_decl != null)
+	if passage_decl == null:
+		return
+
+	_im._on_interacted("cellar_barrel_passage", passage_decl.type, {})
+	await process_frame
+	await process_frame
+	_assert("elder cellar passage blocked before attic redirect", _rm.get_current_room_id() == "wine_cellar")
+	_assert("elder cellar early text", "refuses to declare itself" in _get_document_content())
+	_ui.hide_document()
+
+	_gm.set_state("elder_attic_redirected", true)
+	_im._on_interacted("cellar_barrel_passage", passage_decl.type, {})
+	await process_frame
+	await process_frame
+	_assert("elder cellar passage still blocked without hook", _rm.get_current_room_id() == "wine_cellar")
+	_assert("elder cellar no-hook text", "need reach enough" in _get_document_content())
+	_ui.hide_document()
+
+	_gm.give_item("lantern_hook")
+	_im._on_interacted("cellar_barrel_passage", passage_decl.type, {})
+	await create_timer(0.25).timeout
+	_assert("elder cellar bypass opens", _gm.get_state("elder_cellar_bypass_opened", false) == true)
+	_assert("elder cellar bypass transitions to crypt", _rm.get_current_room_id() == "family_crypt")
+	_ui.hide_document()
+
+
+func _test_elder_crypt_resolution() -> void:
+	_gm.new_game()
+	_gm.set_state("macro_thread", "sovereign")
+	_gm.set_state("elizabeth_route", "elder")
+	_gm.set_state("late_darkness_active", true)
+	_gm.set_state("crypt_gate_unlocked", false)
+	_gm.set_state("elder_music_box_wound", false)
+	_gm.give_item("lantern_hook")
+	_gm.give_item("music_box_winding_key")
+	_rm.load_room("family_crypt")
+
+	var box_decl: InteractableDecl = _find_decl("crypt_music_box")
+	_assert("crypt_music_box declaration found", box_decl != null)
+	if box_decl != null:
+		var handled_need_gate: bool = _im._handle_declared_interaction(box_decl)
+		_assert("crypt music box handled before gate", handled_need_gate)
+		_assert("crypt music box blocked before gate", _gm.get_state("elder_music_box_wound", false) == false)
+		_assert("crypt music box gate text", "beyond the old gate" in _get_document_content())
+		_ui.hide_document()
+
+	var latch_decl: InteractableDecl = _find_decl("crypt_gate_latch")
+	_assert("crypt_gate_latch declaration found", latch_decl != null)
+	if latch_decl != null:
+		var handled_latch: bool = _im._handle_declared_interaction(latch_decl)
+		_assert("crypt gate latch handled", handled_latch)
+		_assert("crypt gate latch unlocks gate", _gm.get_state("crypt_gate_unlocked", false) == true)
+		_assert("crypt gate latch text", "wrong side" in _get_document_content())
+		_ui.hide_document()
+
+	if box_decl == null:
+		return
+	var handled_solve: bool = _im._handle_declared_interaction(box_decl)
+	_assert("crypt music box handled for elder solve", handled_solve)
+	_assert("elder music box wound set", _gm.get_state("elder_music_box_wound", false) == true)
+	_assert("elder route complete set", _gm.get_state("elder_route_complete", false) == true)
+	_assert("crypt music box solve text", "did not vanish young" in _get_document_content())
+	_ui.hide_document()
+
+
+func _test_child_sealed_seam_reveal() -> void:
+	_gm.new_game()
+	_gm.set_state("macro_thread", "captive")
+	_gm.set_state("elizabeth_route", "child")
+	_gm.set_state("late_darkness_active", true)
+	_gm.set_state("child_attic_redirected", false)
+	_gm.set_state("child_hidden_room_revealed", false)
+	_gm.set_state("hidden_door_unlocked", false)
+	_gm.set_state("lantern_hook_phase", false)
+	_rm.load_room("attic_storage")
+
+	var seam_decl: InteractableDecl = _find_decl("sealed_seam")
+	_assert("sealed_seam declaration found", seam_decl != null)
+	if seam_decl == null:
+		return
+
+	var handled_before_redirect: bool = _im._handle_declared_interaction(seam_decl)
+	_assert("sealed seam handled before redirect", handled_before_redirect)
+	_assert("sealed seam early text", "vertical seam" in _get_document_content())
+	_ui.hide_document()
+
+	_gm.set_state("child_attic_redirected", true)
+	var handled_no_hook: bool = _im._handle_declared_interaction(seam_decl)
+	_assert("sealed seam handled without hook", handled_no_hook)
+	_assert("sealed seam blocked without hook", _gm.get_state("child_hidden_room_revealed", false) == false)
+	_assert("sealed seam no-hook text", "reach and leverage" in _get_document_content())
+	_ui.hide_document()
+
+	_gm.give_item("lantern_hook")
+	_gm.set_state("lantern_hook_phase", true)
+	var handled_reveal: bool = _im._handle_declared_interaction(seam_decl)
+	_assert("sealed seam handled for reveal", handled_reveal)
+	_assert("sealed seam reveal flag set", _gm.get_state("child_hidden_room_revealed", false) == true)
+	_assert("hidden door unlocked by reveal", _gm.get_state("hidden_door_unlocked", false) == true)
+	_assert("sealed seam reveal text", "child's room was built here and then erased" in _get_document_content())
+	_ui.hide_document()
 
 
 func _test_library_key_and_book_path() -> void:
@@ -977,25 +1283,43 @@ func _test_guest_room_core_interactions() -> void:
 
 func _test_hidden_chamber_core_interactions() -> void:
 	_gm.new_game()
+	_gm.set_state("macro_thread", "captive")
+	_gm.set_state("elizabeth_route", "child")
 	_gm.set_state("found_hidden_chamber", false)
 	_gm.set_state("visited_hidden_chamber", false)
-	_gm.set_state("read_final_note", false)
+	_gm.set_state("child_music_box_wound", false)
+	_gm.set_state("child_route_complete", false)
 	_gm.set_state("knows_full_truth", false)
 	if _room_events != null and "_trigger_engine" in _room_events and _room_events._trigger_engine != null:
 		_room_events._trigger_engine._fired_triggers.erase("chamber_first_entry")
 	_rm.load_room("hidden_chamber")
-	_assert("hidden_chamber first-entry text", "It does not feel discovered. It feels admitted." in _get_document_content())
+	_assert("hidden_chamber first-entry text", "room the house was expected to forget" in _get_document_content())
 	_ui.hide_document()
 
-	var note_decl: InteractableDecl = _find_decl("elizabeth_final_note")
-	_assert("elizabeth_final_note declaration found", note_decl != null)
-	if note_decl != null:
-		_gm.set_state("macro_thread", "mourning")
-		var handled_note: bool = _im._handle_declared_interaction(note_decl)
-		_assert("elizabeth_final_note handled", handled_note)
-		_assert("elizabeth_final_note sets read_final_note", _gm.get_state("read_final_note", false) == true)
-		_assert("elizabeth_final_note sets knows_full_truth", _gm.get_state("knows_full_truth", false) == true)
-		_assert("elizabeth_final_note mourning text", "Some things cannot be fixed. They can only be mourned." in _get_document_content())
+	var drawings_decl: InteractableDecl = _find_decl("nursery_drawings")
+	_assert("nursery_drawings declaration found", drawings_decl != null)
+	if drawings_decl != null:
+		var handled_drawings: bool = _im._handle_declared_interaction(drawings_decl)
+		_assert("nursery_drawings handled", handled_drawings)
+		_assert("nursery_drawings text", "She did not draw monsters. She drew exits." in _get_document_content())
+		_ui.hide_document()
+
+	var box_decl: InteractableDecl = _find_decl("child_music_box")
+	_assert("child_music_box declaration found", box_decl != null)
+	if box_decl != null:
+		var handled_no_key: bool = _im._handle_declared_interaction(box_decl)
+		_assert("child_music_box handled without key", handled_no_key)
+		_assert("child_music_box blocked without key", _gm.get_state("child_music_box_wound", false) == false)
+		_assert("child_music_box no-key text", "need the brass key" in _get_document_content())
+		_ui.hide_document()
+
+		_gm.give_item("music_box_winding_key")
+		var handled_box: bool = _im._handle_declared_interaction(box_decl)
+		_assert("child_music_box handled", handled_box)
+		_assert("child_music_box sets wound state", _gm.get_state("child_music_box_wound", false) == true)
+		_assert("child_music_box sets child route complete", _gm.get_state("child_route_complete", false) == true)
+		_assert("child_music_box sets knows_full_truth", _gm.get_state("knows_full_truth", false) == true)
+		_assert("child_music_box solve text", "nursery plastered over" in _get_document_content())
 		_ui.hide_document()
 
 

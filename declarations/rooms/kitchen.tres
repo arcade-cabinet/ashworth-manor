@@ -129,7 +129,7 @@ position = Vector3(-3.5, 1.5, 4)
 wall = "north"
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_note_default")])
-thread_responses = {"captive": [SubResource("resp_note_captive")], "mourning": [SubResource("resp_note_mourning")], "sovereign": [SubResource("resp_note_sovereign")]}
+thread_responses = {"child": [SubResource("resp_note_captive")], "adult": [SubResource("resp_note_mourning")], "elder": [SubResource("resp_note_sovereign")], "captive": [SubResource("resp_note_captive")], "mourning": [SubResource("resp_note_mourning")], "sovereign": [SubResource("resp_note_sovereign")]}
 
 [sub_resource type="Resource" id="inter_hearth"]
 script = ExtResource("2")

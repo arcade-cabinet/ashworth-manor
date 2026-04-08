@@ -6,7 +6,18 @@
 ---
 
 ## Narrative Purpose
-The threshold. Crossing into the attic triggers the Horror phase. Everything changes here — `elizabeth_aware` is set, tension audio activates globally, mirrors delay, the house wakes up. This room IS a transition: leak bucket, debris, dropped mask, and one first-entry whisper telling you the attic has already noticed you.
+The late-route threshold. By the time the player reaches `attic_stairs`, the
+house-light guarantee is gone and the attic is no longer a generic final room.
+This space now does three jobs:
+
+- on `Adult`, it hands the player the lantern hook needed to complete attic
+  truth
+- on `Elder`, it marks the rupture that sends the player away from attic truth
+  and toward the cellar/crypt descent
+- on `Child`, it hands over the same hook before the attic exposes itself as a
+  false answer
+
+It is a transition room, not a chamber of resolution.
 
 ## Atmosphere
 | Property | Value |
@@ -15,4 +26,7 @@ The threshold. Crossing into the attic triggers the Horror phase. Everything cha
 | Ambient Darkness | 0.75 |
 | Footstep Surface | `rough_wood` (creaky) |
 
-**Tone:** Each step is louder than the last. The air is stale in the way sealed family spaces go stale, not the way ruins do. You're climbing toward something that's been waiting, and the stair itself still carries the traces of a child kept too near the roof and too far from the house below.
+**Tone:** Each step is louder than the last. The player is no longer simply
+climbing toward an attic; they are crossing from stable midgame certainty into
+route-specific late truth. The stair should feel drafty, exposed, and slightly
+unsafe for any open carried flame.

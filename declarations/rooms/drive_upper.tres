@@ -76,10 +76,11 @@ script = ExtResource("4")
 id = "drive_upper_moonlight"
 type = "directional"
 position = Vector3(0, 0, 0)
-rotation_degrees = Vector3(-42, 34, 0)
-color = Color(0.58, 0.64, 0.86, 1)
-energy = 1.05
+rotation_degrees = Vector3(-30, 22, 0)
+color = Color(0.62, 0.68, 0.9, 1)
+energy = 0.64
 range = 0.0
+shadows = false
 shadows = true
 flickering = false
 
@@ -87,61 +88,94 @@ flickering = false
 script = ExtResource("4")
 id = "drive_upper_steps_pull"
 type = "omni"
-position = Vector3(0, 2.0, 5.8)
+position = Vector3(1.6, 2.3, 8.0)
 color = Color(0.97, 0.77, 0.48, 1)
-energy = 1.3
-range = 7.0
+energy = 2.74
+range = 13.2
 shadows = false
 flickering = true
 flicker_pattern = "gas"
 
+[sub_resource type="Resource" id="light_return_spill"]
+script = ExtResource("4")
+id = "drive_upper_return_spill"
+type = "omni"
+position = Vector3(-1.4, 2.1, -5.8)
+color = Color(0.92, 0.78, 0.54, 1)
+energy = 1.34
+range = 11.1
+shadows = false
+flickering = true
+flicker_pattern = "gas"
+
+[sub_resource type="Resource" id="prop_drive_road"]
+script = ExtResource("5")
+id = "drive_upper_road"
+scene_path = "res://scenes/shared/grounds/estate_carriage_road.tscn"
+position = Vector3(0, 0, 0.4)
+rotation_y = 0.0
+scale_3d = Vector3(0.96, 1.0, 0.92)
+
+[sub_resource type="Resource" id="prop_drive_upper_forecourt_steps"]
+script = ExtResource("5")
+id = "drive_upper_forecourt_steps"
+scene_path = "res://scenes/shared/grounds/estate_forecourt_steps.tscn"
+position = Vector3(0, 0, 4.6)
+scale_3d = Vector3(0.92, 1.0, 0.86)
+
 [sub_resource type="Resource" id="prop_hedge_left_far"]
 script = ExtResource("5")
 id = "drive_upper_hedge_left_far"
-model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(-6.2, 0, -2.0)
-rotation_y = -8.0
-scale = 1.18
+model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+position = Vector3(-4.16, 0, -2.35)
+rotation_y = 0.0
+scale = 1.0
+scale_3d = Vector3(1.14, 1.16, 0.86)
 
 [sub_resource type="Resource" id="prop_hedge_left_mid_mansion"]
 script = ExtResource("5")
 id = "drive_upper_hedge_left_mid_mansion"
-model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(-6.25, 0, 2.2)
-rotation_y = -10.0
-scale = 1.08
+model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+position = Vector3(-4.16, 0, 1.15)
+rotation_y = 0.0
+scale = 1.0
+scale_3d = Vector3(1.08, 1.12, 1.45)
 
 [sub_resource type="Resource" id="prop_hedge_left_mansion"]
 script = ExtResource("5")
 id = "drive_upper_hedge_left_mansion"
-model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(-7.0, 0, 5.8)
-rotation_y = -14.0
-scale = 1.08
+model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+position = Vector3(-4.46, 0, 4.85)
+rotation_y = 0.0
+scale = 1.0
+scale_3d = Vector3(1.0, 1.06, 0.78)
 
 [sub_resource type="Resource" id="prop_hedge_right_far"]
 script = ExtResource("5")
 id = "drive_upper_hedge_right_far"
-model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(6.2, 0, -1.7)
-rotation_y = 172.0
-scale = 1.18
+model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+position = Vector3(4.16, 0, -2.35)
+rotation_y = 180.0
+scale = 1.0
+scale_3d = Vector3(1.14, 1.16, 0.86)
 
 [sub_resource type="Resource" id="prop_hedge_right_mid_mansion"]
 script = ExtResource("5")
 id = "drive_upper_hedge_right_mid_mansion"
-model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(6.25, 0, 2.5)
-rotation_y = 170.0
-scale = 1.08
+model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+position = Vector3(4.16, 0, 1.15)
+rotation_y = 180.0
+scale = 1.0
+scale_3d = Vector3(1.08, 1.12, 1.45)
 
 [sub_resource type="Resource" id="prop_hedge_right_mansion"]
 script = ExtResource("5")
 id = "drive_upper_hedge_right_mansion"
-model = "res://assets/grounds/front_gate/nature.glb"
-position = Vector3(7.0, 0, 6.0)
-rotation_y = 166.0
-scale = 1.08
+model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+position = Vector3(4.46, 0, 4.85)
+rotation_y = 180.0
+scale = 1.0
+scale_3d = Vector3(1.0, 1.06, 0.78)
 
 [sub_resource type="Resource" id="prop_drive_stone_1"]
 script = ExtResource("5")
@@ -196,6 +230,43 @@ position = Vector3(1.8, 0, 4.2)
 rotation_y = 5.0
 scale = 1.15
 
+[sub_resource type="Resource" id="prop_drive_upper_mansion_facade_shell"]
+script = ExtResource("5")
+id = "drive_upper_mansion_facade_shell"
+scene_path = "res://scenes/shared/grounds/estate_mansion_facade.tscn"
+position = Vector3(0, 0, 8.9)
+scale_3d = Vector3(1.06, 1.0, 1.0)
+
+[sub_resource type="Resource" id="prop_drive_upper_entry_portico"]
+script = ExtResource("5")
+id = "drive_upper_entry_portico"
+scene_path = "res://scenes/shared/grounds/estate_entry_portico.tscn"
+position = Vector3(0, 0, 8.0)
+scale_3d = Vector3(1.0, 1.0, 1.0)
+
+[sub_resource type="Resource" id="prop_drive_upper_facade_door"]
+script = ExtResource("5")
+id = "drive_upper_facade_door"
+scene_path = "res://scenes/shared/grounds/estate_front_door.tscn"
+position = Vector3(0, 0, 8.5)
+scale_3d = Vector3(1.0, 1.0, 1.0)
+
+[sub_resource type="Resource" id="prop_drive_upper_facade_lamp_left"]
+script = ExtResource("5")
+id = "drive_upper_facade_lamp_left"
+model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+position = Vector3(-2.25, 0, 8.1)
+rotation_y = 8.0
+scale = 0.74
+
+[sub_resource type="Resource" id="prop_drive_upper_facade_lamp_right"]
+script = ExtResource("5")
+id = "drive_upper_facade_lamp_right"
+model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+position = Vector3(2.25, 0, 8.1)
+rotation_y = -8.0
+scale = 0.74
+
 [sub_resource type="Resource" id="prop_statue_plinth_left"]
 script = ExtResource("5")
 id = "drive_upper_statue_plinth_left"
@@ -234,6 +305,13 @@ id = "drive_upper_rocks"
 model = "res://assets/grounds/front_gate/rocks.glb"
 position = Vector3(-10.1, 0, 5.4)
 
+[sub_resource type="Resource" id="prop_drive_upper_starfield"]
+script = ExtResource("5")
+id = "drive_upper_starfield"
+scene_path = "res://scenes/shared/grounds/estate_starfield.tscn"
+position = Vector3(0, 0, 0)
+scale_3d = Vector3(1.0, 1.0, 1.0)
+
 [resource]
 script = ExtResource("1")
 room_id = "drive_upper"
@@ -247,7 +325,7 @@ exposure_faces = PackedStringArray("north", "south", "east", "west", "roof")
 outlook_zones = {"north": "front_steps_commitment", "south": "gate_return_axis", "east": "hedge_wall_boundary", "west": "hedge_wall_boundary", "roof": "open_sky"}
 window_view_mode = "distant_backdrop"
 wall_texture = ""
-floor_texture = "res://assets/grounds/front_gate/rocks_Rokcs 2.png"
+floor_texture = "res://assets/shared/pbr/grounds/estate_earth_color.jpg"
 ceiling_texture = ""
 wall_north = PackedStringArray()
 wall_south = PackedStringArray()
@@ -262,8 +340,8 @@ spawn_rotation_y = 180.0
 entry_anchors = Array[Resource]([SubResource("anchor_entry_from_lower"), SubResource("anchor_entry_from_steps")])
 focal_anchors = Array[Resource]([SubResource("anchor_focus_steps"), SubResource("anchor_focus_return")])
 interactables = Array[Resource]([SubResource("inter_drive_ascent"), SubResource("inter_drive_statue")])
-lights = Array[Resource]([SubResource("light_moonlight"), SubResource("light_steps_pull")])
-props = Array[Resource]([SubResource("prop_hedge_left_far"), SubResource("prop_hedge_left_mid_mansion"), SubResource("prop_hedge_left_mansion"), SubResource("prop_hedge_right_far"), SubResource("prop_hedge_right_mid_mansion"), SubResource("prop_hedge_right_mansion"), SubResource("prop_drive_stone_1"), SubResource("prop_drive_stone_2"), SubResource("prop_drive_stone_3"), SubResource("prop_drive_stone_4"), SubResource("prop_drive_step_center"), SubResource("prop_drive_step_left"), SubResource("prop_drive_step_right"), SubResource("prop_statue_plinth_left"), SubResource("prop_statue_left"), SubResource("prop_statue_plinth_right"), SubResource("prop_statue_right"), SubResource("prop_rocks")])
+lights = Array[Resource]([SubResource("light_moonlight"), SubResource("light_steps_pull"), SubResource("light_return_spill")])
+props = Array[Resource]([SubResource("prop_drive_road"), SubResource("prop_drive_upper_forecourt_steps"), SubResource("prop_hedge_left_mid_mansion"), SubResource("prop_hedge_right_mid_mansion"), SubResource("prop_drive_upper_mansion_facade_shell"), SubResource("prop_drive_upper_entry_portico"), SubResource("prop_drive_upper_facade_door"), SubResource("prop_drive_upper_facade_lamp_left"), SubResource("prop_drive_upper_facade_lamp_right"), SubResource("prop_statue_plinth_left"), SubResource("prop_statue_left"), SubResource("prop_statue_plinth_right"), SubResource("prop_statue_right"), SubResource("prop_rocks"), SubResource("prop_drive_upper_starfield")])
 on_entry = Array[Resource]([])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([])

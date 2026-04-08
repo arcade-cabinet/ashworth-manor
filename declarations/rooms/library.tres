@@ -50,7 +50,7 @@ text = "A brass-framed globe on a mahogany stand. The northern hemisphere is sli
 script = ExtResource("3")
 condition = ""
 title = "Globe"
-text = "The globe sits on its mahogany stand like a locked safe. The brass frame has scratch marks where someone tried to pry it open -- small fingers, desperate. The northern hemisphere is twisted slightly off center. This is where he hid it. One of the keys to her cage."
+text = "The globe sits on its mahogany stand like a lie about distance. The brass around England is nicked by impatient handling -- not by someone planning escape routes, but by a child tracing all the places she was told existed while men downstairs measured the wall that would swallow her room. The northern hemisphere is twisted slightly out of place, as if someone kept hoping the world would open."
 
 [sub_resource type="Resource" id="resp_globe_captive_diary"]
 script = ExtResource("3")
@@ -138,7 +138,7 @@ gives_item = "binding_book"
 script = ExtResource("3")
 condition = ""
 title = "Rites of Passage"
-text = "The book lies open to the chapter on Containment. Edmund's annotations crowd the margins: 'This is the answer. The vessel must be sealed. The door must be locked. The binding must hold.' He underlined 'hold' three times. This book taught him how to build a cage for something that has no body. This book is the reason the attic door is locked."
+text = "The book lies open to chapters on correction, containment, and domestic seclusion. Edmund's annotations begin as theology and end as carpentry notes. 'Seal the aperture.' 'No window line.' 'The room must not present itself as a room.' He was not only locking a child away. He was teaching himself how to erase the fact that the child had ever needed a room at all."
 set_state = {"examined_binding_book": true}
 gives_item = "binding_book"
 
@@ -187,7 +187,7 @@ set_state = {"examined_family_tree": true}
 script = ExtResource("3")
 condition = ""
 title = "Family Tree"
-text = "The family tree has five branches. Four names. The fourth has been scratched away -- violently, with a sharp instrument, deep enough to tear through the backing. Someone did not just cross out Elizabeth's name. They tried to erase the fact that she existed. If there is no name there was no girl. If there was no girl there was no attic. If there was no attic there was no lock."
+text = "The family tree has five branches. Four names. The fourth has not been crossed out but scraped away until the paper thinned. At the edge of the tear someone penciled a tiny height mark and then rubbed it almost completely out. They were not only erasing Elizabeth from the line. They were erasing the child from the household record."
 set_state = {"examined_family_tree": true}
 
 [sub_resource type="Resource" id="resp_tree_mourning"]
@@ -258,7 +258,7 @@ type = "observation"
 position = Vector3(-2.2, 0.95, 2.2)
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_globe_diary"), SubResource("resp_globe_default")])
-thread_responses = {"captive": [SubResource("resp_globe_captive_diary"), SubResource("resp_globe_captive")], "mourning": [SubResource("resp_globe_mourning_diary"), SubResource("resp_globe_mourning")], "sovereign": [SubResource("resp_globe_sovereign_diary"), SubResource("resp_globe_sovereign")], "adult": [SubResource("resp_globe_adult_diary"), SubResource("resp_globe_adult")]}
+thread_responses = {"child": [SubResource("resp_globe_captive_diary"), SubResource("resp_globe_captive")], "adult": [SubResource("resp_globe_adult_diary"), SubResource("resp_globe_adult")], "elder": [SubResource("resp_globe_sovereign_diary"), SubResource("resp_globe_sovereign")], "captive": [SubResource("resp_globe_captive_diary"), SubResource("resp_globe_captive")], "mourning": [SubResource("resp_globe_mourning_diary"), SubResource("resp_globe_mourning")], "sovereign": [SubResource("resp_globe_sovereign_diary"), SubResource("resp_globe_sovereign")]}
 
 [sub_resource type="Resource" id="inter_book"]
 script = ExtResource("2")
@@ -269,7 +269,7 @@ wall = "north"
 collision_size = Vector3(1.5, 1.5, 1.5)
 model = "res://assets/shared/items/books1.glb"
 responses = Array[Resource]([SubResource("resp_book_truth"), SubResource("resp_book_default")])
-thread_responses = {"captive": [SubResource("resp_book_captive")], "mourning": [SubResource("resp_book_mourning")], "sovereign": [SubResource("resp_book_sovereign")], "adult": [SubResource("resp_book_adult")]}
+thread_responses = {"child": [SubResource("resp_book_captive")], "adult": [SubResource("resp_book_adult")], "elder": [SubResource("resp_book_sovereign")], "captive": [SubResource("resp_book_captive")], "mourning": [SubResource("resp_book_mourning")], "sovereign": [SubResource("resp_book_sovereign")]}
 
 [sub_resource type="Resource" id="inter_tree"]
 script = ExtResource("2")
@@ -280,7 +280,7 @@ wall = "north"
 collision_size = Vector3(1.5, 1.5, 1.5)
 model = "res://assets/shared/decor/picture_blank.glb"
 responses = Array[Resource]([SubResource("resp_tree_diary"), SubResource("resp_tree_default")])
-thread_responses = {"captive": [SubResource("resp_tree_captive")], "mourning": [SubResource("resp_tree_mourning")], "sovereign": [SubResource("resp_tree_sovereign")], "adult": [SubResource("resp_tree_adult")]}
+thread_responses = {"child": [SubResource("resp_tree_captive")], "adult": [SubResource("resp_tree_adult")], "elder": [SubResource("resp_tree_sovereign")], "captive": [SubResource("resp_tree_captive")], "mourning": [SubResource("resp_tree_mourning")], "sovereign": [SubResource("resp_tree_sovereign")]}
 
 [sub_resource type="Resource" id="inter_gears"]
 script = ExtResource("2")

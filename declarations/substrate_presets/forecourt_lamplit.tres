@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="SubstratePresetDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/substrate_preset_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+preset_id = "forecourt_lamplit"
+region_family = "estate_forecourt"
+primitive_families = PackedStringArray("surface", "architecture", "terrain_path", "liquid_glass_sky", "prop")
+dominant_material_recipes = PackedStringArray("surface/brick_masonry", "surface/masonry_cap", "terrain/carriage_road", "surface/wrought_iron")
+terrain_preset_id = "forecourt_steps"
+sky_preset_id = "grounds_twilight_sky"
+allowed_mount_families = PackedStringArray("threshold", "path_edge", "facade_anchor", "gate_leaf")
+default_light_grammar = "threshold_lamps"
+approved_builders = PackedStringArray("floor_builder", "door_builder", "estate_boundary_wall", "estate_forecourt_steps", "estate_entry_portico", "estate_front_door", "estate_gate_post", "estate_iron_gate")
+notes = "Front-steps commitment space with lamplit threshold emphasis."

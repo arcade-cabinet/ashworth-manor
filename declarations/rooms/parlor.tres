@@ -225,7 +225,7 @@ wall = "west"
 collision_size = Vector3(1.5, 1.5, 1.5)
 model = "res://assets/shared/decor/picture_blank.glb"
 responses = Array[Resource]([SubResource("resp_portrait_diary"), SubResource("resp_portrait_default")])
-thread_responses = {"captive": [SubResource("resp_portrait_captive")], "mourning": [SubResource("resp_portrait_mourning")], "sovereign": [SubResource("resp_portrait_sovereign")], "adult": [SubResource("resp_portrait_adult")]}
+thread_responses = {"child": [SubResource("resp_portrait_captive")], "adult": [SubResource("resp_portrait_adult")], "elder": [SubResource("resp_portrait_sovereign")], "captive": [SubResource("resp_portrait_captive")], "mourning": [SubResource("resp_portrait_mourning")], "sovereign": [SubResource("resp_portrait_sovereign")]}
 
 [sub_resource type="Resource" id="inter_diary"]
 script = ExtResource("2")
@@ -234,7 +234,7 @@ type = "note"
 position = Vector3(2, 0.8, -3)
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_diary_default")])
-thread_responses = {"captive": [SubResource("resp_diary_captive")], "mourning": [SubResource("resp_diary_mourning")], "sovereign": [SubResource("resp_diary_sovereign")], "adult": [SubResource("resp_diary_adult")]}
+thread_responses = {"child": [SubResource("resp_diary_captive")], "adult": [SubResource("resp_diary_adult")], "elder": [SubResource("resp_diary_sovereign")], "captive": [SubResource("resp_diary_captive")], "mourning": [SubResource("resp_diary_mourning")], "sovereign": [SubResource("resp_diary_sovereign")]}
 
 [sub_resource type="Resource" id="inter_music_box"]
 script = ExtResource("2")
@@ -243,7 +243,7 @@ type = "box"
 position = Vector3(-2, 0.8, -3)
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_music_aware"), SubResource("resp_music_default")])
-thread_responses = {"captive": [SubResource("resp_music_captive")], "mourning": [SubResource("resp_music_mourning")], "sovereign": [SubResource("resp_music_sovereign")], "adult": [SubResource("resp_music_adult")]}
+thread_responses = {"child": [SubResource("resp_music_captive")], "adult": [SubResource("resp_music_adult")], "elder": [SubResource("resp_music_sovereign")], "captive": [SubResource("resp_music_captive")], "mourning": [SubResource("resp_music_mourning")], "sovereign": [SubResource("resp_music_sovereign")]}
 
 [sub_resource type="Resource" id="inter_fireplace"]
 script = ExtResource("2")

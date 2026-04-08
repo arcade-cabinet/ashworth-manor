@@ -130,6 +130,14 @@ func _cancel_timers() -> void:
 	_active_timers.clear()
 
 
+func reset_runtime_state() -> void:
+	_cancel_timers()
+	_current_room_id = ""
+	if _trigger_engine != null:
+		_trigger_engine._fired_triggers.clear()
+		_trigger_engine.reset_ambient_timers()
+
+
 func _sync_state_machine_from_game() -> void:
 	if _state_machine == null:
 		return
