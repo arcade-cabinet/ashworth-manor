@@ -11,6 +11,7 @@ const DOOR_OPENING_HEIGHT := 2.2
 const WINDOW_OPENING_WIDTH := 1.2
 const WINDOW_BOTTOM_Y := 1.0
 const WINDOW_HEIGHT := 1.0
+const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
 
 ## Build a wall from its layout string array.
 ## Returns Node3D containing all wall segments for one side.
@@ -159,18 +160,10 @@ static func _make_box_panel(size: Vector3, pos: Vector3, texture_path: String) -
 static func _apply_texture(mesh_inst: MeshInstance3D, texture_path: String) -> void:
 	if texture_path.is_empty():
 		return
-	var mat := StandardMaterial3D.new()
-	var resolved_path := _resolve_texture_path(texture_path)
-	if ResourceLoader.exists(resolved_path):
-		mat.albedo_texture = load(resolved_path)
-	mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+	var mat := EstateMaterialKit.build_surface_reference(texture_path, {
+		"roughness": 1.0,
+	})
 	mesh_inst.set_surface_override_material(0, mat)
-
-
-static func _resolve_texture_path(texture_path: String) -> String:
-	if texture_path.begins_with("res://"):
-		return texture_path
-	return "res://assets/shared/textures/%s.png" % texture_path
 
 
 static func _get_segment_position(direction: String, local_x: float, room_w: float, room_d: float) -> Vector3:

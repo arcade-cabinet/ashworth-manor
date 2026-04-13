@@ -2,6 +2,8 @@ class_name LadderBuilder
 extends RefCounted
 ## Generates ladder geometry (wall-mounted or drop-down).
 
+const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
+
 const RUNG_SPACING := 0.3
 const RUNG_WIDTH := 0.6
 const RUNG_RADIUS := 0.025
@@ -9,7 +11,7 @@ const RAIL_WIDTH := 0.04
 
 ## Build a ladder from a Connection declaration.
 ## Returns Node3D with rails, rungs, and interaction zone.
-static func build(connection: Connection, height: float = 2.4) -> Node3D:
+static func build(connection: Connection, height: float = 2.4, rail_surface_ref: String = "", rung_surface_ref: String = "") -> Node3D:
 	var ladder_root := Node3D.new()
 	ladder_root.name = "Ladder_%s" % connection.id
 
@@ -17,20 +19,22 @@ static func build(connection: Connection, height: float = 2.4) -> Node3D:
 	var visual := Node3D.new()
 	visual.name = "LadderVisual"
 	ladder_root.add_child(visual)
+	var resolved_rail_surface := rail_surface_ref if not rail_surface_ref.is_empty() else "recipe:surface/chain_iron"
+	var resolved_rung_surface := rung_surface_ref if not rung_surface_ref.is_empty() else resolved_rail_surface
 
 	# Left rail
-	var rail_l := _make_rail(height, -RUNG_WIDTH * 0.5)
+	var rail_l := _make_rail(height, -RUNG_WIDTH * 0.5, resolved_rail_surface)
 	rail_l.name = "RailLeft"
 	visual.add_child(rail_l)
 
 	# Right rail
-	var rail_r := _make_rail(height, RUNG_WIDTH * 0.5)
+	var rail_r := _make_rail(height, RUNG_WIDTH * 0.5, resolved_rail_surface)
 	rail_r.name = "RailRight"
 	visual.add_child(rail_r)
 
 	# Rungs
 	for i in range(rung_count):
-		var rung := _make_rung(i)
+		var rung := _make_rung(i, resolved_rung_surface)
 		visual.add_child(rung)
 
 	# Collision (thin box approximating the ladder)
@@ -73,26 +77,30 @@ static func build(connection: Connection, height: float = 2.4) -> Node3D:
 	area_shape.position = Vector3(0, height * 0.5, 0.3)
 	area.add_child(area_shape)
 	ladder_root.add_child(area)
+	ladder_root.set_meta("resolved_ladder_rail_surface", resolved_rail_surface)
+	ladder_root.set_meta("resolved_ladder_rung_surface", resolved_rung_surface)
 
 	return ladder_root
 
 
-static func _make_rail(height: float, x_offset: float) -> MeshInstance3D:
+static func _make_rail(height: float, x_offset: float, surface_ref: String) -> MeshInstance3D:
 	var rail := MeshInstance3D.new()
 	var box := BoxMesh.new()
 	box.size = Vector3(RAIL_WIDTH, height, RAIL_WIDTH)
 	rail.mesh = box
 	rail.position = Vector3(x_offset, height * 0.5, 0)
 
-	var mat := StandardMaterial3D.new()
-	mat.albedo_color = Color(0.35, 0.25, 0.15)
-	mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+	var mat := EstateMaterialKit.build_surface_reference(surface_ref)
+	if mat == null:
+		mat = StandardMaterial3D.new()
+		mat.albedo_color = Color(0.35, 0.25, 0.15)
+		mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	rail.set_surface_override_material(0, mat)
 
 	return rail
 
 
-static func _make_rung(index: int) -> MeshInstance3D:
+static func _make_rung(index: int, surface_ref: String) -> MeshInstance3D:
 	var rung := MeshInstance3D.new()
 	rung.name = "Rung_%d" % index
 	var box := BoxMesh.new()
@@ -100,9 +108,11 @@ static func _make_rung(index: int) -> MeshInstance3D:
 	rung.mesh = box
 	rung.position = Vector3(0, (index + 1) * RUNG_SPACING, 0)
 
-	var mat := StandardMaterial3D.new()
-	mat.albedo_color = Color(0.4, 0.3, 0.2)
-	mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+	var mat := EstateMaterialKit.build_surface_reference(surface_ref)
+	if mat == null:
+		mat = StandardMaterial3D.new()
+		mat.albedo_color = Color(0.4, 0.3, 0.2)
+		mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	rung.set_surface_override_material(0, mat)
 
 	return rung

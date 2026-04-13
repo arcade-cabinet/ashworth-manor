@@ -70,6 +70,14 @@ title = "Lady Ashworth"
 text = "Look at her eyes. She is not looking at the painter. She is looking at the doorway behind the painter. At the ceiling above. At what she knows is up there, listening. Victoria Ashworth was not mourning her daughter. She was afraid of her. The mourning dress was armor against something she could not name."
 set_state = {"examined_lady_portrait": true}
 
+; ADULT: Victoria mourning an adult daughter denied her life
+[sub_resource type="Resource" id="resp_portrait_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Lady Ashworth"
+text = "The mourning dress was painted after Elizabeth's confinement, not before any death. Look at the date on the frame — 1886. Elizabeth would have been twenty-one. Victoria is mourning a living woman, not a dead child. Her folded hands are not grieving. They are preventing themselves from climbing the stairs and unlocking the door."
+set_state = {"examined_lady_portrait": true}
+
 ; === Diary Page Responses (CRITICAL -- sets emotional tone) ===
 ; The default response is the shared version; thread_responses override entirely
 
@@ -105,6 +113,15 @@ script = ExtResource("3")
 condition = ""
 title = "Torn Diary Page"
 text = "She is doing it again.\n\nThe lamp in Elizabeth's room -- I watched through the keyhole. She was sitting perfectly still in the corner. Not moving. Not speaking. And the flame bent toward her. Not flickering from draft. BENDING. As if the fire wanted to be near her.\n\nThe mirror on the landing showed my face wrong this morning. Older. Frightened. I looked away and when I looked back it was normal. But Elizabeth was standing at the top of the attic stairs. Watching.\n\nShe is not ill. She is becoming something. And the house is helping her.\n\nThe handwriting is Lady Ashworth's -- rushed, uneven, the pen pressed hard enough to tear the paper."
+set_state = {"found_first_clue": true, "knows_attic_girl": true}
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
+
+; ADULT diary: Elizabeth's adult handwriting bleeds through
+[sub_resource type="Resource" id="resp_diary_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Torn Diary Page"
+text = "The children have been hearing whispers from the attic. I have locked the door but they say she still calls to them at night.\n\nLady Ashworth's writing fills the page. But in the margins, a second hand has added corrections -- confident, slightly larger, the penmanship of an educated adult. 'I do not whisper. I speak. They choose not to listen.' And below, in the same mature hand: 'I am not a child, Mama. I have not been a child for years.'\n\nThe ink is different. The corrections were written later, by someone who had access to the diary and the patience to annotate it."
 set_state = {"found_first_clue": true, "knows_attic_girl": true}
 play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
 
@@ -148,6 +165,14 @@ script = ExtResource("3")
 condition = ""
 title = "Music Box"
 text = "The music box is intact. The mechanism works -- you can feel it resist and release when you turn the key. But it will not play. Not yet. The ballerina stands perfectly upright on her pin, facing you, as if making eye contact. The spring is wound tight. The teeth are aligned with the cylinder. Everything is ready. It is choosing not to play. It is waiting for something."
+set_state = {"examined_music_box": true}
+
+; ADULT: The music box is an adult keepsake, not a nursery relic
+[sub_resource type="Resource" id="resp_music_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Music Box"
+text = "The music box is finer than a child's toy. The lacquer is French, the mechanism Swiss, the ballerina posed in a grown woman's attitude -- one hand raised, chin lifted, the posture of someone receiving company. This was a coming-of-age gift. The inscription inside the lid reads: 'To E.A. on her eighteenth birthday, from V.A.' Victoria gave this to Elizabeth as an adult. It was the last time anyone in the house acknowledged she had grown up."
 set_state = {"examined_music_box": true}
 
 ; === Fireplace Responses (same all threads) ===
@@ -200,7 +225,7 @@ wall = "west"
 collision_size = Vector3(1.5, 1.5, 1.5)
 model = "res://assets/shared/decor/picture_blank.glb"
 responses = Array[Resource]([SubResource("resp_portrait_diary"), SubResource("resp_portrait_default")])
-thread_responses = {"captive": [SubResource("resp_portrait_captive")], "mourning": [SubResource("resp_portrait_mourning")], "sovereign": [SubResource("resp_portrait_sovereign")]}
+thread_responses = {"child": [SubResource("resp_portrait_captive")], "adult": [SubResource("resp_portrait_adult")], "elder": [SubResource("resp_portrait_sovereign")], "captive": [SubResource("resp_portrait_captive")], "mourning": [SubResource("resp_portrait_mourning")], "sovereign": [SubResource("resp_portrait_sovereign")]}
 
 [sub_resource type="Resource" id="inter_diary"]
 script = ExtResource("2")
@@ -209,7 +234,7 @@ type = "note"
 position = Vector3(2, 0.8, -3)
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_diary_default")])
-thread_responses = {"captive": [SubResource("resp_diary_captive")], "mourning": [SubResource("resp_diary_mourning")], "sovereign": [SubResource("resp_diary_sovereign")]}
+thread_responses = {"child": [SubResource("resp_diary_captive")], "adult": [SubResource("resp_diary_adult")], "elder": [SubResource("resp_diary_sovereign")], "captive": [SubResource("resp_diary_captive")], "mourning": [SubResource("resp_diary_mourning")], "sovereign": [SubResource("resp_diary_sovereign")]}
 
 [sub_resource type="Resource" id="inter_music_box"]
 script = ExtResource("2")
@@ -218,7 +243,7 @@ type = "box"
 position = Vector3(-2, 0.8, -3)
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_music_aware"), SubResource("resp_music_default")])
-thread_responses = {"captive": [SubResource("resp_music_captive")], "mourning": [SubResource("resp_music_mourning")], "sovereign": [SubResource("resp_music_sovereign")]}
+thread_responses = {"child": [SubResource("resp_music_captive")], "adult": [SubResource("resp_music_adult")], "elder": [SubResource("resp_music_sovereign")], "captive": [SubResource("resp_music_captive")], "mourning": [SubResource("resp_music_mourning")], "sovereign": [SubResource("resp_music_sovereign")]}
 
 [sub_resource type="Resource" id="inter_fireplace"]
 script = ExtResource("2")

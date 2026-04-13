@@ -1,8 +1,13 @@
 # Player Premise
 
-This document records the current canonical playable-present framing for
-Ashworth Manor. It exists to keep script, runtime, room docs, and task batches
-aligned while the implementation catches up.
+> **Canonical authority:** [GAME_BIBLE.md](./GAME_BIBLE.md) defines the shipped
+> game. This document supplements it with extended player-position, arrival,
+> lighting, and emotional-frame detail. If anything here conflicts with
+> GAME_BIBLE.md, GAME_BIBLE.md wins.
+
+This document records extended playable-present framing for Ashworth Manor.
+It exists to keep script, runtime, room docs, and task batches aligned while
+the implementation catches up.
 
 ---
 

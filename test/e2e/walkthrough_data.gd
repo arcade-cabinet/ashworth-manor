@@ -12,7 +12,7 @@ static func get_play_order() -> Array:
 		["foyer", ["foyer_painting", "foyer_mirror", "foyer_clock", "entry_switch", "foyer_mail", "foyer_stairs"], "front_steps"],
 		["parlor", ["parlor_painting_1", "parlor_note", "music_box", "parlor_fireplace", "parlor_tea"], "foyer"],
 		["dining_room", ["dinner_photo", "pushed_chair", "wine_glass", "dining_candles", "service_bell"], "foyer"],
-		["kitchen", ["kitchen_note", "kitchen_hearth"], "foyer"],
+		["kitchen", ["service_hatch_prop", "kitchen_note", "kitchen_hearth"], "foyer"],
 
 		# ACT II: Upper Floor
 		["upper_hallway", ["attic_door", "children_painting", "hallway_mask", "hallway_poster", "hallway_switch"], "foyer"],
@@ -21,19 +21,19 @@ static func get_play_order() -> Array:
 		["guest_room", ["guest_ledger", "helena_photo", "guest_luggage", "guest_bed", "guest_lamp"], "upper_hallway"],
 
 		# ACT II-B: Basement
-		["storage_basement", ["scratched_portrait", "basement_cage", "service_stack", "basement_mattress"], "kitchen"],
-		["boiler_room", ["maintenance_log", "boiler_clock", "boiler_observation", "boiler_pipe_valves", "boiler_electrical_panel", "boiler_mask"], "storage_basement"],
-		["wine_cellar", ["wine_note", "wine_box", "wine_racks", "wine_footprints"], "storage_basement"],
+		["storage_basement", ["improvised_relight", "scratched_portrait", "basement_cage", "service_stack", "basement_mattress"], "kitchen"],
+		["boiler_room", ["maintenance_log", "boiler_clock", "boiler_observation", "gas_restore", "boiler_pipes", "walking_cane"], "storage_basement"],
+		["wine_cellar", ["wine_note", "wine_box", "wine_racks", "wine_footprints", "cellar_barrel_passage"], "storage_basement"],
 
 		# ACT II-C: Grounds
 		["garden", ["garden_lily", "garden_fountain", "garden_gazebo", "garden_beds", "garden_bench"], "kitchen"],
 		["chapel", ["baptismal_font", "chapel_altar", "chapel_pews", "chapel_stained_glass_interactable", "chapel_bones"], "garden"],
 		["greenhouse", ["greenhouse_pot", "greenhouse_dead_plants", "greenhouse_glass", "greenhouse_bench"], "garden"],
 		["carriage_house", ["carriage_portrait", "carriage_mattress", "carriage_tools"], "storage_basement"],
-		["family_crypt", ["crypt_graves", "crypt_note", "crypt_flagstone", "crypt_bones"], "garden"],
+		["family_crypt", ["crypt_graves", "crypt_note", "crypt_flagstone", "crypt_bones", "crypt_gate_latch", "crypt_music_box"], "garden"],
 
 		# ACT III: Attic
-		["attic_stairs", ["stairwell_debris", "stairwell_wall"], "upper_hallway"],
-		["attic_storage", ["elizabeth_portrait", "porcelain_doll", "elizabeth_letter", "attic_window", "elizabeth_trunk", "ritual_mask"], "attic_stairs"],
-		["hidden_chamber", ["elizabeth_final_note", "chamber_drawings", "hidden_mirror", "ritual_circle", "chamber_artifact"], "attic_storage"],
+		["attic_stairs", ["stairwell_debris", "stairwell_wall", "lantern_hook"], "upper_hallway"],
+		["attic_storage", ["elizabeth_portrait", "porcelain_doll", "elizabeth_letter", "attic_window", "elizabeth_trunk", "ritual_mask", "attic_music_box", "sealed_seam"], "attic_stairs"],
+		["hidden_chamber", ["child_music_box", "nursery_drawings", "child_bed", "height_marks", "nursery_mirror"], "attic_storage"],
 	]

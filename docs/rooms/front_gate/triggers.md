@@ -23,11 +23,11 @@ Before the title/state trigger fires, the room runs one thread-specific opening 
 
 | Macro Thread | Opening Beat |
 |-------------|--------------|
-| `captive` | The gate feels too orderly to be safe, and the drive funnels the player inward without granting ownership of the place. |
-| `mourning` | The allée reads as disciplined grief, with the manor waiting like an old family memory left intact too long. |
-| `sovereign` | The estate carries itself with the composure of old authority; the player feels received rather than welcomed. |
+| `child` | The gate feels too orderly to be safe, and the drive funnels the player inward without granting ownership of the place. |
+| `adult` | The allée reads as disciplined grief, with the manor waiting like an old family memory left intact too long. |
+| `elder` | The estate carries itself with the composure of old authority; the player feels received rather than welcomed. |
 
-All three variants trigger a gate creak, and the `captive` / `sovereign` variants add a light camera sway.
+All three variants trigger a gate creak, and the `child` / `elder` variants add a light camera sway.
 
 ### Threshold Acknowledgement
 ```yaml

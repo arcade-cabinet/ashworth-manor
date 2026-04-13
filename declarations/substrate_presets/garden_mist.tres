@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="SubstratePresetDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/substrate_preset_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+preset_id = "garden_mist"
+region_family = "rear_estate"
+primitive_families = PackedStringArray("surface", "architecture", "foliage", "terrain_path", "liquid_glass_sky", "prop")
+dominant_material_recipes = PackedStringArray("surface/brick_masonry", "terrain/roadside_earth", "foliage/hedge_mass")
+terrain_preset_id = "garden_paths"
+sky_preset_id = "grounds_twilight_sky"
+allowed_mount_families = PackedStringArray("path_edge", "water_edge", "facade_anchor", "gate_leaf", "hedge_terminator")
+default_light_grammar = "mist_lamp_candle"
+approved_builders = PackedStringArray("wall_builder", "floor_builder", "ceiling_builder", "door_builder", "estate_boundary_wall", "estate_fence_run", "estate_hedgerow", "estate_outward_road")
+notes = "Rear-estate mist language for garden, chapel edge, and outbuilding approach."

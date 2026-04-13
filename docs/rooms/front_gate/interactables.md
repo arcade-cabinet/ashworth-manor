@@ -77,15 +77,15 @@ collision: BoxShape3D(1.5, 1.5, 1.5)
 > **Ashworth Manor**
 > "ASHWORTH MANOR — Est. 1847. The brass has gone green at the edges, but someone has kept the name legible. It feels less abandoned than unattended."
 
-**Captive thread:**
+**Child route:**
 > **Ashworth Manor**
 > "ASHWORTH MANOR — Est. 1847. The plaque hangs with the politeness of old authority. That is what makes it oppressive. The house still expects obedience from people who no longer live here."
 
-**Mourning thread:**
+**Adult route:**
 > **Ashworth Manor**
 > "ASHWORTH MANOR — Est. 1847. Verdigris has softened every letter, as if even the metal has been grieving. The name is still beautiful. That only deepens the sadness."
 
-**Sovereign thread:**
+**Elder route:**
 > **Ashworth Manor**
 > "ASHWORTH MANOR — Est. 1847. The plaque reads like a declaration of ownership that survived everyone who tried to bear it. The estate still speaks in the family name."
 
@@ -177,15 +177,15 @@ collision: BoxShape3D(3.0, 3.0, 1.0)
 > **The Gate**
 > "One iron leaf stands partly open. The chain has been unhooked, not cleanly put away. Someone expected arrival, or failed to finish departing."
 
-**Captive thread:**
+**Child route:**
 > **The Gate**
 > "The gate is too formal to be harmless. Even left open, it still feels like something that decides who may pass."
 
-**Mourning thread:**
+**Adult route:**
 > **The Gate**
 > "The gate has been left open too long. Not flung wide in triumph. Merely left, as though whoever last crossed it could not bring themselves to finish the small courtesy of closing it."
 
-**Sovereign thread:**
+**Elder route:**
 > **The Gate**
 > "The threshold still carries itself like property, not ruin. The gate is open, but the estate does not feel surrendered."
 
@@ -217,15 +217,15 @@ collision: BoxShape3D(1.0, 2.0, 1.0)
 > **Gas Lamp**
 > "Still lit. The flame is small, sheltered behind glass, and steady enough to suggest recent tending. For a supposedly empty estate, that is unsettling enough."
 
-**Captive thread:**
+**Child route:**
 > **Gas Lamp**
 > "The lamp keeps watch like a servant who was never dismissed. Its small discipline makes the threshold feel supervised."
 
-**Mourning thread:**
+**Adult route:**
 > **Gas Lamp**
 > "The old lamp burns with the weak persistence of a memorial candle. Not bright enough to welcome, only enough to remember."
 
-**Sovereign thread:**
+**Elder route:**
 > **Gas Lamp**
 > "The flame holds itself with more discipline than comfort. The estate may be empty, but it has not relaxed."
 

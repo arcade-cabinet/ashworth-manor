@@ -1,87 +1,95 @@
 # Storage Basement — Interactables
 
-## 1. Scratched Family Portrait — Key Narrative
+This room is now the first real survival beat after Elizabeth forces the player
+down through the kitchen service hatch. The basement is dark, foul, and
+service-minded rather than occult.
+
+## 1. Improvised Relight — First Survival Action
+
+```yaml
+id: improvised_relight
+type: switch
+position: near dead lamp and oily rags
+```
+
+Purpose:
+- the player reclaims light with a struck match and makeshift relight logic
+- sets `basement_relight`
+- wakes the first local candle/light response through conditional events
+
+Without relight, the room's other interactions mostly collapse into touch,
+disorientation, and bad-air pressure.
+
+---
+
+## 2. Scratched Family Portrait
 
 ```yaml
 id: scratched_portrait
 type: painting
-position: (-3.5, 1.5, -3)
-collision: BoxShape3D(1.5, 1.5, 1.5)
+position: west wall behind stacked service clutter
 ```
 
-### Text — All Variants
+Default reading:
+- Lord Ashworth's face has been clawed out and hidden below the house rather
+  than destroyed outright
 
-**Default:**
-> **Scratched Portrait**
-> "A portrait shoved behind crates in the basement. Lord Ashworth's face has been scratched out with something sharp -- the canvas torn in long, deliberate strokes. Someone hated this image enough to destroy it but could not bring themselves to burn it."
-
-**Macro-thread variants:**
-- `captive`: the damage reads as rage against the jailer
-- `mourning`: the damage reads as Victoria making the portrait honest
-- `sovereign`: the scratches read like Elizabeth's symbols claiming him
-
-### Flags Set
-- `examined_scratched_portrait`
+Route bias:
+- `child`: rage against the man who erased the room
+- `adult`: the portrait is damaged into honesty rather than reverence
+- `elder`: the damage reads like the house reclaiming his authority
 
 ---
 
-## 2. Iron Cage
+## 3. Iron Cage
 
 ```yaml
 id: basement_cage
 type: observation
-position: (3, 0.5, 3)
-collision: BoxShape3D(1.5, 1.5, 1.5)
+position: floor-level service corner
 ```
 
-### Text
-
-**Default:**
-> **Iron Cage**
-> "An animal cage, large enough for a dog. Empty. The door hangs open. The lock is rusted shut in the open position. Whatever was kept here was released -- or escaped."
+Function:
+- keeps the landing space materially ugly and wrong
+- reinforces that the service basement once held watch, restraint, or both
 
 ---
 
-## 3. Concealed Stack
+## 4. Concealed Stack
 
 ```yaml
 id: service_stack
 type: observation
-position: (2.4, 1.0, 3.7)
-collision: BoxShape3D(1.6, 2.0, 1.2)
+position: stacked crates hiding a hollow wall
 ```
 
-### Text
-
-> **Concealed Stack**
-> "The crates here are stacked too deliberately for storage. They hide the wall rather than use it. When you press near the back, the wood gives a little and the stone behind it answers hollow. This corner was arranged to conceal movement, not clutter."
-
-### Flags Set
-- `noticed_service_route`
+Function:
+- teaches that the service world conceals routes physically
+- sets `noticed_service_route`
+- prepares later service-house reasoning rather than solving a route by itself
 
 ---
 
-## 4. Old Mattress
+## 5. Old Mattress
 
 ```yaml
 id: basement_mattress
 type: observation
-position: (2.7, 0.35, 2.0)
-collision: BoxShape3D(1.5, 0.8, 2.0)
+position: laid directly on stone
 ```
 
-### Text
-
-> **Old Mattress**
-> "A mattress laid directly on the basement stone, close to the cage and farther from the stairs than anyone sleeping here would want. Someone stayed down here for many nights in a row. Not a guest. A servant, a guard, or someone who needed to watch this room without being seen."
+Function:
+- explains the player's softened landing
+- implies prolonged service watching or caretaking below the family rooms
 
 ---
 
 ## Summary
 
-| ID | Type | Status |
-|----|------|--------|
-| `scratched_portrait` | painting | Implemented |
-| `basement_cage` | observation | Implemented |
-| `service_stack` | observation | Implemented |
-| `basement_mattress` | observation | Implemented |
+| ID | Type | Role |
+|----|------|------|
+| `improvised_relight` | switch | first survival/light recovery action |
+| `scratched_portrait` | painting | route-biased basement evidence |
+| `basement_cage` | observation | material restraint residue |
+| `service_stack` | observation | concealment / route foreshadowing |
+| `basement_mattress` | observation | bodily landing + watcher residue |

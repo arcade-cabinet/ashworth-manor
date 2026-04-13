@@ -1,12 +1,13 @@
 @tool
 class_name SkyDeclaration
 extends Resource
-## PSX sky configuration for outdoor rooms.
+## Outdoor sky configuration for authored grounds environments.
 
 @export var enabled: bool = true              # false for indoor rooms
-@export var shader_path: String = "res://shaders/psx_sky.gdshader"
+@export var shader_path: String = ""          # legacy field; current runtime builds a generated panorama sky
+@export_file("*") var hdri_path: String = "" # optional HDR/EXR panorama loaded from disk before generated fallback
 
-# Night sky parameters (uniforms passed to sky shader)
+# Twilight/night sky parameters used by the generated panorama sky
 @export var sky_color_top: Color = Color(0.02, 0.02, 0.06)
 @export var sky_color_horizon: Color = Color(0.05, 0.04, 0.08)
 @export var star_density: float = 0.3

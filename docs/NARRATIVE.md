@@ -1,6 +1,13 @@
 # Narrative Design
 
-This document defines the current narrative structure for Ashworth Manor.
+> **Canonical authority:** [GAME_BIBLE.md](./GAME_BIBLE.md) defines the shipped
+> game, including premise, route program, shared spine, and endings. This
+> document supplements it with emotional framing, narrative priorities, and
+> memory-layer detail. If anything here conflicts with GAME_BIBLE.md,
+> GAME_BIBLE.md wins.
+
+This document defines the narrative design philosophy and emotional priorities
+for Ashworth Manor.
 
 It supersedes the older macro-thread framing built around `Captive`,
 `Mourning`, and `Sovereign`. Those materials now survive only as legacy
@@ -8,9 +15,10 @@ reference while the game is migrated to the new authored route model.
 
 See also:
 
-- [PLAYER_PREMISE.md](./PLAYER_PREMISE.md)
-- [ELIZABETH_ROUTE_PROGRAM.md](./ELIZABETH_ROUTE_PROGRAM.md)
-- [MASTER_SCRIPT.md](./MASTER_SCRIPT.md)
+- [GAME_BIBLE.md](./GAME_BIBLE.md) — canonical whole-game reference
+- [PLAYER_PREMISE.md](./PLAYER_PREMISE.md) — extended player-position detail
+- [ELIZABETH_ROUTE_PROGRAM.md](./ELIZABETH_ROUTE_PROGRAM.md) — route design rationale
+- [MASTER_SCRIPT.md](./MASTER_SCRIPT.md) — stage-by-stage beat authoring
 
 ---
 
@@ -35,16 +43,8 @@ player reach it through a different life-truth.
 
 ## Canonical Storyline Order
 
-Ashworth Manor should no longer treat its macro narrative as PRNG.
-
-The intended route order is:
-
-1. `Adult`
-2. `Elder`
-3. `Child`
-
-After all three have been completed, later runs may randomize among unlocked
-routes. The first three completions are not random.
+The canonical route order (`Adult` → `Elder` → `Child`) and unlock rules are
+defined in [GAME_BIBLE.md § Canonical Order](./GAME_BIBLE.md#canonical-order).
 
 ---
 
@@ -85,67 +85,53 @@ routes. The first three completions are not random.
 
 ## Shared Spine
 
-All three playthroughs share the same broad early and midgame spine.
+The full shared spine with stage definitions is in
+[GAME_BIBLE.md § Shared Spine](./GAME_BIBLE.md#shared-spine).
+
+The following notes capture narrative-design intent for key spine beats:
 
 ### Prologue and Arrival
 
-- Open on an inner page from a solicitor's packet
-- Resolve first-person at the front gate as the hired cab departs
-- Establish inventory by opening the valise beneath the estate sign
-- Walk the long ceremonial drive and unlock the front door personally
+- The packet should feel like bureaucratic reality, not ghost-story theatrics.
+- First-person resolution at the front gate should feel like physical arrival,
+  not cinematic.
 
 ### First House Occupation
 
-- Enter a dark mansion
-- Receive the first unmistakable house answer in a family-centered space
-- Solve the first warmth and light problem through hearth- and room-driven play
-- Learn the house through parlor/kitchen/foyer relations rather than abstract
-  exposition
+- The first house answer should come from a family-centered space, not from
+  UI exposition.
+- Warmth and light are earned through hearth- and room-driven play.
 
 ### First Supernatural Seizure
 
-- After meaningful early exploration, Elizabeth's laugh heralds the first major
-  event
-- The player is forced through service architecture into the basement layer
-- The fall is dangerous but intentional, not a random trap kill
+- The fall is dangerous but intentional — not a random trap kill.
+- The player is forced *through* service architecture, reinforcing class
+  circulation.
 
 ### Service Reclamation
 
-- The player relights themselves under pressure
-- The service basement reveals how the estate actually functioned
-- Restoring gas returns stable house light and changes the manor's state
-- The player re-emerges through practical circulation rather than the grand
-  stair fantasy
+- The basement should read as a real maintenance world, not a monster lair.
+- Re-emergence should come through utilitarian circulation, not the grand
+  stair fantasy.
 
 ### Midgame Possession
 
-- The player graduates from improvised survival to deliberate investigation
-- The house becomes legible in rooms, grounds, and classed circulation
 - The route-specific Elizabeth truth gradually biases which clues feel most
-  charged
+  charged.
 
 ---
 
 ## Equipment and Light Progression
 
-These are story and mood systems, not just mechanics.
+Tool phases and light grammar are defined in
+[GAME_BIBLE.md § Tool and Light Grammar](./GAME_BIBLE.md#tool-and-light-grammar).
 
-### Early Game
+Narrative-design note: these are story and mood systems, not just mechanics.
+Each tool's meaning matters more than its function:
 
-- Held state: `firebrand`
-- Meaning: fragile, improvised habitation
-
-### Midgame
-
-- Held state: `walking stick`
-- Meaning: steadiness, probing, bodily investigation
-- Trigger: restored house light and reclaimed circulation
-
-### Late Game
-
-- Transitional state: `lantern on hook`
-- Final held state: `lantern hook`
-- Meaning: descent, reach, pull, forbidden access
+- `firebrand` = fragile, improvised habitation
+- `walking stick` = steadiness, probing, bodily investigation
+- `lantern hook` = descent, reach, pull, forbidden access
 
 Each major transition should consume the previous held tool rather than letting
 the player accumulate every prior affordance forever.
@@ -154,15 +140,16 @@ the player accumulate every prior affordance forever.
 
 ## Design Rules
 
-- Outside paperwork and estate signage remain neutral. The house owns the
-  uncanny layer.
-- Elizabeth's laugh is never ambient flavor. When heard, a meaningful event is
+Core design rules are defined in
+[GAME_BIBLE.md § Core Design Rules](./GAME_BIBLE.md#core-design-rules).
+
+Additional narrative-design emphasis:
+
+- The house owns the uncanny layer, not outside paperwork.
+- Elizabeth's laugh is never ambient flavor — when heard, a meaningful event is
   happening.
-- The house should not default to source-less ambient uplift. Light must have a
-  visible or narratively coherent source.
-- The music box is always the final solve object.
-- The three routes should feel like three authored storylines, not cosmetic
-  variants of one seed.
+- Light must have a visible or narratively coherent source; no sourceless
+  ambient uplift.
 
 ---
 

@@ -5,6 +5,8 @@ extends Node
 
 const InteractableVisuals = preload("res://engine/interactable_visuals.gd")
 const OPENING_PACKET_TITLE := "Ashworth Manor"
+const FRONT_GATE_ARRIVAL_TITLE := "Ashworth Manor"
+const FRONT_GATE_ARRIVAL_TEXT := """No one to receive me. Very well. Let me see the papers again."""
 const OPENING_PACKET_PAGE := """Re: Ashworth Manor, Ashworth Parish
 
 Sir,
@@ -106,12 +108,27 @@ func _on_room_loaded(room_id: String) -> void:
 		_current_dialogue_resource = load(path)
 	_refresh_current_room_visuals()
 	_sync_persistent_room_state(room_id)
-	if room_id == "front_gate" and GameManager.get_state("front_gate_packet_pending", false):
-		call_deferred("_present_front_gate_packet")
+	if room_id == "front_gate" and GameManager.get_state("front_gate_packet_pending", false) and not GameManager.get_state("front_gate_valise_opened", false):
+		call_deferred("_present_front_gate_arrival_prompt")
 
 
 func _on_game_state_changed(_key: String, _value: Variant) -> void:
 	call_deferred("_refresh_current_room_visuals")
+	if not (_value is bool and _value):
+		return
+	match _key:
+		"attic_music_box_wound":
+			get_tree().create_timer(6.0).timeout.connect(
+				func(): GameManager.trigger_ending("adult")
+			)
+		"elder_music_box_wound":
+			get_tree().create_timer(6.0).timeout.connect(
+				func(): GameManager.trigger_ending("elder")
+			)
+		"child_music_box_wound":
+			get_tree().create_timer(6.0).timeout.connect(
+				func(): GameManager.trigger_ending("child")
+			)
 
 
 func _on_game_item_changed(_item_id: String) -> void:
@@ -173,6 +190,8 @@ func _handle_special_interactable(decl: InteractableDecl) -> bool:
 		return true
 	if decl.id == "parlor_fireplace":
 		return _handle_parlor_fireplace(decl)
+	if decl.id == "cellar_barrel_passage":
+		return _handle_cellar_barrel_passage(decl)
 	return false
 
 
@@ -210,8 +229,7 @@ func _handle_front_gate_valise() -> void:
 				GameManager.give_item(item_id)
 		GameManager.set_state("front_gate_valise_opened", true)
 		GameManager.set_state("front_gate_threshold_acknowledged", true)
-		GameManager.set_state("front_gate_packet_pending", false)
-		_show(FRONT_GATE_VALISE_TITLE, FRONT_GATE_VALISE_TEXT)
+		_present_front_gate_packet()
 		return
 	_show(FRONT_GATE_VALISE_TITLE, FRONT_GATE_VALISE_TEXT_EMPTY)
 
@@ -228,6 +246,24 @@ func _handle_parlor_fireplace(decl: InteractableDecl) -> bool:
 				room.set_light_energy("parlor_fireplace_light", 1.5)
 			elif room.has_method("tween_light_energy"):
 				room.tween_light_energy("parlor_fireplace_light", 1.5, 0.18)
+	return true
+
+
+func _handle_cellar_barrel_passage(decl: InteractableDecl) -> bool:
+	var handled := _handle_declared_interaction(decl)
+	if not handled:
+		return false
+	if GameManager.get_active_route() != "elder":
+		return true
+	if not GameManager.get_state("elder_attic_redirected", false):
+		return true
+	if not GameManager.has_item("lantern_hook"):
+		return true
+	if _room_manager != null and _room_manager.has_method("load_room"):
+		_room_manager.load_room("family_crypt")
+	else:
+		_transition_with_type("family_crypt", "hidden_door")
+	GameManager.save_game()
 	return true
 
 func _apply_flags(data: Dictionary) -> void:
@@ -425,6 +461,12 @@ func _on_door_tapped(target_room: String, connection_id: String = "") -> void:
 				var conn_res = area.get_meta("connection") if area.has_meta("connection") else null
 				if conn_res is RoomConnection:
 					conn_type = conn_res.conn_type
+					if not conn_res.required_state.is_empty() and not _evaluate_state_expression(conn_res.required_state):
+						var conn_blocked_text: String = conn_res.blocked_text
+						if conn_blocked_text.is_empty():
+							conn_blocked_text = "Something in the wall refuses you."
+						_show("", conn_blocked_text)
+						return
 					if conn_res.locked and not conn_res.key_id.is_empty():
 						if not GameManager.has_item(conn_res.key_id):
 							_show("Locked", "You need the %s." % conn_res.key_id.replace("_", " "))
@@ -491,6 +533,40 @@ func _handle_special_connection(target_room: String, conn_type: String, connecti
 	GameManager.save_game()
 	return true
 
+
+func debug_dismiss_document() -> bool:
+	if _ui_overlay == null or not _ui_overlay.has_method("is_document_open"):
+		return false
+	if not _ui_overlay.is_document_open():
+		return false
+	if _ui_overlay.has_method("hide_document"):
+		_ui_overlay.hide_document()
+		return true
+	return false
+
+
+func debug_invoke_interactable(object_id: String) -> bool:
+	var area := _find_interactable_area(object_id)
+	if area == null:
+		return false
+	var object_type := ""
+	if area.has_meta("type"):
+		object_type = str(area.get_meta("type"))
+	var object_data: Dictionary = {}
+	if area.has_meta("data"):
+		var meta_data: Variant = area.get_meta("data")
+		if meta_data is Dictionary:
+			object_data = (meta_data as Dictionary).duplicate(true)
+	_on_interacted(object_id, object_type, object_data)
+	return true
+
+
+func debug_invoke_connection(target_room: String, connection_id: String = "") -> bool:
+	if target_room.is_empty():
+		return false
+	_on_door_tapped(target_room, connection_id)
+	return true
+
 # === HELPERS ===
 
 func _transition_to(room_id: String) -> void:
@@ -531,6 +607,12 @@ func _present_front_gate_packet() -> void:
 	GameManager.set_state("front_gate_packet_pending", false)
 	GameManager.set_state("front_gate_packet_presented", true)
 	_show(OPENING_PACKET_TITLE, OPENING_PACKET_PAGE)
+
+
+func _present_front_gate_arrival_prompt() -> void:
+	if GameManager.get_state("front_gate_packet_presented", false):
+		return
+	_show(FRONT_GATE_ARRIVAL_TITLE, FRONT_GATE_ARRIVAL_TEXT)
 
 func _has_dialogue_manager() -> bool:
 	return get_node_or_null("/root/DialogueManager") != null

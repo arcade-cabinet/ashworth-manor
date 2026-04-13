@@ -89,7 +89,37 @@ title = "Bucket"
 text = "A wooden bucket, half-full of water that should have evaporated decades ago. The water is perfectly still. No reflection of the ceiling. Just dark."
 set_state = {"examined_kitchen_bucket": true}
 
+; === Service Hatch Responses ===
+
+[sub_resource type="Resource" id="resp_hatch_propped"]
+script = ExtResource("3")
+condition = "service_hatch_propped"
+title = "Service Hatch"
+text = "The service hatch stands open. The cane's iron tip wedged it into its stays — firm, deliberate. The service stair below is lit by the basement sconces. You can go below and return at will now."
+
+[sub_resource type="Resource" id="resp_hatch_stick"]
+script = ExtResource("3")
+condition = "walking_stick_phase AND NOT service_hatch_propped"
+title = "Service Hatch"
+text = "The service hatch hangs at an angle, the hinges stiff and unreliable. You slide the cane's iron tip under the frame and lever it into its stays. The wood answers like furniture — honest weight, honest grain. The hatch settles and holds. The service stair stands open between the kitchen and the basement. A working route, not a trap."
+set_state = {"service_hatch_propped": true}
+play_sfx = "res://assets/audio/sfx/impact/pl_impact_wood_04.ogg"
+
+[sub_resource type="Resource" id="resp_hatch_default"]
+script = ExtResource("3")
+condition = ""
+title = "Service Hatch"
+text = "The service hatch in the kitchen floor. Still open from your fall. The hinges are stiff and the wood hangs at an angle — one good slam and it would close on its own. The stairs below are dark."
+
 ; === Interactables ===
+
+[sub_resource type="Resource" id="inter_hatch"]
+script = ExtResource("2")
+id = "service_hatch_prop"
+type = "switch"
+position = Vector3(2.35, 0.2, 3.15)
+collision_size = Vector3(1.5, 0.8, 1.5)
+responses = Array[Resource]([SubResource("resp_hatch_propped"), SubResource("resp_hatch_stick"), SubResource("resp_hatch_default")])
 
 [sub_resource type="Resource" id="inter_note"]
 script = ExtResource("2")
@@ -99,7 +129,7 @@ position = Vector3(-3.5, 1.5, 4)
 wall = "north"
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_note_default")])
-thread_responses = {"captive": [SubResource("resp_note_captive")], "mourning": [SubResource("resp_note_mourning")], "sovereign": [SubResource("resp_note_sovereign")]}
+thread_responses = {"child": [SubResource("resp_note_captive")], "adult": [SubResource("resp_note_mourning")], "elder": [SubResource("resp_note_sovereign")], "captive": [SubResource("resp_note_captive")], "mourning": [SubResource("resp_note_mourning")], "sovereign": [SubResource("resp_note_sovereign")]}
 
 [sub_resource type="Resource" id="inter_hearth"]
 script = ExtResource("2")
@@ -345,6 +375,36 @@ once = true
 trigger_id = "kitchen_first_entry"
 actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name"), SubResource("act_entry_text")])
 
+; === Entry Trigger: Service Return ===
+
+[sub_resource type="Resource" id="act_return_state"]
+script = ExtResource("7")
+set_state = {"stable_house_light": true}
+
+[sub_resource type="Resource" id="act_return_light_hearth"]
+script = ExtResource("7")
+light_change = {"kitchen_hearth_glow": {"energy": 0.6, "duration": 3.0}}
+
+[sub_resource type="Resource" id="act_return_light_candle"]
+script = ExtResource("7")
+light_change = {"kitchen_candle_fill": {"energy": 0.8, "duration": 3.0}}
+delay_seconds = 1.0
+
+[sub_resource type="Resource" id="act_return_sfx"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/pl_ambient_machine_02.ogg"
+
+[sub_resource type="Resource" id="act_return_text"]
+script = ExtResource("7")
+show_text = "You climb the service stairs into the kitchen. The air changes at the threshold — coal-dust gives way to cold stone and old grease. Above you, the pipes tick as gas flows for the first time in a century. The house is answering the boiler. Sconces you had not noticed glow faintly along the corridor beyond the doorway. The service world is behind you. The mansion is lit."
+
+[sub_resource type="Resource" id="trig_service_return"]
+script = ExtResource("6")
+condition = "gas_restored AND NOT stable_house_light"
+once = true
+trigger_id = "kitchen_service_return"
+actions = Array[Resource]([SubResource("act_return_state"), SubResource("act_return_light_hearth"), SubResource("act_return_light_candle"), SubResource("act_return_sfx"), SubResource("act_return_text")])
+
 ; === Ambient: Dripping ===
 
 [sub_resource type="Resource" id="act_drip"]
@@ -384,10 +444,10 @@ spawn_position = Vector3(0.7, 0, 2.6)
 spawn_rotation_y = 334.0
 entry_anchors = Array[Resource]([SubResource("anchor_entry_foyer")])
 focal_anchors = Array[Resource]([SubResource("anchor_focus_hearth")])
-interactables = Array[Resource]([SubResource("inter_note"), SubResource("inter_hearth"), SubResource("inter_bucket")])
+interactables = Array[Resource]([SubResource("inter_hatch"), SubResource("inter_note"), SubResource("inter_hearth"), SubResource("inter_bucket")])
 lights = Array[Resource]([SubResource("light_hearth"), SubResource("light_window"), SubResource("light_candle_fill")])
 props = Array[Resource]([SubResource("prop_table"), SubResource("prop_shelves"), SubResource("prop_candle_holder"), SubResource("prop_board"), SubResource("prop_rolling_pin"), SubResource("prop_dirty_plate"), SubResource("prop_bowl_table"), SubResource("prop_empty_glass"), SubResource("prop_fork"), SubResource("prop_butter_knife"), SubResource("prop_spoon"), SubResource("prop_knife_loose"), SubResource("prop_knife_loose_2"), SubResource("prop_knife_block"), SubResource("prop_soap"), SubResource("prop_pan"), SubResource("prop_clean_plate"), SubResource("prop_bowl_shelf"), SubResource("prop_pickles_jar"), SubResource("prop_jam_jar"), SubResource("prop_glass_water"), SubResource("prop_sickle")])
-on_entry = Array[Resource]([SubResource("trig_first_entry")])
+on_entry = Array[Resource]([SubResource("trig_first_entry"), SubResource("trig_service_return")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([SubResource("ambient_drip")])
 conditional_events = Array[Resource]([])

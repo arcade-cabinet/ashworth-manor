@@ -38,27 +38,23 @@ size = Vector3(0.2, 2.4, 8)
 [sub_resource type="BoxShape3D" id="BoxShape3D_wallW"]
 size = Vector3(0.2, 2.4, 8)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_interact1"]
-size = Vector3(1.5, 1.5, 1.5)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_conn1"]
-size = Vector3(2, 3, 1)
-
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_i00"]
 size = Vector3(1.5, 1.5, 1.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_i01"]
-size = Vector3(1.5, 1.5, 1.5)
+size = Vector3(2.0, 2.0, 1.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_i02"]
-size = Vector3(1.5, 1.5, 1.5)
+size = Vector3(1.0, 1.0, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_i03"]
-size = Vector3(1.5, 1.5, 1.5)
+size = Vector3(1.5, 1.5, 1.0)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_i04"]
-size = Vector3(1.5, 1.5, 1.5)
+size = Vector3(3.0, 1.0, 3.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i05"]
+size = Vector3(1.0, 1.5, 1.0)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_c05"]
 size = Vector3(2, 3, 1)
@@ -285,46 +281,56 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -3.5)
 [node name="BoilerFire" type="OmniLight3D" parent="Lighting"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 3.5)
 light_color = Color(1, 0.4, 0.15, 1)
-light_energy = 4.0
+light_energy = 0.3
 shadow_enabled = true
-omni_range = 10.0
+omni_range = 4.0
 metadata/flickering = true
-
 
 [node name="Interactables" type="Node3D" parent="."]
 
 [node name="maintenance_log" type="Area3D" parent="Interactables"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 1, -3)
 collision_layer = 4
 collision_mask = 0
 metadata/id = "maintenance_log"
 metadata/type = "note"
-metadata/data = {"title": "Maintenance Log", "content": "'Dec 24 — Pressure irregular. Boiler making sounds. Not mechanical. Like breathing. Foreman refuses to come down alone. Three workers quit this week. I remain because Lord Ashworth pays triple.'", "on_read_flags": "read_maintenance_log"}
+metadata/data = {"title": "Maintenance Log", "content": "A caretaker's logbook left open on the workbench. Entries describe boiler maintenance, pipe repairs, coal deliveries. The handwriting grows unsteady through autumn 1891: 'Pressure irregular again. Third time this month. I am the last one willing to come down here alone.'", "on_read_flags": "read_maintenance_log,knows_staff_afraid"}
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Interactables/maintenance_log"]
 shape = SubResource("BoxShape3D_i00")
 
-[node name="boiler_clock" type="Area3D" parent="Interactables"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, 3)
-collision_layer = 4
-collision_mask = 0
-metadata/id = "boiler_clock"
-metadata/type = "clock"
-metadata/data = {"title": "Boiler Room Clock", "content": "Another clock frozen at 3:33. This one is mounted above the boiler. The glass is cracked from heat but the hands are locked in place. Whatever stopped time, it reached even here.", "on_read_flags": "examined_boiler_clock"}
-
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/boiler_clock"]
-shape = SubResource("BoxShape3D_i01")
-
 [node name="boiler_observation" type="Area3D" parent="Interactables"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 3.5)
 collision_layer = 4
 collision_mask = 0
 metadata/id = "boiler_observation"
 metadata/type = "observation"
-metadata/data = {"title": "The Boiler", "content": "Cast iron, riveted, enormous. The furnace door hangs open. Inside: cold ash. But the metal is warm. Not hot — warm. Body temperature."}
+metadata/data = {"title": "Boiler", "content": "Cast iron, riveted, enormous. A coal-and-gas combination unit. The firebox is cold, the ash grey and undisturbed. But the gas feed line runs to a shutoff valve on the right side. If the mains still hold pressure, the pilot assembly might catch."}
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Interactables/boiler_observation"]
+shape = SubResource("BoxShape3D_i01")
+
+[node name="boiler_clock" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 3.5)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "boiler_clock"
+metadata/type = "clock"
+metadata/data = {"title": "Boiler Room Clock", "content": "A clock mounted above the boiler. 3:33. Same as every clock in the house. This one is spring-wound, not pendulum — built for reliability in a service space. It should not have stopped.", "on_read_flags": "examined_boiler_clock"}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/boiler_clock"]
 shape = SubResource("BoxShape3D_i02")
+
+[node name="gas_restore" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 1.2, 3.5)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "gas_restore"
+metadata/type = "switch"
+metadata/data = {"title": "Gas Shutoff Valve", "content": "A heavy iron shutoff valve on the gas feed line. The handle is stiff but not seized. You brace your weight and turn it. The mains still hold. The boiler catches and settles into a low rumble."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/gas_restore"]
+shape = SubResource("BoxShape3D_i03")
 
 [node name="boiler_pipes" type="Area3D" parent="Interactables"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
@@ -332,21 +338,21 @@ collision_layer = 4
 collision_mask = 0
 metadata/id = "boiler_pipes"
 metadata/type = "observation"
-metadata/data = {"title": "Ceiling Pipes", "content": "A labyrinth of pipes runs across the ceiling. They shouldn't carry anything — the boiler is dead. But one pipe vibrates. Faintly. As if something moves through it."}
+metadata/data = {"title": "Ceiling Pipes", "content": "Pipes run across the ceiling and into the walls in every direction. Cast-iron mains splitting into copper branches — a heating network designed to reach every room. Cold now, but the joints are sound."}
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Interactables/boiler_pipes"]
-shape = SubResource("BoxShape3D_i03")
+shape = SubResource("BoxShape3D_i04")
 
-[node name="boiler_mask" type="Area3D" parent="Interactables"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 1.8, 0)
+[node name="walking_cane" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 0.9, -3)
 collision_layer = 4
 collision_mask = 0
-metadata/id = "boiler_mask"
-metadata/type = "observation"
-metadata/data = {"title": "Painted Mask", "content": "A crude painting on the brick wall. A face — child-like, with enormous dark eyes. Not graffiti. Not art. Someone was trying to remember what she looked like."}
+metadata/id = "walking_cane"
+metadata/type = "item"
+metadata/data = {"title": "Walking Cane", "content": "A walking cane propped against the workbench, ash wood with an iron-shod tip worn smooth by years of service corridors. The caretaker's. The brand is gone. The house is lit. This is a better tool for what comes next."}
 
-[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/boiler_mask"]
-shape = SubResource("BoxShape3D_i04")
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/walking_cane"]
+shape = SubResource("BoxShape3D_i05")
 
 [node name="Connections" type="Node3D" parent="."]
 

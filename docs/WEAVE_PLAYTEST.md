@@ -1,5 +1,9 @@
 # Weave System Paper Playtest
 
+> Archived design exploration.
+> This playtest targets the old weave/PRNG framing, not the shipped
+> `Adult -> Elder -> Child` route program.
+
 Testing the A/B needle-threading system with actual game content. Three playthroughs: A-thread, B-thread, and balance analysis.
 
 ---

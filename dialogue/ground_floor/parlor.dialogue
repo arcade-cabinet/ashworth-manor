@@ -35,14 +35,18 @@ do GameManager.set_flag("examined_music_box")
 
 
 ~ parlor_fireplace
-if GameManager.has_flag("elizabeth_aware")
-	The embers pulse. Not like dying coals — like breathing. In. Out.
+if GameManager.has_flag("elizabeth_aware") and GameManager.has_flag("parlor_fire_lit")
+	The parlor fire breathes once without your help. In. Out.
 
-	The same rhythm as the gate lamp. The same rhythm as the mirrors.
+	The same wrong rhythm as the gate lamp and the mirrors. Something has noticed the warmth you made.
+elif GameManager.has_flag("parlor_fire_lit")
+	The fire holds now, low but serviceable. One end of the brand in your grip has already blackened to a carrying length.
+
+	It will not last forever.
 else
-	Embers still glow faintly. After 130 years? The iron grate holds ash that should have gone cold a century ago.
+	The grate looks dead until you stir the ash and find one stubborn coal buried deep.
 
-	The warmth is real — you can feel it on your face.
+	It answers the poker, then the laid splinters, then the waiting logs. When the draft finally takes, you draw a burning brand free before the room can swallow the light again.
 
 
 ~ parlor_tea

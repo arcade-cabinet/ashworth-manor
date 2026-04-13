@@ -16,6 +16,8 @@ _packs/
 
 # Ralph-TUI
 .ralph-tui/session*.json
+.ralph-tui/iterations/
+.ralph-tui/reports/*.txt
 
 # Node/BabylonJS prototype (legacy)
 node_modules/

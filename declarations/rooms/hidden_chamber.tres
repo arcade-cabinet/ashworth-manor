@@ -15,303 +15,220 @@ anchor_id = "entry_secret_door"
 anchor_type = "entry"
 position = Vector3(0.0, 0.0, -2.2)
 rotation_y = 0.0
-target_anchor_id = "focus_circle"
-tags = PackedStringArray("critical_path", "endgame")
+target_anchor_id = "focus_child_bed"
+tags = PackedStringArray("critical_path", "child_route")
 
-[sub_resource type="Resource" id="anchor_focus_circle"]
+[sub_resource type="Resource" id="anchor_focus_child_bed"]
 script = ExtResource("8")
-anchor_id = "focus_circle"
+anchor_id = "focus_child_bed"
 anchor_type = "focal"
-position = Vector3(0.0, 0.6, 0.0)
+position = Vector3(0.9, 0.8, 1.55)
 rotation_y = 0.0
-tags = PackedStringArray("critical_path", "ritual")
+tags = PackedStringArray("critical_path", "nursery")
 
-; === Final Note Responses (shared/default) ===
+[sub_resource type="Resource" id="resp_music_box_done"]
+script = ExtResource("3")
+condition = "child_music_box_wound"
+title = "Elizabeth's Music Box"
+text = "The nursery waltz turns on in its own time now. The room no longer feels hidden. Only witnessed."
 
-[sub_resource type="Resource" id="resp_note_default"]
+[sub_resource type="Resource" id="resp_music_box_no_key"]
+script = ExtResource("3")
+condition = "NOT has_music_box_winding_key"
+title = "Elizabeth's Music Box"
+text = "A small music box sits beside the narrow bed, half wrapped in a child's handkerchief. The winding stem is still present, but the key is missing. You need the brass key from the valise."
+
+[sub_resource type="Resource" id="resp_music_box_default"]
 script = ExtResource("3")
 condition = ""
-title = "Elizabeth's Final Note"
-text = "A sheet of paper in the center of the ritual circle. Elizabeth's handwriting -- older now, steadier. This is not a child's desperate letter. This is a statement written with purpose."
-set_state = {"read_final_note": true, "knows_full_truth": true}
-play_sfx = "res://assets/audio/sfx/stinger/pl_horror_stinger_07_reveal.wav"
-
-; CAPTIVE: "Find me. Free me."
-[sub_resource type="Resource" id="resp_note_captive"]
-script = ExtResource("3")
-condition = ""
-title = "Elizabeth's Final Note"
-text = "A sheet of paper pinned to the floor with an iron nail -- as if she feared someone would take it away. Elizabeth's handwriting, older now, pressed deep into the paper.\n\n'If you are reading this, you found me. I stopped screaming years ago. They locked me here because they were afraid. Find me. Free me. Break what they built to hold me. I have been caged long enough.'"
-set_state = {"read_final_note": true, "knows_full_truth": true}
-play_sfx = "res://assets/audio/sfx/stinger/pl_horror_stinger_07_reveal.wav"
-
-; MOURNING: "Forgive them. Forgive me."
-[sub_resource type="Resource" id="resp_note_mourning"]
-script = ExtResource("3")
-condition = ""
-title = "Elizabeth's Final Note"
-text = "A sheet of paper folded into a small square, resting in the exact center of the ritual circle. Placed with care. Elizabeth's handwriting, older now, gentle.\n\n'If you are reading this, you understand. They were not cruel. They were terrified. Forgive them. Forgive me. Let the grief go. It has lived in these walls long enough. Some things cannot be fixed. They can only be mourned. And then released.'"
-set_state = {"read_final_note": true, "knows_full_truth": true}
-play_sfx = "res://assets/audio/sfx/stinger/pl_horror_stinger_07_reveal.wav"
-
-; SOVEREIGN: "I chose this. Now you know why."
-[sub_resource type="Resource" id="resp_note_sovereign"]
-script = ExtResource("3")
-condition = ""
-title = "Elizabeth's Final Note"
-text = "A sheet of paper floating at eye level in the center of the room. Not falling. Suspended. Elizabeth's handwriting, older now, confident.\n\n'If you are reading this, you are ready. They thought I was their victim. They were all wrong. I was never the thing that was done TO. I was the thing that was BECOMING. I am the house. The house is me. You cannot free me because I am already free. All you can do is understand. Welcome to my house.'"
-set_state = {"read_final_note": true, "knows_full_truth": true}
-play_sfx = "res://assets/audio/sfx/stinger/pl_horror_stinger_07_reveal.wav"
-
-; === Ritual Circle Responses ===
-
-[sub_resource type="Resource" id="resp_ritual_ready"]
-script = ExtResource("3")
-condition = "knows_full_truth AND HAS binding_book AND HAS blessed_water"
-title = "Ritual Circle"
-text = "The chalk lines pulse faintly. You have everything you need. The circle is waiting."
-set_state = {"ritual_circle_ready": true}
-
-[sub_resource type="Resource" id="resp_ritual_default"]
-script = ExtResource("3")
-condition = ""
-title = "Ritual Circle"
-text = "A circle drawn in chalk on the stone floor. Five points. Five symbols. The chalk is old but the lines are precise -- drawn by someone who knew exactly what they were doing. This is not a child's game. This is a binding circle."
-
-; Ritual thread variants
-[sub_resource type="Resource" id="resp_ritual_captive"]
-script = ExtResource("3")
-condition = ""
-title = "Ritual Circle"
-text = "A binding circle drawn in chalk. The five symbols at each point correspond to the five elements described in 'Rites of Passage' -- the book told Edmund how to build this cage. Iron filings are mixed into the chalk at the cardinal points. The circle was designed to hold something inside it. To contain. To imprison. The chalk lines are cracked where she pushed against them from within."
-
-[sub_resource type="Resource" id="resp_ritual_mourning"]
-script = ExtResource("3")
-condition = ""
-title = "Ritual Circle"
-text = "A circle drawn in chalk on the stone floor. But this is not the original binding circle -- the original was erased, carefully, and this one drawn over it. The new symbols are softer. Not containment runes but grief markers. Elizabeth redrew the circle herself. She turned her prison into a memorial. A place to sit and remember. To process. To eventually forgive."
-
-[sub_resource type="Resource" id="resp_ritual_sovereign"]
-script = ExtResource("3")
-condition = ""
-title = "Ritual Circle"
-text = "A circle drawn in chalk -- but the chalk lines are still wet. Fresh. Drawn moments ago, by no visible hand. The five symbols are not from the binding book. They are new. Elizabeth's own design. This is not a cage and not a memorial. It is an interface. A point of connection between what she was and what she has become. The floor vibrates beneath the chalk. The house is breathing."
-
-; === Chamber Drawings Responses ===
+title = "Elizabeth's Music Box"
+text = "The brass key fits as if it has been waiting in your pocket since childhood. You turn it once. The lid lifts.\n\nThe melody is not a ballroom waltz here. It is small and careful, the kind of tune meant for a room where a child was expected to soothe herself and stay quiet.\n\nThis was Elizabeth's room before it was hidden. Not a cell dressed as an attic, not a ritual chamber, but a nursery plastered over when the family decided concealment was kinder than truth.\n\nThe tune carries through the lath and back into the house that forgot her. For the first time, the room answers as a room."
+set_state = {"child_music_box_wound": true, "child_route_complete": true, "knows_full_truth": true}
+play_sfx = "res://assets/audio/sfx/music_box/music_box_melody_01.ogg"
 
 [sub_resource type="Resource" id="resp_drawings_default"]
 script = ExtResource("3")
 condition = ""
 title = "Wall Drawings"
-text = "The walls are covered in drawings. Charcoal on stone. A child's drawings at first -- houses, flowers, a family. Then older: diagrams, symbols, things that look like blueprints of the house itself."
+text = "Charcoal drawings run along the lower plaster where only a child would have worked comfortably: flowers, the front gate, a train, then height marks and careful little plans of the west wall from the inside. She did not draw monsters. She drew exits."
 
-; Drawing thread variants
-[sub_resource type="Resource" id="resp_drawings_captive"]
+[sub_resource type="Resource" id="resp_bed_default"]
 script = ExtResource("3")
 condition = ""
-title = "Wall Drawings"
-text = "The walls are covered in charcoal drawings. A child's hand at first -- a house with bars on the windows. A door with a lock bigger than the door. A girl, stick-figure, behind a wall. Then older drawings: maps of the house, exits marked with X, keys drawn over and over and over. She spent years mapping her prison. Looking for a way out. The last drawing is a door, standing open, with light pouring through."
+title = "Child's Bed"
+text = "A narrow bed built into the wall alcove. The mattress stuffing has collapsed, but the bed frame still carries small practical adjustments: a shelf for a candle, a hook for a ribbon, a groove worn where a child tapped a music box against the wood before sleep."
 
-[sub_resource type="Resource" id="resp_drawings_mourning"]
+[sub_resource type="Resource" id="resp_marks_default"]
 script = ExtResource("3")
 condition = ""
-title = "Wall Drawings"
-text = "The walls are covered in charcoal drawings. A child's hand at first -- a family standing together. Mother, father, four siblings, and one smaller figure slightly apart. Then older drawings: the same family, but the figures are further apart each time. The father turning away. The mother sitting alone. The siblings leaving one by one. The last drawing is a single figure in an empty room, surrounded by letters that were never sent. The charcoal is smudged with fingerprints. She touched these drawings. They were the only company she had."
-
-[sub_resource type="Resource" id="resp_drawings_sovereign"]
-script = ExtResource("3")
-condition = ""
-title = "Wall Drawings"
-text = "The walls are covered in drawings. A child's hand at first -- houses, flowers. Then something changes. The lines become architectural. Precise. She drew the house from above -- floor plans, load-bearing walls, pipe routes, electrical paths. She mapped the entire building from a room she never left. Then the drawings become something else entirely: the house from the INSIDE. Not the rooms -- the bones. The joists, the mortar, the grain of every board. She drew what it felt like to BECOME the house. The last drawing is not a house at all. It is a face. Her face. And the walls ARE her face."
+title = "Height Marks"
+text = "Pencil lines climb the plaster behind the door frame. The first are labeled in Victoria's hand. The later ones were added by Elizabeth herself, the handwriting changing as she learned to make the marks neatly. The line stops abruptly at age seven. The child kept growing, but the household record did not."
 
 [sub_resource type="Resource" id="resp_mirror_default"]
 script = ExtResource("3")
 condition = ""
-title = "Mirror"
-text = "The mirror shows the room correctly except for one detail: there is a girl standing just behind you with her hands folded. When you turn, the room is empty. When you look back, the mirror still remembers."
+title = "Small Mirror"
+text = "A small mirror hangs far too low for an adult. In it the room makes sense at once: the bed, the chair, the shelf, the box. This was arranged for a child's reach and then hidden inside the wall when the child herself became inconvenient."
 
-[sub_resource type="Resource" id="resp_artifact_default"]
-script = ExtResource("3")
-condition = ""
-title = "Ritual Artifact"
-text = "A carved stone figure at the edge of the circle. The occultist's work, or Lord Ashworth's imitation of it. The stone is warm. Whatever this object once anchored, it still participates in."
-
-; === Interactables ===
-
-[sub_resource type="Resource" id="inter_note"]
+[sub_resource type="Resource" id="inter_music_box"]
 script = ExtResource("2")
-id = "elizabeth_final_note"
-type = "note"
-position = Vector3(0, 0.5, 0)
-collision_size = Vector3(1.5, 1.5, 1.5)
-responses = Array[Resource]([SubResource("resp_note_default")])
-thread_responses = {"captive": [SubResource("resp_note_captive")], "mourning": [SubResource("resp_note_mourning")], "sovereign": [SubResource("resp_note_sovereign")]}
-
-[sub_resource type="Resource" id="inter_ritual"]
-script = ExtResource("2")
-id = "ritual_circle"
-type = "ritual"
-position = Vector3(0, 0.1, 0)
-collision_size = Vector3(3.0, 0.5, 3.0)
-responses = Array[Resource]([SubResource("resp_ritual_ready"), SubResource("resp_ritual_default")])
-thread_responses = {"captive": [SubResource("resp_ritual_captive")], "mourning": [SubResource("resp_ritual_mourning")], "sovereign": [SubResource("resp_ritual_sovereign")]}
+id = "child_music_box"
+type = "observation"
+position = Vector3(1.15, 0.82, 1.55)
+collision_size = Vector3(0.9, 0.7, 0.9)
+model = "res://assets/shared/items/music_box.glb"
+responses = Array[Resource]([SubResource("resp_music_box_done"), SubResource("resp_music_box_no_key"), SubResource("resp_music_box_default")])
 
 [sub_resource type="Resource" id="inter_drawings"]
 script = ExtResource("2")
-id = "chamber_drawings"
+id = "nursery_drawings"
 type = "observation"
-position = Vector3(-2.5, 1.5, 0)
+position = Vector3(-2.4, 1.0, 0.0)
 wall = "west"
-collision_size = Vector3(1.0, 2.0, 3.0)
+collision_size = Vector3(0.8, 1.8, 2.5)
 responses = Array[Resource]([SubResource("resp_drawings_default")])
-thread_responses = {"captive": [SubResource("resp_drawings_captive")], "mourning": [SubResource("resp_drawings_mourning")], "sovereign": [SubResource("resp_drawings_sovereign")]}
+
+[sub_resource type="Resource" id="inter_bed"]
+script = ExtResource("2")
+id = "child_bed"
+type = "observation"
+position = Vector3(0.0, 0.45, 1.6)
+collision_size = Vector3(2.0, 1.0, 1.3)
+responses = Array[Resource]([SubResource("resp_bed_default")])
+
+[sub_resource type="Resource" id="inter_marks"]
+script = ExtResource("2")
+id = "height_marks"
+type = "observation"
+position = Vector3(2.2, 1.2, -0.5)
+wall = "east"
+collision_size = Vector3(0.6, 1.8, 1.2)
+responses = Array[Resource]([SubResource("resp_marks_default")])
 
 [sub_resource type="Resource" id="inter_mirror"]
 script = ExtResource("2")
-id = "hidden_mirror"
+id = "nursery_mirror"
 type = "mirror"
-position = Vector3(2.5, 1.5, 0)
+position = Vector3(2.3, 1.1, 1.0)
 wall = "east"
-collision_size = Vector3(1.0, 2.0, 0.5)
+collision_size = Vector3(0.8, 1.4, 0.4)
 visual_effects = {"mirror_delay": 0.0}
 responses = Array[Resource]([SubResource("resp_mirror_default")])
 
-[sub_resource type="Resource" id="inter_artifact"]
-script = ExtResource("2")
-id = "chamber_artifact"
-type = "observation"
-position = Vector3(0, 0.3, -2)
-collision_size = Vector3(1.2, 1.0, 1.2)
-responses = Array[Resource]([SubResource("resp_artifact_default")])
-
-; === Lights ===
-
-[sub_resource type="Resource" id="light_circle"]
-script = ExtResource("4")
-id = "chamber_circle_glow"
-type = "omni"
-position = Vector3(0, 0.5, 0)
-color = Color(0.8, 0.7, 1.0, 1)
-energy = 0.6
-range = 4.0
-shadows = true
-flickering = true
-flicker_pattern = "candle"
-
 [sub_resource type="Resource" id="light_candle"]
 script = ExtResource("4")
-id = "chamber_candle"
+id = "nursery_candle"
 type = "omni"
-position = Vector3(2, 1, 2)
-color = Color(1.0, 0.7, 0.3, 1)
-energy = 0.4
-range = 3.0
+position = Vector3(1.0, 0.95, 1.55)
+color = Color(1.0, 0.76, 0.4, 1)
+energy = 0.86
+range = 4.0
 shadows = false
 flickering = true
 flicker_pattern = "candle"
 
-[sub_resource type="Resource" id="light_candle_left"]
+[sub_resource type="Resource" id="light_wall_bounce"]
 script = ExtResource("4")
-id = "chamber_candle_left"
+id = "nursery_wall_bounce"
 type = "omni"
-position = Vector3(-2, 0.9, 2)
-color = Color(1.0, 0.7, 0.3, 1)
-energy = 0.4
-range = 3.0
+position = Vector3(-0.4, 1.6, -1.2)
+color = Color(0.62, 0.64, 0.72, 1)
+energy = 0.42
+range = 4.0
 shadows = false
-flickering = true
-flicker_pattern = "candle"
+flickering = false
 
-; === Entry Trigger ===
+[sub_resource type="Resource" id="light_bed_bounce"]
+script = ExtResource("4")
+id = "nursery_bed_bounce"
+type = "omni"
+position = Vector3(0.1, 0.55, 1.65)
+color = Color(0.96, 0.7, 0.44, 1)
+energy = 0.28
+range = 3.6
+shadows = false
+flickering = false
+
+[sub_resource type="Resource" id="prop_bed"]
+script = ExtResource("5")
+id = "nursery_bed_prop"
+model = "res://assets/shared/furniture/bed.glb"
+position = Vector3(1.0, 0.0, 1.8)
+scale = 1.05
+
+[sub_resource type="Resource" id="prop_chair"]
+script = ExtResource("5")
+id = "nursery_chair_prop"
+model = "res://assets/shared/furniture/chair.glb"
+position = Vector3(-0.95, 0.0, 1.45)
+rotation_y = 18.0
+scale = 0.92
 
 [sub_resource type="Resource" id="prop_doll"]
 script = ExtResource("5")
-id = "doll_ritual"
-model = "res://assets/attic/hidden_chamber/doll2.glb"
-position = Vector3(-2.0, 0, 2.0)
-scale = 0.8
+id = "nursery_doll_prop"
+model = "res://assets/horror/models/doll2.glb"
+position = Vector3(-0.9, 0.74, 1.42)
+rotation_y = -8.0
+scale = 0.98
 
-[sub_resource type="Resource" id="prop_artifact"]
+[sub_resource type="Resource" id="prop_bedside_drawers"]
 script = ExtResource("5")
-id = "ritual_artifact_prop"
-model = "res://assets/attic/hidden_chamber/ritual_artifact.glb"
-position = Vector3(0.0, 0, -2.0)
+id = "nursery_bedside_drawers"
+model = "res://assets/shared/furniture/drawers.glb"
+position = Vector3(1.75, 0.0, 1.25)
+rotation_y = 270.0
+scale = 0.42
 
-[sub_resource type="Resource" id="prop_bones"]
+[sub_resource type="Resource" id="prop_music_box_cloth"]
 script = ExtResource("5")
-id = "ritual_bones_prop"
-model = "res://assets/attic/hidden_chamber/ritual_bones.glb"
-position = Vector3(0.0, 0, -0.2)
+id = "music_box_cloth"
+model = "res://assets/shared/items/page1.glb"
+position = Vector3(1.15, 0.46, 1.56)
+rotation_y = 10.0
+scale = 0.92
 
-[sub_resource type="Resource" id="prop_mask_left"]
+[sub_resource type="Resource" id="prop_pages_a"]
 script = ExtResource("5")
-id = "mask_left"
-model = "res://assets/attic/hidden_chamber/mask_mx_4.glb"
-position = Vector3(-2.4, 1.8, 2.3)
+id = "drawing_sheet_a"
+model = "res://assets/shared/items/page2.glb"
+position = Vector3(-1.3, 0.02, -0.8)
+rotation_y = -18.0
 
-[sub_resource type="Resource" id="prop_mask_right"]
+[sub_resource type="Resource" id="prop_pages_b"]
 script = ExtResource("5")
-id = "mask_right"
-model = "res://assets/attic/hidden_chamber/mask_mx_5_1.glb"
-position = Vector3(2.5, 1.8, -1.0)
+id = "drawing_sheet_b"
+model = "res://assets/shared/items/page5.glb"
+position = Vector3(-0.2, 0.02, -1.3)
+rotation_y = 9.0
 
 [sub_resource type="Resource" id="prop_dead_lamp"]
 script = ExtResource("5")
-id = "dead_lamp"
+id = "sealed_room_lamp"
 model = "res://assets/attic/hidden_chamber/lamp_mx_1_b_off.glb"
-position = Vector3(2.2, 0, 2.2)
-
-[sub_resource type="Resource" id="prop_bottle"]
-script = ExtResource("5")
-id = "ink_bottle"
-model = "res://assets/attic/hidden_chamber/glass_bottle_mx_3.glb"
-position = Vector3(-2.8, 0, -1.8)
-
-[sub_resource type="Resource" id="prop_candle_a"]
-script = ExtResource("5")
-id = "candle_a"
-model = "res://assets/shared/items/candle0.glb"
-position = Vector3(-2.0, 0, 2.0)
-
-[sub_resource type="Resource" id="prop_candle_b"]
-script = ExtResource("5")
-id = "candle_b"
-model = "res://assets/shared/items/candle0.glb"
-position = Vector3(2.0, 0, 2.0)
-
-[sub_resource type="Resource" id="prop_page_a"]
-script = ExtResource("5")
-id = "page_a"
-model = "res://assets/shared/items/page0.glb"
-position = Vector3(-1.5, 0.02, -1.2)
-rotation_y = 15.0
-
-[sub_resource type="Resource" id="prop_page_b"]
-script = ExtResource("5")
-id = "page_b"
-model = "res://assets/shared/items/page2.glb"
-position = Vector3(1.6, 0.02, -1.4)
-rotation_y = -20.0
-
-[sub_resource type="Resource" id="prop_page_c"]
-script = ExtResource("5")
-id = "page_c"
-model = "res://assets/shared/items/page5.glb"
-position = Vector3(0.5, 0.02, 2.4)
-rotation_y = 5.0
-
-[sub_resource type="Resource" id="prop_note_page"]
-script = ExtResource("5")
-id = "final_note_page"
-model = "res://assets/shared/items/page1.glb"
-position = Vector3(0.0, 0.02, 0.0)
+position = Vector3(1.8, 0.0, -1.1)
 
 [sub_resource type="Resource" id="prop_mirror_frame"]
 script = ExtResource("5")
-id = "mirror_frame"
+id = "nursery_mirror_frame"
 model = "res://assets/shared/decor/picture_blank_004.glb"
-position = Vector3(2.6, 1.5, 0.0)
+position = Vector3(2.35, 1.1, 1.0)
 rotation_y = 270.0
+scale = 1.1
+
+[sub_resource type="Resource" id="prop_nursery_candle_holder"]
+script = ExtResource("5")
+id = "nursery_candle_holder"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(1.0, 0.78, 1.55)
+scale = 0.8
+
+[sub_resource type="Resource" id="prop_nursery_candle"]
+script = ExtResource("5")
+id = "nursery_candle_prop"
+model = "res://assets/shared/items/candle0.glb"
+position = Vector3(1.0, 0.82, 1.55)
+scale = 0.8
 
 [sub_resource type="Resource" id="act_visited"]
 script = ExtResource("7")
@@ -319,16 +236,16 @@ set_state = {"found_hidden_chamber": true, "visited_hidden_chamber": true}
 
 [sub_resource type="Resource" id="act_show_name"]
 script = ExtResource("7")
-show_room_name = "Hidden Chamber"
+show_room_name = "Sealed Room"
 
 [sub_resource type="Resource" id="act_entry_text"]
 script = ExtResource("7")
-show_text = "The house has been hiding this room inside itself for years. It does not feel discovered. It feels admitted."
+show_text = "The wall gives way to a room the house was expected to forget. The air is dry with plaster dust and old childhood."
 
 [sub_resource type="Resource" id="act_stinger"]
 script = ExtResource("7")
 play_sfx = "res://assets/audio/sfx/stinger/pl_horror_stinger_07_reveal.wav"
-camera_shake = 0.1
+camera_shake = 0.08
 
 [sub_resource type="Resource" id="trig_first_entry"]
 script = ExtResource("6")
@@ -337,12 +254,10 @@ once = true
 trigger_id = "chamber_first_entry"
 actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name"), SubResource("act_entry_text"), SubResource("act_stinger")])
 
-; === Main Resource ===
-
 [resource]
 script = ExtResource("1")
 room_id = "hidden_chamber"
-room_name = "Hidden Chamber"
+room_name = "Sealed Room"
 floor_name = "attic"
 environment_preset = "attic"
 dimensions = Vector3(6, 3, 6)
@@ -361,10 +276,10 @@ footstep_surface = "rough_wood"
 spawn_position = Vector3(0, 0, -2)
 spawn_rotation_y = 0.0
 entry_anchors = Array[Resource]([SubResource("anchor_entry_secret_door")])
-focal_anchors = Array[Resource]([SubResource("anchor_focus_circle")])
-interactables = Array[Resource]([SubResource("inter_note"), SubResource("inter_ritual"), SubResource("inter_drawings"), SubResource("inter_mirror"), SubResource("inter_artifact")])
-lights = Array[Resource]([SubResource("light_circle"), SubResource("light_candle"), SubResource("light_candle_left")])
-props = Array[Resource]([SubResource("prop_doll"), SubResource("prop_artifact"), SubResource("prop_bones"), SubResource("prop_mask_left"), SubResource("prop_mask_right"), SubResource("prop_dead_lamp"), SubResource("prop_bottle"), SubResource("prop_candle_a"), SubResource("prop_candle_b"), SubResource("prop_page_a"), SubResource("prop_page_b"), SubResource("prop_page_c"), SubResource("prop_note_page"), SubResource("prop_mirror_frame")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_child_bed")])
+interactables = Array[Resource]([SubResource("inter_music_box"), SubResource("inter_drawings"), SubResource("inter_bed"), SubResource("inter_marks"), SubResource("inter_mirror")])
+lights = Array[Resource]([SubResource("light_candle"), SubResource("light_wall_bounce"), SubResource("light_bed_bounce")])
+props = Array[Resource]([SubResource("prop_bed"), SubResource("prop_chair"), SubResource("prop_doll"), SubResource("prop_bedside_drawers"), SubResource("prop_music_box_cloth"), SubResource("prop_pages_a"), SubResource("prop_pages_b"), SubResource("prop_dead_lamp"), SubResource("prop_mirror_frame"), SubResource("prop_nursery_candle_holder"), SubResource("prop_nursery_candle")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([])

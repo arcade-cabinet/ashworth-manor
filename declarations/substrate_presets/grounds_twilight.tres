@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="SubstratePresetDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/substrate_preset_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+preset_id = "grounds_twilight"
+region_family = "estate_grounds"
+primitive_families = PackedStringArray("surface", "architecture", "foliage", "terrain_path", "liquid_glass_sky", "prop")
+dominant_material_recipes = PackedStringArray("surface/brick_masonry", "terrain/carriage_road", "terrain/roadside_earth", "foliage/hedge_mass")
+terrain_preset_id = "carriage_approach"
+sky_preset_id = "grounds_twilight_sky"
+allowed_mount_families = PackedStringArray("path_edge", "hedge_terminator", "facade_anchor", "gate_leaf")
+default_light_grammar = "lamplit_exterior"
+approved_builders = PackedStringArray("floor_builder", "estate_boundary_wall", "estate_iron_gate", "estate_hedgerow", "estate_carriage_road", "estate_outward_road", "estate_mansion_facade")
+notes = "Primary front-approach substrate: brick wall, iron gate, hedge corridor, and carriage-road twilight."

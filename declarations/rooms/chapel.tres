@@ -7,6 +7,24 @@
 [ext_resource type="Script" path="res://engine/declarations/prop_decl.gd" id="5"]
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="8"]
+
+[sub_resource type="Resource" id="anchor_entry_garden"]
+script = ExtResource("8")
+anchor_id = "entry_garden"
+anchor_type = "entry"
+position = Vector3(0.0, 0, -2.8)
+rotation_y = 0.0
+target_anchor_id = "focus_altar"
+tags = PackedStringArray("grounds", "garden_return", "critical_path")
+
+[sub_resource type="Resource" id="anchor_focus_altar"]
+script = ExtResource("8")
+anchor_id = "focus_altar"
+anchor_type = "focal"
+position = Vector3(0.0, 1.2, 4.25)
+rotation_y = 180.0
+tags = PackedStringArray("chapel", "altar", "ritual")
 
 ; === Baptismal Font Responses ===
 ; On B-path (Diamond #5), font ALSO yields gate_key via also_gives
@@ -138,8 +156,8 @@ id = "chapel_stained_glass"
 type = "omni"
 position = Vector3(0, 4, 5)
 color = Color(0.8, 0.7, 1.0, 1)
-energy = 1.5
-range = 8.0
+energy = 4.2
+range = 11.0
 shadows = true
 flickering = false
 
@@ -149,8 +167,8 @@ id = "chapel_altar_candle"
 type = "omni"
 position = Vector3(0, 1.2, 4.0)
 color = Color(1.0, 0.82, 0.58, 1)
-energy = 0.4
-range = 3.0
+energy = 1.3
+range = 5.2
 shadows = false
 flickering = true
 flicker_pattern = "candle"
@@ -281,9 +299,9 @@ script = ExtResource("1")
 room_id = "chapel"
 room_name = "Chapel"
 floor_name = "grounds"
-environment_preset = "grounds"
+environment_preset = "garden_mist"
 dimensions = Vector3(8, 6, 12)
-is_exterior = true
+is_exterior = false
 wall_texture = "wall6_texture"
 floor_texture = "floor2_texture"
 ceiling_texture = ""
@@ -297,6 +315,8 @@ reverb_bus = "StoneCorridor"
 footstep_surface = "stone"
 spawn_position = Vector3(0, 0, -5)
 spawn_rotation_y = 0.0
+entry_anchors = Array[Resource]([SubResource("anchor_entry_garden")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_altar")])
 interactables = Array[Resource]([SubResource("inter_font"), SubResource("inter_altar"), SubResource("inter_glass"), SubResource("inter_pews"), SubResource("inter_bones")])
 lights = Array[Resource]([SubResource("light_window"), SubResource("light_altar_candle")])
 props = Array[Resource]([SubResource("prop_wall_nw"), SubResource("prop_wall_n"), SubResource("prop_wall_ne"), SubResource("prop_wall_w"), SubResource("prop_wall_e"), SubResource("prop_altar_table"), SubResource("prop_altar_book"), SubResource("prop_pew_left"), SubResource("prop_pew_right"), SubResource("prop_font_bucket"), SubResource("prop_font_bottle"), SubResource("prop_dead_lamp"), SubResource("prop_loose_bones"), SubResource("prop_saint_statue"), SubResource("prop_altar_candle_holder"), SubResource("prop_altar_candle")])

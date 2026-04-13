@@ -66,6 +66,9 @@ size = Vector3(0.5, 0.5, 0.5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_kbkt1"]
 size = Vector3(0.8, 0.8, 0.8)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_khatch"]
+size = Vector3(1.5, 0.8, 1.5)
+
 [node name="Kitchen" type="Node3D" unique_id=1743510610]
 script = ExtResource("1_dxhac")
 room_id = "kitchen"
@@ -269,6 +272,17 @@ metadata/flickering = true
 
 
 [node name="Interactables" type="Node3D" parent="."]
+
+[node name="service_hatch_prop" type="Area3D" parent="Interactables"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.35, 0.2, 3.15)
+collision_layer = 4
+collision_mask = 0
+metadata/id = "service_hatch_prop"
+metadata/type = "switch"
+metadata/data = {"title": "Service Hatch", "content": "The service hatch in the kitchen floor. Still open from your fall. The hinges are stiff and the wood hangs at an angle — one good slam and it would close on its own. The stairs below are dark."}
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactables/service_hatch_prop"]
+shape = SubResource("BoxShape3D_khatch")
 
 [node name="kitchen_note" type="Area3D" parent="Interactables"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.0, 2)

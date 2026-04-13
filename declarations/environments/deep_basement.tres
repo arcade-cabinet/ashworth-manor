@@ -7,6 +7,26 @@ script = ExtResource("1")
 background_mode = "keep"
 background_color = Color(0, 0, 0, 1)
 sky = null
+substrate_preset_id = "deep_basement_service"
+terrain_preset_id = ""
+sky_preset_id = ""
+dominant_material_recipes = PackedStringArray("surface/brick_masonry", "surface/wrought_iron", "surface/chain_iron")
+surface_recipe_overrides = {
+"ceiling": "surface/masonry_cap",
+"door": "surface/wrought_iron",
+"floor": "surface/masonry_cap",
+"ladder_rail": "surface/wrought_iron",
+"ladder_rung": "surface/chain_iron",
+"stair_rail": "surface/wrought_iron",
+"stair_structure": "surface/wrought_iron",
+"stair_tread": "surface/masonry_cap",
+"threshold": "surface/brick_masonry",
+"wall": "surface/brick_masonry",
+"window": "surface/wrought_iron"
+}
+allowed_mount_families = PackedStringArray("wall", "floor", "ceiling", "threshold", "shelf", "path_edge")
+light_grammar = "cellar_lamp"
+hdri_backing_optional = true
 fog_enabled = true
 fog_density = 0.012
 fog_color = Color(0.06, 0.06, 0.08, 1)

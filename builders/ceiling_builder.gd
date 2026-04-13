@@ -3,6 +3,7 @@ extends RefCounted
 ## Generates tiled ceiling geometry.
 
 const TILE_SIZE := 2.0
+const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
 
 ## Build ceiling at room height from dimensions and texture.
 ## Returns Node3D with tiled QuadMesh (no collision needed for ceiling).
@@ -60,16 +61,7 @@ static func build(
 static func _create_material(texture_path: String) -> StandardMaterial3D:
 	if texture_path.is_empty():
 		return null
-	var mat := StandardMaterial3D.new()
-	var resolved_path := _resolve_texture_path(texture_path)
-	if ResourceLoader.exists(resolved_path):
-		mat.albedo_texture = load(resolved_path)
-	mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
-	return mat
-
-
-static func _resolve_texture_path(texture_path: String) -> String:
-	if texture_path.begins_with("res://"):
-		return texture_path
-	return "res://assets/shared/textures/%s.png" % texture_path
-
+	var mat := EstateMaterialKit.build_surface_reference(texture_path, {
+		"roughness": 1.0,
+	})
+	return mat as StandardMaterial3D

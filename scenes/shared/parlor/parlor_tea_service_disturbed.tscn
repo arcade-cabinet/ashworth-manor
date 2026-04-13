@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3]
 
-[ext_resource type="Material" path="res://resources/water/parlor_tea_disturbed_material.tres" id="1_ij4f8"]
+[ext_resource type="Script" path="res://scenes/shared/shared_recipe_applicator.gd" id="1_0jhj7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_table"]
 albedo_color = Color(0.26666668, 0.16078432, 0.09019608, 1)
@@ -71,6 +71,8 @@ size = Vector3(0.02, 0.05, 0.02)
 size = Vector3(0.02, 0.02, 0.06)
 
 [node name="ParlorTeaServiceDisturbed" type="Node3D"]
+script = ExtResource("1_0jhj7")
+recipe_groups = {"liquid/tea_disturbed": PackedStringArray("TeaUsed", "TeaUntouched")}
 
 [node name="TeaTableTop" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.34, 0)
@@ -106,7 +108,6 @@ mesh = SubResource("CylinderMesh_cup")
 
 [node name="TeaUsed" type="MeshInstance3D" parent="."]
 position = Vector3(0.11, 0.468, -0.075)
-material_override = ExtResource("1_ij4f8")
 mesh = SubResource("CylinderMesh_tea_surface")
 
 [node name="SaucerUntouched" type="MeshInstance3D" parent="."]
@@ -122,7 +123,6 @@ mesh = SubResource("CylinderMesh_cup")
 
 [node name="TeaUntouched" type="MeshInstance3D" parent="."]
 position = Vector3(0.13, 0.485, 0.085)
-material_override = ExtResource("1_ij4f8")
 mesh = SubResource("CylinderMesh_tea_surface")
 
 [node name="TeapotBody" type="MeshInstance3D" parent="."]

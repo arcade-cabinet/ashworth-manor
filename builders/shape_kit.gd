@@ -58,7 +58,7 @@ static func label(name: String, text: String, font: Font, font_size: int, pixel_
 	node.modulate = color
 	node.outline_modulate = outline_color
 	node.outline_size = outline_size
-	node.double_sided = true
+	node.double_sided = false
 	node.shaded = false
-	node.no_depth_test = true
+	node.no_depth_test = false
 	return node

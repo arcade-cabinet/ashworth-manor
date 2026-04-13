@@ -3,6 +3,7 @@ extends RefCounted
 ## Generates tiled floor geometry with walkable collision (Layer 1).
 
 const TILE_SIZE := 2.0
+const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
 
 ## Build floor from room dimensions and texture.
 ## Returns Node3D with tiled QuadMesh + StaticBody3D collision.
@@ -62,17 +63,8 @@ static func build(
 static func _create_material(texture_path: String) -> StandardMaterial3D:
 	if texture_path.is_empty():
 		return null
-	var mat := StandardMaterial3D.new()
-	var resolved_path := _resolve_texture_path(texture_path)
-	if ResourceLoader.exists(resolved_path):
-		mat.albedo_texture = load(resolved_path)
-	mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
-	mat.uv1_scale = Vector3(1, 1, 1)
-	return mat
-
-
-static func _resolve_texture_path(texture_path: String) -> String:
-	if texture_path.begins_with("res://"):
-		return texture_path
-	return "res://assets/shared/textures/%s.png" % texture_path
-
+	var mat := EstateMaterialKit.build_surface_reference(texture_path, {
+		"uv1_scale": Vector3.ONE,
+		"roughness": 1.0,
+	})
+	return mat as StandardMaterial3D

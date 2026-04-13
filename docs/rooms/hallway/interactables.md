@@ -43,9 +43,9 @@ model: picture_blank_003.glb
 > "Five children posed on the garden lawn. The eldest stands tall. The youngest sits on a blanket. But there are only four faces visible. The fifth child -- second from right -- has been painted over. A smear of dark pigment where a face should be."
 
 **Macro-thread variants:**
-- `captive`: the face has been painted out badly, but the outline still shows
-- `mourning`: the face has been covered gently, like a blanket
-- `sovereign`: the missing child has been displaced to the attic window in the background
+- `child`: the face has been painted out badly, but the outline still shows
+- `adult`: the face has been covered gently, like a blanket
+- `elder`: the missing child has been displaced to the attic window in the background
 
 ### Flags Set
 - `examined_children_painting`
@@ -99,9 +99,9 @@ model: poster_cx_11.glb (already in scene assets)
 > "A handwritten notice tacked to the wall: 'ATTIC -- CLOSED FOR REPAIRS. DO NOT ENTER.' The paper is yellowed. The ink is faded. No repairs were ever made."
 
 **Macro-thread variants:**
-- `captive`: the notice becomes a formal order of imprisonment
-- `mourning`: the notice becomes Victoria's pleading attempt at containment
-- `sovereign`: the notice bears Elizabeth's answering pencil marks
+- `child`: the notice becomes a formal order of imprisonment
+- `adult`: the notice becomes Victoria's pleading attempt at containment
+- `elder`: the notice bears Elizabeth's answering pencil marks
 
 ### Flags Set
 - `examined_hallway_poster`

@@ -7,6 +7,26 @@ script = ExtResource("1")
 background_mode = "keep"
 background_color = Color(0, 0, 0, 1)
 sky = null
+substrate_preset_id = "ground_floor_warmth"
+terrain_preset_id = ""
+sky_preset_id = ""
+dominant_material_recipes = PackedStringArray("surface/oak_dark", "surface/oak_board", "surface/brass")
+surface_recipe_overrides = {
+"ceiling": "surface/lining_tan",
+"door": "surface/oak_dark",
+"floor": "surface/oak_board",
+"ladder_rail": "surface/wrought_iron",
+"ladder_rung": "surface/chain_iron",
+"stair_rail": "surface/oak_dark",
+"stair_structure": "surface/oak_header",
+"stair_tread": "surface/oak_board",
+"threshold": "surface/oak_header",
+"wall": "surface/cloth_brown",
+"window": "surface/oak_dark"
+}
+allowed_mount_families = PackedStringArray("wall", "floor", "ceiling", "threshold", "table", "shelf", "sill", "mantel")
+light_grammar = "sconce_fireplace_gas"
+hdri_backing_optional = true
 fog_enabled = true
 fog_density = 0.006
 fog_color = Color(0.15, 0.12, 0.1, 1)

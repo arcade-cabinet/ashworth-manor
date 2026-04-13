@@ -4,6 +4,8 @@ extends Resource
 ## Complete room definition -- geometry, interactables, lighting, audio, triggers.
 
 const RoomAnchorDecl = preload("res://engine/declarations/room_anchor_decl.gd")
+const MountSlotDecl = preload("res://engine/declarations/mount_slot_decl.gd")
+const MountPayloadDecl = preload("res://engine/declarations/mount_payload_decl.gd")
 
 # Identity
 @export var room_id: String = ""
@@ -12,6 +14,11 @@ const RoomAnchorDecl = preload("res://engine/declarations/room_anchor_decl.gd")
 
 # Environment -- references a key in WorldDeclaration.area_environments
 @export var environment_preset: String = ""  # "grounds", "ground_floor", "upper_floor", "basement", "deep_basement", "attic"
+@export var substrate_preset_id: String = ""
+@export var primary_architecture_source: String = "shared_substrate" # shared_substrate, hybrid_substrate, bespoke_waiver
+@export var material_recipe_overrides: Dictionary = {} # floor, wall, ceiling, trim, threshold, terrain, foliage
+@export var mount_slots: Array[MountSlotDecl] = []
+@export var mount_payloads: Array[MountPayloadDecl] = []
 
 # Geometry
 @export var dimensions: Vector3 = Vector3(12, 4.8, 10) # width, height, depth

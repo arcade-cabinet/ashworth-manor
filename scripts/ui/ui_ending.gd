@@ -71,6 +71,30 @@ func show_ending(ending_id: String) -> void:
 
 func _get_ending_texts(ending_id: String) -> Array[String]:
 	match ending_id:
+		"adult":
+			return [
+				"The attic waltz winds down into silence.",
+				"Elizabeth remains a woman the house was made to deny.",
+				"Her papers, her portrait, her music box -- a life completed only in secret.",
+				"The room is no longer pretending she stayed a child.",
+				"Ashworth Manor falls quiet around the truth.",
+			]
+		"elder":
+			return [
+				"The crypt gives back the melody it kept for too long.",
+				"Below the house, burial and maintenance finally become the same accusation.",
+				"Elizabeth endured beyond every grave the family prepared for her.",
+				"The lantern light gutters across stone and brass.",
+				"The house can no longer call that endurance a memorial.",
+			]
+		"child":
+			return [
+				"The sealed room answers like a nursery opened after a century.",
+				"The music box is small, careful, and unbearably young.",
+				"You have not found a ritual chamber. You have found the room they erased.",
+				"The plaster dust settles over the bed, the chair, the drawings on the wall.",
+				"Ashworth Manor remembers the child it was taught to hide.",
+			]
 		"freedom":
 			return [
 				"The doll cracks open. Light pours from inside.",

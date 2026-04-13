@@ -1,6 +1,13 @@
 # Elizabeth Route Program
 
-This document defines Ashworth Manor's macro narrative structure.
+> **Canonical authority:** [GAME_BIBLE.md](./GAME_BIBLE.md) defines the shipped
+> game, including route order, shared spine, and endings. This document
+> supplements it with route design rationale, emotional payoff detail, and
+> migration context from the old weave model. If anything here conflicts with
+> GAME_BIBLE.md, GAME_BIBLE.md wins.
+
+This document defines the design rationale behind Ashworth Manor's macro
+narrative structure.
 
 It supersedes the older `Captive / Mourning / Sovereign` weave as the canonical
 story model.
@@ -38,19 +45,8 @@ core dramatic question. The new route program is stronger because it:
 
 ## Shared Spine vs Route Divergence
 
-### Shared Spine
-
-All three routes share:
-
-- solicitor packet opening
-- front gate and valise arrival
-- ceremonial drive to the dark house
-- first occupation and first warmth/light problem
-- early ground-floor cluster
-- Elizabeth's laugh and forced service descent
-- service basement gas restoration
-- stable midgame house light
-- walking-stick investigation phase
+The shared early/mid spine is defined in
+[GAME_BIBLE.md § Shared Spine](./GAME_BIBLE.md#shared-spine).
 
 ### Divergence Rule
 
@@ -184,13 +180,13 @@ into sameness.
 
 ## Transition Rules
 
-- Outside paperwork and estate signage remain neutral.
+Core design rules and tool phases are defined in
+[GAME_BIBLE.md § Core Design Rules](./GAME_BIBLE.md#core-design-rules) and
+[GAME_BIBLE.md § Tool and Light Grammar](./GAME_BIBLE.md#tool-and-light-grammar).
+
+Additional route-specific transition guidance:
+
 - The first real route coloration should come from the house, not the packet.
-- Elizabeth's laugh only marks significant events.
-- Major held-tool phases replace earlier ones:
-  - `firebrand`
-  - `walking stick`
-  - `lantern hook`
 
 ---
 

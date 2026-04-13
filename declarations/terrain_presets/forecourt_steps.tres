@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="TerrainPresetDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/terrain_preset_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+preset_id = "forecourt_steps"
+base_recipe_id = "terrain/carriage_road"
+track_recipe_id = "terrain/carriage_track"
+shoulder_recipe_id = "surface/brick_masonry"
+heightmap_path = ""
+supports_heightmap = false
+path_profile = "formal_forecourt"
+notes = "Forecourt stone-and-gravel transition between the drive and the entry steps."

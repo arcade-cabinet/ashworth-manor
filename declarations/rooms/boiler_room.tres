@@ -8,20 +8,20 @@
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
 [ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
-[ext_resource type="Script" path="res://engine/declarations/progression_step.gd" id="9"]
-[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="10"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="9"]
+[ext_resource type="Script" path="res://engine/declarations/conditional_event_decl.gd" id="10"]
 
 [sub_resource type="Resource" id="anchor_entry_storage"]
-script = ExtResource("10")
+script = ExtResource("9")
 anchor_id = "entry_storage"
 anchor_type = "entry"
-position = Vector3(-1.55, 0, 0.15)
-rotation_y = 62.0
+position = Vector3(-2.35, 0, -1.25)
+rotation_y = 44.0
 target_anchor_id = "focus_boiler_core"
 tags = PackedStringArray("default", "storage")
 
 [sub_resource type="Resource" id="anchor_focus_boiler_core"]
-script = ExtResource("10")
+script = ExtResource("9")
 anchor_id = "focus_boiler_core"
 anchor_type = "focal"
 position = Vector3(0.25, 1.35, 3.15)
@@ -34,55 +34,61 @@ tags = PackedStringArray("boiler", "heat")
 script = ExtResource("3")
 condition = ""
 title = "Maintenance Log"
-text = "A caretaker's logbook. Entries describe boiler maintenance, pipe repairs, coal deliveries. The tone shifts in November 1891: 'Pipes making noise again. Not steam. Voices. The girl upstairs is using the pipes to talk to the basement. I can hear her through the walls.'"
+text = "A caretaker's logbook left open on the workbench. Entries describe boiler maintenance, pipe repairs, coal deliveries. The handwriting grows unsteady through autumn 1891: 'Pressure irregular again. Third time this month. Foreman says the seals are fine but I can hear the joints weeping at night. I am the last one willing to come down here alone.'"
 set_state = {"knows_staff_afraid": true, "read_maintenance_log": true}
 
 [sub_resource type="Resource" id="resp_log_captive"]
 script = ExtResource("3")
 condition = ""
 title = "Maintenance Log"
-text = "A caretaker's logbook. November 12th: 'The pipes rattle at night. Lord Ashworth says ignore it. I cannot ignore it. The rattling forms patterns. Three taps, then silence, then three more. She is sending messages through the plumbing. The pipes connect every room in this house. They cannot cage her if the pipes are open.' He tried to seal the pipe joints. The next entry: 'The seals broke overnight. All of them.'"
+text = "A caretaker's logbook. November 12th: 'Three workers quit this week. They say the pipes rattle at night and Lord Ashworth will not explain. I remain because he pays triple and because someone must keep the boiler fed. The house cannot heat itself.' He underlined the last sentence twice, as though convincing himself."
 set_state = {"knows_staff_afraid": true, "read_maintenance_log": true}
 
 [sub_resource type="Resource" id="resp_log_mourning"]
 script = ExtResource("3")
 condition = ""
 title = "Maintenance Log"
-text = "A caretaker's logbook. November 15th: 'They dine while the girl cries. I can hear her through the pipes. The sound carries down to the boiler room and echoes. It is the saddest sound I have ever heard. I left a biscuit on the pipe junction near the attic. It was gone in the morning.' He was feeding her through the walls. The only person in this house who tried."
+text = "A caretaker's logbook. November 15th: 'I left a biscuit on the pipe junction near the attic. It was gone in the morning. The family will not feed her properly. Someone must. I cannot reach the room but the pipes connect every floor.' He was using the service infrastructure to reach someone the house had sealed away."
 set_state = {"knows_staff_afraid": true, "read_maintenance_log": true}
 
 [sub_resource type="Resource" id="resp_log_sovereign"]
 script = ExtResource("3")
 condition = ""
 title = "Maintenance Log"
-text = "A caretaker's logbook. November 20th: 'The boiler started itself today. No one lit it. No coal in the firebox. It is generating heat from nothing. The pipes are warm throughout the house -- every room, every floor. She is using the heating system as a nervous system. The boiler is her heart. The pipes are her veins. This house has a circulatory system now and it pumps because she tells it to.'"
+text = "A caretaker's logbook. November 20th: 'The boiler started itself today. No one lit it. I checked the firebox — cold ash, no coal. But the pressure gauge reads normal and the pipes are warm throughout the house. I reported it to Lord Ashworth. He told me not to write it down. I am writing it down.'"
 set_state = {"knows_staff_afraid": true, "read_maintenance_log": true}
 
-; === Boiler Observation ===
+; === Boiler Observation Responses ===
+
+[sub_resource type="Resource" id="resp_boiler_restored"]
+script = ExtResource("3")
+condition = "gas_restored"
+title = "Boiler"
+text = "The boiler idles at low pressure, feeding gas to the house pipes. The iron ticks as it warms. Ordinary service machinery doing ordinary work — the first honest sound this house has made since you arrived."
 
 [sub_resource type="Resource" id="resp_boiler_default"]
 script = ExtResource("3")
 condition = ""
 title = "Boiler"
-text = "The boiler is warm. The iron radiates heat despite no visible fire, no coal, no gas. The pressure gauge reads normal. The temperature gauge reads 37 degrees Celsius. Body temperature."
+text = "Cast iron, riveted, enormous. A coal-and-gas combination unit — the kind that heated manor houses before electricity made them obsolete. The firebox is cold, the ash grey and undisturbed. But the gas feed line runs to a shutoff valve on the right side. If the mains still hold pressure, the pilot assembly might catch."
 
 [sub_resource type="Resource" id="resp_boiler_captive"]
 script = ExtResource("3")
 condition = ""
 title = "Boiler"
-text = "The boiler is warm. Iron straps circle its body like chains. The pressure gauge reads normal but the needle trembles. Something inside is pushing against the walls of the boiler. Not steam. Not pressure. Something that wants out."
+text = "The boiler sits cold and enormous. Iron straps circle its body like reinforcement bands — standard for pressure vessels of this era, though the bolts have been tightened far past what maintenance would require. Someone was afraid of what might happen if the seams gave way."
 
 [sub_resource type="Resource" id="resp_boiler_mourning"]
 script = ExtResource("3")
 condition = ""
 title = "Boiler"
-text = "The boiler is warm. A gentle warmth, like a hand held over a sleeping child. The iron surface is slightly damp with condensation. It looks like the boiler has been weeping. The pipes leading out of it are warm too -- carrying heat to every room. Even now, even empty, the house tries to keep its inhabitants warm."
+text = "The boiler sits cold but not hostile. The iron surface is slightly damp with condensation — the temperature difference between the basement stone and the residual warmth in the pipes. The coal scuttle beside it is empty. Whoever maintained this machine cared about the work. The logbook confirms it."
 
 [sub_resource type="Resource" id="resp_boiler_sovereign"]
 script = ExtResource("3")
 condition = ""
 title = "Boiler"
-text = "The boiler is warm. 37 degrees exactly. Body temperature. You press your hand against the iron and it pulses. Not vibration from machinery -- a pulse. A heartbeat. Slow and steady. The boiler is the heart of the house. She keeps it beating."
+text = "The boiler sits at the centre of the pipe network, cold but structurally sound. Every pipe in the ceiling runs through or past this machine. Whoever designed the heating system made the boiler the single point of control — shut it down and the entire house goes dark and cold. A house this size, governed by one valve."
 
 ; === Clock ===
 
@@ -90,77 +96,67 @@ text = "The boiler is warm. 37 degrees exactly. Body temperature. You press your
 script = ExtResource("3")
 condition = ""
 title = "Boiler Room Clock"
-text = "A clock mounted above the boiler. 3:33. Same as every clock in the house. The same moment, frozen in every room."
+text = "A clock mounted above the boiler. 3:33. Same as every clock in the house. This one is spring-wound, not pendulum — built for reliability in a service space. It should not have stopped."
 set_state = {"examined_boiler_clock": true}
 
-[sub_resource type="Resource" id="resp_mask_default"]
+; === Gas Restore Responses ===
+
+[sub_resource type="Resource" id="resp_gas_done"]
+script = ExtResource("3")
+condition = "gas_restored"
+title = "Gas Shutoff Valve"
+text = "The valve is open. Gas feeds steadily through the mains. The boiler pilot holds. You can hear the pipes warming — small ticks and pops as metal expands through the walls and ceiling."
+
+[sub_resource type="Resource" id="resp_gas_not_relit"]
+script = ExtResource("3")
+condition = "NOT basement_relight"
+title = "Gas Shutoff Valve"
+text = "You can feel a large valve handle in the dark. Heavy iron, cold. You cannot read the markings. You need light first."
+
+[sub_resource type="Resource" id="resp_gas_default"]
 script = ExtResource("3")
 condition = ""
-title = "Metal Mask"
-text = "A metal mask hangs from a nail beside the machinery. Not decorative. Industrial, maybe, but the mouth is warped into a silent scream and the inside is stained dark. Someone wore this where the house was hottest."
+title = "Gas Shutoff Valve"
+text = "A heavy iron shutoff valve on the gas feed line. The handle is stiff but not seized. You brace your weight and turn it. Metal groans. Then a hiss — faint, steady, pressurized. The mains still hold. You cross to the pilot assembly and hold your last match to the jet. It catches. The boiler shudders once and settles into a low, workmanlike rumble. Through the ceiling, you hear pipes answer — ticking, expanding, carrying heat for the first time in a century."
+set_state = {"gas_restored": true, "basement_lights_awake": true, "bad_air_active": false}
+play_sfx = "res://assets/audio/sfx/ambient/pl_ambient_machine_02.ogg"
 
-; === Pipe Valves Responses (Swap #2 A-path) ===
+; === Pipe Observation ===
 
-[sub_resource type="Resource" id="resp_valve_step1"]
+[sub_resource type="Resource" id="resp_pipes_restored"]
+script = ExtResource("3")
+condition = "gas_restored"
+title = "Ceiling Pipes"
+text = "The pipes tick and pop overhead as they warm. The sound travels through the walls — you can hear the house responding floor by floor. Heating infrastructure, doing what it was built to do."
+
+[sub_resource type="Resource" id="resp_pipes_default"]
 script = ExtResource("3")
 condition = ""
-title = "Pipe Valves"
-text = "You turn the first valve. The pipes groan -- a low, resonant note that travels through the walls. The pitch is wrong. Too low."
-set_state = {"valve_1_turned": true}
-play_sfx = "res://assets/audio/sfx/impact/metal_heavy.ogg"
+title = "Ceiling Pipes"
+text = "Pipes run across the ceiling and into the walls in every direction. Cast-iron mains splitting into copper branches — a heating network designed to reach every room. Cold now, but the joints are sound. If the boiler ran, these pipes would carry heat to the entire house."
 
-[sub_resource type="Resource" id="resp_valve_step2"]
+; === Walking Cane Responses ===
+
+[sub_resource type="Resource" id="resp_cane_taken"]
+script = ExtResource("3")
+condition = "walking_stick_phase"
+title = "Walking Cane"
+text = "The caretaker's cane. Already in your hand. Ash wood and iron — the grip is worn to the shape of his palm."
+
+[sub_resource type="Resource" id="resp_cane_not_ready"]
+script = ExtResource("3")
+condition = "NOT gas_restored"
+title = "Walking Cane"
+text = "A walking cane propped against the workbench, near the logbook. Ash wood with an iron-shod tip. You have more urgent work down here than collecting personal effects."
+
+[sub_resource type="Resource" id="resp_cane_default"]
 script = ExtResource("3")
 condition = ""
-title = "Pipe Valves"
-text = "The second valve. A higher note joins the first -- the pipes are singing now, a dissonant chord that makes the walls vibrate. One more."
-set_state = {"valve_2_turned": true}
-play_sfx = "res://assets/audio/sfx/impact/metal_heavy.ogg"
-
-[sub_resource type="Resource" id="resp_valve_step3"]
-script = ExtResource("3")
-condition = ""
-title = "Pipe Valves"
-text = "The third valve. The pipes harmonize -- three notes forming a chord. And through the chord, carried by the vibrating metal, you hear her voice. Elizabeth, speaking through the plumbing. 'The fifth branch withers. The root remembers. The binding breaks where water meets fire.' Then silence. The pipes cool. She said what she needed to say."
-set_state = {"pipe_voice_heard": true}
-play_sfx = "res://assets/audio/sfx/horror/whisper_close.ogg"
-
-; === Electrical Panel Responses (Swap #2 B-path) ===
-
-[sub_resource type="Resource" id="resp_electrical_step1"]
-script = ExtResource("3")
-condition = ""
-title = "Electrical Panel"
-text = "A fuse box with six slots. Three fuses are in the wrong positions -- the labels have been rearranged. Someone swapped them deliberately to kill the lights in certain rooms. The labels read: ATTIC, BASEMENT, CHAPEL, KITCHEN, LIBRARY, GARDEN."
-set_state = {"examined_fuse_box": true}
-
-[sub_resource type="Resource" id="resp_electrical_step2"]
-script = ExtResource("3")
-condition = ""
-title = "Electrical Panel"
-text = "You rearrange the fuses to match their correct slots. ATTIC in position 1, LIBRARY in position 5. The panel clicks. Somewhere above, lights flicker on in rooms that have been dark for twenty years. The extra illumination reveals details previously hidden in shadow -- scratches on walls, marks on floors, writing in places no one was meant to read."
-set_state = {"power_restored": true}
-play_sfx = "res://assets/audio/sfx/impact/click_heavy.ogg"
-
-; === Pipe Valve Progressive Interactable (Swap #2 A-path) ===
-
-[sub_resource type="Resource" id="prog_valve_1"]
-script = ExtResource("9")
-step_id = "valve_turn_1"
-required_state = ""
-response = SubResource("resp_valve_step1")
-
-[sub_resource type="Resource" id="prog_valve_2"]
-script = ExtResource("9")
-step_id = "valve_turn_2"
-required_state = "valve_1_turned"
-response = SubResource("resp_valve_step2")
-
-[sub_resource type="Resource" id="prog_valve_3"]
-script = ExtResource("9")
-step_id = "valve_turn_3"
-required_state = "valve_2_turned"
-response = SubResource("resp_valve_step3")
+title = "Walking Cane"
+text = "A walking cane propped against the workbench, ash wood with an iron-shod tip worn smooth by years of service corridors. The caretaker's. He walked this house end to end every day and knew every stair by feel. The brand is gone. The house is lit. This is a better tool for what comes next — steadier, deliberate. You take it."
+set_state = {"walking_stick_phase": true, "current_light_tool": "walking_stick"}
+gives_item = "walking_cane"
+play_sfx = "res://assets/audio/sfx/inventory/key_find.ogg"
 
 ; === Interactables ===
 
@@ -171,7 +167,7 @@ type = "note"
 position = Vector3(-2.5, 1, -3)
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_log_default")])
-thread_responses = {"captive": [SubResource("resp_log_captive")], "mourning": [SubResource("resp_log_mourning")], "sovereign": [SubResource("resp_log_sovereign")]}
+thread_responses = {"child": [SubResource("resp_log_captive")], "adult": [SubResource("resp_log_mourning")], "elder": [SubResource("resp_log_sovereign")], "captive": [SubResource("resp_log_captive")], "mourning": [SubResource("resp_log_mourning")], "sovereign": [SubResource("resp_log_sovereign")]}
 
 [sub_resource type="Resource" id="inter_boiler"]
 script = ExtResource("2")
@@ -180,8 +176,8 @@ type = "observation"
 position = Vector3(0, 1.5, 3.5)
 wall = "north"
 collision_size = Vector3(2.0, 2.0, 1.5)
-responses = Array[Resource]([SubResource("resp_boiler_default")])
-thread_responses = {"captive": [SubResource("resp_boiler_captive")], "mourning": [SubResource("resp_boiler_mourning")], "sovereign": [SubResource("resp_boiler_sovereign")]}
+responses = Array[Resource]([SubResource("resp_boiler_restored"), SubResource("resp_boiler_default")])
+thread_responses = {"child": [SubResource("resp_boiler_captive")], "adult": [SubResource("resp_boiler_mourning")], "elder": [SubResource("resp_boiler_sovereign")], "captive": [SubResource("resp_boiler_captive")], "mourning": [SubResource("resp_boiler_mourning")], "sovereign": [SubResource("resp_boiler_sovereign")]}
 
 [sub_resource type="Resource" id="inter_clock"]
 script = ExtResource("2")
@@ -192,35 +188,30 @@ wall = "north"
 collision_size = Vector3(1.0, 1.0, 0.5)
 responses = Array[Resource]([SubResource("resp_clock_default")])
 
-[sub_resource type="Resource" id="inter_mask"]
+[sub_resource type="Resource" id="inter_gas_restore"]
 script = ExtResource("2")
-id = "boiler_mask"
-type = "observation"
-position = Vector3(-2.4, 1.8, 0.2)
-wall = "west"
-collision_size = Vector3(0.8, 0.8, 0.5)
-model = "res://assets/basement/boiler_room/mask_mx_2.glb"
-responses = Array[Resource]([SubResource("resp_mask_default")])
-
-[sub_resource type="Resource" id="inter_pipe_valves"]
-script = ExtResource("2")
-id = "boiler_pipe_valves"
+id = "gas_restore"
 type = "switch"
 position = Vector3(2.5, 1.2, 3.5)
 wall = "north"
 collision_size = Vector3(1.5, 1.5, 1.0)
-progressive = true
-progression_steps = Array[Resource]([SubResource("prog_valve_1"), SubResource("prog_valve_2"), SubResource("prog_valve_3")])
+responses = Array[Resource]([SubResource("resp_gas_done"), SubResource("resp_gas_not_relit"), SubResource("resp_gas_default")])
 
-[sub_resource type="Resource" id="inter_electrical"]
+[sub_resource type="Resource" id="inter_pipes"]
 script = ExtResource("2")
-id = "boiler_electrical_panel"
-type = "switch"
-position = Vector3(-2.5, 1.2, 3.5)
-wall = "north"
-collision_size = Vector3(1.5, 1.5, 1.0)
-model = "res://assets/mansion_psx/electrical_equipment_1.glb"
-responses = Array[Resource]([SubResource("resp_electrical_step2"), SubResource("resp_electrical_step1")])
+id = "boiler_pipes"
+type = "observation"
+position = Vector3(0, 2.5, 0)
+collision_size = Vector3(3.0, 1.0, 3.0)
+responses = Array[Resource]([SubResource("resp_pipes_restored"), SubResource("resp_pipes_default")])
+
+[sub_resource type="Resource" id="inter_cane"]
+script = ExtResource("2")
+id = "walking_cane"
+type = "item"
+position = Vector3(-1.8, 0.9, -3.0)
+collision_size = Vector3(1.0, 1.5, 1.0)
+responses = Array[Resource]([SubResource("resp_cane_taken"), SubResource("resp_cane_not_ready"), SubResource("resp_cane_default")])
 
 ; === Lights ===
 
@@ -230,8 +221,8 @@ id = "boiler_glow"
 type = "omni"
 position = Vector3(0, 1, 3.5)
 color = Color(1.0, 0.4, 0.1, 1)
-energy = 0.8
-range = 5.0
+energy = 1.56
+range = 7.2
 shadows = true
 flickering = true
 flicker_pattern = "ember"
@@ -242,13 +233,37 @@ id = "boiler_panel_glow"
 type = "omni"
 position = Vector3(-2.5, 1.2, 3.4)
 color = Color(0.55, 0.7, 1.0, 1)
-energy = 0.35
-range = 2.8
+energy = 1.18
+range = 5.2
 shadows = false
 flickering = true
 flicker_pattern = "bulb"
 
-; === Entry Trigger ===
+[sub_resource type="Resource" id="light_sconce_east"]
+script = ExtResource("4")
+id = "boiler_sconce_east"
+type = "omni"
+position = Vector3(2.8, 2.0, 0)
+color = Color(1.0, 0.85, 0.6, 1)
+energy = 0.0
+range = 3.5
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+[sub_resource type="Resource" id="light_sconce_west"]
+script = ExtResource("4")
+id = "boiler_sconce_west"
+type = "omni"
+position = Vector3(-2.8, 2.0, -2)
+color = Color(1.0, 0.85, 0.6, 1)
+energy = 0.0
+range = 3.5
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+; === Props ===
 
 [sub_resource type="Resource" id="prop_boiler"]
 script = ExtResource("5")
@@ -363,23 +378,26 @@ id = "jerrycan"
 model = "res://assets/basement/boiler_room/jerrycan.glb"
 position = Vector3(1.8, 0, -2.4)
 
-[sub_resource type="Resource" id="prop_gear_1"]
+[sub_resource type="Resource" id="prop_sconce_east"]
 script = ExtResource("5")
-id = "gear_1"
-model = "res://assets/basement/boiler_room/gear_mx_4.glb"
-position = Vector3(2.0, 0.2, 2.7)
+id = "sconce_east"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(2.8, 2.0, 0)
 
-[sub_resource type="Resource" id="prop_gear_2"]
+[sub_resource type="Resource" id="prop_sconce_west"]
 script = ExtResource("5")
-id = "gear_2"
-model = "res://assets/basement/boiler_room/gear_mx_5.glb"
-position = Vector3(2.7, 0.2, 2.2)
+id = "sconce_west"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(-2.8, 2.0, -2)
 
-[sub_resource type="Resource" id="prop_gear_3"]
+[sub_resource type="Resource" id="prop_walking_cane"]
 script = ExtResource("5")
-id = "gear_3"
-model = "res://assets/basement/boiler_room/gear_mx_6.glb"
-position = Vector3(-1.2, 0.2, 2.5)
+id = "walking_cane_model"
+model = "res://assets/shared/items/walking_cane.glb"
+position = Vector3(-1.8, 0, -3.0)
+rotation_y = -12.0
+
+; === Entry Trigger ===
 
 [sub_resource type="Resource" id="act_visited"]
 script = ExtResource("7")
@@ -395,7 +413,7 @@ play_sfx = "res://assets/audio/sfx/ambient/pl_ambient_machine_02.ogg"
 
 [sub_resource type="Resource" id="act_entry_text"]
 script = ExtResource("7")
-show_text = "The boiler answers your arrival with a low mechanical throat-noise. Heat and iron press close around you, and every pipe in the room feels tuned to something listening from above."
+show_text = "Iron and coal dust. A service room built for function — the boiler at the far wall, pipes running in every direction overhead, a workbench with tools still laid out. The house's heating plant. Cold now, but intact."
 
 [sub_resource type="Resource" id="trig_first_entry"]
 script = ExtResource("6")
@@ -404,19 +422,58 @@ once = true
 trigger_id = "boiler_room_first_entry"
 actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name"), SubResource("act_entry_sfx"), SubResource("act_entry_text")])
 
-; === Ambient: Pipe rattle ===
+; === Conditional Event: Gas Restore Sconce Wake ===
 
-[sub_resource type="Resource" id="act_rattle"]
+[sub_resource type="Resource" id="act_sconce_east_wake"]
+script = ExtResource("7")
+light_change = {"boiler_sconce_east": {"energy": 1.8, "duration": 3.0}}
+
+[sub_resource type="Resource" id="act_sconce_west_wake"]
+script = ExtResource("7")
+light_change = {"boiler_sconce_west": {"energy": 1.8, "duration": 3.0}}
+delay_seconds = 1.0
+
+[sub_resource type="Resource" id="act_boiler_glow_raise"]
+script = ExtResource("7")
+light_change = {"boiler_glow": {"energy": 2.0, "duration": 2.0}}
+
+[sub_resource type="Resource" id="act_sconce_wake_text"]
+script = ExtResource("7")
+show_text = "Gas reaches the wall sconces. One by one, they catch — small blue flames steadying into amber. The boiler room fills with working light for the first time since you arrived. The basement is no longer hostile. It is a service floor again."
+delay_seconds = 2.0
+
+[sub_resource type="Resource" id="cond_gas_sconce_wake"]
+script = ExtResource("10")
+event_id = "boiler_gas_sconce_wake"
+condition = "gas_restored"
+once = true
+actions = Array[Resource]([SubResource("act_boiler_glow_raise"), SubResource("act_sconce_east_wake"), SubResource("act_sconce_west_wake"), SubResource("act_sconce_wake_text")])
+
+; === Ambient: Pipe sound ===
+
+[sub_resource type="Resource" id="act_pipe_tick"]
 script = ExtResource("7")
 play_sfx = "res://assets/audio/sfx/ambient/pipe_rattle.ogg"
 
-[sub_resource type="Resource" id="ambient_rattle"]
+[sub_resource type="Resource" id="ambient_pipe_cold"]
 script = ExtResource("8")
-event_id = "pipe_rattle"
+event_id = "pipe_cold_rattle"
 interval_min = 15.0
 interval_max = 30.0
-condition = ""
-actions = Array[Resource]([SubResource("act_rattle")])
+condition = "NOT gas_restored"
+actions = Array[Resource]([SubResource("act_pipe_tick")])
+
+[sub_resource type="Resource" id="act_pipe_warm"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/ambient/pl_ambient_machine_02.ogg"
+
+[sub_resource type="Resource" id="ambient_pipe_warm"]
+script = ExtResource("8")
+event_id = "pipe_warm_tick"
+interval_min = 25.0
+interval_max = 45.0
+condition = "gas_restored"
+actions = Array[Resource]([SubResource("act_pipe_warm")])
 
 ; === Main Resource ===
 
@@ -443,11 +500,11 @@ spawn_position = Vector3(-2, 0, 0)
 spawn_rotation_y = 90.0
 entry_anchors = Array[Resource]([SubResource("anchor_entry_storage")])
 focal_anchors = Array[Resource]([SubResource("anchor_focus_boiler_core")])
-interactables = Array[Resource]([SubResource("inter_log"), SubResource("inter_boiler"), SubResource("inter_clock"), SubResource("inter_pipe_valves"), SubResource("inter_electrical"), SubResource("inter_mask")])
-lights = Array[Resource]([SubResource("light_boiler"), SubResource("light_panel")])
-props = Array[Resource]([SubResource("prop_boiler"), SubResource("prop_pipes_ceiling"), SubResource("prop_pipe_mid"), SubResource("prop_pipe_curve"), SubResource("prop_valve"), SubResource("prop_machinery_l"), SubResource("prop_machinery_r"), SubResource("prop_machinery_back"), SubResource("prop_electrical_box"), SubResource("prop_electrical_aux"), SubResource("prop_workbench"), SubResource("prop_toolbox"), SubResource("prop_wrench_1"), SubResource("prop_wrench_2"), SubResource("prop_hammer"), SubResource("prop_barrel_1"), SubResource("prop_barrel_2"), SubResource("prop_jerrycan"), SubResource("prop_gear_1"), SubResource("prop_gear_2"), SubResource("prop_gear_3")])
+interactables = Array[Resource]([SubResource("inter_log"), SubResource("inter_boiler"), SubResource("inter_clock"), SubResource("inter_gas_restore"), SubResource("inter_pipes"), SubResource("inter_cane")])
+lights = Array[Resource]([SubResource("light_boiler"), SubResource("light_panel"), SubResource("light_sconce_east"), SubResource("light_sconce_west")])
+props = Array[Resource]([SubResource("prop_boiler"), SubResource("prop_pipes_ceiling"), SubResource("prop_pipe_mid"), SubResource("prop_pipe_curve"), SubResource("prop_valve"), SubResource("prop_machinery_l"), SubResource("prop_machinery_r"), SubResource("prop_machinery_back"), SubResource("prop_electrical_box"), SubResource("prop_electrical_aux"), SubResource("prop_workbench"), SubResource("prop_toolbox"), SubResource("prop_wrench_1"), SubResource("prop_wrench_2"), SubResource("prop_hammer"), SubResource("prop_barrel_1"), SubResource("prop_barrel_2"), SubResource("prop_jerrycan"), SubResource("prop_sconce_east"), SubResource("prop_sconce_west"), SubResource("prop_walking_cane")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
-ambient_events = Array[Resource]([SubResource("ambient_rattle")])
-conditional_events = Array[Resource]([])
+ambient_events = Array[Resource]([SubResource("ambient_pipe_cold"), SubResource("ambient_pipe_warm")])
+conditional_events = Array[Resource]([SubResource("cond_gas_sconce_wake")])
 flashbacks = Array[Resource]([])

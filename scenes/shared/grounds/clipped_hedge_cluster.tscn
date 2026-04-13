@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/shared/grounds/clipped_hedge_cluster.gd" id="1_5r3ec"]
+
+[node name="ClippedHedgeCluster" type="Node3D"]
+script = ExtResource("1_5r3ec")

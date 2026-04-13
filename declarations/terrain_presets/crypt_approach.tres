@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="TerrainPresetDecl" format=3]
+
+[ext_resource type="Script" path="res://engine/declarations/terrain_preset_decl.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+preset_id = "crypt_approach"
+base_recipe_id = "terrain/roadside_earth"
+track_recipe_id = ""
+shoulder_recipe_id = "surface/brick_masonry"
+heightmap_path = ""
+supports_heightmap = false
+path_profile = "stone_threshold"
+notes = "Darker earth and masonry threshold treatment for the crypt approach."

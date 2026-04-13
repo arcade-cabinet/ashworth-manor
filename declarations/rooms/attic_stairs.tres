@@ -38,6 +38,29 @@ condition = ""
 title = "Cracked Plaster"
 text = "The plaster has split wide enough to show lath beneath. The wood bears long scratches from the far side, four close lines repeated over and over. Not one outburst. Repetition. Persistence."
 
+; === Lantern Hook Responses ===
+
+[sub_resource type="Resource" id="resp_lantern_hook_taken"]
+script = ExtResource("3")
+condition = "lantern_hook_phase"
+title = "Iron Hook"
+text = "The bracket is empty. You took the hook and its handle. The stairwell feels darker without it."
+
+[sub_resource type="Resource" id="resp_lantern_hook_no_darkness"]
+script = ExtResource("3")
+condition = "NOT late_darkness_active"
+title = "Service Hook"
+text = "An iron hook on a long ash handle, mounted to the wall bracket. For hanging service lanterns in high stairwells. The handle is worn smooth from the caretaker's grip. You have no reason to take it yet."
+
+[sub_resource type="Resource" id="resp_lantern_hook_default"]
+script = ExtResource("3")
+condition = ""
+title = "Service Hook"
+text = "An iron hook on a long ash handle, mounted to the wall bracket. The house lights are dead. You need reach, not warmth. You take the hook from its bracket. The ash handle is steady in your hand -- steadier than the cane, longer than the brand. Built for pulling things down from where they were hidden."
+set_state = {"lantern_hook_phase": true, "current_light_tool": "lantern_hook"}
+gives_item = "lantern_hook"
+play_sfx = "res://assets/audio/sfx/inventory/key_find.ogg"
+
 [sub_resource type="Resource" id="inter_debris"]
 script = ExtResource("2")
 id = "stairwell_debris"
@@ -54,6 +77,15 @@ position = Vector3(-1.5, 1.5, 2)
 wall = "west"
 collision_size = Vector3(1.0, 1.2, 0.5)
 responses = Array[Resource]([SubResource("resp_wall_default")])
+
+[sub_resource type="Resource" id="inter_lantern_hook"]
+script = ExtResource("2")
+id = "lantern_hook"
+type = "switch"
+position = Vector3(-1.2, 1.8, -0.6)
+wall = "west"
+collision_size = Vector3(0.8, 1.0, 0.5)
+responses = Array[Resource]([SubResource("resp_lantern_hook_taken"), SubResource("resp_lantern_hook_no_darkness"), SubResource("resp_lantern_hook_default")])
 
 [sub_resource type="Resource" id="light_window"]
 script = ExtResource("4")
@@ -179,6 +211,14 @@ position = Vector3(-1.05, 0.02, 0.85)
 rotation_y = 18.0
 scale = 0.9
 
+[sub_resource type="Resource" id="prop_hook_bracket"]
+script = ExtResource("5")
+id = "hook_bracket"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(-1.35, 1.7, -0.6)
+rotation_y = 90.0
+scale = 0.6
+
 [sub_resource type="Resource" id="act_entered_attic"]
 script = ExtResource("7")
 set_state = {"visited_attic_stairs": true, "entered_attic": true, "elizabeth_aware": true}
@@ -234,9 +274,9 @@ spawn_position = Vector3(1.0, 0, -1.55)
 spawn_rotation_y = 148.0
 entry_anchors = Array[Resource]([SubResource("anchor_entry_attic_door")])
 focal_anchors = Array[Resource]([SubResource("anchor_focus_upper_rise")])
-interactables = Array[Resource]([SubResource("inter_debris"), SubResource("inter_wall")])
+interactables = Array[Resource]([SubResource("inter_debris"), SubResource("inter_wall"), SubResource("inter_lantern_hook")])
 lights = Array[Resource]([SubResource("light_window"), SubResource("light_candle"), SubResource("light_lamp_fill")])
-props = Array[Resource]([SubResource("prop_gravel"), SubResource("prop_plank_a"), SubResource("prop_plank_b"), SubResource("prop_plank_c"), SubResource("prop_lamp"), SubResource("prop_bucket"), SubResource("prop_mask"), SubResource("prop_page"), SubResource("prop_candle")])
+props = Array[Resource]([SubResource("prop_gravel"), SubResource("prop_plank_a"), SubResource("prop_plank_b"), SubResource("prop_plank_c"), SubResource("prop_lamp"), SubResource("prop_bucket"), SubResource("prop_mask"), SubResource("prop_page"), SubResource("prop_candle"), SubResource("prop_hook_bracket")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([])

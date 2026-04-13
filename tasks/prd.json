@@ -13,8 +13,9 @@
         "`godot --headless --path . --quit-after 1` exits successfully."
       ],
       "priority": 1,
-      "passes": false,
-      "dependsOn": []
+      "passes": true,
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
     },
     {
       "id": "US-002",
@@ -27,10 +28,11 @@
         "`godot --headless --path . --quit-after 1` exits successfully."
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-001"
-      ]
+      ],
+      "completionNotes": "Completed by agent"
     },
     {
       "id": "US-003",
@@ -44,10 +46,11 @@
         "`godot --headless --path . --script test/e2e/test_route_progression.gd` exits successfully."
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-001"
-      ]
+      ],
+      "completionNotes": "Completed by agent"
     },
     {
       "id": "US-004",
@@ -62,10 +65,11 @@
         "`godot --path . --script test/e2e/test_opening_journey.gd` and `godot --path . --script test/e2e/test_room_walkthrough.gd` run successfully for the touched spaces, and the renderer-backed captures are reviewed."
       ],
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-003"
-      ]
+      ],
+      "completionNotes": "Completed by agent"
     },
     {
       "id": "US-005",
@@ -80,10 +84,11 @@
         "`godot --path . --script test/e2e/test_opening_journey.gd` and `godot --path . --script test/e2e/test_room_walkthrough.gd` run successfully for the touched spaces, and the renderer-backed captures are reviewed."
       ],
       "priority": 4,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-004"
-      ]
+      ],
+      "completionNotes": "Completed by agent"
     },
     {
       "id": "US-006",
@@ -98,11 +103,12 @@
         "`godot --path . --script test/e2e/test_opening_journey.gd` and `godot --path . --script test/e2e/test_room_walkthrough.gd` run successfully for the touched spaces, and the renderer-backed captures are reviewed."
       ],
       "priority": 5,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-003",
         "US-005"
-      ]
+      ],
+      "completionNotes": "Completed by agent"
     },
     {
       "id": "US-007",
@@ -117,10 +123,11 @@
         "`godot --path . --script test/e2e/test_opening_journey.gd` and `godot --path . --script test/e2e/test_room_walkthrough.gd` run successfully for the touched spaces, and the renderer-backed captures are reviewed."
       ],
       "priority": 6,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-006"
-      ]
+      ],
+      "completionNotes": "Completed by agent"
     },
     {
       "id": "US-008",
@@ -135,10 +142,11 @@
         "`godot --path . --script test/e2e/test_opening_journey.gd` and `godot --path . --script test/e2e/test_room_walkthrough.gd` run successfully for the touched spaces, and the renderer-backed captures are reviewed."
       ],
       "priority": 7,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-007"
-      ]
+      ],
+      "completionNotes": "Completed by agent"
     },
     {
       "id": "US-009",
@@ -152,10 +160,11 @@
         "`godot --headless --path . --script test/generated/test_declarations.gd` exits successfully."
       ],
       "priority": 8,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-008"
-      ]
+      ],
+      "completionNotes": "Completed by agent"
     },
     {
       "id": "US-010",
@@ -171,10 +180,11 @@
         "`godot --path . --script test/e2e/test_opening_journey.gd` and `godot --path . --script test/e2e/test_room_walkthrough.gd` run successfully for the touched spaces, and the renderer-backed captures are reviewed."
       ],
       "priority": 9,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-009"
-      ]
+      ],
+      "completionNotes": "Completed by agent"
     },
     {
       "id": "US-011",
@@ -497,5 +507,8 @@
         "US-026"
       ]
     }
-  ]
+  ],
+  "metadata": {
+    "updatedAt": "2026-04-07T17:14:50.026Z"
+  }
 }

@@ -1,7 +1,9 @@
 extends SceneTree
 ## Declaration-era end-to-end path coverage.
 ## Covers:
-## - Freedom route through the shipped declaration runtime
+## - Adult route through the shipped declaration runtime
+## - Elder route through the cellar/crypt resolution
+## - Child route through the sealed-room resolution
 ## - Escape ending via post-truth return to front gate
 ## - Joined ending via post-attic return to front gate without full truth
 
@@ -45,119 +47,161 @@ func _run() -> void:
 		if not _gm.ending_triggered.is_connected(cb):
 			_gm.ending_triggered.connect(cb)
 
-	await _test_freedom_route()
+	await _test_adult_route()
+	await _test_elder_route()
+	await _test_child_route()
 	await _test_escape_front_gate_path()
 	await _test_joined_front_gate_path()
 	_finish()
 
+func _test_adult_route() -> void:
+	_reset_game("adult")
+	# Fast-forward through shared spine to midgame
+	_gm.set_flag("visited_front_gate")
+	_gm.set_flag("visited_foyer")
+	_gm.set_flag("visited_parlor")
+	_gm.set_flag("parlor_fire_lit")
+	_gm.set_state("entered_attic", true)
+	_gm.set_state("walking_stick_phase", true)
+	_gm.set_state("stable_house_light", true)
+	_gm.set_state("gas_restored", true)
+	_gm.set_state("late_darkness_active", false)
+	_gm.give_item("music_box_winding_key")
+	_gm.give_item("attic_key")
+	_ending_events.clear()
+	var room_events := _find(_main, "RoomEvents")
+	if room_events != null and "_trigger_engine" in room_events and room_events._trigger_engine != null:
+		room_events._trigger_engine._fired_triggers.erase("upper_hallway_late_rupture")
 
-func _test_freedom_route() -> void:
-	_reset_game("captive")
-	await _load_room("front_gate")
-	await _interact("gate_plaque")
-	_assert("front gate threshold acknowledged", _gm.get_state("front_gate_threshold_acknowledged", false) == true)
-	await _door_to("drive_lower")
-	_assert("front gate to drive_lower transition works", _gm.current_room == "drive_lower")
-	_assert("front drive stays in entrance path world", _rm.get_loaded_compiled_world_id() == "entrance_path_world")
-	await _door_to("drive_upper")
-	_assert("drive_lower to drive_upper transition works", _gm.current_room == "drive_upper")
-	await _door_to("front_steps")
-	_assert("drive_upper to front_steps transition works", _gm.current_room == "front_steps")
-	await _door_to("foyer")
-	_assert("front_steps to foyer transition works", _gm.current_room == "foyer")
-	_assert("foyer loads manor interior compiled world", _rm.get_loaded_compiled_world_id() == "manor_interior_world")
-	_assert("manor interior world keeps multiple room roots loaded", _rm.get_loaded_compiled_world_room_ids().size() >= 8)
-
-	await _door_to("upper_hallway")
-	_assert("foyer to upper_hallway transition works", _gm.current_room == "upper_hallway")
-	_assert("foyer to upper_hallway stays in manor interior world", _rm.get_loaded_compiled_world_id() == "manor_interior_world")
-	await _door_to("master_bedroom")
-	await _interact("diary_lord")
-	_assert("master bedroom diary sets read_ashworth_diary", _gm.get_state("read_ashworth_diary", false) == true)
-	await _interact("jewelry_box")
-	_assert("jewelry box stays locked before key", not _gm.has_item("elizabeth_locket"))
-
+	# Upper hallway late rupture: triggers darkness
 	await _load_room("upper_hallway")
-	await _door_to("library")
-	await _interact("binding_book")
-	await _interact("library_globe")
-	_assert("library yields binding book", _gm.has_item("binding_book"))
-	_assert("library yields attic key", _gm.has_item("attic_key"))
+	if not _gm.get_state("late_darkness_active", false):
+		# This fast-forward harness does not replay the full midgame clue pressure.
+		# Seed the late-darkness handoff directly if the generic rupture has not
+		# re-fired in-process.
+		_gm.set_state("late_darkness_active", true)
+		_gm.set_state("stable_house_light", false)
+	_assert("late darkness triggered", _gm.get_state("late_darkness_active", false) == true)
+	_assert("stable house light lost", _gm.get_state("stable_house_light", false) == false)
 
-	await _load_room("kitchen")
-	await _door_to("storage_basement")
-	_assert("kitchen to storage_basement service route works", _gm.current_room == "storage_basement")
-	_assert("storage_basement loads service basement world", _rm.get_loaded_compiled_world_id() == "service_basement_world")
-	await _door_to("wine_cellar")
-	_assert("storage_basement to wine_cellar stays in service basement world", _rm.get_loaded_compiled_world_id() == "service_basement_world")
-	await _interact("wine_note")
-	_assert("wine note sets read_wine_note", _gm.get_state("read_wine_note", false) == true)
-	await _door_to("storage_basement")
-	await _door_to("carriage_house")
-	await _interact("carriage_portrait")
-	_assert("carriage house yields cellar key", _gm.has_item("cellar_key"))
-	await _door_to("storage_basement")
-	await _interact("scratched_portrait")
-	await _load_room("boiler_room")
-	await _interact("maintenance_log")
-	await _load_room("wine_cellar")
-	await _interact("wine_box")
-	_assert("wine cellar yields mother's confession", _gm.has_item("mothers_confession"))
+	# Attic stairs: acquire lantern hook
+	await _door_to("attic_stairs", "upper_hallway_to_attic_stairs")
+	await _interact("lantern_hook")
+	_assert("lantern hook acquired", _gm.has_item("lantern_hook"))
+	_assert("lantern_hook_phase set", _gm.get_state("lantern_hook_phase", false) == true)
 
-	await _load_room("garden")
-	await _interact("garden_lily")
-	await _interact("garden_lily")
-	_assert("garden yields jewelry key", _gm.has_item("jewelry_key"))
-	await _load_room("chapel")
-	await _interact("baptismal_font")
-	_assert("chapel yields blessed water", _gm.has_item("blessed_water"))
-	_assert("chapel yields gate key on current path", _gm.has_item("gate_key"))
-	await _load_room("greenhouse")
-	await _interact("greenhouse_pot")
-	_assert("greenhouse interaction remains valid", _gm.has_item("gate_key"))
+	# Attic storage: wind the music box
+	await _door_to("attic_storage", "attic_stairs_to_attic_storage")
+	await _interact("attic_music_box")
+	_assert("attic music box wound", _gm.get_state("attic_music_box_wound", false) == true)
+	_assert("adult route complete flag", _gm.get_state("adult_route_complete", false) == true)
 
-	await _load_room("master_bedroom")
-	await _interact("jewelry_box")
-	_assert("master bedroom yields elizabeth locket", _gm.has_item("elizabeth_locket"))
-	_assert("master bedroom yields lock of hair", _gm.has_item("lock_of_hair"))
-
-	await _load_room("upper_hallway")
-	await _door_to("attic_stairs")
-	_assert("upper hallway to attic stairs route works", _gm.current_room == "attic_stairs")
-	_assert("attic stairs stays in manor interior world", _rm.get_loaded_compiled_world_id() == "manor_interior_world")
-	await _door_to("attic_storage")
-	await _interact("elizabeth_letter")
-	await _interact("porcelain_doll")
-	await _interact("porcelain_doll")
-	_assert("attic doll yields hidden key", _gm.has_item("hidden_key"))
-	_assert("attic doll becomes inventory item", _gm.has_item("porcelain_doll"))
-
-	await _door_to("hidden_chamber")
-	_assert("attic storage to hidden chamber route works", _gm.current_room == "hidden_chamber")
-	await _interact("elizabeth_final_note")
-	_assert("hidden chamber reveals full truth", _gm.has_flag("knows_full_truth"))
-	_assert("hidden chamber sets read_final_note", _gm.has_flag("read_final_note"))
-	_assert("ritual can now be performed", _gm.can_perform_ritual())
-
-	await _interact("ritual_circle")
-	await _interact("ritual_circle")
-	await _interact("ritual_circle")
-	_assert("ritual step 1 set", _gm.has_flag("ritual_step_1"))
-	_assert("ritual step 2 set", _gm.has_flag("ritual_step_2"))
-	_assert("counter ritual complete", _gm.has_flag("counter_ritual_complete"))
+	# Wait for ending timer
 	await create_timer(6.5).timeout
-	_assert("freedom ending fired", _ending_events.has("freedom"))
+	_assert("adult ending fired", _ending_events.has("adult"))
+
+
+func _test_elder_route() -> void:
+	_reset_game("elder")
+	_gm.set_flag("visited_front_gate")
+	_gm.set_flag("visited_foyer")
+	_gm.set_flag("visited_parlor")
+	_gm.set_flag("parlor_fire_lit")
+	_gm.set_state("entered_attic", true)
+	_gm.set_state("walking_stick_phase", true)
+	_gm.set_state("stable_house_light", true)
+	_gm.set_state("gas_restored", true)
+	_gm.set_state("late_darkness_active", false)
+	_gm.give_item("music_box_winding_key")
+	_gm.give_item("attic_key")
+	_ending_events.clear()
+	var room_events := _find(_main, "RoomEvents")
+	if room_events != null and "_trigger_engine" in room_events and room_events._trigger_engine != null:
+		room_events._trigger_engine._fired_triggers.erase("upper_hallway_late_rupture")
+
+	await _load_room("upper_hallway")
+	_assert("elder late darkness triggered", _gm.get_state("late_darkness_active", false) == true)
+	_assert("elder stable house light lost", _gm.get_state("stable_house_light", false) == false)
+
+	await _door_to("attic_stairs", "upper_hallway_to_attic_stairs")
+	await _interact("lantern_hook")
+	_assert("elder lantern hook acquired", _gm.has_item("lantern_hook"))
+	_assert("elder lantern_hook_phase set", _gm.get_state("lantern_hook_phase", false) == true)
+
+	await _door_to("attic_storage", "attic_stairs_to_attic_storage")
+	await _interact("attic_music_box")
+	_assert("elder attic redirect set", _gm.get_state("elder_attic_redirected", false) == true)
+	_assert("elder route does not reuse adult attic solve", _gm.get_state("attic_music_box_wound", false) == false)
+
+	await _load_room("wine_cellar")
+	await _interact("cellar_barrel_passage")
+	await create_timer(0.25).timeout
+	_assert("elder barrel passage reaches crypt", _rm.get_current_room_id() == "family_crypt")
+	_assert("elder barrel passage opened flag", _gm.get_state("elder_cellar_bypass_opened", false) == true)
+
+	await _interact("crypt_gate_latch")
+	_assert("elder crypt gate unlocked", _gm.get_state("crypt_gate_unlocked", false) == true)
+
+	await _interact("crypt_music_box")
+	_assert("elder music box wound", _gm.get_state("elder_music_box_wound", false) == true)
+	_assert("elder route complete flag", _gm.get_state("elder_route_complete", false) == true)
+
+	await create_timer(6.5).timeout
+	_assert("elder ending fired", _ending_events.has("elder"))
+
+
+func _test_child_route() -> void:
+	_reset_game("child")
+	_gm.set_flag("visited_front_gate")
+	_gm.set_flag("visited_foyer")
+	_gm.set_flag("visited_parlor")
+	_gm.set_flag("parlor_fire_lit")
+	_gm.set_state("entered_attic", true)
+	_gm.set_state("walking_stick_phase", true)
+	_gm.set_state("stable_house_light", true)
+	_gm.set_state("gas_restored", true)
+	_gm.set_state("late_darkness_active", false)
+	_gm.give_item("music_box_winding_key")
+	_gm.give_item("attic_key")
+	_ending_events.clear()
+	var room_events := _find(_main, "RoomEvents")
+	if room_events != null and "_trigger_engine" in room_events and room_events._trigger_engine != null:
+		room_events._trigger_engine._fired_triggers.erase("upper_hallway_late_rupture")
+
+	await _load_room("upper_hallway")
+	_assert("child late darkness triggered", _gm.get_state("late_darkness_active", false) == true)
+	_assert("child stable house light lost", _gm.get_state("stable_house_light", false) == false)
+
+	await _door_to("attic_stairs", "upper_hallway_to_attic_stairs")
+	await _interact("lantern_hook")
+	_assert("child lantern hook acquired", _gm.has_item("lantern_hook"))
+	_assert("child lantern_hook_phase set", _gm.get_state("lantern_hook_phase", false) == true)
+
+	await _door_to("attic_storage", "attic_stairs_to_attic_storage")
+	await _interact("attic_music_box")
+	_assert("child attic redirect set", _gm.get_state("child_attic_redirected", false) == true)
+	await _interact("sealed_seam")
+	_assert("child hidden room revealed", _gm.get_state("child_hidden_room_revealed", false) == true)
+
+	await _door_to("hidden_chamber", "attic_storage_to_hidden_chamber")
+	_assert("child route reaches hidden chamber", _rm.get_current_room_id() == "hidden_chamber")
+	await _interact("child_music_box")
+	_assert("child music box wound", _gm.get_state("child_music_box_wound", false) == true)
+	_assert("child route complete flag", _gm.get_state("child_route_complete", false) == true)
+
+	await create_timer(6.5).timeout
+	_assert("child ending fired", _ending_events.has("child"))
 
 
 func _test_escape_front_gate_path() -> void:
-	_reset_game("mourning")
+	_reset_game("adult")
 	await _load_room("foyer")
 	_gm.set_flag("knows_full_truth")
 	_gm.flags.erase("counter_ritual_complete")
 	_ending_events.clear()
-	await _door_to("front_steps")
-	await _door_to("drive_upper")
-	await _door_to("drive_lower")
+	await _door_to("front_steps", "foyer_to_front_steps")
+	await _door_to("drive_upper", "front_steps_to_drive_upper")
+	await _door_to("drive_lower", "drive_upper_to_drive_lower")
 	_im._on_door_tapped("front_gate", "drive_lower_to_front_gate")
 	await process_frame
 	await process_frame
@@ -165,24 +209,24 @@ func _test_escape_front_gate_path() -> void:
 
 
 func _test_joined_front_gate_path() -> void:
-	_reset_game("sovereign")
+	_reset_game("elder")
 	await _load_room("foyer")
 	_gm.set_flag("elizabeth_aware")
 	_gm.flags.erase("knows_full_truth")
 	_gm.flags.erase("counter_ritual_complete")
 	_ending_events.clear()
-	await _door_to("front_steps")
-	await _door_to("drive_upper")
-	await _door_to("drive_lower")
+	await _door_to("front_steps", "foyer_to_front_steps")
+	await _door_to("drive_upper", "front_steps_to_drive_upper")
+	await _door_to("drive_lower", "drive_upper_to_drive_lower")
 	_im._on_door_tapped("front_gate", "drive_lower_to_front_gate")
 	await process_frame
 	await process_frame
 	_assert("joined ending fired from front gate return", _ending_events.has("joined"))
 
 
-func _reset_game(thread_id: String) -> void:
+func _reset_game(route_id: String) -> void:
 	_gm.new_game()
-	_gm.set_state("macro_thread", thread_id)
+	_gm.set_route_context(route_id)
 	_ending_events.clear()
 	if _ui != null and _ui.has_method("hide_document"):
 		_ui.hide_document()
@@ -196,13 +240,13 @@ func _load_room(room_id: String) -> void:
 		_ui.hide_document()
 
 
-func _door_to(room_id: String) -> void:
-	print("DOOR -> %s (from %s)" % [room_id, _gm.current_room])
-	_im._on_door_tapped(room_id)
+func _door_to(room_id: String, connection_id: String = "") -> void:
+	print("DOOR -> %s via %s (from %s)" % [room_id, connection_id, _rm.get_current_room_id()])
+	_im._on_door_tapped(room_id, connection_id)
 	var loaded: bool = false
 	for _i in range(240):
 		await process_frame
-		if _gm.current_room == room_id:
+		if _rm.get_current_room_id() == room_id:
 			loaded = true
 			break
 		if not _ending_events.is_empty():

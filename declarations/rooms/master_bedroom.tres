@@ -49,7 +49,7 @@ play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
 script = ExtResource("3")
 condition = ""
 title = "Lord Ashworth's Diary"
-text = "The diary is chained to the nightstand with a small padlock. Even his own words are imprisoned. The November entries describe locks purchased, doors reinforced, windows boarded. December entries are shorter: 'The key is safe. She cannot reach it. The binding holds.' The final entry, December 24th: 'I have hidden the last key. No one will open that door again. God forgive me.'"
+text = "The November entries are practical in the worst possible way: plaster invoices, lath measurements, instructions to have a wall finished before Christmas callers arrive. Edmund stops calling Elizabeth 'the girl' and starts calling her 'the room.' December entries shrink to single lines: 'No one must hear her through the wall.' The final entry, December 24th: 'If the room is sealed, perhaps mercy and memory will finally mean the same thing.'"
 set_state = {"read_ashworth_diary": true}
 play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
 
@@ -68,6 +68,15 @@ script = ExtResource("3")
 condition = ""
 title = "Lord Ashworth's Diary"
 text = "The diary is on the floor, thrown there. Pages are torn out -- not carefully removed, ripped in panic. The surviving entries describe increasingly strange observations. November: 'The doors opened by themselves today. All of them. Simultaneously.' December: 'She does not need to touch things anymore. She looks at them and they MOVE.' December 15th: 'The house is hers now. I feel it in the foundations.' December 24th, the last page, written in the margins: 'She is not becoming something. She has BECOME it.'"
+set_state = {"read_ashworth_diary": true}
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
+
+; ADULT diary: Edmund realizes she grew up
+[sub_resource type="Resource" id="resp_diary_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Lord Ashworth's Diary"
+text = "The diary's language changes across the months. October: 'the girl is quiet today.' November: 'she asked for books -- adult books, philosophy, not fairy tales.' December: 'I cannot pretend any longer. She is not a child. She has not been a child for years. She is taller than Victoria now. She corrected my Latin through the door.'\n\nDecember 24th, the final entry: 'She is older than her mother was when I married her. God forgive me for what I have done tonight.'"
 set_state = {"read_ashworth_diary": true}
 play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_08_subtle.wav"
 
@@ -92,7 +101,7 @@ set_state = {"examined_bedroom_mirror": true}
 script = ExtResource("3")
 condition = ""
 title = "Vanity Mirror"
-text = "The vanity mirror is cracked. A single fracture runs from top to bottom, splitting your reflection in two. One half shows you as you are. The other half shows you slightly behind -- as if the reflection is on a delay, trying to catch up, trapped behind the glass a moment longer than it should be. Lady Ashworth's hairbrush lies beside it. She stopped looking at herself."
+text = "The vanity mirror gives you the room at the wrong height. For a moment the reflected doorknob sits too high, the wardrobe too broad, the chair too far away -- the room as it would have looked to a child standing here and waiting for someone to open the door. Then the scale rights itself. Lady Ashworth used this mirror and still could not bear to look at what the house had done at a child's eye level."
 set_state = {"examined_bedroom_mirror": true}
 
 ; MOURNING mirror: Aged, sad, time-worn
@@ -109,6 +118,14 @@ script = ExtResource("3")
 condition = ""
 title = "Vanity Mirror"
 text = "The vanity mirror is perfectly clear. Impossibly clear for glass this old. Your reflection is sharp, detailed, every pore visible. But behind you, in the reflection, the bedroom door is open. You turn. The door is closed. You look back at the mirror. Open. Something wants you to go through that door. The mirror is not showing what IS. It is showing what should HAPPEN NEXT."
+set_state = {"examined_bedroom_mirror": true}
+
+; ADULT mirror: reflection ages to match Elizabeth
+[sub_resource type="Resource" id="resp_mirror_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Vanity Mirror"
+text = "The vanity mirror is clear but the reflection is wrong. You look -- not older, but the face in the glass has gained years you cannot explain. Dark eyes, steady and adult. For a moment you are looking at someone else entirely. A woman in her twenties, sitting where Lady Ashworth sat, using the same hairbrush. Elizabeth used this mirror. She watched herself grow up in it while the rest of the house refused to notice."
 set_state = {"examined_bedroom_mirror": true}
 
 ; === Jewelry Box Responses (shared) ===
@@ -149,6 +166,20 @@ condition = ""
 title = "Wardrobe"
 text = "Ajar. Formal suits to one side, black dresses to the other. Lady Ashworth's mourning clothes dominate the hanging rail. She did not dress for recovery. She dressed for endurance."
 
+; ADULT wardrobe: adult dress hidden among mourning clothes
+[sub_resource type="Resource" id="resp_wardrobe_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Wardrobe"
+text = "Ajar. Lady Ashworth's mourning dresses dominate the rail -- but pushed to the very back, a single dress in different proportions. Taller, narrower in the waist, longer in the arm. Cut from the same black fabric as Victoria's clothes but fitted to a younger woman. Someone made this in secret, using what material was available. A daughter's dress, hidden in her mother's wardrobe. Evidence of a body that outgrew its childhood and had no one to acknowledge it."
+
+; ADULT medical book: about adult patients, not children
+[sub_resource type="Resource" id="resp_book_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Medical Book"
+text = "Not childhood afflictions at all. The underlined passages concern 'prolonged restraint of persons of sound mind' and 'moral responsibility for the indefinite confinement of adult dependents.' Edmund was not searching for a diagnosis. He was searching for permission to keep doing what he was already doing -- to an adult. The marginal note in his hand: 'At what age does duty to protect become imprisonment?'"
+
 [sub_resource type="Resource" id="resp_broken_bottle_default"]
 script = ExtResource("3")
 condition = ""
@@ -164,7 +195,7 @@ type = "note"
 position = Vector3(-4, 0.9, -4)
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_diary_truth"), SubResource("resp_diary_default")])
-thread_responses = {"captive": [SubResource("resp_diary_captive")], "mourning": [SubResource("resp_diary_mourning")], "sovereign": [SubResource("resp_diary_sovereign")]}
+thread_responses = {"child": [SubResource("resp_diary_captive")], "adult": [SubResource("resp_diary_adult")], "elder": [SubResource("resp_diary_sovereign")], "captive": [SubResource("resp_diary_captive")], "mourning": [SubResource("resp_diary_mourning")], "sovereign": [SubResource("resp_diary_sovereign")]}
 
 [sub_resource type="Resource" id="inter_mirror"]
 script = ExtResource("2")
@@ -174,7 +205,7 @@ position = Vector3(4.5, 1.2, 0)
 wall = "east"
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_mirror_aware"), SubResource("resp_mirror_default")])
-thread_responses = {"captive": [SubResource("resp_mirror_captive")], "mourning": [SubResource("resp_mirror_mourning")], "sovereign": [SubResource("resp_mirror_sovereign")]}
+thread_responses = {"child": [SubResource("resp_mirror_captive")], "adult": [SubResource("resp_mirror_adult")], "elder": [SubResource("resp_mirror_sovereign")], "captive": [SubResource("resp_mirror_captive")], "mourning": [SubResource("resp_mirror_mourning")], "sovereign": [SubResource("resp_mirror_sovereign")]}
 
 [sub_resource type="Resource" id="inter_jewelry"]
 script = ExtResource("2")
@@ -203,6 +234,7 @@ type = "observation"
 position = Vector3(-3.6, 0.9, -3.8)
 collision_size = Vector3(0.8, 0.4, 0.8)
 responses = Array[Resource]([SubResource("resp_book_default")])
+thread_responses = {"adult": [SubResource("resp_book_adult")]}
 
 [sub_resource type="Resource" id="inter_wardrobe"]
 script = ExtResource("2")
@@ -211,6 +243,7 @@ type = "observation"
 position = Vector3(-4.5, 1.0, 4)
 collision_size = Vector3(1.5, 2.0, 1.0)
 responses = Array[Resource]([SubResource("resp_wardrobe_default")])
+thread_responses = {"adult": [SubResource("resp_wardrobe_adult")]}
 
 [sub_resource type="Resource" id="inter_broken_bottle"]
 script = ExtResource("2")

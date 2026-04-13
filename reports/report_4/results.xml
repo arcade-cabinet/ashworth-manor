@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites id="2026-04-07" name="report_4" tests="2" failures="2" skipped="0" flaky="0" time="0.000">
+	<testsuite id="0" name="route_program_test" package="test/unit" timestamp="2026-04-07T20:07:31" hostname="localhost" tests="2" failures="2" errors="18" skipped="0" flaky="0" time="0.189">
+		<testcase name="test_route_program_progresses_and_enters_replay_mode" classname="route_program_test" time="0.095">
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Invalid access to property or key 'current_room' on a base object of type 'Nil'.'
+	at res://scripts/room_manager.gd:393
+]]>
+			</error>
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Cannot call method 'has_signal' on a null value.'
+	at res://scripts/audio_manager.gd:98
+]]>
+			</error>
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Invalid access to property or key 'state_changed' on a base object of type 'Nil'.'
+	at res://scripts/interaction_manager.gd:91
+]]>
+			</error>
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Cannot call method 'has_signal' on a null value.'
+	at res://scripts/game_state_machine.gd:73
+]]>
+			</error>
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Cannot call method 'has_signal' on a null value.'
+	at res://scripts/elizabeth_presence.gd:79
+]]>
+			</error>
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Cannot call method 'has_signal' on a null value.'
+	at res://scripts/shake_profiles.gd:41
+]]>
+			</error>
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Cannot call method 'has_signal' on a null value.'
+	at res://scripts/room_events.gd:66
+]]>
+			</error>
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Cannot call method 'has_signal' on a null value.'
+	at res://scripts/quest_handler.gd:63
+]]>
+			</error>
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Cannot call method 'has_signal' on a null value.'
+	at res://scripts/ui_overlay.gd:38
+]]>
+			</error>
+			<failure message="FAILED: res://test/unit/route_program_test.gd:14" type="FAILURE">
+<![CDATA[
+Expecting: not to be '<null>'
+]]>
+			</failure>
+		</testcase>
+		<testcase name="test_route_context_helper_sets_route_and_compatibility_thread" classname="route_program_test" time="0.091">
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Invalid access to property or key 'current_room' on a base object of type 'Nil'.'
+	at res://scripts/room_manager.gd:393
+]]>
+			</error>
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Cannot call method 'has_signal' on a null value.'
+	at res://scripts/audio_manager.gd:98
+]]>
+			</error>
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Invalid access to property or key 'state_changed' on a base object of type 'Nil'.'
+	at res://scripts/interaction_manager.gd:91
+]]>
+			</error>
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Cannot call method 'has_signal' on a null value.'
+	at res://scripts/game_state_machine.gd:73
+]]>
+			</error>
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Cannot call method 'has_signal' on a null value.'
+	at res://scripts/elizabeth_presence.gd:79
+]]>
+			</error>
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Cannot call method 'has_signal' on a null value.'
+	at res://scripts/shake_profiles.gd:41
+]]>
+			</error>
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Cannot call method 'has_signal' on a null value.'
+	at res://scripts/room_events.gd:66
+]]>
+			</error>
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Cannot call method 'has_signal' on a null value.'
+	at res://scripts/quest_handler.gd:63
+]]>
+			</error>
+			<error message="ERROR: res://test/unit/route_program_test.gd:0" type="ABORT">
+<![CDATA[
+Godot Runtime Error !
+Error: 'Cannot call method 'has_signal' on a null value.'
+	at res://scripts/ui_overlay.gd:38
+]]>
+			</error>
+			<failure message="FAILED: res://test/unit/route_program_test.gd:48" type="FAILURE">
+<![CDATA[
+Expecting: not to be '<null>'
+]]>
+			</failure>
+		</testcase>
+	</testsuite>
+</testsuites>

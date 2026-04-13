@@ -7,6 +7,26 @@ script = ExtResource("1")
 background_mode = "keep"
 background_color = Color(0, 0, 0, 1)
 sky = null
+substrate_preset_id = "upper_floor_moonlit"
+terrain_preset_id = ""
+sky_preset_id = ""
+dominant_material_recipes = PackedStringArray("surface/oak_dark", "surface/oak_header", "surface/cloth_brown")
+surface_recipe_overrides = {
+"ceiling": "surface/paper",
+"door": "surface/oak_dark",
+"floor": "surface/oak_dark",
+"ladder_rail": "surface/wrought_iron",
+"ladder_rung": "surface/chain_iron",
+"stair_rail": "surface/oak_dark",
+"stair_structure": "surface/oak_header",
+"stair_tread": "surface/oak_dark",
+"threshold": "surface/oak_header",
+"wall": "surface/cloth_brown",
+"window": "surface/oak_dark"
+}
+allowed_mount_families = PackedStringArray("wall", "floor", "ceiling", "threshold", "table", "shelf", "sill", "mantel")
+light_grammar = "moonlight_sconce"
+hdri_backing_optional = true
 fog_enabled = true
 fog_density = 0.005
 fog_color = Color(0.12, 0.1, 0.09, 1)

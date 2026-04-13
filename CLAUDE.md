@@ -218,7 +218,7 @@ on_read_flags = PackedStringArray()
 
 ## Code Standards
 
-- Max 200 LOC per script
+- Max 300 LOC per script
 - No monolithic data files
 - `.tres` resources for data, not Dictionary metadata
 - Each room is a self-contained `.tscn`

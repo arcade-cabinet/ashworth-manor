@@ -1,23 +1,17 @@
 ~ gate_plaque
 if GameManager.has_flag("knows_full_truth")
-	"ASHWORTH MANOR — Est. 1847."
-
-	Below, in smaller script: "Abandon memory, all ye who enter."
-
-	They meant it literally. They tried to make the world forget Elizabeth existed.
+	"Abandon memory, all ye who enter." They meant it literally. They tried to make the world forget Elizabeth existed.
 else
-	"ASHWORTH MANOR — Est. 1847."
-
-	The iron lettering is green with verdigris. Below, in smaller script barely legible: "Abandon memory, all ye who enter."
+	ASHWORTH MANOR — Est. 1847. The brass has gone dark with weather, but the lettering is still exact. It reads like an estate marker, not a welcome.
 do GameManager.set_flag("examined_gate_plaque")
 
 
 ~ gate_luggage
 if GameManager.has_flag("read_guest_ledger")
-	Helena Pierce's suitcase. She arrived November 3rd, 1891. Her departure date was left blank. Now you know why — she never left the house alive.
+	Your valise, left neatly beneath the sign by the departing driver. The packet is inside, along with the key and a few small necessities.
 else
-	A leather traveling case, clasps still fastened. Packed but never carried beyond the gate. The luggage tag reads: "H. Pierce — London." The ink has run in the rain.
-do GameManager.set_flag("found_helena_luggage")
+	A leather travelling valise with the dust of the station still on it. The driver has left it beneath the sign, close enough to your hand that ignoring it would be a decision.
+do GameManager.set_flag("front_gate_valise_opened")
 
 
 ~ gate_bench
@@ -31,7 +25,7 @@ else
 if GameManager.has_flag("elizabeth_aware")
 	The gate hangs open like a mouth. You notice now: the iron bars are bent outward. Whatever left this house was stronger than iron.
 else
-	Iron bars, rusted open. The lock is broken — not from outside. Someone burst through from within. The hinges scream when the wind catches them.
+	The gate stands open on tired hinges. The lock hasp has been forced from the stone at some point — whether by weather, by hand, or simply by time is impossible to say now. Nobody has come to close it.
 do GameManager.set_flag("examined_iron_gate")
 
 
@@ -39,4 +33,4 @@ do GameManager.set_flag("examined_iron_gate")
 if GameManager.has_flag("elizabeth_aware")
 	The lamp pulses in rhythm. You realize you've been breathing in sync with it. Since when?
 else
-	Still lit. After over a century, the gas lamp by the gate still burns. The flame doesn't flicker like fire — it pulses, like breathing.
+	One gate lamp still burns. The brass is streaked by weather, the glass clouded with soot, but the flame itself is steady enough to prove the place was maintained until recently.

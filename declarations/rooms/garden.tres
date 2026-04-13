@@ -8,6 +8,59 @@
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
 [ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
+[ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="9"]
+
+[sub_resource type="Resource" id="anchor_entry_kitchen"]
+script = ExtResource("9")
+anchor_id = "entry_kitchen"
+anchor_type = "entry"
+position = Vector3(0.0, 0, -6.4)
+rotation_y = 0.0
+target_anchor_id = "focus_fountain_axis"
+tags = PackedStringArray("grounds", "kitchen_return", "critical_path")
+
+[sub_resource type="Resource" id="anchor_entry_chapel"]
+script = ExtResource("9")
+anchor_id = "entry_chapel"
+anchor_type = "entry"
+position = Vector3(4.95, 0, 4.25)
+rotation_y = 224.0
+target_anchor_id = "focus_fountain_axis"
+tags = PackedStringArray("grounds", "chapel_return")
+
+[sub_resource type="Resource" id="anchor_entry_greenhouse"]
+script = ExtResource("9")
+anchor_id = "entry_greenhouse"
+anchor_type = "entry"
+position = Vector3(0.85, 0, 5.55)
+rotation_y = 196.0
+target_anchor_id = "focus_lily_tableau"
+tags = PackedStringArray("grounds", "greenhouse_return")
+
+[sub_resource type="Resource" id="anchor_entry_crypt"]
+script = ExtResource("9")
+anchor_id = "entry_crypt"
+anchor_type = "entry"
+position = Vector3(5.0, 0, 5.4)
+rotation_y = 208.0
+target_anchor_id = "focus_fountain_axis"
+tags = PackedStringArray("grounds", "crypt_return", "late_game")
+
+[sub_resource type="Resource" id="anchor_focus_fountain_axis"]
+script = ExtResource("9")
+anchor_id = "focus_fountain_axis"
+anchor_type = "focal"
+position = Vector3(0.0, 0.92, 0.8)
+rotation_y = 0.0
+tags = PackedStringArray("grounds", "garden_core")
+
+[sub_resource type="Resource" id="anchor_focus_lily_tableau"]
+script = ExtResource("9")
+anchor_id = "focus_lily_tableau"
+anchor_type = "focal"
+position = Vector3(2.55, 0.92, 4.55)
+rotation_y = 0.0
+tags = PackedStringArray("grounds", "clue_tableau", "lily")
 
 ; === White Lily Responses (Diamond #4 B-path: key in soil) ===
 
@@ -148,8 +201,8 @@ id = "garden_moonlight"
 type = "omni"
 position = Vector3(0, 5, 0)
 color = Color(0.5, 0.6, 0.9, 1)
-energy = 1.0
-range = 15.0
+energy = 2.2
+range = 22.0
 shadows = false
 flickering = false
 
@@ -159,8 +212,8 @@ id = "garden_gazebo_candle"
 type = "omni"
 position = Vector3(-5.0, 1.0, -4.0)
 color = Color(1.0, 0.82, 0.58, 1)
-energy = 0.35
-range = 3.0
+energy = 0.9
+range = 5.0
 shadows = false
 flickering = true
 flicker_pattern = "candle"
@@ -304,20 +357,23 @@ position = Vector3(2.5, 1.1, 0.8)
 [sub_resource type="Resource" id="prop_crypt_pillar_l"]
 script = ExtResource("5")
 id = "crypt_pillar_l"
-model = "res://assets/grounds/family_crypt/drystone_column_capped.glb"
+scene_path = "res://scenes/shared/grounds/estate_gate_post_stone.tscn"
 position = Vector3(4.0, 0, 8.0)
+scale_3d = Vector3(0.72, 0.88, 0.72)
 
 [sub_resource type="Resource" id="prop_crypt_pillar_r"]
 script = ExtResource("5")
 id = "crypt_pillar_r"
-model = "res://assets/grounds/family_crypt/drystone_column_capped.glb"
+scene_path = "res://scenes/shared/grounds/estate_gate_post_stone.tscn"
 position = Vector3(6.0, 0, 8.0)
+scale_3d = Vector3(0.72, 0.88, 0.72)
 
 [sub_resource type="Resource" id="prop_crypt_gate"]
 script = ExtResource("5")
 id = "crypt_gate"
-model = "res://assets/grounds/family_crypt/metalfence_gate_only_sides.glb"
+scene_path = "res://scenes/shared/grounds/estate_iron_gate_closed.tscn"
 position = Vector3(5.0, 0, 8.0)
+scale_3d = Vector3(0.4, 0.78, 0.42)
 
 [sub_resource type="Resource" id="prop_gazebo_candle_holder"]
 script = ExtResource("5")
@@ -369,7 +425,7 @@ script = ExtResource("1")
 room_id = "garden"
 room_name = "Garden"
 floor_name = "grounds"
-environment_preset = "grounds"
+environment_preset = "garden_mist"
 dimensions = Vector3(16, 6, 16)
 is_exterior = true
 wall_texture = ""
@@ -385,6 +441,8 @@ reverb_bus = "OpenAir"
 footstep_surface = "grass"
 spawn_position = Vector3(0, 0, 0)
 spawn_rotation_y = 0.0
+entry_anchors = Array[Resource]([SubResource("anchor_entry_kitchen"), SubResource("anchor_entry_chapel"), SubResource("anchor_entry_greenhouse"), SubResource("anchor_entry_crypt")])
+focal_anchors = Array[Resource]([SubResource("anchor_focus_fountain_axis"), SubResource("anchor_focus_lily_tableau")])
 interactables = Array[Resource]([SubResource("inter_lily"), SubResource("inter_fountain"), SubResource("inter_gazebo"), SubResource("inter_bench"), SubResource("inter_beds")])
 lights = Array[Resource]([SubResource("light_moon"), SubResource("light_gazebo_candle")])
 props = Array[Resource]([SubResource("prop_fountain_model"), SubResource("prop_fountain_ice"), SubResource("prop_bench_model"), SubResource("prop_gazebo_model"), SubResource("prop_gazebo_table"), SubResource("prop_bench_north"), SubResource("prop_beds_west"), SubResource("prop_beds_east"), SubResource("prop_path_west"), SubResource("prop_path_center"), SubResource("prop_path_north"), SubResource("prop_path_chapel"), SubResource("prop_path_crypt"), SubResource("prop_north_wall_w"), SubResource("prop_north_wall_e"), SubResource("prop_east_wall_s"), SubResource("prop_east_wall_n"), SubResource("prop_corner_ne"), SubResource("prop_column_l"), SubResource("prop_column_r"), SubResource("prop_vase_l"), SubResource("prop_vase_r"), SubResource("prop_crypt_pillar_l"), SubResource("prop_crypt_pillar_r"), SubResource("prop_crypt_gate"), SubResource("prop_gazebo_candle_holder"), SubResource("prop_gazebo_candle")])

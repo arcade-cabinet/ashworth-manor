@@ -1,10 +1,15 @@
 ~ stairwell_debris
-Gravel and plaster dust on the stairs. Your footprints are the first in over a century.
-
-Each step leaves a mark. Proof you were here.
+Gravel, plaster dust, and splintered wood collect in the stair corners. Your steps disturb the first clean surface in decades. Each print feels like a trespass the house has been waiting to register.
 
 
 ~ stairwell_wall
-The plaster is cracked and stained. Water damage from above — the attic roof leaks.
+The plaster has split wide enough to show lath beneath. The wood bears long scratches from the far side, four close lines repeated over and over. Not one outburst. Repetition. Persistence.
 
-Through the largest crack, you see bare wooden lath. And scratches on the wood. From the other side. Fingernail marks.
+
+~ lantern_hook
+if GameManager.has_flag("lantern_hook_phase")
+	The bracket is empty. You took the hook and its handle. The stairwell feels darker without it.
+elif not GameManager.has_flag("late_darkness_active")
+	An iron hook on a long ash handle, mounted to the wall bracket. For hanging service lanterns in high stairwells. The handle is worn smooth from the caretaker's grip. You have no reason to take it yet.
+else
+	An iron hook on a long ash handle, mounted to the wall bracket. The house lights are dead. You need reach, not warmth. You take the hook from its bracket. The ash handle is steady in your hand — steadier than the cane, longer than the brand. Built for pulling things down from where they were hidden.

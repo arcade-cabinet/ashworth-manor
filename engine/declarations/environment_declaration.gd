@@ -9,6 +9,14 @@ extends Resource
 
 # Sky
 @export var sky: SkyDeclaration = null
+@export var substrate_preset_id: String = ""
+@export var terrain_preset_id: String = ""
+@export var sky_preset_id: String = ""
+@export var dominant_material_recipes: PackedStringArray = []
+@export var surface_recipe_overrides: Dictionary = {} # floor, wall, ceiling, trim, threshold, door, gate_leaf, window, stair_tread, stair_structure, stair_rail, ladder_rail, ladder_rung, terrain, foliage
+@export var allowed_mount_families: PackedStringArray = []
+@export var light_grammar: String = ""
+@export var hdri_backing_optional: bool = true
 
 # Fog
 @export var fog_enabled: bool = true

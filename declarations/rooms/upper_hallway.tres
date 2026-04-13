@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://engine/declarations/trigger_decl.gd" id="6"]
 [ext_resource type="Script" path="res://engine/declarations/action_decl.gd" id="7"]
 [ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="8"]
+[ext_resource type="Script" path="res://engine/declarations/conditional_event_decl.gd" id="9"]
 
 [sub_resource type="Resource" id="anchor_entry_stairhead"]
 script = ExtResource("8")
@@ -39,7 +40,7 @@ set_state = {"examined_children_painting": true}
 script = ExtResource("3")
 condition = ""
 title = "Children's Portrait"
-text = "Five children on the garden lawn. Four faces. The fifth has been painted over -- but poorly. Beneath the dark pigment, if you look closely, you can see the outline of a small face. Dark eyes. A serious expression. She was there. They painted her out. As if erasing her face could undo what they had done to her."
+text = "Five children on the garden lawn. Four faces remain. The fifth is not simply painted out -- the varnish over that spot has been sanded and touched again and again, as if the family kept returning to make the child disappear more completely. The outline of a small shoulder still survives under the work. They erased a child and called the blank space order."
 set_state = {"examined_children_painting": true}
 
 [sub_resource type="Resource" id="resp_children_mourning"]
@@ -53,7 +54,15 @@ set_state = {"examined_children_painting": true}
 script = ExtResource("3")
 condition = ""
 title = "Children's Portrait"
-text = "Five children on the garden lawn. Four faces smiling. The fifth child's face is not painted over. It is MOVED. Look at the composition -- there is a gap second from right where a child should stand. But in the far background, barely visible, a small figure stands at the attic window. She is in the painting. She moved herself to where she wanted to be."
+text = "Five children on the garden lawn. Four remain children. The fifth has been worked and reworked until the face no longer belongs in the scene -- darker dress, hollows at the eyes, hands folded too still for a child. Someone kept returning to the canvas to age her a little more. The portrait became a record of years the family would not admit were passing overhead."
+set_state = {"examined_children_painting": true}
+
+; ADULT children: the fifth child has been repainted older
+[sub_resource type="Resource" id="resp_children_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Children's Portrait"
+text = "Five children on the garden lawn. Four faces unchanged. The fifth has been repainted -- not covered, not erased, but AGED. Someone mixed fresh pigment and added years to the face. The brushwork is amateur, nothing like the original painter's hand. Elizabeth repainted herself. She made the portrait match the woman she became while the house pretended she was still seven. A grown woman's face stares out of a children's group."
 set_state = {"examined_children_painting": true}
 
 ; === Hallway Poster Responses ===
@@ -69,7 +78,7 @@ set_state = {"examined_hallway_poster": true}
 script = ExtResource("3")
 condition = ""
 title = "Notice"
-text = "'ATTIC -- CLOSED. NO ENTRY BY ORDER OF LORD ASHWORTH.' The notice is formal, severe. Below it, in smaller letters: 'Any servant found on the attic stairs will be dismissed without reference.' He made imprisonment official. He made looking away a condition of employment."
+text = "'ATTIC -- SEALED. NO ENTRY BY ORDER OF LORD ASHWORTH.' The first line is formal. The second was added later in another hand: 'Plaster to be inspected each Michaelmas.' This was no longer a forbidden room. It became a maintenance problem. A child reduced to a wall the household was expected not to discuss."
 set_state = {"examined_hallway_poster": true}
 
 [sub_resource type="Resource" id="resp_poster_mourning"]
@@ -83,7 +92,15 @@ set_state = {"examined_hallway_poster": true}
 script = ExtResource("3")
 condition = ""
 title = "Notice"
-text = "'ATTIC -- DO NOT ENTER.' But the notice has been modified. Additional words in a different hand -- a child's hand: 'I can hear you reading this.' The pencil marks are faint but clear. Elizabeth wrote on the notice from inside the attic. Through the ceiling. Through the floor."
+text = "'ATTIC -- DO NOT ENTER.' The original notice remains, but beneath it years of additions accumulate in different inks. 'Coal sent up Michaelmas 1894.' 'Laundry left at landing 1897.' 'Do not answer if she asks for the hour. 1902.' The attic ceased to be closed for repairs. It became a permanent household duty."
+set_state = {"examined_hallway_poster": true}
+
+; ADULT notice: amended in mature handwriting
+[sub_resource type="Resource" id="resp_poster_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Notice"
+text = "'ATTIC -- CLOSED FOR REPAIRS.' But below the original text, someone has written in a confident adult hand: 'I am not ill. I am not a child. I am twenty-three years old and I have read every book in the library.' The handwriting is steady. The message was not scratched in panic. It was written with the deliberate patience of someone who had years to compose it."
 set_state = {"examined_hallway_poster": true}
 
 [sub_resource type="Resource" id="resp_mask_aware"]
@@ -117,7 +134,7 @@ wall = "east"
 collision_size = Vector3(1.5, 1.5, 1.5)
 model = "res://assets/shared/decor/picture_blank.glb"
 responses = Array[Resource]([SubResource("resp_children_default")])
-thread_responses = {"captive": [SubResource("resp_children_captive")], "mourning": [SubResource("resp_children_mourning")], "sovereign": [SubResource("resp_children_sovereign")]}
+thread_responses = {"child": [SubResource("resp_children_captive")], "adult": [SubResource("resp_children_adult")], "elder": [SubResource("resp_children_sovereign")], "captive": [SubResource("resp_children_captive")], "mourning": [SubResource("resp_children_mourning")], "sovereign": [SubResource("resp_children_sovereign")]}
 
 [sub_resource type="Resource" id="inter_poster"]
 script = ExtResource("2")
@@ -128,7 +145,7 @@ wall = "west"
 collision_size = Vector3(1.5, 1.5, 1.5)
 model = "res://assets/upper_floor/hallway/poster_cx_11.glb"
 responses = Array[Resource]([SubResource("resp_poster_default")])
-thread_responses = {"captive": [SubResource("resp_poster_captive")], "mourning": [SubResource("resp_poster_mourning")], "sovereign": [SubResource("resp_poster_sovereign")]}
+thread_responses = {"child": [SubResource("resp_poster_captive")], "adult": [SubResource("resp_poster_adult")], "elder": [SubResource("resp_poster_sovereign")], "captive": [SubResource("resp_poster_captive")], "mourning": [SubResource("resp_poster_mourning")], "sovereign": [SubResource("resp_poster_sovereign")]}
 
 [sub_resource type="Resource" id="inter_mask"]
 script = ExtResource("2")
@@ -296,6 +313,59 @@ once = true
 trigger_id = "upper_hallway_first_entry"
 actions = Array[Resource]([SubResource("act_visited"), SubResource("act_show_name")])
 
+; === Late-Game Rupture Trigger (Stage 8) ===
+; Fires when returning to upper hallway after attic visit + walking stick phase
+; The house goes dark — Elizabeth's final assertion of presence
+
+[sub_resource type="Resource" id="act_late_darkness"]
+script = ExtResource("7")
+set_state = {"late_darkness_active": true, "stable_house_light": false}
+
+[sub_resource type="Resource" id="act_late_darkness_sfx"]
+script = ExtResource("7")
+play_sfx = "res://assets/audio/sfx/horror/whisper_distant.ogg"
+
+[sub_resource type="Resource" id="act_late_darkness_shake"]
+script = ExtResource("7")
+camera_shake = 0.2
+
+[sub_resource type="Resource" id="act_late_darkness_text"]
+script = ExtResource("7")
+show_text = "Every light in the house dies at once. Not a flicker, not a fade -- a decision. The hallway is black. From above, through the ceiling, through the attic floor, something breathes. She is done waiting."
+
+[sub_resource type="Resource" id="act_late_dim_sconce_north"]
+script = ExtResource("7")
+light_change = {"target": "hallway_sconce_north", "energy": 0.0, "duration": 0.5}
+
+[sub_resource type="Resource" id="act_late_dim_sconce_south"]
+script = ExtResource("7")
+light_change = {"target": "hallway_sconce_south", "energy": 0.0, "duration": 0.5}
+
+[sub_resource type="Resource" id="trig_late_rupture"]
+script = ExtResource("6")
+condition = "entered_attic AND walking_stick_phase AND NOT late_darkness_active"
+once = true
+trigger_id = "upper_hallway_late_rupture"
+actions = Array[Resource]([SubResource("act_late_darkness"), SubResource("act_late_darkness_sfx"), SubResource("act_late_darkness_shake"), SubResource("act_late_darkness_text"), SubResource("act_late_dim_sconce_north"), SubResource("act_late_dim_sconce_south")])
+
+; === Late-Darkness Conditional Event ===
+; Ensures sconces stay dark if player re-enters after rupture
+
+[sub_resource type="Resource" id="act_cond_dim_north"]
+script = ExtResource("7")
+light_change = {"target": "hallway_sconce_north", "energy": 0.0, "duration": 0.1}
+
+[sub_resource type="Resource" id="act_cond_dim_south"]
+script = ExtResource("7")
+light_change = {"target": "hallway_sconce_south", "energy": 0.0, "duration": 0.1}
+
+[sub_resource type="Resource" id="cond_late_darkness"]
+script = ExtResource("9")
+event_id = "upper_hallway_late_darkness"
+condition = "late_darkness_active"
+once = false
+actions = Array[Resource]([SubResource("act_cond_dim_north"), SubResource("act_cond_dim_south")])
+
 ; === Main Resource ===
 
 [resource]
@@ -324,8 +394,8 @@ focal_anchors = Array[Resource]([SubResource("anchor_focus_hall_axis")])
 interactables = Array[Resource]([SubResource("inter_children"), SubResource("inter_poster"), SubResource("inter_mask"), SubResource("inter_attic_door"), SubResource("inter_switch")])
 lights = Array[Resource]([SubResource("light_sconce_north"), SubResource("light_sconce_south"), SubResource("light_window")])
 props = Array[Resource]([SubResource("prop_rug"), SubResource("prop_children_frame"), SubResource("prop_side_table_south"), SubResource("prop_side_table_north"), SubResource("prop_lamp_lit"), SubResource("prop_lamp_dead"), SubResource("prop_stand"), SubResource("prop_sconce_model_north"), SubResource("prop_sconce_model_south"), SubResource("prop_window"), SubResource("prop_window_ray")])
-on_entry = Array[Resource]([SubResource("trig_first_entry")])
+on_entry = Array[Resource]([SubResource("trig_first_entry"), SubResource("trig_late_rupture")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([])
-conditional_events = Array[Resource]([])
+conditional_events = Array[Resource]([SubResource("cond_late_darkness")])
 flashbacks = Array[Resource]([])

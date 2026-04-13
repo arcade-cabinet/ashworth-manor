@@ -1,5 +1,10 @@
 # Weave Balance Analysis
 
+> Archived design exploration.
+> This analysis belongs to the retired weave-era route model and is retained
+> only for historical context. Do not treat it as current implementation or
+> narrative truth.
+
 How much content per thread, per room, per junction — and what needs to be written/built.
 
 ---

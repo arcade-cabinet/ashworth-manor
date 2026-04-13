@@ -1,41 +1,72 @@
 ~ maintenance_log
-Dec 15, 1891 — Strange sounds from the pipes again. The staff refuse to come down here after dark.
+A caretaker's logbook left open on the workbench. Entries describe boiler maintenance, pipe repairs, coal deliveries.
 
-Something is wrong with this house.
+The handwriting grows unsteady through autumn 1891: "Pressure irregular again. Third time this month. Foreman says the seals are fine but I can hear the joints weeping at night. I am the last one willing to come down here alone."
 do GameManager.set_flag("read_maintenance_log")
 do GameManager.set_flag("knows_staff_afraid")
 
 
 ~ boiler_clock
-3:33. Even here, in the belly of the house.
+A clock mounted above the boiler. 3:33. Same as every clock in the house.
 
-The industrial clock is built for reliability — spring mechanism, not pendulum. It shouldn't have stopped. Nothing should have stopped it.
+This one is spring-wound, not pendulum — built for reliability in a service space. It should not have stopped.
 do GameManager.set_flag("examined_boiler_clock")
 
 
 ~ boiler_observation
-if GameManager.has_flag("elizabeth_aware")
-	The warmth isn't from coal. There's no fuel in the firebox.
+if GameManager.has_flag("gas_restored")
+	The boiler idles at low pressure, feeding gas to the house pipes. The iron ticks as it warms.
 
-	The boiler generates its own heat now. The house has a heartbeat.
+	Ordinary service machinery doing ordinary work — the first honest sound this house has made since you arrived.
 else
-	Massive cast iron. Still warm to the touch. The firebox has ash in it — grey, not black.
+	Cast iron, riveted, enormous. A coal-and-gas combination unit — the kind that heated manor houses before electricity made them obsolete.
 
-	Someone fed this boiler recently. But who? The house has been abandoned for over a century.
+	The firebox is cold, the ash grey and undisturbed. But the gas feed line runs to a shutoff valve on the right side. If the mains still hold pressure, the pilot assembly might catch.
+
+
+~ gas_restore
+if GameManager.has_flag("gas_restored")
+	The valve is open. Gas feeds steadily through the mains. The boiler pilot holds.
+
+	You can hear the pipes warming — small ticks and pops as metal expands through the walls and ceiling.
+elif not GameManager.has_flag("basement_relight")
+	You can feel a large valve handle in the dark. Heavy iron, cold. You cannot read the markings.
+
+	You need light first.
+else
+	A heavy iron shutoff valve on the gas feed line. The handle is stiff but not seized.
+
+	You brace your weight and turn it. Metal groans. Then a hiss — faint, steady, pressurized. The mains still hold.
+
+	You cross to the pilot assembly and hold your last match to the jet. It catches. The boiler shudders once and settles into a low, workmanlike rumble.
+
+	Through the ceiling, you hear pipes answer — ticking, expanding, carrying heat for the first time in a century.
+	do GameManager.set_flag("gas_restored")
+	do GameManager.set_flag("basement_lights_awake")
+	do GameManager.set_flag_false("bad_air_active")
 
 
 ~ boiler_pipes
-if GameManager.has_flag("elizabeth_aware")
-	The pipes groan. For a moment, you hear words in the groaning.
+if GameManager.has_flag("gas_restored")
+	The pipes tick and pop overhead as they warm. The sound travels through the walls — you can hear the house responding floor by floor.
 
-	Not your name. Hers.
+	Heating infrastructure, doing what it was built to do.
 else
-	Pipes snake across the ceiling and into the walls. They carry heat — or carried it, once.
+	Pipes run across the ceiling and into the walls in every direction. Cast-iron mains splitting into copper branches — a heating network designed to reach every room.
 
-	They run to every room. The entire house is connected through these veins.
+	Cold now, but the joints are sound. If the boiler ran, these pipes would carry heat to the entire house.
 
 
-~ boiler_mask
-A metallic mask on a nail. The expression is frozen in a scream.
+~ walking_cane
+if GameManager.has_flag("walking_stick_phase")
+	The caretaker's cane. Already in your hand. Ash wood and iron — the grip is worn to the shape of his palm.
+elif not GameManager.has_flag("gas_restored")
+	A walking cane propped against the workbench, near the logbook. Ash wood with an iron-shod tip.
 
-Industrial safety equipment? Or something the occultist wore? The inside is stained dark.
+	You have more urgent work down here than collecting personal effects.
+else
+	A walking cane propped against the workbench, ash wood with an iron-shod tip worn smooth by years of service corridors. The caretaker's.
+
+	He walked this house end to end every day and knew every stair by feel. The brand is gone. The house is lit. This is a better tool for what comes next — steadier, deliberate. You take it.
+	do GameManager.set_state("walking_stick_phase", true)
+	do GameManager.set_state("current_light_tool", "walking_stick")

@@ -1,5 +1,11 @@
 # Weave Architecture — Three-Layer Narrative Threading
 
+> Archived design exploration.
+> This document describes the superseded `Captive / Mourning / Sovereign`
+> weave model. The shipped game is defined by
+> [`GAME_BIBLE.md`](./GAME_BIBLE.md) and the `Adult -> Elder -> Child` route
+> program instead.
+
 ## The Core Insight
 
 The PRNG seed doesn't randomize the game. It selects a PERSPECTIVE. The same house, the same family, the same tragedy — seen through a different emotional lens.

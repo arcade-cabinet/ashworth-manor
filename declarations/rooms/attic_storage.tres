@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://engine/declarations/ambient_event_decl.gd" id="8"]
 [ext_resource type="Script" path="res://engine/declarations/flashback_decl.gd" id="10"]
 [ext_resource type="Script" path="res://engine/declarations/room_anchor_decl.gd" id="11"]
+[ext_resource type="Script" path="res://engine/declarations/conditional_event_decl.gd" id="12"]
 
 [sub_resource type="Resource" id="anchor_entry_stairwell"]
 script = ExtResource("11")
@@ -49,7 +50,7 @@ set_state = {"examined_elizabeth_portrait": true}
 script = ExtResource("3")
 condition = ""
 title = "Elizabeth's Portrait"
-text = "A small portrait propped against the wall. Elizabeth, age seven. Her hands are at her sides but her fingers are curled -- not relaxed, tense. As if she is gripping something invisible. Or as if someone told her to hold still and she is obeying only because she has to. The frame has scratch marks on the inside. She tried to get out of the painting too."
+text = "A small portrait propped against the wall. Elizabeth, age seven. Damp has started to lift the canvas at the corners, but the child remains untouched -- held in the same year forever. Someone hid the frame behind attic clutter instead of burning it. The portrait was not destroyed. It was put away when the wall beside it was sealed."
 set_state = {"examined_elizabeth_portrait": true}
 
 [sub_resource type="Resource" id="resp_portrait_mourning"]
@@ -64,6 +65,14 @@ script = ExtResource("3")
 condition = ""
 title = "Elizabeth's Portrait"
 text = "A small portrait propped against the wall. Elizabeth, age seven. Her eyes are wrong for a child -- too steady, too focused, too aware. The painter captured something the family preferred not to see. She was already different. Already watching. Already understanding things a seven-year-old should not understand. The portrait does not age because she does not let it."
+set_state = {"examined_elizabeth_portrait": true}
+
+; ADULT portrait: a self-portrait of adult Elizabeth
+[sub_resource type="Resource" id="resp_portrait_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Elizabeth's Portrait"
+text = "Not a childhood portrait. A self-portrait. The technique is amateur but practiced -- the work of someone who taught herself over years. The face is a woman of twenty-three: sharp cheekbones, dark eyes steady with intelligence, hair pinned up in an adult arrangement. She painted herself as the woman she became, using paints she acquired from the household supplies over more than a decade. The canvas is the back of a landscape painting she pried from its frame."
 set_state = {"examined_elizabeth_portrait": true}
 
 ; === Doll Responses (A-path active, B-path static) ===
@@ -88,7 +97,7 @@ text = "A porcelain doll in a white dress, seated on a child's chair. The painte
 script = ExtResource("3")
 condition = ""
 title = "Porcelain Doll"
-text = "A porcelain doll in a white dress. She sits in a child's chair facing the locked door. Waiting. Her painted eyes are fixed on the exit. The porcelain is cold but the chair beneath her is warm -- body warmth, as if someone was just sitting here. The doll is a vessel. Elizabeth was bound into it. The book described how. The key to undo it is somewhere inside."
+text = "A porcelain doll in a white dress. One porcelain cheek is worn clean where a thumb stroked it over and over. This was not a vessel. It was comfort. The seam in the back is too neat to be accidental. Someone trusted the doll more than any lock in this house."
 
 [sub_resource type="Resource" id="resp_doll_mourning"]
 script = ExtResource("3")
@@ -118,7 +127,7 @@ play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_04_dark.wav"
 script = ExtResource("3")
 condition = ""
 title = "Elizabeth's Letter"
-text = "A folded letter shoved into a crack in the floorboards. Hidden -- not in the trunk, not with her things, but in the structure of the room itself. As if she knew they would search her belongings. She hid this letter the way a prisoner hides a message: in the walls of her cell. Addressed to 'Mama.' The first line: 'I can hear you crying through the floor.'"
+text = "A folded letter tucked between the trunk lid and its lining, where only a child packing her own things would think to hide it. The handwriting is young and careful. Addressed to 'Mama.' The first line: 'I heard them hammering on the wall again today.'"
 set_state = {"read_elizabeth_letter": true, "elizabeth_aware": true}
 play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_04_dark.wav"
 
@@ -135,6 +144,15 @@ script = ExtResource("3")
 condition = ""
 title = "Elizabeth's Letter"
 text = "A folded letter sitting on top of the trunk, in plain sight, as if placed there moments ago. The paper is pristine -- no dust, no yellowing, no aging. She preserved it. She wanted you to read it. This is not a hidden message. This is a prepared statement. Addressed to 'Mama.' The first line: 'I want to explain something and I do not know if words are enough.'"
+set_state = {"read_elizabeth_letter": true, "elizabeth_aware": true}
+play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_04_dark.wav"
+
+; ADULT letter: written by a confident adult woman
+[sub_resource type="Resource" id="resp_letter_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Elizabeth's Letter"
+text = "A folded letter on the desk -- not hidden, not tucked away, placed with the confidence of someone who intends it to be read. The handwriting is mature, the vocabulary precise, the tone of someone who has had fifteen years to compose exactly what she wants to say.\n\n'Dear Mama, I am twenty-three today. No one has remembered, though I doubt anyone has forgotten. I have read every book in the library twice. I have learned to paint from the illustrations in the encyclopaedia. I corrected Father's Latin through the door last Tuesday and he did not come back for three days.\n\nI am not the child you locked away. I am the woman you made.'"
 set_state = {"read_elizabeth_letter": true, "elizabeth_aware": true}
 play_sfx = "res://assets/audio/sfx/stinger/pl_horror_tension_04_dark.wav"
 
@@ -158,6 +176,101 @@ condition = ""
 title = "Elizabeth's Trunk"
 text = "A child's trunk with carefully folded clothes inside. A nightgown. A ribbon. A drawing of a family with four children holding hands. The paper is creased from being opened and refolded until the corners went soft."
 
+; ADULT trunk: childhood on top, adult underneath
+[sub_resource type="Resource" id="resp_trunk_adult"]
+script = ExtResource("3")
+condition = ""
+title = "Elizabeth's Trunk"
+text = "Childhood clothes on top, neatly folded -- a nightgown, a pinafore, a ribbon. But beneath them, something unexpected: adult garments, hemmed and re-hemmed from the same childhood fabric. A skirt let out to its full length. A bodice with the seams moved three times as her body changed. Needlework progressing from clumsy to expert across fifteen years of alterations. She outgrew everything they gave her and remade what she had. The trunk is a record of a body that grew up while the world pretended it had not."
+
+[sub_resource type="Resource" id="resp_trunk_captive"]
+script = ExtResource("3")
+condition = ""
+title = "Elizabeth's Trunk"
+text = "A child's trunk packed as if for a journey that never happened. Beneath the folded clothes lies a ribbon whitened by plaster dust and a scrap of paper with pencil marks at regular intervals, as if someone measured a wall from the inside. Childhood on top. Evidence underneath. The trunk kept both."
+
+; === Attic Music Box Responses (Adult Route Resolution) ===
+
+[sub_resource type="Resource" id="resp_music_box_wound"]
+script = ExtResource("3")
+condition = "attic_music_box_wound"
+title = "Elizabeth's Music Box"
+text = "The music box plays on. The melody is simple, a waltz for a girl who grew into a woman in this room. The lid stays open. You have nothing left to do here."
+
+[sub_resource type="Resource" id="resp_music_box_no_key"]
+script = ExtResource("3")
+condition = "NOT has_music_box_winding_key"
+title = "Elizabeth's Music Box"
+text = "A music box on the writing desk. The mechanism is wound down, the lid closed. A small keyhole waits on the front. You need the key."
+
+[sub_resource type="Resource" id="resp_music_box_no_lantern"]
+script = ExtResource("3")
+condition = "NOT lantern_hook_phase"
+title = "Elizabeth's Music Box"
+text = "A shape on the writing desk -- you can feel the brass fittings in the dark. A music box. But you cannot see the keyhole properly. You need better light, something that reaches."
+
+[sub_resource type="Resource" id="resp_music_box_default"]
+script = ExtResource("3")
+condition = ""
+title = "Elizabeth's Music Box"
+text = "The brass winding key fits perfectly. You turn it. The mechanism engages with a precision that defies decades of silence.\n\nThe lid opens on its own. The melody is a waltz -- not a nursery tune, not a lullaby, but music for a woman at a dance she was never allowed to attend.\n\nElizabeth Ashworth lived twenty-three years in this room. She taught herself to paint, to write, to think. She outgrew her clothes and remade them. She outgrew her family's lies and could not remake those.\n\nThe music box was her eighteenth birthday gift. The only acknowledgment that she was no longer a child. She kept it wound for five more years, playing it alone in the dark, dancing by herself on the rough boards.\n\nThe melody ends. The mechanism clicks. The house is quiet."
+set_state = {"attic_music_box_wound": true, "adult_route_complete": true}
+play_sfx = "res://assets/audio/sfx/music_box/music_box_melody_01.ogg"
+
+[sub_resource type="Resource" id="resp_music_box_elder_done"]
+script = ExtResource("3")
+condition = "elder_attic_redirected"
+title = "Elizabeth's Music Box"
+text = "The attic box answers with one dry click and nothing more. Whatever truth it could once hold has been moved below. The silence under the floorboards feels older than the attic."
+
+[sub_resource type="Resource" id="resp_music_box_elder"]
+script = ExtResource("3")
+condition = ""
+title = "Elizabeth's Music Box"
+text = "The brass winding key fits, but the attic does not take the melody. One phrase begins and drags down through the boards beneath your feet, as if the house is carrying the waltz away from you into stone. The attic kept the memory of the music box. It did not keep the box itself. Whatever still answers the tune is below."
+set_state = {"elder_attic_redirected": true}
+play_sfx = "res://assets/audio/sfx/music_box/music_box_melody_01.ogg"
+
+[sub_resource type="Resource" id="resp_music_box_child_done"]
+script = ExtResource("3")
+condition = "child_attic_redirected"
+title = "Elizabeth's Music Box"
+text = "The attic box answers with the same short phrase and then falls quiet. It is only an echo. The real melody is trapped behind the west wall."
+
+[sub_resource type="Resource" id="resp_music_box_child"]
+script = ExtResource("3")
+condition = ""
+title = "Elizabeth's Music Box"
+text = "The brass winding key catches, but the melody never belongs to the attic. One thin phrase leaks sideways through the rafters and seems to answer from the west wall instead, close as a child humming behind plaster. The attic kept a decoy where the family could point. The room they hid kept the real music."
+set_state = {"child_attic_redirected": true}
+play_sfx = "res://assets/audio/sfx/music_box/music_box_melody_01.ogg"
+
+[sub_resource type="Resource" id="resp_seam_done"]
+script = ExtResource("3")
+condition = "child_hidden_room_revealed"
+title = "Plastered Seam"
+text = "The lath hangs broken where you dragged it down. Beyond the splintered plaster the hidden room lies open, no longer pretending to be part of the wall."
+
+[sub_resource type="Resource" id="resp_seam_no_redirect"]
+script = ExtResource("3")
+condition = "NOT child_attic_redirected"
+title = "Plastered Seam"
+text = "At first it looks like ordinary attic damage. Then the dust settles and a straight vertical seam appears in the west wall before vanishing back into the plaster."
+
+[sub_resource type="Resource" id="resp_seam_no_hook"]
+script = ExtResource("3")
+condition = "NOT lantern_hook_phase"
+title = "Plastered Seam"
+text = "Now that you have heard the false melody you can see the seam clearly. The wall was plastered over a doorframe. You need reach and leverage to tear it open."
+
+[sub_resource type="Resource" id="resp_seam_default"]
+script = ExtResource("3")
+condition = ""
+title = "Plastered Seam"
+text = "You set the lantern hook into the seam and pull. Plaster cracks in a long line, then lath tears free with a muffled snap. Dust pours over your sleeves. Behind the wall is not masonry but a narrow doorframe, boarded and then forgotten. A child's room was built here and then erased."
+set_state = {"child_hidden_room_revealed": true, "hidden_door_unlocked": true}
+play_sfx = "res://assets/audio/sfx/impact/pl_impact_wood_04.ogg"
+
 ; === Interactables ===
 
 [sub_resource type="Resource" id="inter_portrait"]
@@ -169,7 +282,7 @@ wall = "west"
 collision_size = Vector3(1.5, 1.5, 1.5)
 model = "res://assets/shared/decor/picture_blank.glb"
 responses = Array[Resource]([SubResource("resp_portrait_truth"), SubResource("resp_portrait_default")])
-thread_responses = {"captive": [SubResource("resp_portrait_captive")], "mourning": [SubResource("resp_portrait_mourning")], "sovereign": [SubResource("resp_portrait_sovereign")]}
+thread_responses = {"child": [SubResource("resp_portrait_captive")], "adult": [SubResource("resp_portrait_adult")], "elder": [SubResource("resp_portrait_sovereign")], "captive": [SubResource("resp_portrait_captive")], "mourning": [SubResource("resp_portrait_mourning")], "sovereign": [SubResource("resp_portrait_sovereign")]}
 
 [sub_resource type="Resource" id="inter_doll"]
 script = ExtResource("2")
@@ -179,7 +292,7 @@ position = Vector3(-2, 0.6, 4)
 collision_size = Vector3(1.5, 1.5, 1.5)
 model = "res://assets/horror/models/doll1.glb"
 responses = Array[Resource]([SubResource("resp_doll_letter"), SubResource("resp_doll_default")])
-thread_responses = {"captive": [SubResource("resp_doll_captive")], "mourning": [SubResource("resp_doll_mourning")], "sovereign": [SubResource("resp_doll_sovereign")]}
+thread_responses = {"child": [SubResource("resp_doll_captive")], "adult": [SubResource("resp_doll_mourning")], "elder": [SubResource("resp_doll_sovereign")], "captive": [SubResource("resp_doll_captive")], "mourning": [SubResource("resp_doll_mourning")], "sovereign": [SubResource("resp_doll_sovereign")]}
 
 [sub_resource type="Resource" id="inter_letter"]
 script = ExtResource("2")
@@ -188,7 +301,7 @@ type = "note"
 position = Vector3(2, 0.6, 3)
 collision_size = Vector3(1.5, 1.5, 1.5)
 responses = Array[Resource]([SubResource("resp_letter_default")])
-thread_responses = {"captive": [SubResource("resp_letter_captive")], "mourning": [SubResource("resp_letter_mourning")], "sovereign": [SubResource("resp_letter_sovereign")]}
+thread_responses = {"child": [SubResource("resp_letter_captive")], "adult": [SubResource("resp_letter_adult")], "elder": [SubResource("resp_letter_sovereign")], "captive": [SubResource("resp_letter_captive")], "mourning": [SubResource("resp_letter_mourning")], "sovereign": [SubResource("resp_letter_sovereign")]}
 
 [sub_resource type="Resource" id="inter_mask"]
 script = ExtResource("2")
@@ -214,6 +327,26 @@ type = "observation"
 position = Vector3(2.0, 0.7, 3.0)
 collision_size = Vector3(1.4, 1.0, 1.2)
 responses = Array[Resource]([SubResource("resp_trunk_default")])
+thread_responses = {"child": [SubResource("resp_trunk_captive")], "adult": [SubResource("resp_trunk_adult")], "captive": [SubResource("resp_trunk_captive")]}
+
+[sub_resource type="Resource" id="inter_music_box"]
+script = ExtResource("2")
+id = "attic_music_box"
+type = "observation"
+position = Vector3(-3.0, 0.85, 2.0)
+collision_size = Vector3(1.0, 0.8, 1.0)
+model = "res://assets/shared/items/music_box.glb"
+responses = Array[Resource]([SubResource("resp_music_box_wound"), SubResource("resp_music_box_no_lantern"), SubResource("resp_music_box_no_key"), SubResource("resp_music_box_default")])
+thread_responses = {"child": [SubResource("resp_music_box_child_done"), SubResource("resp_music_box_child")], "elder": [SubResource("resp_music_box_elder_done"), SubResource("resp_music_box_elder")], "captive": [SubResource("resp_music_box_child_done"), SubResource("resp_music_box_child")], "sovereign": [SubResource("resp_music_box_elder_done"), SubResource("resp_music_box_elder")]}
+
+[sub_resource type="Resource" id="inter_seam"]
+script = ExtResource("2")
+id = "sealed_seam"
+type = "observation"
+position = Vector3(-5.6, 1.2, 0.2)
+wall = "west"
+collision_size = Vector3(0.9, 1.8, 0.5)
+responses = Array[Resource]([SubResource("resp_seam_done"), SubResource("resp_seam_no_redirect"), SubResource("resp_seam_no_hook"), SubResource("resp_seam_default")])
 
 ; === Lights ===
 
@@ -223,8 +356,8 @@ id = "attic_moonlight"
 type = "omni"
 position = Vector3(0, 3, -5)
 color = Color(0.4, 0.5, 0.8, 1)
-energy = 1.0
-range = 8.0
+energy = 1.55
+range = 9.8
 shadows = true
 flickering = false
 
@@ -234,11 +367,34 @@ id = "attic_candle"
 type = "omni"
 position = Vector3(-2, 1.2, 4)
 color = Color(1.0, 0.7, 0.3, 1)
-energy = 0.5
-range = 3.0
+energy = 0.9
+range = 3.8
 shadows = false
 flickering = true
 flicker_pattern = "candle"
+
+[sub_resource type="Resource" id="light_desk_candle"]
+script = ExtResource("4")
+id = "attic_desk_candle"
+type = "omni"
+position = Vector3(-3.0, 1.0, 2.0)
+color = Color(1.0, 0.78, 0.45, 1)
+energy = 0.95
+range = 3.8
+shadows = false
+flickering = true
+flicker_pattern = "candle"
+
+[sub_resource type="Resource" id="light_desk_bounce"]
+script = ExtResource("4")
+id = "attic_desk_bounce"
+type = "omni"
+position = Vector3(-2.7, 0.55, 2.1)
+color = Color(0.96, 0.68, 0.4, 1)
+energy = 0.32
+range = 4.0
+shadows = false
+flickering = false
 
 ; === Props ===
 
@@ -315,6 +471,20 @@ model = "res://assets/shared/items/candle0.glb"
 position = Vector3(-1.2, 0.82, 4.1)
 scale = 0.8
 
+[sub_resource type="Resource" id="prop_desk_candle_holder"]
+script = ExtResource("5")
+id = "desk_candle_holder"
+model = "res://assets/shared/decor/candle_holder.glb"
+position = Vector3(-3.0, 0.78, 2.0)
+scale = 0.85
+
+[sub_resource type="Resource" id="prop_desk_candle"]
+script = ExtResource("5")
+id = "desk_candle"
+model = "res://assets/shared/items/candle0.glb"
+position = Vector3(-3.0, 0.82, 2.0)
+scale = 0.85
+
 [sub_resource type="Resource" id="prop_picture_frame"]
 script = ExtResource("5")
 id = "portrait_frame"
@@ -342,6 +512,13 @@ id = "drawing_page_b"
 model = "res://assets/shared/items/page5.glb"
 position = Vector3(3.0, 0.58, 2.9)
 rotation_y = -24.0
+
+[sub_resource type="Resource" id="prop_writing_desk"]
+script = ExtResource("5")
+id = "writing_desk"
+model = "res://assets/shared/furniture/drawers.glb"
+position = Vector3(-3.0, 0, 2.0)
+scale = 0.7
 
 ; === Entry Trigger ===
 
@@ -418,9 +595,9 @@ spawn_position = Vector3(0, 0, -5)
 spawn_rotation_y = 0.0
 entry_anchors = Array[Resource]([SubResource("anchor_entry_stairwell")])
 focal_anchors = Array[Resource]([SubResource("anchor_focus_doll_corner")])
-interactables = Array[Resource]([SubResource("inter_portrait"), SubResource("inter_doll"), SubResource("inter_letter"), SubResource("inter_mask"), SubResource("inter_window"), SubResource("inter_trunk")])
-lights = Array[Resource]([SubResource("light_window"), SubResource("light_candle")])
-props = Array[Resource]([SubResource("prop_trunk"), SubResource("prop_chair"), SubResource("prop_cot"), SubResource("prop_mattress"), SubResource("prop_bucket"), SubResource("prop_soap"), SubResource("prop_dead_lamp"), SubResource("prop_mask"), SubResource("prop_mining"), SubResource("prop_bat"), SubResource("prop_candle"), SubResource("prop_picture_frame"), SubResource("prop_book"), SubResource("prop_page_a"), SubResource("prop_page_b")])
+interactables = Array[Resource]([SubResource("inter_portrait"), SubResource("inter_doll"), SubResource("inter_letter"), SubResource("inter_mask"), SubResource("inter_window"), SubResource("inter_trunk"), SubResource("inter_music_box"), SubResource("inter_seam")])
+lights = Array[Resource]([SubResource("light_window"), SubResource("light_candle"), SubResource("light_desk_candle"), SubResource("light_desk_bounce")])
+props = Array[Resource]([SubResource("prop_trunk"), SubResource("prop_chair"), SubResource("prop_cot"), SubResource("prop_mattress"), SubResource("prop_bucket"), SubResource("prop_soap"), SubResource("prop_dead_lamp"), SubResource("prop_mask"), SubResource("prop_mining"), SubResource("prop_bat"), SubResource("prop_candle"), SubResource("prop_desk_candle_holder"), SubResource("prop_desk_candle"), SubResource("prop_picture_frame"), SubResource("prop_book"), SubResource("prop_page_a"), SubResource("prop_page_b"), SubResource("prop_writing_desk")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([SubResource("ambient_scratch")])

@@ -28,8 +28,13 @@ var _framing_warning_count: int = 0
 var _framing_failure_count: int = 0
 var _framing_log: PackedStringArray = []
 var _milestone_log: PackedStringArray = []
+var _capture_manifest_log: PackedStringArray = []
 var _last_capture_name: String = ""
 var _finishing: bool = false
+var _last_interaction_target: Vector3 = Vector3.ZERO
+var _has_last_interaction_target: bool = false
+var _restore_ui_after_capture: bool = false
+var _ui_was_visible_before_capture: bool = true
 
 const CRITICAL_ENTRY_ROOMS := {
 	"front_gate": true,
@@ -38,6 +43,9 @@ const CRITICAL_ENTRY_ROOMS := {
 	"dining_room": true,
 	"kitchen": true,
 	"storage_basement": true,
+	"boiler_room": true,
+	"wine_cellar": true,
+	"family_crypt": true,
 	"upper_hallway": true,
 	"library": true,
 	"attic_stairs": true,
@@ -56,10 +64,67 @@ const ENTRY_NEAR_SURFACE_DISTANCE := 0.68
 const CRITICAL_MILESTONE_CAPTURES := {
 	"front_gate_entry": true,
 	"foyer_entry": true,
-	"storage_basement_entry": true,
+	"storage_basement_basement_mattress": true,
+	"storage_basement_scratched_portrait": true,
+	"boiler_room_entry": true,
+	"wine_cellar_entry": true,
+	"wine_cellar_overview": true,
+	"family_crypt_crypt_graves": true,
 	"carriage_house_entry": true,
 	"attic_stairs_entry": true,
+	"attic_storage_elizabeth_portrait": true,
+	"attic_storage_attic_music_box": true,
 	"hidden_chamber_entry": true,
+	"hidden_chamber_overview": true,
+	"hidden_chamber_child_music_box": true,
+	"family_crypt_crypt_music_box": true,
+}
+const CUSTOM_CAPTURE_POSES := {
+	"foyer_overview": {
+		"mode": "qa",
+		"position": Vector3(-0.45, 2.0, -4.05),
+		"target": Vector3(1.4, 1.45, 2.15),
+	},
+	"storage_basement_overview": {
+		"mode": "qa",
+		"position": Vector3(-2.8, 1.9, 0.9),
+		"target": Vector3(1.95, 0.95, 2.2),
+	},
+	"storage_basement_improvised_relight": {
+		"mode": "qa",
+		"position": Vector3(-1.05, 1.45, -0.35),
+		"target": Vector3(2.2, 0.9, 2.0),
+	},
+	"boiler_room_overview": {
+		"mode": "qa",
+		"position": Vector3(-2.55, 1.95, -1.35),
+		"target": Vector3(0.65, 1.3, 2.8),
+	},
+	"boiler_room_gas_restore": {
+		"mode": "qa",
+		"position": Vector3(-1.2, 1.5, -0.75),
+		"target": Vector3(2.1, 1.22, 3.0),
+	},
+	"family_crypt_overview": {
+		"mode": "qa",
+		"position": Vector3(-2.2, 1.65, -1.9),
+		"target": Vector3(0.8, 0.82, 1.35),
+	},
+	"family_crypt_crypt_graves": {
+		"mode": "qa",
+		"position": Vector3(-1.4, 1.35, -1.55),
+		"target": Vector3(0.35, 0.76, 1.45),
+	},
+	"family_crypt_crypt_music_box": {
+		"mode": "qa",
+		"position": Vector3(0.7, 1.28, -0.1),
+		"target": Vector3(1.95, 0.82, 1.02),
+	},
+	"hidden_chamber_child_music_box": {
+		"mode": "qa",
+		"position": Vector3(-0.8, 1.45, -0.2),
+		"target": Vector3(1.1, 0.82, 2.1),
+	},
 }
 
 
@@ -105,6 +170,8 @@ func _build_walkthrough() -> void:
 			"room_id": room_id,
 			"entry_from_room_id": entry_from_room_id,
 		})
+		_steps.append({"type": "settle"})
+		_steps.append({"type": "settle"})
 		_steps.append({"type": "overview", "name": "%s_overview" % room_id})
 		_steps.append({"type": "entry", "name": "%s_entry" % room_id})
 		for angle in [0, 90, 180, 270]:
@@ -112,8 +179,11 @@ func _build_walkthrough() -> void:
 			_steps.append({"type": "screenshot", "name": "%s_look_%d" % [room_id, angle]})
 		for obj_id in obj_ids:
 			_steps.append({"type": "interact", "object_id": obj_id, "room_id": room_id})
-			_steps.append({"type": "screenshot", "name": "%s_%s" % [room_id, obj_id]})
+			_steps.append({"type": "settle"})
+			_steps.append({"type": "settle"})
 			_steps.append({"type": "dismiss"})
+			_steps.append({"type": "settle"})
+			_steps.append({"type": "screenshot", "name": "%s_%s" % [room_id, obj_id]})
 
 
 func _process(_delta: float) -> bool:
@@ -143,6 +213,8 @@ func _execute_step(s: Dictionary) -> void:
 				_room_entry_position = pose.get("position", room.spawn_position)
 				_room_entry_rotation_y = pose.get("rotation_y", room.spawn_rotation_y)
 				_restore_entry_pose()
+				_hide_qa_overlays()
+				_clear_dialogue_balloons()
 				print("ROOM: %s" % room.room_id)
 			else:
 				print("[FAIL] load: %s" % room_id)
@@ -163,6 +235,8 @@ func _execute_step(s: Dictionary) -> void:
 				_sync_capture_camera_to_player()
 		"interact":
 			_do_interact(s["object_id"], s.get("room_id", ""))
+		"settle":
+			pass
 		"screenshot":
 			_capture(s["name"])
 		"dismiss":
@@ -180,6 +254,9 @@ func _do_interact(obj_id: String, room_id: String) -> void:
 		return
 	for area in room.get_interactables():
 		if area.has_meta("id") and area.get_meta("id") == obj_id:
+			_last_interaction_target = area.global_position
+			_has_last_interaction_target = true
+			_orient_player_toward(area.global_position)
 			var t: String = area.get_meta("type") if area.has_meta("type") else ""
 			var d: Dictionary = area.get_meta("data") if area.has_meta("data") else {}
 			_im._on_interacted(obj_id, t, d)
@@ -209,6 +286,10 @@ func _capture_post_draw(name: String) -> void:
 	if _restore_pose_after_capture:
 		_restore_pose_after_capture = false
 		_restore_entry_pose()
+	if _restore_ui_after_capture:
+		_restore_ui_after_capture = false
+		if _ui != null and is_instance_valid(_ui):
+			_ui.visible = _ui_was_visible_before_capture
 
 
 func _finish() -> void:
@@ -303,6 +384,9 @@ func _hide_qa_overlays() -> void:
 		return
 	if _ui.has_method("hide_document"):
 		_ui.hide_document()
+	var tree := _main.get_tree() if _main != null else null
+	if tree != null and tree.paused and _ui.has_method("toggle_pause_menu"):
+		_ui.toggle_pause_menu()
 	var room_name_display := _find(_ui, "RoomNameDisplay")
 	if room_name_display is Control:
 		(room_name_display as Control).visible = false
@@ -330,12 +414,13 @@ func _prepare_overview_pose() -> void:
 	var decl = room.get_meta("declaration") if room.has_meta("declaration") else null
 	if decl == null:
 		return
+	var room_origin := _get_room_world_origin(room)
 	var dims: Vector3 = decl.get("dimensions") if decl.has_method("get") else Vector3(12, 4, 12)
 	if dims == Vector3.ZERO:
 		dims = Vector3(12, 4, 12)
-	var center := Vector3(0, maxf(1.4, dims.y * 0.35), 0)
+	var center := room_origin + Vector3(0, maxf(1.4, dims.y * 0.35), 0)
 	var is_exterior: bool = bool(decl.get("is_exterior")) if decl.has_method("get") else false
-	var cam_pos := Vector3(
+	var cam_pos := room_origin + Vector3(
 		maxf(2.4, dims.x * 0.22),
 		maxf(3.6, dims.y * (1.1 if is_exterior else 0.82)),
 		-maxf(6.0, dims.z * (0.72 if is_exterior else 0.55))
@@ -391,6 +476,23 @@ func _set_player_yaw(rotation_y_deg: float) -> void:
 		_player.rotation_degrees = Vector3(0, rotation_y_deg, 0)
 
 
+func _orient_player_toward(target_world: Vector3) -> void:
+	if _player == null:
+		return
+	var view_camera: Camera3D = _player.get_view_camera() if _player.has_method("get_view_camera") else _player_camera
+	var eye: Vector3 = view_camera.global_position if view_camera != null else (_player.global_position + Vector3(0, 1.7, 0))
+	var to_target: Vector3 = target_world - eye
+	if to_target.length_squared() <= 0.001:
+		return
+	var flat := Vector2(to_target.x, to_target.z)
+	if flat.length() > 0.001:
+		_set_player_yaw(rad_to_deg(atan2(-flat.x, -flat.y)))
+	if _player.has_method("_set_pitch_degrees"):
+		var pitch_deg := clampf(rad_to_deg(atan2(to_target.y, maxf(flat.length(), 0.01))), -4.0, 12.0)
+		_player._set_pitch_degrees(pitch_deg)
+	_sync_capture_camera_to_player()
+
+
 func _resolve_entry_pose(room: RoomBase, room_id: String, entry_connection_id: String) -> Dictionary:
 	var room_origin := _get_room_world_origin(room)
 	var spawn_position: Vector3 = room.spawn_position + room_origin
@@ -426,11 +528,64 @@ func _capture(name: String) -> void:
 		if name.ends_with("_entry"):
 			_validate_entry_framing(name)
 		return
+	if _apply_custom_capture_pose(name):
+		pass
+	elif _should_use_detail_capture(name):
+		_prepare_detail_pose(_last_interaction_target)
+		_set_capture_mode("qa")
+	elif name.ends_with("_overview"):
+		_set_capture_mode("qa")
+		_prepare_overview_pose()
 	if name.ends_with("_entry"):
 		_validate_entry_framing(name)
 		_set_capture_mode("player")
 	_hide_qa_overlays()
+	if _ui != null and is_instance_valid(_ui):
+		_ui_was_visible_before_capture = _ui.visible
+		_ui.visible = false
+		_restore_ui_after_capture = true
+	_record_capture_context(name)
 	call_deferred("_capture_post_draw", name)
+
+
+func _should_use_detail_capture(name: String) -> bool:
+	if not _has_last_interaction_target:
+		return false
+	return name in [
+		"attic_storage_attic_music_box",
+		"family_crypt_crypt_music_box",
+		"hidden_chamber_child_music_box",
+	]
+
+
+func _apply_custom_capture_pose(name: String) -> bool:
+	if not CUSTOM_CAPTURE_POSES.has(name) or _qa_camera == null:
+		return false
+	var spec: Dictionary = CUSTOM_CAPTURE_POSES[name]
+	var room = _rm.get_current_room() if _rm != null and _rm.has_method("get_current_room") else null
+	var room_origin := _get_room_world_origin(room)
+	var position: Vector3 = spec.get("position", Vector3.ZERO) + room_origin
+	var target: Vector3 = spec.get("target", Vector3.ZERO) + room_origin
+	_qa_camera.global_position = position
+	_qa_camera.look_at(target, Vector3.UP)
+	_set_capture_mode(String(spec.get("mode", "qa")))
+	return true
+
+
+func _prepare_detail_pose(target_world: Vector3) -> void:
+	if _qa_camera == null:
+		return
+	var view_camera: Camera3D = _player.get_view_camera() if _player != null and _player.has_method("get_view_camera") else _player_camera
+	var eye: Vector3 = view_camera.global_position if view_camera != null else (_room_entry_position + Vector3(0.0, 1.7, 0.0))
+	var back_dir := eye - target_world
+	back_dir.y = 0.0
+	if back_dir.length_squared() <= 0.001:
+		back_dir = Vector3(0.0, 0.0, 1.0)
+	back_dir = back_dir.normalized()
+	var side_dir := Vector3.UP.cross(back_dir).normalized()
+	var cam_pos := target_world + back_dir * 2.4 + side_dir * 0.6 + Vector3(0.0, 1.15, 0.0)
+	_qa_camera.global_position = cam_pos
+	_qa_camera.look_at(target_world + Vector3(0.0, 0.5, 0.0), Vector3.UP)
 
 
 func _validate_entry_framing(name: String) -> void:
@@ -634,6 +789,40 @@ func _write_framing_report() -> void:
 	for line in _milestone_log:
 		milestone_file.store_line(line)
 	milestone_file.close()
+	var capture_manifest_path := dir_path.path_join("capture_manifest.txt")
+	var capture_manifest_file := FileAccess.open(capture_manifest_path, FileAccess.WRITE)
+	if capture_manifest_file == null:
+		return
+	capture_manifest_file.store_line("Ashworth Manor Walkthrough Capture Manifest")
+	capture_manifest_file.store_line("capture_enabled=%s" % str(_capture_enabled))
+	capture_manifest_file.store_line("")
+	for line in _capture_manifest_log:
+		capture_manifest_file.store_line(line)
+	capture_manifest_file.close()
+
+
+func _record_capture_context(name: String) -> void:
+	var room_id: String = _rm.get_current_room_id() if _rm != null and _rm.has_method("get_current_room_id") else ""
+	var compiled_world_id: String = _rm.get_current_compiled_world_id() if _rm != null and _rm.has_method("get_current_compiled_world_id") else ""
+	var visible_rooms: PackedStringArray = _rm.get_visible_compiled_world_room_ids() if _rm != null and _rm.has_method("get_visible_compiled_world_room_ids") else PackedStringArray()
+	var room: Node = _rm.get_current_room() if _rm != null and _rm.has_method("get_current_room") else null
+	var room_origin := _get_room_world_origin(room)
+	var player_pos := _player.global_position if _player != null else Vector3.ZERO
+	var view_camera: Camera3D = _player.get_view_camera() if _player != null and _player.has_method("get_view_camera") else _player_camera
+	var camera_pos := view_camera.global_position if view_camera != null else Vector3.ZERO
+	var yaw_deg := _player.rotation_degrees.y if _player != null else 0.0
+	var pitch_deg: float = _player.get_view_pitch_degrees() if _player != null and _player.has_method("get_view_pitch_degrees") else 0.0
+	_capture_manifest_log.append("%s | room=%s | world=%s | room_origin=%s | player=%s | camera=%s | yaw=%.2f | pitch=%.2f | visible=%s" % [
+		name,
+		room_id,
+		compiled_world_id,
+		room_origin,
+		player_pos,
+		camera_pos,
+		yaw_deg,
+		pitch_deg,
+		",".join(PackedStringArray(visible_rooms)),
+	])
 
 
 func _validate_frame_surface_balance(room_id: String, view_camera: Camera3D, is_critical: bool) -> void:

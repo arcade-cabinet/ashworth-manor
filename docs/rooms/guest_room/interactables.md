@@ -15,13 +15,13 @@ collision: BoxShape3D(1.5, 1.5, 1.5)
 > **Guest Ledger**
 > "A leather guest book. Most entries are perfunctory: 'Lovely stay, splendid hospitality.' The last entry is from Helena Pierce, November 3rd, 1891: 'Arrived for research on spiritual phenomena. Lord Ashworth most accommodating. The house is remarkable.' She never wrote a departure entry."
 
-**Captive thread:**
+**Child route:**
 > Helena arrived to validate Lord Ashworth's imprisonment of Elizabeth and never left the house alive.
 
-**Mourning thread:**
+**Adult route:**
 > Helena arrived believing she could help a grieving family and became another failure folded into the house's sorrow.
 
-**Sovereign thread:**
+**Elder route:**
 > Helena recognized Elizabeth's power, treated it as remarkable rather than shameful, and seems to have entered into a correspondence with her.
 
 ### Flags Set

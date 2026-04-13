@@ -1,31 +1,84 @@
 # Ashworth Manor — Documentation Index
 
-This index now distinguishes canonical source-of-truth docs from support and
-legacy material.
-
-If you need the actual shipped game, start with the canonical surface below.
+If you need the actual shipped game, start with `GAME_BIBLE.md`. It is the
+single canonical authority. Everything else is a supplement or support doc.
 
 ---
 
-## Canonical Surface
+## Canonical Authority
 
 | Document | What It Covers |
 |----------|---------------|
-| **[GAME_BIBLE.md](./GAME_BIBLE.md)** | **START HERE.** Whole-game canonical reference: premise, room program, shared spine, routes, tools, endings, and acceptance surface. |
-| **[MASTER_SCRIPT.md](./MASTER_SCRIPT.md)** | Canonical narrative spine and stage order. |
-| [PLAYER_PREMISE.md](./PLAYER_PREMISE.md) | Playable-present framing, player position, packet, arrival, and lighting doctrine. |
-| [ELIZABETH_ROUTE_PROGRAM.md](./ELIZABETH_ROUTE_PROGRAM.md) | The three-route authored structure: `Adult`, `Elder`, `Child`. |
-| [NARRATIVE.md](./NARRATIVE.md) | Story overview, route signatures, shared spine, and narrative priorities. |
-| [script/MASTER_SCRIPT.md](./script/MASTER_SCRIPT.md) | Script-facing mirror of the canonical story spine. |
+| **[GAME_BIBLE.md](./GAME_BIBLE.md)** | **THE SINGLE SOURCE OF TRUTH.** Premise, room program, shared spine, route program, tool/light grammar, endings, and acceptance surface (repo-local + downstream). If any other doc disagrees, this wins. |
+| **[SUBSTRATE_FOUNDATION.md](./SUBSTRATE_FOUNDATION.md)** | **Shared physical authority.** Primitive families, shader/material families, mount families, region matrix, and substrate decision rules. |
+
+## Focused Supplements
+
+These add depth to specific areas but defer to GAME_BIBLE.md on any overlap:
+
+| Document | Focused Scope |
+|----------|--------------|
+| [PLAYER_PREMISE.md](./PLAYER_PREMISE.md) | Extended player-position, arrival, lighting, and emotional-frame detail. |
+| [ELIZABETH_ROUTE_PROGRAM.md](./ELIZABETH_ROUTE_PROGRAM.md) | Route design rationale, divergence rules, and migration context. |
+| [NARRATIVE.md](./NARRATIVE.md) | Emotional framing, narrative priorities, and memory layers. |
+| [MASTER_SCRIPT.md](./MASTER_SCRIPT.md) | Stage-by-stage beat detail for script authoring. |
+| [script/MASTER_SCRIPT.md](./script/MASTER_SCRIPT.md) | Authoring-oriented mirror (defers to MASTER_SCRIPT.md). |
 
 ## Execution Surface
 
 | Document | What It Covers |
 |----------|---------------|
-| **[batches/ashworth-master-task-graph.md](./batches/ashworth-master-task-graph.md)** | **Primary execution contract.** Full implementation graph for the whole game. |
+| **[batches/hard-substrate-freeze.md](./batches/hard-substrate-freeze.md)** | **Active execution contract.** Shared substrate freeze, shared library buildout, region/preset wiring, and whole-game substrate adoption. |
+| [batches/ashworth-master-task-graph.md](./batches/ashworth-master-task-graph.md) | Whole-game scope contract. The master task graph for the shipped game. |
+| [batches/ralph-remaining-stories-batch.md](./batches/ralph-remaining-stories-batch.md) | Historical recovered Ralph tranche after `US-001` through `US-010`. |
+| [batches/ralph-final-remaining-stories.md](./batches/ralph-final-remaining-stories.md) | Downstream finish tranche for `US-020` through `US-027`, including release-readiness blockers. |
 | [../PLAN.md](../PLAN.md) | Current high-level execution priorities and product status. |
 | [../MEMORY.md](../MEMORY.md) | Execution memory, discoveries, misalignments, and acceptance notes. |
 | [../STRUCTURE.md](../STRUCTURE.md) | Runtime architecture, canonical source map, and acceptance surfaces. |
+
+> **Note:** `hard-substrate-freeze.md` is the active execution contract until the
+> substrate sweep is complete. The master task graph remains the whole-game
+> scope contract. Other batch files are support or historical detail.
+
+## Checkpoints
+
+| Document | What It Covers |
+|----------|---------------|
+| [checkpoints/SF-001-substrate-inventory.md](./checkpoints/SF-001-substrate-inventory.md) | First hard substrate freeze census, primitive families, NAS/repo inventory, and active contract rebasing |
+| [checkpoints/US-003-runtime-baseline.md](./checkpoints/US-003-runtime-baseline.md) | Runtime baseline: engine boot, active test lanes, known gaps |
+| [checkpoints/shared-spine-state-map.md](./checkpoints/shared-spine-state-map.md) | Canonical state keys for shared-spine Stages 0–7, test evolution path |
+| [checkpoints/adult-route-clue-topology.md](./checkpoints/adult-route-clue-topology.md) | Adult route clue chain, room biases, discovery cascade, state tracking |
+| [checkpoints/elder-route-clue-topology.md](./checkpoints/elder-route-clue-topology.md) | Elder route clue chain, late-rupture grammar, burial/caretaker bias, state tracking |
+| [checkpoints/child-route-clue-topology.md](./checkpoints/child-route-clue-topology.md) | Child route clue chain, blocked-architecture logic, attic false-answer grammar, state tracking |
+| [checkpoints/US-010-adult-attic-resolution.md](./checkpoints/US-010-adult-attic-resolution.md) | Adult late-game transition, lantern hook, attic music box, ending trigger |
+| [checkpoints/US-012-elder-crypt-resolution.md](./checkpoints/US-012-elder-crypt-resolution.md) | Elder late-game transition, cellar bypass, crypt gate latch, crypt music box, ending trigger |
+| [checkpoints/US-014-child-hidden-room-resolution.md](./checkpoints/US-014-child-hidden-room-resolution.md) | Child late-game transition, attic redirect, sealed seam, sealed-room music box, ending trigger |
+| [checkpoints/US-015-route-unification.md](./checkpoints/US-015-route-unification.md) | Route-context API, explicit post-third-run replay mode, route-driven playthrough harness |
+| [checkpoints/US-016-critical-doc-migration.md](./checkpoints/US-016-critical-doc-migration.md) | Critical-path room docs migrated to the shipped route program |
+| [checkpoints/US-017-declaration-route-migration.md](./checkpoints/US-017-declaration-route-migration.md) | Critical-path declarations now carry route-key aliases with weave shims reduced to compatibility |
+| [checkpoints/US-018-automated-coverage.md](./checkpoints/US-018-automated-coverage.md) | Three-route automated regression surface and working gdUnit CLI contract |
+| [checkpoints/US-019-renderer-acceptance.md](./checkpoints/US-019-renderer-acceptance.md) | Rebuilt renderer-backed manifests for opening, basement, cellar, crypt, attic, and hidden-room review |
+| [checkpoints/opening-visual-diagnostic.md](./checkpoints/opening-visual-diagnostic.md) | First design-oriented read of the rebuilt opening capture surface and the current opening blockers |
+| [checkpoints/US-020-visual-polish.md](./checkpoints/US-020-visual-polish.md) | Late critical-path lighting/material polish and refreshed renderer evidence |
+| [checkpoints/US-021-freeze-and-convergence.md](./checkpoints/US-021-freeze-and-convergence.md) | Full repo-local freeze rerun: runtime, docs, routes, and renderer evidence converge |
+| [checkpoints/US-022-archive-handoff.md](./checkpoints/US-022-archive-handoff.md) | Archived weave-era design docs and tightened contributor handoff surface |
+| [checkpoints/US-023-maintenance-baseline.md](./checkpoints/US-023-maintenance-baseline.md) | Post-freeze maintenance baseline and regression register |
+| [checkpoints/US-024-android-export-audit.md](./checkpoints/US-024-android-export-audit.md) | Android/export prerequisite map and local environment truth |
+| [checkpoints/US-025-packaged-helper.md](./checkpoints/US-025-packaged-helper.md) | Debug-gated Maestro helper wiring and validation surface |
+| [checkpoints/US-026-packaged-validation-flows.md](./checkpoints/US-026-packaged-validation-flows.md) | Packaged smoke proof and critical-path automation blocker record |
+| [checkpoints/US-027-release-readiness.md](./checkpoints/US-027-release-readiness.md) | Debug APK evidence plus release-signing blocker for final RC |
+
+## Archived Historical Docs
+
+These are retained for reference only. They are not current route, puzzle, or
+runtime truth.
+
+| Document | Status |
+|----------|--------|
+| [WEAVE_ARCHITECTURE.md](./WEAVE_ARCHITECTURE.md) | Archived |
+| [WEAVE_BALANCE.md](./WEAVE_BALANCE.md) | Archived |
+| [WEAVE_PLAYTEST.md](./WEAVE_PLAYTEST.md) | Archived |
+| [PAPER_PLAYTEST.md](./PAPER_PLAYTEST.md) | Historical / archived |
 
 ## Design and Support Docs
 
@@ -37,6 +90,7 @@ If you need the actual shipped game, start with the canonical surface below.
 | [items/README.md](./items/README.md) | Item catalog and support material |
 | [AUDIO_WIRING_PLAN.md](./AUDIO_WIRING_PLAN.md) | Audio support plan and event wiring reference |
 | [MAESTRO_E2E_PLAN.md](./MAESTRO_E2E_PLAN.md) | Android/export validation and Maestro automation direction |
+| [VISUAL_ACCEPTANCE_RUBRIC.md](./VISUAL_ACCEPTANCE_RUBRIC.md) | Screenshot review contract: judge whether the experience is right, not just runnable |
 
 ---
 

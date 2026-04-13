@@ -34,6 +34,11 @@ The shell is the stable spatial container:
 
 The shell should be mostly procedural and texture-driven.
 
+The mansion should increasingly be treated as a **continuous spatial body**
+rather than a stack of disconnected prop-backed rooms. The more the shell,
+stairs, ladders, gates, and path edges can be generated as one tangible system,
+the more presence the house will have.
+
 For architecture, the intended stack is:
 
 `procedural shell -> inset trim/moulding model -> procedural moving piece`
@@ -49,6 +54,8 @@ This keeps scale, animation, and collision sane.
 For Ashworth Manor, the default bias should now be even stronger:
 
 - primitive shapes first
+- continuous depth first
+- traversable structure first
 - estate material families second
 - imported models only where silhouette complexity genuinely matters
 

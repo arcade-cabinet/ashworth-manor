@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Material" path="res://resources/water/estate_pond_water_material.tres" id="1_m58d2"]
+[ext_resource type="Script" path="res://scenes/shared/shared_recipe_applicator.gd" id="1_oe4ax"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_7t0gm"]
 size = Vector2(6, 6)
@@ -8,8 +8,9 @@ subdivide_width = 64
 subdivide_depth = 64
 
 [node name="EstatePondWater" type="Node3D"]
+script = ExtResource("1_oe4ax")
+recipe_groups = {"liquid/estate_pond_water": PackedStringArray("WaterSurface")}
 
 [node name="WaterSurface" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.02, 0)
-material_override = ExtResource("1_m58d2")
 mesh = SubResource("PlaneMesh_7t0gm")

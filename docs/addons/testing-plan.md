@@ -3,7 +3,24 @@
 ## Source
 - Addon: `MikeSchulze/gdUnit4`
 - Location: `addons/gdUnit4/`
-- Run: `godot --headless -s addons/gdUnit4/bin/GdUnitCmdTool.gd`
+- Runner config: `GdUnitRunner.cfg`
+- Current repo-local command: `godot --headless --path . -s addons/gdUnit4/bin/GdUnitCmdTool.gd -a res://test/unit -c --ignoreHeadlessMode`
+
+## Current Repo Usage
+
+gdUnit4 is now re-enabled as a focused repo-local unit lane rather than an
+aspirational placeholder. The current suite lives under `test/unit/` and
+validates route-program semantics that are awkward to express as pure
+declaration tests:
+
+- canonical `Adult -> Elder -> Child` progression
+- explicit post-third-run replay mode
+- `set_route_context()` compatibility mapping between shipped route ids and the
+  legacy `macro_thread` shim
+
+The command must include `--ignoreHeadlessMode`. Without it, gdUnit4 aborts in
+this project with "Headless mode is not supported." The suite is intentionally
+kept headless-safe: no UI input simulation, no window-dependent assertions.
 
 ## Test Categories
 
@@ -53,11 +70,14 @@ For each room, verify:
 
 ## Implementation Steps
 
-1. Create `test/unit/` directory for gdUnit4 test suites
-2. Write `test_room_structure.gd` — loads each room, checks node hierarchy
-3. Write `test_interactables.gd` — checks every interactable per room
-4. Write `test_connections.gd` — checks every connection and reciprocity
-5. Write `test_puzzles.gd` — simulates each puzzle chain
-6. Write `test_lighting.gd` — checks light configuration per room
-7. Write `test_endings.gd` — simulates all three ending conditions
-8. Run full suite: `godot --headless -s addons/gdUnit4/bin/GdUnitCmdTool.gd`
+1. Keep `GdUnitRunner.cfg` present at repo root.
+2. Add headless-safe suites under `test/unit/`.
+3. Prefer route/program/unit semantics that do not require pointer or keyboard
+   input in headless mode.
+4. Keep declaration/runtime traversal coverage in the existing `test/e2e/`
+   lanes; do not duplicate them wholesale in gdUnit4.
+5. Run the active suite with:
+
+```bash
+godot --headless --path . -s addons/gdUnit4/bin/GdUnitCmdTool.gd -a res://test/unit -c --ignoreHeadlessMode
+```

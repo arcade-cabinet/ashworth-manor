@@ -8,7 +8,7 @@ position: (-6, 2, 0)
 ```
 
 ### Text
-The declaration uses a default truth-facing reading plus captive, mourning, and sovereign thread variants. All versions set:
+The declaration uses a default truth-facing reading plus child, adult, and elder thread variants. All versions set:
 
 - `examined_elizabeth_portrait`
 
@@ -41,7 +41,9 @@ type: note
 position: (2, 0.6, 3)
 ```
 
-The declaration frames the letter differently per macro thread, but it always functions as Elizabeth's unheard voice and the trigger that makes the doll's hidden key legible.
+The declaration frames the letter differently per route, but it always
+functions as Elizabeth's unheard voice and the trigger that makes the doll's
+hidden key legible.
 
 ### Flags Set
 - `read_elizabeth_letter`
@@ -69,12 +71,52 @@ position: (2, 0.7, 3)
 ```
 
 ### Text
+Default:
 > "A child's trunk with carefully folded clothes inside. A nightgown. A ribbon. A drawing of a family with four children holding hands. The paper is creased from being opened and refolded until the corners went soft."
+
+Route role:
+- `adult`: proves Elizabeth outgrew the garments and remade them
+- `child`: keeps childhood layers on top and measurements on the wall hidden beneath
 
 ---
 
-## 6. Hidden Chamber Door
-The west-wall threshold to `hidden_chamber` remains a real room connection rather than a second declaration interactable. It is still locked by `hidden_key` and presented as a concealed door behind attic clutter.
+## 6. Attic Music Box
+```yaml
+id: attic_music_box
+type: observation
+position: writing desk
+```
+
+Route role:
+- `adult`: true final solve object for the attic route
+- `elder`: redirect object; the melody drags downward and refuses to resolve
+- `child`: false answer; the melody only echoes and points the player to the west wall
+
+Requires:
+- brass winding key from the valise
+- hook/light phase for the adult resolution path
+
+---
+
+## 7. Sealed Seam
+```yaml
+id: sealed_seam
+type: observation
+position: west wall
+```
+
+Function:
+- initially reads as suspicious architecture only
+- after the Child attic redirect, it becomes the physical reveal surface
+- with the hook, it opens the erased room and sets `child_hidden_room_revealed`
+
+---
+
+## 8. Sealed Room Threshold
+The west-wall threshold to `hidden_chamber` is now the concealed connection into
+the sealed room. It is no longer documented as a conventional key-door puzzle.
+The route now treats it as architecture that must be exposed and opened from
+the attic side.
 
 ---
 
@@ -86,3 +128,5 @@ The west-wall threshold to `hidden_chamber` remains a real room connection rathe
 | `elizabeth_letter` | note | Implemented |
 | `attic_window` | observation | Implemented |
 | `elizabeth_trunk` | observation | Implemented |
+| `attic_music_box` | observation | Implemented |
+| `sealed_seam` | observation | Implemented |

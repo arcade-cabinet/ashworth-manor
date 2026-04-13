@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/shared/front_gate/front_gate_valise.gd" id="1_73eqn"]
+
+[node name="FrontGateValiseOpen" type="Node3D"]
+script = ExtResource("1_73eqn")
+lid_angle_degrees = -124.0
+show_packet = true
+show_inner_cloth = true
+yaw_degrees = -28.0

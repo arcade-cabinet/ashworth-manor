@@ -2,6 +2,27 @@
 
 How to automatically build an APK, launch an emulator, and run Maestro flows that play through every room of Ashworth Manor as a real player would.
 
+## Current Status
+
+- Repo-owned Android export blockers were reduced to environment/signing issues:
+  - the export preset is now named `Android`
+  - Gradle is no longer required for the local export path
+  - a project icon is configured
+- Debug packaged validation is now real on this machine:
+  - `godot --headless --path . --export-debug "Android" build/android/ashworth-manor-debug.apk`
+    succeeds when `ANDROID_HOME`, `ANDROID_SDK_ROOT`, and Android build-tools
+    are present on `PATH`
+  - the debug APK installs successfully on the `ashworth_test` AVD
+  - direct launch via
+    `adb shell am start -W -n com.arcadecabinet.ashworthmanor/com.godot.game.GodotAppLauncher`
+    succeeds
+  - `maestro test test/maestro/smoke_test.yaml` passes on the same AVD
+- The helper-backed critical-path flow exists at
+  `test/maestro/full_playthrough.yaml`, but it is not yet device-verified on
+  this emulator surface. The current failure is semantic-label detection
+  (`dismiss document`) rather than APK build/install.
+- Release export is still blocked by missing release-signing credentials.
+
 ---
 
 ## The Pipeline
@@ -18,7 +39,9 @@ How to automatically build an APK, launch an emulator, and run Maestro flows tha
 
 ```bash
 export ANDROID_HOME=~/Library/Android/sdk
-godot --headless --path . --export-release "Android" build/ashworth-manor.apk
+export ANDROID_SDK_ROOT=~/Library/Android/sdk
+export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/36.1.0:$PATH"
+godot --headless --path . --export-release "Android" build/android/ashworth-manor-release.apk
 ```
 
 **Prerequisites:**
@@ -76,7 +99,9 @@ Maestro can tap at screen coordinates (`point: "50%,50%"`), but in a 3D game:
 
 ### Solution: Test Helper Script
 
-Create a GDScript that runs in the APK specifically for Maestro testing. When enabled, it:
+The repo now includes a real helper at `scripts/debug/maestro_helper.gd`.
+It only activates in debug builds when the exported command line includes
+`--maestro-helper` (which the `Android` preset now does). When active, it:
 
 1. **Projects world-space interactable positions to screen-space** using `Camera3D.unproject_position()`
 2. **Writes a JSON file** mapping interactable IDs to current screen coordinates
@@ -156,7 +181,39 @@ func _process(_delta: float) -> void:
 
 ### Enabling the Helper
 
-Add it as a conditional autoload that only activates in debug builds:
+The helper is wired from `scripts/game_manager.gd` and only activates when:
+
+- `OS.is_debug_build()` is true
+- the process is not headless
+- `--maestro-helper` is present in the command line
+
+That keeps the helper out of normal player-facing runtime and out of release
+exports.
+
+The helper-backed packaged critical-path flow now lives at:
+
+- `test/maestro/full_playthrough.yaml`
+
+The helper labels should prefer short, numbered, high-contrast text over long
+mixed-case phrases. Current intended labels are:
+
+- `01 DISMISS`
+- `02 OPEN VALISE`
+- `03 DRIVE LOWER`
+- `04 DRIVE UPPER`
+- `05 FRONT STEPS`
+- `06 FOYER`
+- `07 PARLOR`
+- `08 LIGHT FIRE`
+- `09 KITCHEN`
+- `10 SERVICE HATCH`
+
+The passing packaged smoke flow remains:
+
+- `test/maestro/smoke_test.yaml`
+
+The remaining work is device-side stabilization of semantic label pickup on the
+AVD surface, not basic APK packaging.
 
 ```gdscript
 # In game_manager.gd or a separate autoload

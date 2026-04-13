@@ -59,6 +59,40 @@ func get_connection(connection_id: String) -> Connection:
 	return null
 
 
+func get_environment_declaration(environment_preset: String) -> EnvironmentDeclaration:
+	if environment_preset.is_empty():
+		return null
+	var env_path := "res://declarations/environments/%s.tres" % environment_preset
+	if not ResourceLoader.exists(env_path):
+		return null
+	return load(env_path) as EnvironmentDeclaration
+
+
+func resolve_environment_preset_for_room(room_decl: RoomDeclaration) -> String:
+	if room_decl == null:
+		return ""
+	if not room_decl.environment_preset.is_empty():
+		return room_decl.environment_preset
+	var region := get_region_for_room(room_decl.room_id)
+	if region != null:
+		return region.default_environment_preset
+	return ""
+
+
+func resolve_substrate_preset_for_room(room_decl: RoomDeclaration) -> String:
+	if room_decl == null:
+		return ""
+	if not room_decl.substrate_preset_id.is_empty():
+		return room_decl.substrate_preset_id
+	var env_decl := get_environment_declaration(resolve_environment_preset_for_room(room_decl))
+	if env_decl != null and not env_decl.substrate_preset_id.is_empty():
+		return env_decl.substrate_preset_id
+	var region := get_region_for_room(room_decl.room_id)
+	if region != null and not region.default_substrate_preset_id.is_empty():
+		return region.default_substrate_preset_id
+	return ""
+
+
 func get_connections_from_room(room_id: String) -> Array[Connection]:
 	var matches: Array[Connection] = []
 	for conn in connections:

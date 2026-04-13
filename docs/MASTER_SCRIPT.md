@@ -1,34 +1,27 @@
-# Master Script — Canonical Spine
+# Master Script — Stage-by-Stage Beats
 
-This document is the current narrative spine for Ashworth Manor. It replaces
-older room-by-room script assumptions that were built around the legacy
-`Captive / Mourning / Sovereign` weave model.
+> **Canonical authority:** [GAME_BIBLE.md](./GAME_BIBLE.md) defines the shipped
+> game, including premise, route program, shared spine, and endings. This
+> document supplements it with stage-by-stage beat detail for script authoring.
+> If anything here conflicts with GAME_BIBLE.md, GAME_BIBLE.md wins.
 
-The current canon is:
-
-- neutral solicitor packet and estate signage
-- three authored Elizabeth routes
-- shared early/mid spine
-- bespoke late-game divergence
-- music box as the invariant final solve object
+This document provides authoring-level beat detail for each stage of the
+narrative spine. It replaces older room-by-room script assumptions that were
+built around the legacy `Captive / Mourning / Sovereign` weave model.
 
 See also:
 
-- [PLAYER_PREMISE.md](./PLAYER_PREMISE.md)
-- [NARRATIVE.md](./NARRATIVE.md)
-- [ELIZABETH_ROUTE_PROGRAM.md](./ELIZABETH_ROUTE_PROGRAM.md)
+- [GAME_BIBLE.md](./GAME_BIBLE.md) — canonical whole-game reference
+- [PLAYER_PREMISE.md](./PLAYER_PREMISE.md) — extended player-position detail
+- [NARRATIVE.md](./NARRATIVE.md) — emotional framing and narrative priorities
+- [ELIZABETH_ROUTE_PROGRAM.md](./ELIZABETH_ROUTE_PROGRAM.md) — route design rationale
 
 ---
 
 ## Completion Order
 
-The intended first three completions are fixed:
-
-1. `Adult`
-2. `Elder`
-3. `Child`
-
-Only later repeat runs may randomize among unlocked routes.
+The canonical route order (`Adult` → `Elder` → `Child`) is defined in
+[GAME_BIBLE.md § Canonical Order](./GAME_BIBLE.md#canonical-order).
 
 ---
 
@@ -167,66 +160,36 @@ Canonical beats:
 
 ## Route Summaries
 
-### Adult Route
+Route signatures, dominant spaces, clue types, and endings are defined in
+[GAME_BIBLE.md § Route Program](./GAME_BIBLE.md#route-program).
 
-Signature:
+The following notes add authoring-level late-structure detail:
 
-- stolen adulthood
-- a biography interrupted but not fully extinguished
+### Adult Late Structure
 
-Late structure:
+- Late descent yields the lantern-on-hook phase.
+- Basement and burial-side tooling eventually open the attic as the final
+  truth.
 
-- late descent yields the lantern-on-hook phase
-- basement and burial-side tooling eventually open the attic as the final truth
-- the music box is found in the attic
+### Elder Late Structure
 
-Ending meaning:
+- The attic becomes the route's late rupture point (not the answer).
+- Clues and access changes drive the player toward the wine cellar and crypt.
 
-- the player confronts the fact that Elizabeth lived beyond the family story
-  and was denied a full adult life
+### Child Late Structure
 
-### Elder Route
-
-Signature:
-
-- continuity that should have ended
-- burial and memory turned accusatory
-
-Late structure:
-
-- the attic becomes the route's late rupture point
-- clues and access changes drive the player toward the wine cellar and crypt
-- the music box is found with Elder Elizabeth in the crypt
-
-Ending meaning:
-
-- the player discovers a life that lasted far longer than the family ever
-  admitted and still was never allowed peace
-
-### Child Route
-
-Signature:
-
-- sealed childhood horror
-- the deepest wound hidden inside architecture
-
-Late structure:
-
-- it initially resembles the adult route's attic-driven truth
-- attic clues expose the sealed hidden room
-- the music box is found in the hidden room rather than the attic proper
-
-Ending meaning:
-
-- the player reaches the foundational family crime: a child erased and
-  plastered over inside the estate itself
+- It initially resembles the adult route's attic-driven truth.
+- Attic clues expose the sealed hidden room; the box is found there, not in
+  the attic proper.
 
 ---
 
 ## Script Rules
 
-- The music box always resolves the route.
-- Elizabeth's laugh only marks major event transitions.
-- Each major held-tool phase consumes the previous one.
-- Outside legal or estate-facing documents remain neutral.
-- The first three routes are authored and ordered, not random.
+Core design rules are defined in
+[GAME_BIBLE.md § Core Design Rules](./GAME_BIBLE.md#core-design-rules).
+
+Additional script-authoring emphasis:
+
+- Each major held-tool phase consumes the previous one; do not accumulate.
+- Outside legal or estate-facing documents remain neutral in tone.

@@ -4,6 +4,7 @@ extends RefCounted
 ## decorative trim on top. This keeps stairs scalable and animation-friendly.
 
 const ArchModelFitter = preload("res://builders/arch_model_fitter.gd")
+const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
 
 const STEP_HEIGHT := 0.18
 const STEP_DEPTH := 0.32
@@ -20,7 +21,7 @@ const RAIL_TEXTURE := "res://assets/shared/textures/stairbanister_texture.png"
 const NEWEL_MODEL := "res://assets/shared/structure/banisterbase.glb"
 
 
-static func build(connection: Connection, room_height: float = 2.4) -> Node3D:
+static func build(connection: Connection, room_height: float = 2.4, tread_surface_ref: String = "", structure_surface_ref: String = "", rail_surface_ref: String = "") -> Node3D:
 	var stairs_root := Node3D.new()
 	stairs_root.name = "Stairs_%s" % connection.id
 
@@ -38,7 +39,7 @@ static func build(connection: Connection, room_height: float = 2.4) -> Node3D:
 		var step := _make_box(
 			Vector3(width, STEP_THICKNESS, STEP_DEPTH),
 			Vector3(0, i * STEP_HEIGHT + STEP_THICKNESS * 0.5, (i + 0.5) * STEP_DEPTH),
-			TREAD_TEXTURE
+			tread_surface_ref if not tread_surface_ref.is_empty() else TREAD_TEXTURE
 		)
 		step.name = "Step_%d" % i
 		visual.add_child(step)
@@ -46,7 +47,7 @@ static func build(connection: Connection, room_height: float = 2.4) -> Node3D:
 		var riser := _make_box(
 			Vector3(width, STEP_HEIGHT, 0.05),
 			Vector3(0, i * STEP_HEIGHT + STEP_HEIGHT * 0.5, i * STEP_DEPTH + 0.03),
-			STRINGER_TEXTURE
+			structure_surface_ref if not structure_surface_ref.is_empty() else STRINGER_TEXTURE
 		)
 		riser.name = "Riser_%d" % i
 		visual.add_child(riser)
@@ -55,7 +56,7 @@ static func build(connection: Connection, room_height: float = 2.4) -> Node3D:
 	var landing := _make_box(
 		Vector3(width, STEP_THICKNESS, landing_depth),
 		Vector3(0, rise + STEP_THICKNESS * 0.5, total_depth + landing_depth * 0.5),
-		TREAD_TEXTURE
+		tread_surface_ref if not tread_surface_ref.is_empty() else TREAD_TEXTURE
 	)
 	landing.name = "TopLanding"
 	visual.add_child(landing)
@@ -67,7 +68,7 @@ static func build(connection: Connection, room_height: float = 2.4) -> Node3D:
 	var stringer_left := _make_box(
 		Vector3(STRINGER_WIDTH, rise + STEP_THICKNESS, side_depth),
 		Vector3(-width * 0.5 - STRINGER_WIDTH * 0.5, side_center_y, side_center_z),
-		STRINGER_TEXTURE
+		structure_surface_ref if not structure_surface_ref.is_empty() else STRINGER_TEXTURE
 	)
 	stringer_left.name = "StringerLeft"
 	visual.add_child(stringer_left)
@@ -75,19 +76,27 @@ static func build(connection: Connection, room_height: float = 2.4) -> Node3D:
 	var stringer_right := _make_box(
 		Vector3(STRINGER_WIDTH, rise + STEP_THICKNESS, side_depth),
 		Vector3(width * 0.5 + STRINGER_WIDTH * 0.5, side_center_y, side_center_z),
-		STRINGER_TEXTURE
+		structure_surface_ref if not structure_surface_ref.is_empty() else STRINGER_TEXTURE
 	)
 	stringer_right.name = "StringerRight"
 	visual.add_child(stringer_right)
 
-	_build_rail_run(visual, width, step_count, rise, total_depth, -1.0)
-	_build_rail_run(visual, width, step_count, rise, total_depth, 1.0)
-	_add_newel(visual, Vector3(-width * 0.5 - 0.08, 0, 0.18))
-	_add_newel(visual, Vector3(width * 0.5 + 0.08, 0, 0.18))
-	_add_newel(visual, Vector3(-width * 0.5 - 0.08, rise, total_depth + landing_depth * 0.78))
-	_add_newel(visual, Vector3(width * 0.5 + 0.08, rise, total_depth + landing_depth * 0.78))
+	_build_rail_run(visual, width, step_count, rise, total_depth, -1.0, rail_surface_ref if not rail_surface_ref.is_empty() else RAIL_TEXTURE)
+	_build_rail_run(visual, width, step_count, rise, total_depth, 1.0, rail_surface_ref if not rail_surface_ref.is_empty() else RAIL_TEXTURE)
+	_add_newel(visual, Vector3(-width * 0.5 - 0.08, 0, 0.18), rail_surface_ref if not rail_surface_ref.is_empty() else RAIL_TEXTURE)
+	_add_newel(visual, Vector3(width * 0.5 + 0.08, 0, 0.18), rail_surface_ref if not rail_surface_ref.is_empty() else RAIL_TEXTURE)
+	_add_newel(visual, Vector3(-width * 0.5 - 0.08, rise, total_depth + landing_depth * 0.78), rail_surface_ref if not rail_surface_ref.is_empty() else RAIL_TEXTURE)
+	_add_newel(visual, Vector3(width * 0.5 + 0.08, rise, total_depth + landing_depth * 0.78), rail_surface_ref if not rail_surface_ref.is_empty() else RAIL_TEXTURE)
 	if connection.direction == "up":
-		_build_top_portal(visual, width, rise, total_depth, landing_depth)
+		_build_top_portal(
+			visual,
+			width,
+			rise,
+			total_depth,
+			landing_depth,
+			structure_surface_ref if not structure_surface_ref.is_empty() else STRINGER_TEXTURE,
+			rail_surface_ref if not rail_surface_ref.is_empty() else RAIL_TEXTURE
+		)
 
 	var body := StaticBody3D.new()
 	body.name = "StairsCollision"
@@ -131,11 +140,14 @@ static func build(connection: Connection, room_height: float = 2.4) -> Node3D:
 
 	if connection.direction == "down":
 		stairs_root.rotation_degrees.y = 180.0
+	stairs_root.set_meta("resolved_stair_tread_surface", tread_surface_ref if not tread_surface_ref.is_empty() else TREAD_TEXTURE)
+	stairs_root.set_meta("resolved_stair_structure_surface", structure_surface_ref if not structure_surface_ref.is_empty() else STRINGER_TEXTURE)
+	stairs_root.set_meta("resolved_stair_rail_surface", rail_surface_ref if not rail_surface_ref.is_empty() else RAIL_TEXTURE)
 
 	return stairs_root
 
 
-static func _build_rail_run(parent: Node3D, width: float, step_count: int, rise: float, total_depth: float, side: float) -> void:
+static func _build_rail_run(parent: Node3D, width: float, step_count: int, rise: float, total_depth: float, side: float, rail_surface_ref: String) -> void:
 	for step_index in range(0, step_count + 1, POST_SPACING_STEPS):
 		var progress := float(step_index) / float(step_count)
 		var post := _make_box(
@@ -145,7 +157,7 @@ static func _build_rail_run(parent: Node3D, width: float, step_count: int, rise:
 				progress * rise + STEP_HEIGHT * 2.0,
 				progress * total_depth + 0.12
 			),
-			RAIL_TEXTURE
+			rail_surface_ref
 		)
 		post.name = "RailPost_%s_%d" % [("L" if side < 0.0 else "R"), step_index]
 		parent.add_child(post)
@@ -157,14 +169,14 @@ static func _build_rail_run(parent: Node3D, width: float, step_count: int, rise:
 			rise + RAIL_HEIGHT,
 			(total_depth + STEP_DEPTH) * 0.5
 		),
-		RAIL_TEXTURE
+		rail_surface_ref
 	)
 	rail.rotation_degrees.x = -rad_to_deg(atan2(rise, total_depth))
 	rail.name = "HandRail_%s" % ("L" if side < 0.0 else "R")
 	parent.add_child(rail)
 
 
-static func _add_newel(parent: Node3D, pos: Vector3) -> void:
+static func _add_newel(parent: Node3D, pos: Vector3, surface_ref: String) -> void:
 	if not ResourceLoader.exists(NEWEL_MODEL):
 		return
 	var scene: PackedScene = load(NEWEL_MODEL)
@@ -174,10 +186,11 @@ static func _add_newel(parent: Node3D, pos: Vector3) -> void:
 	var fitted := ArchModelFitter.fit(inst, Vector3(0.32, 1.05, 0.32))
 	fitted.name = "Newel"
 	fitted.position = pos
+	_apply_material_recursive(fitted, surface_ref)
 	parent.add_child(fitted)
 
 
-static func _build_top_portal(parent: Node3D, width: float, rise: float, total_depth: float, landing_depth: float) -> void:
+static func _build_top_portal(parent: Node3D, width: float, rise: float, total_depth: float, landing_depth: float, structure_surface_ref: String, rail_surface_ref: String) -> void:
 	var portal_depth := total_depth + landing_depth
 	var jamb_height := 2.3
 	var jamb_width := 0.12
@@ -189,7 +202,7 @@ static func _build_top_portal(parent: Node3D, width: float, rise: float, total_d
 	var left_jamb := _make_box(
 		Vector3(jamb_width, jamb_height, frame_depth),
 		Vector3(-opening_width * 0.5 - jamb_width * 0.5, rise + jamb_height * 0.5, center_z),
-		STRINGER_TEXTURE
+		structure_surface_ref
 	)
 	left_jamb.name = "PortalJambLeft"
 	parent.add_child(left_jamb)
@@ -197,7 +210,7 @@ static func _build_top_portal(parent: Node3D, width: float, rise: float, total_d
 	var right_jamb := _make_box(
 		Vector3(jamb_width, jamb_height, frame_depth),
 		Vector3(opening_width * 0.5 + jamb_width * 0.5, rise + jamb_height * 0.5, center_z),
-		STRINGER_TEXTURE
+		structure_surface_ref
 	)
 	right_jamb.name = "PortalJambRight"
 	parent.add_child(right_jamb)
@@ -205,7 +218,7 @@ static func _build_top_portal(parent: Node3D, width: float, rise: float, total_d
 	var header := _make_box(
 		Vector3(opening_width + jamb_width * 2.0, 0.14, frame_depth),
 		Vector3(0, rise + opening_height + 0.07, center_z),
-		STRINGER_TEXTURE
+		structure_surface_ref
 	)
 	header.name = "PortalHeader"
 	parent.add_child(header)
@@ -222,7 +235,7 @@ static func _build_top_portal(parent: Node3D, width: float, rise: float, total_d
 	var left_return := _make_box(
 		Vector3(jamb_width, opening_height, return_depth),
 		Vector3(-opening_width * 0.5 - jamb_width * 0.5, rise + opening_height * 0.5, center_z + frame_depth * 0.5 + return_depth * 0.5),
-		STRINGER_TEXTURE
+		structure_surface_ref
 	)
 	left_return.name = "PortalReturnLeft"
 	parent.add_child(left_return)
@@ -230,7 +243,7 @@ static func _build_top_portal(parent: Node3D, width: float, rise: float, total_d
 	var right_return := _make_box(
 		Vector3(jamb_width, opening_height, return_depth),
 		Vector3(opening_width * 0.5 + jamb_width * 0.5, rise + opening_height * 0.5, center_z + frame_depth * 0.5 + return_depth * 0.5),
-		STRINGER_TEXTURE
+		structure_surface_ref
 	)
 	right_return.name = "PortalReturnRight"
 	parent.add_child(right_return)
@@ -238,7 +251,7 @@ static func _build_top_portal(parent: Node3D, width: float, rise: float, total_d
 	var landing_backer := _make_box(
 		Vector3(opening_width + jamb_width * 2.0, 0.28, 0.08),
 		Vector3(0, rise + 0.94, total_depth + landing_depth * 0.6),
-		STRINGER_TEXTURE
+		structure_surface_ref
 	)
 	landing_backer.name = "LandingBacker"
 	parent.add_child(landing_backer)
@@ -246,7 +259,7 @@ static func _build_top_portal(parent: Node3D, width: float, rise: float, total_d
 	var landing_rail := _make_box(
 		Vector3(opening_width + 0.2, POST_WIDTH, 0.08),
 		Vector3(0, rise + RAIL_HEIGHT, total_depth + landing_depth * 0.52),
-		RAIL_TEXTURE
+		rail_surface_ref
 	)
 	landing_rail.name = "LandingRail"
 	parent.add_child(landing_rail)
@@ -254,7 +267,7 @@ static func _build_top_portal(parent: Node3D, width: float, rise: float, total_d
 	var rail_post_left := _make_box(
 		Vector3(POST_WIDTH, 0.92, POST_WIDTH),
 		Vector3(-opening_width * 0.5, rise + 0.46, total_depth + landing_depth * 0.52),
-		RAIL_TEXTURE
+		rail_surface_ref
 	)
 	rail_post_left.name = "LandingRailPostLeft"
 	parent.add_child(rail_post_left)
@@ -262,24 +275,23 @@ static func _build_top_portal(parent: Node3D, width: float, rise: float, total_d
 	var rail_post_right := _make_box(
 		Vector3(POST_WIDTH, 0.92, POST_WIDTH),
 		Vector3(opening_width * 0.5, rise + 0.46, total_depth + landing_depth * 0.52),
-		RAIL_TEXTURE
+		rail_surface_ref
 	)
 	rail_post_right.name = "LandingRailPostRight"
 	parent.add_child(rail_post_right)
 
 
-static func _make_box(size: Vector3, pos: Vector3, texture_path: String) -> MeshInstance3D:
+static func _make_box(size: Vector3, pos: Vector3, surface_ref: String) -> MeshInstance3D:
 	var mesh_inst := MeshInstance3D.new()
 	var box := BoxMesh.new()
 	box.size = size
 	mesh_inst.mesh = box
 	mesh_inst.position = pos
-	var mat := StandardMaterial3D.new()
-	if ResourceLoader.exists(texture_path):
-		mat.albedo_texture = load(texture_path)
-	else:
+	var mat := EstateMaterialKit.build_surface_reference(surface_ref)
+	if mat == null:
+		mat = StandardMaterial3D.new()
 		mat.albedo_color = Color(0.35, 0.27, 0.18)
-	mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+		mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	mesh_inst.set_surface_override_material(0, mat)
 	return mesh_inst
 
@@ -292,6 +304,27 @@ static func _make_colored_box(size: Vector3, pos: Vector3, color: Color) -> Mesh
 	mesh_inst.position = pos
 	var mat := StandardMaterial3D.new()
 	mat.albedo_color = color
-	mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+	mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	mesh_inst.set_surface_override_material(0, mat)
 	return mesh_inst
+
+
+static func _apply_material_recursive(root: Node, surface_ref: String) -> void:
+	if root == null or surface_ref.is_empty():
+		return
+	var material := EstateMaterialKit.build_surface_reference(surface_ref)
+	if material == null:
+		return
+	_apply_material_to_node(root, material)
+
+
+static func _apply_material_to_node(node: Node, material: Material) -> void:
+	if node is MeshInstance3D:
+		var mesh_instance := node as MeshInstance3D
+		var surface_count := 1
+		if mesh_instance.mesh != null:
+			surface_count = max(mesh_instance.mesh.get_surface_count(), 1)
+		for surface_idx in range(surface_count):
+			mesh_instance.set_surface_override_material(surface_idx, material)
+	for child in node.get_children():
+		_apply_material_to_node(child, material)

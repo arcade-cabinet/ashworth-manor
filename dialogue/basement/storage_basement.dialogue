@@ -1,14 +1,53 @@
 ~ scratched_portrait
-if GameManager.has_flag("knows_full_truth")
+if GameManager.has_flag("bad_air_active") and not GameManager.has_flag("basement_relight")
+	You cannot make it out. The dark is absolute and the air stings your eyes.
+elif GameManager.has_flag("knows_full_truth")
 	Elizabeth's face, destroyed. Lord Ashworth did this himself — the scratches match the frantic handwriting in his diary.
 
 	He couldn't bear to look at what he'd done to her.
 else
-	A stern-looking family stands before the mansion. Four figures — but the youngest child's face has been scratched out.
+	A portrait shoved behind crates in the basement. Lord Ashworth's face has been scratched out with something sharp — the canvas torn in long, deliberate strokes.
 
-	Not carefully removed. Gouged. With something sharp. Whoever did this wasn't erasing a mistake. They were destroying a memory.
-do GameManager.set_flag("seen_scratched_portrait")
-do GameManager.set_flag("knows_fourth_child_erased")
+	Someone hated this image enough to destroy it but could not bring themselves to burn it.
+do GameManager.set_flag("examined_scratched_portrait")
+
+
+~ basement_cage
+if GameManager.has_flag("bad_air_active") and not GameManager.has_flag("basement_relight")
+	Metal under your fingers. Bars. A cage of some kind. You pull your hand back.
+else
+	An animal cage, large enough for a dog. Empty. The door hangs open. The lock is rusted shut in the open position.
+
+	Whatever was kept here was released — or escaped.
+
+
+~ service_stack
+if GameManager.has_flag("bad_air_active") and not GameManager.has_flag("basement_relight")
+	Crates stacked against the wall. You can feel the arrangement is deliberate but the dark gives you nothing else.
+else
+	The crates here are stacked too deliberately for storage. They hide the wall rather than use it.
+
+	When you press near the back, the wood gives a little and the stone behind it answers hollow. This corner was arranged to conceal movement, not clutter.
+do GameManager.set_flag("noticed_service_route")
+
+
+~ basement_mattress
+if GameManager.has_flag("bad_air_active") and not GameManager.has_flag("basement_relight")
+	Fabric under your knees where you fell. A mattress. Beside it, the stub of a candle in a holder — cold.
+else
+	A mattress laid directly on the basement stone, close to the cage and farther from the stairs than anyone sleeping here would want.
+
+	Someone stayed down here for many nights in a row. Not a guest. A servant, a guard, or someone who needed to watch this room without being seen.
+
+
+~ improvised_relight
+if GameManager.has_flag("basement_relight")
+	The candle holds — barely. Its light reaches a few feet in every direction. Enough to see by. Not enough to feel safe. The lamp itself is dry and useless. The matches are almost gone.
+else
+	An oil lamp on a crate, dry and cold. But beside it — a tin of household matches, the kind servants kept where the family would not think to look.
+
+	You strike one against the tin. It catches on the third try. You shield the flame with your palm, cross to the mattress, and touch it to the candle stub in the holder. It takes. The dark pulls back a handspan.
+do GameManager.set_flag("basement_relight")
 
 
 ~ storage_mirror

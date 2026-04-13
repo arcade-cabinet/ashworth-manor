@@ -5,6 +5,23 @@ extends SceneTree
 
 const RoomAnchorDeclScript = preload("res://engine/declarations/room_anchor_decl.gd")
 const RegionCompilerScript = preload("res://engine/region_compiler.gd")
+const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
+const EstateEnvironmentRegistry = preload("res://builders/estate_environment_registry.gd")
+const EstateSubstrateRegistry = preload("res://builders/estate_substrate_registry.gd")
+const PBRTextureKit = preload("res://builders/pbr_texture_kit.gd")
+const SubstratePresetDecl = preload("res://engine/declarations/substrate_preset_decl.gd")
+const TerrainPresetDecl = preload("res://engine/declarations/terrain_preset_decl.gd")
+const SkyPresetDecl = preload("res://engine/declarations/sky_preset_decl.gd")
+const SUPPORTED_MOUNT_ROUTE_MODES := [
+	"adult",
+	"elder",
+	"child",
+	"captive",
+	"mourning",
+	"sovereign",
+	"canonical_progression",
+	"post_canonical_replay",
+]
 
 var _pass_count: int = 0
 var _fail_count: int = 0
@@ -32,6 +49,7 @@ func _run_all_tests() -> void:
 	_test_endings()
 	_test_threads()
 	_test_environments()
+	_test_substrate_contract()
 	_test_state_schema()
 	_test_prng()
 
@@ -234,11 +252,192 @@ func _test_threads() -> void:
 
 func _test_environments() -> void:
 	_test_name = "ENVS"
-	for eid in ["grounds", "ground_floor", "upper_floor",
-			"basement", "deep_basement", "attic"]:
+	for eid in [
+		"grounds",
+		"forecourt_lamplit",
+		"ground_floor",
+		"upper_floor",
+		"attic",
+		"basement",
+		"deep_basement",
+		"greenhouse_gaslit",
+		"garden_mist",
+		"crypt_candle",
+	]:
 		_ok("%s" % eid, ResourceLoader.exists(
 			"res://declarations/environments/%s.tres" % eid))
-	print("[DONE] 6 environments")
+	print("[DONE] 10 environments")
+
+
+func _test_substrate_contract() -> void:
+	_test_name = "SUBSTRATE"
+	var substrate_ids := [
+		"grounds_twilight",
+		"forecourt_lamplit",
+		"ground_floor_warmth",
+		"upper_floor_moonlit",
+		"attic_dust_lantern",
+		"basement_bad_air",
+		"deep_basement_service",
+		"greenhouse_gaslit",
+		"garden_mist",
+		"crypt_candle",
+	]
+	for substrate_id in substrate_ids:
+		var preset_path := EstateSubstrateRegistry.preset_path(substrate_id)
+		_ok("%s preset exists" % substrate_id, ResourceLoader.exists(preset_path))
+		if not ResourceLoader.exists(preset_path):
+			continue
+		var preset := load(preset_path) as SubstratePresetDecl
+		_ok("%s loads" % substrate_id, preset != null)
+		if preset == null:
+			continue
+		_ok("%s has region family" % substrate_id, not preset.region_family.is_empty())
+		_ok("%s has light grammar" % substrate_id, not preset.default_light_grammar.is_empty())
+		_ok("%s has dominant recipes" % substrate_id, not preset.dominant_material_recipes.is_empty())
+		if not preset.terrain_preset_id.is_empty():
+			_ok("%s terrain preset exists" % substrate_id, ResourceLoader.exists(EstateEnvironmentRegistry.terrain_preset_path(preset.terrain_preset_id)))
+		if not preset.sky_preset_id.is_empty():
+			_ok("%s sky preset exists" % substrate_id, ResourceLoader.exists(EstateEnvironmentRegistry.sky_preset_path(preset.sky_preset_id)))
+		for family in preset.primitive_families:
+			_ok("%s primitive family %s supported" % [substrate_id, family], EstateSubstrateRegistry.is_primitive_family_supported(family))
+		for family in preset.allowed_mount_families:
+			_ok("%s mount family %s supported" % [substrate_id, family], EstateSubstrateRegistry.is_mount_family_supported(family))
+		for recipe_id in preset.dominant_material_recipes:
+			_ok("%s dominant recipe %s exists" % [substrate_id, recipe_id], EstateMaterialKit.recipe_exists(recipe_id))
+
+	for recipe_id in EstateMaterialKit.get_recipe_ids():
+		var recipe_family := EstateMaterialKit.get_recipe_family(recipe_id)
+		var recipe_kind := EstateMaterialKit.get_recipe_kind(recipe_id)
+		_ok("%s recipe family supported" % recipe_id, ["surface", "terrain_path", "foliage", "glass", "liquid"].has(recipe_family))
+		_ok("%s recipe kind supported" % recipe_id, EstateMaterialKit.is_supported_recipe_kind(recipe_kind))
+		if recipe_kind == "foliage_shader":
+			_ok("%s foliage shader stays in foliage family" % recipe_id, recipe_family == "foliage")
+		if recipe_kind == "shader_material":
+			var recipe_definition := EstateMaterialKit.get_recipe_definition(recipe_id)
+			var shader_path := String(recipe_definition.get("shader_path", ""))
+			_ok("%s shader path exists" % recipe_id, not shader_path.is_empty() and ResourceLoader.exists(shader_path))
+		var recipe_slots := EstateMaterialKit.get_recipe_slots(recipe_id)
+		for slot_name in recipe_slots.keys():
+			_ok("%s slot %s supported" % [recipe_id, slot_name], PBRTextureKit.is_supported_slot(String(slot_name)))
+			var slot_path := String(recipe_slots.get(slot_name, ""))
+			_ok(
+				"%s slot %s resource exists" % [recipe_id, slot_name],
+				slot_path.is_empty() or FileAccess.file_exists(ProjectSettings.globalize_path(slot_path))
+			)
+		_ok("%s material builds" % recipe_id, EstateMaterialKit.build(recipe_id) != null)
+
+	var terrain_ids := ["carriage_approach", "forecourt_steps", "garden_paths", "crypt_approach"]
+	for terrain_id in terrain_ids:
+		var terrain_path := EstateEnvironmentRegistry.terrain_preset_path(terrain_id)
+		_ok("%s terrain preset exists" % terrain_id, ResourceLoader.exists(terrain_path))
+		if not ResourceLoader.exists(terrain_path):
+			continue
+		var terrain_preset := load(terrain_path) as TerrainPresetDecl
+		_ok("%s terrain preset loads" % terrain_id, terrain_preset != null)
+		if terrain_preset == null:
+			continue
+		_ok("%s terrain base recipe exists" % terrain_id, terrain_preset.base_recipe_id.is_empty() or EstateMaterialKit.recipe_exists(terrain_preset.base_recipe_id))
+		_ok("%s terrain track recipe exists" % terrain_id, terrain_preset.track_recipe_id.is_empty() or EstateMaterialKit.recipe_exists(terrain_preset.track_recipe_id))
+		_ok("%s terrain shoulder recipe exists" % terrain_id, terrain_preset.shoulder_recipe_id.is_empty() or EstateMaterialKit.recipe_exists(terrain_preset.shoulder_recipe_id))
+
+	var sky_ids := ["grounds_twilight_sky"]
+	for sky_id in sky_ids:
+		var sky_path := EstateEnvironmentRegistry.sky_preset_path(sky_id)
+		_ok("%s sky preset exists" % sky_id, ResourceLoader.exists(sky_path))
+		if not ResourceLoader.exists(sky_path):
+			continue
+		var sky_preset := load(sky_path) as SkyPresetDecl
+		_ok("%s sky preset loads" % sky_id, sky_preset != null)
+		if sky_preset == null:
+			continue
+		_ok("%s sky mode set" % sky_id, not sky_preset.sky_mode.is_empty())
+
+	var world := load("res://declarations/world.tres") as WorldDeclaration
+	_ok("world declaration loads for substrate contract", world != null)
+	if world == null:
+		return
+	for room_ref in world.rooms:
+		if room_ref == null or not ResourceLoader.exists(room_ref.declaration_path):
+			continue
+		var room_decl := load(room_ref.declaration_path) as RoomDeclaration
+		_ok("%s room declaration loads" % room_ref.room_id, room_decl != null)
+		if room_decl == null:
+			continue
+		_ok("%s has architecture source" % room_ref.room_id, not room_decl.primary_architecture_source.is_empty())
+		var environment_preset_id := world.resolve_environment_preset_for_room(room_decl)
+		_ok("%s environment preset resolves" % room_ref.room_id, not environment_preset_id.is_empty())
+		var resolved_env := world.get_environment_declaration(environment_preset_id)
+		_ok("%s environment declaration loads" % room_ref.room_id, resolved_env != null)
+		if resolved_env != null:
+			for key in resolved_env.surface_recipe_overrides.keys():
+				var recipe_id := String(resolved_env.surface_recipe_overrides.get(key, ""))
+				_ok("%s environment %s recipe exists" % [room_ref.room_id, key], recipe_id.is_empty() or EstateMaterialKit.recipe_exists(recipe_id))
+			if not resolved_env.terrain_preset_id.is_empty():
+				_ok("%s environment terrain preset exists" % room_ref.room_id, ResourceLoader.exists(EstateEnvironmentRegistry.terrain_preset_path(resolved_env.terrain_preset_id)))
+			if not resolved_env.sky_preset_id.is_empty():
+				_ok("%s environment sky preset exists" % room_ref.room_id, ResourceLoader.exists(EstateEnvironmentRegistry.sky_preset_path(resolved_env.sky_preset_id)))
+		_ok("%s substrate preset resolves" % room_ref.room_id, not world.resolve_substrate_preset_for_room(room_decl).is_empty())
+		var resolved_substrate_id := world.resolve_substrate_preset_for_room(room_decl)
+		var resolved_substrate := EstateSubstrateRegistry.load_preset(resolved_substrate_id)
+		_ok("%s substrate preset loads" % room_ref.room_id, resolved_substrate != null)
+		var resolved_region := world.get_region_for_room(room_decl.room_id)
+		_ok("%s region resolves" % room_ref.room_id, resolved_region != null)
+		if resolved_substrate != null and room_decl.primary_architecture_source != "bespoke_waiver":
+			for builder_name in _required_builders_for_room(world, room_decl):
+				_ok("%s substrate approves %s" % [room_ref.room_id, builder_name], resolved_substrate.approved_builders.has(builder_name))
+		if resolved_env != null and resolved_substrate != null:
+			for family in resolved_env.allowed_mount_families:
+				_ok(
+					"%s env mount family %s approved by substrate" % [room_ref.room_id, family],
+					resolved_substrate.allowed_mount_families.has(family)
+				)
+		if resolved_env != null and resolved_region != null:
+			for family in resolved_env.allowed_mount_families:
+				_ok(
+					"%s env mount family %s approved by region" % [room_ref.room_id, family],
+					resolved_region.allowed_mount_families.has(family)
+				)
+		var slot_map: Dictionary = {}
+		for slot in room_decl.mount_slots:
+			if slot == null:
+				continue
+			_ok("%s mount slot has id" % room_ref.room_id, not slot.slot_id.is_empty())
+			_ok("%s mount slot family supported" % slot.slot_id, EstateSubstrateRegistry.is_mount_family_supported(slot.slot_family))
+			if not slot.slot_id.is_empty():
+				_ok("%s mount slot id unique" % slot.slot_id, not slot_map.has(slot.slot_id))
+				slot_map[slot.slot_id] = slot
+			if resolved_env != null:
+				_ok(
+					"%s mount slot family %s allowed by environment" % [slot.slot_id, slot.slot_family],
+					resolved_env.allowed_mount_families.has(slot.slot_family)
+				)
+			if resolved_substrate != null:
+				_ok(
+					"%s mount slot family %s allowed by substrate" % [slot.slot_id, slot.slot_family],
+					resolved_substrate.allowed_mount_families.has(slot.slot_family)
+				)
+			if resolved_region != null:
+				_ok(
+					"%s mount slot family %s allowed by region" % [slot.slot_id, slot.slot_family],
+					resolved_region.allowed_mount_families.has(slot.slot_family)
+				)
+		for payload in room_decl.mount_payloads:
+			if payload == null:
+				continue
+			_ok("%s mount payload has id" % room_ref.room_id, not payload.payload_id.is_empty())
+			_ok("%s mount payload targets slot" % payload.payload_id, not payload.slot_id.is_empty())
+			_ok("%s mount payload slot exists" % payload.payload_id, slot_map.has(payload.slot_id))
+			_ok(
+				"%s mount payload has scene source" % payload.payload_id,
+				not payload.scene_path.is_empty() or not payload.model.is_empty()
+			)
+			for route_mode in payload.route_modes:
+				_ok(
+					"%s mount payload route mode %s supported" % [payload.payload_id, route_mode],
+					SUPPORTED_MOUNT_ROUTE_MODES.has(String(route_mode))
+				)
+	print("[DONE] substrate contract")
 
 
 func _test_state_schema() -> void:
@@ -302,3 +501,37 @@ func _room_has_anchor(anchors: Array, anchor_id: String) -> bool:
 		if anchor != null and anchor.anchor_id == anchor_id:
 			return true
 	return false
+
+
+func _required_builders_for_room(world: WorldDeclaration, room_decl: RoomDeclaration) -> PackedStringArray:
+	var required := PackedStringArray()
+	_append_unique(required, "floor_builder")
+	if not room_decl.is_exterior:
+		_append_unique(required, "ceiling_builder")
+		_append_unique(required, "wall_builder")
+	if _room_has_window_segment(room_decl):
+		_append_unique(required, "window_builder")
+	for conn in world.get_connections_from_room(room_decl.room_id):
+		match conn.type:
+			"door", "double_door", "heavy_door", "hidden_door", "gate":
+				_append_unique(required, "door_builder")
+			"stairs":
+				_append_unique(required, "stairs_builder")
+			"trapdoor":
+				_append_unique(required, "trapdoor_builder")
+			"ladder":
+				_append_unique(required, "ladder_builder")
+	return required
+
+
+func _room_has_window_segment(room_decl: RoomDeclaration) -> bool:
+	for layout in [room_decl.wall_north, room_decl.wall_south, room_decl.wall_east, room_decl.wall_west]:
+		for segment in layout:
+			if String(segment).begins_with("window"):
+				return true
+	return false
+
+
+func _append_unique(values: PackedStringArray, value: String) -> void:
+	if not values.has(value):
+		values.append(value)
