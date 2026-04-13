@@ -7,10 +7,20 @@ The first project-local glass shader lives at:
 
 - `res://shaders/glass/estate_glass_forward_plus.gdshader`
 
-Current reusable materials:
+Current shared glass recipes:
 
-- `res://resources/glass/estate_crystal_glass_material.tres`
-- `res://resources/glass/estate_window_glass_material.tres`
+- `glass/window_glass`
+- `glass/facade_dark`
+- `glass/door_lamplit`
+- `glass/crystal_glass`
+- `glass/greenhouse_glass`
+
+Current shared scene applicator:
+
+- `res://scenes/shared/shared_recipe_applicator.gd`
+
+Legacy `res://resources/glass/*` materials still exist, but they are now
+compatibility wrappers rather than the primary authored path.
 
 ## Why Forward+
 
@@ -51,5 +61,10 @@ The first live benchmark is the dining-room wine glass:
 - `res://scenes/shared/dining_room/dining_wine_glass_still.tscn`
 - `res://scenes/shared/dining_room/dining_wine_glass_agitated.tscn`
 
-This keeps the adoption grounded in a small, obvious object before rolling the
-same treatment out to windows and greenhouse glazing.
+That benchmark is now joined by:
+
+- `WindowBuilder` pane resolution through `glass/window_glass`
+- greenhouse shell panes through `glass/greenhouse_glass`
+- greenhouse hanging lantern glass through `glass/crystal_glass`
+- front-door and portico glazing through `glass/door_lamplit`
+- mansion facade glazing through `glass/facade_dark`

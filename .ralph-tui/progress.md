@@ -657,20 +657,32 @@ after each iteration and it's included in prompts for context.
   - supported recipe families now include `glass` and `liquid`
   - the library now owns `glass/window_glass`, `glass/facade_dark`,
     `glass/door_lamplit`, `glass/crystal_glass`,
-    `glass/greenhouse_glass`, and `liquid/estate_pond_water`
+    `glass/greenhouse_glass`, `liquid/estate_pond_water`, `liquid/wine_still`,
+    `liquid/wine_agitated`, `liquid/font_still`, `liquid/font_disturbed`,
+    `liquid/font_searched`, `liquid/bucket_still`, `liquid/bucket_rippled`,
+    `liquid/tea_still`, and `liquid/tea_disturbed`
 - Shared builders now consume the shared glass recipes directly:
   - `WindowBuilder`
   - `estate_front_door.gd`
   - `estate_entry_portico.gd`
   - `estate_mansion_facade.gd`
-- Shared pond water scenes now consume the shared liquid recipe directly:
-  - `scenes/shared/water/estate_water_surface.gd` applies
-    `liquid/estate_pond_water`
-  - `estate_water_surface.tscn` and `estate_pond_water.tscn` no longer pin the
-    pond material by direct resource reference
+- A new shared scene applicator now normalizes the non-builder scene layer too:
+  - `scenes/shared/shared_recipe_applicator.gd`
+  - greenhouse shell panes now resolve through `glass/greenhouse_glass`
+  - greenhouse lantern glass and dining wine glass shells now resolve through
+    `glass/crystal_glass`
+  - chapel font, kitchen bucket, parlor tea, dining wine, and pond wrappers
+    now resolve through the shared `liquid/*` recipe family
+  - those shared scenes no longer pin their primary glass/liquid look through
+    direct `resources/water/*` or `resources/glass/*` material references
 - Verification after the mount + glass/liquid substrate pass:
   - `godot --headless --path . --script test/generated/test_declarations.gd`
   - `godot --headless --path . --script test/e2e/test_mount_payloads.gd`
   - `godot --path . --script test/e2e/test_environment_probe.gd`
   - `godot --headless --path . --script test/e2e/test_room_specs.gd`
   - `godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+- Verification after the generic shared-scene applicator pass:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --quit-after 1`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`

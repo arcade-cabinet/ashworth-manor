@@ -725,16 +725,23 @@ independent execution drivers:
   - shared glass/liquid recipes now include:
     `glass/window_glass`, `glass/facade_dark`, `glass/door_lamplit`,
     `glass/crystal_glass`, `glass/greenhouse_glass`, and
-    `liquid/estate_pond_water`
+    `liquid/estate_pond_water` plus dedicated `liquid/*` variants for dining
+    wine, chapel font water, kitchen bucket water, and parlor tea
   - shared builders are now consuming those recipes directly:
     `WindowBuilder`, `estate_front_door.gd`, `estate_entry_portico.gd`, and
     `estate_mansion_facade.gd` no longer rely on local ad hoc glass material
     snippets
-  - the shared pond water scenes now resolve through the shared liquid recipe
-    too:
-    `scenes/shared/water/estate_water_surface.gd` applies
-    `liquid/estate_pond_water` at runtime for both `estate_water_surface.tscn`
-    and `estate_pond_water.tscn`
+  - a new generic shared-scene applicator now carries those recipes into the
+    non-builder shared scene layer:
+    `scenes/shared/shared_recipe_applicator.gd` maps recipe ids onto named
+    mesh targets inside authored shared scenes
+  - that applicator is now live across:
+    greenhouse glazing, greenhouse hanging lantern glass, dining wine glasses,
+    chapel baptismal font water states, kitchen bucket water states, parlor tea
+    states, and the estate pond water wrappers
+  - the old `resources/water/*` and `resources/glass/*` materials are now
+    compatibility wrappers rather than the primary substrate path for those
+    shared scenes
   - verification stayed green after the shared glass/liquid pass too:
-    declarations, mount payloads, environment probe, room specs, and full
-    playthrough all reran cleanly
+    declarations, room specs, and full playthrough all reran cleanly after the
+    generic shared-scene applicator pass too

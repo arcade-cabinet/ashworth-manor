@@ -23,9 +23,26 @@ Current authored wrappers:
 - `res://scenes/shared/dining_room/dining_wine_glass_still.tscn`
 - `res://scenes/shared/dining_room/dining_wine_glass_agitated.tscn`
 
-Current tuned material:
+Current shared recipe applicator:
 
-- `res://resources/water/estate_pond_water_material.tres`
+- `res://scenes/shared/shared_recipe_applicator.gd`
+
+Current shared liquid recipes:
+
+- `liquid/estate_pond_water`
+- `liquid/wine_still`
+- `liquid/wine_agitated`
+- `liquid/font_still`
+- `liquid/font_disturbed`
+- `liquid/font_searched`
+- `liquid/bucket_still`
+- `liquid/bucket_rippled`
+- `liquid/tea_still`
+- `liquid/tea_disturbed`
+
+Legacy tuned material resources still exist under `res://resources/water/`, but
+they are now compatibility wrappers rather than the primary authored path for
+shared scenes.
 
 ---
 
@@ -84,8 +101,9 @@ Preferred wrapper:
 - `res://scenes/shared/water/estate_water_surface.tscn`
 - or a room-specific authored wrapper such as the chapel font scenes above
 
-These are not “ponds in miniature.” They should eventually get calmer,
-smaller-scale profiles if the current pond tuning feels too broad.
+These are not “ponds in miniature.” They now resolve through dedicated
+`liquid/*` recipes for the actual fiction of the scene rather than all
+pretending to be one pond material.
 
 ### 3. Fill-State Puzzle Visuals
 
@@ -163,8 +181,8 @@ scene-based props.
 
 The correct next implementation step for liquid gameplay is:
 
-1. keep expanding beyond the chapel font, kitchen bucket, parlor tea service, and dining wine glass
-2. add empty/filled variants for key vessels
-3. reserve the larger water surface scene for estate-scale and basin-scale uses
+1. keep adding empty/filled or calm/agitated recipe coverage as new vessel types appear
+2. let declarations choose between shared wrappers and state-scene swaps
+3. reserve the larger water surface wrappers for estate-scale and basin-scale uses
 
 That keeps the game authored, readable, and mechanically tractable.

@@ -136,6 +136,15 @@ channels. `EstateMaterialKit` exposes shader-backed shared recipes for:
 - `glass/crystal_glass`
 - `glass/greenhouse_glass`
 - `liquid/estate_pond_water`
+- `liquid/wine_still`
+- `liquid/wine_agitated`
+- `liquid/font_still`
+- `liquid/font_disturbed`
+- `liquid/font_searched`
+- `liquid/bucket_still`
+- `liquid/bucket_rippled`
+- `liquid/tea_still`
+- `liquid/tea_disturbed`
 
 Those recipes are now consumed directly by the shared builder path:
 
@@ -146,12 +155,15 @@ Those recipes are now consumed directly by the shared builder path:
   door-lamplit glass recipe
 - `estate_mansion_facade.gd` resolves facade windows through the shared
   dark-facade glass recipe
-- `scenes/shared/water/estate_water_surface.gd` resolves pond water surfaces
-  through `liquid/estate_pond_water`
+- `scenes/shared/shared_recipe_applicator.gd` now maps shared scene mesh targets
+  onto shared recipe ids for pond water, dining wine, chapel font water,
+  kitchen bucket water, parlor tea, greenhouse glazing, and lantern glass
 
 This shifts glass off local `StandardMaterial3D` snippets and into the shared
 substrate contract, and it shifts the shared pond water scenes off direct
-material-resource pinning and onto the shared liquid recipe path too.
+material-resource pinning and onto the shared liquid recipe path too. The old
+`resources/glass/*` and `resources/water/*` assets are now compatibility
+wrappers rather than the primary authored path.
 
 ## Stable Mount Families
 

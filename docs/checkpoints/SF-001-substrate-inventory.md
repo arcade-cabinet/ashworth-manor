@@ -157,7 +157,8 @@ decision rules that now govern implementation.
   - shared recipe families now explicitly include `glass` and `liquid`
   - the shared recipe inventory now includes shader-backed glass/liquid entries
     for estate windows, facade glass, lamplit threshold glass, greenhouse
-    glazing, crystal glass, and pond water
+    glazing, crystal glass, pond water, dining wine, chapel font water,
+    kitchen bucket water, and parlor tea
 - Current shared glass runtime proof:
   - `WindowBuilder` now resolves panes through `glass/window_glass`
   - `estate_front_door.gd` now resolves sidelight/transom glazing through
@@ -166,8 +167,13 @@ decision rules that now govern implementation.
     `glass/door_lamplit`
   - `estate_mansion_facade.gd` now resolves facade glazing through
     `glass/facade_dark`
-  - `estate_water_surface.gd` now resolves pond water scenes through
-    `liquid/estate_pond_water`
+  - `shared_recipe_applicator.gd` now resolves greenhouse shell panes through
+    `glass/greenhouse_glass`
+  - `shared_recipe_applicator.gd` now resolves lantern and dining glass scenes
+    through `glass/crystal_glass`
+  - `shared_recipe_applicator.gd` now resolves pond water, dining wine,
+    chapel font water, kitchen bucket water, and parlor tea through the shared
+    `liquid/*` recipe family
 - Mount governance is now part of the audited substrate inventory too:
   - final allowed mount families are resolved as the intersection of region,
     environment, and substrate policy
