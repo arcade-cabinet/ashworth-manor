@@ -19,8 +19,8 @@ extends Resource
 # Threshold presentation / mechanism
 @export var presentation_type: String = ""   # facade_door, interior_door, gate_path, ladder_drop, trapdoor_hatch, secret_panel, etc.
 @export var mechanism_type: String = ""      # swing, slide, lift, drop, crawl, threshold
-@export var mechanism_state: String = ""     # idle, locked, concealed, revealed, open
-@export var reveal_state: String = ""        # visible, concealed, revealed
+@export var mechanism_state: String = ""     # "" = builder/runtime default; idle, locked, concealed, revealed, open
+@export var reveal_state: String = ""        # "" = builder/runtime default; visible, concealed, revealed
 @export var interaction_size: Vector3 = Vector3.ZERO
 
 # Lock

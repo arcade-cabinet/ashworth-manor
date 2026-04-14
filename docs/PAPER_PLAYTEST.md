@@ -99,7 +99,7 @@ But the declaration only says `doorway:to_parlor`. Where does it get:
 
 Those details are in the Connection resource, not in the wall layout string. So the wall_builder needs to look up the Connection by ID to get the door details.
 
-GAP: The `wall_layout` string format needs to reference connection IDs, and the Connection declaration needs to be rich enough for the door_builder. The current declaration path uses `type` plus explicit compatibility mesh hints (`legacy_panel_model_hint`, `legacy_frame_model_hint`) where old threshold meshes still need them. The wall builder just needs the connection ID to look it up.
+GAP: The `wall_layout` string format needs to reference connection IDs, and the Connection declaration needs to be rich enough for the door_builder. The current declaration path uses `type` plus explicit builder-call compatibility inputs where old threshold meshes still need them; those are no longer serialized as declaration fields. The wall builder just needs the connection ID to look it up.
 
 Actually there's a SECOND gap: the wall_layout uses `doorway:to_parlor` but the Connection's ID field is `id: String`. Are these the same? The connection from foyer to parlor needs a consistent ID across:
 - wall_layout reference

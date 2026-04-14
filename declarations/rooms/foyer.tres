@@ -445,30 +445,6 @@ id = "pillar_right"
 substrate_prop_kind = "round_pillar"
 position = Vector3(3, 0, -4)
 
-[sub_resource type="Resource" id="prop_stairs"]
-script = ExtResource("5")
-id = "staircase"
-substrate_prop_kind = "stair_run"
-position = Vector3(3.15, 0, 2.55)
-rotation_y = 90.0
-scale = 0.9
-
-[sub_resource type="Resource" id="prop_banister"]
-script = ExtResource("5")
-id = "stair_banister"
-substrate_prop_kind = "banister_run"
-position = Vector3(2.55, 0, 2.35)
-rotation_y = 90.0
-scale = 0.42
-
-[sub_resource type="Resource" id="prop_banister_base"]
-script = ExtResource("5")
-id = "stair_banister_base"
-substrate_prop_kind = "newel_post"
-position = Vector3(0.8, 0, 0.45)
-rotation_y = 270.0
-scale = 1.2
-
 [sub_resource type="Resource" id="prop_candle_w"]
 script = ExtResource("5")
 id = "candle_holder_west"

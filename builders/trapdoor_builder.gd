@@ -16,8 +16,8 @@ const DEFAULT_MECHANISM_TYPE := "lift"
 static func build(connection: Connection, frame_surface_ref: String = "", panel_surface_ref: String = "") -> Node3D:
 	var trapdoor_root := Node3D.new()
 	trapdoor_root.name = "Trapdoor_%s" % connection.id
-	var resolved_frame_surface := _resolve_frame_surface(connection, frame_surface_ref)
-	var resolved_panel_surface := _resolve_panel_surface(connection, panel_surface_ref)
+	var resolved_frame_surface := _resolve_frame_surface(frame_surface_ref)
+	var resolved_panel_surface := _resolve_panel_surface(panel_surface_ref)
 
 	# Floor-level frame
 	var frame := _build_frame(resolved_frame_surface)
@@ -141,13 +141,13 @@ static func _apply_texture(mesh: MeshInstance3D, surface_ref: String) -> void:
 	mesh.set_surface_override_material(0, mat)
 
 
-static func _resolve_frame_surface(connection: Connection, surface_ref: String) -> String:
+static func _resolve_frame_surface(surface_ref: String) -> String:
 	if not surface_ref.is_empty():
 		return surface_ref
 	return DEFAULT_TRAPDOOR_FRAME_SURFACE
 
 
-static func _resolve_panel_surface(connection: Connection, surface_ref: String) -> String:
+static func _resolve_panel_surface(surface_ref: String) -> String:
 	if not surface_ref.is_empty():
 		return surface_ref
 	return DEFAULT_TRAPDOOR_PANEL_SURFACE

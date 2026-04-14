@@ -1011,7 +1011,7 @@ Add an `InteractableDecl` to the room's `interactables` array with responses. Th
 Edit the `PuzzleDeclaration`. Move an item to a different room. Change the clue text. The puzzle engine validates the chain, the PRNG engine knows the new variation space, tests auto-update.
 
 ### Changing a wall texture
-Change the room recipe override or the environment role recipe. The wall builder uses the resolved recipe on next assembly. Every wall segment updates through the shared substrate path.
+Change `RoomDeclaration.material_recipe_overrides["wall"]` for a room-specific override, or update the environment declaration recipe that feeds the wall role. The wall builder uses the resolved recipe on next assembly. Every wall segment updates through the shared substrate path.
 
 ### Adding PRNG variation
 Add a `PuzzleVariation` to the puzzle declaration listing alternative placements. The PRNG engine handles shuffling. The test generator validates all alternatives are solvable.

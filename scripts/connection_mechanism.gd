@@ -181,7 +181,7 @@ func _tween_ladder_deploy(root: Node3D, tween: Tween, duration: float) -> void:
 func _mark_open_state() -> void:
 	if connection == null:
 		return
-	var game_manager := _game_manager()
+	var game_manager: Variant = _game_manager()
 	if game_manager == null:
 		return
 	game_manager.set_state("connection_opened_%s" % connection.id, true)
@@ -190,7 +190,7 @@ func _mark_open_state() -> void:
 func _mark_revealed_state() -> void:
 	if connection == null:
 		return
-	var game_manager := _game_manager()
+	var game_manager: Variant = _game_manager()
 	if game_manager == null:
 		return
 	game_manager.set_state("connection_revealed_%s" % connection.id, true)
@@ -199,7 +199,7 @@ func _mark_revealed_state() -> void:
 func _is_open() -> bool:
 	if connection == null:
 		return false
-	var game_manager := _game_manager()
+	var game_manager: Variant = _game_manager()
 	var opened := false
 	if game_manager != null:
 		opened = bool(game_manager.get_state("connection_opened_%s" % connection.id, false))
@@ -209,14 +209,14 @@ func _is_open() -> bool:
 func _is_revealed() -> bool:
 	if connection == null:
 		return false
-	var game_manager := _game_manager()
+	var game_manager: Variant = _game_manager()
 	var revealed := false
 	if game_manager != null:
 		revealed = bool(game_manager.get_state("connection_revealed_%s" % connection.id, false))
 	return revealed or connection.reveal_state == "revealed"
 
 
-func _game_manager() -> Node:
+func _game_manager() -> Variant:
 	var tree := get_tree()
 	if tree == null:
 		return null

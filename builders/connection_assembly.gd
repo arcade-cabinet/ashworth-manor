@@ -111,6 +111,7 @@ static func _attach_secret_cover(root: Node3D, connection: Connection) -> void:
 	var box := BoxMesh.new()
 	box.size = DEFAULT_HIDDEN_DOOR_CONCEALMENT_SIZE
 	panel.mesh = box
+	panel.position.y = DEFAULT_HIDDEN_DOOR_CONCEALMENT_SIZE.y * 0.5
 	var surface_ref := String(root.get_meta("resolved_threshold_surface", "recipe:surface/oak_header"))
 	var material := EstateMaterialKit.build_surface_reference(surface_ref)
 	if material != null:

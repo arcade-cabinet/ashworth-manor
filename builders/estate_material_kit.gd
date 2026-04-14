@@ -1224,6 +1224,7 @@ static func shadow_void() -> StandardMaterial3D:
 static func shadow_void_tinted(color: Color) -> StandardMaterial3D:
 	var material := shadow_void()
 	if material != null:
+		material = material.duplicate()
 		material.albedo_color = color
 	return material
 

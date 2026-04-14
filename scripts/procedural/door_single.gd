@@ -19,7 +19,7 @@ const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
 @export var panel_width: float = 0.9       # Slightly less than doorway width
 @export var panel_height: float = 2.1      # Slightly less than doorway height
 @export var panel_depth: float = 0.05      # Thin door panel
-@export var panel_surface_ref: String = "recipe:surface/oak_dark"
+@export var panel_surface_ref: String = ""
 @export var legacy_door_texture: Texture2D = null # Retired compatibility-only texture input
 @export var open_angle: float = -90.0      # Degrees. Negative = swings inward
 @export var open_duration: float = 0.8     # Seconds to open/close
