@@ -553,3 +553,6 @@ changes between `adult/child` and `elder` route contexts.
   `bucket_mx_1.glb`, `glass_bottle_mx_1.glb`, `lamp_mx_3_off.glb`,
   and `loose_bones.glb` now author through chapel-specific substrate kinds,
   and the chapel saint statue now rides the shared `forecourt_statue` kind.
+- The carriage-house shell now owns its repeated support kit too:
+  mattress, shed shell pieces, loose boards, shovel, luggage, and dead lamp
+  now author through carriage-house-specific substrate kinds.

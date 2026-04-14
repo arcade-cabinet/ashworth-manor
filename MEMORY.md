@@ -1020,6 +1020,11 @@ independent execution drivers:
     `font_bucket`, `font_bottle`, `dead_lamp`, and `loose_bones`
     now author through chapel-specific substrate kinds, and `saint_statue`
     now uses the shared `forecourt_statue` kind instead of raw model paths
+  - the carriage-house support kit moved too:
+    `mattress_model`, `shed_a`, `shed_b`, `shed_c`, `shed_d`, `board_1`,
+    `board_2`, `shovel`, `luggage`, and `dead_lamp`
+    now author through carriage-house-specific substrate kinds instead of raw
+    grounds model paths
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

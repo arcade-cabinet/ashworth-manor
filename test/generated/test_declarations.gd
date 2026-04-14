@@ -303,6 +303,16 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/chapel.tres", "id": "dead_lamp", "kind": "chapel_dead_lamp"},
 		{"room_path": "res://declarations/rooms/chapel.tres", "id": "loose_bones", "kind": "chapel_bones"},
 		{"room_path": "res://declarations/rooms/chapel.tres", "id": "saint_statue", "kind": "forecourt_statue"},
+		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "mattress_model", "kind": "carriage_house_mattress"},
+		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "shed_a", "kind": "carriage_house_shed_a"},
+		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "shed_b", "kind": "carriage_house_shed_b"},
+		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "shed_c", "kind": "carriage_house_shed_c"},
+		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "shed_d", "kind": "carriage_house_shed_d"},
+		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "board_1", "kind": "carriage_house_board_1"},
+		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "board_2", "kind": "carriage_house_board_2"},
+		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "shovel", "kind": "carriage_house_shovel"},
+		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "luggage", "kind": "carriage_house_luggage"},
+		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "dead_lamp", "kind": "carriage_house_dead_lamp"},
 		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "plank_bench", "kind": "greenhouse_plank_bench"},
 		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "plank_shelf", "kind": "greenhouse_plank_shelf"},
 		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "dead_row_w", "kind": "greenhouse_dead_row"},
@@ -1439,6 +1449,42 @@ func _test_builder_default_contract() -> void:
 	var chapel_bones := assembler._build_procedural_prop(chapel_bones_decl)
 	_ok("substrate chapel bones build from shared substrate kind", chapel_bones != null)
 
+	var carriage_house_mattress_decl := PropDecl.new()
+	carriage_house_mattress_decl.id = "compat_carriage_house_mattress"
+	carriage_house_mattress_decl.substrate_prop_kind = "carriage_house_mattress"
+	var carriage_house_mattress := assembler._build_procedural_prop(carriage_house_mattress_decl)
+	_ok("substrate carriage-house mattress builds from shared substrate kind", carriage_house_mattress != null)
+
+	var carriage_house_shed_decl := PropDecl.new()
+	carriage_house_shed_decl.id = "compat_carriage_house_shed_a"
+	carriage_house_shed_decl.substrate_prop_kind = "carriage_house_shed_a"
+	var carriage_house_shed := assembler._build_procedural_prop(carriage_house_shed_decl)
+	_ok("substrate carriage-house shed shell builds from shared substrate kind", carriage_house_shed != null)
+
+	var carriage_house_board_decl := PropDecl.new()
+	carriage_house_board_decl.id = "compat_carriage_house_board_1"
+	carriage_house_board_decl.substrate_prop_kind = "carriage_house_board_1"
+	var carriage_house_board := assembler._build_procedural_prop(carriage_house_board_decl)
+	_ok("substrate carriage-house board builds from shared substrate kind", carriage_house_board != null)
+
+	var carriage_house_shovel_decl := PropDecl.new()
+	carriage_house_shovel_decl.id = "compat_carriage_house_shovel"
+	carriage_house_shovel_decl.substrate_prop_kind = "carriage_house_shovel"
+	var carriage_house_shovel := assembler._build_procedural_prop(carriage_house_shovel_decl)
+	_ok("substrate carriage-house shovel builds from shared substrate kind", carriage_house_shovel != null)
+
+	var carriage_house_luggage_decl := PropDecl.new()
+	carriage_house_luggage_decl.id = "compat_carriage_house_luggage"
+	carriage_house_luggage_decl.substrate_prop_kind = "carriage_house_luggage"
+	var carriage_house_luggage := assembler._build_procedural_prop(carriage_house_luggage_decl)
+	_ok("substrate carriage-house luggage builds from shared substrate kind", carriage_house_luggage != null)
+
+	var carriage_house_dead_lamp_decl := PropDecl.new()
+	carriage_house_dead_lamp_decl.id = "compat_carriage_house_dead_lamp"
+	carriage_house_dead_lamp_decl.substrate_prop_kind = "carriage_house_dead_lamp"
+	var carriage_house_dead_lamp := assembler._build_procedural_prop(carriage_house_dead_lamp_decl)
+	_ok("substrate carriage-house dead lamp builds from shared substrate kind", carriage_house_dead_lamp != null)
+
 	var greenhouse_plank_bench_decl := PropDecl.new()
 	greenhouse_plank_bench_decl.id = "compat_greenhouse_plank_bench"
 	greenhouse_plank_bench_decl.substrate_prop_kind = "greenhouse_plank_bench"
@@ -1676,6 +1722,18 @@ func _test_builder_default_contract() -> void:
 		chapel_dead_lamp.free()
 	if chapel_bones != null:
 		chapel_bones.free()
+	if carriage_house_mattress != null:
+		carriage_house_mattress.free()
+	if carriage_house_shed != null:
+		carriage_house_shed.free()
+	if carriage_house_board != null:
+		carriage_house_board.free()
+	if carriage_house_shovel != null:
+		carriage_house_shovel.free()
+	if carriage_house_luggage != null:
+		carriage_house_luggage.free()
+	if carriage_house_dead_lamp != null:
+		carriage_house_dead_lamp.free()
 	if greenhouse_plank_bench != null:
 		greenhouse_plank_bench.free()
 	if greenhouse_plank_shelf != null:

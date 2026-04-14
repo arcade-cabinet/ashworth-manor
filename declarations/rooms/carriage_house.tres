@@ -139,65 +139,65 @@ flicker_pattern = "candle"
 [sub_resource type="Resource" id="prop_mattress"]
 script = ExtResource("5")
 id = "mattress_model"
-model = "res://assets/grounds/carriage_house/old_mattress_mx_1.glb"
+substrate_prop_kind = "carriage_house_mattress"
 position = Vector3(-3, 0, -1)
 
 [sub_resource type="Resource" id="prop_shed_a"]
 script = ExtResource("5")
 id = "shed_a"
-model = "res://assets/grounds/carriage_house/shed_ax_1.glb"
+substrate_prop_kind = "carriage_house_shed_a"
 position = Vector3(0, 0, 0)
 
 [sub_resource type="Resource" id="prop_shed_b"]
 script = ExtResource("5")
 id = "shed_b"
-model = "res://assets/grounds/carriage_house/shed_ax_2.glb"
+substrate_prop_kind = "carriage_house_shed_b"
 position = Vector3(0.2, 0, 0.2)
 
 [sub_resource type="Resource" id="prop_shed_c"]
 script = ExtResource("5")
 id = "shed_c"
-model = "res://assets/grounds/carriage_house/shed_ax_3.glb"
+substrate_prop_kind = "carriage_house_shed_c"
 position = Vector3(-0.2, 0, -0.1)
 
 [sub_resource type="Resource" id="prop_shed_d"]
 script = ExtResource("5")
 id = "shed_d"
-model = "res://assets/grounds/carriage_house/shed_ax_4.glb"
+substrate_prop_kind = "carriage_house_shed_d"
 position = Vector3(0, 0, 0.1)
 
 [sub_resource type="Resource" id="prop_board_1"]
 script = ExtResource("5")
 id = "board_1"
-model = "res://assets/grounds/carriage_house/wooden_board_1.glb"
+substrate_prop_kind = "carriage_house_board_1"
 position = Vector3(2.2, 0.2, 0.8)
 rotation_y = 82.0
 
 [sub_resource type="Resource" id="prop_board_2"]
 script = ExtResource("5")
 id = "board_2"
-model = "res://assets/grounds/carriage_house/wooden_board_2.glb"
+substrate_prop_kind = "carriage_house_board_2"
 position = Vector3(2.8, 0.15, 0.2)
 rotation_y = 24.0
 
 [sub_resource type="Resource" id="prop_shovel"]
 script = ExtResource("5")
 id = "shovel"
-model = "res://assets/grounds/carriage_house/shovel_mx_1.glb"
+substrate_prop_kind = "carriage_house_shovel"
 position = Vector3(3.2, 0, 0.4)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_luggage"]
 script = ExtResource("5")
 id = "luggage"
-model = "res://assets/grounds/carriage_house/luggage_mp_1.glb"
+substrate_prop_kind = "carriage_house_luggage"
 position = Vector3(-1.4, 0, 1.7)
 rotation_y = -18.0
 
 [sub_resource type="Resource" id="prop_dead_lamp"]
 script = ExtResource("5")
 id = "dead_lamp"
-model = "res://assets/grounds/carriage_house/lamp_mx_2_off.glb"
+substrate_prop_kind = "carriage_house_dead_lamp"
 position = Vector3(1.3, 0.8, -1.9)
 
 [sub_resource type="Resource" id="prop_portrait_frame"]

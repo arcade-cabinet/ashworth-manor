@@ -1375,6 +1375,20 @@ after each iteration and it's included in prompts for context.
   - affected authored props:
     `font_bucket`, `font_bottle`, `dead_lamp`, `loose_bones`, and
     `saint_statue`
+- The carriage-house support kit is now migrated too:
+  - `old_mattress_mx_1.glb` -> `carriage_house_mattress`
+  - `shed_ax_1.glb` -> `carriage_house_shed_a`
+  - `shed_ax_2.glb` -> `carriage_house_shed_b`
+  - `shed_ax_3.glb` -> `carriage_house_shed_c`
+  - `shed_ax_4.glb` -> `carriage_house_shed_d`
+  - `wooden_board_1.glb` -> `carriage_house_board_1`
+  - `wooden_board_2.glb` -> `carriage_house_board_2`
+  - `shovel_mx_1.glb` -> `carriage_house_shovel`
+  - `luggage_mp_1.glb` -> `carriage_house_luggage`
+  - `lamp_mx_2_off.glb` -> `carriage_house_dead_lamp`
+  - affected authored props:
+    `mattress_model`, `shed_a`, `shed_b`, `shed_c`, `shed_d`, `board_1`,
+    `board_2`, `shovel`, `luggage`, and `dead_lamp`
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload

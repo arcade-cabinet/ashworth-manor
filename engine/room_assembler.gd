@@ -115,6 +115,16 @@ const CHAPEL_BUCKET_MODEL := "res://assets/grounds/chapel/bucket_mx_1.glb"
 const CHAPEL_BOTTLE_MODEL := "res://assets/grounds/chapel/glass_bottle_mx_1.glb"
 const CHAPEL_LAMP_MODEL := "res://assets/grounds/chapel/lamp_mx_3_off.glb"
 const CHAPEL_BONES_MODEL := "res://assets/grounds/chapel/loose_bones.glb"
+const CARRIAGE_HOUSE_MATTRESS_MODEL := "res://assets/grounds/carriage_house/old_mattress_mx_1.glb"
+const CARRIAGE_HOUSE_SHED_A_MODEL := "res://assets/grounds/carriage_house/shed_ax_1.glb"
+const CARRIAGE_HOUSE_SHED_B_MODEL := "res://assets/grounds/carriage_house/shed_ax_2.glb"
+const CARRIAGE_HOUSE_SHED_C_MODEL := "res://assets/grounds/carriage_house/shed_ax_3.glb"
+const CARRIAGE_HOUSE_SHED_D_MODEL := "res://assets/grounds/carriage_house/shed_ax_4.glb"
+const CARRIAGE_HOUSE_BOARD_1_MODEL := "res://assets/grounds/carriage_house/wooden_board_1.glb"
+const CARRIAGE_HOUSE_BOARD_2_MODEL := "res://assets/grounds/carriage_house/wooden_board_2.glb"
+const CARRIAGE_HOUSE_SHOVEL_MODEL := "res://assets/grounds/carriage_house/shovel_mx_1.glb"
+const CARRIAGE_HOUSE_LUGGAGE_MODEL := "res://assets/grounds/carriage_house/luggage_mp_1.glb"
+const CARRIAGE_HOUSE_LAMP_MODEL := "res://assets/grounds/carriage_house/lamp_mx_2_off.glb"
 const GREENHOUSE_PLANK_BENCH_MODEL := "res://assets/grounds/greenhouse/wooden_plank_1.glb"
 const GREENHOUSE_PLANK_SHELF_MODEL := "res://assets/grounds/greenhouse/wooden_plank_2.glb"
 const GREENHOUSE_DEAD_ROW_MODEL := "res://assets/grounds/greenhouse/bush_long_dead.glb"
@@ -213,6 +223,16 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	CHAPEL_BOTTLE_MODEL: "chapel_bottle",
 	CHAPEL_LAMP_MODEL: "chapel_dead_lamp",
 	CHAPEL_BONES_MODEL: "chapel_bones",
+	CARRIAGE_HOUSE_MATTRESS_MODEL: "carriage_house_mattress",
+	CARRIAGE_HOUSE_SHED_A_MODEL: "carriage_house_shed_a",
+	CARRIAGE_HOUSE_SHED_B_MODEL: "carriage_house_shed_b",
+	CARRIAGE_HOUSE_SHED_C_MODEL: "carriage_house_shed_c",
+	CARRIAGE_HOUSE_SHED_D_MODEL: "carriage_house_shed_d",
+	CARRIAGE_HOUSE_BOARD_1_MODEL: "carriage_house_board_1",
+	CARRIAGE_HOUSE_BOARD_2_MODEL: "carriage_house_board_2",
+	CARRIAGE_HOUSE_SHOVEL_MODEL: "carriage_house_shovel",
+	CARRIAGE_HOUSE_LUGGAGE_MODEL: "carriage_house_luggage",
+	CARRIAGE_HOUSE_LAMP_MODEL: "carriage_house_dead_lamp",
 	GREENHOUSE_PLANK_BENCH_MODEL: "greenhouse_plank_bench",
 	GREENHOUSE_PLANK_SHELF_MODEL: "greenhouse_plank_shelf",
 	GREENHOUSE_DEAD_ROW_MODEL: "greenhouse_dead_row",
@@ -1301,6 +1321,26 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(CHAPEL_LAMP_MODEL, prop_decl)
 	if substrate_kind == "chapel_bones":
 		return _instantiate_substrate_scene(CHAPEL_BONES_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_mattress":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_MATTRESS_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_shed_a":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_SHED_A_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_shed_b":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_SHED_B_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_shed_c":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_SHED_C_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_shed_d":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_SHED_D_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_board_1":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_BOARD_1_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_board_2":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_BOARD_2_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_shovel":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_SHOVEL_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_luggage":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_LUGGAGE_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_dead_lamp":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_LAMP_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_bench":
 		return _instantiate_substrate_scene(GREENHOUSE_PLANK_BENCH_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_shelf":
