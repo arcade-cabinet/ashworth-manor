@@ -415,6 +415,9 @@ changes between `adult/child` and `elder` route contexts.
   - front-drive stone slabs
   - exterior statue plinths
   - foyer round pillars
+  - the front facade door leaf
 - `RoomAssembler` now owns the common procedural path for those repeated
   structure pieces, with declaration-authored raw structure model ids kept only
   as compatibility interception.
+- Authored room declarations no longer directly reference
+  `res://assets/shared/structure/*.glb` for common substrate pieces.

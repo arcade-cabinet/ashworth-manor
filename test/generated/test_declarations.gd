@@ -482,6 +482,7 @@ func _test_substrate_contract() -> void:
 		"res://assets/shared/structure/pillar0_002.glb": "plinth_tall",
 		"res://assets/shared/structure/pillar0_003.glb": "plinth_tall",
 		"res://assets/shared/structure/pillar1.glb": "round_pillar",
+		"res://assets/shared/structure/door1.glb": "facade_door_leaf",
 	}
 	var dir := DirAccess.open("res://declarations/rooms/")
 	if dir != null:
@@ -765,6 +766,13 @@ func _test_builder_default_contract() -> void:
 	procedural_pillar_decl.scale = 1.0
 	var procedural_pillar := assembler._build_procedural_prop(procedural_pillar_decl)
 	_ok("procedural pillar prop replaces imported round pillar model", procedural_pillar != null and procedural_pillar.get_node_or_null("Shaft") != null)
+
+	var procedural_facade_door_decl := PropDecl.new()
+	procedural_facade_door_decl.id = "compat_facade_door"
+	procedural_facade_door_decl.model = "res://assets/shared/structure/door1.glb"
+	procedural_facade_door_decl.scale = 1.0
+	var procedural_facade_door := assembler._build_procedural_prop(procedural_facade_door_decl)
+	_ok("procedural facade door prop replaces imported shared door model", procedural_facade_door != null and procedural_facade_door.get_node_or_null("DoorLeaf") != null)
 	floor.free()
 	ceiling.free()
 	wall.free()
@@ -794,6 +802,8 @@ func _test_builder_default_contract() -> void:
 		procedural_plinth.free()
 	if procedural_pillar != null:
 		procedural_pillar.free()
+	if procedural_facade_door != null:
+		procedural_facade_door.free()
 	print("[DONE] builder defaults")
 
 

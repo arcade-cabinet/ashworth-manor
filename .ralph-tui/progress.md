@@ -1090,3 +1090,13 @@ after each iteration and it's included in prompts for context.
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+- The last authored shared-structure prop holdout is gone:
+  - `door1.glb` -> `facade_door_leaf`
+- `front_gate` now authors the facade leaf through `substrate_prop_kind`, and
+  `RoomAssembler` owns the procedural facade-door-leaf path
+- Authored room declarations now contain no direct
+  `res://assets/shared/structure/*.glb` prop references
+- Verification after the facade-door migration:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`

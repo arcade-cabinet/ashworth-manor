@@ -39,6 +39,7 @@ const PROCEDURAL_STONE_SLAB_MODEL := "res://assets/shared/structure/floor3.glb"
 const PROCEDURAL_PLINTH_LEFT_MODEL := "res://assets/shared/structure/pillar0_002.glb"
 const PROCEDURAL_PLINTH_RIGHT_MODEL := "res://assets/shared/structure/pillar0_003.glb"
 const PROCEDURAL_FOYER_PILLAR_MODEL := "res://assets/shared/structure/pillar1.glb"
+const PROCEDURAL_FACADE_DOOR_MODEL := "res://assets/shared/structure/door1.glb"
 const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PROCEDURAL_WINDOW_MODEL: "window_frame",
 	PROCEDURAL_WINDOW_RAY_MODEL: "window_ray",
@@ -49,6 +50,7 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PROCEDURAL_PLINTH_LEFT_MODEL: "plinth_tall",
 	PROCEDURAL_PLINTH_RIGHT_MODEL: "plinth_tall",
 	PROCEDURAL_FOYER_PILLAR_MODEL: "round_pillar",
+	PROCEDURAL_FACADE_DOOR_MODEL: "facade_door_leaf",
 }
 
 
@@ -850,6 +852,28 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		pillar.rotation_degrees.y = prop_decl.rotation_y
 		pillar.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_FOYER_PILLAR_MODEL)
 		return pillar
+	if substrate_kind == "facade_door_leaf":
+		var door_leaf := Node3D.new()
+		door_leaf.name = prop_decl.id if not prop_decl.id.is_empty() else "FacadeDoorLeafProp"
+		var wood_surface := "recipe:surface/oak_dark"
+		var brass_surface := "recipe:surface/brass_dim"
+		var panel := _make_prop_box(Vector3(1.02, 2.12, 0.14), Vector3(0, 1.06, 0), wood_surface)
+		panel.name = "DoorLeaf"
+		door_leaf.add_child(panel)
+		var mullion := _make_prop_box(Vector3(0.1, 1.96, 0.04), Vector3(0, 1.04, -0.05), brass_surface)
+		mullion.name = "CenterMullion"
+		door_leaf.add_child(mullion)
+		for glass_x in [-0.24, 0.24]:
+			var glazing := _make_prop_box(Vector3(0.28, 0.52, 0.03), Vector3(glass_x, 1.64, -0.06), "recipe:glass/door_lamplit")
+			glazing.name = "Glazing_%s" % ("L" if glass_x < 0 else "R")
+			door_leaf.add_child(glazing)
+		var handle := _make_prop_box(Vector3(0.06, 0.22, 0.06), Vector3(0.3, 1.05, -0.09), brass_surface)
+		handle.name = "Handle"
+		door_leaf.add_child(handle)
+		door_leaf.position = prop_decl.position
+		door_leaf.rotation_degrees.y = prop_decl.rotation_y
+		door_leaf.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_FACADE_DOOR_MODEL)
+		return door_leaf
 	if prop_decl.tags.has("procedural_moon"):
 		var moon := MeshInstance3D.new()
 		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"

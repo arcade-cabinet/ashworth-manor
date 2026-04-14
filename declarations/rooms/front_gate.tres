@@ -1123,7 +1123,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_door"]
 script = ExtResource("5")
 id = "facade_door"
-model = "res://assets/shared/structure/door1.glb"
+substrate_prop_kind = "facade_door_leaf"
 position = Vector3(0.94, 0, 12.22)
 rotation_y = 112.0
 scale = 1.06

@@ -882,3 +882,10 @@ independent execution drivers:
     `test/generated/test_declarations.gd`,
     `test/e2e/test_room_specs.gd`,
     and `test/e2e/test_full_playthrough.gd`
+  - the last authored shared-structure prop holdout was removed too:
+    `front_gate` no longer serializes `door1.glb`; it now uses
+    `substrate_prop_kind = "facade_door_leaf"`
+  - `RoomAssembler` now owns a procedural facade-door-leaf substrate prop, and
+    declaration coverage proves the replacement builds cleanly
+  - authored room declarations now contain no direct
+    `res://assets/shared/structure/*.glb` prop references
