@@ -613,11 +613,11 @@ changes between `adult/child` and `elder` route contexts.
   to direct model-path authoring.
 - One-off raw room-prop models are now explicit too:
   if a prop intentionally stays on a direct GLB path instead of a substrate
-  kind, the declaration must carry `direct_model_reason`. The current authored
-  room set now uses room-scoped typed values such as
-  `kitchen_tool_clutter`, `boiler_room_service_infrastructure`, and
-  `wine_cellar_storage_clutter`, so the data names both the owning room and
-  the exception class instead of collapsing everything into one placeholder.
+  kind, the declaration must now carry both `direct_model_family` and
+  `direct_model_reason`. The current authored room set uses typed families such
+  as `tool_clutter`, `service_infrastructure`, `table_service`,
+  `study_dressing`, `personal_effects`, and `storage_clutter`, while the
+  reason stays room-scoped ownership metadata.
 - The remaining direct-asset declaration channels now have the same rule:
   `InteractableDecl` and `MountPayloadDecl` carry explicit
   `direct_visual_reason` / `direct_payload_reason` fields, and the declaration

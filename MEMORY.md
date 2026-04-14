@@ -1090,11 +1090,11 @@ independent execution drivers:
     room declarations now fails `test_declarations.gd`, which locks the
     repeated-shared-family cleanup in as a regression rule
   - the remaining one-off raw room props are explicit now too:
-    `PropDecl` has `direct_model_reason`, and every intentionally direct GLB
-    room prop now declares a room-scoped typed ownership reason
-    (for example `kitchen_tool_clutter` or
-    `boiler_room_service_infrastructure`) instead of a generic bucket or an
-    undocumented leftover
+    `PropDecl` now carries both `direct_model_family` and
+    `direct_model_reason`; every intentionally direct GLB room prop now
+    declares a typed family (for example `tool_clutter` or
+    `service_infrastructure`) plus a room-scoped ownership reason instead of
+    overloading one string or leaving the exception undocumented
   - the same explicitness rule now exists for the remaining declaration-side
     direct asset channels too:
     `InteractableDecl` and `MountPayloadDecl` now have

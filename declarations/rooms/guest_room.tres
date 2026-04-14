@@ -171,6 +171,7 @@ scale = 0.7
 script = ExtResource("5")
 id = "guest_luggage_prop"
 model = "res://assets/upper_floor/guest_room/luggage_mp_1.glb"
+direct_model_family = "personal_effects"
 direct_model_reason = "guest_room_personal_effects"
 position = Vector3(3.0, 0, 2.0)
 
@@ -178,6 +179,7 @@ position = Vector3(3.0, 0, 2.0)
 script = ExtResource("5")
 id = "guest_lamp_prop"
 model = "res://assets/upper_floor/guest_room/lamp_mx_3_off.glb"
+direct_model_family = "personal_effects"
 direct_model_reason = "guest_room_personal_effects"
 position = Vector3(3.0, 0.8, 0.0)
 
@@ -191,6 +193,7 @@ position = Vector3(-3.5, 1.6, 0.0)
 script = ExtResource("5")
 id = "guest_bottle"
 model = "res://assets/upper_floor/guest_room/glass_bottle_mx_1.glb"
+direct_model_family = "personal_effects"
 direct_model_reason = "guest_room_personal_effects"
 position = Vector3(-3.0, 0.8, -3.0)
 
@@ -198,6 +201,7 @@ position = Vector3(-3.0, 0.8, -3.0)
 script = ExtResource("5")
 id = "guest_soap"
 model = "res://assets/upper_floor/guest_room/soap_mx_1.glb"
+direct_model_family = "personal_effects"
 direct_model_reason = "guest_room_personal_effects"
 position = Vector3(3.0, 0.8, -3.0)
 

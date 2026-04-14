@@ -742,6 +742,20 @@ func _test_environments() -> void:
 
 func _test_substrate_contract() -> void:
 	_test_name = "SUBSTRATE"
+	var allowed_direct_model_families := {
+		"debris": true,
+		"stored_clutter": true,
+		"service_infrastructure": true,
+		"table_service": true,
+		"entry_dressing": true,
+		"personal_effects": true,
+		"occult_dressing": true,
+		"tool_clutter": true,
+		"study_dressing": true,
+		"hearth_dressing": true,
+		"storage_clutter": true,
+		"passage_dressing": true,
+	}
 	var legacy_candle_models := {
 		"res://assets/shared/decor/candle_holder.glb": "candle_holder_fixture",
 		"res://assets/shared/items/candle0.glb": "candle_single",
@@ -1003,8 +1017,16 @@ func _test_substrate_contract() -> void:
 			)
 			if not prop.model.is_empty() and prop.substrate_prop_kind.is_empty():
 				_ok(
+					"%s:%s direct model authoring declares family" % [room_ref.room_id, prop.id],
+					not prop.direct_model_family.is_empty()
+				)
+				_ok(
 					"%s:%s direct model authoring declares reason" % [room_ref.room_id, prop.id],
 					not prop.direct_model_reason.is_empty()
+				)
+				_ok(
+					"%s:%s direct model family allowed" % [room_ref.room_id, prop.id],
+					allowed_direct_model_families.has(prop.direct_model_family)
 				)
 				_ok(
 					"%s:%s direct model reason stays room-scoped" % [room_ref.room_id, prop.id],
@@ -1017,6 +1039,11 @@ func _test_substrate_contract() -> void:
 			if not prop.direct_model_reason.is_empty():
 				_ok(
 					"%s:%s direct model reason only appears on raw-model props" % [room_ref.room_id, prop.id],
+					not prop.model.is_empty() and prop.substrate_prop_kind.is_empty()
+				)
+			if not prop.direct_model_family.is_empty():
+				_ok(
+					"%s:%s direct model family only appears on raw-model props" % [room_ref.room_id, prop.id],
 					not prop.model.is_empty() and prop.substrate_prop_kind.is_empty()
 				)
 			if prop.scene_role in ["architectural_trim", "threshold_trim"] and prop.substrate_prop_kind.is_empty():

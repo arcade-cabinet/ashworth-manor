@@ -285,6 +285,7 @@ flicker_pattern = "candle"
 script = ExtResource("5")
 id = "master_bed_model"
 model = "res://assets/shared/furniture/master_bed.glb"
+direct_model_family = "personal_effects"
 direct_model_reason = "master_bedroom_personal_effects"
 position = Vector3(-2, 0, 0)
 
@@ -292,6 +293,7 @@ position = Vector3(-2, 0, 0)
 script = ExtResource("5")
 id = "wardrobe"
 model = "res://assets/shared/furniture/wardrobe.glb"
+direct_model_family = "personal_effects"
 direct_model_reason = "master_bedroom_personal_effects"
 position = Vector3(-4.5, 0, 4)
 
@@ -318,6 +320,7 @@ position = Vector3(0.0, 0.01, 0.0)
 script = ExtResource("5")
 id = "bedside_lamp"
 model = "res://assets/upper_floor/master_bedroom/lamp_mx_4_on.glb"
+direct_model_family = "personal_effects"
 direct_model_reason = "master_bedroom_personal_effects"
 position = Vector3(-3.2, 0.8, -4.0)
 
@@ -325,6 +328,7 @@ position = Vector3(-3.2, 0.8, -4.0)
 script = ExtResource("5")
 id = "packed_luggage"
 model = "res://assets/upper_floor/master_bedroom/luggage_mp_1.glb"
+direct_model_family = "personal_effects"
 direct_model_reason = "master_bedroom_personal_effects"
 position = Vector3(4.0, 0, 3.0)
 
@@ -332,6 +336,7 @@ position = Vector3(4.0, 0, 3.0)
 script = ExtResource("5")
 id = "washstand_soap"
 model = "res://assets/upper_floor/master_bedroom/soap_mx_2.glb"
+direct_model_family = "personal_effects"
 direct_model_reason = "master_bedroom_personal_effects"
 position = Vector3(4.0, 0.8, -3.0)
 
@@ -339,6 +344,7 @@ position = Vector3(4.0, 0.8, -3.0)
 script = ExtResource("5")
 id = "dresser_bottle"
 model = "res://assets/upper_floor/master_bedroom/glass_bottle_mx_1.glb"
+direct_model_family = "personal_effects"
 direct_model_reason = "master_bedroom_personal_effects"
 position = Vector3(-2.0, 0.8, 4.0)
 
@@ -346,6 +352,7 @@ position = Vector3(-2.0, 0.8, 4.0)
 script = ExtResource("5")
 id = "broken_bottle_prop"
 model = "res://assets/upper_floor/master_bedroom/glass_bottle_mx_3_broken.glb"
+direct_model_family = "personal_effects"
 direct_model_reason = "master_bedroom_personal_effects"
 position = Vector3(4.0, 0, -2.0)
 
@@ -365,6 +372,7 @@ position = Vector3(3.0, 0.8, 2.0)
 script = ExtResource("5")
 id = "book0_prop"
 model = "res://assets/shared/items/book0.glb"
+direct_model_family = "personal_effects"
 direct_model_reason = "master_bedroom_personal_effects"
 position = Vector3(-4.2, 0.8, -3.7)
 
@@ -372,6 +380,7 @@ position = Vector3(-4.2, 0.8, -3.7)
 script = ExtResource("5")
 id = "book1_prop"
 model = "res://assets/shared/items/book1.glb"
+direct_model_family = "personal_effects"
 direct_model_reason = "master_bedroom_personal_effects"
 position = Vector3(-3.8, 0.8, -4.2)
 

@@ -1494,13 +1494,14 @@ after each iteration and it's included in prompts for context.
   - repeated shared families cannot regress back to direct model-path
     authoring without tripping `test/generated/test_declarations.gd`
 - The remaining one-off raw room-prop paths are explicit now too:
-  - `PropDecl` now carries `direct_model_reason`
-  - every intentionally direct GLB prop in room declarations now uses a
-    room-scoped typed reason like `kitchen_tool_clutter` or
-    `boiler_room_service_infrastructure`
+  - `PropDecl` now carries both `direct_model_family` and
+    `direct_model_reason`
+  - every intentionally direct GLB prop in room declarations now uses a typed
+    family like `tool_clutter` or `service_infrastructure`, plus a room-scoped
+    ownership reason
   - the declaration suite fails if a raw room-prop model path lacks that
-    reason, if the reason is not room-scoped to the owning declaration, or if
-    the reason appears on a substrate-owned prop
+    family/reason pair, if the reason is not room-scoped to the owning
+    declaration, or if either field appears on a substrate-owned prop
 - The remaining declaration-side direct asset channels are guarded now too:
   - `InteractableDecl` now carries `direct_visual_reason`
   - `MountPayloadDecl` now carries `direct_payload_reason`

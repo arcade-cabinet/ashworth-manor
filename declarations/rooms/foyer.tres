@@ -405,6 +405,7 @@ position = Vector3(4.7, 0, 0.65)
 script = ExtResource("5")
 id = "package"
 model = "res://assets/ground_floor/foyer/package_hr_1.glb"
+direct_model_family = "entry_dressing"
 direct_model_reason = "foyer_entry_dressing"
 position = Vector3(4.1, 0, -3.6)
 
@@ -412,6 +413,7 @@ position = Vector3(4.1, 0, -3.6)
 script = ExtResource("5")
 id = "wall_map"
 model = "res://assets/ground_floor/foyer/map_mx_1.glb"
+direct_model_family = "entry_dressing"
 direct_model_reason = "foyer_entry_dressing"
 position = Vector3(-5, 1.5, 4)
 
