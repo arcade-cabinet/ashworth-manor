@@ -357,12 +357,29 @@ func _test_flashback_visual_contract() -> void:
 		_ok("%s present in %s" % [entry["flashback_id"], room.room_id], flashback != null)
 		if flashback == null:
 			continue
+		_ok("%s visual contract valid" % flashback.flashback_id, flashback.has_valid_visual_contract())
 		_ok("%s uses visual kind" % flashback.flashback_id, flashback.visual_kind == String(entry["visual_kind"]))
 		_ok("%s clears direct model path" % flashback.flashback_id, flashback.model.is_empty())
 		_ok(
 			"%s resolves shared apparition path" % flashback.flashback_id,
 			trigger_engine._resolve_flashback_model_path(flashback) == "res://assets/horror/models/bloodwraith.glb"
 		)
+	var direct_visual_count := 0
+	var world = load("res://declarations/world.tres")
+	_ok("world declaration loads for flashback contract", world != null)
+	if world == null:
+		return
+	for room_ref in world.rooms:
+		var room = load("res://declarations/rooms/%s.tres" % room_ref.room_id)
+		if room == null:
+			continue
+		for flashback in room.flashbacks:
+			if flashback == null:
+				continue
+			_ok("%s:%s flashback visual contract valid" % [room.room_id, flashback.flashback_id], flashback.has_valid_visual_contract())
+			if flashback.uses_direct_visual():
+				direct_visual_count += 1
+	_ok("current authored flashbacks use zero direct visual exceptions", direct_visual_count == 0)
 	print("[DONE] flashback visual contract")
 
 
