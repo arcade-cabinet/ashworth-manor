@@ -1091,8 +1091,9 @@ independent execution drivers:
     repeated-shared-family cleanup in as a regression rule
   - the remaining one-off raw room props are explicit now too:
     `PropDecl` has `direct_model_reason`, and every intentionally direct GLB
-    room prop now declares that it is deliberate room-specific set dressing
-    instead of being an undocumented leftover
+    room prop now declares a room-scoped ownership reason
+    (for example `kitchen_set_dressing` or `boiler_room_set_dressing`)
+    instead of a generic bucket or an undocumented leftover
   - the same explicitness rule now exists for the remaining declaration-side
     direct asset channels too:
     `InteractableDecl` and `MountPayloadDecl` now have

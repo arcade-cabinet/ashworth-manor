@@ -168,7 +168,7 @@ scale = 0.92
 script = ExtResource("5")
 id = "nursery_doll_prop"
 model = "res://assets/horror/models/doll2.glb"
-direct_model_reason = "room_specific_set_dressing"
+direct_model_reason = "hidden_chamber_set_dressing"
 position = Vector3(-0.9, 0.74, 1.42)
 rotation_y = -8.0
 scale = 0.98
@@ -207,7 +207,7 @@ rotation_y = 9.0
 script = ExtResource("5")
 id = "sealed_room_lamp"
 model = "res://assets/attic/hidden_chamber/lamp_mx_1_b_off.glb"
-direct_model_reason = "room_specific_set_dressing"
+direct_model_reason = "hidden_chamber_set_dressing"
 position = Vector3(1.8, 0.0, -1.1)
 
 [sub_resource type="Resource" id="prop_mirror_frame"]

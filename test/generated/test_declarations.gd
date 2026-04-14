@@ -1000,6 +1000,10 @@ func _test_substrate_contract() -> void:
 					"%s:%s direct model authoring declares reason" % [room_ref.room_id, prop.id],
 					not prop.direct_model_reason.is_empty()
 				)
+				_ok(
+					"%s:%s direct model reason stays room-scoped" % [room_ref.room_id, prop.id],
+					prop.direct_model_reason == "%s_set_dressing" % room_ref.room_id
+				)
 			if not prop.direct_model_reason.is_empty():
 				_ok(
 					"%s:%s direct model reason only appears on raw-model props" % [room_ref.room_id, prop.id],

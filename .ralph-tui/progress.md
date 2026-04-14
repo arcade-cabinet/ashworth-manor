@@ -1495,10 +1495,12 @@ after each iteration and it's included in prompts for context.
     authoring without tripping `test/generated/test_declarations.gd`
 - The remaining one-off raw room-prop paths are explicit now too:
   - `PropDecl` now carries `direct_model_reason`
-  - every intentionally direct GLB prop in room declarations now marks itself
-    as deliberate `room_specific_set_dressing`
+  - every intentionally direct GLB prop in room declarations now uses a
+    room-scoped reason like `kitchen_set_dressing` or
+    `boiler_room_set_dressing`
   - the declaration suite fails if a raw room-prop model path lacks that
-    reason, or if the reason appears on a substrate-owned prop
+    reason, if the reason is not room-scoped to the owning declaration, or if
+    the reason appears on a substrate-owned prop
 - The remaining declaration-side direct asset channels are guarded now too:
   - `InteractableDecl` now carries `direct_visual_reason`
   - `MountPayloadDecl` now carries `direct_payload_reason`

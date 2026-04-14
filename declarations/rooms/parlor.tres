@@ -311,7 +311,7 @@ flicker_pattern = "candle"
 script = ExtResource("5")
 id = "fireplace"
 model = "res://assets/shared/decor/fireplace.glb"
-direct_model_reason = "room_specific_set_dressing"
+direct_model_reason = "parlor_set_dressing"
 position = Vector3(0, 0, 4.2)
 scale = 0.35
 
@@ -383,14 +383,14 @@ position = Vector3(3.0, 0.82, 0.0)
 script = ExtResource("5")
 id = "stool"
 model = "res://assets/ground_floor/parlor/stool_mx_1.glb"
-direct_model_reason = "room_specific_set_dressing"
+direct_model_reason = "parlor_set_dressing"
 position = Vector3(3.2, 0, 3.0)
 
 [sub_resource type="Resource" id="prop_dead_lamp"]
 script = ExtResource("5")
 id = "dead_lamp"
 model = "res://assets/ground_floor/parlor/lamp_mx_4_off.glb"
-direct_model_reason = "room_specific_set_dressing"
+direct_model_reason = "parlor_set_dressing"
 position = Vector3(4.0, 0.82, -3.0)
 
 ; === Entry Trigger ===

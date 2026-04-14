@@ -614,8 +614,9 @@ changes between `adult/child` and `elder` route contexts.
 - One-off raw room-prop models are now explicit too:
   if a prop intentionally stays on a direct GLB path instead of a substrate
   kind, the declaration must carry `direct_model_reason`. The current authored
-  room set uses that field to mark deliberate room-specific set dressing rather
-  than silent substrate drift.
+  room set now uses room-scoped values such as `kitchen_set_dressing` and
+  `boiler_room_set_dressing`, so the data names which authored slice owns each
+  direct-model exception instead of collapsing them into one generic bucket.
 - The remaining direct-asset declaration channels now have the same rule:
   `InteractableDecl` and `MountPayloadDecl` carry explicit
   `direct_visual_reason` / `direct_payload_reason` fields, and the declaration
