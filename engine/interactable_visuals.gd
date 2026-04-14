@@ -81,7 +81,10 @@ static func _resolve_visual_path(decl: InteractableDecl, visual_state: String) -
 static func _should_use_inactive_visual(decl: InteractableDecl) -> bool:
 	if decl.thread_active.is_empty():
 		return false
-	var active_thread := String(GameManager.get_state("macro_thread", ""))
+	var game_manager := _game_manager()
+	var active_thread := ""
+	if game_manager != null and game_manager.has_method("get_state"):
+		active_thread = String(game_manager.call("get_state", "macro_thread", ""))
 	if active_thread.is_empty() or not decl.thread_active.has(active_thread):
 		return not decl.inactive_scene_path.is_empty() or not decl.inactive_model.is_empty()
 	return false
@@ -92,9 +95,23 @@ static func _evaluate_state_expression(expression: String) -> bool:
 		return false
 	var state_machine := StateMachineScript.new()
 	state_machine.init_from_schema(STATE_SCHEMA)
-	for key in GameManager.flags:
-		state_machine.set_var(key, GameManager.flags[key])
-	for room_id in GameManager.visited_rooms:
-		state_machine.visit_room(room_id)
-	state_machine.set_inventory(GameManager.get_inventory_items())
+	var game_manager := _game_manager()
+	if game_manager != null:
+		var flags: Variant = game_manager.get("flags")
+		if flags is Dictionary:
+			for key in flags:
+				state_machine.set_var(String(key), flags[key])
+		var visited_rooms: Variant = game_manager.get("visited_rooms")
+		if visited_rooms is Array:
+			for room_id in visited_rooms:
+				state_machine.visit_room(String(room_id))
+		if game_manager.has_method("get_inventory_items"):
+			state_machine.set_inventory(game_manager.call("get_inventory_items"))
 	return state_machine.evaluate(expression)
+
+
+static func _game_manager() -> Node:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null or tree.root == null:
+		return null
+	return tree.root.get_node_or_null("GameManager")

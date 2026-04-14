@@ -105,6 +105,9 @@
 - `RoomAssembler` no longer hand-builds local materials for procedural moon or
   world-label props; those runtime visuals now route through
   `EstateMaterialKit`.
+- `RoomAssembler` now also intercepts declaration-authored
+  `window_clean.glb` / `window_ray.glb` props and replaces them with shared
+  procedural window / glow-plane visuals at assembly time.
 - Common windows no longer need per-room compatibility hints at all:
   `WindowBuilder` now emits native procedural frame geometry directly, and the
   room-side `legacy_window_model_hint` field has now been removed from the

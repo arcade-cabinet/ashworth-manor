@@ -258,6 +258,9 @@ through shared `EstateMaterialKit` helpers instead.
 That same rule now reaches the runtime assembler too. `RoomAssembler` no longer
 hand-builds local materials for procedural moon props or world-label boards and
 hangers; those runtime visuals now resolve through `EstateMaterialKit` as well.
+It also now intercepts declaration-authored `window_clean.glb` and
+`window_ray.glb` prop uses and replaces those repeated structure props with
+shared procedural window and glow-plane visuals at assembly time.
 
 ## Foliage Shader
 

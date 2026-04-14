@@ -15,6 +15,7 @@ const EstateEnvironmentRegistry = preload("res://builders/estate_environment_reg
 const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
 const EstateSubstrateRegistry = preload("res://builders/estate_substrate_registry.gd")
 const InteractableVisuals = preload("res://engine/interactable_visuals.gd")
+const WindowBuilder = preload("res://builders/window_builder.gd")
 const MODEL_SCALE_OVERRIDES := {
 	"res://assets/shared/furniture/bookcase.glb": 0.32,
 	"res://assets/shared/furniture/table.glb": 0.52,
@@ -29,6 +30,8 @@ const MODEL_SCALE_OVERRIDES := {
 	"res://assets/shared/decor/statue.glb": 0.22,
 	"res://assets/shared/decor/candle_holder.glb": 0.52,
 }
+const PROCEDURAL_WINDOW_MODEL := "res://assets/shared/structure/window_clean.glb"
+const PROCEDURAL_WINDOW_RAY_MODEL := "res://assets/shared/structure/window_ray.glb"
 
 
 func _init(world: WorldDeclaration) -> void:
@@ -450,29 +453,30 @@ func _build_mount_payloads(room_decl: RoomDeclaration, root: Node3D, default_par
 	for payload in room_decl.mount_payloads:
 		if payload == null or not _payload_route_matches(payload):
 			continue
-		if not payload.state_condition.is_empty() and not GameManager.has_flag(payload.state_condition):
+		var game_manager := _game_manager()
+		if not payload.state_condition.is_empty() and (game_manager == null or not game_manager.has_method("has_flag") or not bool(game_manager.call("has_flag", payload.state_condition))):
 			continue
 		var inst := _instantiate_mount_payload(payload)
 		if inst == null:
 			continue
-		var slot := slot_map.get(payload.slot_id, null) as MountSlotDecl
-		if slot == null:
+		var mount_slot := slot_map.get(payload.slot_id, null) as MountSlotDecl
+		if mount_slot == null:
 			push_warning("Mount payload %s in room %s targets missing slot %s" % [payload.payload_id, room_decl.room_id, payload.slot_id])
 			continue
-		if not allowed_mount_families.has(slot.slot_family):
+		if not allowed_mount_families.has(mount_slot.slot_family):
 			push_warning(
 				"Mount payload %s in room %s uses disallowed slot family %s" %
-				[payload.payload_id, room_decl.room_id, slot.slot_family]
+				[payload.payload_id, room_decl.room_id, mount_slot.slot_family]
 			)
 			continue
-		var target_parent := _resolve_mount_parent(root, slot, default_parent)
+		var target_parent := _resolve_mount_parent(root, mount_slot, default_parent)
 		var final_position := payload.offset
 		var final_rotation := payload.rotation_degrees
 		var final_scale := payload.scale_3d
-		if slot != null:
-			final_position += slot.position
-			final_rotation += slot.rotation_degrees
-			final_scale = slot.scale_3d * payload.scale_3d
+		if mount_slot != null:
+			final_position += mount_slot.position
+			final_rotation += mount_slot.rotation_degrees
+			final_scale = mount_slot.scale_3d * payload.scale_3d
 		inst.name = payload.payload_id if not payload.payload_id.is_empty() else inst.name
 		inst.position = final_position
 		inst.rotation_degrees = final_rotation
@@ -516,16 +520,17 @@ func _payload_route_matches(payload: MountPayloadDecl) -> bool:
 	if payload.route_modes.is_empty():
 		return true
 	var active_modes := PackedStringArray()
-	if GameManager.has_method("get_active_route"):
-		var active_route := String(GameManager.get_active_route())
+	var game_manager := _game_manager()
+	if game_manager != null and game_manager.has_method("get_active_route"):
+		var active_route := String(game_manager.call("get_active_route"))
 		if not active_route.is_empty() and not active_modes.has(active_route):
 			active_modes.append(active_route)
-	if GameManager.has_method("get_route_mode"):
-		var route_mode := String(GameManager.get_route_mode())
+	if game_manager != null and game_manager.has_method("get_route_mode"):
+		var route_mode := String(game_manager.call("get_route_mode"))
 		if not route_mode.is_empty() and not active_modes.has(route_mode):
 			active_modes.append(route_mode)
-	if GameManager.has_method("get_state"):
-		var macro_thread := String(GameManager.get_state("macro_thread", ""))
+	if game_manager != null and game_manager.has_method("get_state"):
+		var macro_thread := String(game_manager.call("get_state", "macro_thread", ""))
 		if not macro_thread.is_empty() and not active_modes.has(macro_thread):
 			active_modes.append(macro_thread)
 	for route_mode in payload.route_modes:
@@ -630,7 +635,9 @@ func _build_world_label_board(decl: InteractableDecl) -> Node3D:
 		decl.visual_effects.get("world_label_board_color", Color(0.31, 0.20, 0.12, 1.0)),
 		Color(0.31, 0.20, 0.12, 1.0)
 	)
-	var board_texture := load(board_texture_path) as Texture2D if ResourceLoader.exists(board_texture_path) else null
+	var board_texture: Texture2D = null
+	if ResourceLoader.exists(board_texture_path):
+		board_texture = load(board_texture_path) as Texture2D
 	var board_mat := EstateMaterialKit.legacy_texture_unshaded(board_texture, board_color)
 	board.set_surface_override_material(0, board_mat)
 	root.add_child(board)
@@ -654,6 +661,29 @@ func _build_world_label_board(decl: InteractableDecl) -> Node3D:
 
 
 func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
+	if prop_decl.model == PROCEDURAL_WINDOW_MODEL:
+		var window := WindowBuilder.build("window", "recipe:surface/oak_dark")
+		window.name = prop_decl.id if not prop_decl.id.is_empty() else "WindowProp"
+		window.position = prop_decl.position
+		window.rotation_degrees.y = prop_decl.rotation_y
+		window.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(prop_decl.model)
+		return window
+	if prop_decl.model == PROCEDURAL_WINDOW_RAY_MODEL:
+		var ray_root := Node3D.new()
+		ray_root.name = prop_decl.id if not prop_decl.id.is_empty() else "WindowRayProp"
+		var ray := MeshInstance3D.new()
+		ray.name = "WindowRay"
+		var quad := QuadMesh.new()
+		quad.size = Vector2(1.0, 2.4)
+		ray.mesh = quad
+		ray.position = Vector3(0, 1.2, -0.02)
+		ray.rotation_degrees.x = -8.0
+		ray.set_surface_override_material(0, EstateMaterialKit.fog_glow(Color(0.78, 0.84, 0.96, 0.18), 0.92))
+		ray_root.add_child(ray)
+		ray_root.position = prop_decl.position
+		ray_root.rotation_degrees.y = prop_decl.rotation_y
+		ray_root.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(prop_decl.model)
+		return ray_root
 	if prop_decl.tags.has("procedural_moon"):
 		var moon := MeshInstance3D.new()
 		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"
@@ -738,7 +768,15 @@ func _is_secret_passage_revealed(passage: SecretPassageDecl) -> bool:
 		return true
 	if passage.reveal_condition.is_empty():
 		return true
-	return GameManager.has_flag(passage.reveal_condition)
+	var game_manager := _game_manager()
+	return game_manager != null and game_manager.has_method("has_flag") and bool(game_manager.call("has_flag", passage.reveal_condition))
+
+
+func _game_manager() -> Node:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null or tree.root == null:
+		return null
+	return tree.root.get_node_or_null("GameManager")
 
 
 func _collect_areas(node: Node) -> Array[Area3D]:

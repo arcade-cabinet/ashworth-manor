@@ -96,6 +96,9 @@ after each iteration and it's included in prompts for context.
 - `RoomAssembler` no longer creates local `StandardMaterial3D` instances for
   the procedural moon or world-label props; those visuals now route through
   `EstateMaterialKit`, and the material-factory guard now scans `engine/` too.
+- `RoomAssembler` now intercepts declaration-authored `window_clean.glb` and
+  `window_ray.glb` props and replaces those repeated imported structure props
+  with procedural window / glow-plane visuals during assembly.
 - Removed the redundant ordinary-door mesh hints from authored world data:
   - parlor, dining room, kitchen, upper-floor bedroom/library/guest-room, and
     service-hatch doors now rely on the shared door builder’s native default

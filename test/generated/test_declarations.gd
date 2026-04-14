@@ -18,6 +18,7 @@ const LadderBuilder = preload("res://builders/ladder_builder.gd")
 const TrapdoorBuilder = preload("res://builders/trapdoor_builder.gd")
 const DoorSingleScript = preload("res://scripts/procedural/door_single.gd")
 const DoorDoubleScript = preload("res://scripts/procedural/door_double.gd")
+const RoomAssembler = preload("res://engine/room_assembler.gd")
 const PBRTextureKit = preload("res://builders/pbr_texture_kit.gd")
 const SubstratePresetDecl = preload("res://engine/declarations/substrate_preset_decl.gd")
 const TerrainPresetDecl = preload("res://engine/declarations/terrain_preset_decl.gd")
@@ -676,6 +677,22 @@ func _test_builder_default_contract() -> void:
 	_ok("procedural double door builds panel", double_left != null)
 	_ok("procedural double door panel material applied", double_left != null and double_left.get_active_material(0) != null)
 	_ok("procedural double door frame material applied", double_post != null and double_post.get_active_material(0) != null)
+
+	var world := load("res://declarations/world.tres")
+	var assembler := RoomAssembler.new(world)
+	var procedural_window_decl := PropDecl.new()
+	procedural_window_decl.id = "compat_window"
+	procedural_window_decl.model = "res://assets/shared/structure/window_clean.glb"
+	procedural_window_decl.scale = 1.0
+	var procedural_window := assembler._build_procedural_prop(procedural_window_decl)
+	_ok("procedural window prop replaces imported window model", procedural_window != null and procedural_window.get_node_or_null("WindowFrame") != null)
+
+	var procedural_ray_decl := PropDecl.new()
+	procedural_ray_decl.id = "compat_window_ray"
+	procedural_ray_decl.model = "res://assets/shared/structure/window_ray.glb"
+	procedural_ray_decl.scale = 1.0
+	var procedural_ray := assembler._build_procedural_prop(procedural_ray_decl)
+	_ok("procedural window ray prop replaces imported ray model", procedural_ray != null and procedural_ray.get_node_or_null("WindowRay") != null)
 	floor.free()
 	ceiling.free()
 	wall.free()
@@ -689,6 +706,10 @@ func _test_builder_default_contract() -> void:
 	ladder.free()
 	legacy_single.free()
 	legacy_double.free()
+	if procedural_window != null:
+		procedural_window.free()
+	if procedural_ray != null:
+		procedural_ray.free()
 	print("[DONE] builder defaults")
 
 
