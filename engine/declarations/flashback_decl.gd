@@ -6,6 +6,7 @@ extends Resource
 @export var flashback_id: String = ""
 @export var condition: String = ""           # State expression to trigger
 @export var once: bool = true
+@export var visual_kind: String = ""         # Shared flashback visual id
 @export var model: String = ""               # GLB path for horror model
 @export var model_position: Vector3 = Vector3.ZERO
 @export var model_scale: float = 1.0

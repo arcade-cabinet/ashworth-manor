@@ -1481,6 +1481,13 @@ after each iteration and it's included in prompts for context.
   - `lamp_mx_2_off.glb` -> `storage_lamp_small_off`
   - affected authored rooms include:
     `attic_stairs` and `storage_basement`
+- The remaining repeated flashback apparition seam is now migrated too:
+  - `res://assets/horror/models/bloodwraith.glb` ->
+    `visual_kind = "bloodwraith_apparition"`
+  - affected authored rooms include:
+    `foyer`, `attic_storage`, and `parlor`
+  - `TriggerEngine` now resolves the shared flashback visual id back to the
+    concrete runtime model path before emitting the spawn payload
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload

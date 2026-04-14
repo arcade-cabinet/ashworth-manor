@@ -55,6 +55,7 @@ func _run_all_tests() -> void:
 	_test_rooms()
 	_test_interactables()
 	_test_interactable_visual_contract()
+	_test_flashback_visual_contract()
 	_test_grounds_scene_prop_contract()
 	_test_mount_payload_substrate_contract()
 	_test_connections()
@@ -310,6 +311,32 @@ func _test_interactable_visual_contract() -> void:
 				InteractableVisualsScript._resolve_visual_path(interactable, String(state_name)) == String(state_paths[state_name])
 			)
 	print("[DONE] interactable visual contract")
+
+
+func _test_flashback_visual_contract() -> void:
+	_test_name = "FLASHBACK_VISUALS"
+	var repeated_flashbacks := [
+		{"room_path": "res://declarations/rooms/foyer.tres", "flashback_id": "foyer_family_flashback", "visual_kind": "bloodwraith_apparition"},
+		{"room_path": "res://declarations/rooms/attic_storage.tres", "flashback_id": "attic_elizabeth_flashback", "visual_kind": "bloodwraith_apparition"},
+		{"room_path": "res://declarations/rooms/parlor.tres", "flashback_id": "parlor_elizabeth_flashback", "visual_kind": "bloodwraith_apparition"},
+	]
+	var trigger_engine := TriggerEngine.new(null)
+	for entry in repeated_flashbacks:
+		var room := load(String(entry["room_path"])) as RoomDeclaration
+		_ok("%s loads" % entry["room_path"], room != null)
+		if room == null:
+			continue
+		var flashback := _find_flashback_by_id(room.flashbacks, String(entry["flashback_id"]))
+		_ok("%s present in %s" % [entry["flashback_id"], room.room_id], flashback != null)
+		if flashback == null:
+			continue
+		_ok("%s uses visual kind" % flashback.flashback_id, flashback.visual_kind == String(entry["visual_kind"]))
+		_ok("%s clears direct model path" % flashback.flashback_id, flashback.model.is_empty())
+		_ok(
+			"%s resolves shared apparition path" % flashback.flashback_id,
+			trigger_engine._resolve_flashback_model_path(flashback) == "res://assets/horror/models/bloodwraith.glb"
+		)
+	print("[DONE] flashback visual contract")
 
 
 func _test_grounds_scene_prop_contract() -> void:
@@ -2221,6 +2248,13 @@ func _find_interactable_by_id(interactables: Array, interactable_id: String) -> 
 	for interactable in interactables:
 		if interactable != null and interactable.id == interactable_id:
 			return interactable
+	return null
+
+
+func _find_flashback_by_id(flashbacks: Array, flashback_id: String) -> FlashbackDecl:
+	for flashback in flashbacks:
+		if flashback != null and flashback.flashback_id == flashback_id:
+			return flashback
 	return null
 
 

@@ -602,3 +602,8 @@ changes between `adult/child` and `elder` route contexts.
   `wooden_plank_4.glb`, `wooden_crate_2_a.glb`, and `lamp_mx_2_off.glb`
   now author through explicit substrate kinds instead of raw model paths
   across the room declarations.
+- The remaining repeated flashback apparition seam is normalized too:
+  the foyer, attic-storage, and parlor bloodwraith flashbacks no longer
+  author `res://assets/horror/models/bloodwraith.glb` directly; they now
+  author through the shared `bloodwraith_apparition` flashback visual kind
+  and resolve the concrete model path in `TriggerEngine`.

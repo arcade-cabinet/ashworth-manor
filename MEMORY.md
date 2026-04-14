@@ -1080,6 +1080,11 @@ independent execution drivers:
     `wooden_plank_4.glb`, `wooden_crate_2_a.glb`, and `lamp_mx_2_off.glb`
     now author through `attic_broken_plank`, `storage_crate_medium_a`, and
     `storage_lamp_small_off` instead of direct model paths in the room set
+  - the remaining repeated flashback apparition seam moved too:
+    the foyer, attic-storage, and parlor bloodwraith flashbacks now author
+    through `visual_kind = "bloodwraith_apparition"` instead of direct
+    `bloodwraith.glb` paths, while `TriggerEngine` resolves that shared
+    flashback visual id back to the concrete model payload used at runtime
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the
