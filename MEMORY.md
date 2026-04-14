@@ -905,6 +905,9 @@ independent execution drivers:
     `PropDecl` has `substrate_waiver_reason`, and any
     `architectural_trim` / `threshold_trim` prop that still bypasses
     `substrate_prop_kind` must populate it
-  - current explicit waivers are narrow and named:
-    `front_gate_menu_sign`, `greenhouse_glass_shell`, and
-    `greenhouse_hanging_lantern`
+  - the first three named waivers have already been removed by promotion into
+    substrate kinds:
+    `front_gate_sign`, `greenhouse_shell`, and `greenhouse_lantern`
+  - those kinds currently instantiate the existing shared scenes through the
+    substrate path, so the declaration layer no longer treats them as silent
+    or waived architecture exceptions

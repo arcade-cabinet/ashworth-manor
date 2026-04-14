@@ -429,3 +429,7 @@ changes between `adult/child` and `elder` route contexts.
 - Remaining architectural or threshold props that still bypass
   `substrate_prop_kind` must now carry an explicit waiver reason in the
   declaration. Silent exceptions are no longer allowed.
+- The first waiver reductions are now landed too:
+  - `front_gate_menu_sign` -> `front_gate_sign`
+  - `greenhouse_glass_shell` -> `greenhouse_shell`
+  - `greenhouse_hanging_lantern` -> `greenhouse_lantern`

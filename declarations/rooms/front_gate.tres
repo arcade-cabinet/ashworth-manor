@@ -752,8 +752,7 @@ tags = PackedStringArray("procedural_moon")
 script = ExtResource("5")
 id = "front_gate_menu_sign"
 scene_role = "architectural_trim"
-substrate_waiver_reason = "custom front-gate signage scene pending facade-anchor substrate primitive"
-scene_path = "res://scenes/shared/front_gate/front_gate_menu_sign.tscn"
+substrate_prop_kind = "front_gate_sign"
 position = Vector3(-5.0, 0, -2.0)
 rotation_y = 12.0
 

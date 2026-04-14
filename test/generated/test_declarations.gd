@@ -837,6 +837,24 @@ func _test_builder_default_contract() -> void:
 	manor_frieze_decl.model = "res://assets/mansion_psx/models/SM_Big_Wall_Molding.glb"
 	var manor_frieze := assembler._build_procedural_prop(manor_frieze_decl)
 	_ok("procedural manor frieze replaces imported wall molding model", manor_frieze != null and manor_frieze.get_node_or_null("Frieze") != null)
+
+	var front_gate_sign_decl := PropDecl.new()
+	front_gate_sign_decl.id = "compat_front_gate_sign"
+	front_gate_sign_decl.substrate_prop_kind = "front_gate_sign"
+	var front_gate_sign := assembler._build_procedural_prop(front_gate_sign_decl)
+	_ok("substrate front gate sign builds from shared substrate kind", front_gate_sign != null)
+
+	var greenhouse_shell_decl := PropDecl.new()
+	greenhouse_shell_decl.id = "compat_greenhouse_shell"
+	greenhouse_shell_decl.substrate_prop_kind = "greenhouse_shell"
+	var greenhouse_shell := assembler._build_procedural_prop(greenhouse_shell_decl)
+	_ok("substrate greenhouse shell builds from shared substrate kind", greenhouse_shell != null)
+
+	var greenhouse_lantern_decl := PropDecl.new()
+	greenhouse_lantern_decl.id = "compat_greenhouse_lantern"
+	greenhouse_lantern_decl.substrate_prop_kind = "greenhouse_lantern"
+	var greenhouse_lantern := assembler._build_procedural_prop(greenhouse_lantern_decl)
+	_ok("substrate greenhouse lantern builds from shared substrate kind", greenhouse_lantern != null)
 	floor.free()
 	ceiling.free()
 	wall.free()
@@ -884,6 +902,12 @@ func _test_builder_default_contract() -> void:
 		manor_roof_molding.free()
 	if manor_frieze != null:
 		manor_frieze.free()
+	if front_gate_sign != null:
+		front_gate_sign.free()
+	if greenhouse_shell != null:
+		greenhouse_shell.free()
+	if greenhouse_lantern != null:
+		greenhouse_lantern.free()
 	print("[DONE] builder defaults")
 
 

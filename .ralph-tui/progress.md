@@ -1122,9 +1122,13 @@ after each iteration and it's included in prompts for context.
   - any `architectural_trim` / `threshold_trim` prop that bypasses
     `substrate_prop_kind` must now declare a waiver reason
 - Current narrow waivers:
-  - `front_gate_menu_sign`
-  - `greenhouse_glass_shell`
-  - `greenhouse_hanging_lantern`
+  - none in the previously identified front-gate / greenhouse slice
+- The first waiver reductions are landed:
+  - `front_gate_menu_sign` -> `front_gate_sign`
+  - `greenhouse_glass_shell` -> `greenhouse_shell`
+  - `greenhouse_hanging_lantern` -> `greenhouse_lantern`
+- Those substrate kinds currently route through the existing shared scenes, but
+  they now live under the substrate contract instead of exception handling
 - Verification after the waiver-contract pass:
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`

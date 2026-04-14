@@ -48,6 +48,9 @@ const PSX_DOOR_FRAME_MODEL := "res://assets/mansion_psx/models/SM_Door_Frame.glb
 const PSX_ROOF_MODEL := "res://assets/mansion_psx/models/SM_Roof.glb"
 const PSX_BIG_ROOF_MOLDING_MODEL := "res://assets/mansion_psx/models/SM_Big_Roof_Molding.glb"
 const PSX_BIG_WALL_MOLDING_MODEL := "res://assets/mansion_psx/models/SM_Big_Wall_Molding.glb"
+const FRONT_GATE_SIGN_SCENE := "res://scenes/shared/front_gate/front_gate_menu_sign.tscn"
+const GREENHOUSE_GLASS_SHELL_SCENE := "res://scenes/shared/greenhouse/greenhouse_glazed_shell.tscn"
+const GREENHOUSE_HANGING_LANTERN_SCENE := "res://scenes/shared/greenhouse/greenhouse_hanging_lantern.tscn"
 const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PROCEDURAL_WINDOW_MODEL: "window_frame",
 	PROCEDURAL_WINDOW_RAY_MODEL: "window_ray",
@@ -67,6 +70,9 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PSX_ROOF_MODEL: "manor_roof_panel",
 	PSX_BIG_ROOF_MOLDING_MODEL: "manor_roof_molding",
 	PSX_BIG_WALL_MOLDING_MODEL: "manor_frieze",
+	FRONT_GATE_SIGN_SCENE: "front_gate_sign",
+	GREENHOUSE_GLASS_SHELL_SCENE: "greenhouse_shell",
+	GREENHOUSE_HANGING_LANTERN_SCENE: "greenhouse_lantern",
 }
 
 
@@ -1001,6 +1007,12 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		frieze_root.rotation_degrees.y = prop_decl.rotation_y
 		frieze_root.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PSX_BIG_WALL_MOLDING_MODEL)
 		return frieze_root
+	if substrate_kind == "front_gate_sign":
+		return _instantiate_substrate_scene(FRONT_GATE_SIGN_SCENE, prop_decl)
+	if substrate_kind == "greenhouse_shell":
+		return _instantiate_substrate_scene(GREENHOUSE_GLASS_SHELL_SCENE, prop_decl)
+	if substrate_kind == "greenhouse_lantern":
+		return _instantiate_substrate_scene(GREENHOUSE_HANGING_LANTERN_SCENE, prop_decl)
 	if prop_decl.tags.has("procedural_moon"):
 		var moon := MeshInstance3D.new()
 		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"
@@ -1015,6 +1027,22 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		moon.scale = Vector3.ONE * maxf(0.1, prop_decl.scale)
 		return moon
 	return null
+
+
+func _instantiate_substrate_scene(scene_path: String, prop_decl: PropDecl) -> Node3D:
+	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
+		return null
+	var scene := load(scene_path) as PackedScene
+	if scene == null:
+		return null
+	var inst := scene.instantiate() as Node3D
+	if inst == null:
+		return null
+	inst.name = prop_decl.id if not prop_decl.id.is_empty() else "SubstrateSceneProp"
+	inst.position = prop_decl.position
+	inst.rotation_degrees.y = prop_decl.rotation_y
+	inst.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale
+	return inst
 
 
 func _make_prop_box(size: Vector3, pos: Vector3, surface_ref: String) -> MeshInstance3D:
