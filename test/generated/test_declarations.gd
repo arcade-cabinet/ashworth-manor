@@ -587,15 +587,11 @@ func _test_builder_default_contract() -> void:
 	door_conn.to_room = "foyer"
 	_ok("connection schema defaults mechanism state empty", door_conn.mechanism_state.is_empty())
 	_ok("connection schema defaults reveal state empty", door_conn.reveal_state.is_empty())
-	var door := DoorBuilder.build(door_conn, "", "", "doorway_frame_04", "door_panel_03")
+	var door := DoorBuilder.build(door_conn)
 	_ok("door default threshold recipe", String(door.get_meta("resolved_threshold_surface", "")) == "recipe:surface/oak_header")
 	_ok("door default panel recipe", String(door.get_meta("resolved_panel_surface", "")) == "recipe:surface/oak_dark")
-	_ok("door explicit frame model hint recorded", String(door.get_meta("resolved_frame_model_hint", "")) == "doorway_frame_04")
-	_ok("door explicit panel model hint recorded", String(door.get_meta("resolved_panel_model_hint", "")) == "door_panel_03")
-	_ok("door frame hint still resolves model", not DoorBuilder._resolve_frame_model(String(door.get_meta("resolved_frame_model_hint", ""))).is_empty())
-	_ok("door panel hint still resolves model", not DoorBuilder._resolve_panel_model(String(door.get_meta("resolved_panel_model_hint", ""))).is_empty())
-	_ok("door recipe ref does not pick frame model", DoorBuilder._resolve_frame_model("recipe:surface/oak_header").is_empty())
-	_ok("door recipe ref does not pick panel model", DoorBuilder._resolve_panel_model("recipe:surface/oak_dark").is_empty())
+	_ok("door frame stays procedural", door.get_node_or_null("DoorFrame/FittedModel") == null)
+	_ok("door panel stays procedural", door.get_node_or_null("DoorHinge/DoorPanel/FittedModel") == null)
 	_ok("door default presentation type", String((door.get_node("DoorArea") as Area3D).get_meta("presentation_type", "")) == "door_threshold")
 	_ok("door default mechanism type", String((door.get_node("DoorArea") as Area3D).get_meta("mechanism_type", "")) == "swing")
 	_ok("door default mechanism state", String((door.get_node("DoorArea") as Area3D).get_meta("mechanism_state", "")) == "idle")
@@ -622,14 +618,12 @@ func _test_builder_default_contract() -> void:
 	_ok("hidden door default reveal state", String((hidden_door.get_node("DoorArea") as Area3D).get_meta("reveal_state", "")) == "concealed")
 
 	var hidden_threshold := ConnectionAssembly.build(hidden_conn)
-	_ok("hidden threshold default concealment model", String(hidden_threshold.get_meta("resolved_concealment_model", "")) == "res://assets/shared/structure/wall_7.glb")
+	_ok("hidden threshold default concealment kind", String(hidden_threshold.get_meta("resolved_concealment_kind", "")) == "procedural_secret_panel")
+	_ok("hidden threshold concealment stays procedural", hidden_threshold.get_node_or_null("SecretPanelMask/Panel") != null)
 
-	var window := WindowBuilder.build("window", "", "")
+	var window := WindowBuilder.build("window", "")
 	_ok("window default recipe", String(window.get_meta("resolved_window_surface", "")) == "recipe:surface/oak_dark")
-	_ok("window default model hint empty", String(window.get_meta("resolved_window_model_hint", "")).is_empty())
 	_ok("window default frame stays procedural", window.get_node_or_null("WindowFrame/FittedModel") == null)
-	_ok("window explicit hint still resolves model", not WindowBuilder._resolve_window_model("window_clean").is_empty())
-	_ok("window recipe ref does not pick model", WindowBuilder._resolve_window_model("recipe:surface/oak_dark").is_empty())
 
 	var stairs_conn := ConnectionDecl.new()
 	stairs_conn.id = "test_stairs"

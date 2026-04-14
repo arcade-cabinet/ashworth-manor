@@ -3,7 +3,9 @@ extends RefCounted
 ## Central assembly entrypoint for threshold mechanisms.
 
 const ConnectionMechanism = preload("res://scripts/connection_mechanism.gd")
-const DEFAULT_HIDDEN_DOOR_CONCEALMENT_MODEL := "res://assets/shared/structure/wall_7.glb"
+const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
+const DEFAULT_HIDDEN_DOOR_CONCEALMENT_KIND := "procedural_secret_panel"
+const DEFAULT_HIDDEN_DOOR_CONCEALMENT_SIZE := Vector3(1.02, 2.24, 0.06)
 
 static func build(connection: Connection, room_height: float = 2.4, surface_overrides: Dictionary = {}) -> Node3D:
 	var root: Node3D = null
@@ -62,7 +64,7 @@ static func _apply_threshold_metadata(root: Node3D, connection: Connection) -> v
 	root.set_meta("mechanism_type", _resolve_mechanism_type(connection))
 	root.set_meta("mechanism_state", _resolve_mechanism_state(connection))
 	root.set_meta("reveal_state", _resolve_reveal_state(connection))
-	root.set_meta("resolved_concealment_model", _resolve_concealment_model(connection))
+	root.set_meta("resolved_concealment_kind", _resolve_concealment_kind(connection))
 
 
 static func _attach_mechanism_controller(root: Node3D, connection: Connection) -> void:
@@ -100,22 +102,25 @@ static func _build_path_threshold(connection: Connection) -> Node3D:
 
 
 static func _attach_secret_cover(root: Node3D, connection: Connection) -> void:
-	var cover_model := _resolve_concealment_model(connection)
-	if not ResourceLoader.exists(cover_model):
-		return
-	var scene: PackedScene = load(cover_model)
-	if scene == null:
-		return
-	var inst := scene.instantiate()
-	inst.name = "SecretPanelMask"
-	if inst is Node3D:
-		(inst as Node3D).position = Vector3(0, 0, 0.06)
-		(inst as Node3D).scale = Vector3.ONE * 0.9
-	root.add_child(inst)
+	var concealment := Node3D.new()
+	concealment.name = "SecretPanelMask"
+	concealment.position = Vector3(0, 0, 0.06)
+
+	var panel := MeshInstance3D.new()
+	panel.name = "Panel"
+	var box := BoxMesh.new()
+	box.size = DEFAULT_HIDDEN_DOOR_CONCEALMENT_SIZE
+	panel.mesh = box
+	var surface_ref := String(root.get_meta("resolved_threshold_surface", "recipe:surface/oak_header"))
+	var material := EstateMaterialKit.build_surface_reference(surface_ref)
+	if material != null:
+		panel.set_surface_override_material(0, material)
+	concealment.add_child(panel)
+	root.add_child(concealment)
 
 
-static func _resolve_concealment_model(connection: Connection) -> String:
-	return DEFAULT_HIDDEN_DOOR_CONCEALMENT_MODEL
+static func _resolve_concealment_kind(connection: Connection) -> String:
+	return DEFAULT_HIDDEN_DOOR_CONCEALMENT_KIND
 
 
 static func _resolve_presentation_type(connection: Connection) -> String:

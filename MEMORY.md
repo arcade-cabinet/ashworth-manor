@@ -97,15 +97,15 @@
 - Door and window runtime assembly now records legacy model hints separately
   from resolved surface recipes, so recipe ownership and compatibility mesh
   selection are no longer the same implicit channel.
-- Authored compatibility hints are now normalized ids rather than texture-ish
-  strings:
-  - door/gate panels use `door_panel_##`
-  - doorway frames use `doorway_frame_##`
-  - windows use `window_clean`
+- Builder-level compatibility parsing no longer accepts old texture-shaped
+  strings like `wall*_texture` or `door_texture_##.png`.
+- Ordinary `DoorBuilder` and `WindowBuilder` runtime paths are now procedural
+  substrate primitives; imported frame/panel/window meshes are no longer part
+  of the common builder contract.
 - Common windows no longer need per-room compatibility hints at all:
-  `WindowBuilder` now defaults to native procedural frame geometry when no
-  explicit window mesh hint is present, and the room-side
-  `legacy_window_model_hint` field has now been removed from the schema.
+  `WindowBuilder` now emits native procedural frame geometry directly, and the
+  room-side `legacy_window_model_hint` field has now been removed from the
+  schema.
 - Authored `type = "door"` connections no longer carry compatibility
   panel/frame hints at all. The shared door builder’s native default panel path
   now owns that case end to end.
@@ -750,8 +750,9 @@ independent execution drivers:
     old “ignore the schema default” workaround logic
 - the dead `Connection.visible_model` field is gone
 - the old hidden-door `concealment_model` path is now gone from the schema too
-- `ConnectionAssembly` now records a resolved concealment model directly and
-  owns the default hidden-door wall-mask mesh in the shared builder layer
+- `ConnectionAssembly` now records a resolved concealment kind directly and
+  owns the default hidden-door wall mask as native procedural geometry in the
+  shared builder layer
 - `RoomDeclaration.legacy_window_model_hint`,
   `Connection.legacy_frame_model_hint`, and
   `Connection.legacy_panel_model_hint` are now gone from the schema too

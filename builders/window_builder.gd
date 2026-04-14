@@ -2,7 +2,6 @@ class_name WindowBuilder
 extends RefCounted
 ## Generates window inserts: frame + pane + optional boards/shutters.
 
-const ArchModelFitter = preload("res://builders/arch_model_fitter.gd")
 const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
 const FRAME_WIDTH := 0.08
 const WINDOW_WIDTH := 1.2
@@ -11,14 +10,13 @@ const WINDOW_Y := 1.0  # Bottom of window from floor
 const DEFAULT_WINDOW_SURFACE := "recipe:surface/oak_dark"
 ## Build a window insert from segment type.
 ## segment_type: "window", "window_boarded", "window_shuttered"
-static func build(segment_type: String, model_selector: String, surface_ref: String = "", model_hint: String = "") -> Node3D:
+static func build(segment_type: String, surface_ref: String = "") -> Node3D:
 	var window_root := Node3D.new()
 	window_root.name = "Window"
-	var resolved_model_hint := model_hint if not model_hint.is_empty() else model_selector
 	var resolved_surface := EstateMaterialKit.resolve_surface_reference(surface_ref, DEFAULT_WINDOW_SURFACE)
 
 	# Frame
-	var frame := _build_frame(resolved_model_hint, resolved_surface)
+	var frame := _build_frame(resolved_surface)
 	window_root.add_child(frame)
 
 	match segment_type:
@@ -38,22 +36,11 @@ static func build(segment_type: String, model_selector: String, surface_ref: Str
 
 	window_root.position.y = WINDOW_Y
 	window_root.set_meta("resolved_window_surface", resolved_surface)
-	window_root.set_meta("resolved_window_model_hint", resolved_model_hint)
 	return window_root
 
 
-static func _build_frame(model_selector: String, surface_ref: String = "") -> Node3D:
+static func _build_frame(surface_ref: String = "") -> Node3D:
 	var material_ref := EstateMaterialKit.resolve_surface_reference(surface_ref, DEFAULT_WINDOW_SURFACE)
-	var model_path := _resolve_window_model(model_selector)
-	if not model_path.is_empty() and ResourceLoader.exists(model_path):
-		var scene: PackedScene = load(model_path)
-		if scene != null:
-			var inst := scene.instantiate()
-			var fitted := ArchModelFitter.fit(inst, Vector3(WINDOW_WIDTH, WINDOW_HEIGHT, FRAME_WIDTH))
-			fitted.name = "WindowFrame"
-			_apply_material_recursive(fitted, material_ref)
-			return fitted
-
 	var frame := Node3D.new()
 	frame.name = "WindowFrame"
 
@@ -183,16 +170,6 @@ static func _make_beam(size: Vector3) -> MeshInstance3D:
 	box.size = size
 	mesh_inst.mesh = box
 	return mesh_inst
-
-
-static func _resolve_window_model(model_hint: String) -> String:
-	if model_hint.begins_with("recipe:"):
-		return ""
-	if model_hint in ["window_clean", "window_tall_clean"]:
-		return "res://assets/shared/structure/window_clean.glb"
-	if model_hint.begins_with("wall"):
-		return "res://assets/shared/structure/window_clean.glb"
-	return ""
 
 
 static func _apply_material_recursive(root: Node, surface_ref: String) -> void:

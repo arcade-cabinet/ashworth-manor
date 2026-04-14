@@ -169,26 +169,23 @@ pretend they are part of the substrate contract.
 That reduction is now complete on the room and ordinary-threshold schema side:
 `RoomDeclaration` no longer carries a window mesh hint field, and `Connection`
 no longer carries door/gate frame or panel mesh hint fields. Ordinary windows
-and ordinary thresholds now rely on shared builder defaults directly, while
-targeted compatibility testing can still pass explicit mesh hints into the
-builders when needed.
+and ordinary thresholds now rely on shared builder defaults directly.
 
 The same adoption has now reached stair newels too. `StairsBuilder` no longer
 depends on the imported `banisterbase.glb` in the default path; the normal
 stair run now uses native procedural newel geometry, with imported structure
 meshes no longer sitting in the common circulation builder path by default.
 
-Authored hint values are now normalized too. The declaration-facing path uses
-clean compatibility ids such as `door_panel_03`, `doorway_frame_00`, and
-`window_clean` instead of texture-path or `wall*_texture` tokens. The builders
-still accept the older string shapes as compatibility input, but that is no
-longer the authored contract.
+The old texture-shaped compatibility selectors are gone from the ordinary
+builder path. Doors and windows no longer accept texture-path or
+`wall*_texture` tokens, and the common runtime no longer exposes normalized
+mesh-selector ids like `door_panel_03`, `doorway_frame_00`, or `window_clean`
+as part of the substrate contract.
 
-For ordinary windows, the builder now owns the common compatibility case
-directly: `WindowBuilder` now defaults to native procedural frame geometry when
-no explicit mesh hint is supplied. Imported `window_clean`-style meshes remain
-available only as explicit compatibility inputs. That removed the need for any
-room-side window hint field, so `RoomDeclaration` no longer carries one.
+For ordinary windows, the builder now owns the common case directly:
+`WindowBuilder` always emits native procedural frame geometry. That removed the
+need for any room-side window hint field, so `RoomDeclaration` no longer
+carries one.
 
 The same cleanup now applies to doors generally. Authored `type = "door"`
 connections no longer carry mesh hints for their panels or frames; the shared
@@ -233,18 +230,14 @@ having to detect and ignore legacy schema defaults.
 The last hidden-door geometry holdout is explicit now too. The dead
 `visible_model` field is gone, and the old `concealment_model` path has been
 removed from the declaration schema entirely. `ConnectionAssembly` now records
-the resolved concealment model directly and keeps the default hidden-door mask
-mesh in the shared builder layer.
+the resolved concealment kind directly and builds the default hidden-door mask
+as native procedural geometry in the shared builder layer.
 
 Door and trapdoor builders now go one step further: threshold mesh/material
 compatibility no longer depends on `door_texture` or `frame_texture` at all.
-Explicit door/gate mesh compatibility now survives only as builder-call
-arguments used for targeted compatibility testing. Authored world data no
-longer carries those selectors at all.
-
-The old connection-level `door_texture` and `frame_texture` fields have now
-been removed from the declaration schema entirely. `DoorBuilder` now resolves
-threshold mesh compatibility from explicit builder inputs only.
+Those old connection-level fields have been removed from the declaration schema
+entirely, and the common `DoorBuilder` path is now procedural rather than an
+imported-mesh compatibility branch.
 
 The same rule now covers the remaining legacy procedural door scripts too.
 `scripts/procedural/door_single.gd` and `scripts/procedural/door_double.gd`

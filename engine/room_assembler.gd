@@ -297,7 +297,7 @@ func _build_windows(room_decl: RoomDeclaration, parent: Node3D, window_surface: 
 		for i in range(segment_count):
 			if layout[i].begins_with("window"):
 				var local_x := (i * 2.0) - (segment_count * 2.0 * 0.5) + 1.0
-				var window := WindowBuilder.build(layout[i], "", window_surface)
+				var window := WindowBuilder.build(layout[i], window_surface)
 				window.position = WallBuilder._get_segment_position(
 					direction, local_x, room_decl.dimensions.x, room_decl.dimensions.z
 				)

@@ -84,20 +84,15 @@ after each iteration and it's included in prompts for context.
   - door/gate panels now use ids like `door_panel_03`
   - doorway frames now use ids like `doorway_frame_00`
   - window mesh hints now use ids like `window_clean`
-- Updated `door_builder.gd` and `window_builder.gd` so those normalized ids are
-  the primary authored path, while old texture-shaped hint strings remain
-  accepted only as compatibility parsing.
 - Tightened the declaration suite so windowed rooms now fail if they still use
   old `wall*_texture`-shaped hint values.
-- Promoted the common clean-window mesh to a true builder default:
-  - `WindowBuilder` first defaulted to `window_clean` while the room-side
-    compatibility field was being retired
-  - ordinary windows now default to native procedural frame geometry instead
-    of fitted imported structure, while explicit mesh hints remain available
-    for targeted compatibility
-  - redundant per-room `legacy_window_model_hint = "window_clean"` values were
-    removed from authored room data, and the room-side field has now been
-    removed entirely
+- Removed the remaining builder-side parsing for old texture-shaped window/door
+  mesh selectors from the builder layer.
+- Ordinary windows now default to native procedural frame geometry instead of
+  fitted imported structure, and the room-side compatibility field has been
+  removed entirely.
+- Ordinary doors now stay procedural too; imported frame/panel meshes are no
+  longer part of the common `DoorBuilder` path.
 - Removed the redundant ordinary-door mesh hints from authored world data:
   - parlor, dining room, kitchen, upper-floor bedroom/library/guest-room, and
     service-hatch doors now rely on the shared door builder’s native default
@@ -919,8 +914,9 @@ after each iteration and it's included in prompts for context.
   old “ignore the schema default” compatibility logic
 - the dead `Connection.visible_model` field is gone
 - the old hidden-door `concealment_model` path is gone from the schema too
-- `ConnectionAssembly` now records the resolved concealment model directly and
-  owns the default hidden-door wall-mask mesh in the shared builder layer
+- `ConnectionAssembly` now records the resolved concealment kind directly and
+  owns the default hidden-door wall mask as native procedural geometry in the
+  shared builder layer
 - `RoomDeclaration.legacy_window_model_hint`,
   `Connection.legacy_frame_model_hint`, and
   `Connection.legacy_panel_model_hint` are now gone from the schema
