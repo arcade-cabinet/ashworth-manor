@@ -1502,6 +1502,11 @@ after each iteration and it's included in prompts for context.
   - the declaration suite fails if a raw room-prop model path lacks that
     family/reason pair, if the reason is not room-scoped to the owning
     declaration, or if either field appears on a substrate-owned prop
+- The room-to-family taxonomy is contractual now too:
+  - the declaration suite asserts the current mapping directly
+  - rooms cannot silently drift between families like
+    `tool_clutter`, `service_infrastructure`, or `storage_clutter`
+    without an explicit contract change
 - The remaining declaration-side direct asset channels are guarded now too:
   - `InteractableDecl` now carries `direct_visual_reason`
   - `MountPayloadDecl` now carries `direct_payload_reason`

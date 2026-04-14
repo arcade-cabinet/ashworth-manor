@@ -618,6 +618,11 @@ changes between `adult/child` and `elder` route contexts.
   as `tool_clutter`, `service_infrastructure`, `table_service`,
   `study_dressing`, `personal_effects`, and `storage_clutter`, while the
   reason stays room-scoped ownership metadata.
+- That taxonomy is now contractual too:
+  the declaration suite asserts the current room-to-family mapping directly, so
+  a room cannot silently drift from `kitchen -> tool_clutter` or
+  `boiler_room -> service_infrastructure` without an intentional contract
+  change.
 - The remaining direct-asset declaration channels now have the same rule:
   `InteractableDecl` and `MountPayloadDecl` carry explicit
   `direct_visual_reason` / `direct_payload_reason` fields, and the declaration

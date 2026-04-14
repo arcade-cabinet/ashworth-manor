@@ -742,6 +742,22 @@ func _test_environments() -> void:
 
 func _test_substrate_contract() -> void:
 	_test_name = "SUBSTRATE"
+	var expected_direct_model_family_by_room := {
+		"attic_stairs": "debris",
+		"attic_storage": "stored_clutter",
+		"boiler_room": "service_infrastructure",
+		"dining_room": "table_service",
+		"foyer": "entry_dressing",
+		"guest_room": "personal_effects",
+		"hidden_chamber": "occult_dressing",
+		"kitchen": "tool_clutter",
+		"library": "study_dressing",
+		"master_bedroom": "personal_effects",
+		"parlor": "hearth_dressing",
+		"storage_basement": "storage_clutter",
+		"upper_hallway": "passage_dressing",
+		"wine_cellar": "storage_clutter",
+	}
 	var allowed_direct_model_families := {
 		"debris": true,
 		"stored_clutter": true,
@@ -891,6 +907,7 @@ func _test_substrate_contract() -> void:
 	if world == null:
 		return
 	var raw_model_usage: Dictionary = {}
+	var direct_model_families_by_room: Dictionary = {}
 	for connection in world.connections:
 		if connection == null:
 			continue
@@ -1016,6 +1033,9 @@ func _test_substrate_contract() -> void:
 				prop.model.is_empty() or not String(prop.model).ends_with(".tscn")
 			)
 			if not prop.model.is_empty() and prop.substrate_prop_kind.is_empty():
+				var room_families: Dictionary = direct_model_families_by_room.get(room_ref.room_id, {})
+				room_families[prop.direct_model_family] = true
+				direct_model_families_by_room[room_ref.room_id] = room_families
 				_ok(
 					"%s:%s direct model authoring declares family" % [room_ref.room_id, prop.id],
 					not prop.direct_model_family.is_empty()
@@ -1061,6 +1081,12 @@ func _test_substrate_contract() -> void:
 			"raw model path %s is not a repeated authored family (%s)" % [raw_model_path, ", ".join(PackedStringArray(usage))],
 			usage.size() == 1
 		)
+	for room_id in expected_direct_model_family_by_room.keys():
+		var expected_family := String(expected_direct_model_family_by_room[room_id])
+		var room_families: Dictionary = direct_model_families_by_room.get(room_id, {})
+		_ok("%s direct-model family set present" % room_id, not room_families.is_empty())
+		_ok("%s uses exactly one direct-model family" % room_id, room_families.size() == 1)
+		_ok("%s direct-model family matches contract" % room_id, room_families.has(expected_family))
 	print("[DONE] substrate contract")
 
 	var retired_structure_models := {

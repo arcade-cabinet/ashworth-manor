@@ -1095,6 +1095,10 @@ independent execution drivers:
     declares a typed family (for example `tool_clutter` or
     `service_infrastructure`) plus a room-scoped ownership reason instead of
     overloading one string or leaving the exception undocumented
+  - the room-to-family mapping is locked now too:
+    the declaration suite asserts the current mapping directly, so those direct
+    prop exception families cannot drift room-by-room without an explicit
+    contract update
   - the same explicitness rule now exists for the remaining declaration-side
     direct asset channels too:
     `InteractableDecl` and `MountPayloadDecl` now have
