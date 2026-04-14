@@ -111,6 +111,7 @@ const GREENHOUSE_WINTER_GROWTH_MODEL := "res://assets/grounds/greenhouse/bush05_
 const GREENHOUSE_WINTER_GROWTH_BACK_MODEL := "res://assets/grounds/greenhouse/bush06_winter.glb"
 const GREENHOUSE_NATURE_CLUSTER_MODEL := "res://assets/grounds/greenhouse/nature.glb"
 const GREENHOUSE_BUCKET_SMALL_MODEL := "res://assets/grounds/greenhouse/bucket_mx_2.glb"
+const GREENHOUSE_BUCKET_LARGE_MODEL := "res://assets/grounds/greenhouse/bucket_mx_3.glb"
 const GREENHOUSE_BOTTLE_MODEL := "res://assets/grounds/greenhouse/glass_bottle_mx_2.glb"
 const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PROCEDURAL_WINDOW_MODEL: "window_frame",
@@ -194,6 +195,7 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	GREENHOUSE_WINTER_GROWTH_BACK_MODEL: "greenhouse_winter_growth_back",
 	GREENHOUSE_NATURE_CLUSTER_MODEL: "greenhouse_nature_cluster",
 	GREENHOUSE_BUCKET_SMALL_MODEL: "greenhouse_bucket_small",
+	GREENHOUSE_BUCKET_LARGE_MODEL: "greenhouse_bucket_large",
 	GREENHOUSE_BOTTLE_MODEL: "greenhouse_bottle",
 }
 
@@ -1263,6 +1265,8 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(GREENHOUSE_NATURE_CLUSTER_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_bucket_small":
 		return _instantiate_substrate_scene(GREENHOUSE_BUCKET_SMALL_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_bucket_large":
+		return _instantiate_substrate_scene(GREENHOUSE_BUCKET_LARGE_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_bottle":
 		return _instantiate_substrate_scene(GREENHOUSE_BOTTLE_MODEL, prop_decl)
 	if prop_decl.tags.has("procedural_moon"):

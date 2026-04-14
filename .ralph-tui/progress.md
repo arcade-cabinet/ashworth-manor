@@ -1342,6 +1342,9 @@ after each iteration and it's included in prompts for context.
   - affected authored props:
     `bucket_left`, `fertilizer_bottle`, `greenhouse_bottle_secondary`,
     and `greenhouse_bucket_center`
+- The remaining alternate greenhouse bucket is now migrated too:
+  - `bucket_mx_3.glb` -> `greenhouse_bucket_large`
+  - affected authored prop: `bucket_right`
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload

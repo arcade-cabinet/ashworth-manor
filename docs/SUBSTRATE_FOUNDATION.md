@@ -536,3 +536,5 @@ changes between `adult/child` and `elder` route contexts.
   `glass_bottle_mx_2.glb` -> `greenhouse_bottle`.
   The affected authored props are `bucket_left`, `fertilizer_bottle`,
   `greenhouse_bottle_secondary`, and `greenhouse_bucket_center`.
+- The remaining alternate greenhouse bucket variant is now aligned too:
+  `bucket_mx_3.glb` -> `greenhouse_bucket_large` for `bucket_right`.

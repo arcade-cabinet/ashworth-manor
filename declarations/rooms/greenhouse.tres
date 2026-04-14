@@ -207,7 +207,7 @@ position = Vector3(2.75, 0, -0.95)
 [sub_resource type="Resource" id="prop_bucket_right"]
 script = ExtResource("5")
 id = "bucket_right"
-model = "res://assets/grounds/greenhouse/bucket_mx_3.glb"
+substrate_prop_kind = "greenhouse_bucket_large"
 position = Vector3(3.25, 0, -2.35)
 
 [sub_resource type="Resource" id="prop_bottle"]

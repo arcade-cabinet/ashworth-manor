@@ -301,6 +301,7 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "winter_growth_back", "kind": "greenhouse_winter_growth_back"},
 		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "nature_cluster", "kind": "greenhouse_nature_cluster"},
 		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "bucket_left", "kind": "greenhouse_bucket_small"},
+		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "bucket_right", "kind": "greenhouse_bucket_large"},
 		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "fertilizer_bottle", "kind": "greenhouse_bottle"},
 		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "greenhouse_bottle_secondary", "kind": "greenhouse_bottle"},
 		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "greenhouse_bucket_center", "kind": "greenhouse_bucket_small"},
@@ -1394,6 +1395,12 @@ func _test_builder_default_contract() -> void:
 	var greenhouse_bucket_small := assembler._build_procedural_prop(greenhouse_bucket_small_decl)
 	_ok("substrate greenhouse bucket fixture builds from shared substrate kind", greenhouse_bucket_small != null)
 
+	var greenhouse_bucket_large_decl := PropDecl.new()
+	greenhouse_bucket_large_decl.id = "compat_greenhouse_bucket_large"
+	greenhouse_bucket_large_decl.substrate_prop_kind = "greenhouse_bucket_large"
+	var greenhouse_bucket_large := assembler._build_procedural_prop(greenhouse_bucket_large_decl)
+	_ok("substrate greenhouse large bucket fixture builds from shared substrate kind", greenhouse_bucket_large != null)
+
 	var greenhouse_bottle_decl := PropDecl.new()
 	greenhouse_bottle_decl.id = "compat_greenhouse_bottle"
 	greenhouse_bottle_decl.substrate_prop_kind = "greenhouse_bottle"
@@ -1557,6 +1564,8 @@ func _test_builder_default_contract() -> void:
 		greenhouse_nature_cluster.free()
 	if greenhouse_bucket_small != null:
 		greenhouse_bucket_small.free()
+	if greenhouse_bucket_large != null:
+		greenhouse_bucket_large.free()
 	if greenhouse_bottle != null:
 		greenhouse_bottle.free()
 	if greenhouse_pedestal != null:

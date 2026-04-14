@@ -1001,6 +1001,9 @@ independent execution drivers:
     `greenhouse_bucket_small`, while `fertilizer_bottle` and
     `greenhouse_bottle_secondary` now use `greenhouse_bottle` instead of raw
     `bucket_mx_2.glb` / `glass_bottle_mx_2.glb` model paths
+  - the remaining alternate greenhouse bucket moved too:
+    `bucket_right` now uses `greenhouse_bucket_large` instead of the raw
+    `bucket_mx_3.glb` model path
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the
