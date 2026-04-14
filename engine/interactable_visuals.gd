@@ -14,6 +14,7 @@ const SHARED_VISUAL_KIND_PATHS := {
 	"garden_gazebo": "res://assets/grounds/garden/gazebo.glb",
 	"greenhouse_lily_pot_intact": "res://scenes/shared/greenhouse/greenhouse_lily_pot_intact.tscn",
 	"greenhouse_lily_pot_disturbed": "res://scenes/shared/greenhouse/greenhouse_lily_pot_disturbed.tscn",
+	"music_box_display": "res://scenes/shared/items/music_box_display.tscn",
 	"parlor_tea_set": "res://scenes/shared/parlor/parlor_tea_service_set.tscn",
 	"parlor_tea_disturbed": "res://scenes/shared/parlor/parlor_tea_service_disturbed.tscn",
 	"chapel_font_still": "res://scenes/shared/chapel/baptismal_font_still.tscn",

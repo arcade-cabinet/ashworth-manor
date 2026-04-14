@@ -580,5 +580,9 @@ changes between `adult/child` and `elder` route contexts.
   now author through explicit shared item-display substrate kinds across the
   room declarations.
 - Music boxes are intentionally not part of that tranche yet:
-  they still sit on the legacy interactable visual path because there is not
-  yet a real shared music-box asset or visual registry entry to promote.
+  they still sat on the legacy interactable visual path because there was no
+  real shared music-box asset or visual registry entry to promote.
+- That music-box gap is now closed on the interactable side:
+  the repeated music-box observations now resolve through the shared
+  `music_box_display` visual kind instead of pointing at the dead
+  `res://assets/shared/items/music_box.glb` path.

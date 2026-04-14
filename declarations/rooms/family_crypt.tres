@@ -173,7 +173,7 @@ type = "observation"
 position = Vector3(2.0, 0.85, 1.0)
 collision_size = Vector3(1.0, 0.8, 1.0)
 thread_active = PackedStringArray("elder", "sovereign")
-model = "res://assets/shared/items/music_box.glb"
+visual_kind = "music_box_display"
 responses = Array[Resource]([SubResource("resp_music_box_wound"), SubResource("resp_music_box_need_gate"), SubResource("resp_music_box_no_key"), SubResource("resp_music_box_default")])
 
 ; === Lights ===

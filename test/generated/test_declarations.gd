@@ -197,6 +197,34 @@ func _test_interactable_visual_contract() -> void:
 			"base_path": "res://scenes/shared/dining_room/dining_wine_glass_still.tscn",
 			"states": {"agitated": "res://scenes/shared/dining_room/dining_wine_glass_agitated.tscn"},
 		},
+		{
+			"room_path": "res://declarations/rooms/parlor.tres",
+			"id": "music_box",
+			"visual_kind": "music_box_display",
+			"base_path": "res://scenes/shared/items/music_box_display.tscn",
+			"states": {},
+		},
+		{
+			"room_path": "res://declarations/rooms/hidden_chamber.tres",
+			"id": "child_music_box",
+			"visual_kind": "music_box_display",
+			"base_path": "res://scenes/shared/items/music_box_display.tscn",
+			"states": {},
+		},
+		{
+			"room_path": "res://declarations/rooms/attic_storage.tres",
+			"id": "attic_music_box",
+			"visual_kind": "music_box_display",
+			"base_path": "res://scenes/shared/items/music_box_display.tscn",
+			"states": {},
+		},
+		{
+			"room_path": "res://declarations/rooms/family_crypt.tres",
+			"id": "crypt_music_box",
+			"visual_kind": "music_box_display",
+			"base_path": "res://scenes/shared/items/music_box_display.tscn",
+			"states": {},
+		},
 	]
 	for entry in repeated_visuals:
 		var room = load(String(entry["room_path"]))

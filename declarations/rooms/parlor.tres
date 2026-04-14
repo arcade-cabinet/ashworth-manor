@@ -242,6 +242,7 @@ id = "music_box"
 type = "box"
 position = Vector3(-2, 0.8, -3)
 collision_size = Vector3(1.5, 1.5, 1.5)
+visual_kind = "music_box_display"
 responses = Array[Resource]([SubResource("resp_music_aware"), SubResource("resp_music_default")])
 thread_responses = {"child": [SubResource("resp_music_captive")], "adult": [SubResource("resp_music_adult")], "elder": [SubResource("resp_music_sovereign")], "captive": [SubResource("resp_music_captive")], "mourning": [SubResource("resp_music_mourning")], "sovereign": [SubResource("resp_music_sovereign")]}
 

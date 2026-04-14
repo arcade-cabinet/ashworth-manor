@@ -335,7 +335,7 @@ id = "attic_music_box"
 type = "observation"
 position = Vector3(-3.0, 0.85, 2.0)
 collision_size = Vector3(1.0, 0.8, 1.0)
-model = "res://assets/shared/items/music_box.glb"
+visual_kind = "music_box_display"
 responses = Array[Resource]([SubResource("resp_music_box_wound"), SubResource("resp_music_box_no_lantern"), SubResource("resp_music_box_no_key"), SubResource("resp_music_box_default")])
 thread_responses = {"child": [SubResource("resp_music_box_child_done"), SubResource("resp_music_box_child")], "elder": [SubResource("resp_music_box_elder_done"), SubResource("resp_music_box_elder")], "captive": [SubResource("resp_music_box_child_done"), SubResource("resp_music_box_child")], "sovereign": [SubResource("resp_music_box_elder_done"), SubResource("resp_music_box_elder")]}
 

@@ -1444,6 +1444,13 @@ after each iteration and it's included in prompts for context.
 - Music boxes were left on the legacy interactable path:
   - `music_box.glb` was not promoted in the same tranche because the repo
     still has no real shared music-box asset or visual-registry entry
+- The repeated music-box interactable visual is now normalized too:
+  - `parlor/music_box`, `hidden_chamber/child_music_box`,
+    `attic_storage/attic_music_box`, and `family_crypt/crypt_music_box`
+    now use `visual_kind = "music_box_display"`
+  - the shared visual resolves through
+    `res://scenes/shared/items/music_box_display.tscn`
+    instead of the dead `res://assets/shared/items/music_box.glb` path
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload

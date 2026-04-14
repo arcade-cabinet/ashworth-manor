@@ -1056,6 +1056,11 @@ independent execution drivers:
   - music boxes were explicitly left out of that tranche:
     there is still no real shared music-box asset or visual registry entry,
     so `music_box.glb` remains on the legacy interactable path for now
+  - that follow-up is now done:
+    the repeated music-box interactables in `parlor`, `hidden_chamber`,
+    `attic_storage`, and `family_crypt` now resolve through the shared
+    `music_box_display` visual kind and a new procedural shared scene instead
+    of the dead `res://assets/shared/items/music_box.glb` reference
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

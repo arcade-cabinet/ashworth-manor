@@ -76,7 +76,7 @@ id = "child_music_box"
 type = "observation"
 position = Vector3(1.15, 0.82, 1.55)
 collision_size = Vector3(0.9, 0.7, 0.9)
-model = "res://assets/shared/items/music_box.glb"
+visual_kind = "music_box_display"
 responses = Array[Resource]([SubResource("resp_music_box_done"), SubResource("resp_music_box_no_key"), SubResource("resp_music_box_default")])
 
 [sub_resource type="Resource" id="inter_drawings"]
