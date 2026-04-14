@@ -235,160 +235,122 @@ scale = 1.1
 [sub_resource type="Resource" id="prop_board"]
 script = ExtResource("5")
 id = "cutting_board"
-model = "res://assets/ground_floor/kitchen/wooden_board_3.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_cutting_board"
 position = Vector3(-1.6, 0.82, 0.1)
 
 [sub_resource type="Resource" id="prop_rolling_pin"]
 script = ExtResource("5")
 id = "rolling_pin"
-model = "res://assets/ground_floor/kitchen/rolling_pin_mx_1.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_rolling_pin"
 position = Vector3(-2.2, 0.84, -0.1)
 rotation_y = 28.0
 
 [sub_resource type="Resource" id="prop_dirty_plate"]
 script = ExtResource("5")
 id = "dirty_plate"
-model = "res://assets/ground_floor/kitchen/dirty_plate.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_dirty_plate"
 position = Vector3(-1.1, 0.84, -0.2)
 
 [sub_resource type="Resource" id="prop_bowl_table"]
 script = ExtResource("5")
 id = "bowl_table"
-model = "res://assets/ground_floor/kitchen/bowl_02.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_bowl_table"
 position = Vector3(-2.7, 0.84, 0.6)
 
 [sub_resource type="Resource" id="prop_empty_glass"]
 script = ExtResource("5")
 id = "empty_glass"
-model = "res://assets/ground_floor/kitchen/empty_glass.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_empty_glass"
 position = Vector3(-2.8, 0.84, -0.7)
 
 [sub_resource type="Resource" id="prop_fork"]
 script = ExtResource("5")
 id = "table_fork"
-model = "res://assets/ground_floor/kitchen/fork.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_table_fork"
 position = Vector3(-1.9, 0.83, 0.55)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_butter_knife"]
 script = ExtResource("5")
 id = "butter_knife"
-model = "res://assets/ground_floor/kitchen/butter_knife.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_butter_knife"
 position = Vector3(-1.15, 0.83, -0.45)
 rotation_y = 82.0
 
 [sub_resource type="Resource" id="prop_spoon"]
 script = ExtResource("5")
 id = "table_spoon"
-model = "res://assets/ground_floor/kitchen/spoon.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_table_spoon"
 position = Vector3(-2.55, 0.88, 0.58)
 rotation_y = 65.0
 
 [sub_resource type="Resource" id="prop_knife_loose"]
 script = ExtResource("5")
 id = "knife_loose"
-model = "res://assets/ground_floor/kitchen/knife.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_knife_loose"
 position = Vector3(-3.0, 0.84, -2.1)
 rotation_y = 20.0
 
 [sub_resource type="Resource" id="prop_knife_loose_2"]
 script = ExtResource("5")
 id = "knife_loose_2"
-model = "res://assets/ground_floor/kitchen/knife_001.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_knife_loose_2"
 position = Vector3(-2.5, 0.84, -1.8)
 rotation_y = -18.0
 
 [sub_resource type="Resource" id="prop_knife_block"]
 script = ExtResource("5")
 id = "knife_block"
-model = "res://assets/ground_floor/kitchen/knife_block.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_knife_block"
 position = Vector3(-3.3, 0.82, -1.35)
 
 [sub_resource type="Resource" id="prop_soap"]
 script = ExtResource("5")
 id = "soap"
-model = "res://assets/ground_floor/kitchen/soap_mx_1.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_soap"
 position = Vector3(2.5, 0.15, -2.6)
 
 [sub_resource type="Resource" id="prop_pan"]
 script = ExtResource("5")
 id = "pan"
-model = "res://assets/ground_floor/kitchen/pan.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_pan"
 position = Vector3(2.9, 1.25, 2.5)
 rotation_y = -24.0
 
 [sub_resource type="Resource" id="prop_clean_plate"]
 script = ExtResource("5")
 id = "clean_plate"
-model = "res://assets/ground_floor/kitchen/clean_plate.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_clean_plate"
 position = Vector3(3.2, 1.0, 0.8)
 
 [sub_resource type="Resource" id="prop_bowl_shelf"]
 script = ExtResource("5")
 id = "bowl_shelf"
-model = "res://assets/ground_floor/kitchen/bowl_01.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_bowl_shelf"
 position = Vector3(3.4, 1.0, -0.2)
 
 [sub_resource type="Resource" id="prop_pickles_jar"]
 script = ExtResource("5")
 id = "pickles_jar"
-model = "res://assets/ground_floor/kitchen/pickles_jar_mp_1_medium.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_pickles_jar"
 position = Vector3(3.15, 0.95, -1.05)
 
 [sub_resource type="Resource" id="prop_jam_jar"]
 script = ExtResource("5")
 id = "jam_jar"
-model = "res://assets/ground_floor/kitchen/jam_jar_mp_1_small.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_jam_jar"
 position = Vector3(3.55, 0.95, -1.55)
 
 [sub_resource type="Resource" id="prop_glass_water"]
 script = ExtResource("5")
 id = "glass_of_water"
-model = "res://assets/ground_floor/kitchen/glass_of_water.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_glass_of_water"
 position = Vector3(3.35, 0.95, 1.55)
 
 [sub_resource type="Resource" id="prop_sickle"]
 script = ExtResource("5")
 id = "sickle"
-model = "res://assets/ground_floor/kitchen/sickle_mx_1.glb"
-direct_model_family = "tool_clutter"
-direct_model_reason = "kitchen_tool_clutter"
+content_prop_kind = "kitchen_sickle"
 position = Vector3(2.95, 1.7, -2.25)
 rotation_y = 90.0
 

@@ -14,6 +14,7 @@ const ConnectionAssembly = preload("res://builders/connection_assembly.gd")
 const EstateEnvironmentRegistry = preload("res://builders/estate_environment_registry.gd")
 const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
 const EstateSubstrateRegistry = preload("res://builders/estate_substrate_registry.gd")
+const ContentPropRegistry = preload("res://engine/content_prop_registry.gd")
 const InteractableVisuals = preload("res://engine/interactable_visuals.gd")
 const WindowBuilder = preload("res://builders/window_builder.gd")
 const MODEL_SCALE_OVERRIDES := {
@@ -65,7 +66,7 @@ const ESTATE_ENTRY_PORTICO_SCENE := "res://scenes/shared/grounds/estate_entry_po
 const ESTATE_FRONT_DOOR_SCENE := "res://scenes/shared/grounds/estate_front_door.tscn"
 const ESTATE_FORECOURT_STEPS_SCENE := "res://scenes/shared/grounds/estate_forecourt_steps.tscn"
 const ESTATE_STARFIELD_SCENE := "res://scenes/shared/grounds/estate_starfield.tscn"
-const FRONT_GATE_LAMP_MODEL := "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+const FRONT_GATE_LAMP_MODEL := "res://assets/grounds/front_gate/lamp_mx_1_a_off.glb"
 const FRONT_GATE_TREE_01_MODEL := "res://assets/grounds/front_gate/tree01_winter.glb"
 const FRONT_GATE_TREE_02_MODEL := "res://assets/grounds/front_gate/tree02_winter.glb"
 const FRONT_GATE_TREE_03_MODEL := "res://assets/grounds/front_gate/tree03_winter.glb"
@@ -502,12 +503,27 @@ func assemble(room_decl: RoomDeclaration) -> Node3D:
 	)
 	root.add_child(connections)
 
+	var prop_surface_context := _build_prop_surface_context(
+		resolved_floor_surface,
+		resolved_wall_surface,
+		resolved_ceiling_surface,
+		resolved_threshold_surface,
+		resolved_door_surface,
+		resolved_gate_leaf_surface,
+		resolved_window_surface,
+		resolved_stair_tread_surface,
+		resolved_stair_structure_surface,
+		resolved_stair_rail_surface,
+		resolved_ladder_rail_surface,
+		resolved_ladder_rung_surface
+	)
+
 	# --- Props ---
 	var props := Node3D.new()
 	props.name = "Props"
-	_build_props(room_decl.props, props)
+	_build_props(room_decl.props, props, prop_surface_context)
 	root.add_child(props)
-	_build_mount_payloads(room_decl, root, props)
+	_build_mount_payloads(room_decl, root, props, prop_surface_context)
 
 	# --- Audio ---
 	var audio := Node3D.new()
@@ -701,9 +717,9 @@ func _build_connection_areas(room_decl: RoomDeclaration, parent: Node3D, thresho
 				parent.add_child(path_threshold)
 
 
-func _build_props(props: Array[PropDecl], parent: Node3D) -> void:
+func _build_props(props: Array[PropDecl], parent: Node3D, prop_surface_context: Dictionary = {}) -> void:
 	for prop_decl in props:
-		var procedural_prop := _build_procedural_prop(prop_decl)
+		var procedural_prop := _build_procedural_prop(prop_decl, prop_surface_context)
 		if procedural_prop != null:
 			parent.add_child(procedural_prop)
 			continue
@@ -720,15 +736,14 @@ func _build_props(props: Array[PropDecl], parent: Node3D) -> void:
 		inst.position = prop_decl.position
 		inst.rotation_degrees.y = prop_decl.rotation_y
 		var resolved_scale := prop_decl.scale
-		if scene_path == prop_decl.model:
-			resolved_scale *= _get_model_scale_override(prop_decl.model)
+		resolved_scale *= _get_model_scale_override(scene_path)
 		var final_scale := prop_decl.scale_3d * resolved_scale
 		if final_scale != Vector3.ONE:
 			inst.scale = final_scale
 		parent.add_child(inst)
 
 
-func _build_mount_payloads(room_decl: RoomDeclaration, root: Node3D, default_parent: Node3D) -> void:
+func _build_mount_payloads(room_decl: RoomDeclaration, root: Node3D, default_parent: Node3D, prop_surface_context: Dictionary = {}) -> void:
 	if room_decl.mount_payloads.is_empty():
 		return
 	var slot_map: Dictionary = {}
@@ -742,7 +757,7 @@ func _build_mount_payloads(room_decl: RoomDeclaration, root: Node3D, default_par
 		var game_manager := _game_manager()
 		if not payload.state_condition.is_empty() and (game_manager == null or not game_manager.has_method("has_flag") or not bool(game_manager.call("has_flag", payload.state_condition))):
 			continue
-		var inst := _instantiate_mount_payload(payload)
+		var inst := _instantiate_mount_payload(payload, prop_surface_context)
 		if inst == null:
 			continue
 		var mount_slot := slot_map.get(payload.slot_id, null) as MountSlotDecl
@@ -776,16 +791,18 @@ func _build_mount_payloads(room_decl: RoomDeclaration, root: Node3D, default_par
 func _resolve_prop_scene_path(prop_decl: PropDecl) -> String:
 	if not prop_decl.scene_path.is_empty():
 		return prop_decl.scene_path
+	if not prop_decl.content_prop_kind.is_empty():
+		return ContentPropRegistry.path_for_kind(prop_decl.content_prop_kind)
 	return prop_decl.model
 
 
-func _instantiate_mount_payload(payload: MountPayloadDecl) -> Node3D:
+func _instantiate_mount_payload(payload: MountPayloadDecl, prop_surface_context: Dictionary = {}) -> Node3D:
 	if not payload.substrate_prop_kind.is_empty():
 		var prop_decl := PropDecl.new()
 		prop_decl.id = payload.payload_id
 		prop_decl.scene_role = payload.scene_role
 		prop_decl.substrate_prop_kind = payload.substrate_prop_kind
-		return _build_procedural_prop(prop_decl)
+		return _build_procedural_prop(prop_decl, prop_surface_context)
 	var scene_path := payload.scene_path if not payload.scene_path.is_empty() else payload.model
 	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
 		return null
@@ -852,6 +869,72 @@ func _resolve_allowed_mount_families(region_decl: RegionDecl, env_decl: Environm
 		if allowed and not resolved.has(family):
 			resolved.append(family)
 	return resolved
+
+
+func _build_prop_surface_context(
+	resolved_floor_surface: String,
+	resolved_wall_surface: String,
+	resolved_ceiling_surface: String,
+	resolved_threshold_surface: String,
+	resolved_door_surface: String,
+	resolved_gate_leaf_surface: String,
+	resolved_window_surface: String,
+	resolved_stair_tread_surface: String,
+	resolved_stair_structure_surface: String,
+	resolved_stair_rail_surface: String,
+	resolved_ladder_rail_surface: String,
+	resolved_ladder_rung_surface: String
+) -> Dictionary:
+	var trim_surface := resolved_threshold_surface if not resolved_threshold_surface.is_empty() else resolved_door_surface
+	if trim_surface.is_empty():
+		trim_surface = resolved_wall_surface
+	if trim_surface.is_empty():
+		trim_surface = "recipe:surface/oak_header"
+	var wood_surface := resolved_door_surface if not resolved_door_surface.is_empty() else trim_surface
+	if wood_surface.is_empty():
+		wood_surface = resolved_stair_structure_surface
+	if wood_surface.is_empty():
+		wood_surface = "recipe:surface/oak_dark"
+	var masonry_surface := resolved_wall_surface if not resolved_wall_surface.is_empty() else resolved_ceiling_surface
+	if masonry_surface.is_empty():
+		masonry_surface = "recipe:surface/cloth_brown"
+	var stone_surface := resolved_threshold_surface if not resolved_threshold_surface.is_empty() else resolved_floor_surface
+	if stone_surface.is_empty():
+		stone_surface = "recipe:surface/stone_dark"
+	var rail_surface := resolved_stair_rail_surface if not resolved_stair_rail_surface.is_empty() else resolved_ladder_rail_surface
+	if rail_surface.is_empty():
+		rail_surface = wood_surface
+	var tread_surface := resolved_stair_tread_surface if not resolved_stair_tread_surface.is_empty() else resolved_ladder_rung_surface
+	if tread_surface.is_empty():
+		tread_surface = resolved_floor_surface
+	if tread_surface.is_empty():
+		tread_surface = "recipe:surface/oak_board"
+	var structure_surface := resolved_stair_structure_surface if not resolved_stair_structure_surface.is_empty() else trim_surface
+	if structure_surface.is_empty():
+		structure_surface = wood_surface
+	var roof_surface := resolved_ceiling_surface if not resolved_ceiling_surface.is_empty() else wood_surface
+	var window_surface := resolved_window_surface if not resolved_window_surface.is_empty() else trim_surface
+	if window_surface.is_empty():
+		window_surface = wood_surface
+	return {
+		"wood_surface": wood_surface,
+		"trim_surface": trim_surface,
+		"masonry_surface": masonry_surface,
+		"stone_surface": stone_surface,
+		"brass_surface": "recipe:surface/brass_dim",
+		"glazing_surface": "recipe:glass/door_lamplit",
+		"rail_surface": rail_surface,
+		"tread_surface": tread_surface,
+		"structure_surface": structure_surface,
+		"roof_surface": roof_surface,
+		"window_surface": window_surface,
+		"gate_leaf_surface": resolved_gate_leaf_surface if not resolved_gate_leaf_surface.is_empty() else wood_surface,
+	}
+
+
+func _surface_slot(prop_surface_context: Dictionary, key: String, fallback: String = "") -> String:
+	var value := String(prop_surface_context.get(key, ""))
+	return value if not value.is_empty() else fallback
 
 
 func _get_vertical_connection_span(room_decl: RoomDeclaration, conn: Connection) -> float:
@@ -952,12 +1035,23 @@ func _build_world_label_board(decl: InteractableDecl) -> Node3D:
 	return root
 
 
-func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
+func _build_procedural_prop(prop_decl: PropDecl, prop_surface_context: Dictionary = {}) -> Node3D:
 	var substrate_kind := prop_decl.substrate_prop_kind
 	if substrate_kind.is_empty():
 		substrate_kind = String(LEGACY_PROCEDURAL_PROP_KINDS.get(prop_decl.model, ""))
+	var wood_surface := _surface_slot(prop_surface_context, "wood_surface")
+	var trim_surface := _surface_slot(prop_surface_context, "trim_surface", wood_surface)
+	var masonry_surface := _surface_slot(prop_surface_context, "masonry_surface")
+	var stone_surface := _surface_slot(prop_surface_context, "stone_surface")
+	var brass_surface := _surface_slot(prop_surface_context, "brass_surface")
+	var glazing_surface := _surface_slot(prop_surface_context, "glazing_surface")
+	var rail_surface := _surface_slot(prop_surface_context, "rail_surface", wood_surface)
+	var tread_surface := _surface_slot(prop_surface_context, "tread_surface")
+	var structure_surface := _surface_slot(prop_surface_context, "structure_surface", trim_surface)
+	var roof_surface := _surface_slot(prop_surface_context, "roof_surface", wood_surface)
+	var window_surface := _surface_slot(prop_surface_context, "window_surface", wood_surface)
 	if substrate_kind == "window_frame":
-		var window := WindowBuilder.build("window", "recipe:surface/oak_dark")
+		var window := WindowBuilder.build("window", window_surface)
 		window.name = prop_decl.id if not prop_decl.id.is_empty() else "WindowProp"
 		window.position = prop_decl.position
 		window.rotation_degrees.y = prop_decl.rotation_y
@@ -982,8 +1076,6 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 	if substrate_kind == "stair_run":
 		var staircase := Node3D.new()
 		staircase.name = prop_decl.id if not prop_decl.id.is_empty() else "StaircaseProp"
-		var tread_surface := "recipe:surface/oak_board"
-		var structure_surface := "recipe:surface/oak_header"
 		var width := 2.8
 		var step_count := 8
 		var step_height := 0.24
@@ -1026,7 +1118,6 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 	if substrate_kind == "banister_run":
 		var banister := Node3D.new()
 		banister.name = prop_decl.id if not prop_decl.id.is_empty() else "BanisterProp"
-		var rail_surface := "recipe:surface/oak_dark"
 		var post_count := 4
 		var run_length := 2.4
 		for post_index in range(post_count):
@@ -1053,7 +1144,6 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 	if substrate_kind == "newel_post":
 		var newel := Node3D.new()
 		newel.name = prop_decl.id if not prop_decl.id.is_empty() else "NewelProp"
-		var rail_surface := "recipe:surface/oak_dark"
 		var base := _make_prop_box(Vector3(0.28, 0.18, 0.28), Vector3(0, 0.09, 0), rail_surface)
 		base.name = "Base"
 		newel.add_child(base)
@@ -1070,11 +1160,10 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 	if substrate_kind == "stone_slab":
 		var slab := Node3D.new()
 		slab.name = prop_decl.id if not prop_decl.id.is_empty() else "StoneSlabProp"
-		var slab_surface := "recipe:surface/stone_dark"
-		var top := _make_prop_box(Vector3(2.2, 0.22, 2.2), Vector3(0, 0.11, 0), slab_surface)
+		var top := _make_prop_box(Vector3(2.2, 0.22, 2.2), Vector3(0, 0.11, 0), stone_surface)
 		top.name = "Top"
 		slab.add_child(top)
-		var base := _make_prop_box(Vector3(2.0, 0.18, 2.0), Vector3(0, 0.03, 0), slab_surface)
+		var base := _make_prop_box(Vector3(2.0, 0.18, 2.0), Vector3(0, 0.03, 0), stone_surface)
 		base.name = "Base"
 		slab.add_child(base)
 		slab.position = prop_decl.position
@@ -1084,7 +1173,6 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 	if substrate_kind == "plinth_tall":
 		var plinth := Node3D.new()
 		plinth.name = prop_decl.id if not prop_decl.id.is_empty() else "PlinthProp"
-		var stone_surface := "recipe:surface/stone_dark"
 		var pedestal_base := _make_prop_box(Vector3(1.22, 0.24, 1.22), Vector3(0, 0.12, 0), stone_surface)
 		pedestal_base.name = "Base"
 		plinth.add_child(pedestal_base)
@@ -1101,8 +1189,7 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 	if substrate_kind == "round_pillar":
 		var pillar := Node3D.new()
 		pillar.name = prop_decl.id if not prop_decl.id.is_empty() else "RoundPillarProp"
-		var pillar_surface := "recipe:surface/oak_header"
-		var pillar_base := _make_prop_box(Vector3(0.62, 0.2, 0.62), Vector3(0, 0.1, 0), pillar_surface)
+		var pillar_base := _make_prop_box(Vector3(0.62, 0.2, 0.62), Vector3(0, 0.1, 0), trim_surface)
 		pillar_base.name = "Base"
 		pillar.add_child(pillar_base)
 		var shaft := MeshInstance3D.new()
@@ -1113,11 +1200,11 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		shaft_mesh.height = 2.7
 		shaft.mesh = shaft_mesh
 		shaft.position = Vector3(0, 1.55, 0)
-		var shaft_material := EstateMaterialKit.build_surface_reference(pillar_surface)
+		var shaft_material := EstateMaterialKit.build_surface_reference(trim_surface)
 		if shaft_material != null:
 			shaft.set_surface_override_material(0, shaft_material)
 		pillar.add_child(shaft)
-		var pillar_cap := _make_prop_box(Vector3(0.76, 0.2, 0.76), Vector3(0, 2.95, 0), pillar_surface)
+		var pillar_cap := _make_prop_box(Vector3(0.76, 0.2, 0.76), Vector3(0, 2.95, 0), trim_surface)
 		pillar_cap.name = "Cap"
 		pillar.add_child(pillar_cap)
 		pillar.position = prop_decl.position
@@ -1127,8 +1214,6 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 	if substrate_kind == "facade_door_leaf":
 		var door_leaf := Node3D.new()
 		door_leaf.name = prop_decl.id if not prop_decl.id.is_empty() else "FacadeDoorLeafProp"
-		var wood_surface := "recipe:surface/oak_dark"
-		var brass_surface := "recipe:surface/brass_dim"
 		var panel := _make_prop_box(Vector3(1.02, 2.12, 0.14), Vector3(0, 1.06, 0), wood_surface)
 		panel.name = "DoorLeaf"
 		door_leaf.add_child(panel)
@@ -1136,7 +1221,7 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		mullion.name = "CenterMullion"
 		door_leaf.add_child(mullion)
 		for glass_x in [-0.24, 0.24]:
-			var glazing := _make_prop_box(Vector3(0.28, 0.52, 0.03), Vector3(glass_x, 1.64, -0.06), "recipe:glass/door_lamplit")
+			var glazing := _make_prop_box(Vector3(0.28, 0.52, 0.03), Vector3(glass_x, 1.64, -0.06), glazing_surface)
 			glazing.name = "Glazing_%s" % ("L" if glass_x < 0 else "R")
 			door_leaf.add_child(glazing)
 		var handle := _make_prop_box(Vector3(0.06, 0.22, 0.06), Vector3(0.3, 1.05, -0.09), brass_surface)
@@ -1149,11 +1234,10 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 	if substrate_kind == "manor_wall_panel":
 		var wall_panel := Node3D.new()
 		wall_panel.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorWallPanelProp"
-		var masonry := "recipe:surface/cloth_brown"
-		var backing := _make_prop_box(Vector3(4.4, 4.1, 0.34), Vector3(0, 2.05, 0), masonry)
+		var backing := _make_prop_box(Vector3(4.4, 4.1, 0.34), Vector3(0, 2.05, 0), masonry_surface)
 		backing.name = "Backing"
 		wall_panel.add_child(backing)
-		var plinth := _make_prop_box(Vector3(4.5, 0.26, 0.42), Vector3(0, 0.13, -0.02), "recipe:surface/oak_header")
+		var plinth := _make_prop_box(Vector3(4.5, 0.26, 0.42), Vector3(0, 0.13, -0.02), trim_surface)
 		plinth.name = "Plinth"
 		wall_panel.add_child(plinth)
 		wall_panel.position = prop_decl.position
@@ -1163,14 +1247,13 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 	if substrate_kind == "manor_window_panel":
 		var window_panel := Node3D.new()
 		window_panel.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorWindowPanelProp"
-		var masonry := "recipe:surface/cloth_brown"
-		var backing_panel := _make_prop_box(Vector3(4.4, 4.1, 0.34), Vector3(0, 2.05, 0), masonry)
+		var backing_panel := _make_prop_box(Vector3(4.4, 4.1, 0.34), Vector3(0, 2.05, 0), masonry_surface)
 		backing_panel.name = "Backing"
 		window_panel.add_child(backing_panel)
-		var sill := _make_prop_box(Vector3(1.8, 0.16, 0.2), Vector3(0, 1.56, -0.11), "recipe:surface/oak_header")
+		var sill := _make_prop_box(Vector3(1.8, 0.16, 0.2), Vector3(0, 1.56, -0.11), trim_surface)
 		sill.name = "Sill"
 		window_panel.add_child(sill)
-		var lintel := _make_prop_box(Vector3(1.9, 0.14, 0.18), Vector3(0, 3.24, -0.08), "recipe:surface/oak_header")
+		var lintel := _make_prop_box(Vector3(1.9, 0.14, 0.18), Vector3(0, 3.24, -0.08), trim_surface)
 		lintel.name = "Lintel"
 		window_panel.add_child(lintel)
 		window_panel.position = prop_decl.position
@@ -1180,10 +1263,10 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 	if substrate_kind == "manor_wing_panel":
 		var wing_panel := Node3D.new()
 		wing_panel.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorWingPanelProp"
-		var wing := _make_prop_box(Vector3(8.0, 4.2, 0.42), Vector3(0, 2.1, 0), "recipe:surface/cloth_brown")
+		var wing := _make_prop_box(Vector3(8.0, 4.2, 0.42), Vector3(0, 2.1, 0), masonry_surface)
 		wing.name = "Wing"
 		wing_panel.add_child(wing)
-		var plinth_band := _make_prop_box(Vector3(8.1, 0.24, 0.48), Vector3(0, 0.12, -0.02), "recipe:surface/oak_header")
+		var plinth_band := _make_prop_box(Vector3(8.1, 0.24, 0.48), Vector3(0, 0.12, -0.02), trim_surface)
 		plinth_band.name = "Plinth"
 		wing_panel.add_child(plinth_band)
 		wing_panel.position = prop_decl.position
@@ -1193,14 +1276,13 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 	if substrate_kind == "manor_wall_column":
 		var column := Node3D.new()
 		column.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorWallColumnProp"
-		var trim := "recipe:surface/oak_header"
-		var column_base := _make_prop_box(Vector3(0.66, 0.2, 0.44), Vector3(0, 0.1, 0), trim)
+		var column_base := _make_prop_box(Vector3(0.66, 0.2, 0.44), Vector3(0, 0.1, 0), trim_surface)
 		column_base.name = "Base"
 		column.add_child(column_base)
-		var column_shaft := _make_prop_box(Vector3(0.44, 3.38, 0.28), Vector3(0, 1.89, 0), trim)
+		var column_shaft := _make_prop_box(Vector3(0.44, 3.38, 0.28), Vector3(0, 1.89, 0), trim_surface)
 		column_shaft.name = "Shaft"
 		column.add_child(column_shaft)
-		var column_cap := _make_prop_box(Vector3(0.72, 0.2, 0.38), Vector3(0, 3.58, 0), trim)
+		var column_cap := _make_prop_box(Vector3(0.72, 0.2, 0.38), Vector3(0, 3.58, 0), trim_surface)
 		column_cap.name = "Cap"
 		column.add_child(column_cap)
 		column.position = prop_decl.position
@@ -1210,7 +1292,6 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 	if substrate_kind == "doorway_trim":
 		var trim_root := Node3D.new()
 		trim_root.name = prop_decl.id if not prop_decl.id.is_empty() else "DoorwayTrimProp"
-		var trim_surface := "recipe:surface/oak_header"
 		var left_jamb := _make_prop_box(Vector3(0.22, 3.08, 0.18), Vector3(-1.03, 1.54, 0), trim_surface)
 		left_jamb.name = "LeftJamb"
 		trim_root.add_child(left_jamb)
@@ -1227,7 +1308,6 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 	if substrate_kind == "manor_roof_panel":
 		var roof_root := Node3D.new()
 		roof_root.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorRoofPanelProp"
-		var roof_surface := "recipe:surface/oak_dark"
 		var roof_plane := _make_prop_box(Vector3(4.4, 0.18, 2.4), Vector3(0, 0, 0), roof_surface)
 		roof_plane.name = "RoofPlane"
 		roof_plane.rotation_degrees.x = -32.0
@@ -1239,7 +1319,7 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 	if substrate_kind == "manor_roof_molding":
 		var molding_root := Node3D.new()
 		molding_root.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorRoofMoldingProp"
-		var molding := _make_prop_box(Vector3(4.5, 0.18, 0.32), Vector3(0, 0, 0), "recipe:surface/oak_header")
+		var molding := _make_prop_box(Vector3(4.5, 0.18, 0.32), Vector3(0, 0, 0), trim_surface)
 		molding.name = "Molding"
 		molding.rotation_degrees.x = -18.0
 		molding_root.add_child(molding)
@@ -1250,7 +1330,7 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 	if substrate_kind == "manor_frieze":
 		var frieze_root := Node3D.new()
 		frieze_root.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorFriezeProp"
-		var frieze := _make_prop_box(Vector3(4.6, 0.22, 0.26), Vector3(0, 0, 0), "recipe:surface/oak_header")
+		var frieze := _make_prop_box(Vector3(4.6, 0.22, 0.26), Vector3(0, 0, 0), trim_surface)
 		frieze.name = "Frieze"
 		frieze_root.add_child(frieze)
 		frieze_root.position = prop_decl.position

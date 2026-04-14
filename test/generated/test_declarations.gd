@@ -5,7 +5,7 @@ extends SceneTree
 
 const RoomAnchorDeclScript = preload("res://engine/declarations/room_anchor_decl.gd")
 const RegionCompilerScript = preload("res://engine/region_compiler.gd")
-const DirectPropRegistry = preload("res://engine/direct_prop_registry.gd")
+const ContentPropRegistry = preload("res://engine/content_prop_registry.gd")
 const DeclarationContractRegistry = preload("res://engine/declaration_contract_registry.gd")
 const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
 const EstateEnvironmentRegistry = preload("res://builders/estate_environment_registry.gd")
@@ -127,6 +127,14 @@ func _test_interactables() -> void:
 func _test_interactable_visual_contract() -> void:
 	_test_name = "INTERACTABLE_VISUALS"
 	var direct_visual_count := 0
+	var inactive_decl := InteractableDecl.new()
+	inactive_decl.id = "inactive_probe"
+	inactive_decl.thread_active = PackedStringArray(["canonical_progression"])
+	inactive_decl.inactive_visual_kind = "front_gate_lamp_lit"
+	_ok(
+		"inactive visuals stay dormant without active thread context",
+		not InteractableVisualsScript._should_use_inactive_visual(inactive_decl)
+	)
 	var repeated_visuals = DeclarationContractRegistry.INTERACTABLE_VISUAL_EXPECTATIONS
 	for entry in repeated_visuals:
 		var room = load(String(entry["room_path"]))
@@ -592,7 +600,7 @@ func _test_substrate_contract() -> void:
 	if world == null:
 		return
 	var raw_model_usage: Dictionary = {}
-	var direct_model_families_by_room: Dictionary = {}
+	var content_families_by_room: Dictionary = {}
 	for connection in world.connections:
 		if connection == null:
 			continue
@@ -717,23 +725,25 @@ func _test_substrate_contract() -> void:
 				"%s:%s model field stays asset-like, not scene-like" % [room_ref.room_id, prop.id],
 				prop.model.is_empty() or not String(prop.model).ends_with(".tscn")
 			)
-			if not prop.model.is_empty() and prop.substrate_prop_kind.is_empty():
-				var room_families: Dictionary = direct_model_families_by_room.get(room_ref.room_id, {})
-				room_families[prop.direct_model_family] = true
-				direct_model_families_by_room[room_ref.room_id] = room_families
+			if prop.uses_content_prop():
+				var room_families: Dictionary = content_families_by_room.get(room_ref.room_id, {})
+				room_families[ContentPropRegistry.family_for_kind(prop.content_prop_kind)] = true
+				content_families_by_room[room_ref.room_id] = room_families
 				_ok(
-					"%s:%s direct model contract valid" % [room_ref.room_id, prop.id],
-					prop.has_valid_direct_model_contract(room_ref.room_id)
+					"%s:%s content prop contract valid" % [room_ref.room_id, prop.id],
+					prop.has_valid_content_prop_contract(room_ref.room_id)
 				)
-			if not prop.direct_model_reason.is_empty():
 				_ok(
-					"%s:%s direct model reason only appears on raw-model props" % [room_ref.room_id, prop.id],
-					prop.uses_direct_model()
+					"%s:%s content prop kind resolves to asset path" % [room_ref.room_id, prop.id],
+					not ContentPropRegistry.path_for_kind(prop.content_prop_kind).is_empty()
 				)
-			if not prop.direct_model_family.is_empty():
 				_ok(
-					"%s:%s direct model family only appears on raw-model props" % [room_ref.room_id, prop.id],
-					prop.uses_direct_model()
+					"%s:%s content prop asset exists" % [room_ref.room_id, prop.id],
+					ResourceLoader.exists(ContentPropRegistry.path_for_kind(prop.content_prop_kind))
+				)
+				_ok(
+					"%s:%s content prop clears direct model path" % [room_ref.room_id, prop.id],
+					prop.model.is_empty()
 				)
 			if prop.scene_role in ["architectural_trim", "threshold_trim"] and prop.substrate_prop_kind.is_empty():
 				_ok(
@@ -744,18 +754,29 @@ func _test_substrate_contract() -> void:
 				"%s:%s has no active substrate waiver" % [room_ref.room_id, prop.id],
 				prop.substrate_waiver_reason.is_empty()
 			)
-	for raw_model_path in raw_model_usage.keys():
-		var usage: Array = raw_model_usage[raw_model_path]
-		_ok(
-			"raw model path %s is not a repeated authored family (%s)" % [raw_model_path, ", ".join(PackedStringArray(usage))],
-			usage.size() == 1
-		)
-	for room_id in DirectPropRegistry.EXPECTED_DIRECT_MODEL_FAMILY_BY_ROOM.keys():
-		var expected_family := DirectPropRegistry.expected_direct_model_family_for_room(String(room_id))
-		var room_families: Dictionary = direct_model_families_by_room.get(room_id, {})
-		_ok("%s direct-model family set present" % room_id, not room_families.is_empty())
-		_ok("%s uses exactly one direct-model family" % room_id, room_families.size() == 1)
-		_ok("%s direct-model family matches contract" % room_id, room_families.has(expected_family))
+	_ok("room declarations use zero direct prop model paths", raw_model_usage.is_empty())
+	for room_id in ContentPropRegistry.EXPECTED_CONTENT_FAMILY_BY_ROOM.keys():
+		var expected_family := ContentPropRegistry.expected_content_family_for_room(String(room_id))
+		var room_families: Dictionary = content_families_by_room.get(room_id, {})
+		_ok("%s content family set present" % room_id, not room_families.is_empty())
+		_ok("%s uses exactly one content family" % room_id, room_families.size() == 1)
+		_ok("%s content family matches contract" % room_id, room_families.has(expected_family))
+	var front_gate_room := load("res://declarations/rooms/front_gate.tres") as RoomDeclaration
+	_ok("front_gate room loads for launch contract", front_gate_room != null)
+	if front_gate_room != null:
+		_ok("front_gate omits mounted sign from props array", _find_prop_by_id(front_gate_room.props, "front_gate_menu_sign") == null)
+		_ok("front_gate omits mounted lamp from props array", _find_prop_by_id(front_gate_room.props, "gate_lamp_off") == null)
+		_ok("front_gate references threshold acknowledgement", _find_conditional_event_by_id(front_gate_room.conditional_events, "front_gate_threshold_ack") != null)
+	var assembler_source := FileAccess.get_file_as_string("res://engine/room_assembler.gd")
+	_ok("front-gate lamp substrate resolves to off mesh", "const FRONT_GATE_LAMP_MODEL := \"res://assets/grounds/front_gate/lamp_mx_1_a_off.glb\"" in assembler_source)
+	var procedural_start := assembler_source.find("func _build_procedural_prop")
+	var procedural_end := assembler_source.find("func _instantiate_substrate_scene")
+	var procedural_source := assembler_source.substr(procedural_start, procedural_end - procedural_start) if procedural_start != -1 and procedural_end != -1 else ""
+	_ok("procedural prop builder avoids hardcoded oak-dark recipe literals", "recipe:surface/oak_dark" not in procedural_source)
+	_ok("procedural prop builder avoids hardcoded oak-board recipe literals", "recipe:surface/oak_board" not in procedural_source)
+	_ok("procedural prop builder avoids hardcoded oak-header recipe literals", "recipe:surface/oak_header" not in procedural_source)
+	_ok("procedural prop builder avoids hardcoded stone-dark recipe literals", "recipe:surface/stone_dark" not in procedural_source)
+	_ok("procedural prop builder avoids hardcoded cloth-brown recipe literals", "recipe:surface/cloth_brown" not in procedural_source)
 	print("[DONE] substrate contract")
 
 	var retired_structure_models := {
@@ -2071,6 +2092,13 @@ func _find_prop_by_id(props: Array, prop_id: String) -> PropDecl:
 	for prop in props:
 		if prop != null and prop.id == prop_id:
 			return prop
+	return null
+
+
+func _find_conditional_event_by_id(events: Array, event_id: String):
+	for event in events:
+		if event != null and String(event.get("event_id")) == event_id:
+			return event
 	return null
 
 

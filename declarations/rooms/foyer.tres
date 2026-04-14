@@ -404,17 +404,13 @@ position = Vector3(4.7, 0, 0.65)
 [sub_resource type="Resource" id="prop_package"]
 script = ExtResource("5")
 id = "package"
-model = "res://assets/ground_floor/foyer/package_hr_1.glb"
-direct_model_family = "entry_dressing"
-direct_model_reason = "foyer_entry_dressing"
+content_prop_kind = "foyer_package"
 position = Vector3(4.1, 0, -3.6)
 
 [sub_resource type="Resource" id="prop_wall_map"]
 script = ExtResource("5")
 id = "wall_map"
-model = "res://assets/ground_floor/foyer/map_mx_1.glb"
-direct_model_family = "entry_dressing"
-direct_model_reason = "foyer_entry_dressing"
+content_prop_kind = "foyer_wall_map"
 position = Vector3(-5, 1.5, 4)
 
 [sub_resource type="Resource" id="prop_wall_picture_east"]

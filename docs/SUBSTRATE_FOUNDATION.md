@@ -146,7 +146,7 @@ legacy texture-path space. The current recipe-first builder defaults are:
 - wall: `surface/cloth_brown`
 - stairs: `surface/oak_board`, `surface/oak_header`, `surface/oak_dark`
 - door: oak frame/panel for normal doors, brick plus wrought iron for gates
-- window: `surface/oak_dark`
+- window: native procedural frame geometry using the resolved window surface
 - trapdoor: `surface/oak_header` and `surface/oak_dark`
 
 Legacy texture/model selectors may still exist as compatibility hints for mesh
@@ -611,22 +611,17 @@ changes between `adult/child` and `elder` route contexts.
   any non-empty raw `PropDecl.model` path that appears in more than one room
   now fails validation, so repeated shared families cannot quietly fall back
   to direct model-path authoring.
-- One-off raw room-prop models are now explicit too:
-  if a prop intentionally stays on a direct GLB path instead of a substrate
-  kind, the declaration must now carry both `direct_model_family` and
-  `direct_model_reason`. The current authored room set uses typed families such
-  as `tool_clutter`, `service_infrastructure`, `table_service`,
-  `study_dressing`, `personal_effects`, and `storage_clutter`, while the
-  reason stays room-scoped ownership metadata.
-- That taxonomy is now contractual too:
+- Shared imported clutter/content props now route through explicit
+  `content_prop_kind` ids instead of raw GLB model paths. `ContentPropRegistry`
+  owns the mapping from those stable kinds to concrete assets, grouped under
+  typed families such as `tool_clutter`, `service_infrastructure`,
+  `table_service`, `study_dressing`, `personal_effects`, and
+  `storage_clutter`.
+- That content taxonomy is contractual too:
   the declaration suite asserts the current room-to-family mapping directly, so
   a room cannot silently drift from `kitchen -> tool_clutter` or
   `boiler_room -> service_infrastructure` without an intentional contract
-  change.
-- The declaration object owns that rule now too:
-  `DirectPropRegistry` centralizes the policy and `PropDecl` now exposes
-  helpers for determining whether a prop is in a valid direct-model state,
-  instead of leaving all of that logic embedded in the test file.
+  change, and room declarations now target zero direct raw prop model usage.
 - The remaining direct-asset declaration channels now have the same rule:
   `InteractableDecl` and `MountPayloadDecl` carry explicit
   `direct_visual_reason` / `direct_payload_reason` fields, and the declaration

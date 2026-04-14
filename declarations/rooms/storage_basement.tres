@@ -241,27 +241,21 @@ flicker_pattern = "candle"
 [sub_resource type="Resource" id="prop_shelf_left"]
 script = ExtResource("5")
 id = "shelf_left"
-model = "res://assets/basement/storage/shelf_1.glb"
-direct_model_family = "storage_clutter"
-direct_model_reason = "storage_basement_storage_clutter"
+content_prop_kind = "storage_basement_shelf_left"
 position = Vector3(-3.1, 0, 1.6)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_shelf_right"]
 script = ExtResource("5")
 id = "shelf_right"
-model = "res://assets/basement/storage/shelf_2.glb"
-direct_model_family = "storage_clutter"
-direct_model_reason = "storage_basement_storage_clutter"
+content_prop_kind = "storage_basement_shelf_right"
 position = Vector3(3.2, 0, 1.4)
 rotation_y = 270.0
 
 [sub_resource type="Resource" id="prop_crate_1"]
 script = ExtResource("5")
 id = "crate_1"
-model = "res://assets/basement/storage/wooden_crate_1.glb"
-direct_model_family = "storage_clutter"
-direct_model_reason = "storage_basement_storage_clutter"
+content_prop_kind = "storage_basement_crate_1"
 position = Vector3(-2.1, 0, -2.6)
 
 [sub_resource type="Resource" id="prop_crate_2"]
@@ -274,72 +268,56 @@ rotation_y = 18.0
 [sub_resource type="Resource" id="prop_crate_3"]
 script = ExtResource("5")
 id = "crate_3"
-model = "res://assets/basement/storage/wooden_crate_2_b.glb"
-direct_model_family = "storage_clutter"
-direct_model_reason = "storage_basement_storage_clutter"
+content_prop_kind = "storage_basement_crate_3"
 position = Vector3(1.8, 0, -2.8)
 rotation_y = -12.0
 
 [sub_resource type="Resource" id="prop_crate_4"]
 script = ExtResource("5")
 id = "crate_4"
-model = "res://assets/basement/storage/wooden_crate_2_c.glb"
-direct_model_family = "storage_clutter"
-direct_model_reason = "storage_basement_storage_clutter"
+content_prop_kind = "storage_basement_crate_4"
 position = Vector3(2.7, 0, -1.8)
 rotation_y = 20.0
 
 [sub_resource type="Resource" id="prop_crate_5"]
 script = ExtResource("5")
 id = "crate_5"
-model = "res://assets/basement/storage/wooden_crate_3.glb"
-direct_model_family = "storage_clutter"
-direct_model_reason = "storage_basement_storage_clutter"
+content_prop_kind = "storage_basement_crate_5"
 position = Vector3(-3.0, 0, -1.2)
 rotation_y = -25.0
 
 [sub_resource type="Resource" id="prop_crates_barrels"]
 script = ExtResource("5")
 id = "crates_barrels"
-model = "res://assets/basement/storage/crates_barrels.glb"
-direct_model_family = "storage_clutter"
-direct_model_reason = "storage_basement_storage_clutter"
+content_prop_kind = "storage_basement_crates_barrels"
 position = Vector3(2.9, 0, -0.2)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_cage"]
 script = ExtResource("5")
 id = "iron_cage"
-model = "res://assets/basement/storage/cage.glb"
-direct_model_family = "storage_clutter"
-direct_model_reason = "storage_basement_storage_clutter"
+content_prop_kind = "storage_basement_iron_cage"
 position = Vector3(3.0, 0, 3.0)
 rotation_y = 180.0
 
 [sub_resource type="Resource" id="prop_ladder"]
 script = ExtResource("5")
 id = "ladder"
-model = "res://assets/basement/storage/ladder.glb"
-direct_model_family = "storage_clutter"
-direct_model_reason = "storage_basement_storage_clutter"
+content_prop_kind = "storage_basement_ladder"
 position = Vector3(-3.0, 0, 3.1)
 rotation_y = 180.0
 
 [sub_resource type="Resource" id="prop_mattress"]
 script = ExtResource("5")
 id = "old_mattress"
-model = "res://assets/basement/storage/old_mattress_mx_1.glb"
-direct_model_family = "storage_clutter"
-direct_model_reason = "storage_basement_storage_clutter"
+content_prop_kind = "storage_basement_old_mattress"
 position = Vector3(2.7, 0, 2.0)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_bucket"]
 script = ExtResource("5")
 id = "bucket"
-model = "res://assets/basement/storage/bucket_mx_3.glb"
-direct_model_family = "storage_clutter"
-direct_model_reason = "storage_basement_storage_clutter"
+content_prop_kind = "storage_basement_bucket"
 position = Vector3(-0.4, 0, 2.5)
 
 [sub_resource type="Resource" id="prop_dead_lamp"]
@@ -351,9 +329,7 @@ position = Vector3(0.9, 0.82, -2.4)
 [sub_resource type="Resource" id="prop_debris"]
 script = ExtResource("5")
 id = "debris"
-model = "res://assets/basement/storage/debris_bricks_mx_1.glb"
-direct_model_family = "storage_clutter"
-direct_model_reason = "storage_basement_storage_clutter"
+content_prop_kind = "storage_basement_debris"
 position = Vector3(-0.8, 0, -1.1)
 
 [sub_resource type="Resource" id="prop_hidden_service_stack"]

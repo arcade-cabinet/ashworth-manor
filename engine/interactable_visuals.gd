@@ -116,10 +116,13 @@ static func _should_use_inactive_visual(decl: InteractableDecl) -> bool:
 	if decl.thread_active.is_empty():
 		return false
 	var game_manager := _game_manager()
+	if game_manager == null or not game_manager.has_method("get_state"):
+		return false
 	var active_thread := ""
-	if game_manager != null and game_manager.has_method("get_state"):
-		active_thread = String(game_manager.call("get_state", "macro_thread", ""))
-	if active_thread.is_empty() or not decl.thread_active.has(active_thread):
+	active_thread = String(game_manager.call("get_state", "macro_thread", ""))
+	if active_thread.is_empty():
+		return false
+	if not decl.thread_active.has(active_thread):
 		return not decl.inactive_visual_kind.is_empty() or not decl.inactive_scene_path.is_empty() or not decl.inactive_model.is_empty()
 	return false
 

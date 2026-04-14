@@ -422,9 +422,7 @@ scale = 0.7
 [sub_resource type="Resource" id="prop_mattress"]
 script = ExtResource("5")
 id = "old_mattress"
-model = "res://assets/attic/storage/old_mattress_mx_1.glb"
-direct_model_family = "stored_clutter"
-direct_model_reason = "attic_storage_stored_clutter"
+content_prop_kind = "attic_storage_old_mattress"
 position = Vector3(4.8, 0, 2.8)
 rotation_y = 12.0
 
@@ -437,17 +435,13 @@ position = Vector3(5.2, 0, -0.8)
 [sub_resource type="Resource" id="prop_soap"]
 script = ExtResource("5")
 id = "attic_soap"
-model = "res://assets/attic/storage/soap_mx_1.glb"
-direct_model_family = "stored_clutter"
-direct_model_reason = "attic_storage_stored_clutter"
+content_prop_kind = "attic_storage_attic_soap"
 position = Vector3(5.2, 0.45, -0.7)
 
 [sub_resource type="Resource" id="prop_dead_lamp"]
 script = ExtResource("5")
 id = "dead_lamp"
-model = "res://assets/attic/storage/lamp_mx_4_off.glb"
-direct_model_family = "stored_clutter"
-direct_model_reason = "attic_storage_stored_clutter"
+content_prop_kind = "attic_storage_dead_lamp"
 position = Vector3(1.6, 0, -1.2)
 
 [sub_resource type="Resource" id="prop_mask"]
@@ -460,18 +454,14 @@ rotation_y = 270.0
 [sub_resource type="Resource" id="prop_mining"]
 script = ExtResource("5")
 id = "stored_tools"
-model = "res://assets/attic/storage/mining_props.glb"
-direct_model_family = "stored_clutter"
-direct_model_reason = "attic_storage_stored_clutter"
+content_prop_kind = "attic_storage_stored_tools"
 position = Vector3(5.2, 0, 1.6)
 scale = 0.9
 
 [sub_resource type="Resource" id="prop_bat"]
 script = ExtResource("5")
 id = "rafter_bat"
-model = "res://assets/attic/storage/bat.glb"
-direct_model_family = "stored_clutter"
-direct_model_reason = "attic_storage_stored_clutter"
+content_prop_kind = "attic_storage_rafter_bat"
 position = Vector3(0.5, 2.8, 4.8)
 
 [sub_resource type="Resource" id="prop_candle"]
@@ -505,9 +495,7 @@ rotation_y = 90.0
 [sub_resource type="Resource" id="prop_book"]
 script = ExtResource("5")
 id = "child_book"
-model = "res://assets/shared/items/book2.glb"
-direct_model_family = "stored_clutter"
-direct_model_reason = "attic_storage_stored_clutter"
+content_prop_kind = "attic_storage_child_book"
 position = Vector3(3.4, 0.58, 2.4)
 rotation_y = -18.0
 

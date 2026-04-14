@@ -161,9 +161,6 @@
 - Authored `type = "door"` connections no longer carry compatibility
   panel/frame hints at all. The shared door builder’s native default panel path
   now owns that case end to end.
-- Authored declaration data now mirrors active compatibility selectors into
-  explicit hint fields in `world.tres` and windowed room declarations, and the
-  declaration suite now enforces that.
 - Interior envelope surfaces no longer depend on room texture fields at all,
   and the old room-level `wall_texture`, `floor_texture`, and
   `ceiling_texture` fields have now been removed from the declaration schema.
@@ -1089,20 +1086,19 @@ independent execution drivers:
     any non-empty raw `PropDecl.model` path that appears more than once across
     room declarations now fails `test_declarations.gd`, which locks the
     repeated-shared-family cleanup in as a regression rule
-  - the remaining one-off raw room props are explicit now too:
-    `PropDecl` now carries both `direct_model_family` and
-    `direct_model_reason`; every intentionally direct GLB room prop now
-    declares a typed family (for example `tool_clutter` or
-    `service_infrastructure`) plus a room-scoped ownership reason instead of
-    overloading one string or leaving the exception undocumented
+  - the remaining shared imported clutter/content props are explicit now too:
+    `PropDecl` now carries `content_prop_kind`, and `ContentPropRegistry`
+    resolves those stable ids back to concrete GLB assets under typed families
+    like `tool_clutter`, `service_infrastructure`, `table_service`,
+    `study_dressing`, and `storage_clutter`
   - the room-to-family mapping is locked now too:
-    the declaration suite asserts the current mapping directly, so those direct
-    prop exception families cannot drift room-by-room without an explicit
+    the declaration suite asserts the current mapping directly, so those
+    content-prop families cannot drift room-by-room without an explicit
     contract update
   - the declaration object now owns its side of that contract too:
-    `DirectPropRegistry` centralizes the policy and `PropDecl` exposes helpers
-    for whether a prop is using and satisfying a valid direct-model contract,
-    instead of keeping all of that logic inside `test_declarations.gd`
+    `PropDecl` exposes helpers for whether a prop is using and satisfying a
+    valid `content_prop_kind` contract, instead of keeping all of that logic
+    inside `test_declarations.gd`
   - the same explicitness rule now exists for the remaining declaration-side
     direct asset channels too:
     `InteractableDecl` and `MountPayloadDecl` now have

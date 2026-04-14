@@ -124,9 +124,7 @@ flickering = false
 [sub_resource type="Resource" id="prop_gravel"]
 script = ExtResource("5")
 id = "gravel_pile"
-model = "res://assets/attic/stairwell/gravel_pile_hr_1.glb"
-direct_model_family = "debris"
-direct_model_reason = "attic_stairs_debris"
+content_prop_kind = "attic_stairs_gravel_pile"
 position = Vector3(0.0, 0, 0.2)
 
 [sub_resource type="Resource" id="prop_plank_a"]
@@ -139,9 +137,7 @@ rotation_y = 20.0
 [sub_resource type="Resource" id="prop_plank_b"]
 script = ExtResource("5")
 id = "broken_plank_b"
-model = "res://assets/attic/stairwell/wooden_plank_5.glb"
-direct_model_family = "debris"
-direct_model_reason = "attic_stairs_debris"
+content_prop_kind = "attic_stairs_broken_plank_b"
 position = Vector3(0.8, 0, 1.1)
 rotation_y = -35.0
 

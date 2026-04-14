@@ -206,7 +206,6 @@ const PROP_SUBSTRATE_EXPECTATIONS := [
 	{"room_path": "res://declarations/rooms/front_gate.tres", "id": "bush5", "kind": "front_gate_bush_01"},
 	{"room_path": "res://declarations/rooms/front_gate.tres", "id": "bush6", "kind": "front_gate_bush_02"},
 	{"room_path": "res://declarations/rooms/front_gate.tres", "id": "rocks", "kind": "front_gate_rocks"},
-	{"room_path": "res://declarations/rooms/front_gate.tres", "id": "gate_lamp_off", "kind": "front_gate_lamp"},
 	{"room_path": "res://declarations/rooms/front_gate.tres", "id": "facade_lamp_left", "kind": "front_gate_lamp"},
 	{"room_path": "res://declarations/rooms/front_gate.tres", "id": "facade_lamp_right", "kind": "front_gate_lamp"},
 	{"room_path": "res://declarations/rooms/front_gate.tres", "id": "statue_left", "kind": "forecourt_statue"},
