@@ -1397,6 +1397,17 @@ after each iteration and it's included in prompts for context.
     `attic_stairs`, `attic_storage`, `hidden_chamber`, `carriage_house`,
     `wine_cellar`, `foyer`, `upper_hallway`, `library`, `kitchen`,
     `parlor`, `master_bedroom`, and `boiler_room`
+- The shared blank-frame kit is now migrated too:
+  - `picture_blank.glb` -> `picture_frame_blank_000`
+  - `picture_blank_001.glb` -> `picture_frame_blank_001`
+  - `picture_blank_002.glb` -> `picture_frame_blank_002`
+  - `picture_blank_003.glb` -> `picture_frame_blank_003`
+  - `picture_blank_004.glb` -> `picture_frame_blank_004`
+  - `picture_blank_005.glb` -> `picture_frame_blank_005`
+  - `picture_blank_006.glb` -> `picture_frame_blank_006`
+  - affected authored rooms include:
+    `parlor`, `guest_room`, `hidden_chamber`, `upper_hallway`,
+    `attic_storage`, `carriage_house`, `library`, `dining_room`, and `foyer`
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload

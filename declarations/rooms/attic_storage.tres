@@ -280,7 +280,7 @@ type = "painting"
 position = Vector3(-6, 2, 0)
 wall = "west"
 collision_size = Vector3(1.5, 1.5, 1.5)
-model = "res://assets/shared/decor/picture_blank.glb"
+substrate_prop_kind = "picture_frame_blank_000"
 responses = Array[Resource]([SubResource("resp_portrait_truth"), SubResource("resp_portrait_default")])
 thread_responses = {"child": [SubResource("resp_portrait_captive")], "adult": [SubResource("resp_portrait_adult")], "elder": [SubResource("resp_portrait_sovereign")], "captive": [SubResource("resp_portrait_captive")], "mourning": [SubResource("resp_portrait_mourning")], "sovereign": [SubResource("resp_portrait_sovereign")]}
 
@@ -488,7 +488,7 @@ scale = 0.85
 [sub_resource type="Resource" id="prop_picture_frame"]
 script = ExtResource("5")
 id = "portrait_frame"
-model = "res://assets/shared/decor/picture_blank_005.glb"
+substrate_prop_kind = "picture_frame_blank_005"
 position = Vector3(-5.8, 1.8, 0.0)
 rotation_y = 90.0
 

@@ -262,7 +262,7 @@ rotation_y = -112.0
 [sub_resource type="Resource" id="prop_photo_frame"]
 script = ExtResource("5")
 id = "dinner_photo_frame"
-model = "res://assets/shared/decor/picture_blank_002.glb"
+substrate_prop_kind = "picture_frame_blank_002"
 position = Vector3(-3.85, 1.7, 0)
 rotation_y = 90.0
 

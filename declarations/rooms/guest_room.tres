@@ -106,7 +106,7 @@ type = "photo"
 position = Vector3(-3.5, 1.6, 0)
 wall = "west"
 collision_size = Vector3(0.8, 0.8, 0.4)
-model = "res://assets/shared/decor/picture_blank_004.glb"
+substrate_prop_kind = "picture_frame_blank_004"
 responses = Array[Resource]([SubResource("resp_photo_truth"), SubResource("resp_photo_default")])
 
 [sub_resource type="Resource" id="inter_luggage"]
@@ -182,7 +182,7 @@ position = Vector3(3.0, 0.8, 0.0)
 [sub_resource type="Resource" id="prop_photo"]
 script = ExtResource("5")
 id = "helena_photo_frame"
-model = "res://assets/shared/decor/picture_blank_004.glb"
+substrate_prop_kind = "picture_frame_blank_004"
 position = Vector3(-3.5, 1.6, 0.0)
 
 [sub_resource type="Resource" id="prop_bottle"]

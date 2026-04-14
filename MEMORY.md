@@ -1029,6 +1029,10 @@ independent execution drivers:
     raw `candle_holder.glb` and `candle0.glb` props across the room set
     now author through `candle_holder_fixture` and `candle_single`
     instead of direct shared model paths
+  - the shared blank-frame kit moved too:
+    raw `picture_blank*.glb` frame props across the room set
+    now author through explicit `picture_frame_blank_*` substrate kinds
+    instead of direct shared model paths
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

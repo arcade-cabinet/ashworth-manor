@@ -127,6 +127,13 @@ const CARRIAGE_HOUSE_LUGGAGE_MODEL := "res://assets/grounds/carriage_house/lugga
 const CARRIAGE_HOUSE_LAMP_MODEL := "res://assets/grounds/carriage_house/lamp_mx_2_off.glb"
 const CANDLE_HOLDER_MODEL := "res://assets/shared/decor/candle_holder.glb"
 const CANDLE_SINGLE_MODEL := "res://assets/shared/items/candle0.glb"
+const PICTURE_FRAME_000_MODEL := "res://assets/shared/decor/picture_blank.glb"
+const PICTURE_FRAME_001_MODEL := "res://assets/shared/decor/picture_blank_001.glb"
+const PICTURE_FRAME_002_MODEL := "res://assets/shared/decor/picture_blank_002.glb"
+const PICTURE_FRAME_003_MODEL := "res://assets/shared/decor/picture_blank_003.glb"
+const PICTURE_FRAME_004_MODEL := "res://assets/shared/decor/picture_blank_004.glb"
+const PICTURE_FRAME_005_MODEL := "res://assets/shared/decor/picture_blank_005.glb"
+const PICTURE_FRAME_006_MODEL := "res://assets/shared/decor/picture_blank_006.glb"
 const GREENHOUSE_PLANK_BENCH_MODEL := "res://assets/grounds/greenhouse/wooden_plank_1.glb"
 const GREENHOUSE_PLANK_SHELF_MODEL := "res://assets/grounds/greenhouse/wooden_plank_2.glb"
 const GREENHOUSE_DEAD_ROW_MODEL := "res://assets/grounds/greenhouse/bush_long_dead.glb"
@@ -237,6 +244,13 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	CARRIAGE_HOUSE_LAMP_MODEL: "carriage_house_dead_lamp",
 	CANDLE_HOLDER_MODEL: "candle_holder_fixture",
 	CANDLE_SINGLE_MODEL: "candle_single",
+	PICTURE_FRAME_000_MODEL: "picture_frame_blank_000",
+	PICTURE_FRAME_001_MODEL: "picture_frame_blank_001",
+	PICTURE_FRAME_002_MODEL: "picture_frame_blank_002",
+	PICTURE_FRAME_003_MODEL: "picture_frame_blank_003",
+	PICTURE_FRAME_004_MODEL: "picture_frame_blank_004",
+	PICTURE_FRAME_005_MODEL: "picture_frame_blank_005",
+	PICTURE_FRAME_006_MODEL: "picture_frame_blank_006",
 	GREENHOUSE_PLANK_BENCH_MODEL: "greenhouse_plank_bench",
 	GREENHOUSE_PLANK_SHELF_MODEL: "greenhouse_plank_shelf",
 	GREENHOUSE_DEAD_ROW_MODEL: "greenhouse_dead_row",
@@ -1349,6 +1363,20 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(CANDLE_HOLDER_MODEL, prop_decl)
 	if substrate_kind == "candle_single":
 		return _instantiate_substrate_scene(CANDLE_SINGLE_MODEL, prop_decl)
+	if substrate_kind == "picture_frame_blank_000":
+		return _instantiate_substrate_scene(PICTURE_FRAME_000_MODEL, prop_decl)
+	if substrate_kind == "picture_frame_blank_001":
+		return _instantiate_substrate_scene(PICTURE_FRAME_001_MODEL, prop_decl)
+	if substrate_kind == "picture_frame_blank_002":
+		return _instantiate_substrate_scene(PICTURE_FRAME_002_MODEL, prop_decl)
+	if substrate_kind == "picture_frame_blank_003":
+		return _instantiate_substrate_scene(PICTURE_FRAME_003_MODEL, prop_decl)
+	if substrate_kind == "picture_frame_blank_004":
+		return _instantiate_substrate_scene(PICTURE_FRAME_004_MODEL, prop_decl)
+	if substrate_kind == "picture_frame_blank_005":
+		return _instantiate_substrate_scene(PICTURE_FRAME_005_MODEL, prop_decl)
+	if substrate_kind == "picture_frame_blank_006":
+		return _instantiate_substrate_scene(PICTURE_FRAME_006_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_bench":
 		return _instantiate_substrate_scene(GREENHOUSE_PLANK_BENCH_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_shelf":

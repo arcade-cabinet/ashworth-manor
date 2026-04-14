@@ -560,3 +560,6 @@ changes between `adult/child` and `elder` route contexts.
   `candle_holder.glb` and `candle0.glb` now author through the shared
   `candle_holder_fixture` and `candle_single` substrate kinds across the room
   declarations.
+- The shared blank-frame kit is now substrate-owned too:
+  the `picture_blank*.glb` frame variants now author through explicit shared
+  `picture_frame_blank_*` substrate kinds across the room declarations.

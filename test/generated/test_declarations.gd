@@ -577,6 +577,15 @@ func _test_substrate_contract() -> void:
 		"res://assets/shared/decor/candle_holder.glb": "candle_holder_fixture",
 		"res://assets/shared/items/candle0.glb": "candle_single",
 	}
+	var legacy_frame_models := {
+		"res://assets/shared/decor/picture_blank.glb": "picture_frame_blank_000",
+		"res://assets/shared/decor/picture_blank_001.glb": "picture_frame_blank_001",
+		"res://assets/shared/decor/picture_blank_002.glb": "picture_frame_blank_002",
+		"res://assets/shared/decor/picture_blank_003.glb": "picture_frame_blank_003",
+		"res://assets/shared/decor/picture_blank_004.glb": "picture_frame_blank_004",
+		"res://assets/shared/decor/picture_blank_005.glb": "picture_frame_blank_005",
+		"res://assets/shared/decor/picture_blank_006.glb": "picture_frame_blank_006",
+	}
 	var substrate_ids := [
 		"grounds_twilight",
 		"forecourt_lamplit",
@@ -725,9 +734,10 @@ func _test_substrate_contract() -> void:
 				continue
 			var legacy_kind := String(legacy_candle_models.get(prop.model, ""))
 			if legacy_kind.is_empty():
-				continue
-			_ok("%s prop %s clears raw candle model path" % [room_ref.room_id, prop.id], prop.model.is_empty())
-			_ok("%s prop %s uses candle substrate kind" % [room_ref.room_id, prop.id], prop.substrate_prop_kind == legacy_kind)
+				legacy_kind = String(legacy_frame_models.get(prop.model, ""))
+			if not legacy_kind.is_empty():
+				_ok("%s prop %s clears raw repeated model path" % [room_ref.room_id, prop.id], prop.model.is_empty())
+				_ok("%s prop %s uses repeated substrate kind" % [room_ref.room_id, prop.id], prop.substrate_prop_kind == legacy_kind)
 		var slot_map: Dictionary = {}
 		for slot in room_decl.mount_slots:
 			if slot == null:
@@ -1509,6 +1519,18 @@ func _test_builder_default_contract() -> void:
 	var candle_single := assembler._build_procedural_prop(candle_single_decl)
 	_ok("substrate single candle builds from shared substrate kind", candle_single != null)
 
+	var picture_frame_decl := PropDecl.new()
+	picture_frame_decl.id = "compat_picture_frame_blank_000"
+	picture_frame_decl.substrate_prop_kind = "picture_frame_blank_000"
+	var picture_frame_blank := assembler._build_procedural_prop(picture_frame_decl)
+	_ok("substrate blank picture frame builds from shared substrate kind", picture_frame_blank != null)
+
+	var picture_frame_004_decl := PropDecl.new()
+	picture_frame_004_decl.id = "compat_picture_frame_blank_004"
+	picture_frame_004_decl.substrate_prop_kind = "picture_frame_blank_004"
+	var picture_frame_blank_004 := assembler._build_procedural_prop(picture_frame_004_decl)
+	_ok("substrate portrait frame variant builds from shared substrate kind", picture_frame_blank_004 != null)
+
 	var greenhouse_plank_bench_decl := PropDecl.new()
 	greenhouse_plank_bench_decl.id = "compat_greenhouse_plank_bench"
 	greenhouse_plank_bench_decl.substrate_prop_kind = "greenhouse_plank_bench"
@@ -1762,6 +1784,10 @@ func _test_builder_default_contract() -> void:
 		candle_holder_fixture.free()
 	if candle_single != null:
 		candle_single.free()
+	if picture_frame_blank != null:
+		picture_frame_blank.free()
+	if picture_frame_blank_004 != null:
+		picture_frame_blank_004.free()
 	if greenhouse_plank_bench != null:
 		greenhouse_plank_bench.free()
 	if greenhouse_plank_shelf != null:

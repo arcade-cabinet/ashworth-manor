@@ -211,7 +211,7 @@ position = Vector3(1.8, 0.0, -1.1)
 [sub_resource type="Resource" id="prop_mirror_frame"]
 script = ExtResource("5")
 id = "nursery_mirror_frame"
-model = "res://assets/shared/decor/picture_blank_004.glb"
+substrate_prop_kind = "picture_frame_blank_004"
 position = Vector3(2.35, 1.1, 1.0)
 rotation_y = 270.0
 scale = 1.1

@@ -132,7 +132,7 @@ type = "painting"
 position = Vector3(1.5, 2, 4)
 wall = "east"
 collision_size = Vector3(1.5, 1.5, 1.5)
-model = "res://assets/shared/decor/picture_blank.glb"
+substrate_prop_kind = "picture_frame_blank_000"
 responses = Array[Resource]([SubResource("resp_children_default")])
 thread_responses = {"child": [SubResource("resp_children_captive")], "adult": [SubResource("resp_children_adult")], "elder": [SubResource("resp_children_sovereign")], "captive": [SubResource("resp_children_captive")], "mourning": [SubResource("resp_children_mourning")], "sovereign": [SubResource("resp_children_sovereign")]}
 
@@ -231,7 +231,7 @@ scale = 0.5
 [sub_resource type="Resource" id="prop_children_frame"]
 script = ExtResource("5")
 id = "children_frame"
-model = "res://assets/shared/decor/picture_blank_003.glb"
+substrate_prop_kind = "picture_frame_blank_003"
 position = Vector3(1.5, 1.6, 3.8)
 
 [sub_resource type="Resource" id="prop_side_table_south"]

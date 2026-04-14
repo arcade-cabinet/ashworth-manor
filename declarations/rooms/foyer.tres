@@ -220,7 +220,7 @@ type = "painting"
 position = Vector3(0, 2.5, -4.5)
 wall = "south"
 collision_size = Vector3(1.5, 1.5, 1.5)
-model = "res://assets/shared/decor/picture_blank.glb"
+substrate_prop_kind = "picture_frame_blank_000"
 responses = Array[Resource]([SubResource("resp_painting_truth"), SubResource("resp_painting_diary"), SubResource("resp_painting_default")])
 thread_responses = {"child": [SubResource("resp_painting_captive")], "adult": [SubResource("resp_painting_adult")], "elder": [SubResource("resp_painting_sovereign")], "captive": [SubResource("resp_painting_captive")], "mourning": [SubResource("resp_painting_mourning")], "sovereign": [SubResource("resp_painting_sovereign")]}
 
@@ -416,7 +416,7 @@ position = Vector3(-5, 1.5, 4)
 [sub_resource type="Resource" id="prop_wall_picture_east"]
 script = ExtResource("5")
 id = "wall_picture_east"
-model = "res://assets/shared/decor/picture_blank_001.glb"
+substrate_prop_kind = "picture_frame_blank_001"
 position = Vector3(5, 1.75, -1.1)
 rotation_y = 180.0
 scale = 0.9
@@ -540,7 +540,7 @@ scale = 0.82
 [sub_resource type="Resource" id="prop_upper_portrait"]
 script = ExtResource("5")
 id = "upper_portrait"
-model = "res://assets/shared/decor/picture_blank.glb"
+substrate_prop_kind = "picture_frame_blank_000"
 position = Vector3(0, 3.25, 4.82)
 rotation_y = 180.0
 scale = 1.4
@@ -613,7 +613,7 @@ script = ExtResource("13")
 payload_id = "foyer_wall_picture_east_payload"
 slot_id = "wall_east_display"
 scene_role = "mounted_payload"
-model = "res://assets/shared/decor/picture_blank_001.glb"
+substrate_prop_kind = "picture_frame_blank_001"
 scale_3d = Vector3(0.9, 0.9, 0.9)
 
 [sub_resource type="Resource" id="mount_payload_upper_portrait_standard"]
@@ -621,7 +621,7 @@ script = ExtResource("13")
 payload_id = "foyer_upper_portrait_standard"
 slot_id = "upper_north_portrait"
 scene_role = "mounted_payload"
-model = "res://assets/shared/decor/picture_blank.glb"
+substrate_prop_kind = "picture_frame_blank_000"
 route_modes = PackedStringArray("adult", "child")
 scale_3d = Vector3(1.4, 1.4, 1.4)
 
@@ -630,7 +630,7 @@ script = ExtResource("13")
 payload_id = "foyer_upper_portrait_elder"
 slot_id = "upper_north_portrait"
 scene_role = "mounted_payload"
-model = "res://assets/shared/decor/picture_blank_001.glb"
+substrate_prop_kind = "picture_frame_blank_001"
 route_modes = PackedStringArray("elder")
 scale_3d = Vector3(1.18, 1.18, 1.18)
 
