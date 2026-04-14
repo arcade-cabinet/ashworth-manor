@@ -616,3 +616,8 @@ changes between `adult/child` and `elder` route contexts.
   kind, the declaration must carry `direct_model_reason`. The current authored
   room set uses that field to mark deliberate room-specific set dressing rather
   than silent substrate drift.
+- The remaining direct-asset declaration channels now have the same rule:
+  `InteractableDecl` and `MountPayloadDecl` carry explicit
+  `direct_visual_reason` / `direct_payload_reason` fields, and the declaration
+  suite fails if direct model/scene authoring appears there without one of
+  those reasons.

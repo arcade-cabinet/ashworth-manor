@@ -1093,6 +1093,12 @@ independent execution drivers:
     `PropDecl` has `direct_model_reason`, and every intentionally direct GLB
     room prop now declares that it is deliberate room-specific set dressing
     instead of being an undocumented leftover
+  - the same explicitness rule now exists for the remaining declaration-side
+    direct asset channels too:
+    `InteractableDecl` and `MountPayloadDecl` now have
+    `direct_visual_reason` / `direct_payload_reason`, and the declaration
+    suite fails if raw direct visual/payload authoring shows up there without
+    an explicit reason
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

@@ -310,6 +310,32 @@ func _test_interactable_visual_contract() -> void:
 				"%s state '%s' resolves through visual kind" % [interactable.id, state_name],
 				InteractableVisualsScript._resolve_visual_path(interactable, String(state_name)) == String(state_paths[state_name])
 			)
+	var dir := DirAccess.open("res://declarations/rooms/")
+	if dir != null:
+		dir.list_dir_begin()
+		var file_name := dir.get_next()
+		while file_name != "":
+			if file_name.ends_with(".tres"):
+				var room := load("res://declarations/rooms/" + file_name)
+				if room != null and "interactables" in room:
+					for interactable in room.interactables:
+						if interactable == null:
+							continue
+						var has_direct_visual: bool = (
+							(not interactable.model.is_empty() or not interactable.scene_path.is_empty())
+							and interactable.visual_kind.is_empty()
+						)
+						if has_direct_visual:
+							_ok(
+								"%s:%s direct visual authoring declares reason" % [room.room_id, interactable.id],
+								not interactable.direct_visual_reason.is_empty()
+							)
+						if not interactable.direct_visual_reason.is_empty():
+							_ok(
+								"%s:%s direct visual reason only appears on explicit direct visuals" % [room.room_id, interactable.id],
+								has_direct_visual
+							)
+			file_name = dir.get_next()
 	print("[DONE] interactable visual contract")
 
 
@@ -509,6 +535,32 @@ func _test_mount_payload_substrate_contract() -> void:
 		if pedestal != null:
 			_ok("greenhouse pedestal uses substrate kind", pedestal.substrate_prop_kind == "greenhouse_pedestal")
 			_ok("greenhouse pedestal clears direct scene path", pedestal.scene_path.is_empty())
+	var dir := DirAccess.open("res://declarations/rooms/")
+	if dir != null:
+		dir.list_dir_begin()
+		var file_name := dir.get_next()
+		while file_name != "":
+			if file_name.ends_with(".tres"):
+				var room := load("res://declarations/rooms/" + file_name)
+				if room != null and "mount_payloads" in room:
+					for payload in room.mount_payloads:
+						if payload == null:
+							continue
+						var has_direct_payload: bool = (
+							(not payload.scene_path.is_empty() or not payload.model.is_empty())
+							and payload.substrate_prop_kind.is_empty()
+						)
+						if has_direct_payload:
+							_ok(
+								"%s:%s direct payload authoring declares reason" % [room.room_id, payload.payload_id],
+								not payload.direct_payload_reason.is_empty()
+							)
+						if not payload.direct_payload_reason.is_empty():
+							_ok(
+								"%s:%s direct payload reason only appears on explicit direct payloads" % [room.room_id, payload.payload_id],
+								has_direct_payload
+							)
+			file_name = dir.get_next()
 	print("[DONE] mount payload substrate contract")
 
 

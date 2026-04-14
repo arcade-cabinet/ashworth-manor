@@ -1499,6 +1499,12 @@ after each iteration and it's included in prompts for context.
     as deliberate `room_specific_set_dressing`
   - the declaration suite fails if a raw room-prop model path lacks that
     reason, or if the reason appears on a substrate-owned prop
+- The remaining declaration-side direct asset channels are guarded now too:
+  - `InteractableDecl` now carries `direct_visual_reason`
+  - `MountPayloadDecl` now carries `direct_payload_reason`
+  - the declaration suite fails if direct scene/model authoring appears in
+    those channels without an explicit reason, or if the reason appears
+    without an actual direct asset payload
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload

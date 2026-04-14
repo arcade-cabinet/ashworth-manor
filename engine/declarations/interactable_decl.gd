@@ -24,6 +24,7 @@ extends Resource
 @export var inactive_model: String = ""      # Optional inert/closed/empty GLB visual for inactive state
 @export var inactive_scene_path: String = "" # Optional inert/closed/empty scene visual
 @export var visual_kind: String = ""         # Shared runtime-owned visual kind for repeated scene/model sets
+@export var direct_visual_reason: String = "" # required when a live visual intentionally bypasses visual_kind
 @export var inactive_visual_kind: String = "" # Shared inactive visual kind for repeated sets
 @export var texture: String = ""             # For procedural visual (door/window texture)
 @export var default_visual_state: String = "" # empty, filled, open, closed, lit, extinguished, etc.

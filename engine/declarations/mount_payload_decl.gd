@@ -11,6 +11,7 @@ extends Resource
 @export var substrate_prop_kind: String = ""
 @export var scene_path: String = ""
 @export var model: String = ""
+@export var direct_payload_reason: String = ""
 @export var state_condition: String = ""
 @export var route_modes: PackedStringArray = []
 @export var offset: Vector3 = Vector3.ZERO
