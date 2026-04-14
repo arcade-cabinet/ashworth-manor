@@ -102,6 +102,9 @@
 - Ordinary `DoorBuilder` and `WindowBuilder` runtime paths are now procedural
   substrate primitives; imported frame/panel/window meshes are no longer part
   of the common builder contract.
+- `RoomAssembler` no longer hand-builds local materials for procedural moon or
+  world-label props; those runtime visuals now route through
+  `EstateMaterialKit`.
 - Common windows no longer need per-room compatibility hints at all:
   `WindowBuilder` now emits native procedural frame geometry directly, and the
   room-side `legacy_window_model_hint` field has now been removed from the

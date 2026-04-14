@@ -534,6 +534,7 @@ func _test_material_factory_allowlist() -> void:
 	}
 	var roots := [
 		"res://builders",
+		"res://engine",
 		"res://scenes/shared",
 		"res://scripts/procedural",
 	]

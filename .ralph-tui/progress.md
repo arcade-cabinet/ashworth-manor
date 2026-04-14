@@ -93,6 +93,9 @@ after each iteration and it's included in prompts for context.
   removed entirely.
 - Ordinary doors now stay procedural too; imported frame/panel meshes are no
   longer part of the common `DoorBuilder` path.
+- `RoomAssembler` no longer creates local `StandardMaterial3D` instances for
+  the procedural moon or world-label props; those visuals now route through
+  `EstateMaterialKit`, and the material-factory guard now scans `engine/` too.
 - Removed the redundant ordinary-door mesh hints from authored world data:
   - parlor, dining room, kitchen, upper-floor bedroom/library/guest-room, and
     service-hatch doors now rely on the shared door builder’s native default

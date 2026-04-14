@@ -1228,6 +1228,15 @@ static func shadow_void_tinted(color: Color) -> StandardMaterial3D:
 	return material
 
 
+static func flat_unshaded(color: Color) -> StandardMaterial3D:
+	var material := StandardMaterial3D.new()
+	material.albedo_color = color
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.roughness = 1.0
+	material.metallic = 0.0
+	return material
+
+
 static func emissive_unshaded(
 	color: Color,
 	energy: float,
@@ -1277,6 +1286,17 @@ static func legacy_texture_surface(texture: Texture2D, double_sided := false) ->
 	material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 	if double_sided:
 		material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	return material
+
+
+static func legacy_texture_unshaded(texture: Texture2D, color: Color, filter_mode: BaseMaterial3D.TextureFilter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC) -> StandardMaterial3D:
+	var material := legacy_texture_surface(texture)
+	if material == null:
+		material = flat_unshaded(color)
+	else:
+		material.albedo_color = color
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		material.texture_filter = filter_mode
 	return material
 
 

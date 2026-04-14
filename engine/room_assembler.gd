@@ -625,16 +625,13 @@ func _build_world_label_board(decl: InteractableDecl) -> Node3D:
 		decl.visual_effects.get("world_label_board_offset", Vector3(0, 0, -0.03)),
 		Vector3(0, 0, -0.03)
 	)
-	var board_mat := StandardMaterial3D.new()
 	var board_texture_path := String(decl.visual_effects.get("world_label_board_texture", "res://assets/grounds/front_gate/bench_mx_1_planks_hr_2.png"))
-	if ResourceLoader.exists(board_texture_path):
-		board_mat.albedo_texture = load(board_texture_path)
-	board_mat.albedo_color = _coerce_color(
+	var board_color := _coerce_color(
 		decl.visual_effects.get("world_label_board_color", Color(0.31, 0.20, 0.12, 1.0)),
 		Color(0.31, 0.20, 0.12, 1.0)
 	)
-	board_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	board_mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	var board_texture := load(board_texture_path) as Texture2D if ResourceLoader.exists(board_texture_path) else null
+	var board_mat := EstateMaterialKit.legacy_texture_unshaded(board_texture, board_color)
 	board.set_surface_override_material(0, board_mat)
 	root.add_child(board)
 
@@ -646,12 +643,10 @@ func _build_world_label_board(decl: InteractableDecl) -> Node3D:
 		hanger_mesh.size = Vector3(0.03, hanger_height, 0.03)
 		hanger.mesh = hanger_mesh
 		hanger.position = Vector3(float(hanger_x), board.position.y + hanger_height * 0.5 + board_size.y * 0.5, board.position.z)
-		var hanger_mat := StandardMaterial3D.new()
-		hanger_mat.albedo_color = _coerce_color(
+		var hanger_mat := EstateMaterialKit.flat_unshaded(_coerce_color(
 			decl.visual_effects.get("world_label_hanger_color", Color(0.22, 0.16, 0.11, 1.0)),
 			Color(0.22, 0.16, 0.11, 1.0)
-		)
-		hanger_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		))
 		hanger.set_surface_override_material(0, hanger_mat)
 		root.add_child(hanger)
 
@@ -666,12 +661,7 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		mesh.radius = 0.54
 		mesh.height = 1.08
 		moon.mesh = mesh
-		var material := StandardMaterial3D.new()
-		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-		material.albedo_color = Color(0.76, 0.8, 0.88, 1.0)
-		material.emission_enabled = true
-		material.emission = Color(0.44, 0.5, 0.64, 1.0)
-		material.emission_energy_multiplier = 0.46
+		var material := EstateMaterialKit.emissive_unshaded(Color(0.76, 0.8, 0.88, 1.0), 0.46)
 		moon.set_surface_override_material(0, material)
 		moon.position = prop_decl.position
 		moon.rotation_degrees.y = prop_decl.rotation_y

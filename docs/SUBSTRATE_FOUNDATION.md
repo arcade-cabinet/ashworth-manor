@@ -255,6 +255,10 @@ exceptions. `estate_front_door.gd`, `estate_entry_portico.gd`,
 void fills, village window glow, fog banks, or stars. Those paths now resolve
 through shared `EstateMaterialKit` helpers instead.
 
+That same rule now reaches the runtime assembler too. `RoomAssembler` no longer
+hand-builds local materials for procedural moon props or world-label boards and
+hangers; those runtime visuals now resolve through `EstateMaterialKit` as well.
+
 ## Foliage Shader
 
 Foliage remains shader-driven substrate, not wall-cladding by texture alone.
@@ -326,7 +330,7 @@ either.
 The contract is now broader than a few named scripts. Outside the actual
 material factory layer (`estate_material_kit.gd` and `pbr_texture_kit.gd`),
 local `StandardMaterial3D.new()` construction is now treated as a regression
-across `builders/`, `scenes/shared/`, and `scripts/procedural/`.
+across `builders/`, `engine/`, `scenes/shared/`, and `scripts/procedural/`.
 
 ## Stable Mount Families
 
