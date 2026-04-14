@@ -6,6 +6,7 @@ extends SceneTree
 const RoomAnchorDeclScript = preload("res://engine/declarations/room_anchor_decl.gd")
 const RegionCompilerScript = preload("res://engine/region_compiler.gd")
 const DirectPropRegistry = preload("res://engine/direct_prop_registry.gd")
+const DeclarationContractRegistry = preload("res://engine/declaration_contract_registry.gd")
 const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
 const EstateEnvironmentRegistry = preload("res://builders/estate_environment_registry.gd")
 const EstateSubstrateRegistry = preload("res://builders/estate_substrate_registry.gd")
@@ -126,165 +127,7 @@ func _test_interactables() -> void:
 func _test_interactable_visual_contract() -> void:
 	_test_name = "INTERACTABLE_VISUALS"
 	var direct_visual_count := 0
-	var repeated_visuals := [
-		{
-			"room_path": "res://declarations/rooms/kitchen.tres",
-			"id": "kitchen_bucket",
-			"visual_kind": "kitchen_bucket_still",
-			"base_path": "res://scenes/shared/kitchen/kitchen_bucket_still.tscn",
-			"states": {"rippled": "res://scenes/shared/kitchen/kitchen_bucket_rippled.tscn"},
-		},
-		{
-			"room_path": "res://declarations/rooms/front_gate.tres",
-			"id": "gate_luggage",
-			"visual_kind": "front_gate_valise_closed",
-			"base_path": "res://scenes/shared/front_gate/front_gate_valise_closed.tscn",
-			"states": {"opened": "res://scenes/shared/front_gate/front_gate_valise_open.tscn"},
-		},
-		{
-			"room_path": "res://declarations/rooms/front_gate.tres",
-			"id": "gate_lamp",
-			"visual_kind": "front_gate_lamp_lit",
-			"base_path": "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb",
-			"states": {},
-		},
-		{
-			"room_path": "res://declarations/rooms/front_gate.tres",
-			"id": "gate_bench",
-			"visual_kind": "front_gate_bench",
-			"base_path": "res://assets/grounds/front_gate/bench_mx_1.glb",
-			"states": {},
-		},
-		{
-			"room_path": "res://declarations/rooms/garden.tres",
-			"id": "garden_fountain",
-			"visual_kind": "garden_fountain",
-			"base_path": "res://assets/grounds/garden/fountain01_round.glb",
-			"states": {},
-		},
-		{
-			"room_path": "res://declarations/rooms/garden.tres",
-			"id": "garden_gazebo",
-			"visual_kind": "garden_gazebo",
-			"base_path": "res://assets/grounds/garden/gazebo.glb",
-			"states": {},
-		},
-		{
-			"room_path": "res://declarations/rooms/greenhouse.tres",
-			"id": "greenhouse_pot",
-			"visual_kind": "greenhouse_lily_pot_intact",
-			"base_path": "res://scenes/shared/greenhouse/greenhouse_lily_pot_intact.tscn",
-			"states": {"disturbed": "res://scenes/shared/greenhouse/greenhouse_lily_pot_disturbed.tscn"},
-		},
-		{
-			"room_path": "res://declarations/rooms/parlor.tres",
-			"id": "parlor_tea",
-			"visual_kind": "parlor_tea_set",
-			"base_path": "res://scenes/shared/parlor/parlor_tea_service_set.tscn",
-			"states": {"disturbed": "res://scenes/shared/parlor/parlor_tea_service_disturbed.tscn"},
-		},
-		{
-			"room_path": "res://declarations/rooms/chapel.tres",
-			"id": "baptismal_font",
-			"visual_kind": "chapel_font_still",
-			"base_path": "res://scenes/shared/chapel/baptismal_font_still.tscn",
-			"states": {
-				"disturbed": "res://scenes/shared/chapel/baptismal_font_disturbed.tscn",
-				"searched": "res://scenes/shared/chapel/baptismal_font_searched.tscn",
-			},
-		},
-		{
-			"room_path": "res://declarations/rooms/dining_room.tres",
-			"id": "wine_glass",
-			"visual_kind": "dining_wine_still",
-			"base_path": "res://scenes/shared/dining_room/dining_wine_glass_still.tscn",
-			"states": {"agitated": "res://scenes/shared/dining_room/dining_wine_glass_agitated.tscn"},
-		},
-		{
-			"room_path": "res://declarations/rooms/parlor.tres",
-			"id": "music_box",
-			"visual_kind": "music_box_display",
-			"base_path": "res://scenes/shared/items/music_box_display.tscn",
-			"states": {},
-		},
-		{
-			"room_path": "res://declarations/rooms/hidden_chamber.tres",
-			"id": "child_music_box",
-			"visual_kind": "music_box_display",
-			"base_path": "res://scenes/shared/items/music_box_display.tscn",
-			"states": {},
-		},
-		{
-			"room_path": "res://declarations/rooms/attic_storage.tres",
-			"id": "attic_music_box",
-			"visual_kind": "music_box_display",
-			"base_path": "res://scenes/shared/items/music_box_display.tscn",
-			"states": {},
-		},
-		{
-			"room_path": "res://declarations/rooms/family_crypt.tres",
-			"id": "crypt_music_box",
-			"visual_kind": "music_box_display",
-			"base_path": "res://scenes/shared/items/music_box_display.tscn",
-			"states": {},
-		},
-		{
-			"room_path": "res://declarations/rooms/guest_room.tres",
-			"id": "guest_luggage",
-			"visual_kind": "guest_luggage_closed",
-			"base_path": "res://assets/upper_floor/guest_room/luggage_mp_1.glb",
-			"states": {},
-		},
-		{
-			"room_path": "res://declarations/rooms/guest_room.tres",
-			"id": "guest_lamp",
-			"visual_kind": "guest_lamp_unlit",
-			"base_path": "res://assets/upper_floor/guest_room/lamp_mx_3_off.glb",
-			"states": {},
-		},
-		{
-			"room_path": "res://declarations/rooms/upper_hallway.tres",
-			"id": "hallway_poster",
-			"visual_kind": "hallway_poster_notice",
-			"base_path": "res://assets/upper_floor/hallway/poster_cx_11.glb",
-			"states": {},
-		},
-		{
-			"room_path": "res://declarations/rooms/upper_hallway.tres",
-			"id": "hallway_mask",
-			"visual_kind": "hallway_mask_display",
-			"base_path": "res://assets/upper_floor/hallway/mask_mx_1.glb",
-			"states": {},
-		},
-		{
-			"room_path": "res://declarations/rooms/library.tres",
-			"id": "binding_book",
-			"visual_kind": "library_binding_book",
-			"base_path": "res://assets/shared/items/books1.glb",
-			"states": {},
-		},
-		{
-			"room_path": "res://declarations/rooms/library.tres",
-			"id": "library_artifact",
-			"visual_kind": "library_artifact_display",
-			"base_path": "res://assets/upper_floor/library/ancient_artifact_mx_1.glb",
-			"states": {},
-		},
-		{
-			"room_path": "res://declarations/rooms/attic_storage.tres",
-			"id": "porcelain_doll",
-			"visual_kind": "attic_porcelain_doll",
-			"base_path": "res://assets/horror/models/doll1.glb",
-			"states": {},
-		},
-		{
-			"room_path": "res://declarations/rooms/master_bedroom.tres",
-			"id": "bedroom_broken_bottle",
-			"visual_kind": "master_broken_bottle",
-			"base_path": "res://assets/upper_floor/master_bedroom/glass_bottle_mx_3_broken.glb",
-			"states": {},
-		},
-	]
+	var repeated_visuals = DeclarationContractRegistry.INTERACTABLE_VISUAL_EXPECTATIONS
 	for entry in repeated_visuals:
 		var room = load(String(entry["room_path"]))
 		_ok("%s loads" % entry["room_path"], room != null)
@@ -342,11 +185,7 @@ func _test_interactable_visual_contract() -> void:
 
 func _test_flashback_visual_contract() -> void:
 	_test_name = "FLASHBACK_VISUALS"
-	var repeated_flashbacks := [
-		{"room_path": "res://declarations/rooms/foyer.tres", "flashback_id": "foyer_family_flashback", "visual_kind": "bloodwraith_apparition"},
-		{"room_path": "res://declarations/rooms/attic_storage.tres", "flashback_id": "attic_elizabeth_flashback", "visual_kind": "bloodwraith_apparition"},
-		{"room_path": "res://declarations/rooms/parlor.tres", "flashback_id": "parlor_elizabeth_flashback", "visual_kind": "bloodwraith_apparition"},
-	]
+	var repeated_flashbacks = DeclarationContractRegistry.FLASHBACK_VISUAL_EXPECTATIONS
 	var trigger_engine := TriggerEngine.new(null)
 	for entry in repeated_flashbacks:
 		var room := load(String(entry["room_path"])) as RoomDeclaration
@@ -385,137 +224,7 @@ func _test_flashback_visual_contract() -> void:
 
 func _test_grounds_scene_prop_contract() -> void:
 	_test_name = "GROUNDS_SCENE_PROPS"
-	var repeated_props := [
-		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_service_boundary_wall", "kind": "boundary_wall"},
-		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_service_gate_inner_pillar", "kind": "gate_post"},
-		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_service_gate_prop", "kind": "iron_gate_closed"},
-		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_service_fence_stub", "kind": "fence_run"},
-		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_forecourt_steps_shell", "kind": "forecourt_steps"},
-		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_mansion_facade_shell", "kind": "mansion_facade"},
-		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_entry_portico", "kind": "entry_portico"},
-		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_facade_lamp_left", "kind": "front_gate_lamp"},
-		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_facade_lamp_right", "kind": "front_gate_lamp"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "gate_pillar_l", "kind": "gate_post"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "boundary_wall", "kind": "boundary_wall"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "boundary_pole_r", "kind": "front_gate_boundary_pole"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "iron_gate_center", "kind": "iron_gate_open"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "iron_gate_center_r", "kind": "iron_gate_leaf_angled"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "tree1", "kind": "front_gate_tree_01"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "tree2", "kind": "front_gate_tree_02"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "tree3", "kind": "front_gate_tree_03"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "tree4", "kind": "front_gate_tree_04"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "tree5", "kind": "front_gate_tree_01"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "tree6", "kind": "front_gate_tree_02"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "tree7", "kind": "front_gate_tree_03"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "bush1", "kind": "front_gate_bush_01"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "bush2", "kind": "front_gate_bush_02"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "bush3", "kind": "front_gate_bush_03"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "bush4", "kind": "front_gate_bush_04"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "bush5", "kind": "front_gate_bush_01"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "bush6", "kind": "front_gate_bush_02"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "rocks", "kind": "front_gate_rocks"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "gate_lamp_off", "kind": "front_gate_lamp"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "facade_lamp_left", "kind": "front_gate_lamp"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "facade_lamp_right", "kind": "front_gate_lamp"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "statue_left", "kind": "forecourt_statue"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "statue_right", "kind": "forecourt_statue"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "facade_chimney_left", "kind": "front_gate_chimney_left"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "facade_chimney_right", "kind": "front_gate_chimney_right"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "front_gate_main_road", "kind": "carriage_road"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "front_gate_outward_road", "kind": "outward_road"},
-		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "front_gate_starfield", "kind": "starfield"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "crypt_pillar_l", "kind": "gate_post_stone"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "crypt_gate", "kind": "iron_gate_closed"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "fountain_model", "kind": "garden_fountain_base"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "fountain_ice", "kind": "garden_fountain_water"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "gazebo_model", "kind": "garden_gazebo_shell"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "path_west", "kind": "garden_path_west"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "path_center", "kind": "garden_path_center"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "path_north", "kind": "garden_path_north"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "path_chapel", "kind": "garden_path_center"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "path_crypt", "kind": "garden_path_crypt"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "north_wall_w", "kind": "garden_north_wall_w"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "north_wall_e", "kind": "garden_north_wall_e"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "east_wall_s", "kind": "garden_east_wall_s"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "east_wall_n", "kind": "garden_east_wall_n"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "corner_ne", "kind": "garden_corner_ne"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "fountain_column_l", "kind": "garden_column_l"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "fountain_column_r", "kind": "garden_column_r"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "vase_l", "kind": "garden_vase_l"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "vase_r", "kind": "garden_vase_r"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "bench_model", "kind": "garden_bench_west"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "gazebo_table", "kind": "garden_gazebo_table"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "bench_north", "kind": "garden_bench_north"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "beds_west", "kind": "garden_beds_west"},
-		{"room_path": "res://declarations/rooms/garden.tres", "id": "beds_east", "kind": "garden_beds_east"},
-		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_nw", "kind": "chapel_wall_column_fancy"},
-		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_n", "kind": "chapel_wall_center"},
-		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_ne", "kind": "chapel_wall_column_fancy"},
-		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_w", "kind": "chapel_wall_column"},
-		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_e", "kind": "chapel_wall_column"},
-		{"room_path": "res://declarations/rooms/chapel.tres", "id": "font_bucket", "kind": "chapel_bucket"},
-		{"room_path": "res://declarations/rooms/chapel.tres", "id": "font_bottle", "kind": "chapel_bottle"},
-		{"room_path": "res://declarations/rooms/chapel.tres", "id": "dead_lamp", "kind": "chapel_dead_lamp"},
-		{"room_path": "res://declarations/rooms/chapel.tres", "id": "loose_bones", "kind": "chapel_bones"},
-		{"room_path": "res://declarations/rooms/chapel.tres", "id": "saint_statue", "kind": "forecourt_statue"},
-		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "mattress_model", "kind": "carriage_house_mattress"},
-		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "shed_a", "kind": "carriage_house_shed_a"},
-		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "shed_b", "kind": "carriage_house_shed_b"},
-		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "shed_c", "kind": "carriage_house_shed_c"},
-		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "shed_d", "kind": "carriage_house_shed_d"},
-		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "board_1", "kind": "carriage_house_board_1"},
-		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "board_2", "kind": "carriage_house_board_2"},
-		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "shovel", "kind": "carriage_house_shovel"},
-		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "luggage", "kind": "carriage_house_luggage"},
-		{"room_path": "res://declarations/rooms/carriage_house.tres", "id": "dead_lamp", "kind": "carriage_house_dead_lamp"},
-		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "plank_bench", "kind": "greenhouse_plank_bench"},
-		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "plank_shelf", "kind": "greenhouse_plank_shelf"},
-		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "dead_row_w", "kind": "greenhouse_dead_row"},
-		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "dead_row_e", "kind": "greenhouse_dead_row"},
-		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "dead_end_cap", "kind": "greenhouse_dead_end"},
-		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "tall_dead_growth", "kind": "greenhouse_tall_dead"},
-		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "winter_growth", "kind": "greenhouse_winter_growth"},
-		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "winter_growth_back", "kind": "greenhouse_winter_growth_back"},
-		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "nature_cluster", "kind": "greenhouse_nature_cluster"},
-		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "bucket_left", "kind": "greenhouse_bucket_small"},
-		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "bucket_right", "kind": "greenhouse_bucket_large"},
-		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "fertilizer_bottle", "kind": "greenhouse_bottle"},
-		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "greenhouse_bottle_secondary", "kind": "greenhouse_bottle"},
-		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "greenhouse_bucket_center", "kind": "greenhouse_bucket_small"},
-		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "gate_column_l", "kind": "gate_post_stone"},
-		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "crypt_gate_prop", "kind": "iron_gate_closed"},
-		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "wall_n", "kind": "family_crypt_wall_capped"},
-		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "wall_w", "kind": "family_crypt_wall"},
-		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "wall_e", "kind": "family_crypt_wall"},
-		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "fence_w", "kind": "family_crypt_fence_run"},
-		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "fence_e", "kind": "family_crypt_fence_run"},
-		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "grave_edmund", "kind": "family_crypt_grave_marker"},
-		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "grave_victoria", "kind": "family_crypt_grave_marker"},
-		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "grave_blank", "kind": "family_crypt_grave_marker"},
-		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "debris_l", "kind": "family_crypt_debris_left"},
-		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "debris_r", "kind": "family_crypt_debris_right"},
-		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "mourning_bottle", "kind": "family_crypt_bottle"},
-		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "scattered_bones", "kind": "family_crypt_bones"},
-		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_road", "kind": "carriage_road"},
-		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_hedge_left_mid", "kind": "hedgerow"},
-		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_tree_left", "kind": "front_gate_tree_01"},
-		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_tree_right", "kind": "front_gate_tree_02"},
-		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_bush_left", "kind": "front_gate_bush_03"},
-		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_bush_right", "kind": "front_gate_bush_04"},
-		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_starfield", "kind": "starfield"},
-		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_road", "kind": "carriage_road"},
-		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_forecourt_steps", "kind": "forecourt_steps"},
-		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_mansion_facade_shell", "kind": "mansion_facade"},
-		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_entry_portico", "kind": "entry_portico"},
-		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_facade_door", "kind": "front_door_assembly"},
-		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_facade_lamp_left", "kind": "front_gate_lamp"},
-		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_facade_lamp_right", "kind": "front_gate_lamp"},
-		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_statue_left", "kind": "forecourt_statue"},
-		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_statue_right", "kind": "forecourt_statue"},
-		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_rocks", "kind": "front_gate_rocks"},
-		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_statue_left", "kind": "forecourt_statue"},
-		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_statue_right", "kind": "forecourt_statue"},
-	]
+	var repeated_props = DeclarationContractRegistry.PROP_SUBSTRATE_EXPECTATIONS
 	for entry in repeated_props:
 		var room = load(String(entry["room_path"]))
 		_ok("%s loads" % entry["room_path"], room != null)
@@ -533,27 +242,21 @@ func _test_grounds_scene_prop_contract() -> void:
 func _test_mount_payload_substrate_contract() -> void:
 	_test_name = "MOUNT_PAYLOAD_SUBSTRATE"
 	var direct_payload_count := 0
-	var front_gate := load("res://declarations/rooms/front_gate.tres")
-	_ok("front_gate loads", front_gate != null)
-	if front_gate != null:
-		var menu_payload := _find_mount_payload_by_id(front_gate.mount_payloads, "front_gate_menu_sign_payload")
-		_ok("front_gate menu payload present", menu_payload != null)
-		if menu_payload != null:
-			_ok("front_gate menu payload uses substrate kind", menu_payload.substrate_prop_kind == "front_gate_sign")
-			_ok("front_gate menu payload clears direct scene path", menu_payload.scene_path.is_empty())
-		var lamp_payload := _find_mount_payload_by_id(front_gate.mount_payloads, "gate_lamp_off_payload")
-		_ok("front_gate lamp payload present", lamp_payload != null)
-		if lamp_payload != null:
-			_ok("front_gate lamp payload uses substrate kind", lamp_payload.substrate_prop_kind == "front_gate_lamp")
-			_ok("front_gate lamp payload clears direct model path", lamp_payload.model.is_empty())
-	var greenhouse := load("res://declarations/rooms/greenhouse.tres")
-	_ok("greenhouse loads", greenhouse != null)
-	if greenhouse != null:
-		var pedestal := _find_prop_by_id(greenhouse.props, "greenhouse_table")
-		_ok("greenhouse pedestal prop present", pedestal != null)
-		if pedestal != null:
-			_ok("greenhouse pedestal uses substrate kind", pedestal.substrate_prop_kind == "greenhouse_pedestal")
-			_ok("greenhouse pedestal clears direct scene path", pedestal.scene_path.is_empty())
+	for entry in DeclarationContractRegistry.MOUNT_PAYLOAD_EXPECTATIONS:
+		var room = load(String(entry["room_path"]))
+		_ok("%s loads" % entry["room_path"], room != null)
+		if room == null:
+			continue
+		var payload := _find_mount_payload_by_id(room.mount_payloads, String(entry["payload_id"]))
+		_ok("%s present in %s" % [entry["payload_id"], room.room_id], payload != null)
+		if payload == null:
+			continue
+		_ok("%s uses substrate kind" % payload.payload_id, payload.substrate_prop_kind == String(entry["kind"]))
+		match String(entry["asset_field"]):
+			"scene_path":
+				_ok("%s clears direct scene path" % payload.payload_id, payload.scene_path.is_empty())
+			"model":
+				_ok("%s clears direct model path" % payload.payload_id, payload.model.is_empty())
 	var dir := DirAccess.open("res://declarations/rooms/")
 	if dir != null:
 		dir.list_dir_begin()
