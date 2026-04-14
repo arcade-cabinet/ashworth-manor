@@ -181,7 +181,7 @@ flickering = true
 script = ExtResource("5")
 id = "greenhouse_table"
 scene_role = "clue_dressing"
-scene_path = "res://scenes/shared/greenhouse/greenhouse_lily_pedestal.tscn"
+substrate_prop_kind = "greenhouse_pedestal"
 position = Vector3(0, 0, -1.95)
 
 [sub_resource type="Resource" id="prop_plank_bench"]

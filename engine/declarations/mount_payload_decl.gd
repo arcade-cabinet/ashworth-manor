@@ -8,6 +8,7 @@ extends Resource
 @export var payload_id: String = ""
 @export var slot_id: String = ""
 @export var scene_role: String = "mounted_payload"
+@export var substrate_prop_kind: String = ""
 @export var scene_path: String = ""
 @export var model: String = ""
 @export var state_condition: String = ""

@@ -110,6 +110,13 @@
   - `starfield`
   - those repeated exterior wrappers should also author through
     `PropDecl.substrate_prop_kind`, not direct shared grounds `scene_path`
+- Mount payloads now have the same explicit substrate channel:
+  - `MountPayloadDecl.substrate_prop_kind`
+  - `RoomAssembler._instantiate_mount_payload()` now resolves substrate-backed
+    payloads through the same shared substrate-kind path used for props
+  - current regression example: the front-gate sign mount payload
+- The greenhouse lily pedestal is also now promoted into the same substrate
+  kind path as the other greenhouse shared fixtures via `greenhouse_pedestal`
 - Shared builder fallbacks for stairs, ladders, windows, and portal shadow
   fills now resolve through explicit recipe ids (`fallback_wood`,
   `fallback_metal`, `shadow_void`) instead of local `StandardMaterial3D.new()`

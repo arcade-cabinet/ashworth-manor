@@ -562,6 +562,12 @@ func _resolve_prop_scene_path(prop_decl: PropDecl) -> String:
 
 
 func _instantiate_mount_payload(payload: MountPayloadDecl) -> Node3D:
+	if not payload.substrate_prop_kind.is_empty():
+		var prop_decl := PropDecl.new()
+		prop_decl.id = payload.payload_id
+		prop_decl.scene_role = payload.scene_role
+		prop_decl.substrate_prop_kind = payload.substrate_prop_kind
+		return _build_procedural_prop(prop_decl)
 	var scene_path := payload.scene_path if not payload.scene_path.is_empty() else payload.model
 	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
 		return null
@@ -1039,6 +1045,8 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(GREENHOUSE_GLASS_SHELL_SCENE, prop_decl)
 	if substrate_kind == "greenhouse_lantern":
 		return _instantiate_substrate_scene(GREENHOUSE_HANGING_LANTERN_SCENE, prop_decl)
+	if substrate_kind == "greenhouse_pedestal":
+		return _instantiate_substrate_scene("res://scenes/shared/greenhouse/greenhouse_lily_pedestal.tscn", prop_decl)
 	if substrate_kind == "gate_post":
 		return _instantiate_substrate_scene(ESTATE_GATE_POST_SCENE, prop_decl)
 	if substrate_kind == "gate_post_stone":

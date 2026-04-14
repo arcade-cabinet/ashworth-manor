@@ -175,6 +175,12 @@ too. `hedgerow`, `carriage_road`, `outward_road`, `mansion_facade`,
 are now builder-owned substrate kinds in room declarations rather than direct
 shared grounds scene-path authoring.
 
+Mount payloads now participate in the same substrate-owned path too.
+`MountPayloadDecl` can carry `substrate_prop_kind`, and `RoomAssembler` now
+resolves that through the same shared substrate-kind builders it uses for room
+props. The current regression example is the front-gate sign payload, which no
+longer mounts via a raw shared scene path.
+
 That contract is now also enforced directly in the declaration suite. The suite
 contains explicit builder-default coverage proving that:
 

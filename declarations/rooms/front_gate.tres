@@ -781,7 +781,7 @@ script = ExtResource("12")
 payload_id = "front_gate_menu_sign_payload"
 slot_id = "gate_sign_anchor"
 scene_role = "architectural_trim"
-scene_path = "res://scenes/shared/front_gate/front_gate_menu_sign.tscn"
+substrate_prop_kind = "front_gate_sign"
 offset = Vector3(-1.8, 0, -1.04)
 rotation_degrees = Vector3(0, 12, 0)
 

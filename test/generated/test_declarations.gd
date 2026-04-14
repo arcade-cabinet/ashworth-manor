@@ -25,6 +25,7 @@ const SubstratePresetDecl = preload("res://engine/declarations/substrate_preset_
 const TerrainPresetDecl = preload("res://engine/declarations/terrain_preset_decl.gd")
 const SkyPresetDecl = preload("res://engine/declarations/sky_preset_decl.gd")
 const ConnectionDecl = preload("res://engine/declarations/connection.gd")
+const MountPayloadDecl = preload("res://engine/declarations/mount_payload_decl.gd")
 const SUPPORTED_MOUNT_ROUTE_MODES := [
 	"adult",
 	"elder",
@@ -55,6 +56,7 @@ func _run_all_tests() -> void:
 	_test_interactables()
 	_test_interactable_visual_contract()
 	_test_grounds_scene_prop_contract()
+	_test_mount_payload_substrate_contract()
 	_test_connections()
 	_test_secret_passages()
 	_test_regions()
@@ -238,6 +240,27 @@ func _test_grounds_scene_prop_contract() -> void:
 		_ok("%s uses substrate prop kind" % prop.id, prop.substrate_prop_kind == String(entry["kind"]))
 		_ok("%s clears direct scene path" % prop.id, prop.scene_path.is_empty())
 	print("[DONE] grounds scene prop contract")
+
+
+func _test_mount_payload_substrate_contract() -> void:
+	_test_name = "MOUNT_PAYLOAD_SUBSTRATE"
+	var front_gate := load("res://declarations/rooms/front_gate.tres")
+	_ok("front_gate loads", front_gate != null)
+	if front_gate != null:
+		var menu_payload := _find_mount_payload_by_id(front_gate.mount_payloads, "front_gate_menu_sign_payload")
+		_ok("front_gate menu payload present", menu_payload != null)
+		if menu_payload != null:
+			_ok("front_gate menu payload uses substrate kind", menu_payload.substrate_prop_kind == "front_gate_sign")
+			_ok("front_gate menu payload clears direct scene path", menu_payload.scene_path.is_empty())
+	var greenhouse := load("res://declarations/rooms/greenhouse.tres")
+	_ok("greenhouse loads", greenhouse != null)
+	if greenhouse != null:
+		var pedestal := _find_prop_by_id(greenhouse.props, "greenhouse_table")
+		_ok("greenhouse pedestal prop present", pedestal != null)
+		if pedestal != null:
+			_ok("greenhouse pedestal uses substrate kind", pedestal.substrate_prop_kind == "greenhouse_pedestal")
+			_ok("greenhouse pedestal clears direct scene path", pedestal.scene_path.is_empty())
+	print("[DONE] mount payload substrate contract")
 
 
 func _test_connections() -> void:
@@ -587,7 +610,7 @@ func _test_substrate_contract() -> void:
 			_ok("%s mount payload slot exists" % payload.payload_id, slot_map.has(payload.slot_id))
 			_ok(
 				"%s mount payload has scene source" % payload.payload_id,
-				not payload.scene_path.is_empty() or not payload.model.is_empty()
+				not payload.substrate_prop_kind.is_empty() or not payload.scene_path.is_empty() or not payload.model.is_empty()
 			)
 			for route_mode in payload.route_modes:
 				_ok(
@@ -1065,6 +1088,19 @@ func _test_builder_default_contract() -> void:
 	starfield_decl.substrate_prop_kind = "starfield"
 	var starfield := assembler._build_procedural_prop(starfield_decl)
 	_ok("substrate starfield builds from shared substrate kind", starfield != null)
+
+	var greenhouse_pedestal_decl := PropDecl.new()
+	greenhouse_pedestal_decl.id = "compat_greenhouse_pedestal"
+	greenhouse_pedestal_decl.substrate_prop_kind = "greenhouse_pedestal"
+	var greenhouse_pedestal := assembler._build_procedural_prop(greenhouse_pedestal_decl)
+	_ok("substrate greenhouse pedestal builds from shared substrate kind", greenhouse_pedestal != null)
+
+	var menu_payload := MountPayloadDecl.new()
+	menu_payload.payload_id = "compat_front_gate_menu_sign_payload"
+	menu_payload.scene_role = "architectural_trim"
+	menu_payload.substrate_prop_kind = "front_gate_sign"
+	var mounted_sign := assembler._instantiate_mount_payload(menu_payload)
+	_ok("mount payload substrate kind builds through assembler", mounted_sign != null)
 	floor.free()
 	ceiling.free()
 	wall.free()
@@ -1144,6 +1180,10 @@ func _test_builder_default_contract() -> void:
 		forecourt_steps.free()
 	if starfield != null:
 		starfield.free()
+	if greenhouse_pedestal != null:
+		greenhouse_pedestal.free()
+	if mounted_sign != null:
+		mounted_sign.free()
 	print("[DONE] builder defaults")
 
 
@@ -1221,6 +1261,13 @@ func _find_prop_by_id(props: Array, prop_id: String) -> PropDecl:
 	for prop in props:
 		if prop != null and prop.id == prop_id:
 			return prop
+	return null
+
+
+func _find_mount_payload_by_id(payloads: Array, payload_id: String) -> MountPayloadDecl:
+	for payload in payloads:
+		if payload != null and payload.payload_id == payload_id:
+			return payload
 	return null
 
 

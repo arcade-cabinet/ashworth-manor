@@ -117,6 +117,29 @@ after each iteration and it's included in prompts for context.
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
 
+## 2026-04-13 - Mount payloads gained substrate-kind support
+
+- Added `substrate_prop_kind` to `engine/declarations/mount_payload_decl.gd`
+- `RoomAssembler._instantiate_mount_payload()` now routes substrate-backed
+  payloads through the same shared substrate-kind build path used for props
+- Migrated the front-gate sign mount payload in
+  `declarations/rooms/front_gate.tres` off raw `scene_path` authoring and onto
+  `substrate_prop_kind = "front_gate_sign"`
+- Promoted the greenhouse lily pedestal in
+  `declarations/rooms/greenhouse.tres` onto `substrate_prop_kind =
+  "greenhouse_pedestal"`
+- Extended `test/generated/test_declarations.gd` with:
+  - `mount payload substrate contract`
+  - builder coverage for `greenhouse_pedestal`
+  - builder coverage for substrate-backed mount payload instantiation
+- There are now no remaining direct authored uses of:
+  - `res://scenes/shared/front_gate/front_gate_menu_sign.tscn`
+  - `res://scenes/shared/greenhouse/greenhouse_lily_pedestal.tscn`
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+
 - Added shared helper constructors in `estate_material_kit.gd` for:
   - tinted shadow/void fills
   - unshaded emissive surfaces
