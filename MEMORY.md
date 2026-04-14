@@ -1071,6 +1071,11 @@ independent execution drivers:
     `stand_mx_1.glb` now author through `attic_lamp_tall_off`,
     `attic_bucket_small`, `attic_mask_ritual`, and `coat_stand`
     instead of direct model paths in the room set
+  - another repeated service/dressing slice moved too:
+    `dining_plate.glb`, `water_glass.glb`, `sofa.glb`, `bottles.glb`, and
+    `barrel.glb` now author through `dining_plate_place`,
+    `dining_water_glass`, `parlor_settee`, `wine_cellar_bottles`, and
+    `wine_cellar_barrel` instead of direct model paths in the room set
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

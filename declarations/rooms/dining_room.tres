@@ -299,49 +299,49 @@ position = Vector3(-0.4, 0.78, -0.5)
 [sub_resource type="Resource" id="prop_plate_1"]
 script = ExtResource("5")
 id = "plate_1"
-model = "res://assets/ground_floor/dining_room/dining_plate.glb"
+substrate_prop_kind = "dining_plate_place"
 position = Vector3(-0.75, 0.78, -1.8)
 
 [sub_resource type="Resource" id="prop_plate_2"]
 script = ExtResource("5")
 id = "plate_2"
-model = "res://assets/ground_floor/dining_room/dining_plate.glb"
+substrate_prop_kind = "dining_plate_place"
 position = Vector3(0.75, 0.78, -1.8)
 
 [sub_resource type="Resource" id="prop_plate_3"]
 script = ExtResource("5")
 id = "plate_3"
-model = "res://assets/ground_floor/dining_room/dining_plate.glb"
+substrate_prop_kind = "dining_plate_place"
 position = Vector3(-0.75, 0.78, 0.0)
 
 [sub_resource type="Resource" id="prop_plate_4"]
 script = ExtResource("5")
 id = "plate_4"
-model = "res://assets/ground_floor/dining_room/dining_plate.glb"
+substrate_prop_kind = "dining_plate_place"
 position = Vector3(0.75, 0.78, 0.0)
 
 [sub_resource type="Resource" id="prop_plate_5"]
 script = ExtResource("5")
 id = "plate_5"
-model = "res://assets/ground_floor/dining_room/dining_plate.glb"
+substrate_prop_kind = "dining_plate_place"
 position = Vector3(-0.75, 0.78, 1.8)
 
 [sub_resource type="Resource" id="prop_plate_6"]
 script = ExtResource("5")
 id = "plate_6"
-model = "res://assets/ground_floor/dining_room/dining_plate.glb"
+substrate_prop_kind = "dining_plate_place"
 position = Vector3(0.75, 0.78, 1.8)
 
 [sub_resource type="Resource" id="prop_water_glass_1"]
 script = ExtResource("5")
 id = "water_glass_1"
-model = "res://assets/ground_floor/dining_room/water_glass.glb"
+substrate_prop_kind = "dining_water_glass"
 position = Vector3(1.0, 0.86, -0.2)
 
 [sub_resource type="Resource" id="prop_water_glass_2"]
 script = ExtResource("5")
 id = "water_glass_2"
-model = "res://assets/ground_floor/dining_room/water_glass.glb"
+substrate_prop_kind = "dining_water_glass"
 position = Vector3(1.0, 0.86, 1.9)
 
 [sub_resource type="Resource" id="prop_fork"]

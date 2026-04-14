@@ -317,7 +317,7 @@ scale = 0.35
 [sub_resource type="Resource" id="prop_settee_left"]
 script = ExtResource("5")
 id = "settee_left"
-model = "res://assets/shared/furniture/sofa.glb"
+substrate_prop_kind = "parlor_settee"
 position = Vector3(-2.2, 0, -1.8)
 rotation_y = 16.0
 scale = 1.05
@@ -325,7 +325,7 @@ scale = 1.05
 [sub_resource type="Resource" id="prop_settee_right"]
 script = ExtResource("5")
 id = "settee_right"
-model = "res://assets/shared/furniture/sofa.glb"
+substrate_prop_kind = "parlor_settee"
 position = Vector3(2.1, 0, -1.8)
 rotation_y = -18.0
 scale = 1.05

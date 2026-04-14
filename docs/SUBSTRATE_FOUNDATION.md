@@ -594,3 +594,7 @@ changes between `adult/child` and `elder` route contexts.
   the attic stairwell lamp, attic bucket, attic ritual mask, and foyer stand
   now author through explicit substrate kinds instead of raw model paths
   across the room declarations.
+- Another repeated service/dressing slice is substrate-owned now:
+  dining plates, dining water glasses, parlor settees, and the repeated
+  wine-cellar bottle/barrel props now author through explicit substrate kinds
+  instead of raw model paths across the room declarations.

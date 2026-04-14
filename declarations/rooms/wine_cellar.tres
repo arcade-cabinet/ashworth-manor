@@ -184,14 +184,14 @@ rotation_y = 270.0
 [sub_resource type="Resource" id="prop_bottles_left"]
 script = ExtResource("5")
 id = "bottles_left"
-model = "res://assets/deep_basement/wine_cellar/bottles.glb"
+substrate_prop_kind = "wine_cellar_bottles"
 position = Vector3(-3.2, 0.2, -0.8)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_bottles_right"]
 script = ExtResource("5")
 id = "bottles_right"
-model = "res://assets/deep_basement/wine_cellar/bottles.glb"
+substrate_prop_kind = "wine_cellar_bottles"
 position = Vector3(3.2, 0.2, 0.6)
 rotation_y = 270.0
 
@@ -205,13 +205,13 @@ scale = 0.6
 [sub_resource type="Resource" id="prop_barrel_1"]
 script = ExtResource("5")
 id = "barrel_1"
-model = "res://assets/deep_basement/wine_cellar/barrel.glb"
+substrate_prop_kind = "wine_cellar_barrel"
 position = Vector3(2.4, 0, -2.8)
 
 [sub_resource type="Resource" id="prop_barrel_2"]
 script = ExtResource("5")
 id = "barrel_2"
-model = "res://assets/deep_basement/wine_cellar/barrel.glb"
+substrate_prop_kind = "wine_cellar_barrel"
 position = Vector3(2.9, 0, -1.8)
 scale = 0.9
 

@@ -696,6 +696,11 @@ func _test_substrate_contract() -> void:
 		"res://assets/attic/storage/bucket_mx_1.glb": "attic_bucket_small",
 		"res://assets/attic/storage/mask_mx_3.glb": "attic_mask_ritual",
 		"res://assets/ground_floor/foyer/stand_mx_1.glb": "coat_stand",
+		"res://assets/ground_floor/dining_room/dining_plate.glb": "dining_plate_place",
+		"res://assets/ground_floor/dining_room/water_glass.glb": "dining_water_glass",
+		"res://assets/shared/furniture/sofa.glb": "parlor_settee",
+		"res://assets/deep_basement/wine_cellar/bottles.glb": "wine_cellar_bottles",
+		"res://assets/deep_basement/wine_cellar/barrel.glb": "wine_cellar_barrel",
 	}
 	var substrate_ids := [
 		"grounds_twilight",
@@ -1758,6 +1763,36 @@ func _test_builder_default_contract() -> void:
 	var coat_stand := assembler._build_procedural_prop(coat_stand_decl)
 	_ok("substrate coat stand builds from shared substrate kind", coat_stand != null)
 
+	var dining_plate_place_decl := PropDecl.new()
+	dining_plate_place_decl.id = "compat_dining_plate_place"
+	dining_plate_place_decl.substrate_prop_kind = "dining_plate_place"
+	var dining_plate_place := assembler._build_procedural_prop(dining_plate_place_decl)
+	_ok("substrate dining plate builds from shared substrate kind", dining_plate_place != null)
+
+	var dining_water_glass_decl := PropDecl.new()
+	dining_water_glass_decl.id = "compat_dining_water_glass"
+	dining_water_glass_decl.substrate_prop_kind = "dining_water_glass"
+	var dining_water_glass := assembler._build_procedural_prop(dining_water_glass_decl)
+	_ok("substrate dining water glass builds from shared substrate kind", dining_water_glass != null)
+
+	var parlor_settee_decl := PropDecl.new()
+	parlor_settee_decl.id = "compat_parlor_settee"
+	parlor_settee_decl.substrate_prop_kind = "parlor_settee"
+	var parlor_settee := assembler._build_procedural_prop(parlor_settee_decl)
+	_ok("substrate parlor settee builds from shared substrate kind", parlor_settee != null)
+
+	var wine_cellar_bottles_decl := PropDecl.new()
+	wine_cellar_bottles_decl.id = "compat_wine_cellar_bottles"
+	wine_cellar_bottles_decl.substrate_prop_kind = "wine_cellar_bottles"
+	var wine_cellar_bottles := assembler._build_procedural_prop(wine_cellar_bottles_decl)
+	_ok("substrate wine cellar bottles build from shared substrate kind", wine_cellar_bottles != null)
+
+	var wine_cellar_barrel_decl := PropDecl.new()
+	wine_cellar_barrel_decl.id = "compat_wine_cellar_barrel"
+	wine_cellar_barrel_decl.substrate_prop_kind = "wine_cellar_barrel"
+	var wine_cellar_barrel := assembler._build_procedural_prop(wine_cellar_barrel_decl)
+	_ok("substrate wine cellar barrel builds from shared substrate kind", wine_cellar_barrel != null)
+
 	var greenhouse_plank_bench_decl := PropDecl.new()
 	greenhouse_plank_bench_decl.id = "compat_greenhouse_plank_bench"
 	greenhouse_plank_bench_decl.substrate_prop_kind = "greenhouse_plank_bench"
@@ -2051,6 +2086,16 @@ func _test_builder_default_contract() -> void:
 		attic_mask_ritual.free()
 	if coat_stand != null:
 		coat_stand.free()
+	if dining_plate_place != null:
+		dining_plate_place.free()
+	if dining_water_glass != null:
+		dining_water_glass.free()
+	if parlor_settee != null:
+		parlor_settee.free()
+	if wine_cellar_bottles != null:
+		wine_cellar_bottles.free()
+	if wine_cellar_barrel != null:
+		wine_cellar_barrel.free()
 	if greenhouse_plank_bench != null:
 		greenhouse_plank_bench.free()
 	if greenhouse_plank_shelf != null:

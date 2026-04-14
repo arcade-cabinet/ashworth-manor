@@ -1467,6 +1467,14 @@ after each iteration and it's included in prompts for context.
   - `stand_mx_1.glb` -> `coat_stand`
   - affected authored rooms include:
     `foyer`, `attic_stairs`, `attic_storage`, and `library`
+- Another repeated service/dressing slice is now migrated too:
+  - `dining_plate.glb` -> `dining_plate_place`
+  - `water_glass.glb` -> `dining_water_glass`
+  - `sofa.glb` -> `parlor_settee`
+  - `bottles.glb` -> `wine_cellar_bottles`
+  - `barrel.glb` -> `wine_cellar_barrel`
+  - affected authored rooms include:
+    `dining_room`, `parlor`, and `wine_cellar`
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload
