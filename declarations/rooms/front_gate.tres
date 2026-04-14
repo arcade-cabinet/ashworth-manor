@@ -207,7 +207,7 @@ id = "gate_bench"
 type = "observation"
 position = Vector3(-6.5, 0.5, 3.6)
 collision_size = Vector3(2.0, 1.0, 1.0)
-model = "res://assets/grounds/front_gate/bench_mx_1.glb"
+visual_kind = "front_gate_bench"
 responses = Array[Resource]([SubResource("resp_bench_truth"), SubResource("resp_bench_default")])
 
 [sub_resource type="Resource" id="inter_iron_gate"]
@@ -451,7 +451,8 @@ scale_3d = Vector3(0.78, 1.0, 0.98)
 [sub_resource type="Resource" id="prop_boundary_pole_r"]
 script = ExtResource("5")
 id = "boundary_pole_r"
-model = "res://assets/grounds/front_gate/brick_wall_pole.glb"
+scene_role = "architectural_trim"
+substrate_prop_kind = "front_gate_boundary_pole"
 position = Vector3(5.42, 0, -0.98)
 
 [sub_resource type="Resource" id="prop_fence_r"]
@@ -997,14 +998,16 @@ scale = 1.02
 [sub_resource type="Resource" id="prop_facade_chimney_left"]
 script = ExtResource("5")
 id = "facade_chimney_left"
-model = "res://assets/grounds/front_gate/chimney_a_2.glb"
+scene_role = "architectural_trim"
+substrate_prop_kind = "front_gate_chimney_left"
 position = Vector3(-4.5, 4.55, 14.0)
 scale = 0.72
 
 [sub_resource type="Resource" id="prop_facade_chimney_right"]
 script = ExtResource("5")
 id = "facade_chimney_right"
-model = "res://assets/grounds/front_gate/chimney_a_3.glb"
+scene_role = "architectural_trim"
+substrate_prop_kind = "front_gate_chimney_right"
 position = Vector3(4.5, 4.55, 14.0)
 scale = 0.72
 
@@ -1342,7 +1345,7 @@ entry_anchors = Array[Resource]([SubResource("anchor_entry_opening"), SubResourc
 focal_anchors = Array[Resource]([SubResource("anchor_focus_mansion"), SubResource("anchor_focus_gate_sign")])
 interactables = Array[Resource]([SubResource("inter_gate_sign_new_game"), SubResource("inter_gate_sign_load_game"), SubResource("inter_gate_sign_settings"), SubResource("inter_gate_plaque"), SubResource("inter_gate_luggage"), SubResource("inter_gate_bench"), SubResource("inter_iron_gate"), SubResource("inter_gate_lamp")])
 lights = Array[Resource]([SubResource("light_moonlight"), SubResource("light_gate_lamp"), SubResource("light_village_lamp_near"), SubResource("light_village_lamp_far")])
-props = Array[Resource]([SubResource("prop_gate_pillar_l"), SubResource("prop_gate_pillar_r"), SubResource("prop_gate_center"), SubResource("prop_gate_center_r"), SubResource("prop_boundary_wall"), SubResource("prop_boundary_corner"), SubResource("prop_fence"), SubResource("prop_fence_r"), SubResource("prop_road_wall_left"), SubResource("prop_road_wall_right"), SubResource("prop_main_road"), SubResource("prop_outward_road"), SubResource("prop_tree1"), SubResource("prop_tree2"), SubResource("prop_tree3"), SubResource("prop_tree4"), SubResource("prop_tree5"), SubResource("prop_tree6"), SubResource("prop_tree7"), SubResource("prop_bush1"), SubResource("prop_bush2"), SubResource("prop_bush3"), SubResource("prop_bush4"), SubResource("prop_bush5"), SubResource("prop_bush6"), SubResource("prop_hedge_left_gate"), SubResource("prop_hedge_left_mid_gate"), SubResource("prop_hedge_left_near"), SubResource("prop_hedge_right_gate"), SubResource("prop_hedge_right_mid_gate"), SubResource("prop_hedge_right_near"), SubResource("prop_rocks"), SubResource("prop_off_lamp"), SubResource("prop_moon_disc"), SubResource("prop_menu_sign"), SubResource("prop_front_gate_starfield"), SubResource("prop_drive_stone_1"), SubResource("prop_drive_stone_0"), SubResource("prop_drive_stone_2"), SubResource("prop_drive_stone_3"), SubResource("prop_facade_lamp_left"), SubResource("prop_facade_lamp_right"), SubResource("prop_statue_plinth_left"), SubResource("prop_statue_left"), SubResource("prop_statue_plinth_right"), SubResource("prop_statue_right")])
+props = Array[Resource]([SubResource("prop_gate_pillar_l"), SubResource("prop_gate_pillar_r"), SubResource("prop_gate_center"), SubResource("prop_gate_center_r"), SubResource("prop_boundary_wall"), SubResource("prop_boundary_corner"), SubResource("prop_fence"), SubResource("prop_boundary_pole_r"), SubResource("prop_fence_r"), SubResource("prop_road_wall_left"), SubResource("prop_road_wall_right"), SubResource("prop_main_road"), SubResource("prop_outward_road"), SubResource("prop_tree1"), SubResource("prop_tree2"), SubResource("prop_tree3"), SubResource("prop_tree4"), SubResource("prop_tree5"), SubResource("prop_tree6"), SubResource("prop_tree7"), SubResource("prop_bush1"), SubResource("prop_bush2"), SubResource("prop_bush3"), SubResource("prop_bush4"), SubResource("prop_bush5"), SubResource("prop_bush6"), SubResource("prop_hedge_left_gate"), SubResource("prop_hedge_left_mid_gate"), SubResource("prop_hedge_left_near"), SubResource("prop_hedge_right_gate"), SubResource("prop_hedge_right_mid_gate"), SubResource("prop_hedge_right_near"), SubResource("prop_rocks"), SubResource("prop_off_lamp"), SubResource("prop_moon_disc"), SubResource("prop_menu_sign"), SubResource("prop_front_gate_starfield"), SubResource("prop_drive_stone_1"), SubResource("prop_drive_stone_0"), SubResource("prop_drive_stone_2"), SubResource("prop_drive_stone_3"), SubResource("prop_facade_lamp_left"), SubResource("prop_facade_lamp_right"), SubResource("prop_facade_chimney_left"), SubResource("prop_facade_chimney_right"), SubResource("prop_statue_plinth_left"), SubResource("prop_statue_left"), SubResource("prop_statue_plinth_right"), SubResource("prop_statue_right")])
 mount_slots = Array[Resource]([SubResource("mount_slot_gate_sign_anchor"), SubResource("mount_slot_gate_lamp_anchor")])
 mount_payloads = Array[Resource]([SubResource("mount_payload_gate_menu_sign"), SubResource("mount_payload_gate_lamp_off")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])

@@ -76,6 +76,9 @@ const FRONT_GATE_BUSH_03_MODEL := "res://assets/grounds/front_gate/bush03_winter
 const FRONT_GATE_BUSH_04_MODEL := "res://assets/grounds/front_gate/bush04_winter.glb"
 const FRONT_GATE_ROCKS_MODEL := "res://assets/grounds/front_gate/rocks.glb"
 const FRONT_GATE_IRON_GATE_LEAF_MODEL := "res://assets/grounds/front_gate/iron_gate.glb"
+const FRONT_GATE_BOUNDARY_POLE_MODEL := "res://assets/grounds/front_gate/brick_wall_pole.glb"
+const FRONT_GATE_CHIMNEY_LEFT_MODEL := "res://assets/grounds/front_gate/chimney_a_2.glb"
+const FRONT_GATE_CHIMNEY_RIGHT_MODEL := "res://assets/grounds/front_gate/chimney_a_3.glb"
 const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PROCEDURAL_WINDOW_MODEL: "window_frame",
 	PROCEDURAL_WINDOW_RAY_MODEL: "window_ray",
@@ -123,6 +126,9 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	FRONT_GATE_BUSH_04_MODEL: "front_gate_bush_04",
 	FRONT_GATE_ROCKS_MODEL: "front_gate_rocks",
 	FRONT_GATE_IRON_GATE_LEAF_MODEL: "iron_gate_leaf_angled",
+	FRONT_GATE_BOUNDARY_POLE_MODEL: "front_gate_boundary_pole",
+	FRONT_GATE_CHIMNEY_LEFT_MODEL: "front_gate_chimney_left",
+	FRONT_GATE_CHIMNEY_RIGHT_MODEL: "front_gate_chimney_right",
 }
 
 
@@ -1121,6 +1127,12 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(FRONT_GATE_ROCKS_MODEL, prop_decl)
 	if substrate_kind == "iron_gate_leaf_angled":
 		return _instantiate_substrate_scene(FRONT_GATE_IRON_GATE_LEAF_MODEL, prop_decl)
+	if substrate_kind == "front_gate_boundary_pole":
+		return _instantiate_substrate_scene(FRONT_GATE_BOUNDARY_POLE_MODEL, prop_decl)
+	if substrate_kind == "front_gate_chimney_left":
+		return _instantiate_substrate_scene(FRONT_GATE_CHIMNEY_LEFT_MODEL, prop_decl)
+	if substrate_kind == "front_gate_chimney_right":
+		return _instantiate_substrate_scene(FRONT_GATE_CHIMNEY_RIGHT_MODEL, prop_decl)
 	if prop_decl.tags.has("procedural_moon"):
 		var moon := MeshInstance3D.new()
 		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"

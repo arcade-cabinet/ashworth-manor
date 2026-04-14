@@ -167,6 +167,14 @@ data; it resolves through the shared visual-kind registry as
 `front_gate_lamp_lit`, leaving the room declaration free of direct repeated
 lamp asset references.
 
+The remaining front-gate authored one-offs are now narrowed too. The
+`gate_bench` observation now uses the shared visual registry
+(`front_gate_bench`) instead of a direct grounds model path, and the small
+facade structure holdouts now route through substrate kinds:
+`front_gate_boundary_pole`, `front_gate_chimney_left`, and
+`front_gate_chimney_right`. That keeps even the narrow front-gate trim slice
+under explicit substrate ownership instead of silent direct model authoring.
+
 The same rule is now being applied to the repeated grounds scene kit.
 Common gate/boundary pieces (`gate_post`, `gate_post_stone`, `boundary_wall`,
 `iron_gate_closed`, and `fence_run`) now author as `substrate_prop_kind`

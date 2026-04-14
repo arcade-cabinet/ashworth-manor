@@ -972,6 +972,10 @@ independent execution drivers:
     visual registry too:
     `gate_lamp` now uses `visual_kind = "front_gate_lamp_lit"` and no longer
     serializes a raw grounds model path in the room declaration
+  - the remaining front-gate bench/trim one-offs moved too:
+    `gate_bench` now uses `visual_kind = "front_gate_bench"`, and
+    `boundary_pole_r`, `facade_chimney_left`, and `facade_chimney_right` now
+    author through substrate kinds instead of direct grounds model paths
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

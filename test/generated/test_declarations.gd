@@ -146,6 +146,13 @@ func _test_interactable_visual_contract() -> void:
 			"states": {},
 		},
 		{
+			"room_path": "res://declarations/rooms/front_gate.tres",
+			"id": "gate_bench",
+			"visual_kind": "front_gate_bench",
+			"base_path": "res://assets/grounds/front_gate/bench_mx_1.glb",
+			"states": {},
+		},
+		{
 			"room_path": "res://declarations/rooms/greenhouse.tres",
 			"id": "greenhouse_pot",
 			"visual_kind": "greenhouse_lily_pot_intact",
@@ -221,6 +228,7 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_facade_lamp_right", "kind": "front_gate_lamp"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "gate_pillar_l", "kind": "gate_post"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "boundary_wall", "kind": "boundary_wall"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "boundary_pole_r", "kind": "front_gate_boundary_pole"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "iron_gate_center", "kind": "iron_gate_open"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "iron_gate_center_r", "kind": "iron_gate_leaf_angled"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "tree1", "kind": "front_gate_tree_01"},
@@ -240,6 +248,8 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "gate_lamp_off", "kind": "front_gate_lamp"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "facade_lamp_left", "kind": "front_gate_lamp"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "facade_lamp_right", "kind": "front_gate_lamp"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "facade_chimney_left", "kind": "front_gate_chimney_left"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "facade_chimney_right", "kind": "front_gate_chimney_right"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "front_gate_main_road", "kind": "carriage_road"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "front_gate_outward_road", "kind": "outward_road"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "front_gate_starfield", "kind": "starfield"},
@@ -1165,6 +1175,24 @@ func _test_builder_default_contract() -> void:
 	var iron_gate_leaf := assembler._build_procedural_prop(iron_gate_leaf_decl)
 	_ok("substrate angled iron gate leaf builds from shared substrate kind", iron_gate_leaf != null)
 
+	var boundary_pole_decl := PropDecl.new()
+	boundary_pole_decl.id = "compat_front_gate_boundary_pole"
+	boundary_pole_decl.substrate_prop_kind = "front_gate_boundary_pole"
+	var boundary_pole := assembler._build_procedural_prop(boundary_pole_decl)
+	_ok("substrate front-gate boundary pole builds from shared substrate kind", boundary_pole != null)
+
+	var chimney_left_decl := PropDecl.new()
+	chimney_left_decl.id = "compat_front_gate_chimney_left"
+	chimney_left_decl.substrate_prop_kind = "front_gate_chimney_left"
+	var chimney_left := assembler._build_procedural_prop(chimney_left_decl)
+	_ok("substrate front-gate left chimney builds from shared substrate kind", chimney_left != null)
+
+	var chimney_right_decl := PropDecl.new()
+	chimney_right_decl.id = "compat_front_gate_chimney_right"
+	chimney_right_decl.substrate_prop_kind = "front_gate_chimney_right"
+	var chimney_right := assembler._build_procedural_prop(chimney_right_decl)
+	_ok("substrate front-gate right chimney builds from shared substrate kind", chimney_right != null)
+
 	var greenhouse_pedestal_decl := PropDecl.new()
 	greenhouse_pedestal_decl.id = "compat_greenhouse_pedestal"
 	greenhouse_pedestal_decl.substrate_prop_kind = "greenhouse_pedestal"
@@ -1268,6 +1296,12 @@ func _test_builder_default_contract() -> void:
 		front_gate_rocks.free()
 	if iron_gate_leaf != null:
 		iron_gate_leaf.free()
+	if boundary_pole != null:
+		boundary_pole.free()
+	if chimney_left != null:
+		chimney_left.free()
+	if chimney_right != null:
+		chimney_right.free()
 	if greenhouse_pedestal != null:
 		greenhouse_pedestal.free()
 	if mounted_sign != null:

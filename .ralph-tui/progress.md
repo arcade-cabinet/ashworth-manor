@@ -1292,6 +1292,13 @@ after each iteration and it's included in prompts for context.
     `res://assets/grounds/front_gate/lamp_mx_1_b_on.glb`
   - `front_gate.tres` no longer carries a raw lamp model path for that
     interactable
+- The remaining front-gate one-off trim slice is migrated too:
+  - `gate_bench` now uses `visual_kind = "front_gate_bench"`
+  - `boundary_pole_r` now uses `substrate_prop_kind = "front_gate_boundary_pole"`
+  - `facade_chimney_left` now uses `substrate_prop_kind = "front_gate_chimney_left"`
+  - `facade_chimney_right` now uses `substrate_prop_kind = "front_gate_chimney_right"`
+  - the front-gate room payload now includes those migrated trim props in the
+    authored `props` array
 - Verification after the waiver-contract pass:
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
