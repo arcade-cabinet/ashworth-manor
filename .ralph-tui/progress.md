@@ -25,6 +25,42 @@ after each iteration and it's included in prompts for context.
 
 ## 2026-04-13 - Grounds emissive and void materials moved onto shared kit helpers
 
+## 2026-04-13 - Repeated interactable visuals moved onto explicit visual kinds
+
+- Added declaration-facing visual substrate fields in
+  `engine/declarations/interactable_decl.gd`:
+  - `visual_kind`
+  - `inactive_visual_kind`
+  - `state_visual_kind_map`
+- Added the shared repeated-fixture visual registry in
+  `engine/interactable_visuals.gd`, covering:
+  - kitchen bucket still/rippled
+  - front-gate valise closed/open
+  - greenhouse pot intact/disturbed
+  - parlor tea set/disturbed
+  - chapel font still/disturbed/searched
+  - dining wine still/agitated
+- Migrated the authored declaration side in:
+  - `declarations/rooms/kitchen.tres`
+  - `declarations/rooms/front_gate.tres`
+  - `declarations/rooms/greenhouse.tres`
+  - `declarations/rooms/parlor.tres`
+  - `declarations/rooms/chapel.tres`
+  - `declarations/rooms/dining_room.tres`
+- Those repeated interactables now author `visual_kind` and
+  `state_visual_kind_map` instead of direct shared `.tscn` scene paths in
+  `scene_path` / `state_model_map`.
+- Extended `test/generated/test_declarations.gd` with a new interactable visual
+  contract that proves:
+  - the repeated cases are present in authored room data
+  - they use the expected visual kinds
+  - they clear direct `scene_path`, `model`, and `state_model_map`
+  - their resolved runtime paths still point at the expected shared scenes
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+
 - Added shared helper constructors in `estate_material_kit.gd` for:
   - tinted shadow/void fills
   - unshaded emissive surfaces

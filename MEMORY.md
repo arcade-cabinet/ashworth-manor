@@ -80,6 +80,15 @@
 - The greenhouse shell/lantern/lily fixtures, parlor tea service, and chapel
   font states are now explicit regression examples for that rule and are
   covered by declaration validation.
+- Repeated interactable scene-state sets now also have an explicit substrate
+  authoring channel:
+  - `InteractableDecl` carries `visual_kind`, `inactive_visual_kind`, and
+    `state_visual_kind_map`
+  - `InteractableVisuals` owns the shared kind-to-scene mapping
+  - the current repeated cases are `kitchen_bucket`, `gate_luggage`,
+    `greenhouse_pot`, `parlor_tea`, `baptismal_font`, and `wine_glass`
+  - those cases should no longer use raw shared `.tscn` paths in
+    `scene_path` or `state_model_map`
 - Shared builder fallbacks for stairs, ladders, windows, and portal shadow
   fills now resolve through explicit recipe ids (`fallback_wood`,
   `fallback_metal`, `shadow_void`) instead of local `StandardMaterial3D.new()`

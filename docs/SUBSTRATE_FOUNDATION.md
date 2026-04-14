@@ -152,6 +152,15 @@ legacy texture-path space. The current recipe-first builder defaults are:
 Legacy texture/model selectors may still exist as compatibility hints for mesh
 selection, but the surface contract is now explicitly recipe-first.
 
+Repeated interactable scene sets are now moving under the same explicit
+substrate contract. For the current shared observation-state fixtures
+(`kitchen_bucket`, `gate_luggage`, `greenhouse_pot`, `parlor_tea`,
+`baptismal_font`, and `wine_glass`), declarations now author `visual_kind`
+and `state_visual_kind_map` instead of direct shared `.tscn` scene paths.
+`InteractableVisuals` owns the mapping from those runtime visual kinds to the
+shared scene assets, and the declaration suite now fails if those repeated
+fixtures fall back to direct `scene_path` / `state_model_map` authoring.
+
 That contract is now also enforced directly in the declaration suite. The suite
 contains explicit builder-default coverage proving that:
 

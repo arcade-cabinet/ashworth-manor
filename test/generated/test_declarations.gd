@@ -18,6 +18,7 @@ const LadderBuilder = preload("res://builders/ladder_builder.gd")
 const TrapdoorBuilder = preload("res://builders/trapdoor_builder.gd")
 const DoorSingleScript = preload("res://scripts/procedural/door_single.gd")
 const DoorDoubleScript = preload("res://scripts/procedural/door_double.gd")
+const InteractableVisualsScript = preload("res://engine/interactable_visuals.gd")
 const RoomAssembler = preload("res://engine/room_assembler.gd")
 const PBRTextureKit = preload("res://builders/pbr_texture_kit.gd")
 const SubstratePresetDecl = preload("res://engine/declarations/substrate_preset_decl.gd")
@@ -52,6 +53,7 @@ func _run_all_tests() -> void:
 	print("=== Declaration Validation Suite ===\n")
 	_test_rooms()
 	_test_interactables()
+	_test_interactable_visual_contract()
 	_test_connections()
 	_test_secret_passages()
 	_test_regions()
@@ -114,6 +116,85 @@ func _test_interactables() -> void:
 					total += 1
 		f = dir.get_next()
 	print("[DONE] %d interactables" % total)
+
+
+func _test_interactable_visual_contract() -> void:
+	_test_name = "INTERACTABLE_VISUALS"
+	var repeated_visuals := [
+		{
+			"room_path": "res://declarations/rooms/kitchen.tres",
+			"id": "kitchen_bucket",
+			"visual_kind": "kitchen_bucket_still",
+			"base_path": "res://scenes/shared/kitchen/kitchen_bucket_still.tscn",
+			"states": {"rippled": "res://scenes/shared/kitchen/kitchen_bucket_rippled.tscn"},
+		},
+		{
+			"room_path": "res://declarations/rooms/front_gate.tres",
+			"id": "gate_luggage",
+			"visual_kind": "front_gate_valise_closed",
+			"base_path": "res://scenes/shared/front_gate/front_gate_valise_closed.tscn",
+			"states": {"opened": "res://scenes/shared/front_gate/front_gate_valise_open.tscn"},
+		},
+		{
+			"room_path": "res://declarations/rooms/greenhouse.tres",
+			"id": "greenhouse_pot",
+			"visual_kind": "greenhouse_lily_pot_intact",
+			"base_path": "res://scenes/shared/greenhouse/greenhouse_lily_pot_intact.tscn",
+			"states": {"disturbed": "res://scenes/shared/greenhouse/greenhouse_lily_pot_disturbed.tscn"},
+		},
+		{
+			"room_path": "res://declarations/rooms/parlor.tres",
+			"id": "parlor_tea",
+			"visual_kind": "parlor_tea_set",
+			"base_path": "res://scenes/shared/parlor/parlor_tea_service_set.tscn",
+			"states": {"disturbed": "res://scenes/shared/parlor/parlor_tea_service_disturbed.tscn"},
+		},
+		{
+			"room_path": "res://declarations/rooms/chapel.tres",
+			"id": "baptismal_font",
+			"visual_kind": "chapel_font_still",
+			"base_path": "res://scenes/shared/chapel/baptismal_font_still.tscn",
+			"states": {
+				"disturbed": "res://scenes/shared/chapel/baptismal_font_disturbed.tscn",
+				"searched": "res://scenes/shared/chapel/baptismal_font_searched.tscn",
+			},
+		},
+		{
+			"room_path": "res://declarations/rooms/dining_room.tres",
+			"id": "wine_glass",
+			"visual_kind": "dining_wine_still",
+			"base_path": "res://scenes/shared/dining_room/dining_wine_glass_still.tscn",
+			"states": {"agitated": "res://scenes/shared/dining_room/dining_wine_glass_agitated.tscn"},
+		},
+	]
+	for entry in repeated_visuals:
+		var room = load(String(entry["room_path"]))
+		_ok("%s loads" % entry["room_path"], room != null)
+		if room == null:
+			continue
+		var interactable := _find_interactable_by_id(room.interactables, String(entry["id"]))
+		_ok("%s present in %s" % [entry["id"], room.room_id], interactable != null)
+		if interactable == null:
+			continue
+		_ok("%s uses visual kind" % interactable.id, interactable.visual_kind == String(entry["visual_kind"]))
+		_ok("%s clears direct scene path" % interactable.id, interactable.scene_path.is_empty())
+		_ok("%s clears direct model path" % interactable.id, interactable.model.is_empty())
+		_ok("%s clears state model map" % interactable.id, interactable.state_model_map.is_empty())
+		_ok(
+			"%s base visual resolves through visual kind" % interactable.id,
+			InteractableVisualsScript._resolve_visual_path(interactable, "") == String(entry["base_path"])
+		)
+		var state_paths: Dictionary = entry["states"]
+		for state_name in state_paths.keys():
+			_ok(
+				"%s state '%s' uses visual kind map" % [interactable.id, state_name],
+				interactable.state_visual_kind_map.has(state_name)
+			)
+			_ok(
+				"%s state '%s' resolves through visual kind" % [interactable.id, state_name],
+				InteractableVisualsScript._resolve_visual_path(interactable, String(state_name)) == String(state_paths[state_name])
+			)
+	print("[DONE] interactable visual contract")
 
 
 func _test_connections() -> void:
@@ -980,6 +1061,13 @@ func _room_has_anchor(anchors: Array, anchor_id: String) -> bool:
 		if anchor != null and anchor.anchor_id == anchor_id:
 			return true
 	return false
+
+
+func _find_interactable_by_id(interactables: Array, interactable_id: String) -> InteractableDecl:
+	for interactable in interactables:
+		if interactable != null and interactable.id == interactable_id:
+			return interactable
+	return null
 
 
 func _required_builders_for_room(world: WorldDeclaration, room_decl: RoomDeclaration) -> PackedStringArray:

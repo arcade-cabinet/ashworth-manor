@@ -23,9 +23,12 @@ extends Resource
 @export var scene_path: String = ""          # Optional authored PackedScene for composite visuals
 @export var inactive_model: String = ""      # Optional inert/closed/empty GLB visual for inactive state
 @export var inactive_scene_path: String = "" # Optional inert/closed/empty scene visual
+@export var visual_kind: String = ""         # Shared runtime-owned visual kind for repeated scene/model sets
+@export var inactive_visual_kind: String = "" # Shared inactive visual kind for repeated sets
 @export var texture: String = ""             # For procedural visual (door/window texture)
 @export var default_visual_state: String = "" # empty, filled, open, closed, lit, extinguished, etc.
 @export var state_model_map: Dictionary = {}  # {"filled": "res://.../teapot_full.glb" or ".tscn"}
+@export var state_visual_kind_map: Dictionary = {} # {"filled": "kitchen_bucket_rippled", ...}
 @export var visual_state_order: PackedStringArray = []
 @export var visual_state_conditions: Dictionary = {} # {"filled": "has_teapot_water", "searched": "found_gate_key_font"}
 
