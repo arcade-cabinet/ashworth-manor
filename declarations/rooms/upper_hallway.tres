@@ -271,14 +271,14 @@ position = Vector3(1.45, 0, -4.5)
 [sub_resource type="Resource" id="prop_sconce_model_north"]
 script = ExtResource("5")
 id = "sconce_model_north"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-1.6, 1.9, 4.8)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_sconce_model_south"]
 script = ExtResource("5")
 id = "sconce_model_south"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(1.6, 1.9, -1.2)
 rotation_y = 270.0
 

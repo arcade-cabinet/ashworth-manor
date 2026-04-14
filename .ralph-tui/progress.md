@@ -1389,6 +1389,14 @@ after each iteration and it's included in prompts for context.
   - affected authored props:
     `mattress_model`, `shed_a`, `shed_b`, `shed_c`, `shed_d`, `board_1`,
     `board_2`, `shovel`, `luggage`, and `dead_lamp`
+- The shared candle kit is now migrated too:
+  - `candle_holder.glb` -> `candle_holder_fixture`
+  - `candle0.glb` -> `candle_single`
+  - affected authored rooms include:
+    `chapel`, `garden`, `family_crypt`, `guest_room`, `storage_basement`,
+    `attic_stairs`, `attic_storage`, `hidden_chamber`, `carriage_house`,
+    `wine_cellar`, `foyer`, `upper_hallway`, `library`, `kitchen`,
+    `parlor`, `master_bedroom`, and `boiler_room`
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload

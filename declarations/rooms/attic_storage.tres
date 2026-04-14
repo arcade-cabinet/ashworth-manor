@@ -467,21 +467,21 @@ position = Vector3(0.5, 2.8, 4.8)
 [sub_resource type="Resource" id="prop_candle"]
 script = ExtResource("5")
 id = "doll_candle"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(-1.2, 0.82, 4.1)
 scale = 0.8
 
 [sub_resource type="Resource" id="prop_desk_candle_holder"]
 script = ExtResource("5")
 id = "desk_candle_holder"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-3.0, 0.78, 2.0)
 scale = 0.85
 
 [sub_resource type="Resource" id="prop_desk_candle"]
 script = ExtResource("5")
 id = "desk_candle"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(-3.0, 0.82, 2.0)
 scale = 0.85
 

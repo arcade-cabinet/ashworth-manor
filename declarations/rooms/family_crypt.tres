@@ -340,49 +340,49 @@ position = Vector3(3.0, 0, -2.0)
 [sub_resource type="Resource" id="prop_grave_candle_holder"]
 script = ExtResource("5")
 id = "grave_candle_holder"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(2.0, 0.78, 1.4)
 
 [sub_resource type="Resource" id="prop_grave_candle"]
 script = ExtResource("5")
 id = "grave_candle"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(2.0, 0.78, 1.4)
 
 [sub_resource type="Resource" id="prop_gate_candle_holder"]
 script = ExtResource("5")
 id = "gate_candle_holder"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-0.95, 0.78, -2.85)
 
 [sub_resource type="Resource" id="prop_gate_candle"]
 script = ExtResource("5")
 id = "gate_candle"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(-0.95, 0.78, -2.85)
 
 [sub_resource type="Resource" id="prop_side_candle_holder_w"]
 script = ExtResource("5")
 id = "side_candle_holder_w"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-2.6, 0.78, 0.7)
 
 [sub_resource type="Resource" id="prop_side_candle_w"]
 script = ExtResource("5")
 id = "side_candle_w"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(-2.6, 0.78, 0.7)
 
 [sub_resource type="Resource" id="prop_side_candle_holder_e"]
 script = ExtResource("5")
 id = "side_candle_holder_e"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(2.8, 0.78, -0.15)
 
 [sub_resource type="Resource" id="prop_side_candle_e"]
 script = ExtResource("5")
 id = "side_candle_e"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(2.8, 0.78, -0.15)
 
 [sub_resource type="Resource" id="prop_music_box_cloth"]

@@ -219,14 +219,14 @@ scale = 1.1
 [sub_resource type="Resource" id="prop_nursery_candle_holder"]
 script = ExtResource("5")
 id = "nursery_candle_holder"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(1.0, 0.78, 1.55)
 scale = 0.8
 
 [sub_resource type="Resource" id="prop_nursery_candle"]
 script = ExtResource("5")
 id = "nursery_candle_prop"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(1.0, 0.82, 1.55)
 scale = 0.8
 

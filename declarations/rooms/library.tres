@@ -405,14 +405,14 @@ position = Vector3(2.7, 1.55, 4.1)
 [sub_resource type="Resource" id="prop_candle_holder_left"]
 script = ExtResource("5")
 id = "candle_holder_left"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-0.7, 1.15, 2.55)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_candle_holder_right"]
 script = ExtResource("5")
 id = "candle_holder_right"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(1.4, 1.15, 2.55)
 rotation_y = 270.0
 

@@ -206,7 +206,7 @@ rotation_y = -26.0
 [sub_resource type="Resource" id="prop_candle"]
 script = ExtResource("5")
 id = "spent_candle"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(-1.05, 0.02, 0.85)
 rotation_y = 18.0
 scale = 0.9
@@ -214,7 +214,7 @@ scale = 0.9
 [sub_resource type="Resource" id="prop_hook_bracket"]
 script = ExtResource("5")
 id = "hook_bracket"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-1.35, 1.7, -0.6)
 rotation_y = 90.0
 scale = 0.6

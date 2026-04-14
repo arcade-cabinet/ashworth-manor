@@ -125,6 +125,8 @@ const CARRIAGE_HOUSE_BOARD_2_MODEL := "res://assets/grounds/carriage_house/woode
 const CARRIAGE_HOUSE_SHOVEL_MODEL := "res://assets/grounds/carriage_house/shovel_mx_1.glb"
 const CARRIAGE_HOUSE_LUGGAGE_MODEL := "res://assets/grounds/carriage_house/luggage_mp_1.glb"
 const CARRIAGE_HOUSE_LAMP_MODEL := "res://assets/grounds/carriage_house/lamp_mx_2_off.glb"
+const CANDLE_HOLDER_MODEL := "res://assets/shared/decor/candle_holder.glb"
+const CANDLE_SINGLE_MODEL := "res://assets/shared/items/candle0.glb"
 const GREENHOUSE_PLANK_BENCH_MODEL := "res://assets/grounds/greenhouse/wooden_plank_1.glb"
 const GREENHOUSE_PLANK_SHELF_MODEL := "res://assets/grounds/greenhouse/wooden_plank_2.glb"
 const GREENHOUSE_DEAD_ROW_MODEL := "res://assets/grounds/greenhouse/bush_long_dead.glb"
@@ -233,6 +235,8 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	CARRIAGE_HOUSE_SHOVEL_MODEL: "carriage_house_shovel",
 	CARRIAGE_HOUSE_LUGGAGE_MODEL: "carriage_house_luggage",
 	CARRIAGE_HOUSE_LAMP_MODEL: "carriage_house_dead_lamp",
+	CANDLE_HOLDER_MODEL: "candle_holder_fixture",
+	CANDLE_SINGLE_MODEL: "candle_single",
 	GREENHOUSE_PLANK_BENCH_MODEL: "greenhouse_plank_bench",
 	GREENHOUSE_PLANK_SHELF_MODEL: "greenhouse_plank_shelf",
 	GREENHOUSE_DEAD_ROW_MODEL: "greenhouse_dead_row",
@@ -1341,6 +1345,10 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(CARRIAGE_HOUSE_LUGGAGE_MODEL, prop_decl)
 	if substrate_kind == "carriage_house_dead_lamp":
 		return _instantiate_substrate_scene(CARRIAGE_HOUSE_LAMP_MODEL, prop_decl)
+	if substrate_kind == "candle_holder_fixture":
+		return _instantiate_substrate_scene(CANDLE_HOLDER_MODEL, prop_decl)
+	if substrate_kind == "candle_single":
+		return _instantiate_substrate_scene(CANDLE_SINGLE_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_bench":
 		return _instantiate_substrate_scene(GREENHOUSE_PLANK_BENCH_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_shelf":

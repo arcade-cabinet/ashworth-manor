@@ -227,7 +227,7 @@ scale = 1.4
 [sub_resource type="Resource" id="prop_candle_holder"]
 script = ExtResource("5")
 id = "kitchen_hearth_candle"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-0.45, 0.0, -3.45)
 rotation_y = 180.0
 scale = 1.1

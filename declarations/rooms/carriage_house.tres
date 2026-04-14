@@ -209,7 +209,7 @@ position = Vector3(0, 1.5, 2.45)
 [sub_resource type="Resource" id="prop_candle"]
 script = ExtResource("5")
 id = "mattress_candle"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(-2.2, 0.0, -1.1)
 
 [sub_resource type="Resource" id="prop_page"]

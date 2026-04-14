@@ -368,13 +368,13 @@ scale = 0.9
 [sub_resource type="Resource" id="prop_candle_holder_l"]
 script = ExtResource("5")
 id = "candle_holder_left"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-3.0, 0.82, 0.0)
 
 [sub_resource type="Resource" id="prop_candle_holder_r"]
 script = ExtResource("5")
 id = "candle_holder_right"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(3.0, 0.82, 0.0)
 
 [sub_resource type="Resource" id="prop_stool"]

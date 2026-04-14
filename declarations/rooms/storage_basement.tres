@@ -343,13 +343,13 @@ scale = 0.92
 [sub_resource type="Resource" id="prop_mattress_candle_holder"]
 script = ExtResource("5")
 id = "mattress_candle_holder"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(2.2, 0.78, 2.0)
 
 [sub_resource type="Resource" id="prop_mattress_candle"]
 script = ExtResource("5")
 id = "mattress_candle"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(2.2, 0.78, 2.0)
 
 [sub_resource type="Resource" id="prop_match_tin"]
@@ -362,13 +362,13 @@ scale = 0.3
 [sub_resource type="Resource" id="prop_sconce_stairs"]
 script = ExtResource("5")
 id = "sconce_stairs"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(0, 2.0, -3.5)
 
 [sub_resource type="Resource" id="prop_sconce_cage"]
 script = ExtResource("5")
 id = "sconce_cage"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(3.5, 2.0, 3.0)
 
 [sub_resource type="Resource" id="mount_slot_storage_sconce_stairs"]
@@ -390,14 +390,14 @@ script = ExtResource("12")
 payload_id = "storage_sconce_stairs_payload"
 slot_id = "storage_sconce_stairs"
 scene_role = "mounted_payload"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 
 [sub_resource type="Resource" id="mount_payload_storage_sconce_cage"]
 script = ExtResource("12")
 payload_id = "storage_sconce_cage_payload"
 slot_id = "storage_sconce_cage"
 scene_role = "mounted_payload"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 
 ; === Entry Trigger: Forced Fall ===
 

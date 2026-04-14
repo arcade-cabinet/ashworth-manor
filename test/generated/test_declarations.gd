@@ -573,6 +573,10 @@ func _test_environments() -> void:
 
 func _test_substrate_contract() -> void:
 	_test_name = "SUBSTRATE"
+	var legacy_candle_models := {
+		"res://assets/shared/decor/candle_holder.glb": "candle_holder_fixture",
+		"res://assets/shared/items/candle0.glb": "candle_single",
+	}
 	var substrate_ids := [
 		"grounds_twilight",
 		"forecourt_lamplit",
@@ -716,6 +720,14 @@ func _test_substrate_contract() -> void:
 					"%s env mount family %s approved by region" % [room_ref.room_id, family],
 					resolved_region.allowed_mount_families.has(family)
 				)
+		for prop in room_decl.props:
+			if prop == null:
+				continue
+			var legacy_kind := String(legacy_candle_models.get(prop.model, ""))
+			if legacy_kind.is_empty():
+				continue
+			_ok("%s prop %s clears raw candle model path" % [room_ref.room_id, prop.id], prop.model.is_empty())
+			_ok("%s prop %s uses candle substrate kind" % [room_ref.room_id, prop.id], prop.substrate_prop_kind == legacy_kind)
 		var slot_map: Dictionary = {}
 		for slot in room_decl.mount_slots:
 			if slot == null:
@@ -1485,6 +1497,18 @@ func _test_builder_default_contract() -> void:
 	var carriage_house_dead_lamp := assembler._build_procedural_prop(carriage_house_dead_lamp_decl)
 	_ok("substrate carriage-house dead lamp builds from shared substrate kind", carriage_house_dead_lamp != null)
 
+	var candle_holder_decl := PropDecl.new()
+	candle_holder_decl.id = "compat_candle_holder_fixture"
+	candle_holder_decl.substrate_prop_kind = "candle_holder_fixture"
+	var candle_holder_fixture := assembler._build_procedural_prop(candle_holder_decl)
+	_ok("substrate candle holder builds from shared substrate kind", candle_holder_fixture != null)
+
+	var candle_single_decl := PropDecl.new()
+	candle_single_decl.id = "compat_candle_single"
+	candle_single_decl.substrate_prop_kind = "candle_single"
+	var candle_single := assembler._build_procedural_prop(candle_single_decl)
+	_ok("substrate single candle builds from shared substrate kind", candle_single != null)
+
 	var greenhouse_plank_bench_decl := PropDecl.new()
 	greenhouse_plank_bench_decl.id = "compat_greenhouse_plank_bench"
 	greenhouse_plank_bench_decl.substrate_prop_kind = "greenhouse_plank_bench"
@@ -1734,6 +1758,10 @@ func _test_builder_default_contract() -> void:
 		carriage_house_luggage.free()
 	if carriage_house_dead_lamp != null:
 		carriage_house_dead_lamp.free()
+	if candle_holder_fixture != null:
+		candle_holder_fixture.free()
+	if candle_single != null:
+		candle_single.free()
 	if greenhouse_plank_bench != null:
 		greenhouse_plank_bench.free()
 	if greenhouse_plank_shelf != null:

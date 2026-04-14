@@ -1025,6 +1025,10 @@ independent execution drivers:
     `board_2`, `shovel`, `luggage`, and `dead_lamp`
     now author through carriage-house-specific substrate kinds instead of raw
     grounds model paths
+  - the shared candle kit moved too:
+    raw `candle_holder.glb` and `candle0.glb` props across the room set
+    now author through `candle_holder_fixture` and `candle_single`
+    instead of direct shared model paths
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

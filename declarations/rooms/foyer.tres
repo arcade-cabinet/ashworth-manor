@@ -472,13 +472,13 @@ scale = 1.2
 [sub_resource type="Resource" id="prop_candle_w"]
 script = ExtResource("5")
 id = "candle_holder_west"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-5, 2.5, -3)
 
 [sub_resource type="Resource" id="prop_candle_e"]
 script = ExtResource("5")
 id = "candle_holder_east"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(5, 2.5, -3)
 
 [sub_resource type="Resource" id="prop_north_door_frame"]
@@ -548,13 +548,13 @@ scale = 1.4
 [sub_resource type="Resource" id="prop_north_candle_left"]
 script = ExtResource("5")
 id = "north_candle_left"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-1.85, 2.45, 4.72)
 
 [sub_resource type="Resource" id="prop_north_candle_right"]
 script = ExtResource("5")
 id = "north_candle_right"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(1.85, 2.45, 4.72)
 
 [sub_resource type="Resource" id="prop_window_ray"]

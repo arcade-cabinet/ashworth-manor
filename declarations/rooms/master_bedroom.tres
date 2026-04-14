@@ -345,13 +345,13 @@ position = Vector3(4.0, 0, -2.0)
 [sub_resource type="Resource" id="prop_candle_holder_left"]
 script = ExtResource("5")
 id = "candle_holder_left"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-3.0, 0.8, 2.0)
 
 [sub_resource type="Resource" id="prop_candle_holder_right"]
 script = ExtResource("5")
 id = "candle_holder_right"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(3.0, 0.8, 2.0)
 
 [sub_resource type="Resource" id="prop_book0"]

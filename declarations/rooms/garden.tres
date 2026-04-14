@@ -378,13 +378,13 @@ scale_3d = Vector3(0.4, 0.78, 0.42)
 [sub_resource type="Resource" id="prop_gazebo_candle_holder"]
 script = ExtResource("5")
 id = "gazebo_candle_holder"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-5.0, 0.78, -4.0)
 
 [sub_resource type="Resource" id="prop_gazebo_candle"]
 script = ExtResource("5")
 id = "gazebo_candle"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(-5.0, 0.78, -4.0)
 
 ; === Entry Trigger ===

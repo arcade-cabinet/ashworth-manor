@@ -556,3 +556,7 @@ changes between `adult/child` and `elder` route contexts.
 - The carriage-house shell now owns its repeated support kit too:
   mattress, shed shell pieces, loose boards, shovel, luggage, and dead lamp
   now author through carriage-house-specific substrate kinds.
+- The shared candle kit is now substrate-owned too:
+  `candle_holder.glb` and `candle0.glb` now author through the shared
+  `candle_holder_fixture` and `candle_single` substrate kinds across the room
+  declarations.
