@@ -416,8 +416,13 @@ changes between `adult/child` and `elder` route contexts.
   - exterior statue plinths
   - foyer round pillars
   - the front facade door leaf
+  - repeated mansion facade and trim pieces:
+    wall panels, window panels, wing panels, wall columns, doorway trim,
+    roof panels, roof molding, and foyer frieze trim
 - `RoomAssembler` now owns the common procedural path for those repeated
   structure pieces, with declaration-authored raw structure model ids kept only
   as compatibility interception.
 - Authored room declarations no longer directly reference
   `res://assets/shared/structure/*.glb` for common substrate pieces.
+- The front facade and foyer trim kit no longer depend on repeated
+  `res://assets/mansion_psx/models/SM_*.glb` prop authoring either.

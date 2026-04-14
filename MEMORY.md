@@ -889,3 +889,15 @@ independent execution drivers:
     declaration coverage proves the replacement builds cleanly
   - authored room declarations now contain no direct
     `res://assets/shared/structure/*.glb` prop references
+  - the repeated mansion PSX facade/trim kit is now migrated too:
+    `SM_Door_Wall`, `SM_Window_Wall`, `SM_Big_Wall`, `SM_Wall_Column`,
+    `SM_Door_Frame`, `SM_Roof`, `SM_Big_Roof_Molding`, and
+    `SM_Big_Wall_Molding` now author through substrate kinds instead of raw
+    model ids
+  - affected rooms:
+    `front_gate`, `front_steps`, and `foyer`
+  - `RoomAssembler._build_procedural_prop()` now owns procedural replacements
+    for the common mansion facade/trim kit, and declaration coverage proves
+    each replacement builds cleanly
+  - authored room declarations no longer contain direct repeated
+    `res://assets/mansion_psx/models/SM_*.glb` prop references in that slice

@@ -484,7 +484,7 @@ position = Vector3(5, 2.5, -3)
 [sub_resource type="Resource" id="prop_north_door_frame"]
 script = ExtResource("5")
 id = "north_door_frame"
-model = "res://assets/mansion_psx/models/SM_Door_Frame.glb"
+substrate_prop_kind = "doorway_trim"
 position = Vector3(0, 0, 4.95)
 rotation_y = 180.0
 scale = 0.82
@@ -492,7 +492,7 @@ scale = 0.82
 [sub_resource type="Resource" id="prop_north_wall_column_left"]
 script = ExtResource("5")
 id = "north_wall_column_left"
-model = "res://assets/mansion_psx/models/SM_Wall_Column.glb"
+substrate_prop_kind = "manor_wall_column"
 position = Vector3(-1.5, 0, 4.88)
 rotation_y = 180.0
 scale = 0.8
@@ -500,7 +500,7 @@ scale = 0.8
 [sub_resource type="Resource" id="prop_north_wall_column_right"]
 script = ExtResource("5")
 id = "north_wall_column_right"
-model = "res://assets/mansion_psx/models/SM_Wall_Column.glb"
+substrate_prop_kind = "manor_wall_column"
 position = Vector3(1.5, 0, 4.88)
 rotation_y = 180.0
 scale = 0.8
@@ -508,7 +508,7 @@ scale = 0.8
 [sub_resource type="Resource" id="prop_upper_frieze_left"]
 script = ExtResource("5")
 id = "upper_frieze_left"
-model = "res://assets/mansion_psx/models/SM_Big_Wall_Molding.glb"
+substrate_prop_kind = "manor_frieze"
 position = Vector3(-3.25, 2.58, 4.92)
 rotation_y = 180.0
 scale = 0.82
@@ -516,7 +516,7 @@ scale = 0.82
 [sub_resource type="Resource" id="prop_upper_frieze_right"]
 script = ExtResource("5")
 id = "upper_frieze_right"
-model = "res://assets/mansion_psx/models/SM_Big_Wall_Molding.glb"
+substrate_prop_kind = "manor_frieze"
 position = Vector3(3.25, 2.58, 4.92)
 rotation_y = 180.0
 scale = 0.82
@@ -524,7 +524,7 @@ scale = 0.82
 [sub_resource type="Resource" id="prop_east_door_frame"]
 script = ExtResource("5")
 id = "east_door_frame"
-model = "res://assets/mansion_psx/models/SM_Door_Frame.glb"
+substrate_prop_kind = "doorway_trim"
 position = Vector3(5.88, 0, 0.25)
 rotation_y = 270.0
 scale = 0.82
@@ -532,7 +532,7 @@ scale = 0.82
 [sub_resource type="Resource" id="prop_west_door_frame"]
 script = ExtResource("5")
 id = "west_door_frame"
-model = "res://assets/mansion_psx/models/SM_Door_Frame.glb"
+substrate_prop_kind = "doorway_trim"
 position = Vector3(-5.88, 0, 0.25)
 rotation_y = 90.0
 scale = 0.82

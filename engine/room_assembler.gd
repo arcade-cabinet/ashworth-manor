@@ -40,6 +40,14 @@ const PROCEDURAL_PLINTH_LEFT_MODEL := "res://assets/shared/structure/pillar0_002
 const PROCEDURAL_PLINTH_RIGHT_MODEL := "res://assets/shared/structure/pillar0_003.glb"
 const PROCEDURAL_FOYER_PILLAR_MODEL := "res://assets/shared/structure/pillar1.glb"
 const PROCEDURAL_FACADE_DOOR_MODEL := "res://assets/shared/structure/door1.glb"
+const PSX_DOOR_WALL_MODEL := "res://assets/mansion_psx/models/SM_Door_Wall.glb"
+const PSX_WINDOW_WALL_MODEL := "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+const PSX_BIG_WALL_MODEL := "res://assets/mansion_psx/models/SM_Big_Wall.glb"
+const PSX_WALL_COLUMN_MODEL := "res://assets/mansion_psx/models/SM_Wall_Column.glb"
+const PSX_DOOR_FRAME_MODEL := "res://assets/mansion_psx/models/SM_Door_Frame.glb"
+const PSX_ROOF_MODEL := "res://assets/mansion_psx/models/SM_Roof.glb"
+const PSX_BIG_ROOF_MOLDING_MODEL := "res://assets/mansion_psx/models/SM_Big_Roof_Molding.glb"
+const PSX_BIG_WALL_MOLDING_MODEL := "res://assets/mansion_psx/models/SM_Big_Wall_Molding.glb"
 const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PROCEDURAL_WINDOW_MODEL: "window_frame",
 	PROCEDURAL_WINDOW_RAY_MODEL: "window_ray",
@@ -51,6 +59,14 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PROCEDURAL_PLINTH_RIGHT_MODEL: "plinth_tall",
 	PROCEDURAL_FOYER_PILLAR_MODEL: "round_pillar",
 	PROCEDURAL_FACADE_DOOR_MODEL: "facade_door_leaf",
+	PSX_DOOR_WALL_MODEL: "manor_wall_panel",
+	PSX_WINDOW_WALL_MODEL: "manor_window_panel",
+	PSX_BIG_WALL_MODEL: "manor_wing_panel",
+	PSX_WALL_COLUMN_MODEL: "manor_wall_column",
+	PSX_DOOR_FRAME_MODEL: "doorway_trim",
+	PSX_ROOF_MODEL: "manor_roof_panel",
+	PSX_BIG_ROOF_MOLDING_MODEL: "manor_roof_molding",
+	PSX_BIG_WALL_MOLDING_MODEL: "manor_frieze",
 }
 
 
@@ -874,6 +890,117 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		door_leaf.rotation_degrees.y = prop_decl.rotation_y
 		door_leaf.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_FACADE_DOOR_MODEL)
 		return door_leaf
+	if substrate_kind == "manor_wall_panel":
+		var wall_panel := Node3D.new()
+		wall_panel.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorWallPanelProp"
+		var masonry := "recipe:surface/cloth_brown"
+		var backing := _make_prop_box(Vector3(4.4, 4.1, 0.34), Vector3(0, 2.05, 0), masonry)
+		backing.name = "Backing"
+		wall_panel.add_child(backing)
+		var plinth := _make_prop_box(Vector3(4.5, 0.26, 0.42), Vector3(0, 0.13, -0.02), "recipe:surface/oak_header")
+		plinth.name = "Plinth"
+		wall_panel.add_child(plinth)
+		wall_panel.position = prop_decl.position
+		wall_panel.rotation_degrees.y = prop_decl.rotation_y
+		wall_panel.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PSX_DOOR_WALL_MODEL)
+		return wall_panel
+	if substrate_kind == "manor_window_panel":
+		var window_panel := Node3D.new()
+		window_panel.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorWindowPanelProp"
+		var masonry := "recipe:surface/cloth_brown"
+		var backing_panel := _make_prop_box(Vector3(4.4, 4.1, 0.34), Vector3(0, 2.05, 0), masonry)
+		backing_panel.name = "Backing"
+		window_panel.add_child(backing_panel)
+		var sill := _make_prop_box(Vector3(1.8, 0.16, 0.2), Vector3(0, 1.56, -0.11), "recipe:surface/oak_header")
+		sill.name = "Sill"
+		window_panel.add_child(sill)
+		var lintel := _make_prop_box(Vector3(1.9, 0.14, 0.18), Vector3(0, 3.24, -0.08), "recipe:surface/oak_header")
+		lintel.name = "Lintel"
+		window_panel.add_child(lintel)
+		window_panel.position = prop_decl.position
+		window_panel.rotation_degrees.y = prop_decl.rotation_y
+		window_panel.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PSX_WINDOW_WALL_MODEL)
+		return window_panel
+	if substrate_kind == "manor_wing_panel":
+		var wing_panel := Node3D.new()
+		wing_panel.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorWingPanelProp"
+		var wing := _make_prop_box(Vector3(8.0, 4.2, 0.42), Vector3(0, 2.1, 0), "recipe:surface/cloth_brown")
+		wing.name = "Wing"
+		wing_panel.add_child(wing)
+		var plinth_band := _make_prop_box(Vector3(8.1, 0.24, 0.48), Vector3(0, 0.12, -0.02), "recipe:surface/oak_header")
+		plinth_band.name = "Plinth"
+		wing_panel.add_child(plinth_band)
+		wing_panel.position = prop_decl.position
+		wing_panel.rotation_degrees.y = prop_decl.rotation_y
+		wing_panel.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PSX_BIG_WALL_MODEL)
+		return wing_panel
+	if substrate_kind == "manor_wall_column":
+		var column := Node3D.new()
+		column.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorWallColumnProp"
+		var trim := "recipe:surface/oak_header"
+		var column_base := _make_prop_box(Vector3(0.66, 0.2, 0.44), Vector3(0, 0.1, 0), trim)
+		column_base.name = "Base"
+		column.add_child(column_base)
+		var column_shaft := _make_prop_box(Vector3(0.44, 3.38, 0.28), Vector3(0, 1.89, 0), trim)
+		column_shaft.name = "Shaft"
+		column.add_child(column_shaft)
+		var column_cap := _make_prop_box(Vector3(0.72, 0.2, 0.38), Vector3(0, 3.58, 0), trim)
+		column_cap.name = "Cap"
+		column.add_child(column_cap)
+		column.position = prop_decl.position
+		column.rotation_degrees.y = prop_decl.rotation_y
+		column.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PSX_WALL_COLUMN_MODEL)
+		return column
+	if substrate_kind == "doorway_trim":
+		var trim_root := Node3D.new()
+		trim_root.name = prop_decl.id if not prop_decl.id.is_empty() else "DoorwayTrimProp"
+		var trim_surface := "recipe:surface/oak_header"
+		var left_jamb := _make_prop_box(Vector3(0.22, 3.08, 0.18), Vector3(-1.03, 1.54, 0), trim_surface)
+		left_jamb.name = "LeftJamb"
+		trim_root.add_child(left_jamb)
+		var right_jamb := _make_prop_box(Vector3(0.22, 3.08, 0.18), Vector3(1.03, 1.54, 0), trim_surface)
+		right_jamb.name = "RightJamb"
+		trim_root.add_child(right_jamb)
+		var lintel_piece := _make_prop_box(Vector3(2.34, 0.2, 0.18), Vector3(0, 3.06, 0), trim_surface)
+		lintel_piece.name = "Lintel"
+		trim_root.add_child(lintel_piece)
+		trim_root.position = prop_decl.position
+		trim_root.rotation_degrees.y = prop_decl.rotation_y
+		trim_root.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PSX_DOOR_FRAME_MODEL)
+		return trim_root
+	if substrate_kind == "manor_roof_panel":
+		var roof_root := Node3D.new()
+		roof_root.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorRoofPanelProp"
+		var roof_surface := "recipe:surface/oak_dark"
+		var roof_plane := _make_prop_box(Vector3(4.4, 0.18, 2.4), Vector3(0, 0, 0), roof_surface)
+		roof_plane.name = "RoofPlane"
+		roof_plane.rotation_degrees.x = -32.0
+		roof_root.add_child(roof_plane)
+		roof_root.position = prop_decl.position
+		roof_root.rotation_degrees.y = prop_decl.rotation_y
+		roof_root.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PSX_ROOF_MODEL)
+		return roof_root
+	if substrate_kind == "manor_roof_molding":
+		var molding_root := Node3D.new()
+		molding_root.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorRoofMoldingProp"
+		var molding := _make_prop_box(Vector3(4.5, 0.18, 0.32), Vector3(0, 0, 0), "recipe:surface/oak_header")
+		molding.name = "Molding"
+		molding.rotation_degrees.x = -18.0
+		molding_root.add_child(molding)
+		molding_root.position = prop_decl.position
+		molding_root.rotation_degrees.y = prop_decl.rotation_y
+		molding_root.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PSX_BIG_ROOF_MOLDING_MODEL)
+		return molding_root
+	if substrate_kind == "manor_frieze":
+		var frieze_root := Node3D.new()
+		frieze_root.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorFriezeProp"
+		var frieze := _make_prop_box(Vector3(4.6, 0.22, 0.26), Vector3(0, 0, 0), "recipe:surface/oak_header")
+		frieze.name = "Frieze"
+		frieze_root.add_child(frieze)
+		frieze_root.position = prop_decl.position
+		frieze_root.rotation_degrees.y = prop_decl.rotation_y
+		frieze_root.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PSX_BIG_WALL_MOLDING_MODEL)
+		return frieze_root
 	if prop_decl.tags.has("procedural_moon"):
 		var moon := MeshInstance3D.new()
 		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"

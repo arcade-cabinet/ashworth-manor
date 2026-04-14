@@ -877,7 +877,7 @@ scale = 1.08
 [sub_resource type="Resource" id="prop_facade_wall_center"]
 script = ExtResource("5")
 id = "facade_wall_center"
-model = "res://assets/mansion_psx/models/SM_Door_Wall.glb"
+substrate_prop_kind = "manor_wall_panel"
 position = Vector3(0, 0, 12.55)
 rotation_y = 90.0
 scale = 1.0
@@ -885,7 +885,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_wall_left"]
 script = ExtResource("5")
 id = "facade_wall_left"
-model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+substrate_prop_kind = "manor_window_panel"
 position = Vector3(-4.6, 0, 13.1)
 rotation_y = 180.0
 scale = 1.0
@@ -893,7 +893,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_wall_right"]
 script = ExtResource("5")
 id = "facade_wall_right"
-model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+substrate_prop_kind = "manor_window_panel"
 position = Vector3(4.6, 0, 13.1)
 rotation_y = 180.0
 scale = 1.0
@@ -901,7 +901,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_wing_left"]
 script = ExtResource("5")
 id = "facade_wing_left"
-model = "res://assets/mansion_psx/models/SM_Big_Wall.glb"
+substrate_prop_kind = "manor_wing_panel"
 position = Vector3(-9.0, 0, 13.58)
 rotation_y = 180.0
 scale = 1.0
@@ -909,7 +909,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_wing_right"]
 script = ExtResource("5")
 id = "facade_wing_right"
-model = "res://assets/mansion_psx/models/SM_Big_Wall.glb"
+substrate_prop_kind = "manor_wing_panel"
 position = Vector3(9.0, 0, 13.58)
 rotation_y = 180.0
 scale = 1.0
@@ -917,7 +917,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_pillar_left"]
 script = ExtResource("5")
 id = "facade_pillar_left"
-model = "res://assets/mansion_psx/models/SM_Wall_Column.glb"
+substrate_prop_kind = "manor_wall_column"
 position = Vector3(-2.3, 0, 12.48)
 rotation_y = 180.0
 scale = 1.0
@@ -925,7 +925,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_pillar_right"]
 script = ExtResource("5")
 id = "facade_pillar_right"
-model = "res://assets/mansion_psx/models/SM_Wall_Column.glb"
+substrate_prop_kind = "manor_wall_column"
 position = Vector3(2.3, 0, 12.48)
 rotation_y = 180.0
 scale = 1.0
@@ -1011,7 +1011,7 @@ scale = 0.72
 [sub_resource type="Resource" id="prop_facade_doorway"]
 script = ExtResource("5")
 id = "facade_doorway"
-model = "res://assets/mansion_psx/models/SM_Door_Frame.glb"
+substrate_prop_kind = "doorway_trim"
 position = Vector3(0, 0, 12.55)
 rotation_y = 90.0
 scale = 1.0
@@ -1019,7 +1019,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_upper_center"]
 script = ExtResource("5")
 id = "facade_upper_center"
-model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+substrate_prop_kind = "manor_window_panel"
 position = Vector3(0, 4.05, 12.82)
 rotation_y = 180.0
 scale = 1.0
@@ -1027,7 +1027,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_upper_left"]
 script = ExtResource("5")
 id = "facade_upper_left"
-model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+substrate_prop_kind = "manor_window_panel"
 position = Vector3(-4.6, 4.05, 13.25)
 rotation_y = 180.0
 scale = 1.0
@@ -1035,7 +1035,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_upper_right"]
 script = ExtResource("5")
 id = "facade_upper_right"
-model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+substrate_prop_kind = "manor_window_panel"
 position = Vector3(4.6, 4.05, 13.25)
 rotation_y = 180.0
 scale = 1.0
@@ -1043,7 +1043,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_upper_wing_left"]
 script = ExtResource("5")
 id = "facade_upper_wing_left"
-model = "res://assets/mansion_psx/models/SM_Big_Wall.glb"
+substrate_prop_kind = "manor_wing_panel"
 position = Vector3(-9.0, 4.05, 13.72)
 rotation_y = 180.0
 scale = 1.0
@@ -1051,7 +1051,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_upper_wing_right"]
 script = ExtResource("5")
 id = "facade_upper_wing_right"
-model = "res://assets/mansion_psx/models/SM_Big_Wall.glb"
+substrate_prop_kind = "manor_wing_panel"
 position = Vector3(9.0, 4.05, 13.72)
 rotation_y = 180.0
 scale = 1.0
@@ -1059,7 +1059,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_roof_left"]
 script = ExtResource("5")
 id = "facade_roof_left"
-model = "res://assets/mansion_psx/models/SM_Roof.glb"
+substrate_prop_kind = "manor_roof_panel"
 position = Vector3(-4.6, 8.08, 13.35)
 rotation_y = 180.0
 scale = 1.0
@@ -1067,7 +1067,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_roof_center"]
 script = ExtResource("5")
 id = "facade_roof_center"
-model = "res://assets/mansion_psx/models/SM_Roof.glb"
+substrate_prop_kind = "manor_roof_panel"
 position = Vector3(0, 8.08, 12.95)
 rotation_y = 180.0
 scale = 1.0
@@ -1075,7 +1075,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_roof_right"]
 script = ExtResource("5")
 id = "facade_roof_right"
-model = "res://assets/mansion_psx/models/SM_Roof.glb"
+substrate_prop_kind = "manor_roof_panel"
 position = Vector3(4.6, 8.08, 13.35)
 rotation_y = 180.0
 scale = 1.0
@@ -1083,7 +1083,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_roof_wing_left"]
 script = ExtResource("5")
 id = "facade_roof_wing_left"
-model = "res://assets/mansion_psx/models/SM_Roof.glb"
+substrate_prop_kind = "manor_roof_panel"
 position = Vector3(-9.0, 8.08, 13.86)
 rotation_y = 180.0
 scale = 1.0
@@ -1091,7 +1091,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_roof_wing_right"]
 script = ExtResource("5")
 id = "facade_roof_wing_right"
-model = "res://assets/mansion_psx/models/SM_Roof.glb"
+substrate_prop_kind = "manor_roof_panel"
 position = Vector3(9.0, 8.08, 13.86)
 rotation_y = 180.0
 scale = 1.0
@@ -1099,7 +1099,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_molding_left"]
 script = ExtResource("5")
 id = "facade_molding_left"
-model = "res://assets/mansion_psx/models/SM_Big_Roof_Molding.glb"
+substrate_prop_kind = "manor_roof_molding"
 position = Vector3(-4.6, 8.04, 13.15)
 rotation_y = 180.0
 scale = 1.0
@@ -1107,7 +1107,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_molding_center"]
 script = ExtResource("5")
 id = "facade_molding_center"
-model = "res://assets/mansion_psx/models/SM_Big_Roof_Molding.glb"
+substrate_prop_kind = "manor_roof_molding"
 position = Vector3(0, 8.04, 12.74)
 rotation_y = 180.0
 scale = 1.0
@@ -1115,7 +1115,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_molding_right"]
 script = ExtResource("5")
 id = "facade_molding_right"
-model = "res://assets/mansion_psx/models/SM_Big_Roof_Molding.glb"
+substrate_prop_kind = "manor_roof_molding"
 position = Vector3(4.6, 8.04, 13.15)
 rotation_y = 180.0
 scale = 1.0

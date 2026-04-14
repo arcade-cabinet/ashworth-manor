@@ -1100,3 +1100,20 @@ after each iteration and it's included in prompts for context.
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+- The repeated mansion facade / trim kit is now migrated too:
+  - `SM_Door_Wall` -> `manor_wall_panel`
+  - `SM_Window_Wall` -> `manor_window_panel`
+  - `SM_Big_Wall` -> `manor_wing_panel`
+  - `SM_Wall_Column` -> `manor_wall_column`
+  - `SM_Door_Frame` -> `doorway_trim`
+  - `SM_Roof` -> `manor_roof_panel`
+  - `SM_Big_Roof_Molding` -> `manor_roof_molding`
+  - `SM_Big_Wall_Molding` -> `manor_frieze`
+- Affected declarations:
+  - `front_gate`
+  - `front_steps`
+  - `foyer`
+- Verification after the mansion facade/trim migration:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`

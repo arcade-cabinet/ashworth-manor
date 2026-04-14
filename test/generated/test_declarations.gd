@@ -483,6 +483,14 @@ func _test_substrate_contract() -> void:
 		"res://assets/shared/structure/pillar0_003.glb": "plinth_tall",
 		"res://assets/shared/structure/pillar1.glb": "round_pillar",
 		"res://assets/shared/structure/door1.glb": "facade_door_leaf",
+		"res://assets/mansion_psx/models/SM_Door_Wall.glb": "manor_wall_panel",
+		"res://assets/mansion_psx/models/SM_Window_Wall.glb": "manor_window_panel",
+		"res://assets/mansion_psx/models/SM_Big_Wall.glb": "manor_wing_panel",
+		"res://assets/mansion_psx/models/SM_Wall_Column.glb": "manor_wall_column",
+		"res://assets/mansion_psx/models/SM_Door_Frame.glb": "doorway_trim",
+		"res://assets/mansion_psx/models/SM_Roof.glb": "manor_roof_panel",
+		"res://assets/mansion_psx/models/SM_Big_Roof_Molding.glb": "manor_roof_molding",
+		"res://assets/mansion_psx/models/SM_Big_Wall_Molding.glb": "manor_frieze",
 	}
 	var dir := DirAccess.open("res://declarations/rooms/")
 	if dir != null:
@@ -773,6 +781,54 @@ func _test_builder_default_contract() -> void:
 	procedural_facade_door_decl.scale = 1.0
 	var procedural_facade_door := assembler._build_procedural_prop(procedural_facade_door_decl)
 	_ok("procedural facade door prop replaces imported shared door model", procedural_facade_door != null and procedural_facade_door.get_node_or_null("DoorLeaf") != null)
+
+	var manor_wall_decl := PropDecl.new()
+	manor_wall_decl.id = "compat_manor_wall"
+	manor_wall_decl.model = "res://assets/mansion_psx/models/SM_Door_Wall.glb"
+	var manor_wall := assembler._build_procedural_prop(manor_wall_decl)
+	_ok("procedural manor wall panel replaces imported facade wall model", manor_wall != null and manor_wall.get_node_or_null("Backing") != null)
+
+	var manor_window_panel_decl := PropDecl.new()
+	manor_window_panel_decl.id = "compat_manor_window"
+	manor_window_panel_decl.model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+	var manor_window_panel := assembler._build_procedural_prop(manor_window_panel_decl)
+	_ok("procedural manor window panel replaces imported window wall model", manor_window_panel != null and manor_window_panel.get_node_or_null("Sill") != null)
+
+	var manor_wing_decl := PropDecl.new()
+	manor_wing_decl.id = "compat_manor_wing"
+	manor_wing_decl.model = "res://assets/mansion_psx/models/SM_Big_Wall.glb"
+	var manor_wing := assembler._build_procedural_prop(manor_wing_decl)
+	_ok("procedural manor wing replaces imported big wall model", manor_wing != null and manor_wing.get_node_or_null("Wing") != null)
+
+	var manor_column_decl := PropDecl.new()
+	manor_column_decl.id = "compat_manor_column"
+	manor_column_decl.model = "res://assets/mansion_psx/models/SM_Wall_Column.glb"
+	var manor_column := assembler._build_procedural_prop(manor_column_decl)
+	_ok("procedural manor column replaces imported wall column model", manor_column != null and manor_column.get_node_or_null("Shaft") != null)
+
+	var doorway_trim_decl := PropDecl.new()
+	doorway_trim_decl.id = "compat_doorway_trim"
+	doorway_trim_decl.model = "res://assets/mansion_psx/models/SM_Door_Frame.glb"
+	var doorway_trim := assembler._build_procedural_prop(doorway_trim_decl)
+	_ok("procedural doorway trim replaces imported door frame model", doorway_trim != null and doorway_trim.get_node_or_null("Lintel") != null)
+
+	var manor_roof_decl := PropDecl.new()
+	manor_roof_decl.id = "compat_manor_roof"
+	manor_roof_decl.model = "res://assets/mansion_psx/models/SM_Roof.glb"
+	var manor_roof := assembler._build_procedural_prop(manor_roof_decl)
+	_ok("procedural manor roof replaces imported roof panel model", manor_roof != null and manor_roof.get_node_or_null("RoofPlane") != null)
+
+	var manor_roof_molding_decl := PropDecl.new()
+	manor_roof_molding_decl.id = "compat_manor_roof_molding"
+	manor_roof_molding_decl.model = "res://assets/mansion_psx/models/SM_Big_Roof_Molding.glb"
+	var manor_roof_molding := assembler._build_procedural_prop(manor_roof_molding_decl)
+	_ok("procedural manor roof molding replaces imported roof molding model", manor_roof_molding != null and manor_roof_molding.get_node_or_null("Molding") != null)
+
+	var manor_frieze_decl := PropDecl.new()
+	manor_frieze_decl.id = "compat_manor_frieze"
+	manor_frieze_decl.model = "res://assets/mansion_psx/models/SM_Big_Wall_Molding.glb"
+	var manor_frieze := assembler._build_procedural_prop(manor_frieze_decl)
+	_ok("procedural manor frieze replaces imported wall molding model", manor_frieze != null and manor_frieze.get_node_or_null("Frieze") != null)
 	floor.free()
 	ceiling.free()
 	wall.free()
@@ -804,6 +860,22 @@ func _test_builder_default_contract() -> void:
 		procedural_pillar.free()
 	if procedural_facade_door != null:
 		procedural_facade_door.free()
+	if manor_wall != null:
+		manor_wall.free()
+	if manor_window_panel != null:
+		manor_window_panel.free()
+	if manor_wing != null:
+		manor_wing.free()
+	if manor_column != null:
+		manor_column.free()
+	if doorway_trim != null:
+		doorway_trim.free()
+	if manor_roof != null:
+		manor_roof.free()
+	if manor_roof_molding != null:
+		manor_roof_molding.free()
+	if manor_frieze != null:
+		manor_frieze.free()
 	print("[DONE] builder defaults")
 
 
