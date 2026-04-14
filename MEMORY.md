@@ -911,3 +911,6 @@ independent execution drivers:
   - those kinds currently instantiate the existing shared scenes through the
     substrate path, so the declaration layer no longer treats them as silent
     or waived architecture exceptions
+  - the declaration contract is now stricter than before:
+    the authored room set currently has zero active `substrate_waiver_reason`
+    values, and the declaration suite will fail if one is reintroduced

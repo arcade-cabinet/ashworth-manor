@@ -433,3 +433,4 @@ changes between `adult/child` and `elder` route contexts.
   - `front_gate_menu_sign` -> `front_gate_sign`
   - `greenhouse_glass_shell` -> `greenhouse_shell`
   - `greenhouse_hanging_lantern` -> `greenhouse_lantern`
+- There are currently no active declaration waivers in the authored room set.

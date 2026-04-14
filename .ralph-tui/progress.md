@@ -1129,6 +1129,7 @@ after each iteration and it's included in prompts for context.
   - `greenhouse_hanging_lantern` -> `greenhouse_lantern`
 - Those substrate kinds currently route through the existing shared scenes, but
   they now live under the substrate contract instead of exception handling
+- Current authored waiver count: `0`
 - Verification after the waiver-contract pass:
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`

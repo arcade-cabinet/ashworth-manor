@@ -478,6 +478,10 @@ func _test_substrate_contract() -> void:
 					"%s:%s non-substrate architectural prop has explicit waiver" % [room_ref.room_id, prop.id],
 					not prop.substrate_waiver_reason.is_empty()
 				)
+			_ok(
+				"%s:%s has no active substrate waiver" % [room_ref.room_id, prop.id],
+				prop.substrate_waiver_reason.is_empty()
+			)
 	print("[DONE] substrate contract")
 
 	var retired_structure_models := {
