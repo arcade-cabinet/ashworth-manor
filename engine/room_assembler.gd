@@ -144,6 +144,11 @@ const FURNITURE_CHAIR_MODEL := "res://assets/shared/furniture/chair.glb"
 const FURNITURE_BOOKCASE_MODEL := "res://assets/shared/furniture/bookcase.glb"
 const FURNITURE_BED_MODEL := "res://assets/shared/furniture/bed.glb"
 const CHANDELIER_MODEL := "res://assets/shared/decor/chandelier.glb"
+const ITEM_PAGE_001_MODEL := "res://assets/shared/items/page1.glb"
+const ITEM_PAGE_002_MODEL := "res://assets/shared/items/page2.glb"
+const ITEM_PAGE_005_MODEL := "res://assets/shared/items/page5.glb"
+const ITEM_OPENBOOK_000_MODEL := "res://assets/shared/items/openbook0.glb"
+const ITEM_OPENBOOK_001_MODEL := "res://assets/shared/items/openbook1.glb"
 const GREENHOUSE_PLANK_BENCH_MODEL := "res://assets/grounds/greenhouse/wooden_plank_1.glb"
 const GREENHOUSE_PLANK_SHELF_MODEL := "res://assets/grounds/greenhouse/wooden_plank_2.glb"
 const GREENHOUSE_DEAD_ROW_MODEL := "res://assets/grounds/greenhouse/bush_long_dead.glb"
@@ -271,6 +276,11 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	FURNITURE_BOOKCASE_MODEL: "furniture_bookcase",
 	FURNITURE_BED_MODEL: "furniture_bed",
 	CHANDELIER_MODEL: "chandelier_fixture",
+	ITEM_PAGE_001_MODEL: "item_page_001",
+	ITEM_PAGE_002_MODEL: "item_page_002",
+	ITEM_PAGE_005_MODEL: "item_page_005",
+	ITEM_OPENBOOK_000_MODEL: "item_openbook_000",
+	ITEM_OPENBOOK_001_MODEL: "item_openbook_001",
 	GREENHOUSE_PLANK_BENCH_MODEL: "greenhouse_plank_bench",
 	GREENHOUSE_PLANK_SHELF_MODEL: "greenhouse_plank_shelf",
 	GREENHOUSE_DEAD_ROW_MODEL: "greenhouse_dead_row",
@@ -1417,6 +1427,16 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(FURNITURE_BED_MODEL, prop_decl)
 	if substrate_kind == "chandelier_fixture":
 		return _instantiate_substrate_scene(CHANDELIER_MODEL, prop_decl)
+	if substrate_kind == "item_page_001":
+		return _instantiate_substrate_scene(ITEM_PAGE_001_MODEL, prop_decl)
+	if substrate_kind == "item_page_002":
+		return _instantiate_substrate_scene(ITEM_PAGE_002_MODEL, prop_decl)
+	if substrate_kind == "item_page_005":
+		return _instantiate_substrate_scene(ITEM_PAGE_005_MODEL, prop_decl)
+	if substrate_kind == "item_openbook_000":
+		return _instantiate_substrate_scene(ITEM_OPENBOOK_000_MODEL, prop_decl)
+	if substrate_kind == "item_openbook_001":
+		return _instantiate_substrate_scene(ITEM_OPENBOOK_001_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_bench":
 		return _instantiate_substrate_scene(GREENHOUSE_PLANK_BENCH_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_shelf":

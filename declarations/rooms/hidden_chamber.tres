@@ -183,7 +183,7 @@ scale = 0.42
 [sub_resource type="Resource" id="prop_music_box_cloth"]
 script = ExtResource("5")
 id = "music_box_cloth"
-model = "res://assets/shared/items/page1.glb"
+substrate_prop_kind = "item_page_001"
 position = Vector3(1.15, 0.46, 1.56)
 rotation_y = 10.0
 scale = 0.92
@@ -191,14 +191,14 @@ scale = 0.92
 [sub_resource type="Resource" id="prop_pages_a"]
 script = ExtResource("5")
 id = "drawing_sheet_a"
-model = "res://assets/shared/items/page2.glb"
+substrate_prop_kind = "item_page_002"
 position = Vector3(-1.3, 0.02, -0.8)
 rotation_y = -18.0
 
 [sub_resource type="Resource" id="prop_pages_b"]
 script = ExtResource("5")
 id = "drawing_sheet_b"
-model = "res://assets/shared/items/page5.glb"
+substrate_prop_kind = "item_page_005"
 position = Vector3(-0.2, 0.02, -1.3)
 rotation_y = 9.0
 

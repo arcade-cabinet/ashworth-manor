@@ -1047,6 +1047,15 @@ independent execution drivers:
     raw `bed.glb` and `chandelier.glb` props across the room set
     now author through `furniture_bed` and `chandelier_fixture`
     instead of direct shared model paths
+  - the shared loose-page and open-book display kit moved too:
+    raw `page1.glb`, `page2.glb`, `page5.glb`, `openbook0.glb`, and
+    `openbook1.glb` props across the room set now author through
+    `item_page_001`, `item_page_002`, `item_page_005`,
+    `item_openbook_000`, and `item_openbook_001`
+    instead of direct shared model paths
+  - music boxes were explicitly left out of that tranche:
+    there is still no real shared music-box asset or visual registry entry,
+    so `music_box.glb` remains on the legacy interactable path for now
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

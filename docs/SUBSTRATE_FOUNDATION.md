@@ -575,3 +575,10 @@ changes between `adult/child` and `elder` route contexts.
   `bed.glb` and `chandelier.glb` now author through explicit
   `furniture_bed` and `chandelier_fixture` substrate kinds across the room
   declarations.
+- The shared loose-page and open-book display kit is now substrate-owned too:
+  `page1.glb`, `page2.glb`, `page5.glb`, `openbook0.glb`, and `openbook1.glb`
+  now author through explicit shared item-display substrate kinds across the
+  room declarations.
+- Music boxes are intentionally not part of that tranche yet:
+  they still sit on the legacy interactable visual path because there is not
+  yet a real shared music-box asset or visual registry entry to promote.

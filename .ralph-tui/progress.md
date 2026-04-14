@@ -1431,6 +1431,19 @@ after each iteration and it's included in prompts for context.
   - affected authored rooms include:
     `guest_room`, `attic_storage`, `hidden_chamber`, `foyer`,
     and `dining_room`
+- The shared loose-page and open-book display kit is now migrated too:
+  - `page1.glb` -> `item_page_001`
+  - `page2.glb` -> `item_page_002`
+  - `page5.glb` -> `item_page_005`
+  - `openbook0.glb` -> `item_openbook_000`
+  - `openbook1.glb` -> `item_openbook_001`
+  - affected authored rooms include:
+    `attic_stairs`, `attic_storage`, `family_crypt`, `hidden_chamber`,
+    `carriage_house`, `library`, `chapel`, `master_bedroom`, and
+    `guest_room`
+- Music boxes were left on the legacy interactable path:
+  - `music_box.glb` was not promoted in the same tranche because the repo
+    still has no real shared music-box asset or visual-registry entry
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload

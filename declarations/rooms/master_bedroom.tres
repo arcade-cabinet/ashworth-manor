@@ -369,7 +369,7 @@ position = Vector3(-3.8, 0.8, -4.2)
 [sub_resource type="Resource" id="prop_openbook"]
 script = ExtResource("5")
 id = "openbook_prop"
-model = "res://assets/shared/items/openbook0.glb"
+substrate_prop_kind = "item_openbook_000"
 position = Vector3(3.0, 0.82, 1.0)
 
 ; === Entry Trigger ===

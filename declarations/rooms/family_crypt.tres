@@ -388,7 +388,7 @@ position = Vector3(2.8, 0.78, -0.15)
 [sub_resource type="Resource" id="prop_music_box_cloth"]
 script = ExtResource("5")
 id = "music_box_cloth"
-model = "res://assets/shared/items/page5.glb"
+substrate_prop_kind = "item_page_005"
 position = Vector3(2.0, 0.79, 1.0)
 rotation_y = 15.0
 scale = 0.85

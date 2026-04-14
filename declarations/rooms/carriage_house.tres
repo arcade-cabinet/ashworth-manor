@@ -215,7 +215,7 @@ position = Vector3(-2.2, 0.0, -1.1)
 [sub_resource type="Resource" id="prop_page"]
 script = ExtResource("5")
 id = "prayer_card_page"
-model = "res://assets/shared/items/page1.glb"
+substrate_prop_kind = "item_page_001"
 position = Vector3(-1.7, 0.02, -0.7)
 rotation_y = -12.0
 

@@ -502,14 +502,14 @@ rotation_y = -18.0
 [sub_resource type="Resource" id="prop_page_a"]
 script = ExtResource("5")
 id = "drawing_page_a"
-model = "res://assets/shared/items/page2.glb"
+substrate_prop_kind = "item_page_002"
 position = Vector3(2.2, 0.58, 3.4)
 rotation_y = 8.0
 
 [sub_resource type="Resource" id="prop_page_b"]
 script = ExtResource("5")
 id = "drawing_page_b"
-model = "res://assets/shared/items/page5.glb"
+substrate_prop_kind = "item_page_005"
 position = Vector3(3.0, 0.58, 2.9)
 rotation_y = -24.0
 

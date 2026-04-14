@@ -226,7 +226,7 @@ rotation_y = 35.0
 [sub_resource type="Resource" id="prop_openbook"]
 script = ExtResource("5")
 id = "guest_openbook"
-model = "res://assets/shared/items/openbook1.glb"
+substrate_prop_kind = "item_openbook_001"
 position = Vector3(-3.25, 0.82, -2.75)
 
 [sub_resource type="Resource" id="prop_window_ray"]

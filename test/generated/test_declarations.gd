@@ -600,6 +600,13 @@ func _test_substrate_contract() -> void:
 		"res://assets/shared/furniture/bed.glb": "furniture_bed",
 		"res://assets/shared/decor/chandelier.glb": "chandelier_fixture",
 	}
+	var legacy_item_display_models := {
+		"res://assets/shared/items/page1.glb": "item_page_001",
+		"res://assets/shared/items/page2.glb": "item_page_002",
+		"res://assets/shared/items/page5.glb": "item_page_005",
+		"res://assets/shared/items/openbook0.glb": "item_openbook_000",
+		"res://assets/shared/items/openbook1.glb": "item_openbook_001",
+	}
 	var substrate_ids := [
 		"grounds_twilight",
 		"forecourt_lamplit",
@@ -753,6 +760,8 @@ func _test_substrate_contract() -> void:
 				legacy_kind = String(legacy_rug_models.get(prop.model, ""))
 			if legacy_kind.is_empty():
 				legacy_kind = String(legacy_furniture_models.get(prop.model, ""))
+			if legacy_kind.is_empty():
+				legacy_kind = String(legacy_item_display_models.get(prop.model, ""))
 			if not legacy_kind.is_empty():
 				_ok("%s prop %s clears raw repeated model path" % [room_ref.room_id, prop.id], prop.model.is_empty())
 				_ok("%s prop %s uses repeated substrate kind" % [room_ref.room_id, prop.id], prop.substrate_prop_kind == legacy_kind)
@@ -1603,6 +1612,36 @@ func _test_builder_default_contract() -> void:
 	var chandelier_fixture := assembler._build_procedural_prop(chandelier_fixture_decl)
 	_ok("substrate chandelier builds from shared substrate kind", chandelier_fixture != null)
 
+	var item_page_001_decl := PropDecl.new()
+	item_page_001_decl.id = "compat_item_page_001"
+	item_page_001_decl.substrate_prop_kind = "item_page_001"
+	var item_page_001 := assembler._build_procedural_prop(item_page_001_decl)
+	_ok("substrate page1 builds from shared substrate kind", item_page_001 != null)
+
+	var item_page_002_decl := PropDecl.new()
+	item_page_002_decl.id = "compat_item_page_002"
+	item_page_002_decl.substrate_prop_kind = "item_page_002"
+	var item_page_002 := assembler._build_procedural_prop(item_page_002_decl)
+	_ok("substrate page2 builds from shared substrate kind", item_page_002 != null)
+
+	var item_page_005_decl := PropDecl.new()
+	item_page_005_decl.id = "compat_item_page_005"
+	item_page_005_decl.substrate_prop_kind = "item_page_005"
+	var item_page_005 := assembler._build_procedural_prop(item_page_005_decl)
+	_ok("substrate page5 builds from shared substrate kind", item_page_005 != null)
+
+	var item_openbook_000_decl := PropDecl.new()
+	item_openbook_000_decl.id = "compat_item_openbook_000"
+	item_openbook_000_decl.substrate_prop_kind = "item_openbook_000"
+	var item_openbook_000 := assembler._build_procedural_prop(item_openbook_000_decl)
+	_ok("substrate openbook0 builds from shared substrate kind", item_openbook_000 != null)
+
+	var item_openbook_001_decl := PropDecl.new()
+	item_openbook_001_decl.id = "compat_item_openbook_001"
+	item_openbook_001_decl.substrate_prop_kind = "item_openbook_001"
+	var item_openbook_001 := assembler._build_procedural_prop(item_openbook_001_decl)
+	_ok("substrate openbook1 builds from shared substrate kind", item_openbook_001 != null)
+
 	var greenhouse_plank_bench_decl := PropDecl.new()
 	greenhouse_plank_bench_decl.id = "compat_greenhouse_plank_bench"
 	greenhouse_plank_bench_decl.substrate_prop_kind = "greenhouse_plank_bench"
@@ -1878,6 +1917,16 @@ func _test_builder_default_contract() -> void:
 		furniture_bed.free()
 	if chandelier_fixture != null:
 		chandelier_fixture.free()
+	if item_page_001 != null:
+		item_page_001.free()
+	if item_page_002 != null:
+		item_page_002.free()
+	if item_page_005 != null:
+		item_page_005.free()
+	if item_openbook_000 != null:
+		item_openbook_000.free()
+	if item_openbook_001 != null:
+		item_openbook_001.free()
 	if greenhouse_plank_bench != null:
 		greenhouse_plank_bench.free()
 	if greenhouse_plank_shelf != null:
