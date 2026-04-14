@@ -693,6 +693,27 @@ func _test_builder_default_contract() -> void:
 	procedural_ray_decl.scale = 1.0
 	var procedural_ray := assembler._build_procedural_prop(procedural_ray_decl)
 	_ok("procedural window ray prop replaces imported ray model", procedural_ray != null and procedural_ray.get_node_or_null("WindowRay") != null)
+
+	var procedural_stairs_decl := PropDecl.new()
+	procedural_stairs_decl.id = "compat_stairs"
+	procedural_stairs_decl.model = "res://assets/shared/structure/stairs0.glb"
+	procedural_stairs_decl.scale = 1.0
+	var procedural_stairs := assembler._build_procedural_prop(procedural_stairs_decl)
+	_ok("procedural stair prop replaces imported stair model", procedural_stairs != null and procedural_stairs.get_node_or_null("Step_0") != null)
+
+	var procedural_banister_decl := PropDecl.new()
+	procedural_banister_decl.id = "compat_banister"
+	procedural_banister_decl.model = "res://assets/shared/structure/stairbanister.glb"
+	procedural_banister_decl.scale = 1.0
+	var procedural_banister := assembler._build_procedural_prop(procedural_banister_decl)
+	_ok("procedural banister prop replaces imported banister model", procedural_banister != null and procedural_banister.get_node_or_null("Rail") != null)
+
+	var procedural_newel_decl := PropDecl.new()
+	procedural_newel_decl.id = "compat_newel"
+	procedural_newel_decl.model = "res://assets/shared/structure/banisterbase.glb"
+	procedural_newel_decl.scale = 1.0
+	var procedural_newel := assembler._build_procedural_prop(procedural_newel_decl)
+	_ok("procedural newel prop replaces imported base model", procedural_newel != null and procedural_newel.get_node_or_null("Shaft") != null)
 	floor.free()
 	ceiling.free()
 	wall.free()
@@ -710,6 +731,12 @@ func _test_builder_default_contract() -> void:
 		procedural_window.free()
 	if procedural_ray != null:
 		procedural_ray.free()
+	if procedural_stairs != null:
+		procedural_stairs.free()
+	if procedural_banister != null:
+		procedural_banister.free()
+	if procedural_newel != null:
+		procedural_newel.free()
 	print("[DONE] builder defaults")
 
 

@@ -99,6 +99,10 @@ after each iteration and it's included in prompts for context.
 - `RoomAssembler` now intercepts declaration-authored `window_clean.glb` and
   `window_ray.glb` props and replaces those repeated imported structure props
   with procedural window / glow-plane visuals during assembly.
+- `RoomAssembler` now intercepts declaration-authored `stairs0.glb`,
+  `stairbanister.glb`, and `banisterbase.glb` props too, replacing those
+  repeated imported circulation structure props with procedural stair / rail /
+  newel geometry during assembly.
 - Removed the redundant ordinary-door mesh hints from authored world data:
   - parlor, dining room, kitchen, upper-floor bedroom/library/guest-room, and
     service-hatch doors now rely on the shared door builder’s native default

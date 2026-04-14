@@ -261,6 +261,9 @@ hangers; those runtime visuals now resolve through `EstateMaterialKit` as well.
 It also now intercepts declaration-authored `window_clean.glb` and
 `window_ray.glb` prop uses and replaces those repeated structure props with
 shared procedural window and glow-plane visuals at assembly time.
+The same runtime seam now covers the repeated circulation structure props too:
+`stairs0.glb`, `stairbanister.glb`, and `banisterbase.glb` prop uses are now
+replaced by shared procedural stair, rail, and newel geometry during assembly.
 
 ## Foliage Shader
 

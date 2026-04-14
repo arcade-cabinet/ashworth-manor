@@ -32,6 +32,9 @@ const MODEL_SCALE_OVERRIDES := {
 }
 const PROCEDURAL_WINDOW_MODEL := "res://assets/shared/structure/window_clean.glb"
 const PROCEDURAL_WINDOW_RAY_MODEL := "res://assets/shared/structure/window_ray.glb"
+const PROCEDURAL_STAIRCASE_MODEL := "res://assets/shared/structure/stairs0.glb"
+const PROCEDURAL_BANISTER_MODEL := "res://assets/shared/structure/stairbanister.glb"
+const PROCEDURAL_NEWEL_MODEL := "res://assets/shared/structure/banisterbase.glb"
 
 
 func _init(world: WorldDeclaration) -> void:
@@ -684,6 +687,94 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		ray_root.rotation_degrees.y = prop_decl.rotation_y
 		ray_root.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(prop_decl.model)
 		return ray_root
+	if prop_decl.model == PROCEDURAL_STAIRCASE_MODEL:
+		var staircase := Node3D.new()
+		staircase.name = prop_decl.id if not prop_decl.id.is_empty() else "StaircaseProp"
+		var tread_surface := "recipe:surface/oak_board"
+		var structure_surface := "recipe:surface/oak_header"
+		var width := 2.8
+		var step_count := 8
+		var step_height := 0.24
+		var step_depth := 0.44
+		for step_index in range(step_count):
+			var step := _make_prop_box(
+				Vector3(width, 0.08, step_depth),
+				Vector3(0, step_index * step_height + 0.04, step_index * step_depth + step_depth * 0.5),
+				tread_surface
+			)
+			step.name = "Step_%d" % step_index
+			staircase.add_child(step)
+			var riser := _make_prop_box(
+				Vector3(width, step_height, 0.05),
+				Vector3(0, step_index * step_height + step_height * 0.5, step_index * step_depth + 0.03),
+				structure_surface
+			)
+			riser.name = "Riser_%d" % step_index
+			staircase.add_child(riser)
+		var run_depth := step_count * step_depth
+		var rise := step_count * step_height
+		var left_stringer := _make_prop_box(
+			Vector3(0.1, rise + 0.08, run_depth + 0.2),
+			Vector3(-width * 0.5 - 0.06, (rise + 0.08) * 0.5, (run_depth + 0.2) * 0.5),
+			structure_surface
+		)
+		left_stringer.name = "StringerLeft"
+		staircase.add_child(left_stringer)
+		var right_stringer := _make_prop_box(
+			Vector3(0.1, rise + 0.08, run_depth + 0.2),
+			Vector3(width * 0.5 + 0.06, (rise + 0.08) * 0.5, (run_depth + 0.2) * 0.5),
+			structure_surface
+		)
+		right_stringer.name = "StringerRight"
+		staircase.add_child(right_stringer)
+		staircase.position = prop_decl.position
+		staircase.rotation_degrees.y = prop_decl.rotation_y
+		staircase.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(prop_decl.model)
+		return staircase
+	if prop_decl.model == PROCEDURAL_BANISTER_MODEL:
+		var banister := Node3D.new()
+		banister.name = prop_decl.id if not prop_decl.id.is_empty() else "BanisterProp"
+		var rail_surface := "recipe:surface/oak_dark"
+		var post_count := 4
+		var run_length := 2.4
+		for post_index in range(post_count):
+			var t := float(post_index) / float(post_count - 1)
+			var post := _make_prop_box(
+				Vector3(0.12, 0.92, 0.12),
+				Vector3(0, 0.46 + t * 0.78, t * run_length),
+				rail_surface
+			)
+			post.name = "Post_%d" % post_index
+			banister.add_child(post)
+		var rail := _make_prop_box(
+			Vector3(0.1, 0.1, run_length + 0.15),
+			Vector3(0, 1.18, run_length * 0.5),
+			rail_surface
+		)
+		rail.rotation_degrees.x = -20.0
+		rail.name = "Rail"
+		banister.add_child(rail)
+		banister.position = prop_decl.position
+		banister.rotation_degrees.y = prop_decl.rotation_y
+		banister.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(prop_decl.model)
+		return banister
+	if prop_decl.model == PROCEDURAL_NEWEL_MODEL:
+		var newel := Node3D.new()
+		newel.name = prop_decl.id if not prop_decl.id.is_empty() else "NewelProp"
+		var rail_surface := "recipe:surface/oak_dark"
+		var base := _make_prop_box(Vector3(0.28, 0.18, 0.28), Vector3(0, 0.09, 0), rail_surface)
+		base.name = "Base"
+		newel.add_child(base)
+		var shaft := _make_prop_box(Vector3(0.18, 0.82, 0.18), Vector3(0, 0.59, 0), rail_surface)
+		shaft.name = "Shaft"
+		newel.add_child(shaft)
+		var cap := _make_prop_box(Vector3(0.3, 0.12, 0.3), Vector3(0, 1.06, 0), rail_surface)
+		cap.name = "Cap"
+		newel.add_child(cap)
+		newel.position = prop_decl.position
+		newel.rotation_degrees.y = prop_decl.rotation_y
+		newel.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(prop_decl.model)
+		return newel
 	if prop_decl.tags.has("procedural_moon"):
 		var moon := MeshInstance3D.new()
 		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"
@@ -698,6 +789,18 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		moon.scale = Vector3.ONE * maxf(0.1, prop_decl.scale)
 		return moon
 	return null
+
+
+func _make_prop_box(size: Vector3, pos: Vector3, surface_ref: String) -> MeshInstance3D:
+	var mesh_inst := MeshInstance3D.new()
+	var box := BoxMesh.new()
+	box.size = size
+	mesh_inst.mesh = box
+	mesh_inst.position = pos
+	var material := EstateMaterialKit.build_surface_reference(surface_ref)
+	if material != null:
+		mesh_inst.set_surface_override_material(0, material)
+	return mesh_inst
 
 
 func _coerce_vector3(value: Variant, fallback: Vector3) -> Vector3:
