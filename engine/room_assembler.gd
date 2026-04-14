@@ -99,6 +99,9 @@ const GARDEN_COLUMN_L_MODEL := "res://assets/grounds/garden/column1.glb"
 const GARDEN_COLUMN_R_MODEL := "res://assets/grounds/garden/column2.glb"
 const GARDEN_VASE_L_MODEL := "res://assets/grounds/garden/vase_empty.glb"
 const GARDEN_VASE_R_MODEL := "res://assets/grounds/garden/vase1.glb"
+const CHAPEL_WALL_COLUMN_FANCY_MODEL := "res://assets/grounds/chapel/plaster_wall_column_fancy.glb"
+const CHAPEL_WALL_MODEL := "res://assets/grounds/chapel/plaster_wall.glb"
+const CHAPEL_WALL_COLUMN_MODEL := "res://assets/grounds/chapel/plaster_wall_column.glb"
 const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PROCEDURAL_WINDOW_MODEL: "window_frame",
 	PROCEDURAL_WINDOW_RAY_MODEL: "window_ray",
@@ -169,6 +172,9 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	GARDEN_COLUMN_R_MODEL: "garden_column_r",
 	GARDEN_VASE_L_MODEL: "garden_vase_l",
 	GARDEN_VASE_R_MODEL: "garden_vase_r",
+	CHAPEL_WALL_COLUMN_FANCY_MODEL: "chapel_wall_column_fancy",
+	CHAPEL_WALL_MODEL: "chapel_wall_center",
+	CHAPEL_WALL_COLUMN_MODEL: "chapel_wall_column",
 }
 
 
@@ -1213,6 +1219,12 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(GARDEN_VASE_L_MODEL, prop_decl)
 	if substrate_kind == "garden_vase_r":
 		return _instantiate_substrate_scene(GARDEN_VASE_R_MODEL, prop_decl)
+	if substrate_kind == "chapel_wall_column_fancy":
+		return _instantiate_substrate_scene(CHAPEL_WALL_COLUMN_FANCY_MODEL, prop_decl)
+	if substrate_kind == "chapel_wall_center":
+		return _instantiate_substrate_scene(CHAPEL_WALL_MODEL, prop_decl)
+	if substrate_kind == "chapel_wall_column":
+		return _instantiate_substrate_scene(CHAPEL_WALL_COLUMN_MODEL, prop_decl)
 	if prop_decl.tags.has("procedural_moon"):
 		var moon := MeshInstance3D.new()
 		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"

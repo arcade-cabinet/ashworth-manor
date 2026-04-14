@@ -195,6 +195,12 @@ grounds model paths in room data; they resolve through the shared visual-kind
 registry (`garden_fountain` and `garden_gazebo`) on top of the substrate-owned
 shell props.
 
+The chapel wall shell is now on the same substrate path too. The north fancy
+column pair, the north center wall, and the side wall columns now author
+through chapel-specific substrate kinds instead of direct grounds model paths,
+keeping the chapel envelope under the same builder-owned architecture contract
+as the garden and crypt shells.
+
 The same rule is now being applied to the repeated grounds scene kit.
 Common gate/boundary pieces (`gate_post`, `gate_post_stone`, `boundary_wall`,
 `iron_gate_closed`, and `fence_run`) now author as `substrate_prop_kind`

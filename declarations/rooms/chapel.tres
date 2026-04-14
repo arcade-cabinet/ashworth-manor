@@ -178,32 +178,32 @@ flicker_pattern = "candle"
 [sub_resource type="Resource" id="prop_wall_nw"]
 script = ExtResource("5")
 id = "wall_nw"
-model = "res://assets/grounds/chapel/plaster_wall_column_fancy.glb"
+substrate_prop_kind = "chapel_wall_column_fancy"
 position = Vector3(-3.5, 0, 4.5)
 
 [sub_resource type="Resource" id="prop_wall_n"]
 script = ExtResource("5")
 id = "wall_n"
-model = "res://assets/grounds/chapel/plaster_wall.glb"
+substrate_prop_kind = "chapel_wall_center"
 position = Vector3(0.0, 0, 5.0)
 
 [sub_resource type="Resource" id="prop_wall_ne"]
 script = ExtResource("5")
 id = "wall_ne"
-model = "res://assets/grounds/chapel/plaster_wall_column_fancy.glb"
+substrate_prop_kind = "chapel_wall_column_fancy"
 position = Vector3(3.5, 0, 4.5)
 
 [sub_resource type="Resource" id="prop_wall_w"]
 script = ExtResource("5")
 id = "wall_w"
-model = "res://assets/grounds/chapel/plaster_wall_column.glb"
+substrate_prop_kind = "chapel_wall_column"
 position = Vector3(-4.0, 0, 0.5)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_wall_e"]
 script = ExtResource("5")
 id = "wall_e"
-model = "res://assets/grounds/chapel/plaster_wall_column.glb"
+substrate_prop_kind = "chapel_wall_column"
 position = Vector3(4.0, 0, 0.5)
 rotation_y = 270.0
 

@@ -988,6 +988,9 @@ independent execution drivers:
   - the garden observation layer moved with it:
     `garden_fountain` and `garden_gazebo` now use `visual_kind` instead of
     duplicating raw grounds model paths in the interactable declarations
+  - the chapel wall shell moved too:
+    `wall_nw`, `wall_n`, `wall_ne`, `wall_w`, and `wall_e` now author through
+    chapel-specific substrate kinds instead of direct plaster wall model paths
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

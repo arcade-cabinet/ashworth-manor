@@ -1321,6 +1321,11 @@ after each iteration and it's included in prompts for context.
   - `garden_gazebo` now uses `visual_kind = "garden_gazebo"`
   - `garden.tres` no longer carries raw fountain/gazebo model paths on those
     interactables
+- The chapel wall shell is now migrated too:
+  - `plaster_wall_column_fancy.glb` -> `chapel_wall_column_fancy`
+  - `plaster_wall.glb` -> `chapel_wall_center`
+  - `plaster_wall_column.glb` -> `chapel_wall_column`
+  - affected room: `chapel`
 - Verification after the waiver-contract pass:
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`

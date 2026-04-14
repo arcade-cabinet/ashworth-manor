@@ -286,6 +286,11 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/garden.tres", "id": "fountain_column_r", "kind": "garden_column_r"},
 		{"room_path": "res://declarations/rooms/garden.tres", "id": "vase_l", "kind": "garden_vase_l"},
 		{"room_path": "res://declarations/rooms/garden.tres", "id": "vase_r", "kind": "garden_vase_r"},
+		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_nw", "kind": "chapel_wall_column_fancy"},
+		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_n", "kind": "chapel_wall_center"},
+		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_ne", "kind": "chapel_wall_column_fancy"},
+		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_w", "kind": "chapel_wall_column"},
+		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_e", "kind": "chapel_wall_column"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "gate_column_l", "kind": "gate_post_stone"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "crypt_gate_prop", "kind": "iron_gate_closed"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "wall_n", "kind": "family_crypt_wall_capped"},
@@ -1304,6 +1309,24 @@ func _test_builder_default_contract() -> void:
 	var garden_vase := assembler._build_procedural_prop(garden_vase_decl)
 	_ok("substrate garden vase builds from shared substrate kind", garden_vase != null)
 
+	var chapel_wall_fancy_decl := PropDecl.new()
+	chapel_wall_fancy_decl.id = "compat_chapel_wall_fancy"
+	chapel_wall_fancy_decl.substrate_prop_kind = "chapel_wall_column_fancy"
+	var chapel_wall_fancy := assembler._build_procedural_prop(chapel_wall_fancy_decl)
+	_ok("substrate chapel fancy wall column builds from shared substrate kind", chapel_wall_fancy != null)
+
+	var chapel_wall_center_decl := PropDecl.new()
+	chapel_wall_center_decl.id = "compat_chapel_wall_center"
+	chapel_wall_center_decl.substrate_prop_kind = "chapel_wall_center"
+	var chapel_wall_center := assembler._build_procedural_prop(chapel_wall_center_decl)
+	_ok("substrate chapel wall center builds from shared substrate kind", chapel_wall_center != null)
+
+	var chapel_wall_column_decl := PropDecl.new()
+	chapel_wall_column_decl.id = "compat_chapel_wall_column"
+	chapel_wall_column_decl.substrate_prop_kind = "chapel_wall_column"
+	var chapel_wall_column := assembler._build_procedural_prop(chapel_wall_column_decl)
+	_ok("substrate chapel wall column builds from shared substrate kind", chapel_wall_column != null)
+
 	var greenhouse_pedestal_decl := PropDecl.new()
 	greenhouse_pedestal_decl.id = "compat_greenhouse_pedestal"
 	greenhouse_pedestal_decl.substrate_prop_kind = "greenhouse_pedestal"
@@ -1437,6 +1460,12 @@ func _test_builder_default_contract() -> void:
 		garden_column.free()
 	if garden_vase != null:
 		garden_vase.free()
+	if chapel_wall_fancy != null:
+		chapel_wall_fancy.free()
+	if chapel_wall_center != null:
+		chapel_wall_center.free()
+	if chapel_wall_column != null:
+		chapel_wall_column.free()
 	if greenhouse_pedestal != null:
 		greenhouse_pedestal.free()
 	if mounted_sign != null:
