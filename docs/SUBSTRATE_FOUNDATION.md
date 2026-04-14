@@ -154,12 +154,18 @@ selection, but the surface contract is now explicitly recipe-first.
 
 Repeated interactable scene sets are now moving under the same explicit
 substrate contract. For the current shared observation-state fixtures
-(`kitchen_bucket`, `gate_luggage`, `greenhouse_pot`, `parlor_tea`,
+(`kitchen_bucket`, `gate_luggage`, `gate_lamp`, `greenhouse_pot`, `parlor_tea`,
 `baptismal_font`, and `wine_glass`), declarations now author `visual_kind`
 and `state_visual_kind_map` instead of direct shared `.tscn` scene paths.
 `InteractableVisuals` owns the mapping from those runtime visual kinds to the
 shared scene assets, and the declaration suite now fails if those repeated
 fixtures fall back to direct `scene_path` / `state_model_map` authoring.
+
+That interactable contract now covers the remaining front-gate lamp visual too.
+The `gate_lamp` observation no longer carries a raw grounds model path in room
+data; it resolves through the shared visual-kind registry as
+`front_gate_lamp_lit`, leaving the room declaration free of direct repeated
+lamp asset references.
 
 The same rule is now being applied to the repeated grounds scene kit.
 Common gate/boundary pieces (`gate_post`, `gate_post_stone`, `boundary_wall`,

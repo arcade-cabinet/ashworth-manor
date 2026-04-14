@@ -139,6 +139,13 @@ func _test_interactable_visual_contract() -> void:
 			"states": {"opened": "res://scenes/shared/front_gate/front_gate_valise_open.tscn"},
 		},
 		{
+			"room_path": "res://declarations/rooms/front_gate.tres",
+			"id": "gate_lamp",
+			"visual_kind": "front_gate_lamp_lit",
+			"base_path": "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb",
+			"states": {},
+		},
+		{
 			"room_path": "res://declarations/rooms/greenhouse.tres",
 			"id": "greenhouse_pot",
 			"visual_kind": "greenhouse_lily_pot_intact",

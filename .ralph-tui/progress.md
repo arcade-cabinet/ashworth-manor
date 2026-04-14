@@ -1286,6 +1286,12 @@ after each iteration and it's included in prompts for context.
   the front-gate room payload now actually includes the migrated tree/bush/rock
   and facade-lamp props in its `props` array instead of leaving them as dead
   subresources
+- The remaining front-gate lamp interactable visual is migrated too:
+  - `gate_lamp` now uses `visual_kind = "front_gate_lamp_lit"`
+  - `InteractableVisuals` owns the mapping to
+    `res://assets/grounds/front_gate/lamp_mx_1_b_on.glb`
+  - `front_gate.tres` no longer carries a raw lamp model path for that
+    interactable
 - Verification after the waiver-contract pass:
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`

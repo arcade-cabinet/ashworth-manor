@@ -968,6 +968,10 @@ independent execution drivers:
   - `RoomAssembler` now owns substrate kinds for those repeated grounds assets,
     and declaration coverage proves they build through the shared substrate path
   - the front-gate lamp mount payload also moved onto `substrate_prop_kind`
+  - the remaining front-gate lamp interactable visual moved onto the shared
+    visual registry too:
+    `gate_lamp` now uses `visual_kind = "front_gate_lamp_lit"` and no longer
+    serializes a raw grounds model path in the room declaration
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

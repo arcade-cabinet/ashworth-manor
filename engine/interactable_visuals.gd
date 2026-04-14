@@ -8,6 +8,7 @@ const SHARED_VISUAL_KIND_PATHS := {
 	"kitchen_bucket_rippled": "res://scenes/shared/kitchen/kitchen_bucket_rippled.tscn",
 	"front_gate_valise_closed": "res://scenes/shared/front_gate/front_gate_valise_closed.tscn",
 	"front_gate_valise_open": "res://scenes/shared/front_gate/front_gate_valise_open.tscn",
+	"front_gate_lamp_lit": "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb",
 	"greenhouse_lily_pot_intact": "res://scenes/shared/greenhouse/greenhouse_lily_pot_intact.tscn",
 	"greenhouse_lily_pot_disturbed": "res://scenes/shared/greenhouse/greenhouse_lily_pot_disturbed.tscn",
 	"parlor_tea_set": "res://scenes/shared/parlor/parlor_tea_service_set.tscn",

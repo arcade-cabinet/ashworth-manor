@@ -226,7 +226,7 @@ id = "gate_lamp"
 type = "observation"
 position = Vector3(-3.3, 2.45, -0.96)
 collision_size = Vector3(1.0, 2.0, 1.0)
-model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+visual_kind = "front_gate_lamp_lit"
 responses = Array[Resource]([SubResource("resp_lamp_aware"), SubResource("resp_lamp_default")])
 thread_responses = {}
 
