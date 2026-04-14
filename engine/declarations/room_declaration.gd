@@ -28,11 +28,6 @@ const MountPayloadDecl = preload("res://engine/declarations/mount_payload_decl.g
 @export var outlook_zones: Dictionary = {} # {"north": "estate_garden", "roof": "open_sky"}
 @export var window_view_mode: String = "none" # none, local_outlook, distant_backdrop, glazed_enclosure, facade_view
 
-# Textures (256x256 standalone PNGs)
-@export var wall_texture: String = "wall0_texture"
-@export var floor_texture: String = "floor0_texture"
-@export var ceiling_texture: String = "ceiling0_texture"
-
 # Wall layout -- per side, what goes in each 2m segment
 # Each segment: "wall" | "doorway:{connection_id}" | "window" | "window_boarded" | "window_shuttered"
 @export var wall_north: PackedStringArray = []

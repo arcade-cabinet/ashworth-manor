@@ -3,6 +3,7 @@ extends RefCounted
 ## Central assembly entrypoint for threshold mechanisms.
 
 const ConnectionMechanism = preload("res://scripts/connection_mechanism.gd")
+const DEFAULT_HIDDEN_DOOR_CONCEALMENT_MODEL := "res://assets/shared/structure/wall_7.glb"
 
 static func build(connection: Connection, room_height: float = 2.4, surface_overrides: Dictionary = {}) -> Node3D:
 	var root: Node3D = null
@@ -61,7 +62,7 @@ static func _apply_threshold_metadata(root: Node3D, connection: Connection) -> v
 	root.set_meta("mechanism_type", _resolve_mechanism_type(connection))
 	root.set_meta("mechanism_state", _resolve_mechanism_state(connection))
 	root.set_meta("reveal_state", _resolve_reveal_state(connection))
-	root.set_meta("visible_model", connection.visible_model)
+	root.set_meta("resolved_concealment_model", _resolve_concealment_model(connection))
 
 
 static func _attach_mechanism_controller(root: Node3D, connection: Connection) -> void:
@@ -99,9 +100,7 @@ static func _build_path_threshold(connection: Connection) -> Node3D:
 
 
 static func _attach_secret_cover(root: Node3D, connection: Connection) -> void:
-	var cover_model := connection.concealment_model
-	if cover_model.is_empty():
-		cover_model = "res://assets/shared/structure/wall_7.glb"
+	var cover_model := _resolve_concealment_model(connection)
 	if not ResourceLoader.exists(cover_model):
 		return
 	var scene: PackedScene = load(cover_model)
@@ -113,6 +112,10 @@ static func _attach_secret_cover(root: Node3D, connection: Connection) -> void:
 		(inst as Node3D).position = Vector3(0, 0, 0.06)
 		(inst as Node3D).scale = Vector3.ONE * 0.9
 	root.add_child(inst)
+
+
+static func _resolve_concealment_model(connection: Connection) -> String:
+	return DEFAULT_HIDDEN_DOOR_CONCEALMENT_MODEL
 
 
 static func _resolve_presentation_type(connection: Connection) -> String:

@@ -8,10 +8,21 @@ const RegionCompilerScript = preload("res://engine/region_compiler.gd")
 const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
 const EstateEnvironmentRegistry = preload("res://builders/estate_environment_registry.gd")
 const EstateSubstrateRegistry = preload("res://builders/estate_substrate_registry.gd")
+const FloorBuilder = preload("res://builders/floor_builder.gd")
+const CeilingBuilder = preload("res://builders/ceiling_builder.gd")
+const WallBuilder = preload("res://builders/wall_builder.gd")
+const DoorBuilder = preload("res://builders/door_builder.gd")
+const WindowBuilder = preload("res://builders/window_builder.gd")
+const StairsBuilder = preload("res://builders/stairs_builder.gd")
+const LadderBuilder = preload("res://builders/ladder_builder.gd")
+const TrapdoorBuilder = preload("res://builders/trapdoor_builder.gd")
+const DoorSingleScript = preload("res://scripts/procedural/door_single.gd")
+const DoorDoubleScript = preload("res://scripts/procedural/door_double.gd")
 const PBRTextureKit = preload("res://builders/pbr_texture_kit.gd")
 const SubstratePresetDecl = preload("res://engine/declarations/substrate_preset_decl.gd")
 const TerrainPresetDecl = preload("res://engine/declarations/terrain_preset_decl.gd")
 const SkyPresetDecl = preload("res://engine/declarations/sky_preset_decl.gd")
+const ConnectionDecl = preload("res://engine/declarations/connection.gd")
 const SUPPORTED_MOUNT_ROUTE_MODES := [
 	"adult",
 	"elder",
@@ -50,6 +61,11 @@ func _run_all_tests() -> void:
 	_test_threads()
 	_test_environments()
 	_test_substrate_contract()
+	_test_builder_default_contract()
+	_test_shared_recipe_scenes()
+	_test_grounds_material_contract()
+	_test_material_factory_allowlist()
+	_test_procedural_compatibility_contract()
 	_test_state_schema()
 	_test_prng()
 
@@ -357,6 +373,16 @@ func _test_substrate_contract() -> void:
 	_ok("world declaration loads for substrate contract", world != null)
 	if world == null:
 		return
+	for connection in world.connections:
+		if connection == null:
+			continue
+		if connection.type == "door":
+			_ok("%s authored door omits default mechanism type" % connection.id, connection.mechanism_type.is_empty())
+		if connection.type == "hidden_door":
+			_ok("%s hidden door omits default presentation type" % connection.id, connection.presentation_type.is_empty())
+			_ok("%s hidden door omits default mechanism type" % connection.id, connection.mechanism_type.is_empty())
+		if connection.type == "trapdoor":
+			_ok("%s trapdoor omits default mechanism type" % connection.id, connection.mechanism_type.is_empty())
 	for room_ref in world.rooms:
 		if room_ref == null or not ResourceLoader.exists(room_ref.declaration_path):
 			continue
@@ -370,6 +396,12 @@ func _test_substrate_contract() -> void:
 		var resolved_env := world.get_environment_declaration(environment_preset_id)
 		_ok("%s environment declaration loads" % room_ref.room_id, resolved_env != null)
 		if resolved_env != null:
+			if not room_decl.is_exterior:
+				for role in ["floor", "wall", "ceiling"]:
+					_ok(
+						"%s environment defines %s recipe" % [room_ref.room_id, role],
+						resolved_env.surface_recipe_overrides.has(role)
+					)
 			for key in resolved_env.surface_recipe_overrides.keys():
 				var recipe_id := String(resolved_env.surface_recipe_overrides.get(key, ""))
 				_ok("%s environment %s recipe exists" % [room_ref.room_id, key], recipe_id.is_empty() or EstateMaterialKit.recipe_exists(recipe_id))
@@ -438,6 +470,231 @@ func _test_substrate_contract() -> void:
 					SUPPORTED_MOUNT_ROUTE_MODES.has(String(route_mode))
 				)
 	print("[DONE] substrate contract")
+
+
+func _room_has_window_segments(room_decl: RoomDeclaration) -> bool:
+	for layout in [room_decl.wall_north, room_decl.wall_south, room_decl.wall_east, room_decl.wall_west]:
+		for segment in layout:
+			if String(segment).begins_with("window"):
+				return true
+	return false
+
+
+func _test_shared_recipe_scenes() -> void:
+	_test_name = "SHARED_RECIPE_SCENES"
+	var recipe_scenes := [
+		"res://scenes/shared/greenhouse/greenhouse_glazed_shell.tscn",
+		"res://scenes/shared/greenhouse/greenhouse_hanging_lantern.tscn",
+		"res://scenes/shared/greenhouse/greenhouse_lily_pedestal.tscn",
+		"res://scenes/shared/greenhouse/greenhouse_lily_pot_intact.tscn",
+		"res://scenes/shared/greenhouse/greenhouse_lily_pot_disturbed.tscn",
+		"res://scenes/shared/parlor/parlor_tea_service_set.tscn",
+		"res://scenes/shared/parlor/parlor_tea_service_disturbed.tscn",
+		"res://scenes/shared/chapel/baptismal_font_still.tscn",
+		"res://scenes/shared/chapel/baptismal_font_disturbed.tscn",
+		"res://scenes/shared/chapel/baptismal_font_searched.tscn",
+	]
+	for scene_path in recipe_scenes:
+		_ok("%s exists" % scene_path, ResourceLoader.exists(scene_path))
+		if not ResourceLoader.exists(scene_path):
+			continue
+		var scene := load(scene_path) as PackedScene
+		_ok("%s loads" % scene_path, scene != null)
+		var text := FileAccess.get_file_as_string(scene_path)
+		_ok("%s uses recipe applicator" % scene_path, text.contains("shared_recipe_applicator.gd"))
+		_ok("%s has no embedded StandardMaterial3D" % scene_path, not text.contains("[sub_resource type=\"StandardMaterial3D\""))
+	print("[DONE] shared recipe scenes")
+
+
+func _test_grounds_material_contract() -> void:
+	_test_name = "GROUNDS_MATERIALS"
+	var grounded_scripts := [
+		"res://scenes/shared/grounds/estate_front_door.gd",
+		"res://scenes/shared/grounds/estate_entry_portico.gd",
+		"res://scenes/shared/grounds/estate_mansion_facade.gd",
+		"res://scenes/shared/grounds/estate_outward_road.gd",
+		"res://scenes/shared/grounds/estate_starfield.gd",
+		"res://scripts/procedural/door_single.gd",
+		"res://scripts/procedural/door_double.gd",
+	]
+	for script_path in grounded_scripts:
+		_ok("%s exists" % script_path, ResourceLoader.exists(script_path))
+		if not ResourceLoader.exists(script_path):
+			continue
+		var text := FileAccess.get_file_as_string(script_path)
+		_ok("%s has no local StandardMaterial3D construction" % script_path, not text.contains("StandardMaterial3D.new()"))
+	print("[DONE] grounds material contract")
+
+
+func _test_material_factory_allowlist() -> void:
+	_test_name = "MATERIAL_FACTORY_ALLOWLIST"
+	var allowed := {
+		"res://builders/estate_material_kit.gd": true,
+		"res://builders/pbr_texture_kit.gd": true,
+	}
+	var roots := [
+		"res://builders",
+		"res://scenes/shared",
+		"res://scripts/procedural",
+	]
+	var offenders: Array[String] = []
+	for root_path in roots:
+		for file_path in _collect_source_files(root_path):
+			var text := FileAccess.get_file_as_string(file_path)
+			if text.contains("StandardMaterial3D.new()") and not allowed.has(file_path):
+				offenders.append(file_path)
+	_ok("local StandardMaterial3D construction confined to factory layer", offenders.is_empty())
+	for offender in offenders:
+		_ng("unexpected local StandardMaterial3D factory in %s" % offender)
+	print("[DONE] material factory allowlist")
+
+
+func _test_procedural_compatibility_contract() -> void:
+	_test_name = "PROCEDURAL_COMPATIBILITY"
+	var single_path := "res://scripts/procedural/door_single.gd"
+	var double_path := "res://scripts/procedural/door_double.gd"
+	var single_text := FileAccess.get_file_as_string(single_path)
+	var double_text := FileAccess.get_file_as_string(double_path)
+	_ok("door_single uses legacy_door_texture naming", single_text.contains("@export var legacy_door_texture: Texture2D"))
+	_ok("door_single no longer exports door_texture", not single_text.contains("@export var door_texture: Texture2D"))
+	_ok("door_double uses legacy door texture naming", double_text.contains("@export var legacy_door_texture: Texture2D"))
+	_ok("door_double uses legacy frame texture naming", double_text.contains("@export var legacy_frame_texture: Texture2D"))
+	_ok("door_double no longer exports door_texture", not double_text.contains("@export var door_texture: Texture2D"))
+	_ok("door_double no longer exports frame_texture", not double_text.contains("@export var frame_texture: Texture2D"))
+	print("[DONE] procedural compatibility contract")
+
+
+func _test_builder_default_contract() -> void:
+	_test_name = "BUILDER_DEFAULTS"
+	var floor := FloorBuilder.build(4.0, 4.0, "", "wood")
+	var floor_tile := floor.get_node_or_null("FloorTile_0_0") as MeshInstance3D
+	_ok("floor builder emits tile", floor_tile != null)
+	_ok("floor builder default material applied", floor_tile != null and floor_tile.get_active_material(0) != null)
+
+	var ceiling := CeilingBuilder.build(4.0, 2.4, 4.0, "")
+	var ceiling_tile := ceiling.get_node_or_null("CeilingTile_0_0") as MeshInstance3D
+	_ok("ceiling builder emits tile", ceiling_tile != null)
+	_ok("ceiling builder default material applied", ceiling_tile != null and ceiling_tile.get_active_material(0) != null)
+
+	var wall := WallBuilder.build(PackedStringArray(["wall"]), "", "north", 4.0, 4.0, 2.4)
+	var wall_segment := wall.get_child(0) as MeshInstance3D
+	_ok("wall builder emits segment", wall_segment != null)
+	_ok("wall builder default material applied", wall_segment != null and wall_segment.get_active_material(0) != null)
+
+	var door_conn := ConnectionDecl.new()
+	door_conn.id = "test_door"
+	door_conn.type = "door"
+	door_conn.to_room = "foyer"
+	_ok("connection schema defaults mechanism state empty", door_conn.mechanism_state.is_empty())
+	_ok("connection schema defaults reveal state empty", door_conn.reveal_state.is_empty())
+	var door := DoorBuilder.build(door_conn, "", "", "doorway_frame_04", "door_panel_03")
+	_ok("door default threshold recipe", String(door.get_meta("resolved_threshold_surface", "")) == "recipe:surface/oak_header")
+	_ok("door default panel recipe", String(door.get_meta("resolved_panel_surface", "")) == "recipe:surface/oak_dark")
+	_ok("door explicit frame model hint recorded", String(door.get_meta("resolved_frame_model_hint", "")) == "doorway_frame_04")
+	_ok("door explicit panel model hint recorded", String(door.get_meta("resolved_panel_model_hint", "")) == "door_panel_03")
+	_ok("door frame hint still resolves model", not DoorBuilder._resolve_frame_model(String(door.get_meta("resolved_frame_model_hint", ""))).is_empty())
+	_ok("door panel hint still resolves model", not DoorBuilder._resolve_panel_model(String(door.get_meta("resolved_panel_model_hint", ""))).is_empty())
+	_ok("door recipe ref does not pick frame model", DoorBuilder._resolve_frame_model("recipe:surface/oak_header").is_empty())
+	_ok("door recipe ref does not pick panel model", DoorBuilder._resolve_panel_model("recipe:surface/oak_dark").is_empty())
+	_ok("door default presentation type", String((door.get_node("DoorArea") as Area3D).get_meta("presentation_type", "")) == "door_threshold")
+	_ok("door default mechanism type", String((door.get_node("DoorArea") as Area3D).get_meta("mechanism_type", "")) == "swing")
+	_ok("door default mechanism state", String((door.get_node("DoorArea") as Area3D).get_meta("mechanism_state", "")) == "idle")
+	_ok("door default reveal state", String((door.get_node("DoorArea") as Area3D).get_meta("reveal_state", "")) == "visible")
+
+	var gate_conn := ConnectionDecl.new()
+	gate_conn.id = "test_gate"
+	gate_conn.type = "gate"
+	gate_conn.to_room = "drive_lower"
+	var gate := DoorBuilder.build(gate_conn)
+	_ok("gate default threshold recipe", String(gate.get_meta("resolved_threshold_surface", "")) == "recipe:surface/brick_masonry")
+	_ok("gate default panel recipe", String(gate.get_meta("resolved_panel_surface", "")) == "recipe:surface/wrought_iron")
+	_ok("gate default presentation type", String((gate.get_node("DoorArea") as Area3D).get_meta("presentation_type", "")) == "gate_threshold")
+	_ok("gate default mechanism type", String((gate.get_node("DoorArea") as Area3D).get_meta("mechanism_type", "")) == "swing")
+
+	var hidden_conn := ConnectionDecl.new()
+	hidden_conn.id = "test_hidden_door"
+	hidden_conn.type = "hidden_door"
+	hidden_conn.to_room = "hidden_chamber"
+	var hidden_door := DoorBuilder.build(hidden_conn)
+	_ok("hidden door default presentation type", String((hidden_door.get_node("DoorArea") as Area3D).get_meta("presentation_type", "")) == "secret_panel")
+	_ok("hidden door default mechanism type", String((hidden_door.get_node("DoorArea") as Area3D).get_meta("mechanism_type", "")) == "slide")
+	_ok("hidden door default mechanism state", String((hidden_door.get_node("DoorArea") as Area3D).get_meta("mechanism_state", "")) == "concealed")
+	_ok("hidden door default reveal state", String((hidden_door.get_node("DoorArea") as Area3D).get_meta("reveal_state", "")) == "concealed")
+
+	var hidden_threshold := ConnectionAssembly.build(hidden_conn)
+	_ok("hidden threshold default concealment model", String(hidden_threshold.get_meta("resolved_concealment_model", "")) == "res://assets/shared/structure/wall_7.glb")
+
+	var window := WindowBuilder.build("window", "", "")
+	_ok("window default recipe", String(window.get_meta("resolved_window_surface", "")) == "recipe:surface/oak_dark")
+	_ok("window default model hint empty", String(window.get_meta("resolved_window_model_hint", "")).is_empty())
+	_ok("window default frame stays procedural", window.get_node_or_null("WindowFrame/FittedModel") == null)
+	_ok("window explicit hint still resolves model", not WindowBuilder._resolve_window_model("window_clean").is_empty())
+	_ok("window recipe ref does not pick model", WindowBuilder._resolve_window_model("recipe:surface/oak_dark").is_empty())
+
+	var stairs_conn := ConnectionDecl.new()
+	stairs_conn.id = "test_stairs"
+	stairs_conn.type = "stairs"
+	stairs_conn.to_room = "upper_hallway"
+	var stairs := StairsBuilder.build(stairs_conn)
+	_ok("stairs default tread recipe", String(stairs.get_meta("resolved_stair_tread_surface", "")) == "recipe:surface/oak_board")
+	_ok("stairs default structure recipe", String(stairs.get_meta("resolved_stair_structure_surface", "")) == "recipe:surface/oak_header")
+	_ok("stairs default rail recipe", String(stairs.get_meta("resolved_stair_rail_surface", "")) == "recipe:surface/oak_dark")
+	_ok("stairs default presentation type", String((stairs.get_node("StairsArea") as Area3D).get_meta("presentation_type", "")) == "stairs_threshold")
+	_ok("stairs default mechanism state", String((stairs.get_node("StairsArea") as Area3D).get_meta("mechanism_state", "")) == "idle")
+	_ok("stairs default reveal state", String((stairs.get_node("StairsArea") as Area3D).get_meta("reveal_state", "")) == "visible")
+	_ok("stairs default newel stays procedural", stairs.get_node_or_null("StairVisual/Newel/FittedModel") == null)
+
+	var trapdoor_conn := ConnectionDecl.new()
+	trapdoor_conn.id = "test_trapdoor"
+	trapdoor_conn.type = "trapdoor"
+	trapdoor_conn.to_room = "storage_basement"
+	var trapdoor := TrapdoorBuilder.build(trapdoor_conn)
+	_ok("trapdoor default threshold recipe", String(trapdoor.get_meta("resolved_threshold_surface", "")) == "recipe:surface/oak_header")
+	_ok("trapdoor default panel recipe", String(trapdoor.get_meta("resolved_panel_surface", "")) == "recipe:surface/oak_dark")
+	_ok("trapdoor default presentation type", String((trapdoor.get_node("TrapdoorArea") as Area3D).get_meta("presentation_type", "")) == "trapdoor_hatch")
+	_ok("trapdoor default mechanism type", String((trapdoor.get_node("TrapdoorArea") as Area3D).get_meta("mechanism_type", "")) == "lift")
+	_ok("trapdoor default mechanism state", String((trapdoor.get_node("TrapdoorArea") as Area3D).get_meta("mechanism_state", "")) == "idle")
+	_ok("trapdoor default reveal state", String((trapdoor.get_node("TrapdoorArea") as Area3D).get_meta("reveal_state", "")) == "visible")
+
+	var ladder_conn := ConnectionDecl.new()
+	ladder_conn.id = "test_ladder"
+	ladder_conn.type = "ladder"
+	ladder_conn.to_room = "attic_storage"
+	var ladder := LadderBuilder.build(ladder_conn)
+	_ok("ladder default rail recipe", String(ladder.get_meta("resolved_ladder_rail_surface", "")) == "recipe:surface/chain_iron")
+	_ok("ladder default rung recipe", String(ladder.get_meta("resolved_ladder_rung_surface", "")) == "recipe:surface/chain_iron")
+	_ok("ladder default presentation type", String((ladder.get_node("LadderArea") as Area3D).get_meta("presentation_type", "")) == "ladder_drop")
+	_ok("ladder default mechanism type", String((ladder.get_node("LadderArea") as Area3D).get_meta("mechanism_type", "")) == "drop")
+	_ok("ladder default mechanism state", String((ladder.get_node("LadderArea") as Area3D).get_meta("mechanism_state", "")) == "idle")
+	_ok("ladder default reveal state", String((ladder.get_node("LadderArea") as Area3D).get_meta("reveal_state", "")) == "visible")
+
+	var legacy_single := DoorSingleScript.new()
+	legacy_single._ready()
+	var single_panel := legacy_single.get_node_or_null("Pivot/Body/Panel") as MeshInstance3D
+	_ok("procedural single door builds panel", single_panel != null)
+	_ok("procedural single door recipe material applied", single_panel != null and single_panel.get_active_material(0) != null)
+
+	var legacy_double := DoorDoubleScript.new()
+	legacy_double._ready()
+	var double_left := legacy_double.get_node_or_null("HingeL/Panel") as MeshInstance3D
+	var double_post := legacy_double.get_node_or_null("PostL") as MeshInstance3D
+	_ok("procedural double door builds panel", double_left != null)
+	_ok("procedural double door panel material applied", double_left != null and double_left.get_active_material(0) != null)
+	_ok("procedural double door frame material applied", double_post != null and double_post.get_active_material(0) != null)
+	floor.free()
+	ceiling.free()
+	wall.free()
+	door.free()
+	gate.free()
+	hidden_door.free()
+	hidden_threshold.free()
+	window.free()
+	stairs.free()
+	trapdoor.free()
+	ladder.free()
+	legacy_single.free()
+	legacy_double.free()
+	print("[DONE] builder defaults")
 
 
 func _test_state_schema() -> void:
@@ -530,6 +787,26 @@ func _room_has_window_segment(room_decl: RoomDeclaration) -> bool:
 			if String(segment).begins_with("window"):
 				return true
 	return false
+
+
+func _collect_source_files(root_path: String) -> PackedStringArray:
+	var files := PackedStringArray()
+	var dir := DirAccess.open(root_path)
+	if dir == null:
+		return files
+	dir.list_dir_begin()
+	var entry := dir.get_next()
+	while entry != "":
+		if entry.begins_with("."):
+			entry = dir.get_next()
+			continue
+		var child_path := "%s/%s" % [root_path, entry]
+		if dir.current_is_dir():
+			files.append_array(_collect_source_files(child_path))
+		elif entry.ends_with(".gd"):
+			files.append(child_path)
+		entry = dir.get_next()
+	return files
 
 
 func _append_unique(values: PackedStringArray, value: String) -> void:

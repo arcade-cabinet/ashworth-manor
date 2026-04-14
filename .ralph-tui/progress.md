@@ -23,6 +23,347 @@ after each iteration and it's included in prompts for context.
   - `SF-009` visual QA and evidence rebuild — pending
   - `SF-010` whole-game sweep and rebaseline — pending
 
+## 2026-04-13 - Grounds emissive and void materials moved onto shared kit helpers
+
+- Added shared helper constructors in `estate_material_kit.gd` for:
+  - tinted shadow/void fills
+  - unshaded emissive surfaces
+  - window glow
+  - fog glow
+  - star glow
+  - legacy texture fallback surfaces
+- Removed local `StandardMaterial3D.new()` usage from the remaining shared
+  grounds scripts that were still inventing their own shadow/glow/star
+  materials:
+  - `scenes/shared/grounds/estate_front_door.gd`
+  - `scenes/shared/grounds/estate_entry_portico.gd`
+  - `scenes/shared/grounds/estate_mansion_facade.gd`
+  - `scenes/shared/grounds/estate_outward_road.gd`
+  - `scenes/shared/grounds/estate_starfield.gd`
+- Those scripts now resolve:
+  - door/portico/facade shadow recesses through shared `shadow_void` variants
+  - village window glow and fog banks through shared emissive helpers
+  - starfield stars through shared emissive helpers
+- The old procedural door compatibility path now resolves through the same
+  shared kit too:
+  - `scripts/procedural/door_single.gd`
+  - `scripts/procedural/door_double.gd`
+  - legacy `Texture2D` fallback panels/frames now build through
+    `EstateMaterialKit.legacy_texture_surface()` instead of local
+    `StandardMaterial3D.new()` snippets
+- Added a declaration-suite regression guard in
+  `test/generated/test_declarations.gd` asserting those grounds scripts no
+  longer contain local `StandardMaterial3D.new()` construction, and extended
+  that same guard to the procedural door scripts.
+- Added a broader declaration-suite allowlist guard too: local
+  `StandardMaterial3D.new()` construction is now confined to the actual
+  material factory layer only:
+  - `builders/estate_material_kit.gd`
+  - `builders/pbr_texture_kit.gd`
+  Any new direct local material factory in `builders/`, `scenes/shared/`, or
+  `scripts/procedural/` now fails validation unless it is intentionally added
+  to that allowlist.
+- Renamed the remaining procedural door compatibility inputs so they no longer
+  read like first-class authoring fields:
+  - `door_single.gd` now exports `legacy_door_texture`
+  - `door_double.gd` now exports `legacy_door_texture` and
+    `legacy_frame_texture`
+- Added a declaration-suite contract asserting those procedural scripts no
+  longer export plain `door_texture` / `frame_texture` fields.
+- Removed the now-dead legacy texture fields from the declaration schema
+  itself:
+  - `RoomDeclaration.wall_texture`
+  - `RoomDeclaration.floor_texture`
+  - `RoomDeclaration.ceiling_texture`
+  - `Connection.door_texture`
+  - `Connection.frame_texture`
+- Stripped the matching empty assignments from authored room declarations and
+  from `declarations/world.tres`, so serialized data now matches the live
+  resource classes instead of carrying dead compatibility keys.
+- Normalized the remaining explicit compatibility hint values in authored data:
+  - door/gate panels now use ids like `door_panel_03`
+  - doorway frames now use ids like `doorway_frame_00`
+  - window mesh hints now use ids like `window_clean`
+- Updated `door_builder.gd` and `window_builder.gd` so those normalized ids are
+  the primary authored path, while old texture-shaped hint strings remain
+  accepted only as compatibility parsing.
+- Tightened the declaration suite so windowed rooms now fail if they still use
+  old `wall*_texture`-shaped hint values.
+- Promoted the common clean-window mesh to a true builder default:
+  - `WindowBuilder` first defaulted to `window_clean` while the room-side
+    compatibility field was being retired
+  - ordinary windows now default to native procedural frame geometry instead
+    of fitted imported structure, while explicit mesh hints remain available
+    for targeted compatibility
+  - redundant per-room `legacy_window_model_hint = "window_clean"` values were
+    removed from authored room data, and the room-side field has now been
+    removed entirely
+- Removed the redundant ordinary-door mesh hints from authored world data:
+  - parlor, dining room, kitchen, upper-floor bedroom/library/guest-room, and
+    service-hatch doors now rely on the shared door builder’s native default
+    panel path instead of explicit legacy panel hints
+  - the front facade pair was then removed too; door connections no longer
+    carry authored mesh hints at all
+- Tightened the declaration contract so all authored `type = "door"`
+  connections now fail if they carry redundant default door metadata.
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+
+## 2026-04-13 - Shared fixture scenes normalized onto recipe library
+
+- Added new shared surface and foliage recipes in `estate_material_kit.gd`
+  for:
+  - greenhouse frame
+  - terracotta pot
+  - dark soil
+  - lily leaves
+  - lily petals
+  - ash linen
+  - tea ceramic
+  - tea tray wood
+  - chapel stone
+  - pedestal stone
+  - warm flame
+- Converted the following shared fixture scene families off embedded
+  `StandardMaterial3D` stacks and onto `shared_recipe_applicator.gd`:
+  - `scenes/shared/greenhouse/greenhouse_glazed_shell.tscn`
+  - `scenes/shared/greenhouse/greenhouse_hanging_lantern.tscn`
+  - `scenes/shared/greenhouse/greenhouse_lily_pedestal.tscn`
+  - `scenes/shared/greenhouse/greenhouse_lily_pot_intact.tscn`
+  - `scenes/shared/greenhouse/greenhouse_lily_pot_disturbed.tscn`
+  - `scenes/shared/parlor/parlor_tea_service_set.tscn`
+  - `scenes/shared/parlor/parlor_tea_service_disturbed.tscn`
+  - `scenes/shared/chapel/baptismal_font_still.tscn`
+  - `scenes/shared/chapel/baptismal_font_disturbed.tscn`
+  - `scenes/shared/chapel/baptismal_font_searched.tscn`
+- Added a declaration-suite substrate guard in
+  `test/generated/test_declarations.gd` that asserts those shared recipe scenes:
+  - load successfully
+  - use `shared_recipe_applicator.gd`
+  - no longer contain embedded `StandardMaterial3D` subresources
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+
+## 2026-04-13 - Builder fallback materials moved onto shared recipes
+
+- Added explicit shared fallback recipes in `estate_material_kit.gd` for:
+  - `surface/fallback_wood`
+  - `surface/fallback_metal`
+  - `surface/shadow_void`
+- Replaced ad hoc `StandardMaterial3D.new()` fallback paths in:
+  - `builders/ladder_builder.gd`
+  - `builders/stairs_builder.gd`
+  - `builders/window_builder.gd`
+- The circulation/envelope fallback path now stays substrate-owned even when a
+  specific room or connection surface reference fails to resolve.
+- Confirmed there are no remaining `StandardMaterial3D.new()` calls in the
+  shared circulation/envelope builder set:
+  - `stairs_builder`
+  - `ladder_builder`
+  - `window_builder`
+  - `door_builder`
+  - `trapdoor_builder`
+  - `wall_builder`
+  - `floor_builder`
+  - `ceiling_builder`
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+
+## 2026-04-13 - Envelope and threshold builders moved to recipe-first defaults
+
+- Added `EstateMaterialKit.resolve_surface_reference()` so builder defaults can
+  stay in recipe-id space instead of implicit texture-path space.
+- Converted the shared builder defaults to explicit recipe refs:
+  - `FloorBuilder` now defaults to `recipe:surface/oak_board`
+  - `CeilingBuilder` now defaults to `recipe:surface/lining_tan`
+  - `WallBuilder` now defaults to `recipe:surface/cloth_brown`
+  - `StairsBuilder` now defaults to `recipe:surface/oak_board`,
+    `recipe:surface/oak_header`, and `recipe:surface/oak_dark`
+  - `DoorBuilder` now defaults door frames/panels to oak recipes and gate
+    frames/panels to brick/wrought-iron recipes
+  - `WindowBuilder` now defaults to `recipe:surface/oak_dark`
+- Updated builder metadata and fallback semantics so these builders resolve
+  real surface refs even when the caller does not provide one explicitly.
+- Kept model-selection heuristics only for actual mesh selection; recipe refs no
+  longer masquerade as model selectors for door/window builders.
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+
+## 2026-04-13 - Builder default contract is now explicit in tests
+
+- Extended `test/generated/test_declarations.gd` with direct builder-default
+  coverage for:
+  - floor
+  - ceiling
+  - wall
+  - door
+  - gate
+  - window
+  - stairs
+  - ladder
+- The declaration suite now asserts:
+  - default builder surfaces resolve to recipe ids, not blank strings
+  - gate defaults resolve to brick/wrought-iron rather than generic door wood
+  - recipe refs do not route into door/window model-selection heuristics
+  - base floor/ceiling/wall builders still emit usable materials with empty
+    caller-surface input
+- Cleaned up the new builder-default test path so it frees temporary builder
+  roots and does not leak renderer objects in headless validation.
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+
+## 2026-04-13 - Legacy model hints split from surface recipe ownership
+
+- Rewired runtime threshold/window assembly so recipe-owned surfaces and mesh
+  hints travel separately through:
+  - `engine/room_assembler.gd`
+  - `builders/connection_assembly.gd`
+  - `builders/door_builder.gd`
+  - `builders/window_builder.gd`
+- Doors and windows now record:
+  - resolved shared recipe surfaces
+  - resolved legacy model hints
+  as distinct metadata values instead of using one field for both concerns.
+- Extended the declaration suite to prove:
+  - explicit door/window legacy model hints are recorded and still resolve
+    the expected mesh heuristics
+  - recipe ids still do not trigger those heuristics
+- The substrate contract now fails if:
+  - a connection still uses retired threshold texture fields as authored
+    runtime inputs
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+
+## 2026-04-13 - Trapdoor builder moved to recipe-first defaults
+
+- Converted `builders/trapdoor_builder.gd` so hatch frame/panel surfaces now
+  resolve through explicit shared defaults:
+  - `recipe:surface/oak_header`
+  - `recipe:surface/oak_dark`
+- The trapdoor builder no longer treats `Connection.frame_texture` and
+  `Connection.door_texture` as the primary surface contract; those fields are
+  now only compatibility fallback inputs if no recipe-owned surface override is
+  provided.
+- Extended the declaration suite builder-default coverage with direct trapdoor
+  assertions.
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+
+## 2026-04-13 - Legacy door/frame textures no longer own material fallback
+
+- Tightened `builders/door_builder.gd` and `builders/trapdoor_builder.gd` so
+  `Connection.door_texture` and `Connection.frame_texture` are no longer used
+  as implicit surface fallbacks.
+- Shared recipe defaults now fully own door/gate/trapdoor material resolution
+  unless the caller passes an explicit surface override.
+- The declaration suite builder-default coverage now proves that even with
+  legacy texture fields populated, door and trapdoor surfaces still resolve to
+  the shared recipe defaults while compatibility mesh hints remain separate.
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+
+## 2026-04-13 - Interior envelope surfaces now come from environment grammar only
+
+- Tightened `engine/room_assembler.gd` so interior floor, wall, and ceiling
+  surfaces no longer fall back to legacy `RoomDeclaration.floor_texture`,
+  `wall_texture`, or `ceiling_texture`.
+- Interior shell material ownership now resolves only from:
+  - room-level recipe overrides
+  - environment role recipes
+- Extended the declaration substrate contract so every interior room's resolved
+  environment must explicitly define `floor`, `wall`, and `ceiling` recipes.
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+
+## 2026-04-13 - Room legacy texture fields cleared from authored data
+
+- Cleared `wall_texture`, `floor_texture`, and `ceiling_texture` values across
+  authored room declarations now that they are no longer part of runtime
+  material ownership.
+- Tightened `engine/room_assembler.gd` so window assembly no longer falls back
+  to `wall_texture`, and it now relies on the shared `window_clean` builder
+  default instead of room-side hint metadata.
+- Tightened the declaration substrate contract so:
+  - all room declarations must keep those legacy texture fields empty
+- Updated `docs/ENGINE_SPEC.md` to reflect that those fields are legacy
+  compatibility metadata rather than active authored texture channels.
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+
+## 2026-04-13 - Connection legacy texture fields cleared from authored world data
+
+- Cleared `door_texture` and `frame_texture` values across `declarations/world.tres`.
+- Explicit threshold mesh compatibility now survives only as builder-call
+  inputs used for targeted compatibility testing.
+- Tightened the declaration substrate contract so world connections must keep
+  `door_texture` and `frame_texture` empty in authored data.
+- Updated `docs/ENGINE_SPEC.md` and the substrate authority docs to reflect
+  that those connection fields are retired authored metadata rather than active
+  declaration channels.
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+
+## 2026-04-13 - Declaration defaults and stale docs reconciled to the substrate contract
+
+- Updated `engine/declarations/room_declaration.gd` so retired room texture
+  fields now default to empty strings instead of legacy texture ids.
+- Updated `engine/declarations/connection.gd` comments so retired connection
+  texture fields are described as legacy metadata, not active fallback inputs.
+- Corrected stale substrate-era doc references in:
+  - `docs/PAPER_PLAYTEST.md`
+  - `docs/ENGINE_SPEC.md`
+- This closes the remaining obvious contract drift between runtime behavior,
+  authored data, declaration defaults, and docs.
+
+## 2026-04-13 - Door mesh compatibility now uses explicit hints only
+
+- Tightened `builders/door_builder.gd` so threshold mesh selection no longer
+  falls back from explicit builder-call hints to the
+  retired `frame_texture` / `door_texture` fields.
+- Extended the builder-default coverage in `test/generated/test_declarations.gd`
+  to prove that populated retired texture fields do not override explicit mesh
+  hints.
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+
+## 2026-04-13 - Legacy procedural door scripts moved onto recipe-first materials
+
+- Converted `scripts/procedural/door_single.gd` and
+  `scripts/procedural/door_double.gd` to use shared recipe refs by default:
+  - panel defaults to `recipe:surface/oak_dark`
+  - frame defaults to `recipe:surface/oak_header`
+- Retained raw `Texture2D` inputs only as legacy compatibility fallback for
+  those scripts.
+- Extended `test/generated/test_declarations.gd` with direct regression
+  coverage proving both procedural door scripts build with recipe-owned
+  materials.
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+
 ## 2026-04-08 - Hard substrate freeze tranche started
 
 - Added `docs/SUBSTRATE_FOUNDATION.md` as the canonical substrate authority.
@@ -551,6 +892,43 @@ after each iteration and it's included in prompts for context.
 - `StairsBuilder` and `LadderBuilder` now consume environment-owned circulation
   roles (`stair_tread`, `stair_structure`, `stair_rail`, `ladder_rail`,
   `ladder_rung`) instead of hardcoded wood-color defaults
+- authored `type = "door"` connections no longer carry compatibility mesh
+  hints; ordinary thresholds now rely on the shared door builder default path
+- authored hidden-door connections no longer serialize the default
+  `secret_panel` presentation, `slide` mechanism, or default concealment mesh;
+  `ConnectionAssembly` owns those defaults instead
+- `test_declarations.gd` now fails if authored hidden-door data carries those
+  default values without a real override
+- the kitchen service hatch no longer serializes the default trapdoor `lift`
+  mechanism; `TrapdoorBuilder` now records resolved presentation/mechanism
+  metadata instead of raw declaration strings
+- `DoorBuilder` now records resolved presentation/mechanism metadata too, so
+  default `door_threshold`, `gate_threshold`, and `swing` policy lives in the
+  shared builder instead of raw declaration strings
+- the front entrance still carries its real `facade_door` presentation
+  override, but no longer serializes the default `swing` mechanism
+- `DoorBuilder`, `TrapdoorBuilder`, `StairsBuilder`, and `LadderBuilder` now
+  record resolved `mechanism_state` / `reveal_state` metadata instead of raw
+  declaration defaults
+- that closes the hidden-door metadata mismatch where Area3D state could still
+  say `idle` / `visible` while the shared connection logic treated it as
+  concealed
+- `Connection.mechanism_state` and `Connection.reveal_state` now default to
+  empty strings in the schema instead of `idle` / `visible`
+- builder/runtime default policy now owns those states directly without the
+  old “ignore the schema default” compatibility logic
+- the dead `Connection.visible_model` field is gone
+- the old hidden-door `concealment_model` path is gone from the schema too
+- `ConnectionAssembly` now records the resolved concealment model directly and
+  owns the default hidden-door wall-mask mesh in the shared builder layer
+- `RoomDeclaration.legacy_window_model_hint`,
+  `Connection.legacy_frame_model_hint`, and
+  `Connection.legacy_panel_model_hint` are now gone from the schema
+- ordinary windows and ordinary door/gate thresholds now rely on shared
+  builder defaults directly; targeted mesh compatibility survives only as
+  explicit builder-call input where tests still need it
+- `StairsBuilder` no longer depends on `banisterbase.glb` in the default path;
+  stair newels are now procedural geometry too
 - Updated the environment matrix so the shared region presets now carry
   threshold/door/window/gate policy for:
   - `grounds`

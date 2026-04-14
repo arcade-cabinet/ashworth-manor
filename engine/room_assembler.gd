@@ -93,8 +93,8 @@ func assemble(room_decl: RoomDeclaration) -> Node3D:
 	var h := room_decl.dimensions.y
 	var d := room_decl.dimensions.z
 	var resolved_floor_surface := _resolve_floor_surface_ref(room_decl, env_decl)
-	var resolved_wall_surface := _resolve_surface_ref(room_decl, env_decl, "wall", room_decl.wall_texture)
-	var resolved_ceiling_surface := _resolve_surface_ref(room_decl, env_decl, "ceiling", room_decl.ceiling_texture)
+	var resolved_wall_surface := _resolve_surface_ref(room_decl, env_decl, "wall", "")
+	var resolved_ceiling_surface := _resolve_surface_ref(room_decl, env_decl, "ceiling", "")
 	var resolved_threshold_surface := _resolve_surface_ref(room_decl, env_decl, "threshold", "")
 	var resolved_door_surface := _resolve_surface_ref(room_decl, env_decl, "door", "")
 	var resolved_gate_leaf_surface := _resolve_surface_ref(room_decl, env_decl, "gate_leaf", resolved_door_surface)
@@ -230,7 +230,7 @@ func assemble(room_decl: RoomDeclaration) -> Node3D:
 
 
 func _resolve_floor_surface_ref(room_decl: RoomDeclaration, env_decl: EnvironmentDeclaration) -> String:
-	var explicit_surface := _resolve_surface_ref(room_decl, env_decl, "floor", room_decl.floor_texture)
+	var explicit_surface := _resolve_surface_ref(room_decl, env_decl, "floor", "")
 	if not room_decl.is_exterior:
 		return explicit_surface
 	if room_decl.material_recipe_overrides.has("terrain"):
@@ -297,7 +297,7 @@ func _build_windows(room_decl: RoomDeclaration, parent: Node3D, window_surface: 
 		for i in range(segment_count):
 			if layout[i].begins_with("window"):
 				var local_x := (i * 2.0) - (segment_count * 2.0 * 0.5) + 1.0
-				var window := WindowBuilder.build(layout[i], room_decl.wall_texture, window_surface)
+				var window := WindowBuilder.build(layout[i], "", window_surface)
 				window.position = WallBuilder._get_segment_position(
 					direction, local_x, room_decl.dimensions.x, room_decl.dimensions.z
 				)

@@ -12,12 +12,13 @@ const WINDOW_OPENING_WIDTH := 1.2
 const WINDOW_BOTTOM_Y := 1.0
 const WINDOW_HEIGHT := 1.0
 const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
+const DEFAULT_WALL_SURFACE := "recipe:surface/cloth_brown"
 
 ## Build a wall from its layout string array.
 ## Returns Node3D containing all wall segments for one side.
 static func build(
 	wall_layout: PackedStringArray,
-	wall_texture_path: String,
+	wall_surface_ref: String,
 	direction: String,
 	room_width: float,
 	room_depth: float,
@@ -35,17 +36,17 @@ static func build(
 		var local_x := (i * SEGMENT_WIDTH) - (segment_count * SEGMENT_WIDTH * 0.5) + SEGMENT_WIDTH * 0.5
 
 		if segment_type == "wall":
-			var panel := _make_wall_panel(wall_texture_path, room_height)
+			var panel := _make_wall_panel(wall_surface_ref, room_height)
 			panel.position = _get_segment_position(direction, local_x, room_width, room_depth)
 			panel.rotation_degrees.y = _get_wall_rotation(direction)
 			wall_root.add_child(panel)
 		elif segment_type.begins_with("doorway:"):
-			var doorway := _make_doorway_panel(wall_texture_path, room_height)
+			var doorway := _make_doorway_panel(wall_surface_ref, room_height)
 			doorway.position = _get_segment_position(direction, local_x, room_width, room_depth)
 			doorway.rotation_degrees.y = _get_wall_rotation(direction)
 			wall_root.add_child(doorway)
 		elif segment_type == "window" or segment_type == "window_boarded" or segment_type == "window_shuttered":
-			var window_wall := _make_window_panel(wall_texture_path, room_height)
+			var window_wall := _make_window_panel(wall_surface_ref, room_height)
 			window_wall.position = _get_segment_position(direction, local_x, room_width, room_depth)
 			window_wall.rotation_degrees.y = _get_wall_rotation(direction)
 			wall_root.add_child(window_wall)
@@ -72,23 +73,23 @@ static func build(
 	return wall_root
 
 
-static func _make_wall_panel(texture_path: String, room_height: float) -> Node3D:
+static func _make_wall_panel(surface_ref: String, room_height: float) -> Node3D:
 	return _make_box_panel(
 		Vector3(SEGMENT_WIDTH, room_height, WALL_DEPTH),
 		Vector3(0, room_height * 0.5, 0),
-		texture_path
+		surface_ref
 	)
 
 
-static func _make_lintel(texture_path: String) -> MeshInstance3D:
+static func _make_lintel(surface_ref: String) -> MeshInstance3D:
 	return _make_box_panel(
 		Vector3(SEGMENT_WIDTH, 0.4, WALL_DEPTH),
 		Vector3(0, 0.2, 0),
-		texture_path
+		surface_ref
 	)
 
 
-static func _make_doorway_panel(texture_path: String, room_height: float) -> Node3D:
+static func _make_doorway_panel(surface_ref: String, room_height: float) -> Node3D:
 	var doorway := Node3D.new()
 	var jamb_width := maxf((SEGMENT_WIDTH - DOOR_OPENING_WIDTH) * 0.5, 0.2)
 	var header_height := maxf(room_height - DOOR_OPENING_HEIGHT, 0.35)
@@ -96,22 +97,22 @@ static func _make_doorway_panel(texture_path: String, room_height: float) -> Nod
 	doorway.add_child(_make_box_panel(
 		Vector3(jamb_width, room_height, WALL_DEPTH),
 		Vector3(-SEGMENT_WIDTH * 0.5 + jamb_width * 0.5, room_height * 0.5, 0),
-		texture_path
+		surface_ref
 	))
 	doorway.add_child(_make_box_panel(
 		Vector3(jamb_width, room_height, WALL_DEPTH),
 		Vector3(SEGMENT_WIDTH * 0.5 - jamb_width * 0.5, room_height * 0.5, 0),
-		texture_path
+		surface_ref
 	))
 	doorway.add_child(_make_box_panel(
 		Vector3(DOOR_OPENING_WIDTH, header_height, WALL_DEPTH),
 		Vector3(0, DOOR_OPENING_HEIGHT + header_height * 0.5, 0),
-		texture_path
+		surface_ref
 	))
 	return doorway
 
 
-static func _make_window_panel(texture_path: String, room_height: float) -> Node3D:
+static func _make_window_panel(surface_ref: String, room_height: float) -> Node3D:
 	var panel := Node3D.new()
 	var side_width := maxf((SEGMENT_WIDTH - WINDOW_OPENING_WIDTH) * 0.5, 0.2)
 	var top_height := maxf(room_height - (WINDOW_BOTTOM_Y + WINDOW_HEIGHT), 0.35)
@@ -119,48 +120,47 @@ static func _make_window_panel(texture_path: String, room_height: float) -> Node
 	panel.add_child(_make_box_panel(
 		Vector3(SEGMENT_WIDTH, WINDOW_BOTTOM_Y, WALL_DEPTH),
 		Vector3(0, WINDOW_BOTTOM_Y * 0.5, 0),
-		texture_path
+		surface_ref
 	))
 	panel.add_child(_make_box_panel(
 		Vector3(SEGMENT_WIDTH, top_height, WALL_DEPTH),
 		Vector3(0, WINDOW_BOTTOM_Y + WINDOW_HEIGHT + top_height * 0.5, 0),
-		texture_path
+		surface_ref
 	))
 	panel.add_child(_make_box_panel(
 		Vector3(side_width, WINDOW_HEIGHT, WALL_DEPTH),
 		Vector3(-SEGMENT_WIDTH * 0.5 + side_width * 0.5, WINDOW_BOTTOM_Y + WINDOW_HEIGHT * 0.5, 0),
-		texture_path
+		surface_ref
 	))
 	panel.add_child(_make_box_panel(
 		Vector3(side_width, WINDOW_HEIGHT, WALL_DEPTH),
 		Vector3(SEGMENT_WIDTH * 0.5 - side_width * 0.5, WINDOW_BOTTOM_Y + WINDOW_HEIGHT * 0.5, 0),
-		texture_path
+		surface_ref
 	))
 	return panel
 
 
-static func _make_half_panel(texture_path: String, height: float, y_offset: float) -> MeshInstance3D:
+static func _make_half_panel(surface_ref: String, height: float, y_offset: float) -> MeshInstance3D:
 	return _make_box_panel(
 		Vector3(SEGMENT_WIDTH, height, WALL_DEPTH),
 		Vector3(0, y_offset + height * 0.5, 0),
-		texture_path
+		surface_ref
 	)
 
 
-static func _make_box_panel(size: Vector3, pos: Vector3, texture_path: String) -> MeshInstance3D:
+static func _make_box_panel(size: Vector3, pos: Vector3, surface_ref: String) -> MeshInstance3D:
 	var mesh_inst := MeshInstance3D.new()
 	var box := BoxMesh.new()
 	box.size = size
 	mesh_inst.mesh = box
 	mesh_inst.position = pos
-	_apply_texture(mesh_inst, texture_path)
+	_apply_texture(mesh_inst, surface_ref)
 	return mesh_inst
 
 
-static func _apply_texture(mesh_inst: MeshInstance3D, texture_path: String) -> void:
-	if texture_path.is_empty():
-		return
-	var mat := EstateMaterialKit.build_surface_reference(texture_path, {
+static func _apply_texture(mesh_inst: MeshInstance3D, surface_ref: String) -> void:
+	var resolved_surface := EstateMaterialKit.resolve_surface_reference(surface_ref, DEFAULT_WALL_SURFACE)
+	var mat := EstateMaterialKit.build_surface_reference(resolved_surface, {
 		"roughness": 1.0,
 	})
 	mesh_inst.set_surface_override_material(0, mat)

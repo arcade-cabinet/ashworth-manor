@@ -74,6 +74,74 @@
   - `greenhouse_gaslit`
   - `garden_mist`
   - `crypt_candle`
+- Shared fixture wrappers should resolve repeated materials through
+  `shared_recipe_applicator.gd` and recipe ids, not embedded
+  `StandardMaterial3D` stacks.
+- The greenhouse shell/lantern/lily fixtures, parlor tea service, and chapel
+  font states are now explicit regression examples for that rule and are
+  covered by declaration validation.
+- Shared builder fallbacks for stairs, ladders, windows, and portal shadow
+  fills now resolve through explicit recipe ids (`fallback_wood`,
+  `fallback_metal`, `shadow_void`) instead of local `StandardMaterial3D.new()`
+  snippets in builder files.
+- Envelope and threshold builders now default in recipe-id space too:
+  floors, ceilings, walls, stairs, doors, gates, and windows all carry
+  explicit shared recipe defaults instead of relying on raw texture-path
+  defaults.
+- Trapdoors now follow the same rule: the hatch builder defaults to shared oak
+  recipe ids and no longer treats legacy `frame_texture` / `door_texture` as
+  the primary surface contract.
+- The declaration suite now has direct builder-default assertions proving those
+  recipe-first defaults and proving recipe ids do not fall through the
+  door/window model-selection heuristics.
+- Door and window runtime assembly now records legacy model hints separately
+  from resolved surface recipes, so recipe ownership and compatibility mesh
+  selection are no longer the same implicit channel.
+- Authored compatibility hints are now normalized ids rather than texture-ish
+  strings:
+  - door/gate panels use `door_panel_##`
+  - doorway frames use `doorway_frame_##`
+  - windows use `window_clean`
+- Common windows no longer need per-room compatibility hints at all:
+  `WindowBuilder` now defaults to native procedural frame geometry when no
+  explicit window mesh hint is present, and the room-side
+  `legacy_window_model_hint` field has now been removed from the schema.
+- Authored `type = "door"` connections no longer carry compatibility
+  panel/frame hints at all. The shared door builder’s native default panel path
+  now owns that case end to end.
+- Authored declaration data now mirrors active compatibility selectors into
+  explicit hint fields in `world.tres` and windowed room declarations, and the
+  declaration suite now enforces that.
+- Interior envelope surfaces no longer depend on room texture fields at all,
+  and the old room-level `wall_texture`, `floor_texture`, and
+  `ceiling_texture` fields have now been removed from the declaration schema.
+  Ordinary windows now rely directly on the shared builder default mesh path
+  instead of carrying room-side compatibility metadata.
+- Threshold compatibility no longer depends on connection texture fields at
+  all, and the old connection-level `door_texture` / `frame_texture` fields
+  have now been removed from the declaration schema. Compatibility threshold
+  mesh selection now lives only in explicit builder-call inputs where targeted
+  compatibility testing still needs it.
+- `DoorBuilder` now matches that rule exactly: only explicit legacy hint fields
+  can drive threshold mesh compatibility.
+- The old procedural door scripts are no longer a substrate exception:
+  `door_single.gd` and `door_double.gd` now default to shared recipe refs, with
+  raw `Texture2D` inputs retained only as compatibility fallback, and that
+  compatibility path now resolves through `EstateMaterialKit` instead of local
+  `StandardMaterial3D.new()` snippets. Those compatibility inputs are now
+  explicitly named `legacy_door_texture` / `legacy_frame_texture`.
+- The remaining shared grounds-side glow/void scripts are no longer substrate
+  exceptions either: front door, entry portico, mansion facade, outward road,
+  and starfield now resolve shadow/glow/star materials through
+  `EstateMaterialKit` helpers instead of local `StandardMaterial3D.new()`
+  blocks.
+- Declaration validation now guards both recipe-wrapper scenes and those
+  grounds scripts, plus the procedural door scripts, against regressing back to
+  local `StandardMaterial3D` construction.
+- That guard is now generalized: outside `estate_material_kit.gd` and
+  `pbr_texture_kit.gd`, local `StandardMaterial3D.new()` calls in
+  `builders/`, `scenes/shared/`, and `scripts/procedural/` are treated as
+  substrate regressions.
 
 ## Player Premise
 
@@ -652,6 +720,46 @@ independent execution drivers:
   - runtime proof:
     `foyer` now reports `threshold=recipe:surface/oak_header`,
     `door=recipe:surface/oak_dark`, and `window=recipe:surface/oak_dark`
+  - authored `type = "door"` connections no longer carry compatibility mesh
+    hints at all; ordinary thresholds now rely on the shared door builder’s
+    native default geometry path unless a new exception is added deliberately
+  - authored hidden-door declarations no longer serialize the default
+    `secret_panel` presentation, `slide` mechanism, or default concealment
+    mesh; `ConnectionAssembly` now owns those defaults cleanly at runtime
+  - the declaration suite enforces that hidden-door cleanup by failing if
+    authored hidden-door data carries those default values without a real
+    override
+  - the kitchen service hatch now omits the default trapdoor `lift`
+    mechanism in authored data; `TrapdoorBuilder` owns that default and now
+    records resolved presentation/mechanism metadata instead of raw strings
+  - `DoorBuilder` now records resolved presentation/mechanism metadata too, so
+    ordinary door/gate defaults live in the builder rather than in raw
+    declaration strings
+  - the front entrance still keeps its real `facade_door` presentation
+    override, but no longer serializes the default `swing` mechanism in
+    authored data
+  - `DoorBuilder`, `TrapdoorBuilder`, `StairsBuilder`, and `LadderBuilder` now
+    record resolved `mechanism_state` / `reveal_state` metadata instead of
+    mirroring raw declaration defaults
+  - that fixes the old mismatch where hidden-door area metadata could still
+    report `idle` / `visible` even though the runtime treated the threshold as
+    concealed
+  - `Connection.mechanism_state` and `Connection.reveal_state` now default to
+    empty strings in the schema instead of `idle` / `visible`
+  - builder/runtime default policy now owns those states directly without the
+    old “ignore the schema default” workaround logic
+- the dead `Connection.visible_model` field is gone
+- the old hidden-door `concealment_model` path is now gone from the schema too
+- `ConnectionAssembly` now records a resolved concealment model directly and
+  owns the default hidden-door wall-mask mesh in the shared builder layer
+- `RoomDeclaration.legacy_window_model_hint`,
+  `Connection.legacy_frame_model_hint`, and
+  `Connection.legacy_panel_model_hint` are now gone from the schema too
+- ordinary windows and ordinary door/gate thresholds now rely on shared
+  builder defaults directly; targeted mesh compatibility survives only as
+  explicit builder-call input where tests still need it
+- `StairsBuilder` no longer depends on `banisterbase.glb` in the default path;
+  stair newels are now native procedural geometry too
   - runtime proof:
     `upper_hallway` now reports `stair_tread=recipe:surface/oak_dark`,
     `stair_structure=recipe:surface/oak_header`, and

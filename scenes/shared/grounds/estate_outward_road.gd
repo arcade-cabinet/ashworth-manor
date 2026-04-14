@@ -37,11 +37,7 @@ func _build() -> void:
 	village_body.albedo_color = Color(0.34, 0.25, 0.22, 1.0)
 	village_roof.albedo_color = Color(0.1, 0.07, 0.06, 1.0)
 	masonry_cap.albedo_color = Color(0.37, 0.31, 0.29, 1.0)
-	var window_glow := StandardMaterial3D.new()
-	window_glow.albedo_color = Color(0.98, 0.8, 0.54, 1.0)
-	window_glow.emission_enabled = true
-	window_glow.emission = Color(0.98, 0.8, 0.54, 1.0)
-	window_glow.emission_energy_multiplier = 3.1
+	var window_glow := EstateMaterialKit.window_glow()
 	var silhouette_wall := EstateMaterialKit.brick_masonry()
 	silhouette_wall.uv1_scale = Vector3(3.4, 2.2, 3.4)
 	silhouette_wall.albedo_color = Color(0.14, 0.1, 0.11, 1.0)
@@ -531,15 +527,7 @@ func _add_fog_bank(
 	fog.mesh = mesh
 	fog.position = position
 	fog.rotation_degrees = Vector3(0.0, yaw, 0.0)
-	var material := StandardMaterial3D.new()
-	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	material.cull_mode = BaseMaterial3D.CULL_DISABLED
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.albedo_color = color
-	material.emission_enabled = true
-	material.emission = Color(color.r, color.g, color.b, 1.0)
-	material.emission_energy_multiplier = emission_energy
-	material.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
+	var material := EstateMaterialKit.fog_glow(color, emission_energy)
 	fog.set_surface_override_material(0, material)
 	add_child(fog)
 

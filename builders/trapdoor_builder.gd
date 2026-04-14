@@ -6,15 +6,21 @@ const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
 
 const DEFAULT_SIZE := 1.0
 const FRAME_WIDTH := 0.08
+const DEFAULT_TRAPDOOR_FRAME_SURFACE := "recipe:surface/oak_header"
+const DEFAULT_TRAPDOOR_PANEL_SURFACE := "recipe:surface/oak_dark"
+const DEFAULT_PRESENTATION_TYPE := "trapdoor_hatch"
+const DEFAULT_MECHANISM_TYPE := "lift"
 
 ## Build a trapdoor from a Connection declaration.
 ## Returns Node3D with frame, panel on hinge, and interaction zone.
 static func build(connection: Connection, frame_surface_ref: String = "", panel_surface_ref: String = "") -> Node3D:
 	var trapdoor_root := Node3D.new()
 	trapdoor_root.name = "Trapdoor_%s" % connection.id
+	var resolved_frame_surface := _resolve_frame_surface(connection, frame_surface_ref)
+	var resolved_panel_surface := _resolve_panel_surface(connection, panel_surface_ref)
 
 	# Floor-level frame
-	var frame := _build_frame(frame_surface_ref if not frame_surface_ref.is_empty() else connection.frame_texture)
+	var frame := _build_frame(resolved_frame_surface)
 	trapdoor_root.add_child(frame)
 
 	# Trapdoor panel on hinge (hinge at north edge, opens toward south)
@@ -29,7 +35,7 @@ static func build(connection: Connection, frame_surface_ref: String = "", panel_
 	quad.orientation = PlaneMesh.FACE_Y
 	panel.mesh = quad
 	panel.position = Vector3(0, 0, DEFAULT_SIZE * 0.5)
-	_apply_texture(panel, panel_surface_ref if not panel_surface_ref.is_empty() else connection.door_texture)
+	_apply_texture(panel, resolved_panel_surface)
 
 	# AnimatableBody3D for physics
 	var body := AnimatableBody3D.new()
@@ -61,10 +67,10 @@ static func build(connection: Connection, frame_surface_ref: String = "", panel_
 	area.set_meta("required_state", connection.required_state)
 	area.set_meta("blocked_text", connection.blocked_text)
 	area.set_meta("declaration", connection)
-	area.set_meta("presentation_type", connection.presentation_type)
-	area.set_meta("mechanism_type", connection.mechanism_type)
-	area.set_meta("mechanism_state", connection.mechanism_state)
-	area.set_meta("reveal_state", connection.reveal_state)
+	area.set_meta("presentation_type", _resolve_presentation_type(connection))
+	area.set_meta("mechanism_type", _resolve_mechanism_type(connection))
+	area.set_meta("mechanism_state", _resolve_mechanism_state(connection))
+	area.set_meta("reveal_state", _resolve_reveal_state(connection))
 
 	var area_shape := CollisionShape3D.new()
 	var area_box := BoxShape3D.new()
@@ -73,10 +79,30 @@ static func build(connection: Connection, frame_surface_ref: String = "", panel_
 	area_shape.position = Vector3(0, -0.25, 0)
 	area.add_child(area_shape)
 	trapdoor_root.add_child(area)
-	trapdoor_root.set_meta("resolved_threshold_surface", frame_surface_ref if not frame_surface_ref.is_empty() else connection.frame_texture)
-	trapdoor_root.set_meta("resolved_panel_surface", panel_surface_ref if not panel_surface_ref.is_empty() else connection.door_texture)
+	trapdoor_root.set_meta("resolved_threshold_surface", resolved_frame_surface)
+	trapdoor_root.set_meta("resolved_panel_surface", resolved_panel_surface)
 
 	return trapdoor_root
+
+
+static func _resolve_presentation_type(connection: Connection) -> String:
+	return connection.presentation_type if not connection.presentation_type.is_empty() else DEFAULT_PRESENTATION_TYPE
+
+
+static func _resolve_mechanism_type(connection: Connection) -> String:
+	return connection.mechanism_type if not connection.mechanism_type.is_empty() else DEFAULT_MECHANISM_TYPE
+
+
+static func _resolve_mechanism_state(connection: Connection) -> String:
+	if not connection.mechanism_state.is_empty():
+		return connection.mechanism_state
+	return "locked" if connection.locked else "idle"
+
+
+static func _resolve_reveal_state(connection: Connection) -> String:
+	if not connection.reveal_state.is_empty():
+		return connection.reveal_state
+	return "visible"
 
 
 static func _build_frame(surface_ref: String) -> Node3D:
@@ -111,7 +137,17 @@ static func _build_frame(surface_ref: String) -> Node3D:
 
 
 static func _apply_texture(mesh: MeshInstance3D, surface_ref: String) -> void:
-	if surface_ref.is_empty():
-		return
 	var mat := EstateMaterialKit.build_surface_reference(surface_ref, {"double_sided": true})
 	mesh.set_surface_override_material(0, mat)
+
+
+static func _resolve_frame_surface(connection: Connection, surface_ref: String) -> String:
+	if not surface_ref.is_empty():
+		return surface_ref
+	return DEFAULT_TRAPDOOR_FRAME_SURFACE
+
+
+static func _resolve_panel_surface(connection: Connection, surface_ref: String) -> String:
+	if not surface_ref.is_empty():
+		return surface_ref
+	return DEFAULT_TRAPDOOR_PANEL_SURFACE

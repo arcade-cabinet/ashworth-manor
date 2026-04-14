@@ -8,14 +8,17 @@ const FRAME_WIDTH := 0.08
 const WINDOW_WIDTH := 1.2
 const WINDOW_HEIGHT := 1.0
 const WINDOW_Y := 1.0  # Bottom of window from floor
+const DEFAULT_WINDOW_SURFACE := "recipe:surface/oak_dark"
 ## Build a window insert from segment type.
 ## segment_type: "window", "window_boarded", "window_shuttered"
-static func build(segment_type: String, model_selector: String, surface_ref: String = "") -> Node3D:
+static func build(segment_type: String, model_selector: String, surface_ref: String = "", model_hint: String = "") -> Node3D:
 	var window_root := Node3D.new()
 	window_root.name = "Window"
+	var resolved_model_hint := model_hint if not model_hint.is_empty() else model_selector
+	var resolved_surface := EstateMaterialKit.resolve_surface_reference(surface_ref, DEFAULT_WINDOW_SURFACE)
 
 	# Frame
-	var frame := _build_frame(model_selector, surface_ref)
+	var frame := _build_frame(resolved_model_hint, resolved_surface)
 	window_root.add_child(frame)
 
 	match segment_type:
@@ -25,21 +28,22 @@ static func build(segment_type: String, model_selector: String, surface_ref: Str
 		"window_boarded":
 			var pane := _build_pane()
 			window_root.add_child(pane)
-			var boards := _build_boards(surface_ref)
+			var boards := _build_boards(resolved_surface)
 			window_root.add_child(boards)
 		"window_shuttered":
 			var pane := _build_pane()
 			window_root.add_child(pane)
-			var shutters := _build_shutters(surface_ref)
+			var shutters := _build_shutters(resolved_surface)
 			window_root.add_child(shutters)
 
 	window_root.position.y = WINDOW_Y
-	window_root.set_meta("resolved_window_surface", surface_ref if not surface_ref.is_empty() else model_selector)
+	window_root.set_meta("resolved_window_surface", resolved_surface)
+	window_root.set_meta("resolved_window_model_hint", resolved_model_hint)
 	return window_root
 
 
 static func _build_frame(model_selector: String, surface_ref: String = "") -> Node3D:
-	var material_ref := surface_ref if not surface_ref.is_empty() else model_selector
+	var material_ref := EstateMaterialKit.resolve_surface_reference(surface_ref, DEFAULT_WINDOW_SURFACE)
 	var model_path := _resolve_window_model(model_selector)
 	if not model_path.is_empty() and ResourceLoader.exists(model_path):
 		var scene: PackedScene = load(model_path)
@@ -116,7 +120,8 @@ static func _build_pane() -> MeshInstance3D:
 static func _build_boards(surface_ref: String = "") -> Node3D:
 	var boards := Node3D.new()
 	boards.name = "Boards"
-	var material := EstateMaterialKit.build_surface_reference(surface_ref) if not surface_ref.is_empty() else null
+	var resolved_surface := surface_ref if not surface_ref.is_empty() else "recipe:surface/fallback_wood"
+	var material := EstateMaterialKit.build_surface_reference(resolved_surface)
 
 	for i in range(3):
 		var board := MeshInstance3D.new()
@@ -129,11 +134,6 @@ static func _build_boards(surface_ref: String = "") -> Node3D:
 
 		if material != null:
 			board.set_surface_override_material(0, material)
-		else:
-			var mat := StandardMaterial3D.new()
-			mat.albedo_color = Color(0.35, 0.25, 0.15)
-			mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
-			board.set_surface_override_material(0, mat)
 
 		boards.add_child(board)
 
@@ -143,7 +143,8 @@ static func _build_boards(surface_ref: String = "") -> Node3D:
 static func _build_shutters(surface_ref: String = "") -> Node3D:
 	var shutters := Node3D.new()
 	shutters.name = "Shutters"
-	var material := EstateMaterialKit.build_surface_reference(surface_ref) if not surface_ref.is_empty() else null
+	var resolved_surface := surface_ref if not surface_ref.is_empty() else "recipe:surface/fallback_wood"
+	var material := EstateMaterialKit.build_surface_reference(resolved_surface)
 
 	# Left shutter
 	var left_hinge := Node3D.new()
@@ -184,8 +185,12 @@ static func _make_beam(size: Vector3) -> MeshInstance3D:
 	return mesh_inst
 
 
-static func _resolve_window_model(texture_path: String) -> String:
-	if texture_path.begins_with("wall"):
+static func _resolve_window_model(model_hint: String) -> String:
+	if model_hint.begins_with("recipe:"):
+		return ""
+	if model_hint in ["window_clean", "window_tall_clean"]:
+		return "res://assets/shared/structure/window_clean.glb"
+	if model_hint.begins_with("wall"):
 		return "res://assets/shared/structure/window_clean.glb"
 	return ""
 

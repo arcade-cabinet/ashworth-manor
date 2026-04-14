@@ -1,5 +1,6 @@
 extends Node3D
 
+const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
 const ShapeKit = preload("res://builders/shape_kit.gd")
 
 @export var span_width: float = 54.0
@@ -39,16 +40,7 @@ func _build() -> void:
 
 
 func _make_star_material(major: bool, variance: float) -> StandardMaterial3D:
-	var material := StandardMaterial3D.new()
-	var tint := Color(0.92 + variance * 0.05, 0.94 + variance * 0.04, 1.0, 1.0)
-	material.albedo_color = tint
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.emission_enabled = true
-	material.emission = tint
-	material.emission_energy_multiplier = 1.0 if major else 0.68
-	material.roughness = 0.0
-	material.metallic = 0.0
-	return material
+	return EstateMaterialKit.star_glow(major, variance)
 
 
 func _hash01(index: int, salt: int) -> float:

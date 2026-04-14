@@ -522,11 +522,6 @@ extends Resource
 @export var dimensions: Vector3 = Vector3(12, 4.8, 10) # width, height, depth
 @export var is_exterior: bool = false
 
-# Textures (256x256 standalone PNGs)
-@export var wall_texture: String = "wall0_texture"
-@export var floor_texture: String = "floor0_texture"
-@export var ceiling_texture: String = "ceiling0_texture"
-
 # Wall layout — per side, what goes in each 2m segment
 # Each segment: "wall" | "doorway:{connection_id}" | "window" | "window_boarded" | "window_shuttered"
 # Connection ID convention: "{from_room}_to_{to_room}" (GAP #4 fixed)
@@ -839,8 +834,6 @@ extends Resource
 @export var key_id: String = ""
 
 # Visual
-@export var door_texture: String = ""        # From retro textures pack
-@export var frame_texture: String = ""       # Frame material
 
 # Audio
 @export var open_sfx: String = ""
@@ -1018,7 +1011,7 @@ Add an `InteractableDecl` to the room's `interactables` array with responses. Th
 Edit the `PuzzleDeclaration`. Move an item to a different room. Change the clue text. The puzzle engine validates the chain, the PRNG engine knows the new variation space, tests auto-update.
 
 ### Changing a wall texture
-Change `wall_texture` in the room declaration. The wall builder uses the new texture on next assembly. Every wall segment updates. One change, one place.
+Change the room recipe override or the environment role recipe. The wall builder uses the resolved recipe on next assembly. Every wall segment updates through the shared substrate path.
 
 ### Adding PRNG variation
 Add a `PuzzleVariation` to the puzzle declaration listing alternative placements. The PRNG engine handles shuffling. The test generator validates all alternatives are solvable.
