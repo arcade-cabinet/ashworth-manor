@@ -161,6 +161,14 @@ and `state_visual_kind_map` instead of direct shared `.tscn` scene paths.
 shared scene assets, and the declaration suite now fails if those repeated
 fixtures fall back to direct `scene_path` / `state_model_map` authoring.
 
+The same rule is now being applied to the repeated grounds scene kit.
+Common gate/boundary pieces (`gate_post`, `gate_post_stone`, `boundary_wall`,
+`iron_gate_closed`, and `fence_run`) now author as `substrate_prop_kind`
+instead of raw shared grounds scene paths in room declarations. `RoomAssembler`
+owns the substrate-kind mapping for those repeated exterior pieces, and the
+declaration suite now treats their old direct `scene_path` usage as migrated
+substrate territory rather than normal authoring.
+
 That contract is now also enforced directly in the declaration suite. The suite
 contains explicit builder-default coverage proving that:
 

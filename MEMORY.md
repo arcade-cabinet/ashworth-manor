@@ -89,6 +89,16 @@
     `greenhouse_pot`, `parlor_tea`, `baptismal_font`, and `wine_glass`
   - those cases should no longer use raw shared `.tscn` paths in
     `scene_path` or `state_model_map`
+- The repeated grounds gate/boundary scene kit now has the same explicit
+  substrate channel:
+  - `gate_post`
+  - `gate_post_stone`
+  - `boundary_wall`
+  - `iron_gate_closed`
+  - `fence_run`
+  - those repeated exterior pieces should now author through
+    `PropDecl.substrate_prop_kind`, not through direct shared grounds
+    `scene_path` values
 - Shared builder fallbacks for stairs, ladders, windows, and portal shadow
   fills now resolve through explicit recipe ids (`fallback_wood`,
   `fallback_metal`, `shadow_void`) instead of local `StandardMaterial3D.new()`

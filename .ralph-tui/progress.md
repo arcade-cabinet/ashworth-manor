@@ -61,6 +61,34 @@ after each iteration and it's included in prompts for context.
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
 
+## 2026-04-13 - Repeated grounds scene kit moved onto substrate kinds
+
+- Added repeated grounds scene substrate kinds to `engine/room_assembler.gd`:
+  - `gate_post`
+  - `gate_post_stone`
+  - `boundary_wall`
+  - `iron_gate_closed`
+  - `fence_run`
+- Those kinds currently instantiate the existing shared grounds scenes through
+  the substrate layer, so authored room data no longer needs to point at the
+  raw shared scene paths directly for the repeated exterior kit.
+- Migrated the repeated declaration side in:
+  - `declarations/rooms/front_steps.tres`
+  - `declarations/rooms/front_gate.tres`
+  - `declarations/rooms/garden.tres`
+  - `declarations/rooms/family_crypt.tres`
+- Added a declaration-suite `grounds scene prop contract` in
+  `test/generated/test_declarations.gd` that proves those repeated props now
+  use `substrate_prop_kind` and clear direct `scene_path`.
+- Extended builder-default coverage so the new grounds substrate kinds must
+  build successfully through `RoomAssembler`.
+- Verified there are no remaining direct authored uses of these repeated shared
+  grounds scene paths in the migrated room set.
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+
 - Added shared helper constructors in `estate_material_kit.gd` for:
   - tinted shadow/void fills
   - unshaded emissive surfaces

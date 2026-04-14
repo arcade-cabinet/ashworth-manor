@@ -416,35 +416,35 @@ flickering = false
 [sub_resource type="Resource" id="prop_gate_pillar_l"]
 script = ExtResource("5")
 id = "gate_pillar_l"
-scene_path = "res://scenes/shared/grounds/estate_gate_post.tscn"
+substrate_prop_kind = "gate_post"
 position = Vector3(-3.2, 0, -0.96)
 scale_3d = Vector3(0.96, 1.0, 0.96)
 
 [sub_resource type="Resource" id="prop_gate_pillar_r"]
 script = ExtResource("5")
 id = "gate_pillar_r"
-scene_path = "res://scenes/shared/grounds/estate_gate_post.tscn"
+substrate_prop_kind = "gate_post"
 position = Vector3(3.2, 0, -0.96)
 scale_3d = Vector3(0.96, 1.0, 0.96)
 
 [sub_resource type="Resource" id="prop_boundary_wall"]
 script = ExtResource("5")
 id = "boundary_wall"
-scene_path = "res://scenes/shared/grounds/estate_boundary_wall.tscn"
+substrate_prop_kind = "boundary_wall"
 position = Vector3(-8.45, 0, -1.02)
 scale_3d = Vector3(1.26, 1.0, 1.02)
 
 [sub_resource type="Resource" id="prop_boundary_corner"]
 script = ExtResource("5")
 id = "boundary_corner"
-scene_path = "res://scenes/shared/grounds/estate_boundary_wall.tscn"
+substrate_prop_kind = "boundary_wall"
 position = Vector3(8.45, 0, -1.02)
 scale_3d = Vector3(1.26, 1.0, 1.02)
 
 [sub_resource type="Resource" id="prop_fence"]
 script = ExtResource("5")
 id = "fence_section"
-scene_path = "res://scenes/shared/grounds/estate_boundary_wall.tscn"
+substrate_prop_kind = "boundary_wall"
 position = Vector3(-5.5, 0, -1.0)
 scale_3d = Vector3(0.78, 1.0, 0.98)
 
@@ -457,7 +457,7 @@ position = Vector3(5.42, 0, -0.98)
 [sub_resource type="Resource" id="prop_fence_r"]
 script = ExtResource("5")
 id = "fence_section_r"
-scene_path = "res://scenes/shared/grounds/estate_boundary_wall.tscn"
+substrate_prop_kind = "boundary_wall"
 position = Vector3(5.5, 0, -1.0)
 scale_3d = Vector3(0.78, 1.0, 0.98)
 
@@ -590,7 +590,7 @@ scale_3d = Vector3(1.28, 1.16, 1.86)
 script = ExtResource("5")
 id = "drive_hedge_left_gate"
 model = ""
-scene_path = "res://scenes/shared/grounds/estate_boundary_wall.tscn"
+substrate_prop_kind = "boundary_wall"
 position = Vector3(-5.25, 0, 3.7)
 rotation_y = 90.0
 scale_3d = Vector3(0.86, 1.0, 1.08)
@@ -624,7 +624,7 @@ scale_3d = Vector3(1.02, 1.08, 1.18)
 script = ExtResource("5")
 id = "drive_hedge_left_mid_center"
 model = ""
-scene_path = "res://scenes/shared/grounds/estate_boundary_wall.tscn"
+substrate_prop_kind = "boundary_wall"
 position = Vector3(-5.25, 0, 1.3)
 rotation_y = 90.0
 scale_3d = Vector3(0.82, 1.0, 1.02)
@@ -650,7 +650,7 @@ scale_3d = Vector3(1.28, 1.16, 1.86)
 script = ExtResource("5")
 id = "drive_hedge_right_gate"
 model = ""
-scene_path = "res://scenes/shared/grounds/estate_boundary_wall.tscn"
+substrate_prop_kind = "boundary_wall"
 position = Vector3(5.25, 0, 3.7)
 rotation_y = 270.0
 scale_3d = Vector3(0.86, 1.0, 1.08)
@@ -658,7 +658,7 @@ scale_3d = Vector3(0.86, 1.0, 1.08)
 [sub_resource type="Resource" id="prop_road_wall_left"]
 script = ExtResource("5")
 id = "front_gate_road_wall_left"
-scene_path = "res://scenes/shared/grounds/estate_boundary_wall.tscn"
+substrate_prop_kind = "boundary_wall"
 position = Vector3(-4.8, 0, -4.25)
 rotation_y = 90.0
 scale_3d = Vector3(0.7, 1.0, 0.86)
@@ -666,7 +666,7 @@ scale_3d = Vector3(0.7, 1.0, 0.86)
 [sub_resource type="Resource" id="prop_road_wall_right"]
 script = ExtResource("5")
 id = "front_gate_road_wall_right"
-scene_path = "res://scenes/shared/grounds/estate_boundary_wall.tscn"
+substrate_prop_kind = "boundary_wall"
 position = Vector3(4.8, 0, -4.25)
 rotation_y = 270.0
 scale_3d = Vector3(0.7, 1.0, 0.86)
@@ -715,7 +715,7 @@ scale_3d = Vector3(1.02, 1.08, 1.18)
 script = ExtResource("5")
 id = "drive_hedge_right_mid_center"
 model = ""
-scene_path = "res://scenes/shared/grounds/estate_boundary_wall.tscn"
+substrate_prop_kind = "boundary_wall"
 position = Vector3(5.25, 0, 1.3)
 rotation_y = 270.0
 scale_3d = Vector3(0.82, 1.0, 1.02)

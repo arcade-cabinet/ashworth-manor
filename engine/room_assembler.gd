@@ -51,6 +51,11 @@ const PSX_BIG_WALL_MOLDING_MODEL := "res://assets/mansion_psx/models/SM_Big_Wall
 const FRONT_GATE_SIGN_SCENE := "res://scenes/shared/front_gate/front_gate_menu_sign.tscn"
 const GREENHOUSE_GLASS_SHELL_SCENE := "res://scenes/shared/greenhouse/greenhouse_glazed_shell.tscn"
 const GREENHOUSE_HANGING_LANTERN_SCENE := "res://scenes/shared/greenhouse/greenhouse_hanging_lantern.tscn"
+const ESTATE_GATE_POST_SCENE := "res://scenes/shared/grounds/estate_gate_post.tscn"
+const ESTATE_GATE_POST_STONE_SCENE := "res://scenes/shared/grounds/estate_gate_post_stone.tscn"
+const ESTATE_BOUNDARY_WALL_SCENE := "res://scenes/shared/grounds/estate_boundary_wall.tscn"
+const ESTATE_IRON_GATE_CLOSED_SCENE := "res://scenes/shared/grounds/estate_iron_gate_closed.tscn"
+const ESTATE_FENCE_RUN_SCENE := "res://scenes/shared/grounds/estate_fence_run.tscn"
 const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PROCEDURAL_WINDOW_MODEL: "window_frame",
 	PROCEDURAL_WINDOW_RAY_MODEL: "window_ray",
@@ -73,6 +78,11 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	FRONT_GATE_SIGN_SCENE: "front_gate_sign",
 	GREENHOUSE_GLASS_SHELL_SCENE: "greenhouse_shell",
 	GREENHOUSE_HANGING_LANTERN_SCENE: "greenhouse_lantern",
+	ESTATE_GATE_POST_SCENE: "gate_post",
+	ESTATE_GATE_POST_STONE_SCENE: "gate_post_stone",
+	ESTATE_BOUNDARY_WALL_SCENE: "boundary_wall",
+	ESTATE_IRON_GATE_CLOSED_SCENE: "iron_gate_closed",
+	ESTATE_FENCE_RUN_SCENE: "fence_run",
 }
 
 
@@ -1013,6 +1023,16 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(GREENHOUSE_GLASS_SHELL_SCENE, prop_decl)
 	if substrate_kind == "greenhouse_lantern":
 		return _instantiate_substrate_scene(GREENHOUSE_HANGING_LANTERN_SCENE, prop_decl)
+	if substrate_kind == "gate_post":
+		return _instantiate_substrate_scene(ESTATE_GATE_POST_SCENE, prop_decl)
+	if substrate_kind == "gate_post_stone":
+		return _instantiate_substrate_scene(ESTATE_GATE_POST_STONE_SCENE, prop_decl)
+	if substrate_kind == "boundary_wall":
+		return _instantiate_substrate_scene(ESTATE_BOUNDARY_WALL_SCENE, prop_decl)
+	if substrate_kind == "iron_gate_closed":
+		return _instantiate_substrate_scene(ESTATE_IRON_GATE_CLOSED_SCENE, prop_decl)
+	if substrate_kind == "fence_run":
+		return _instantiate_substrate_scene(ESTATE_FENCE_RUN_SCENE, prop_decl)
 	if prop_decl.tags.has("procedural_moon"):
 		var moon := MeshInstance3D.new()
 		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"

@@ -54,6 +54,7 @@ func _run_all_tests() -> void:
 	_test_rooms()
 	_test_interactables()
 	_test_interactable_visual_contract()
+	_test_grounds_scene_prop_contract()
 	_test_connections()
 	_test_secret_passages()
 	_test_regions()
@@ -195,6 +196,34 @@ func _test_interactable_visual_contract() -> void:
 				InteractableVisualsScript._resolve_visual_path(interactable, String(state_name)) == String(state_paths[state_name])
 			)
 	print("[DONE] interactable visual contract")
+
+
+func _test_grounds_scene_prop_contract() -> void:
+	_test_name = "GROUNDS_SCENE_PROPS"
+	var repeated_props := [
+		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_service_boundary_wall", "kind": "boundary_wall"},
+		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_service_gate_inner_pillar", "kind": "gate_post"},
+		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_service_gate_prop", "kind": "iron_gate_closed"},
+		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_service_fence_stub", "kind": "fence_run"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "gate_pillar_l", "kind": "gate_post"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "boundary_wall", "kind": "boundary_wall"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "crypt_pillar_l", "kind": "gate_post_stone"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "crypt_gate", "kind": "iron_gate_closed"},
+		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "gate_column_l", "kind": "gate_post_stone"},
+		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "crypt_gate_prop", "kind": "iron_gate_closed"},
+	]
+	for entry in repeated_props:
+		var room = load(String(entry["room_path"]))
+		_ok("%s loads" % entry["room_path"], room != null)
+		if room == null:
+			continue
+		var prop := _find_prop_by_id(room.props, String(entry["id"]))
+		_ok("%s present in %s" % [entry["id"], room.room_id], prop != null)
+		if prop == null:
+			continue
+		_ok("%s uses substrate prop kind" % prop.id, prop.substrate_prop_kind == String(entry["kind"]))
+		_ok("%s clears direct scene path" % prop.id, prop.scene_path.is_empty())
+	print("[DONE] grounds scene prop contract")
 
 
 func _test_connections() -> void:
@@ -944,6 +973,36 @@ func _test_builder_default_contract() -> void:
 	greenhouse_lantern_decl.substrate_prop_kind = "greenhouse_lantern"
 	var greenhouse_lantern := assembler._build_procedural_prop(greenhouse_lantern_decl)
 	_ok("substrate greenhouse lantern builds from shared substrate kind", greenhouse_lantern != null)
+
+	var gate_post_decl := PropDecl.new()
+	gate_post_decl.id = "compat_gate_post"
+	gate_post_decl.substrate_prop_kind = "gate_post"
+	var gate_post := assembler._build_procedural_prop(gate_post_decl)
+	_ok("substrate gate post builds from shared substrate kind", gate_post != null)
+
+	var gate_post_stone_decl := PropDecl.new()
+	gate_post_stone_decl.id = "compat_gate_post_stone"
+	gate_post_stone_decl.substrate_prop_kind = "gate_post_stone"
+	var gate_post_stone := assembler._build_procedural_prop(gate_post_stone_decl)
+	_ok("substrate stone gate post builds from shared substrate kind", gate_post_stone != null)
+
+	var boundary_wall_decl := PropDecl.new()
+	boundary_wall_decl.id = "compat_boundary_wall"
+	boundary_wall_decl.substrate_prop_kind = "boundary_wall"
+	var boundary_wall := assembler._build_procedural_prop(boundary_wall_decl)
+	_ok("substrate boundary wall builds from shared substrate kind", boundary_wall != null)
+
+	var iron_gate_closed_decl := PropDecl.new()
+	iron_gate_closed_decl.id = "compat_iron_gate_closed"
+	iron_gate_closed_decl.substrate_prop_kind = "iron_gate_closed"
+	var iron_gate_closed := assembler._build_procedural_prop(iron_gate_closed_decl)
+	_ok("substrate closed iron gate builds from shared substrate kind", iron_gate_closed != null)
+
+	var fence_run_decl := PropDecl.new()
+	fence_run_decl.id = "compat_fence_run"
+	fence_run_decl.substrate_prop_kind = "fence_run"
+	var fence_run := assembler._build_procedural_prop(fence_run_decl)
+	_ok("substrate fence run builds from shared substrate kind", fence_run != null)
 	floor.free()
 	ceiling.free()
 	wall.free()
@@ -997,6 +1056,16 @@ func _test_builder_default_contract() -> void:
 		greenhouse_shell.free()
 	if greenhouse_lantern != null:
 		greenhouse_lantern.free()
+	if gate_post != null:
+		gate_post.free()
+	if gate_post_stone != null:
+		gate_post_stone.free()
+	if boundary_wall != null:
+		boundary_wall.free()
+	if iron_gate_closed != null:
+		iron_gate_closed.free()
+	if fence_run != null:
+		fence_run.free()
 	print("[DONE] builder defaults")
 
 
@@ -1067,6 +1136,13 @@ func _find_interactable_by_id(interactables: Array, interactable_id: String) -> 
 	for interactable in interactables:
 		if interactable != null and interactable.id == interactable_id:
 			return interactable
+	return null
+
+
+func _find_prop_by_id(props: Array, prop_id: String) -> PropDecl:
+	for prop in props:
+		if prop != null and prop.id == prop_id:
+			return prop
 	return null
 
 
