@@ -263,53 +263,53 @@ scale_3d = Vector3(0.72, 0.9, 0.72)
 [sub_resource type="Resource" id="prop_wall_n"]
 script = ExtResource("5")
 id = "wall_n"
-model = "res://assets/grounds/family_crypt/drystone_wall_capped.glb"
+substrate_prop_kind = "family_crypt_wall_capped"
 position = Vector3(0.0, 0, 4.0)
 
 [sub_resource type="Resource" id="prop_wall_w"]
 script = ExtResource("5")
 id = "wall_w"
-model = "res://assets/grounds/family_crypt/drystone_wall.glb"
+substrate_prop_kind = "family_crypt_wall"
 position = Vector3(-4.0, 0, 0.5)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_wall_e"]
 script = ExtResource("5")
 id = "wall_e"
-model = "res://assets/grounds/family_crypt/drystone_wall.glb"
+substrate_prop_kind = "family_crypt_wall"
 position = Vector3(4.0, 0, 0.5)
 rotation_y = 270.0
 
 [sub_resource type="Resource" id="prop_fence_w"]
 script = ExtResource("5")
 id = "fence_w"
-model = "res://assets/grounds/family_crypt/metal_fence_1.glb"
+substrate_prop_kind = "family_crypt_fence_run"
 position = Vector3(-3.0, 0, -4.0)
 
 [sub_resource type="Resource" id="prop_fence_e"]
 script = ExtResource("5")
 id = "fence_e"
-model = "res://assets/grounds/family_crypt/metal_fence_1.glb"
+substrate_prop_kind = "family_crypt_fence_run"
 position = Vector3(3.0, 0, -4.0)
 
 [sub_resource type="Resource" id="prop_grave_edmund"]
 script = ExtResource("5")
 id = "grave_edmund"
-model = "res://assets/grounds/family_crypt/drystone_column.glb"
+substrate_prop_kind = "family_crypt_grave_marker"
 position = Vector3(-2.0, 0, 1.5)
 scale = 0.85
 
 [sub_resource type="Resource" id="prop_grave_victoria"]
 script = ExtResource("5")
 id = "grave_victoria"
-model = "res://assets/grounds/family_crypt/drystone_column.glb"
+substrate_prop_kind = "family_crypt_grave_marker"
 position = Vector3(0.0, 0, 1.6)
 scale = 0.85
 
 [sub_resource type="Resource" id="prop_grave_blank"]
 script = ExtResource("5")
 id = "grave_blank"
-model = "res://assets/grounds/family_crypt/drystone_column.glb"
+substrate_prop_kind = "family_crypt_grave_marker"
 position = Vector3(2.0, 0, 1.4)
 scale = 0.75
 

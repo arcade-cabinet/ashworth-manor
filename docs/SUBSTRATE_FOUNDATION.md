@@ -175,6 +175,13 @@ facade structure holdouts now route through substrate kinds:
 `front_gate_chimney_right`. That keeps even the narrow front-gate trim slice
 under explicit substrate ownership instead of silent direct model authoring.
 
+The same rule is now being applied to the family-crypt structure kit. The
+crypt's capped north wall, side walls, fence runs, and grave markers now author
+through substrate kinds (`family_crypt_wall_capped`, `family_crypt_wall`,
+`family_crypt_fence_run`, and `family_crypt_grave_marker`) instead of raw
+grounds model paths. That keeps repeated burial-grounds structure on the same
+substrate path as gates, boundary walls, and other exterior architecture.
+
 The same rule is now being applied to the repeated grounds scene kit.
 Common gate/boundary pieces (`gate_post`, `gate_post_stone`, `boundary_wall`,
 `iron_gate_closed`, and `fence_run`) now author as `substrate_prop_kind`

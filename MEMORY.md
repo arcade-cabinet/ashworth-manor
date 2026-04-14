@@ -976,6 +976,10 @@ independent execution drivers:
     `gate_bench` now uses `visual_kind = "front_gate_bench"`, and
     `boundary_pole_r`, `facade_chimney_left`, and `facade_chimney_right` now
     author through substrate kinds instead of direct grounds model paths
+  - the family-crypt structure kit moved too:
+    `wall_n`, `wall_w`, `wall_e`, `fence_w`, `fence_e`, `grave_edmund`,
+    `grave_victoria`, and `grave_blank` now author through substrate kinds
+    instead of direct `drystone_*` / `metal_fence_1` model paths
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

@@ -79,6 +79,10 @@ const FRONT_GATE_IRON_GATE_LEAF_MODEL := "res://assets/grounds/front_gate/iron_g
 const FRONT_GATE_BOUNDARY_POLE_MODEL := "res://assets/grounds/front_gate/brick_wall_pole.glb"
 const FRONT_GATE_CHIMNEY_LEFT_MODEL := "res://assets/grounds/front_gate/chimney_a_2.glb"
 const FRONT_GATE_CHIMNEY_RIGHT_MODEL := "res://assets/grounds/front_gate/chimney_a_3.glb"
+const FAMILY_CRYPT_WALL_CAPPED_MODEL := "res://assets/grounds/family_crypt/drystone_wall_capped.glb"
+const FAMILY_CRYPT_WALL_MODEL := "res://assets/grounds/family_crypt/drystone_wall.glb"
+const FAMILY_CRYPT_FENCE_MODEL := "res://assets/grounds/family_crypt/metal_fence_1.glb"
+const FAMILY_CRYPT_COLUMN_MODEL := "res://assets/grounds/family_crypt/drystone_column.glb"
 const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PROCEDURAL_WINDOW_MODEL: "window_frame",
 	PROCEDURAL_WINDOW_RAY_MODEL: "window_ray",
@@ -129,6 +133,10 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	FRONT_GATE_BOUNDARY_POLE_MODEL: "front_gate_boundary_pole",
 	FRONT_GATE_CHIMNEY_LEFT_MODEL: "front_gate_chimney_left",
 	FRONT_GATE_CHIMNEY_RIGHT_MODEL: "front_gate_chimney_right",
+	FAMILY_CRYPT_WALL_CAPPED_MODEL: "family_crypt_wall_capped",
+	FAMILY_CRYPT_WALL_MODEL: "family_crypt_wall",
+	FAMILY_CRYPT_FENCE_MODEL: "family_crypt_fence_run",
+	FAMILY_CRYPT_COLUMN_MODEL: "family_crypt_grave_marker",
 }
 
 
@@ -1133,6 +1141,14 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(FRONT_GATE_CHIMNEY_LEFT_MODEL, prop_decl)
 	if substrate_kind == "front_gate_chimney_right":
 		return _instantiate_substrate_scene(FRONT_GATE_CHIMNEY_RIGHT_MODEL, prop_decl)
+	if substrate_kind == "family_crypt_wall_capped":
+		return _instantiate_substrate_scene(FAMILY_CRYPT_WALL_CAPPED_MODEL, prop_decl)
+	if substrate_kind == "family_crypt_wall":
+		return _instantiate_substrate_scene(FAMILY_CRYPT_WALL_MODEL, prop_decl)
+	if substrate_kind == "family_crypt_fence_run":
+		return _instantiate_substrate_scene(FAMILY_CRYPT_FENCE_MODEL, prop_decl)
+	if substrate_kind == "family_crypt_grave_marker":
+		return _instantiate_substrate_scene(FAMILY_CRYPT_COLUMN_MODEL, prop_decl)
 	if prop_decl.tags.has("procedural_moon"):
 		var moon := MeshInstance3D.new()
 		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"

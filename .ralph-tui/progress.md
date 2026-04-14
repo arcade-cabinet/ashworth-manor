@@ -1299,6 +1299,12 @@ after each iteration and it's included in prompts for context.
   - `facade_chimney_right` now uses `substrate_prop_kind = "front_gate_chimney_right"`
   - the front-gate room payload now includes those migrated trim props in the
     authored `props` array
+- The family-crypt structure kit is now migrated too:
+  - `drystone_wall_capped.glb` -> `family_crypt_wall_capped`
+  - `drystone_wall.glb` -> `family_crypt_wall`
+  - `metal_fence_1.glb` -> `family_crypt_fence_run`
+  - `drystone_column.glb` -> `family_crypt_grave_marker`
+  - affected room: `family_crypt`
 - Verification after the waiver-contract pass:
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`

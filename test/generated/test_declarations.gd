@@ -257,6 +257,14 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/garden.tres", "id": "crypt_gate", "kind": "iron_gate_closed"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "gate_column_l", "kind": "gate_post_stone"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "crypt_gate_prop", "kind": "iron_gate_closed"},
+		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "wall_n", "kind": "family_crypt_wall_capped"},
+		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "wall_w", "kind": "family_crypt_wall"},
+		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "wall_e", "kind": "family_crypt_wall"},
+		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "fence_w", "kind": "family_crypt_fence_run"},
+		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "fence_e", "kind": "family_crypt_fence_run"},
+		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "grave_edmund", "kind": "family_crypt_grave_marker"},
+		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "grave_victoria", "kind": "family_crypt_grave_marker"},
+		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "grave_blank", "kind": "family_crypt_grave_marker"},
 		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_road", "kind": "carriage_road"},
 		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_hedge_left_mid", "kind": "hedgerow"},
 		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_tree_left", "kind": "front_gate_tree_01"},
@@ -1193,6 +1201,30 @@ func _test_builder_default_contract() -> void:
 	var chimney_right := assembler._build_procedural_prop(chimney_right_decl)
 	_ok("substrate front-gate right chimney builds from shared substrate kind", chimney_right != null)
 
+	var crypt_wall_capped_decl := PropDecl.new()
+	crypt_wall_capped_decl.id = "compat_family_crypt_wall_capped"
+	crypt_wall_capped_decl.substrate_prop_kind = "family_crypt_wall_capped"
+	var crypt_wall_capped := assembler._build_procedural_prop(crypt_wall_capped_decl)
+	_ok("substrate family-crypt capped wall builds from shared substrate kind", crypt_wall_capped != null)
+
+	var crypt_wall_decl := PropDecl.new()
+	crypt_wall_decl.id = "compat_family_crypt_wall"
+	crypt_wall_decl.substrate_prop_kind = "family_crypt_wall"
+	var crypt_wall := assembler._build_procedural_prop(crypt_wall_decl)
+	_ok("substrate family-crypt wall builds from shared substrate kind", crypt_wall != null)
+
+	var crypt_fence_decl := PropDecl.new()
+	crypt_fence_decl.id = "compat_family_crypt_fence"
+	crypt_fence_decl.substrate_prop_kind = "family_crypt_fence_run"
+	var crypt_fence := assembler._build_procedural_prop(crypt_fence_decl)
+	_ok("substrate family-crypt fence run builds from shared substrate kind", crypt_fence != null)
+
+	var crypt_grave_decl := PropDecl.new()
+	crypt_grave_decl.id = "compat_family_crypt_grave_marker"
+	crypt_grave_decl.substrate_prop_kind = "family_crypt_grave_marker"
+	var crypt_grave := assembler._build_procedural_prop(crypt_grave_decl)
+	_ok("substrate family-crypt grave marker builds from shared substrate kind", crypt_grave != null)
+
 	var greenhouse_pedestal_decl := PropDecl.new()
 	greenhouse_pedestal_decl.id = "compat_greenhouse_pedestal"
 	greenhouse_pedestal_decl.substrate_prop_kind = "greenhouse_pedestal"
@@ -1302,6 +1334,14 @@ func _test_builder_default_contract() -> void:
 		chimney_left.free()
 	if chimney_right != null:
 		chimney_right.free()
+	if crypt_wall_capped != null:
+		crypt_wall_capped.free()
+	if crypt_wall != null:
+		crypt_wall.free()
+	if crypt_fence != null:
+		crypt_fence.free()
+	if crypt_grave != null:
+		crypt_grave.free()
 	if greenhouse_pedestal != null:
 		greenhouse_pedestal.free()
 	if mounted_sign != null:
