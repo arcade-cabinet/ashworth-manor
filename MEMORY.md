@@ -1100,6 +1100,10 @@ independent execution drivers:
     `direct_visual_reason` / `direct_payload_reason`, and the declaration
     suite fails if raw direct visual/payload authoring shows up there without
     an explicit reason
+  - the current authored room set is stricter still:
+    there are now zero active direct interactable-visual exceptions and zero
+    active direct mount-payload exceptions in declarations; those reason
+    fields exist only as guarded escape hatches
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

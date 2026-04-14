@@ -622,3 +622,7 @@ changes between `adult/child` and `elder` route contexts.
   `direct_visual_reason` / `direct_payload_reason` fields, and the declaration
   suite fails if direct model/scene authoring appears there without one of
   those reasons.
+- The current authored content is stricter than that fallback:
+  room declarations now have zero active direct interactable-visual exceptions
+  and zero active direct mount-payload exceptions. Those reason fields exist as
+  escape hatches, but the shipped authored set does not currently need them.

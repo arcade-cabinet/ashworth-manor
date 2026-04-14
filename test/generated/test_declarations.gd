@@ -124,6 +124,7 @@ func _test_interactables() -> void:
 
 func _test_interactable_visual_contract() -> void:
 	_test_name = "INTERACTABLE_VISUALS"
+	var direct_visual_count := 0
 	var repeated_visuals := [
 		{
 			"room_path": "res://declarations/rooms/kitchen.tres",
@@ -326,6 +327,7 @@ func _test_interactable_visual_contract() -> void:
 							and interactable.visual_kind.is_empty()
 						)
 						if has_direct_visual:
+							direct_visual_count += 1
 							_ok(
 								"%s:%s direct visual authoring declares reason" % [room.room_id, interactable.id],
 								not interactable.direct_visual_reason.is_empty()
@@ -336,6 +338,7 @@ func _test_interactable_visual_contract() -> void:
 								has_direct_visual
 							)
 			file_name = dir.get_next()
+	_ok("current authored interactables use zero direct visual exceptions", direct_visual_count == 0)
 	print("[DONE] interactable visual contract")
 
 
@@ -514,6 +517,7 @@ func _test_grounds_scene_prop_contract() -> void:
 
 func _test_mount_payload_substrate_contract() -> void:
 	_test_name = "MOUNT_PAYLOAD_SUBSTRATE"
+	var direct_payload_count := 0
 	var front_gate := load("res://declarations/rooms/front_gate.tres")
 	_ok("front_gate loads", front_gate != null)
 	if front_gate != null:
@@ -551,6 +555,7 @@ func _test_mount_payload_substrate_contract() -> void:
 							and payload.substrate_prop_kind.is_empty()
 						)
 						if has_direct_payload:
+							direct_payload_count += 1
 							_ok(
 								"%s:%s direct payload authoring declares reason" % [room.room_id, payload.payload_id],
 								not payload.direct_payload_reason.is_empty()
@@ -561,6 +566,7 @@ func _test_mount_payload_substrate_contract() -> void:
 								has_direct_payload
 							)
 			file_name = dir.get_next()
+	_ok("current authored mount payloads use zero direct asset exceptions", direct_payload_count == 0)
 	print("[DONE] mount payload substrate contract")
 
 

@@ -1507,6 +1507,11 @@ after each iteration and it's included in prompts for context.
   - the declaration suite fails if direct scene/model authoring appears in
     those channels without an explicit reason, or if the reason appears
     without an actual direct asset payload
+- The current authored content is stricter than the fallback channel:
+  - active direct interactable visual exceptions: `0`
+  - active direct mount payload exceptions: `0`
+  - the reason fields remain available as guarded escape hatches, but the
+    current declarations do not use them
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload
