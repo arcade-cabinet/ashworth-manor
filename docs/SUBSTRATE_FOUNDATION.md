@@ -563,3 +563,7 @@ changes between `adult/child` and `elder` route contexts.
 - The shared blank-frame kit is now substrate-owned too:
   the `picture_blank*.glb` frame variants now author through explicit shared
   `picture_frame_blank_*` substrate kinds across the room declarations.
+- The shared rug kit is now substrate-owned too:
+  `rug0.glb`, `rug1.glb`, and `rug2.glb`
+  now author through explicit shared `rug_0`, `rug_1`, and `rug_2`
+  substrate kinds across the room declarations.

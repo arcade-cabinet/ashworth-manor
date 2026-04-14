@@ -365,20 +365,20 @@ scale = 0.42
 [sub_resource type="Resource" id="prop_rug"]
 script = ExtResource("5")
 id = "rug"
-model = "res://assets/shared/decor/rug0.glb"
+substrate_prop_kind = "rug_0"
 position = Vector3(0, 0.01, 0)
 
 [sub_resource type="Resource" id="prop_runner_entry"]
 script = ExtResource("5")
 id = "runner_entry"
-model = "res://assets/shared/decor/rug2.glb"
+substrate_prop_kind = "rug_2"
 position = Vector3(0, 0.02, -2.1)
 scale = 1.05
 
 [sub_resource type="Resource" id="prop_runner_north"]
 script = ExtResource("5")
 id = "runner_north"
-model = "res://assets/shared/decor/rug1.glb"
+substrate_prop_kind = "rug_1"
 position = Vector3(0, 0.02, 2.1)
 scale = 1.15
 

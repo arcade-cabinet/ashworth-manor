@@ -1033,6 +1033,10 @@ independent execution drivers:
     raw `picture_blank*.glb` frame props across the room set
     now author through explicit `picture_frame_blank_*` substrate kinds
     instead of direct shared model paths
+  - the shared rug kit moved too:
+    raw `rug0.glb`, `rug1.glb`, and `rug2.glb` props across the room set
+    now author through `rug_0`, `rug_1`, and `rug_2`
+    instead of direct shared model paths
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

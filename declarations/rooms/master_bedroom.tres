@@ -309,7 +309,7 @@ scale = 0.6
 [sub_resource type="Resource" id="prop_rug"]
 script = ExtResource("5")
 id = "bedroom_rug"
-model = "res://assets/shared/decor/rug1.glb"
+substrate_prop_kind = "rug_1"
 position = Vector3(0.0, 0.01, 0.0)
 
 [sub_resource type="Resource" id="prop_lamp"]

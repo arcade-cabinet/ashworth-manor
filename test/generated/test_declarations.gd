@@ -586,6 +586,11 @@ func _test_substrate_contract() -> void:
 		"res://assets/shared/decor/picture_blank_005.glb": "picture_frame_blank_005",
 		"res://assets/shared/decor/picture_blank_006.glb": "picture_frame_blank_006",
 	}
+	var legacy_rug_models := {
+		"res://assets/shared/decor/rug0.glb": "rug_0",
+		"res://assets/shared/decor/rug1.glb": "rug_1",
+		"res://assets/shared/decor/rug2.glb": "rug_2",
+	}
 	var substrate_ids := [
 		"grounds_twilight",
 		"forecourt_lamplit",
@@ -735,6 +740,8 @@ func _test_substrate_contract() -> void:
 			var legacy_kind := String(legacy_candle_models.get(prop.model, ""))
 			if legacy_kind.is_empty():
 				legacy_kind = String(legacy_frame_models.get(prop.model, ""))
+			if legacy_kind.is_empty():
+				legacy_kind = String(legacy_rug_models.get(prop.model, ""))
 			if not legacy_kind.is_empty():
 				_ok("%s prop %s clears raw repeated model path" % [room_ref.room_id, prop.id], prop.model.is_empty())
 				_ok("%s prop %s uses repeated substrate kind" % [room_ref.room_id, prop.id], prop.substrate_prop_kind == legacy_kind)
@@ -1531,6 +1538,18 @@ func _test_builder_default_contract() -> void:
 	var picture_frame_blank_004 := assembler._build_procedural_prop(picture_frame_004_decl)
 	_ok("substrate portrait frame variant builds from shared substrate kind", picture_frame_blank_004 != null)
 
+	var rug_0_decl := PropDecl.new()
+	rug_0_decl.id = "compat_rug_0"
+	rug_0_decl.substrate_prop_kind = "rug_0"
+	var rug_0 := assembler._build_procedural_prop(rug_0_decl)
+	_ok("substrate rug 0 builds from shared substrate kind", rug_0 != null)
+
+	var rug_2_decl := PropDecl.new()
+	rug_2_decl.id = "compat_rug_2"
+	rug_2_decl.substrate_prop_kind = "rug_2"
+	var rug_2 := assembler._build_procedural_prop(rug_2_decl)
+	_ok("substrate rug 2 builds from shared substrate kind", rug_2 != null)
+
 	var greenhouse_plank_bench_decl := PropDecl.new()
 	greenhouse_plank_bench_decl.id = "compat_greenhouse_plank_bench"
 	greenhouse_plank_bench_decl.substrate_prop_kind = "greenhouse_plank_bench"
@@ -1788,6 +1807,10 @@ func _test_builder_default_contract() -> void:
 		picture_frame_blank.free()
 	if picture_frame_blank_004 != null:
 		picture_frame_blank_004.free()
+	if rug_0 != null:
+		rug_0.free()
+	if rug_2 != null:
+		rug_2.free()
 	if greenhouse_plank_bench != null:
 		greenhouse_plank_bench.free()
 	if greenhouse_plank_shelf != null:

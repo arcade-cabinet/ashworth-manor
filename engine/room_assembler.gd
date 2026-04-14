@@ -134,6 +134,9 @@ const PICTURE_FRAME_003_MODEL := "res://assets/shared/decor/picture_blank_003.gl
 const PICTURE_FRAME_004_MODEL := "res://assets/shared/decor/picture_blank_004.glb"
 const PICTURE_FRAME_005_MODEL := "res://assets/shared/decor/picture_blank_005.glb"
 const PICTURE_FRAME_006_MODEL := "res://assets/shared/decor/picture_blank_006.glb"
+const RUG_0_MODEL := "res://assets/shared/decor/rug0.glb"
+const RUG_1_MODEL := "res://assets/shared/decor/rug1.glb"
+const RUG_2_MODEL := "res://assets/shared/decor/rug2.glb"
 const GREENHOUSE_PLANK_BENCH_MODEL := "res://assets/grounds/greenhouse/wooden_plank_1.glb"
 const GREENHOUSE_PLANK_SHELF_MODEL := "res://assets/grounds/greenhouse/wooden_plank_2.glb"
 const GREENHOUSE_DEAD_ROW_MODEL := "res://assets/grounds/greenhouse/bush_long_dead.glb"
@@ -251,6 +254,9 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PICTURE_FRAME_004_MODEL: "picture_frame_blank_004",
 	PICTURE_FRAME_005_MODEL: "picture_frame_blank_005",
 	PICTURE_FRAME_006_MODEL: "picture_frame_blank_006",
+	RUG_0_MODEL: "rug_0",
+	RUG_1_MODEL: "rug_1",
+	RUG_2_MODEL: "rug_2",
 	GREENHOUSE_PLANK_BENCH_MODEL: "greenhouse_plank_bench",
 	GREENHOUSE_PLANK_SHELF_MODEL: "greenhouse_plank_shelf",
 	GREENHOUSE_DEAD_ROW_MODEL: "greenhouse_dead_row",
@@ -1377,6 +1383,12 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(PICTURE_FRAME_005_MODEL, prop_decl)
 	if substrate_kind == "picture_frame_blank_006":
 		return _instantiate_substrate_scene(PICTURE_FRAME_006_MODEL, prop_decl)
+	if substrate_kind == "rug_0":
+		return _instantiate_substrate_scene(RUG_0_MODEL, prop_decl)
+	if substrate_kind == "rug_1":
+		return _instantiate_substrate_scene(RUG_1_MODEL, prop_decl)
+	if substrate_kind == "rug_2":
+		return _instantiate_substrate_scene(RUG_2_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_bench":
 		return _instantiate_substrate_scene(GREENHOUSE_PLANK_BENCH_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_shelf":

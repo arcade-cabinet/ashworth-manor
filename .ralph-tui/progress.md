@@ -1408,6 +1408,12 @@ after each iteration and it's included in prompts for context.
   - affected authored rooms include:
     `parlor`, `guest_room`, `hidden_chamber`, `upper_hallway`,
     `attic_storage`, `carriage_house`, `library`, `dining_room`, and `foyer`
+- The shared rug kit is now migrated too:
+  - `rug0.glb` -> `rug_0`
+  - `rug1.glb` -> `rug_1`
+  - `rug2.glb` -> `rug_2`
+  - affected authored rooms include:
+    `foyer`, `parlor`, `master_bedroom`, `guest_room`, and `upper_hallway`
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload
