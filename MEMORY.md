@@ -866,3 +866,19 @@ independent execution drivers:
   - verification stayed green after the shared glass/liquid pass too:
     declarations, room specs, and full playthrough all reran cleanly after the
     generic shared-scene applicator pass too
+  - the remaining repeated shared structure props moved onto substrate kinds
+    too:
+    `floor3.glb` -> `stone_slab`,
+    `pillar0_002.glb` / `pillar0_003.glb` -> `plinth_tall`,
+    `pillar1.glb` -> `round_pillar`
+  - the affected rooms are now authoring those pieces through
+    `substrate_prop_kind` instead of raw structure models:
+    `front_steps`, `front_gate`, `drive_lower`, `drive_upper`, and `foyer`
+  - `RoomAssembler._build_procedural_prop()` now owns procedural stone slab,
+    tall plinth, and round pillar builders for the common path
+  - declaration coverage now proves those repeated structure props stay
+    migrated and that the procedural replacements build cleanly
+  - verification after the slab/plinth/pillar migration stayed green:
+    `test/generated/test_declarations.gd`,
+    `test/e2e/test_room_specs.gd`,
+    and `test/e2e/test_full_playthrough.gd`

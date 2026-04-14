@@ -478,6 +478,10 @@ func _test_substrate_contract() -> void:
 		"res://assets/shared/structure/stairs0.glb": "stair_run",
 		"res://assets/shared/structure/stairbanister.glb": "banister_run",
 		"res://assets/shared/structure/banisterbase.glb": "newel_post",
+		"res://assets/shared/structure/floor3.glb": "stone_slab",
+		"res://assets/shared/structure/pillar0_002.glb": "plinth_tall",
+		"res://assets/shared/structure/pillar0_003.glb": "plinth_tall",
+		"res://assets/shared/structure/pillar1.glb": "round_pillar",
 	}
 	var dir := DirAccess.open("res://declarations/rooms/")
 	if dir != null:
@@ -740,6 +744,27 @@ func _test_builder_default_contract() -> void:
 	procedural_newel_decl.scale = 1.0
 	var procedural_newel := assembler._build_procedural_prop(procedural_newel_decl)
 	_ok("procedural newel prop replaces imported base model", procedural_newel != null and procedural_newel.get_node_or_null("Shaft") != null)
+
+	var procedural_slab_decl := PropDecl.new()
+	procedural_slab_decl.id = "compat_slab"
+	procedural_slab_decl.model = "res://assets/shared/structure/floor3.glb"
+	procedural_slab_decl.scale = 1.0
+	var procedural_slab := assembler._build_procedural_prop(procedural_slab_decl)
+	_ok("procedural slab prop replaces imported floor stone model", procedural_slab != null and procedural_slab.get_node_or_null("Top") != null)
+
+	var procedural_plinth_decl := PropDecl.new()
+	procedural_plinth_decl.id = "compat_plinth"
+	procedural_plinth_decl.model = "res://assets/shared/structure/pillar0_002.glb"
+	procedural_plinth_decl.scale = 1.0
+	var procedural_plinth := assembler._build_procedural_prop(procedural_plinth_decl)
+	_ok("procedural plinth prop replaces imported pedestal model", procedural_plinth != null and procedural_plinth.get_node_or_null("Body") != null)
+
+	var procedural_pillar_decl := PropDecl.new()
+	procedural_pillar_decl.id = "compat_round_pillar"
+	procedural_pillar_decl.model = "res://assets/shared/structure/pillar1.glb"
+	procedural_pillar_decl.scale = 1.0
+	var procedural_pillar := assembler._build_procedural_prop(procedural_pillar_decl)
+	_ok("procedural pillar prop replaces imported round pillar model", procedural_pillar != null and procedural_pillar.get_node_or_null("Shaft") != null)
 	floor.free()
 	ceiling.free()
 	wall.free()
@@ -763,6 +788,12 @@ func _test_builder_default_contract() -> void:
 		procedural_banister.free()
 	if procedural_newel != null:
 		procedural_newel.free()
+	if procedural_slab != null:
+		procedural_slab.free()
+	if procedural_plinth != null:
+		procedural_plinth.free()
+	if procedural_pillar != null:
+		procedural_pillar.free()
 	print("[DONE] builder defaults")
 
 

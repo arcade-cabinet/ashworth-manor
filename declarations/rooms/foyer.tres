@@ -436,13 +436,13 @@ position = Vector3(4.95, 0.8, -1.4)
 [sub_resource type="Resource" id="prop_pillar_l"]
 script = ExtResource("5")
 id = "pillar_left"
-model = "res://assets/shared/structure/pillar1.glb"
+substrate_prop_kind = "round_pillar"
 position = Vector3(-3, 0, -4)
 
 [sub_resource type="Resource" id="prop_pillar_r"]
 script = ExtResource("5")
 id = "pillar_right"
-model = "res://assets/shared/structure/pillar1.glb"
+substrate_prop_kind = "round_pillar"
 position = Vector3(3, 0, -4)
 
 [sub_resource type="Resource" id="prop_stairs"]

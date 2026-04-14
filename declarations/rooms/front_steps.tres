@@ -151,14 +151,14 @@ flicker_pattern = "gas"
 [sub_resource type="Resource" id="prop_step_center"]
 script = ExtResource("5")
 id = "front_steps_center"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, -1.6)
 scale = 1.08
 
 [sub_resource type="Resource" id="prop_step_left"]
 script = ExtResource("5")
 id = "front_steps_left"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(-1.8, 0, -1.9)
 rotation_y = -5.0
 scale = 1.14
@@ -166,7 +166,7 @@ scale = 1.14
 [sub_resource type="Resource" id="prop_step_right"]
 script = ExtResource("5")
 id = "front_steps_right"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(1.8, 0, -1.9)
 rotation_y = 5.0
 scale = 1.14
@@ -174,7 +174,7 @@ scale = 1.14
 [sub_resource type="Resource" id="prop_step_far"]
 script = ExtResource("5")
 id = "front_steps_far"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, 0.8)
 scale = 1.08
 
@@ -188,7 +188,7 @@ scale_3d = Vector3(1.0, 1.0, 1.02)
 [sub_resource type="Resource" id="prop_statue_plinth_left"]
 script = ExtResource("5")
 id = "front_steps_statue_plinth_left"
-model = "res://assets/shared/structure/pillar0_002.glb"
+substrate_prop_kind = "plinth_tall"
 position = Vector3(-9.2, 0, -0.8)
 rotation_y = 22.0
 scale = 0.72
@@ -204,7 +204,7 @@ scale = 0.58
 [sub_resource type="Resource" id="prop_statue_plinth_right"]
 script = ExtResource("5")
 id = "front_steps_statue_plinth_right"
-model = "res://assets/shared/structure/pillar0_003.glb"
+substrate_prop_kind = "plinth_tall"
 position = Vector3(9.3, 0, -0.5)
 rotation_y = -22.0
 scale = 0.72

@@ -180,21 +180,21 @@ scale_3d = Vector3(1.0, 1.06, 0.78)
 [sub_resource type="Resource" id="prop_drive_stone_1"]
 script = ExtResource("5")
 id = "drive_upper_stone_1"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, -4.0)
 scale = 1.1
 
 [sub_resource type="Resource" id="prop_drive_stone_2"]
 script = ExtResource("5")
 id = "drive_upper_stone_2"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, 0.0)
 scale = 1.1
 
 [sub_resource type="Resource" id="prop_drive_stone_3"]
 script = ExtResource("5")
 id = "drive_upper_stone_3"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(-2.4, 0, 2.7)
 rotation_y = -6.0
 scale = 1.16
@@ -202,7 +202,7 @@ scale = 1.16
 [sub_resource type="Resource" id="prop_drive_stone_4"]
 script = ExtResource("5")
 id = "drive_upper_stone_4"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(2.4, 0, 2.7)
 rotation_y = 6.0
 scale = 1.16
@@ -210,14 +210,14 @@ scale = 1.16
 [sub_resource type="Resource" id="prop_drive_step_center"]
 script = ExtResource("5")
 id = "drive_upper_step_center"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, 4.6)
 scale = 1.05
 
 [sub_resource type="Resource" id="prop_drive_step_left"]
 script = ExtResource("5")
 id = "drive_upper_step_left"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(-1.8, 0, 4.2)
 rotation_y = -5.0
 scale = 1.15
@@ -225,7 +225,7 @@ scale = 1.15
 [sub_resource type="Resource" id="prop_drive_step_right"]
 script = ExtResource("5")
 id = "drive_upper_step_right"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(1.8, 0, 4.2)
 rotation_y = 5.0
 scale = 1.15
@@ -270,7 +270,7 @@ scale = 0.74
 [sub_resource type="Resource" id="prop_statue_plinth_left"]
 script = ExtResource("5")
 id = "drive_upper_statue_plinth_left"
-model = "res://assets/shared/structure/pillar0_002.glb"
+substrate_prop_kind = "plinth_tall"
 position = Vector3(-9.2, 0, 0.9)
 rotation_y = 22.0
 scale = 0.72
@@ -286,7 +286,7 @@ scale = 0.58
 [sub_resource type="Resource" id="prop_statue_plinth_right"]
 script = ExtResource("5")
 id = "drive_upper_statue_plinth_right"
-model = "res://assets/shared/structure/pillar0_003.glb"
+substrate_prop_kind = "plinth_tall"
 position = Vector3(9.3, 0, 1.2)
 rotation_y = -22.0
 scale = 0.72

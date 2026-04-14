@@ -222,21 +222,21 @@ scale = 0.94
 [sub_resource type="Resource" id="prop_drive_stone_1"]
 script = ExtResource("5")
 id = "drive_lower_stone_1"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, -4.0)
 scale = 1.1
 
 [sub_resource type="Resource" id="prop_drive_stone_2"]
 script = ExtResource("5")
 id = "drive_lower_stone_2"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, 0.0)
 scale = 1.1
 
 [sub_resource type="Resource" id="prop_drive_stone_3"]
 script = ExtResource("5")
 id = "drive_lower_stone_3"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, 4.0)
 scale = 1.1
 

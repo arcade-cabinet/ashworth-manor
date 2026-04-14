@@ -796,42 +796,42 @@ offset = Vector3(0, 0, -0.02)
 [sub_resource type="Resource" id="prop_drive_stone_1"]
 script = ExtResource("5")
 id = "drive_stone_1"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, 4.0)
 scale = 1.1
 
 [sub_resource type="Resource" id="prop_drive_stone_0"]
 script = ExtResource("5")
 id = "drive_stone_0"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, -0.2)
 scale = 1.08
 
 [sub_resource type="Resource" id="prop_drive_stone_2"]
 script = ExtResource("5")
 id = "drive_stone_2"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, 8.0)
 scale = 1.1
 
 [sub_resource type="Resource" id="prop_drive_stone_3"]
 script = ExtResource("5")
 id = "drive_stone_3"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, 2)
 scale = 1.1
 
 [sub_resource type="Resource" id="prop_drive_stone_4"]
 script = ExtResource("5")
 id = "drive_stone_4"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, 6)
 scale = 1.1
 
 [sub_resource type="Resource" id="prop_drive_stone_5"]
 script = ExtResource("5")
 id = "drive_stone_5"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(-2.5, 0, 8.5)
 rotation_y = -6.0
 scale = 1.2
@@ -839,7 +839,7 @@ scale = 1.2
 [sub_resource type="Resource" id="prop_drive_stone_6"]
 script = ExtResource("5")
 id = "drive_stone_6"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(2.5, 0, 8.5)
 rotation_y = 6.0
 scale = 1.2
@@ -847,14 +847,14 @@ scale = 1.2
 [sub_resource type="Resource" id="prop_drive_step_center"]
 script = ExtResource("5")
 id = "drive_step_center"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, 8.6)
 scale = 1.05
 
 [sub_resource type="Resource" id="prop_drive_step_left"]
 script = ExtResource("5")
 id = "drive_step_left"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(-1.8, 0, 8.2)
 rotation_y = -5.0
 scale = 1.15
@@ -862,7 +862,7 @@ scale = 1.15
 [sub_resource type="Resource" id="prop_drive_step_right"]
 script = ExtResource("5")
 id = "drive_step_right"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(1.8, 0, 8.2)
 rotation_y = 5.0
 scale = 1.15
@@ -870,7 +870,7 @@ scale = 1.15
 [sub_resource type="Resource" id="prop_drive_step_far"]
 script = ExtResource("5")
 id = "drive_step_far"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, 11.2)
 scale = 1.08
 
@@ -1147,7 +1147,7 @@ scale = 0.76
 [sub_resource type="Resource" id="prop_statue_plinth_left"]
 script = ExtResource("5")
 id = "statue_plinth_left"
-model = "res://assets/shared/structure/pillar0_002.glb"
+substrate_prop_kind = "plinth_tall"
 position = Vector3(-9.2, 0, 6.6)
 rotation_y = 22.0
 scale = 0.72
@@ -1163,7 +1163,7 @@ scale = 0.58
 [sub_resource type="Resource" id="prop_statue_plinth_right"]
 script = ExtResource("5")
 id = "statue_plinth_right"
-model = "res://assets/shared/structure/pillar0_003.glb"
+substrate_prop_kind = "plinth_tall"
 position = Vector3(9.3, 0, 6.9)
 rotation_y = -22.0
 scale = 0.72

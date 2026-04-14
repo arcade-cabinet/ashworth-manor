@@ -405,3 +405,16 @@ changes between `adult/child` and `elder` route contexts.
   - Does the material and lighting read as finished?
 - No critical room or route finale may bypass the shared substrate without an
   explicit waiver.
+
+## Recent Adoption
+
+- Repeated authored structure props now migrate through `substrate_prop_kind`
+  instead of raw shared structure model ids for:
+  - window frames and window rays
+  - stair runs, banister runs, and newel posts
+  - front-drive stone slabs
+  - exterior statue plinths
+  - foyer round pillars
+- `RoomAssembler` now owns the common procedural path for those repeated
+  structure pieces, with declaration-authored raw structure model ids kept only
+  as compatibility interception.

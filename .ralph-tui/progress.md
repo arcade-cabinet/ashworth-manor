@@ -1073,3 +1073,20 @@ after each iteration and it's included in prompts for context.
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+- The next repeated shared structure props are now off raw model authoring too:
+  - `floor3.glb` -> `stone_slab`
+  - `pillar0_002.glb` / `pillar0_003.glb` -> `plinth_tall`
+  - `pillar1.glb` -> `round_pillar`
+- `RoomAssembler` now owns procedural builders for those repeated structure
+  pieces, and the affected declarations now author them via
+  `substrate_prop_kind`
+- Affected rooms:
+  - `front_steps`
+  - `front_gate`
+  - `drive_lower`
+  - `drive_upper`
+  - `foyer`
+- Verification after the slab/plinth/pillar migration:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`

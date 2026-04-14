@@ -35,12 +35,20 @@ const PROCEDURAL_WINDOW_RAY_MODEL := "res://assets/shared/structure/window_ray.g
 const PROCEDURAL_STAIRCASE_MODEL := "res://assets/shared/structure/stairs0.glb"
 const PROCEDURAL_BANISTER_MODEL := "res://assets/shared/structure/stairbanister.glb"
 const PROCEDURAL_NEWEL_MODEL := "res://assets/shared/structure/banisterbase.glb"
+const PROCEDURAL_STONE_SLAB_MODEL := "res://assets/shared/structure/floor3.glb"
+const PROCEDURAL_PLINTH_LEFT_MODEL := "res://assets/shared/structure/pillar0_002.glb"
+const PROCEDURAL_PLINTH_RIGHT_MODEL := "res://assets/shared/structure/pillar0_003.glb"
+const PROCEDURAL_FOYER_PILLAR_MODEL := "res://assets/shared/structure/pillar1.glb"
 const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PROCEDURAL_WINDOW_MODEL: "window_frame",
 	PROCEDURAL_WINDOW_RAY_MODEL: "window_ray",
 	PROCEDURAL_STAIRCASE_MODEL: "stair_run",
 	PROCEDURAL_BANISTER_MODEL: "banister_run",
 	PROCEDURAL_NEWEL_MODEL: "newel_post",
+	PROCEDURAL_STONE_SLAB_MODEL: "stone_slab",
+	PROCEDURAL_PLINTH_LEFT_MODEL: "plinth_tall",
+	PROCEDURAL_PLINTH_RIGHT_MODEL: "plinth_tall",
+	PROCEDURAL_FOYER_PILLAR_MODEL: "round_pillar",
 }
 
 
@@ -785,6 +793,63 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		newel.rotation_degrees.y = prop_decl.rotation_y
 		newel.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_NEWEL_MODEL)
 		return newel
+	if substrate_kind == "stone_slab":
+		var slab := Node3D.new()
+		slab.name = prop_decl.id if not prop_decl.id.is_empty() else "StoneSlabProp"
+		var slab_surface := "recipe:surface/stone_dark"
+		var top := _make_prop_box(Vector3(2.2, 0.22, 2.2), Vector3(0, 0.11, 0), slab_surface)
+		top.name = "Top"
+		slab.add_child(top)
+		var base := _make_prop_box(Vector3(2.0, 0.18, 2.0), Vector3(0, 0.03, 0), slab_surface)
+		base.name = "Base"
+		slab.add_child(base)
+		slab.position = prop_decl.position
+		slab.rotation_degrees.y = prop_decl.rotation_y
+		slab.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_STONE_SLAB_MODEL)
+		return slab
+	if substrate_kind == "plinth_tall":
+		var plinth := Node3D.new()
+		plinth.name = prop_decl.id if not prop_decl.id.is_empty() else "PlinthProp"
+		var stone_surface := "recipe:surface/stone_dark"
+		var pedestal_base := _make_prop_box(Vector3(1.22, 0.24, 1.22), Vector3(0, 0.12, 0), stone_surface)
+		pedestal_base.name = "Base"
+		plinth.add_child(pedestal_base)
+		var pedestal_body := _make_prop_box(Vector3(0.9, 1.18, 0.9), Vector3(0, 0.83, 0), stone_surface)
+		pedestal_body.name = "Body"
+		plinth.add_child(pedestal_body)
+		var pedestal_cap := _make_prop_box(Vector3(1.08, 0.18, 1.08), Vector3(0, 1.5, 0), stone_surface)
+		pedestal_cap.name = "Cap"
+		plinth.add_child(pedestal_cap)
+		plinth.position = prop_decl.position
+		plinth.rotation_degrees.y = prop_decl.rotation_y
+		plinth.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_PLINTH_LEFT_MODEL)
+		return plinth
+	if substrate_kind == "round_pillar":
+		var pillar := Node3D.new()
+		pillar.name = prop_decl.id if not prop_decl.id.is_empty() else "RoundPillarProp"
+		var pillar_surface := "recipe:surface/oak_header"
+		var pillar_base := _make_prop_box(Vector3(0.62, 0.2, 0.62), Vector3(0, 0.1, 0), pillar_surface)
+		pillar_base.name = "Base"
+		pillar.add_child(pillar_base)
+		var shaft := MeshInstance3D.new()
+		shaft.name = "Shaft"
+		var shaft_mesh := CylinderMesh.new()
+		shaft_mesh.top_radius = 0.18
+		shaft_mesh.bottom_radius = 0.22
+		shaft_mesh.height = 2.7
+		shaft.mesh = shaft_mesh
+		shaft.position = Vector3(0, 1.55, 0)
+		var shaft_material := EstateMaterialKit.build_surface_reference(pillar_surface)
+		if shaft_material != null:
+			shaft.set_surface_override_material(0, shaft_material)
+		pillar.add_child(shaft)
+		var pillar_cap := _make_prop_box(Vector3(0.76, 0.2, 0.76), Vector3(0, 2.95, 0), pillar_surface)
+		pillar_cap.name = "Cap"
+		pillar.add_child(pillar_cap)
+		pillar.position = prop_decl.position
+		pillar.rotation_degrees.y = prop_decl.rotation_y
+		pillar.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_FOYER_PILLAR_MODEL)
+		return pillar
 	if prop_decl.tags.has("procedural_moon"):
 		var moon := MeshInstance3D.new()
 		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"
