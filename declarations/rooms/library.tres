@@ -348,7 +348,7 @@ flickering = false
 [sub_resource type="Resource" id="prop_desk"]
 script = ExtResource("5")
 id = "study_desk"
-model = "res://assets/shared/furniture/study_desk.glb"
+substrate_prop_kind = "furniture_study_desk"
 position = Vector3(0.4, 0, 2.55)
 rotation_y = 180.0
 scale = 0.44
@@ -356,14 +356,14 @@ scale = 0.44
 [sub_resource type="Resource" id="prop_bookcase_n"]
 script = ExtResource("5")
 id = "bookcase_north"
-model = "res://assets/shared/furniture/bookcase.glb"
+substrate_prop_kind = "furniture_bookcase"
 position = Vector3(-3.0, 0, 4.15)
 scale = 0.32
 
 [sub_resource type="Resource" id="prop_bookcase_w"]
 script = ExtResource("5")
 id = "bookcase_west"
-model = "res://assets/shared/furniture/bookcase.glb"
+substrate_prop_kind = "furniture_bookcase"
 position = Vector3(-3.45, 0, 1.7)
 rotation_y = 90.0
 scale = 0.3
@@ -371,7 +371,7 @@ scale = 0.3
 [sub_resource type="Resource" id="prop_chair"]
 script = ExtResource("5")
 id = "desk_chair"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(1.15, 0, 1.95)
 rotation_y = 205.0
 scale = 0.52

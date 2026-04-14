@@ -170,14 +170,14 @@ flicker_pattern = "candle"
 [sub_resource type="Resource" id="prop_rack_left"]
 script = ExtResource("5")
 id = "rack_left"
-model = "res://assets/shared/furniture/bookcase.glb"
+substrate_prop_kind = "furniture_bookcase"
 position = Vector3(-3.5, 0, 0.0)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_rack_right"]
 script = ExtResource("5")
 id = "rack_right"
-model = "res://assets/shared/furniture/bookcase.glb"
+substrate_prop_kind = "furniture_bookcase"
 position = Vector3(3.5, 0, 0.0)
 rotation_y = 270.0
 

@@ -159,7 +159,7 @@ scale = 1.05
 [sub_resource type="Resource" id="prop_chair"]
 script = ExtResource("5")
 id = "nursery_chair_prop"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(-0.95, 0.0, 1.45)
 rotation_y = 18.0
 scale = 0.92
@@ -175,7 +175,7 @@ scale = 0.98
 [sub_resource type="Resource" id="prop_bedside_drawers"]
 script = ExtResource("5")
 id = "nursery_bedside_drawers"
-model = "res://assets/shared/furniture/drawers.glb"
+substrate_prop_kind = "furniture_drawers"
 position = Vector3(1.75, 0.0, 1.25)
 rotation_y = 270.0
 scale = 0.42

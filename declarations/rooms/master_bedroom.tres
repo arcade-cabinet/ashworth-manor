@@ -296,13 +296,13 @@ position = Vector3(-4.5, 0, 4)
 [sub_resource type="Resource" id="prop_chair"]
 script = ExtResource("5")
 id = "reading_chair"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(3, 0, -3)
 
 [sub_resource type="Resource" id="prop_nightstand"]
 script = ExtResource("5")
 id = "nightstand"
-model = "res://assets/shared/furniture/drawers.glb"
+substrate_prop_kind = "furniture_drawers"
 position = Vector3(-4, 0, -4)
 scale = 0.6
 

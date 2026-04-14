@@ -278,7 +278,7 @@ position = Vector3(0, 0, 0)
 [sub_resource type="Resource" id="prop_table_secondary"]
 script = ExtResource("5")
 id = "greenhouse_side_table"
-model = "res://assets/shared/furniture/table.glb"
+substrate_prop_kind = "furniture_table"
 position = Vector3(-2.3, 0.0, -1.8)
 scale = 0.62
 

@@ -222,7 +222,7 @@ rotation_y = -12.0
 [sub_resource type="Resource" id="prop_chair"]
 script = ExtResource("5")
 id = "groom_chair"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(1.6, 0.0, 1.8)
 rotation_y = 140.0
 

@@ -567,3 +567,7 @@ changes between `adult/child` and `elder` route contexts.
   `rug0.glb`, `rug1.glb`, and `rug2.glb`
   now author through explicit shared `rug_0`, `rug_1`, and `rug_2`
   substrate kinds across the room declarations.
+- The shared furniture kit is now substrate-owned too:
+  `table.glb`, `study_desk.glb`, `drawers.glb`, `chair.glb`, and
+  `bookcase.glb` now author through explicit shared furniture substrate kinds
+  across the room declarations.

@@ -346,21 +346,21 @@ rotation_y = 90.0
 [sub_resource type="Resource" id="prop_side_table_left"]
 script = ExtResource("5")
 id = "side_table_left"
-model = "res://assets/shared/furniture/table.glb"
+substrate_prop_kind = "furniture_table"
 position = Vector3(-2.0, 0, -3.0)
 scale = 0.32
 
 [sub_resource type="Resource" id="prop_side_table_right"]
 script = ExtResource("5")
 id = "side_table_right"
-model = "res://assets/shared/furniture/table.glb"
+substrate_prop_kind = "furniture_table"
 position = Vector3(2.0, 0, -3.0)
 scale = 0.32
 
 [sub_resource type="Resource" id="prop_writing_desk"]
 script = ExtResource("5")
 id = "writing_desk"
-model = "res://assets/shared/furniture/study_desk.glb"
+substrate_prop_kind = "furniture_study_desk"
 position = Vector3(-3.8, 0, -3.4)
 rotation_y = 22.0
 scale = 0.9

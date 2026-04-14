@@ -237,7 +237,7 @@ position = Vector3(1.5, 1.6, 3.8)
 [sub_resource type="Resource" id="prop_side_table_south"]
 script = ExtResource("5")
 id = "side_table_south"
-model = "res://assets/shared/furniture/drawers.glb"
+substrate_prop_kind = "furniture_drawers"
 position = Vector3(-1.4, 0, -3.0)
 rotation_y = 90.0
 scale = 0.8
@@ -245,7 +245,7 @@ scale = 0.8
 [sub_resource type="Resource" id="prop_side_table_north"]
 script = ExtResource("5")
 id = "side_table_north"
-model = "res://assets/shared/furniture/drawers.glb"
+substrate_prop_kind = "furniture_drawers"
 position = Vector3(1.4, 0, 3.2)
 rotation_y = 270.0
 scale = 0.8

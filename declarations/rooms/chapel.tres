@@ -210,7 +210,7 @@ rotation_y = 270.0
 [sub_resource type="Resource" id="prop_altar_table"]
 script = ExtResource("5")
 id = "altar_table"
-model = "res://assets/shared/furniture/table.glb"
+substrate_prop_kind = "furniture_table"
 position = Vector3(0, 0, 4.0)
 
 [sub_resource type="Resource" id="prop_altar_book"]
@@ -222,14 +222,14 @@ position = Vector3(0, 0.8, 4.1)
 [sub_resource type="Resource" id="prop_pew_left"]
 script = ExtResource("5")
 id = "pew_left"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(-2.2, 0, 0.2)
 rotation_y = 110.0
 
 [sub_resource type="Resource" id="prop_pew_right"]
 script = ExtResource("5")
 id = "pew_right"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(-1.1, 0, 1.2)
 rotation_y = 65.0
 

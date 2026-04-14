@@ -137,6 +137,11 @@ const PICTURE_FRAME_006_MODEL := "res://assets/shared/decor/picture_blank_006.gl
 const RUG_0_MODEL := "res://assets/shared/decor/rug0.glb"
 const RUG_1_MODEL := "res://assets/shared/decor/rug1.glb"
 const RUG_2_MODEL := "res://assets/shared/decor/rug2.glb"
+const FURNITURE_TABLE_MODEL := "res://assets/shared/furniture/table.glb"
+const FURNITURE_STUDY_DESK_MODEL := "res://assets/shared/furniture/study_desk.glb"
+const FURNITURE_DRAWERS_MODEL := "res://assets/shared/furniture/drawers.glb"
+const FURNITURE_CHAIR_MODEL := "res://assets/shared/furniture/chair.glb"
+const FURNITURE_BOOKCASE_MODEL := "res://assets/shared/furniture/bookcase.glb"
 const GREENHOUSE_PLANK_BENCH_MODEL := "res://assets/grounds/greenhouse/wooden_plank_1.glb"
 const GREENHOUSE_PLANK_SHELF_MODEL := "res://assets/grounds/greenhouse/wooden_plank_2.glb"
 const GREENHOUSE_DEAD_ROW_MODEL := "res://assets/grounds/greenhouse/bush_long_dead.glb"
@@ -257,6 +262,11 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	RUG_0_MODEL: "rug_0",
 	RUG_1_MODEL: "rug_1",
 	RUG_2_MODEL: "rug_2",
+	FURNITURE_TABLE_MODEL: "furniture_table",
+	FURNITURE_STUDY_DESK_MODEL: "furniture_study_desk",
+	FURNITURE_DRAWERS_MODEL: "furniture_drawers",
+	FURNITURE_CHAIR_MODEL: "furniture_chair",
+	FURNITURE_BOOKCASE_MODEL: "furniture_bookcase",
 	GREENHOUSE_PLANK_BENCH_MODEL: "greenhouse_plank_bench",
 	GREENHOUSE_PLANK_SHELF_MODEL: "greenhouse_plank_shelf",
 	GREENHOUSE_DEAD_ROW_MODEL: "greenhouse_dead_row",
@@ -1389,6 +1399,16 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(RUG_1_MODEL, prop_decl)
 	if substrate_kind == "rug_2":
 		return _instantiate_substrate_scene(RUG_2_MODEL, prop_decl)
+	if substrate_kind == "furniture_table":
+		return _instantiate_substrate_scene(FURNITURE_TABLE_MODEL, prop_decl)
+	if substrate_kind == "furniture_study_desk":
+		return _instantiate_substrate_scene(FURNITURE_STUDY_DESK_MODEL, prop_decl)
+	if substrate_kind == "furniture_drawers":
+		return _instantiate_substrate_scene(FURNITURE_DRAWERS_MODEL, prop_decl)
+	if substrate_kind == "furniture_chair":
+		return _instantiate_substrate_scene(FURNITURE_CHAIR_MODEL, prop_decl)
+	if substrate_kind == "furniture_bookcase":
+		return _instantiate_substrate_scene(FURNITURE_BOOKCASE_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_bench":
 		return _instantiate_substrate_scene(GREENHOUSE_PLANK_BENCH_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_shelf":

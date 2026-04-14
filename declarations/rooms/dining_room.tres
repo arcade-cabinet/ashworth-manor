@@ -206,7 +206,7 @@ flicker_pattern = "candle"
 [sub_resource type="Resource" id="prop_table"]
 script = ExtResource("5")
 id = "dining_table"
-model = "res://assets/shared/furniture/table.glb"
+substrate_prop_kind = "furniture_table"
 position = Vector3(0, 0, 0)
 scale = 0.7
 
@@ -220,42 +220,42 @@ scale = 0.7
 [sub_resource type="Resource" id="prop_chair_l0"]
 script = ExtResource("5")
 id = "chair_l0"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(-1.55, 0, -2.0)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_chair_l1"]
 script = ExtResource("5")
 id = "chair_l1"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(-1.55, 0, 0.0)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_chair_l2"]
 script = ExtResource("5")
 id = "chair_l2"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(-1.55, 0, 2.0)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_chair_r0"]
 script = ExtResource("5")
 id = "chair_r0"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(1.55, 0, -2.0)
 rotation_y = -90.0
 
 [sub_resource type="Resource" id="prop_chair_r1"]
 script = ExtResource("5")
 id = "chair_r1"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(1.55, 0, 0.0)
 rotation_y = -90.0
 
 [sub_resource type="Resource" id="prop_chair_push"]
 script = ExtResource("5")
 id = "chair_pushed"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(2.2, 0, 2.0)
 rotation_y = -112.0
 

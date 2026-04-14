@@ -591,6 +591,13 @@ func _test_substrate_contract() -> void:
 		"res://assets/shared/decor/rug1.glb": "rug_1",
 		"res://assets/shared/decor/rug2.glb": "rug_2",
 	}
+	var legacy_furniture_models := {
+		"res://assets/shared/furniture/table.glb": "furniture_table",
+		"res://assets/shared/furniture/study_desk.glb": "furniture_study_desk",
+		"res://assets/shared/furniture/drawers.glb": "furniture_drawers",
+		"res://assets/shared/furniture/chair.glb": "furniture_chair",
+		"res://assets/shared/furniture/bookcase.glb": "furniture_bookcase",
+	}
 	var substrate_ids := [
 		"grounds_twilight",
 		"forecourt_lamplit",
@@ -742,6 +749,8 @@ func _test_substrate_contract() -> void:
 				legacy_kind = String(legacy_frame_models.get(prop.model, ""))
 			if legacy_kind.is_empty():
 				legacy_kind = String(legacy_rug_models.get(prop.model, ""))
+			if legacy_kind.is_empty():
+				legacy_kind = String(legacy_furniture_models.get(prop.model, ""))
 			if not legacy_kind.is_empty():
 				_ok("%s prop %s clears raw repeated model path" % [room_ref.room_id, prop.id], prop.model.is_empty())
 				_ok("%s prop %s uses repeated substrate kind" % [room_ref.room_id, prop.id], prop.substrate_prop_kind == legacy_kind)
@@ -1550,6 +1559,36 @@ func _test_builder_default_contract() -> void:
 	var rug_2 := assembler._build_procedural_prop(rug_2_decl)
 	_ok("substrate rug 2 builds from shared substrate kind", rug_2 != null)
 
+	var furniture_table_decl := PropDecl.new()
+	furniture_table_decl.id = "compat_furniture_table"
+	furniture_table_decl.substrate_prop_kind = "furniture_table"
+	var furniture_table := assembler._build_procedural_prop(furniture_table_decl)
+	_ok("substrate table builds from shared substrate kind", furniture_table != null)
+
+	var furniture_study_desk_decl := PropDecl.new()
+	furniture_study_desk_decl.id = "compat_furniture_study_desk"
+	furniture_study_desk_decl.substrate_prop_kind = "furniture_study_desk"
+	var furniture_study_desk := assembler._build_procedural_prop(furniture_study_desk_decl)
+	_ok("substrate study desk builds from shared substrate kind", furniture_study_desk != null)
+
+	var furniture_drawers_decl := PropDecl.new()
+	furniture_drawers_decl.id = "compat_furniture_drawers"
+	furniture_drawers_decl.substrate_prop_kind = "furniture_drawers"
+	var furniture_drawers := assembler._build_procedural_prop(furniture_drawers_decl)
+	_ok("substrate drawers build from shared substrate kind", furniture_drawers != null)
+
+	var furniture_chair_decl := PropDecl.new()
+	furniture_chair_decl.id = "compat_furniture_chair"
+	furniture_chair_decl.substrate_prop_kind = "furniture_chair"
+	var furniture_chair := assembler._build_procedural_prop(furniture_chair_decl)
+	_ok("substrate chair builds from shared substrate kind", furniture_chair != null)
+
+	var furniture_bookcase_decl := PropDecl.new()
+	furniture_bookcase_decl.id = "compat_furniture_bookcase"
+	furniture_bookcase_decl.substrate_prop_kind = "furniture_bookcase"
+	var furniture_bookcase := assembler._build_procedural_prop(furniture_bookcase_decl)
+	_ok("substrate bookcase builds from shared substrate kind", furniture_bookcase != null)
+
 	var greenhouse_plank_bench_decl := PropDecl.new()
 	greenhouse_plank_bench_decl.id = "compat_greenhouse_plank_bench"
 	greenhouse_plank_bench_decl.substrate_prop_kind = "greenhouse_plank_bench"
@@ -1811,6 +1850,16 @@ func _test_builder_default_contract() -> void:
 		rug_0.free()
 	if rug_2 != null:
 		rug_2.free()
+	if furniture_table != null:
+		furniture_table.free()
+	if furniture_study_desk != null:
+		furniture_study_desk.free()
+	if furniture_drawers != null:
+		furniture_drawers.free()
+	if furniture_chair != null:
+		furniture_chair.free()
+	if furniture_bookcase != null:
+		furniture_bookcase.free()
 	if greenhouse_plank_bench != null:
 		greenhouse_plank_bench.free()
 	if greenhouse_plank_shelf != null:

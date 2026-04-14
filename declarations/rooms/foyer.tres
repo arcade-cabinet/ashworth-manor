@@ -385,13 +385,13 @@ scale = 1.15
 [sub_resource type="Resource" id="prop_drawers"]
 script = ExtResource("5")
 id = "drawers"
-model = "res://assets/shared/furniture/drawers.glb"
+substrate_prop_kind = "furniture_drawers"
 position = Vector3(-5, 0, -4)
 
 [sub_resource type="Resource" id="prop_drawers_east"]
 script = ExtResource("5")
 id = "drawers_east"
-model = "res://assets/shared/furniture/drawers.glb"
+substrate_prop_kind = "furniture_drawers"
 position = Vector3(4.95, 0, -1.45)
 rotation_y = 180.0
 

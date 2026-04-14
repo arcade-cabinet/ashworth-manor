@@ -195,7 +195,7 @@ flicker_pattern = "candle"
 [sub_resource type="Resource" id="prop_table"]
 script = ExtResource("5")
 id = "kitchen_table"
-model = "res://assets/shared/furniture/table.glb"
+substrate_prop_kind = "furniture_table"
 position = Vector3(-1.6, 0, -0.8)
 rotation_y = 90.0
 scale = 0.72
@@ -203,7 +203,7 @@ scale = 0.72
 [sub_resource type="Resource" id="prop_shelves"]
 script = ExtResource("5")
 id = "kitchen_shelves"
-model = "res://assets/shared/furniture/bookcase.glb"
+substrate_prop_kind = "furniture_bookcase"
 position = Vector3(-3.25, 0, -1.85)
 rotation_y = 180.0
 scale = 0.86

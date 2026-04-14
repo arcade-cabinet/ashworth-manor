@@ -401,14 +401,14 @@ flickering = false
 [sub_resource type="Resource" id="prop_trunk"]
 script = ExtResource("5")
 id = "elizabeth_trunk_prop"
-model = "res://assets/shared/furniture/drawers.glb"
+substrate_prop_kind = "furniture_drawers"
 position = Vector3(2, 0, 3)
 scale = 0.5
 
 [sub_resource type="Resource" id="prop_chair"]
 script = ExtResource("5")
 id = "child_chair"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(-2, 0, 4)
 scale = 0.7
 
@@ -516,7 +516,7 @@ rotation_y = -24.0
 [sub_resource type="Resource" id="prop_writing_desk"]
 script = ExtResource("5")
 id = "writing_desk"
-model = "res://assets/shared/furniture/drawers.glb"
+substrate_prop_kind = "furniture_drawers"
 position = Vector3(-3.0, 0, 2.0)
 scale = 0.7
 
