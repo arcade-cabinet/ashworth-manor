@@ -1475,6 +1475,12 @@ after each iteration and it's included in prompts for context.
   - `barrel.glb` -> `wine_cellar_barrel`
   - affected authored rooms include:
     `dining_room`, `parlor`, and `wine_cellar`
+- The remaining repeated attic/storage support props are now migrated too:
+  - `wooden_plank_4.glb` -> `attic_broken_plank`
+  - `wooden_crate_2_a.glb` -> `storage_crate_medium_a`
+  - `lamp_mx_2_off.glb` -> `storage_lamp_small_off`
+  - affected authored rooms include:
+    `attic_stairs` and `storage_basement`
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload

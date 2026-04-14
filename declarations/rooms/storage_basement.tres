@@ -261,7 +261,7 @@ position = Vector3(-2.1, 0, -2.6)
 [sub_resource type="Resource" id="prop_crate_2"]
 script = ExtResource("5")
 id = "crate_2"
-model = "res://assets/basement/storage/wooden_crate_2_a.glb"
+substrate_prop_kind = "storage_crate_medium_a"
 position = Vector3(-1.2, 0, -3.0)
 rotation_y = 18.0
 
@@ -323,7 +323,7 @@ position = Vector3(-0.4, 0, 2.5)
 [sub_resource type="Resource" id="prop_dead_lamp"]
 script = ExtResource("5")
 id = "dead_lamp"
-model = "res://assets/basement/storage/lamp_mx_2_off.glb"
+substrate_prop_kind = "storage_lamp_small_off"
 position = Vector3(0.9, 0.82, -2.4)
 
 [sub_resource type="Resource" id="prop_debris"]
@@ -335,7 +335,7 @@ position = Vector3(-0.8, 0, -1.1)
 [sub_resource type="Resource" id="prop_hidden_service_stack"]
 script = ExtResource("5")
 id = "hidden_service_stack"
-model = "res://assets/basement/storage/wooden_crate_2_a.glb"
+substrate_prop_kind = "storage_crate_medium_a"
 position = Vector3(2.4, 0, 3.8)
 rotation_y = 32.0
 scale = 0.92
@@ -355,7 +355,7 @@ position = Vector3(2.2, 0.78, 2.0)
 [sub_resource type="Resource" id="prop_match_tin"]
 script = ExtResource("5")
 id = "match_tin"
-model = "res://assets/basement/storage/lamp_mx_2_off.glb"
+substrate_prop_kind = "storage_lamp_small_off"
 position = Vector3(1.1, 0.82, -2.2)
 scale = 0.3
 

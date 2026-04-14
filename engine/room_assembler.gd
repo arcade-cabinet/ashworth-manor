@@ -158,6 +158,9 @@ const DINING_WATER_GLASS_MODEL := "res://assets/ground_floor/dining_room/water_g
 const PARLOR_SETTEE_MODEL := "res://assets/shared/furniture/sofa.glb"
 const WINE_CELLAR_BOTTLES_MODEL := "res://assets/deep_basement/wine_cellar/bottles.glb"
 const WINE_CELLAR_BARREL_MODEL := "res://assets/deep_basement/wine_cellar/barrel.glb"
+const ATTIC_BROKEN_PLANK_MODEL := "res://assets/attic/stairwell/wooden_plank_4.glb"
+const STORAGE_CRATE_MEDIUM_A_MODEL := "res://assets/basement/storage/wooden_crate_2_a.glb"
+const STORAGE_LAMP_SMALL_OFF_MODEL := "res://assets/basement/storage/lamp_mx_2_off.glb"
 const GREENHOUSE_PLANK_BENCH_MODEL := "res://assets/grounds/greenhouse/wooden_plank_1.glb"
 const GREENHOUSE_PLANK_SHELF_MODEL := "res://assets/grounds/greenhouse/wooden_plank_2.glb"
 const GREENHOUSE_DEAD_ROW_MODEL := "res://assets/grounds/greenhouse/bush_long_dead.glb"
@@ -299,6 +302,9 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PARLOR_SETTEE_MODEL: "parlor_settee",
 	WINE_CELLAR_BOTTLES_MODEL: "wine_cellar_bottles",
 	WINE_CELLAR_BARREL_MODEL: "wine_cellar_barrel",
+	ATTIC_BROKEN_PLANK_MODEL: "attic_broken_plank",
+	STORAGE_CRATE_MEDIUM_A_MODEL: "storage_crate_medium_a",
+	STORAGE_LAMP_SMALL_OFF_MODEL: "storage_lamp_small_off",
 	GREENHOUSE_PLANK_BENCH_MODEL: "greenhouse_plank_bench",
 	GREENHOUSE_PLANK_SHELF_MODEL: "greenhouse_plank_shelf",
 	GREENHOUSE_DEAD_ROW_MODEL: "greenhouse_dead_row",
@@ -1473,6 +1479,12 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(WINE_CELLAR_BOTTLES_MODEL, prop_decl)
 	if substrate_kind == "wine_cellar_barrel":
 		return _instantiate_substrate_scene(WINE_CELLAR_BARREL_MODEL, prop_decl)
+	if substrate_kind == "attic_broken_plank":
+		return _instantiate_substrate_scene(ATTIC_BROKEN_PLANK_MODEL, prop_decl)
+	if substrate_kind == "storage_crate_medium_a":
+		return _instantiate_substrate_scene(STORAGE_CRATE_MEDIUM_A_MODEL, prop_decl)
+	if substrate_kind == "storage_lamp_small_off":
+		return _instantiate_substrate_scene(STORAGE_LAMP_SMALL_OFF_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_bench":
 		return _instantiate_substrate_scene(GREENHOUSE_PLANK_BENCH_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_shelf":

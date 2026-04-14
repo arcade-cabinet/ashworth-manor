@@ -130,7 +130,7 @@ position = Vector3(0.0, 0, 0.2)
 [sub_resource type="Resource" id="prop_plank_a"]
 script = ExtResource("5")
 id = "broken_plank_a"
-model = "res://assets/attic/stairwell/wooden_plank_4.glb"
+substrate_prop_kind = "attic_broken_plank"
 position = Vector3(-0.7, 0, -0.4)
 rotation_y = 20.0
 
@@ -144,7 +144,7 @@ rotation_y = -35.0
 [sub_resource type="Resource" id="prop_plank_c"]
 script = ExtResource("5")
 id = "broken_plank_c"
-model = "res://assets/attic/stairwell/wooden_plank_4.glb"
+substrate_prop_kind = "attic_broken_plank"
 position = Vector3(1.15, 0.0, -1.1)
 rotation_y = 72.0
 scale = 0.8

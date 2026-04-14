@@ -701,6 +701,9 @@ func _test_substrate_contract() -> void:
 		"res://assets/shared/furniture/sofa.glb": "parlor_settee",
 		"res://assets/deep_basement/wine_cellar/bottles.glb": "wine_cellar_bottles",
 		"res://assets/deep_basement/wine_cellar/barrel.glb": "wine_cellar_barrel",
+		"res://assets/attic/stairwell/wooden_plank_4.glb": "attic_broken_plank",
+		"res://assets/basement/storage/wooden_crate_2_a.glb": "storage_crate_medium_a",
+		"res://assets/basement/storage/lamp_mx_2_off.glb": "storage_lamp_small_off",
 	}
 	var substrate_ids := [
 		"grounds_twilight",
@@ -1793,6 +1796,24 @@ func _test_builder_default_contract() -> void:
 	var wine_cellar_barrel := assembler._build_procedural_prop(wine_cellar_barrel_decl)
 	_ok("substrate wine cellar barrel builds from shared substrate kind", wine_cellar_barrel != null)
 
+	var attic_broken_plank_decl := PropDecl.new()
+	attic_broken_plank_decl.id = "compat_attic_broken_plank"
+	attic_broken_plank_decl.substrate_prop_kind = "attic_broken_plank"
+	var attic_broken_plank := assembler._build_procedural_prop(attic_broken_plank_decl)
+	_ok("substrate attic plank builds from shared substrate kind", attic_broken_plank != null)
+
+	var storage_crate_medium_a_decl := PropDecl.new()
+	storage_crate_medium_a_decl.id = "compat_storage_crate_medium_a"
+	storage_crate_medium_a_decl.substrate_prop_kind = "storage_crate_medium_a"
+	var storage_crate_medium_a := assembler._build_procedural_prop(storage_crate_medium_a_decl)
+	_ok("substrate storage crate builds from shared substrate kind", storage_crate_medium_a != null)
+
+	var storage_lamp_small_off_decl := PropDecl.new()
+	storage_lamp_small_off_decl.id = "compat_storage_lamp_small_off"
+	storage_lamp_small_off_decl.substrate_prop_kind = "storage_lamp_small_off"
+	var storage_lamp_small_off := assembler._build_procedural_prop(storage_lamp_small_off_decl)
+	_ok("substrate storage lamp builds from shared substrate kind", storage_lamp_small_off != null)
+
 	var greenhouse_plank_bench_decl := PropDecl.new()
 	greenhouse_plank_bench_decl.id = "compat_greenhouse_plank_bench"
 	greenhouse_plank_bench_decl.substrate_prop_kind = "greenhouse_plank_bench"
@@ -2096,6 +2117,12 @@ func _test_builder_default_contract() -> void:
 		wine_cellar_bottles.free()
 	if wine_cellar_barrel != null:
 		wine_cellar_barrel.free()
+	if attic_broken_plank != null:
+		attic_broken_plank.free()
+	if storage_crate_medium_a != null:
+		storage_crate_medium_a.free()
+	if storage_lamp_small_off != null:
+		storage_lamp_small_off.free()
 	if greenhouse_plank_bench != null:
 		greenhouse_plank_bench.free()
 	if greenhouse_plank_shelf != null:

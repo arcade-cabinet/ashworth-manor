@@ -1076,6 +1076,10 @@ independent execution drivers:
     `barrel.glb` now author through `dining_plate_place`,
     `dining_water_glass`, `parlor_settee`, `wine_cellar_bottles`, and
     `wine_cellar_barrel` instead of direct model paths in the room set
+  - the remaining repeated attic/storage support props moved too:
+    `wooden_plank_4.glb`, `wooden_crate_2_a.glb`, and `lamp_mx_2_off.glb`
+    now author through `attic_broken_plank`, `storage_crate_medium_a`, and
+    `storage_lamp_small_off` instead of direct model paths in the room set
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

@@ -598,3 +598,7 @@ changes between `adult/child` and `elder` route contexts.
   dining plates, dining water glasses, parlor settees, and the repeated
   wine-cellar bottle/barrel props now author through explicit substrate kinds
   instead of raw model paths across the room declarations.
+- The remaining repeated attic/storage support props are substrate-owned too:
+  `wooden_plank_4.glb`, `wooden_crate_2_a.glb`, and `lamp_mx_2_off.glb`
+  now author through explicit substrate kinds instead of raw model paths
+  across the room declarations.
