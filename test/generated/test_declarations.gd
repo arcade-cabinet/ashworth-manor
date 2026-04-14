@@ -153,6 +153,20 @@ func _test_interactable_visual_contract() -> void:
 			"states": {},
 		},
 		{
+			"room_path": "res://declarations/rooms/garden.tres",
+			"id": "garden_fountain",
+			"visual_kind": "garden_fountain",
+			"base_path": "res://assets/grounds/garden/fountain01_round.glb",
+			"states": {},
+		},
+		{
+			"room_path": "res://declarations/rooms/garden.tres",
+			"id": "garden_gazebo",
+			"visual_kind": "garden_gazebo",
+			"base_path": "res://assets/grounds/garden/gazebo.glb",
+			"states": {},
+		},
+		{
 			"room_path": "res://declarations/rooms/greenhouse.tres",
 			"id": "greenhouse_pot",
 			"visual_kind": "greenhouse_lily_pot_intact",

@@ -165,7 +165,7 @@ id = "garden_fountain"
 type = "observation"
 position = Vector3(0, 0.5, 0)
 collision_size = Vector3(2.0, 1.5, 2.0)
-model = "res://assets/grounds/garden/fountain01_round.glb"
+visual_kind = "garden_fountain"
 responses = Array[Resource]([SubResource("resp_fountain_thaw"), SubResource("resp_fountain_default")])
 
 [sub_resource type="Resource" id="inter_gazebo"]
@@ -174,7 +174,7 @@ id = "garden_gazebo"
 type = "observation"
 position = Vector3(-5, 1.5, -4)
 collision_size = Vector3(3.0, 3.0, 3.0)
-model = "res://assets/grounds/garden/gazebo.glb"
+visual_kind = "garden_gazebo"
 responses = Array[Resource]([SubResource("resp_gazebo_spot"), SubResource("resp_gazebo_default")])
 
 [sub_resource type="Resource" id="inter_bench"]

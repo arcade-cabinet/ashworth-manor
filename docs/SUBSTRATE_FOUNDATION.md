@@ -189,6 +189,12 @@ instead of direct grounds model paths. This keeps the repeated exterior shell
 grammar for the garden under the same builder-owned contract as the crypt and
 front approach.
 
+The garden observation layer is now aligned with that shell pass too. The
+`garden_fountain` and `garden_gazebo` observations no longer duplicate raw
+grounds model paths in room data; they resolve through the shared visual-kind
+registry (`garden_fountain` and `garden_gazebo`) on top of the substrate-owned
+shell props.
+
 The same rule is now being applied to the repeated grounds scene kit.
 Common gate/boundary pieces (`gate_post`, `gate_post_stone`, `boundary_wall`,
 `iron_gate_closed`, and `fence_run`) now author as `substrate_prop_kind`

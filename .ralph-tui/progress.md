@@ -1316,6 +1316,11 @@ after each iteration and it's included in prompts for context.
   - `stone_wall1-4.glb` / `stone_corner.glb` -> garden wall/corner substrate kinds
   - `column1.glb` / `column2.glb` / `vase_empty.glb` / `vase1.glb` -> garden column/vase substrate kinds
   - affected room: `garden`
+- The garden observation layer is now aligned with that shell pass:
+  - `garden_fountain` now uses `visual_kind = "garden_fountain"`
+  - `garden_gazebo` now uses `visual_kind = "garden_gazebo"`
+  - `garden.tres` no longer carries raw fountain/gazebo model paths on those
+    interactables
 - Verification after the waiver-contract pass:
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
