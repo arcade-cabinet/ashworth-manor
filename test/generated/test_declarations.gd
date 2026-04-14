@@ -597,6 +597,8 @@ func _test_substrate_contract() -> void:
 		"res://assets/shared/furniture/drawers.glb": "furniture_drawers",
 		"res://assets/shared/furniture/chair.glb": "furniture_chair",
 		"res://assets/shared/furniture/bookcase.glb": "furniture_bookcase",
+		"res://assets/shared/furniture/bed.glb": "furniture_bed",
+		"res://assets/shared/decor/chandelier.glb": "chandelier_fixture",
 	}
 	var substrate_ids := [
 		"grounds_twilight",
@@ -1589,6 +1591,18 @@ func _test_builder_default_contract() -> void:
 	var furniture_bookcase := assembler._build_procedural_prop(furniture_bookcase_decl)
 	_ok("substrate bookcase builds from shared substrate kind", furniture_bookcase != null)
 
+	var furniture_bed_decl := PropDecl.new()
+	furniture_bed_decl.id = "compat_furniture_bed"
+	furniture_bed_decl.substrate_prop_kind = "furniture_bed"
+	var furniture_bed := assembler._build_procedural_prop(furniture_bed_decl)
+	_ok("substrate bed builds from shared substrate kind", furniture_bed != null)
+
+	var chandelier_fixture_decl := PropDecl.new()
+	chandelier_fixture_decl.id = "compat_chandelier_fixture"
+	chandelier_fixture_decl.substrate_prop_kind = "chandelier_fixture"
+	var chandelier_fixture := assembler._build_procedural_prop(chandelier_fixture_decl)
+	_ok("substrate chandelier builds from shared substrate kind", chandelier_fixture != null)
+
 	var greenhouse_plank_bench_decl := PropDecl.new()
 	greenhouse_plank_bench_decl.id = "compat_greenhouse_plank_bench"
 	greenhouse_plank_bench_decl.substrate_prop_kind = "greenhouse_plank_bench"
@@ -1860,6 +1874,10 @@ func _test_builder_default_contract() -> void:
 		furniture_chair.free()
 	if furniture_bookcase != null:
 		furniture_bookcase.free()
+	if furniture_bed != null:
+		furniture_bed.free()
+	if chandelier_fixture != null:
+		chandelier_fixture.free()
 	if greenhouse_plank_bench != null:
 		greenhouse_plank_bench.free()
 	if greenhouse_plank_shelf != null:

@@ -142,6 +142,8 @@ const FURNITURE_STUDY_DESK_MODEL := "res://assets/shared/furniture/study_desk.gl
 const FURNITURE_DRAWERS_MODEL := "res://assets/shared/furniture/drawers.glb"
 const FURNITURE_CHAIR_MODEL := "res://assets/shared/furniture/chair.glb"
 const FURNITURE_BOOKCASE_MODEL := "res://assets/shared/furniture/bookcase.glb"
+const FURNITURE_BED_MODEL := "res://assets/shared/furniture/bed.glb"
+const CHANDELIER_MODEL := "res://assets/shared/decor/chandelier.glb"
 const GREENHOUSE_PLANK_BENCH_MODEL := "res://assets/grounds/greenhouse/wooden_plank_1.glb"
 const GREENHOUSE_PLANK_SHELF_MODEL := "res://assets/grounds/greenhouse/wooden_plank_2.glb"
 const GREENHOUSE_DEAD_ROW_MODEL := "res://assets/grounds/greenhouse/bush_long_dead.glb"
@@ -267,6 +269,8 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	FURNITURE_DRAWERS_MODEL: "furniture_drawers",
 	FURNITURE_CHAIR_MODEL: "furniture_chair",
 	FURNITURE_BOOKCASE_MODEL: "furniture_bookcase",
+	FURNITURE_BED_MODEL: "furniture_bed",
+	CHANDELIER_MODEL: "chandelier_fixture",
 	GREENHOUSE_PLANK_BENCH_MODEL: "greenhouse_plank_bench",
 	GREENHOUSE_PLANK_SHELF_MODEL: "greenhouse_plank_shelf",
 	GREENHOUSE_DEAD_ROW_MODEL: "greenhouse_dead_row",
@@ -1409,6 +1413,10 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(FURNITURE_CHAIR_MODEL, prop_decl)
 	if substrate_kind == "furniture_bookcase":
 		return _instantiate_substrate_scene(FURNITURE_BOOKCASE_MODEL, prop_decl)
+	if substrate_kind == "furniture_bed":
+		return _instantiate_substrate_scene(FURNITURE_BED_MODEL, prop_decl)
+	if substrate_kind == "chandelier_fixture":
+		return _instantiate_substrate_scene(CHANDELIER_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_bench":
 		return _instantiate_substrate_scene(GREENHOUSE_PLANK_BENCH_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_shelf":

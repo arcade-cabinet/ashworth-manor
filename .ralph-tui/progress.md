@@ -1425,6 +1425,12 @@ after each iteration and it's included in prompts for context.
     `upper_hallway`, `master_bedroom`, `library`, `guest_room`,
     `hidden_chamber`, `greenhouse`, `carriage_house`, `wine_cellar`,
     `chapel`, and `attic_storage`
+- The shared bed and chandelier fixtures are now migrated too:
+  - `bed.glb` -> `furniture_bed`
+  - `chandelier.glb` -> `chandelier_fixture`
+  - affected authored rooms include:
+    `guest_room`, `attic_storage`, `hidden_chamber`, `foyer`,
+    and `dining_room`
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload

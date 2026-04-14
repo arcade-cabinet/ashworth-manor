@@ -571,3 +571,7 @@ changes between `adult/child` and `elder` route contexts.
   `table.glb`, `study_desk.glb`, `drawers.glb`, `chair.glb`, and
   `bookcase.glb` now author through explicit shared furniture substrate kinds
   across the room declarations.
+- The shared bed and chandelier fixtures are now substrate-owned too:
+  `bed.glb` and `chandelier.glb` now author through explicit
+  `furniture_bed` and `chandelier_fixture` substrate kinds across the room
+  declarations.

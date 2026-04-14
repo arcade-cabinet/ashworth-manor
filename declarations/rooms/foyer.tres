@@ -358,7 +358,7 @@ flicker_pattern = "candle"
 [sub_resource type="Resource" id="prop_chandelier"]
 script = ExtResource("5")
 id = "chandelier_model"
-model = "res://assets/shared/decor/chandelier.glb"
+substrate_prop_kind = "chandelier_fixture"
 position = Vector3(0, 3.98, 0.0)
 scale = 0.42
 

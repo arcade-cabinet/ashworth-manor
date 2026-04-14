@@ -415,7 +415,7 @@ scale = 0.7
 [sub_resource type="Resource" id="prop_cot"]
 script = ExtResource("5")
 id = "attic_cot"
-model = "res://assets/shared/furniture/bed.glb"
+substrate_prop_kind = "furniture_bed"
 position = Vector3(4, 0, 2)
 scale = 0.7
 

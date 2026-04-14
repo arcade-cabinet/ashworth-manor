@@ -157,7 +157,7 @@ flicker_pattern = "candle"
 [sub_resource type="Resource" id="prop_bed"]
 script = ExtResource("5")
 id = "guest_bed_model"
-model = "res://assets/shared/furniture/bed.glb"
+substrate_prop_kind = "furniture_bed"
 position = Vector3(2, 0, 0)
 
 [sub_resource type="Resource" id="prop_desk"]

@@ -213,7 +213,7 @@ scale = 0.7
 [sub_resource type="Resource" id="prop_chandelier"]
 script = ExtResource("5")
 id = "dining_chandelier_model"
-model = "res://assets/shared/decor/chandelier.glb"
+substrate_prop_kind = "chandelier_fixture"
 position = Vector3(0, 2.2, 0)
 scale = 0.7
 

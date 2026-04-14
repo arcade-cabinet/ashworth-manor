@@ -1043,6 +1043,10 @@ independent execution drivers:
     `furniture_table`, `furniture_study_desk`, `furniture_drawers`,
     `furniture_chair`, and `furniture_bookcase`
     instead of direct shared model paths
+  - the shared bed and chandelier fixtures moved too:
+    raw `bed.glb` and `chandelier.glb` props across the room set
+    now author through `furniture_bed` and `chandelier_fixture`
+    instead of direct shared model paths
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the
