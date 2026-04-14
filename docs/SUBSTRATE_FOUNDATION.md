@@ -586,3 +586,7 @@ changes between `adult/child` and `elder` route contexts.
   the repeated music-box observations now resolve through the shared
   `music_box_display` visual kind instead of pointing at the dead
   `res://assets/shared/items/music_box.glb` path.
+- The remaining direct authored interactable model refs were normalized too:
+  luggage, lamps, poster/mask, binding book, artifact, porcelain doll, and
+  the broken bottle observation now resolve through explicit `visual_kind`
+  entries instead of raw model paths in the room declarations.

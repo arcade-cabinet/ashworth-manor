@@ -1061,6 +1061,11 @@ independent execution drivers:
     `attic_storage`, and `family_crypt` now resolve through the shared
     `music_box_display` visual kind and a new procedural shared scene instead
     of the dead `res://assets/shared/items/music_box.glb` reference
+  - the remaining direct authored interactable model refs were normalized too:
+    `guest_luggage`, `guest_lamp`, `hallway_poster`, `hallway_mask`,
+    `binding_book`, `library_artifact`, `porcelain_doll`, and
+    `bedroom_broken_bottle` now resolve through explicit `visual_kind`
+    entries instead of raw model paths in declaration content
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

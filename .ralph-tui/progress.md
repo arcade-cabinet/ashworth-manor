@@ -1451,6 +1451,15 @@ after each iteration and it's included in prompts for context.
   - the shared visual resolves through
     `res://scenes/shared/items/music_box_display.tscn`
     instead of the dead `res://assets/shared/items/music_box.glb` path
+- The remaining direct interactable model refs are now normalized too:
+  - `guest_luggage` -> `guest_luggage_closed`
+  - `guest_lamp` -> `guest_lamp_unlit`
+  - `hallway_poster` -> `hallway_poster_notice`
+  - `hallway_mask` -> `hallway_mask_display`
+  - `binding_book` -> `library_binding_book`
+  - `library_artifact` -> `library_artifact_display`
+  - `porcelain_doll` -> `attic_porcelain_doll`
+  - `bedroom_broken_bottle` -> `master_broken_bottle`
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload

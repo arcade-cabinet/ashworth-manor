@@ -251,7 +251,7 @@ id = "bedroom_broken_bottle"
 type = "observation"
 position = Vector3(4.0, 0.1, -2.0)
 collision_size = Vector3(0.8, 0.5, 0.8)
-model = "res://assets/upper_floor/master_bedroom/glass_bottle_mx_3_broken.glb"
+visual_kind = "master_broken_bottle"
 responses = Array[Resource]([SubResource("resp_broken_bottle_default")])
 
 ; === Lights ===

@@ -267,7 +267,7 @@ type = "note"
 position = Vector3(0.2, 1.2, 2.95)
 wall = "north"
 collision_size = Vector3(1.5, 1.5, 1.5)
-model = "res://assets/shared/items/books1.glb"
+visual_kind = "library_binding_book"
 responses = Array[Resource]([SubResource("resp_book_truth"), SubResource("resp_book_default")])
 thread_responses = {"child": [SubResource("resp_book_captive")], "adult": [SubResource("resp_book_adult")], "elder": [SubResource("resp_book_sovereign")], "captive": [SubResource("resp_book_captive")], "mourning": [SubResource("resp_book_mourning")], "sovereign": [SubResource("resp_book_sovereign")]}
 
@@ -297,7 +297,7 @@ id = "library_artifact"
 type = "observation"
 position = Vector3(-2.35, 1.0, 1.1)
 collision_size = Vector3(1.0, 1.0, 1.0)
-model = "res://assets/upper_floor/library/ancient_artifact_mx_1.glb"
+visual_kind = "library_artifact_display"
 responses = Array[Resource]([SubResource("resp_artifact_default")])
 
 [sub_resource type="Resource" id="inter_shelves"]

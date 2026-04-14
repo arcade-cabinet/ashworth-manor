@@ -290,7 +290,7 @@ id = "porcelain_doll"
 type = "doll"
 position = Vector3(-2, 0.6, 4)
 collision_size = Vector3(1.5, 1.5, 1.5)
-model = "res://assets/horror/models/doll1.glb"
+visual_kind = "attic_porcelain_doll"
 responses = Array[Resource]([SubResource("resp_doll_letter"), SubResource("resp_doll_default")])
 thread_responses = {"child": [SubResource("resp_doll_captive")], "adult": [SubResource("resp_doll_mourning")], "elder": [SubResource("resp_doll_sovereign")], "captive": [SubResource("resp_doll_captive")], "mourning": [SubResource("resp_doll_mourning")], "sovereign": [SubResource("resp_doll_sovereign")]}
 

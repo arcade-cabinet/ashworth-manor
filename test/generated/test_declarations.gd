@@ -225,6 +225,62 @@ func _test_interactable_visual_contract() -> void:
 			"base_path": "res://scenes/shared/items/music_box_display.tscn",
 			"states": {},
 		},
+		{
+			"room_path": "res://declarations/rooms/guest_room.tres",
+			"id": "guest_luggage",
+			"visual_kind": "guest_luggage_closed",
+			"base_path": "res://assets/upper_floor/guest_room/luggage_mp_1.glb",
+			"states": {},
+		},
+		{
+			"room_path": "res://declarations/rooms/guest_room.tres",
+			"id": "guest_lamp",
+			"visual_kind": "guest_lamp_unlit",
+			"base_path": "res://assets/upper_floor/guest_room/lamp_mx_3_off.glb",
+			"states": {},
+		},
+		{
+			"room_path": "res://declarations/rooms/upper_hallway.tres",
+			"id": "hallway_poster",
+			"visual_kind": "hallway_poster_notice",
+			"base_path": "res://assets/upper_floor/hallway/poster_cx_11.glb",
+			"states": {},
+		},
+		{
+			"room_path": "res://declarations/rooms/upper_hallway.tres",
+			"id": "hallway_mask",
+			"visual_kind": "hallway_mask_display",
+			"base_path": "res://assets/upper_floor/hallway/mask_mx_1.glb",
+			"states": {},
+		},
+		{
+			"room_path": "res://declarations/rooms/library.tres",
+			"id": "binding_book",
+			"visual_kind": "library_binding_book",
+			"base_path": "res://assets/shared/items/books1.glb",
+			"states": {},
+		},
+		{
+			"room_path": "res://declarations/rooms/library.tres",
+			"id": "library_artifact",
+			"visual_kind": "library_artifact_display",
+			"base_path": "res://assets/upper_floor/library/ancient_artifact_mx_1.glb",
+			"states": {},
+		},
+		{
+			"room_path": "res://declarations/rooms/attic_storage.tres",
+			"id": "porcelain_doll",
+			"visual_kind": "attic_porcelain_doll",
+			"base_path": "res://assets/horror/models/doll1.glb",
+			"states": {},
+		},
+		{
+			"room_path": "res://declarations/rooms/master_bedroom.tres",
+			"id": "bedroom_broken_bottle",
+			"visual_kind": "master_broken_bottle",
+			"base_path": "res://assets/upper_floor/master_bedroom/glass_bottle_mx_3_broken.glb",
+			"states": {},
+		},
 	]
 	for entry in repeated_visuals:
 		var room = load(String(entry["room_path"]))
