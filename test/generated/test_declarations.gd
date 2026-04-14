@@ -300,6 +300,10 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "winter_growth", "kind": "greenhouse_winter_growth"},
 		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "winter_growth_back", "kind": "greenhouse_winter_growth_back"},
 		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "nature_cluster", "kind": "greenhouse_nature_cluster"},
+		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "bucket_left", "kind": "greenhouse_bucket_small"},
+		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "fertilizer_bottle", "kind": "greenhouse_bottle"},
+		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "greenhouse_bottle_secondary", "kind": "greenhouse_bottle"},
+		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "greenhouse_bucket_center", "kind": "greenhouse_bucket_small"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "gate_column_l", "kind": "gate_post_stone"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "crypt_gate_prop", "kind": "iron_gate_closed"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "wall_n", "kind": "family_crypt_wall_capped"},
@@ -1384,6 +1388,18 @@ func _test_builder_default_contract() -> void:
 	var greenhouse_nature_cluster := assembler._build_procedural_prop(greenhouse_nature_cluster_decl)
 	_ok("substrate greenhouse nature cluster builds from shared substrate kind", greenhouse_nature_cluster != null)
 
+	var greenhouse_bucket_small_decl := PropDecl.new()
+	greenhouse_bucket_small_decl.id = "compat_greenhouse_bucket_small"
+	greenhouse_bucket_small_decl.substrate_prop_kind = "greenhouse_bucket_small"
+	var greenhouse_bucket_small := assembler._build_procedural_prop(greenhouse_bucket_small_decl)
+	_ok("substrate greenhouse bucket fixture builds from shared substrate kind", greenhouse_bucket_small != null)
+
+	var greenhouse_bottle_decl := PropDecl.new()
+	greenhouse_bottle_decl.id = "compat_greenhouse_bottle"
+	greenhouse_bottle_decl.substrate_prop_kind = "greenhouse_bottle"
+	var greenhouse_bottle := assembler._build_procedural_prop(greenhouse_bottle_decl)
+	_ok("substrate greenhouse bottle fixture builds from shared substrate kind", greenhouse_bottle != null)
+
 	var greenhouse_pedestal_decl := PropDecl.new()
 	greenhouse_pedestal_decl.id = "compat_greenhouse_pedestal"
 	greenhouse_pedestal_decl.substrate_prop_kind = "greenhouse_pedestal"
@@ -1539,6 +1555,10 @@ func _test_builder_default_contract() -> void:
 		greenhouse_winter_growth_back.free()
 	if greenhouse_nature_cluster != null:
 		greenhouse_nature_cluster.free()
+	if greenhouse_bucket_small != null:
+		greenhouse_bucket_small.free()
+	if greenhouse_bottle != null:
+		greenhouse_bottle.free()
 	if greenhouse_pedestal != null:
 		greenhouse_pedestal.free()
 	if mounted_sign != null:

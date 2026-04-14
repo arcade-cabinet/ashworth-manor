@@ -201,7 +201,7 @@ rotation_y = 90.0
 [sub_resource type="Resource" id="prop_bucket_left"]
 script = ExtResource("5")
 id = "bucket_left"
-model = "res://assets/grounds/greenhouse/bucket_mx_2.glb"
+substrate_prop_kind = "greenhouse_bucket_small"
 position = Vector3(2.75, 0, -0.95)
 
 [sub_resource type="Resource" id="prop_bucket_right"]
@@ -213,7 +213,7 @@ position = Vector3(3.25, 0, -2.35)
 [sub_resource type="Resource" id="prop_bottle"]
 script = ExtResource("5")
 id = "fertilizer_bottle"
-model = "res://assets/grounds/greenhouse/glass_bottle_mx_2.glb"
+substrate_prop_kind = "greenhouse_bottle"
 position = Vector3(3.0, 0.85, -1.76)
 
 [sub_resource type="Resource" id="prop_dead_row_w"]
@@ -285,13 +285,13 @@ scale = 0.62
 [sub_resource type="Resource" id="prop_bottle_secondary"]
 script = ExtResource("5")
 id = "greenhouse_bottle_secondary"
-model = "res://assets/grounds/greenhouse/glass_bottle_mx_2.glb"
+substrate_prop_kind = "greenhouse_bottle"
 position = Vector3(-2.12, 0.82, -1.78)
 
 [sub_resource type="Resource" id="prop_bucket_center"]
 script = ExtResource("5")
 id = "greenhouse_bucket_center"
-model = "res://assets/grounds/greenhouse/bucket_mx_2.glb"
+substrate_prop_kind = "greenhouse_bucket_small"
 position = Vector3(1.15, 0.0, 0.65)
 
 [sub_resource type="Resource" id="prop_lantern"]
@@ -358,7 +358,7 @@ spawn_position = Vector3(0, 0, 0)
 spawn_rotation_y = 0.0
 interactables = Array[Resource]([SubResource("inter_pot"), SubResource("inter_dead_plants"), SubResource("inter_bench"), SubResource("inter_glass")])
 lights = Array[Resource]([SubResource("light_moon"), SubResource("light_glass"), SubResource("light_east_glass"), SubResource("light_lantern")])
-props = Array[Resource]([SubResource("prop_glass_shell"), SubResource("prop_lantern"), SubResource("prop_table"), SubResource("prop_plank_bench"), SubResource("prop_plank_shelf"), SubResource("prop_bucket_left"), SubResource("prop_bucket_right"), SubResource("prop_bottle"), SubResource("prop_dead_row_w"), SubResource("prop_dead_row_e"), SubResource("prop_dead_end"), SubResource("prop_tall_dead"), SubResource("prop_winter_growth"), SubResource("prop_winter_growth_back"), SubResource("prop_nature_cluster"), SubResource("prop_table_secondary"), SubResource("prop_bottle_secondary")])
+props = Array[Resource]([SubResource("prop_glass_shell"), SubResource("prop_lantern"), SubResource("prop_table"), SubResource("prop_plank_bench"), SubResource("prop_plank_shelf"), SubResource("prop_bucket_left"), SubResource("prop_bucket_right"), SubResource("prop_bottle"), SubResource("prop_dead_row_w"), SubResource("prop_dead_row_e"), SubResource("prop_dead_end"), SubResource("prop_tall_dead"), SubResource("prop_winter_growth"), SubResource("prop_winter_growth_back"), SubResource("prop_nature_cluster"), SubResource("prop_table_secondary"), SubResource("prop_bottle_secondary"), SubResource("prop_bucket_center")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([SubResource("ambient_crack")])

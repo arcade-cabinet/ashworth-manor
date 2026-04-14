@@ -1336,6 +1336,15 @@ after each iteration and it's included in prompts for context.
   - `bush06_winter.glb` -> `greenhouse_winter_growth_back`
   - `nature.glb` -> `greenhouse_nature_cluster`
   - affected room: `greenhouse`
+- The greenhouse repeated fixture pair is now migrated too:
+  - `bucket_mx_2.glb` -> `greenhouse_bucket_small`
+  - `glass_bottle_mx_2.glb` -> `greenhouse_bottle`
+  - affected authored props:
+    `bucket_left`, `fertilizer_bottle`, `greenhouse_bottle_secondary`,
+    and `greenhouse_bucket_center`
+- A real authored payload bug was fixed in the same room:
+  `greenhouse_bucket_center` had existed as a subresource but was missing from
+  `greenhouse.props`; it now participates in the real room payload
 - Verification after the waiver-contract pass:
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`

@@ -996,7 +996,15 @@ independent execution drivers:
     `tall_dead_growth`, `winter_growth`, `winter_growth_back`, and
     `nature_cluster` now author through greenhouse-specific substrate kinds
     instead of direct grounds model paths
+  - the greenhouse repeated fixture pair moved too:
+    `bucket_left` and `greenhouse_bucket_center` now use
+    `greenhouse_bucket_small`, while `fertilizer_bottle` and
+    `greenhouse_bottle_secondary` now use `greenhouse_bottle` instead of raw
+    `bucket_mx_2.glb` / `glass_bottle_mx_2.glb` model paths
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the
     actual authored room payload
+  - another real declaration bug was fixed in `greenhouse.tres`:
+    `greenhouse_bucket_center` had been declared as a subresource but omitted
+    from the room's `props` array, and is now wired into the authored payload

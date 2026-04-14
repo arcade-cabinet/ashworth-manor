@@ -531,3 +531,8 @@ changes between `adult/child` and `elder` route contexts.
 - Declaration channels are now stricter too:
   scene assets must use `scene_path`; the `model` field is reserved for asset
   models and may not point at `.tscn` files.
+- The greenhouse repeated fixture pair is now on the same substrate path:
+  `bucket_mx_2.glb` -> `greenhouse_bucket_small` and
+  `glass_bottle_mx_2.glb` -> `greenhouse_bottle`.
+  The affected authored props are `bucket_left`, `fertilizer_bottle`,
+  `greenhouse_bottle_secondary`, and `greenhouse_bucket_center`.
