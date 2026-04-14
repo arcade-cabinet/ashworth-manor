@@ -991,6 +991,11 @@ independent execution drivers:
   - the chapel wall shell moved too:
     `wall_nw`, `wall_n`, `wall_ne`, `wall_w`, and `wall_e` now author through
     chapel-specific substrate kinds instead of direct plaster wall model paths
+  - the greenhouse shell language moved too:
+    `plank_bench`, `plank_shelf`, `dead_row_w`, `dead_row_e`, `dead_end_cap`,
+    `tall_dead_growth`, `winter_growth`, `winter_growth_back`, and
+    `nature_cluster` now author through greenhouse-specific substrate kinds
+    instead of direct grounds model paths
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

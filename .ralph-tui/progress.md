@@ -1326,6 +1326,16 @@ after each iteration and it's included in prompts for context.
   - `plaster_wall.glb` -> `chapel_wall_center`
   - `plaster_wall_column.glb` -> `chapel_wall_column`
   - affected room: `chapel`
+- The greenhouse shell language is now migrated too:
+  - `wooden_plank_1.glb` -> `greenhouse_plank_bench`
+  - `wooden_plank_2.glb` -> `greenhouse_plank_shelf`
+  - `bush_long_dead.glb` -> `greenhouse_dead_row`
+  - `bush_end_dead.glb` -> `greenhouse_dead_end`
+  - `bush_tall_dead.glb` -> `greenhouse_tall_dead`
+  - `bush05_winter.glb` -> `greenhouse_winter_growth`
+  - `bush06_winter.glb` -> `greenhouse_winter_growth_back`
+  - `nature.glb` -> `greenhouse_nature_cluster`
+  - affected room: `greenhouse`
 - Verification after the waiver-contract pass:
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`

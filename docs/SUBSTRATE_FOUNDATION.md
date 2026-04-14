@@ -201,6 +201,13 @@ through chapel-specific substrate kinds instead of direct grounds model paths,
 keeping the chapel envelope under the same builder-owned architecture contract
 as the garden and crypt shells.
 
+The greenhouse shell language is now moving onto that same path too. The bench
+and shelf planks, the repeated dead hedge rows, the dead end cap, tall dead
+growth, winter growth pieces, and the nature cluster now author through
+greenhouse-specific substrate kinds instead of direct grounds model paths. That
+keeps the repeated planted/structural shell of the greenhouse under substrate
+ownership without conflating it with loose clutter.
+
 The same rule is now being applied to the repeated grounds scene kit.
 Common gate/boundary pieces (`gate_post`, `gate_post_stone`, `boundary_wall`,
 `iron_gate_closed`, and `fence_run`) now author as `substrate_prop_kind`

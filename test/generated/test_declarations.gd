@@ -291,6 +291,15 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_ne", "kind": "chapel_wall_column_fancy"},
 		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_w", "kind": "chapel_wall_column"},
 		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_e", "kind": "chapel_wall_column"},
+		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "plank_bench", "kind": "greenhouse_plank_bench"},
+		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "plank_shelf", "kind": "greenhouse_plank_shelf"},
+		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "dead_row_w", "kind": "greenhouse_dead_row"},
+		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "dead_row_e", "kind": "greenhouse_dead_row"},
+		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "dead_end_cap", "kind": "greenhouse_dead_end"},
+		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "tall_dead_growth", "kind": "greenhouse_tall_dead"},
+		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "winter_growth", "kind": "greenhouse_winter_growth"},
+		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "winter_growth_back", "kind": "greenhouse_winter_growth_back"},
+		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "nature_cluster", "kind": "greenhouse_nature_cluster"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "gate_column_l", "kind": "gate_post_stone"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "crypt_gate_prop", "kind": "iron_gate_closed"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "wall_n", "kind": "family_crypt_wall_capped"},
@@ -1327,6 +1336,54 @@ func _test_builder_default_contract() -> void:
 	var chapel_wall_column := assembler._build_procedural_prop(chapel_wall_column_decl)
 	_ok("substrate chapel wall column builds from shared substrate kind", chapel_wall_column != null)
 
+	var greenhouse_plank_bench_decl := PropDecl.new()
+	greenhouse_plank_bench_decl.id = "compat_greenhouse_plank_bench"
+	greenhouse_plank_bench_decl.substrate_prop_kind = "greenhouse_plank_bench"
+	var greenhouse_plank_bench := assembler._build_procedural_prop(greenhouse_plank_bench_decl)
+	_ok("substrate greenhouse plank bench builds from shared substrate kind", greenhouse_plank_bench != null)
+
+	var greenhouse_plank_shelf_decl := PropDecl.new()
+	greenhouse_plank_shelf_decl.id = "compat_greenhouse_plank_shelf"
+	greenhouse_plank_shelf_decl.substrate_prop_kind = "greenhouse_plank_shelf"
+	var greenhouse_plank_shelf := assembler._build_procedural_prop(greenhouse_plank_shelf_decl)
+	_ok("substrate greenhouse plank shelf builds from shared substrate kind", greenhouse_plank_shelf != null)
+
+	var greenhouse_dead_row_decl := PropDecl.new()
+	greenhouse_dead_row_decl.id = "compat_greenhouse_dead_row"
+	greenhouse_dead_row_decl.substrate_prop_kind = "greenhouse_dead_row"
+	var greenhouse_dead_row := assembler._build_procedural_prop(greenhouse_dead_row_decl)
+	_ok("substrate greenhouse dead row builds from shared substrate kind", greenhouse_dead_row != null)
+
+	var greenhouse_dead_end_decl := PropDecl.new()
+	greenhouse_dead_end_decl.id = "compat_greenhouse_dead_end"
+	greenhouse_dead_end_decl.substrate_prop_kind = "greenhouse_dead_end"
+	var greenhouse_dead_end := assembler._build_procedural_prop(greenhouse_dead_end_decl)
+	_ok("substrate greenhouse dead end builds from shared substrate kind", greenhouse_dead_end != null)
+
+	var greenhouse_tall_dead_decl := PropDecl.new()
+	greenhouse_tall_dead_decl.id = "compat_greenhouse_tall_dead"
+	greenhouse_tall_dead_decl.substrate_prop_kind = "greenhouse_tall_dead"
+	var greenhouse_tall_dead := assembler._build_procedural_prop(greenhouse_tall_dead_decl)
+	_ok("substrate greenhouse tall dead growth builds from shared substrate kind", greenhouse_tall_dead != null)
+
+	var greenhouse_winter_growth_decl := PropDecl.new()
+	greenhouse_winter_growth_decl.id = "compat_greenhouse_winter_growth"
+	greenhouse_winter_growth_decl.substrate_prop_kind = "greenhouse_winter_growth"
+	var greenhouse_winter_growth := assembler._build_procedural_prop(greenhouse_winter_growth_decl)
+	_ok("substrate greenhouse winter growth builds from shared substrate kind", greenhouse_winter_growth != null)
+
+	var greenhouse_winter_growth_back_decl := PropDecl.new()
+	greenhouse_winter_growth_back_decl.id = "compat_greenhouse_winter_growth_back"
+	greenhouse_winter_growth_back_decl.substrate_prop_kind = "greenhouse_winter_growth_back"
+	var greenhouse_winter_growth_back := assembler._build_procedural_prop(greenhouse_winter_growth_back_decl)
+	_ok("substrate greenhouse rear winter growth builds from shared substrate kind", greenhouse_winter_growth_back != null)
+
+	var greenhouse_nature_cluster_decl := PropDecl.new()
+	greenhouse_nature_cluster_decl.id = "compat_greenhouse_nature_cluster"
+	greenhouse_nature_cluster_decl.substrate_prop_kind = "greenhouse_nature_cluster"
+	var greenhouse_nature_cluster := assembler._build_procedural_prop(greenhouse_nature_cluster_decl)
+	_ok("substrate greenhouse nature cluster builds from shared substrate kind", greenhouse_nature_cluster != null)
+
 	var greenhouse_pedestal_decl := PropDecl.new()
 	greenhouse_pedestal_decl.id = "compat_greenhouse_pedestal"
 	greenhouse_pedestal_decl.substrate_prop_kind = "greenhouse_pedestal"
@@ -1466,6 +1523,22 @@ func _test_builder_default_contract() -> void:
 		chapel_wall_center.free()
 	if chapel_wall_column != null:
 		chapel_wall_column.free()
+	if greenhouse_plank_bench != null:
+		greenhouse_plank_bench.free()
+	if greenhouse_plank_shelf != null:
+		greenhouse_plank_shelf.free()
+	if greenhouse_dead_row != null:
+		greenhouse_dead_row.free()
+	if greenhouse_dead_end != null:
+		greenhouse_dead_end.free()
+	if greenhouse_tall_dead != null:
+		greenhouse_tall_dead.free()
+	if greenhouse_winter_growth != null:
+		greenhouse_winter_growth.free()
+	if greenhouse_winter_growth_back != null:
+		greenhouse_winter_growth_back.free()
+	if greenhouse_nature_cluster != null:
+		greenhouse_nature_cluster.free()
 	if greenhouse_pedestal != null:
 		greenhouse_pedestal.free()
 	if mounted_sign != null:

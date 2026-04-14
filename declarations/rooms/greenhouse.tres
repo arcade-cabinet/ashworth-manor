@@ -187,14 +187,14 @@ position = Vector3(0, 0, -1.95)
 [sub_resource type="Resource" id="prop_plank_bench"]
 script = ExtResource("5")
 id = "plank_bench"
-model = "res://assets/grounds/greenhouse/wooden_plank_1.glb"
+substrate_prop_kind = "greenhouse_plank_bench"
 position = Vector3(2.9, 0.0, -1.75)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_plank_shelf"]
 script = ExtResource("5")
 id = "plank_shelf"
-model = "res://assets/grounds/greenhouse/wooden_plank_2.glb"
+substrate_prop_kind = "greenhouse_plank_shelf"
 position = Vector3(2.55, 0.8, -1.78)
 rotation_y = 90.0
 
@@ -219,46 +219,46 @@ position = Vector3(3.0, 0.85, -1.76)
 [sub_resource type="Resource" id="prop_dead_row_w"]
 script = ExtResource("5")
 id = "dead_row_w"
-model = "res://assets/grounds/greenhouse/bush_long_dead.glb"
+substrate_prop_kind = "greenhouse_dead_row"
 position = Vector3(-2.7, 0, 0.35)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_dead_row_e"]
 script = ExtResource("5")
 id = "dead_row_e"
-model = "res://assets/grounds/greenhouse/bush_long_dead.glb"
+substrate_prop_kind = "greenhouse_dead_row"
 position = Vector3(-2.68, 0, -1.0)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_dead_end"]
 script = ExtResource("5")
 id = "dead_end_cap"
-model = "res://assets/grounds/greenhouse/bush_end_dead.glb"
+substrate_prop_kind = "greenhouse_dead_end"
 position = Vector3(-2.62, 0, 1.72)
 rotation_y = 180.0
 
 [sub_resource type="Resource" id="prop_tall_dead"]
 script = ExtResource("5")
 id = "tall_dead_growth"
-model = "res://assets/grounds/greenhouse/bush_tall_dead.glb"
+substrate_prop_kind = "greenhouse_tall_dead"
 position = Vector3(-2.8, 0, -2.15)
 
 [sub_resource type="Resource" id="prop_winter_growth"]
 script = ExtResource("5")
 id = "winter_growth"
-model = "res://assets/grounds/greenhouse/bush05_winter.glb"
+substrate_prop_kind = "greenhouse_winter_growth"
 position = Vector3(1.6, 0, 1.35)
 
 [sub_resource type="Resource" id="prop_winter_growth_back"]
 script = ExtResource("5")
 id = "winter_growth_back"
-model = "res://assets/grounds/greenhouse/bush06_winter.glb"
+substrate_prop_kind = "greenhouse_winter_growth_back"
 position = Vector3(0.9, 0, -2.35)
 
 [sub_resource type="Resource" id="prop_nature_cluster"]
 script = ExtResource("5")
 id = "nature_cluster"
-model = "res://assets/grounds/greenhouse/nature.glb"
+substrate_prop_kind = "greenhouse_nature_cluster"
 position = Vector3(-0.95, 0, 1.95)
 scale = 0.7
 

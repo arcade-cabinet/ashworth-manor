@@ -102,6 +102,14 @@ const GARDEN_VASE_R_MODEL := "res://assets/grounds/garden/vase1.glb"
 const CHAPEL_WALL_COLUMN_FANCY_MODEL := "res://assets/grounds/chapel/plaster_wall_column_fancy.glb"
 const CHAPEL_WALL_MODEL := "res://assets/grounds/chapel/plaster_wall.glb"
 const CHAPEL_WALL_COLUMN_MODEL := "res://assets/grounds/chapel/plaster_wall_column.glb"
+const GREENHOUSE_PLANK_BENCH_MODEL := "res://assets/grounds/greenhouse/wooden_plank_1.glb"
+const GREENHOUSE_PLANK_SHELF_MODEL := "res://assets/grounds/greenhouse/wooden_plank_2.glb"
+const GREENHOUSE_DEAD_ROW_MODEL := "res://assets/grounds/greenhouse/bush_long_dead.glb"
+const GREENHOUSE_DEAD_END_MODEL := "res://assets/grounds/greenhouse/bush_end_dead.glb"
+const GREENHOUSE_TALL_DEAD_MODEL := "res://assets/grounds/greenhouse/bush_tall_dead.glb"
+const GREENHOUSE_WINTER_GROWTH_MODEL := "res://assets/grounds/greenhouse/bush05_winter.glb"
+const GREENHOUSE_WINTER_GROWTH_BACK_MODEL := "res://assets/grounds/greenhouse/bush06_winter.glb"
+const GREENHOUSE_NATURE_CLUSTER_MODEL := "res://assets/grounds/greenhouse/nature.glb"
 const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PROCEDURAL_WINDOW_MODEL: "window_frame",
 	PROCEDURAL_WINDOW_RAY_MODEL: "window_ray",
@@ -175,6 +183,14 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	CHAPEL_WALL_COLUMN_FANCY_MODEL: "chapel_wall_column_fancy",
 	CHAPEL_WALL_MODEL: "chapel_wall_center",
 	CHAPEL_WALL_COLUMN_MODEL: "chapel_wall_column",
+	GREENHOUSE_PLANK_BENCH_MODEL: "greenhouse_plank_bench",
+	GREENHOUSE_PLANK_SHELF_MODEL: "greenhouse_plank_shelf",
+	GREENHOUSE_DEAD_ROW_MODEL: "greenhouse_dead_row",
+	GREENHOUSE_DEAD_END_MODEL: "greenhouse_dead_end",
+	GREENHOUSE_TALL_DEAD_MODEL: "greenhouse_tall_dead",
+	GREENHOUSE_WINTER_GROWTH_MODEL: "greenhouse_winter_growth",
+	GREENHOUSE_WINTER_GROWTH_BACK_MODEL: "greenhouse_winter_growth_back",
+	GREENHOUSE_NATURE_CLUSTER_MODEL: "greenhouse_nature_cluster",
 }
 
 
@@ -1225,6 +1241,22 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(CHAPEL_WALL_MODEL, prop_decl)
 	if substrate_kind == "chapel_wall_column":
 		return _instantiate_substrate_scene(CHAPEL_WALL_COLUMN_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_plank_bench":
+		return _instantiate_substrate_scene(GREENHOUSE_PLANK_BENCH_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_plank_shelf":
+		return _instantiate_substrate_scene(GREENHOUSE_PLANK_SHELF_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_dead_row":
+		return _instantiate_substrate_scene(GREENHOUSE_DEAD_ROW_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_dead_end":
+		return _instantiate_substrate_scene(GREENHOUSE_DEAD_END_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_tall_dead":
+		return _instantiate_substrate_scene(GREENHOUSE_TALL_DEAD_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_winter_growth":
+		return _instantiate_substrate_scene(GREENHOUSE_WINTER_GROWTH_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_winter_growth_back":
+		return _instantiate_substrate_scene(GREENHOUSE_WINTER_GROWTH_BACK_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_nature_cluster":
+		return _instantiate_substrate_scene(GREENHOUSE_NATURE_CLUSTER_MODEL, prop_decl)
 	if prop_decl.tags.has("procedural_moon"):
 		var moon := MeshInstance3D.new()
 		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"
