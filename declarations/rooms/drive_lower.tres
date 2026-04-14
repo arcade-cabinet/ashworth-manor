@@ -119,7 +119,7 @@ scale_3d = Vector3(0.94, 1.0, 0.92)
 [sub_resource type="Resource" id="prop_hedge_left_gate"]
 script = ExtResource("5")
 id = "drive_lower_hedge_left_gate"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
 position = Vector3(-4.18, 0, -4.55)
 rotation_y = 0.0
 scale = 1.0
@@ -128,7 +128,7 @@ scale_3d = Vector3(1.1, 1.16, 0.72)
 [sub_resource type="Resource" id="prop_hedge_left_mid"]
 script = ExtResource("5")
 id = "drive_lower_hedge_left_mid"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
 position = Vector3(-4.08, 0, 0.0)
 rotation_y = 0.0
 scale = 1.0
@@ -137,7 +137,7 @@ scale_3d = Vector3(1.08, 1.14, 1.7)
 [sub_resource type="Resource" id="prop_hedge_left_near"]
 script = ExtResource("5")
 id = "drive_lower_hedge_left_near"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
 position = Vector3(-4.02, 0, 1.55)
 rotation_y = 0.0
 scale = 1.0
@@ -146,7 +146,7 @@ scale_3d = Vector3(1.02, 1.08, 0.62)
 [sub_resource type="Resource" id="prop_hedge_left_far"]
 script = ExtResource("5")
 id = "drive_lower_hedge_left_far"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
 position = Vector3(-4.16, 0, 4.6)
 rotation_y = 0.0
 scale = 1.0
@@ -155,7 +155,7 @@ scale_3d = Vector3(1.12, 1.14, 0.78)
 [sub_resource type="Resource" id="prop_hedge_right_gate"]
 script = ExtResource("5")
 id = "drive_lower_hedge_right_gate"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
 position = Vector3(4.18, 0, -4.55)
 rotation_y = 180.0
 scale = 1.0
@@ -164,7 +164,7 @@ scale_3d = Vector3(1.1, 1.16, 0.72)
 [sub_resource type="Resource" id="prop_hedge_right_mid"]
 script = ExtResource("5")
 id = "drive_lower_hedge_right_mid"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
 position = Vector3(4.08, 0, 0.0)
 rotation_y = 180.0
 scale = 1.0
@@ -173,7 +173,7 @@ scale_3d = Vector3(1.08, 1.14, 1.7)
 [sub_resource type="Resource" id="prop_hedge_right_near"]
 script = ExtResource("5")
 id = "drive_lower_hedge_right_near"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
 position = Vector3(4.02, 0, 1.55)
 rotation_y = 180.0
 scale = 1.0
@@ -182,7 +182,7 @@ scale_3d = Vector3(1.02, 1.08, 0.62)
 [sub_resource type="Resource" id="prop_hedge_right_far"]
 script = ExtResource("5")
 id = "drive_lower_hedge_right_far"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
 position = Vector3(4.16, 0, 4.6)
 rotation_y = 180.0
 scale = 1.0

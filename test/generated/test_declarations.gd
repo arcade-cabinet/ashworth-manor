@@ -473,6 +473,10 @@ func _test_substrate_contract() -> void:
 		for prop in room_decl.props:
 			if prop == null:
 				continue
+			_ok(
+				"%s:%s model field stays asset-like, not scene-like" % [room_ref.room_id, prop.id],
+				prop.model.is_empty() or not String(prop.model).ends_with(".tscn")
+			)
 			if prop.scene_role in ["architectural_trim", "threshold_trim"] and prop.substrate_prop_kind.is_empty():
 				_ok(
 					"%s:%s non-substrate architectural prop has explicit waiver" % [room_ref.room_id, prop.id],

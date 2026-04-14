@@ -126,7 +126,7 @@ scale_3d = Vector3(0.92, 1.0, 0.86)
 [sub_resource type="Resource" id="prop_hedge_left_far"]
 script = ExtResource("5")
 id = "drive_upper_hedge_left_far"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
 position = Vector3(-4.16, 0, -2.35)
 rotation_y = 0.0
 scale = 1.0
@@ -135,7 +135,7 @@ scale_3d = Vector3(1.14, 1.16, 0.86)
 [sub_resource type="Resource" id="prop_hedge_left_mid_mansion"]
 script = ExtResource("5")
 id = "drive_upper_hedge_left_mid_mansion"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
 position = Vector3(-4.16, 0, 1.15)
 rotation_y = 0.0
 scale = 1.0
@@ -144,7 +144,7 @@ scale_3d = Vector3(1.08, 1.12, 1.45)
 [sub_resource type="Resource" id="prop_hedge_left_mansion"]
 script = ExtResource("5")
 id = "drive_upper_hedge_left_mansion"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
 position = Vector3(-4.46, 0, 4.85)
 rotation_y = 0.0
 scale = 1.0
@@ -153,7 +153,7 @@ scale_3d = Vector3(1.0, 1.06, 0.78)
 [sub_resource type="Resource" id="prop_hedge_right_far"]
 script = ExtResource("5")
 id = "drive_upper_hedge_right_far"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
 position = Vector3(4.16, 0, -2.35)
 rotation_y = 180.0
 scale = 1.0
@@ -162,7 +162,7 @@ scale_3d = Vector3(1.14, 1.16, 0.86)
 [sub_resource type="Resource" id="prop_hedge_right_mid_mansion"]
 script = ExtResource("5")
 id = "drive_upper_hedge_right_mid_mansion"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
 position = Vector3(4.16, 0, 1.15)
 rotation_y = 180.0
 scale = 1.0
@@ -171,7 +171,7 @@ scale_3d = Vector3(1.08, 1.12, 1.45)
 [sub_resource type="Resource" id="prop_hedge_right_mansion"]
 script = ExtResource("5")
 id = "drive_upper_hedge_right_mansion"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
 position = Vector3(4.46, 0, 4.85)
 rotation_y = 180.0
 scale = 1.0

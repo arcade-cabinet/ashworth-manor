@@ -914,3 +914,8 @@ independent execution drivers:
   - the declaration contract is now stricter than before:
     the authored room set currently has zero active `substrate_waiver_reason`
     values, and the declaration suite will fail if one is reintroduced
+  - the room authoring channels are cleaner now too:
+    the remaining hedge scene props in `drive_lower`, `drive_upper`,
+    `front_steps`, and `front_gate` were moved off `model = *.tscn` misuse and
+    onto `scene_path`
+  - the declaration suite now fails if any `PropDecl.model` ends with `.tscn`

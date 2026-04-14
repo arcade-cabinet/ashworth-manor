@@ -434,3 +434,6 @@ changes between `adult/child` and `elder` route contexts.
   - `greenhouse_glass_shell` -> `greenhouse_shell`
   - `greenhouse_hanging_lantern` -> `greenhouse_lantern`
 - There are currently no active declaration waivers in the authored room set.
+- Declaration channels are now stricter too:
+  scene assets must use `scene_path`; the `model` field is reserved for asset
+  models and may not point at `.tscn` files.
