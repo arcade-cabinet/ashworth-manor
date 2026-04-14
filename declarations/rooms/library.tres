@@ -267,7 +267,7 @@ type = "note"
 position = Vector3(0.2, 1.2, 2.95)
 wall = "north"
 collision_size = Vector3(1.5, 1.5, 1.5)
-model = "res://assets/shared/items/books1.glb"
+visual_kind = "library_binding_book"
 responses = Array[Resource]([SubResource("resp_book_truth"), SubResource("resp_book_default")])
 thread_responses = {"child": [SubResource("resp_book_captive")], "adult": [SubResource("resp_book_adult")], "elder": [SubResource("resp_book_sovereign")], "captive": [SubResource("resp_book_captive")], "mourning": [SubResource("resp_book_mourning")], "sovereign": [SubResource("resp_book_sovereign")]}
 
@@ -278,7 +278,7 @@ type = "painting"
 position = Vector3(2.7, 2, 3.9)
 wall = "north"
 collision_size = Vector3(1.5, 1.5, 1.5)
-model = "res://assets/shared/decor/picture_blank.glb"
+substrate_prop_kind = "picture_frame_blank_000"
 responses = Array[Resource]([SubResource("resp_tree_diary"), SubResource("resp_tree_default")])
 thread_responses = {"child": [SubResource("resp_tree_captive")], "adult": [SubResource("resp_tree_adult")], "elder": [SubResource("resp_tree_sovereign")], "captive": [SubResource("resp_tree_captive")], "mourning": [SubResource("resp_tree_mourning")], "sovereign": [SubResource("resp_tree_sovereign")]}
 
@@ -297,7 +297,7 @@ id = "library_artifact"
 type = "observation"
 position = Vector3(-2.35, 1.0, 1.1)
 collision_size = Vector3(1.0, 1.0, 1.0)
-model = "res://assets/upper_floor/library/ancient_artifact_mx_1.glb"
+visual_kind = "library_artifact_display"
 responses = Array[Resource]([SubResource("resp_artifact_default")])
 
 [sub_resource type="Resource" id="inter_shelves"]
@@ -348,7 +348,7 @@ flickering = false
 [sub_resource type="Resource" id="prop_desk"]
 script = ExtResource("5")
 id = "study_desk"
-model = "res://assets/shared/furniture/study_desk.glb"
+substrate_prop_kind = "furniture_study_desk"
 position = Vector3(0.4, 0, 2.55)
 rotation_y = 180.0
 scale = 0.44
@@ -356,14 +356,14 @@ scale = 0.44
 [sub_resource type="Resource" id="prop_bookcase_n"]
 script = ExtResource("5")
 id = "bookcase_north"
-model = "res://assets/shared/furniture/bookcase.glb"
+substrate_prop_kind = "furniture_bookcase"
 position = Vector3(-3.0, 0, 4.15)
 scale = 0.32
 
 [sub_resource type="Resource" id="prop_bookcase_w"]
 script = ExtResource("5")
 id = "bookcase_west"
-model = "res://assets/shared/furniture/bookcase.glb"
+substrate_prop_kind = "furniture_bookcase"
 position = Vector3(-3.45, 0, 1.7)
 rotation_y = 90.0
 scale = 0.3
@@ -371,7 +371,7 @@ scale = 0.3
 [sub_resource type="Resource" id="prop_chair"]
 script = ExtResource("5")
 id = "desk_chair"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(1.15, 0, 1.95)
 rotation_y = 205.0
 scale = 0.52
@@ -379,91 +379,91 @@ scale = 0.52
 [sub_resource type="Resource" id="prop_globe_stand"]
 script = ExtResource("5")
 id = "globe_stand"
-model = "res://assets/ground_floor/foyer/stand_mx_1.glb"
+substrate_prop_kind = "coat_stand"
 position = Vector3(-2.2, 0, 2.2)
 scale = 1.1
 
 [sub_resource type="Resource" id="prop_globe_body"]
 script = ExtResource("5")
 id = "globe_body"
-model = "res://assets/medieval/models/Orb.glb"
+content_prop_kind = "library_globe_body"
 position = Vector3(-2.2, 1.35, 2.2)
 scale = 0.42
 
 [sub_resource type="Resource" id="prop_books_scrolls"]
 script = ExtResource("5")
 id = "books_scrolls"
-model = "res://assets/upper_floor/library/books_scrolls.glb"
+content_prop_kind = "library_books_scrolls"
 position = Vector3(0.0, 0.86, 2.3)
 
 [sub_resource type="Resource" id="prop_map"]
 script = ExtResource("5")
 id = "wall_map"
-model = "res://assets/upper_floor/library/map_mx_1.glb"
+content_prop_kind = "library_wall_map"
 position = Vector3(2.7, 1.55, 4.1)
 
 [sub_resource type="Resource" id="prop_candle_holder_left"]
 script = ExtResource("5")
 id = "candle_holder_left"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-0.7, 1.15, 2.55)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_candle_holder_right"]
 script = ExtResource("5")
 id = "candle_holder_right"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(1.4, 1.15, 2.55)
 rotation_y = 270.0
 
 [sub_resource type="Resource" id="prop_bottle"]
 script = ExtResource("5")
 id = "ink_bottle"
-model = "res://assets/upper_floor/library/glass_bottle_mx_2.glb"
+content_prop_kind = "library_ink_bottle"
 position = Vector3(0.95, 0.9, 2.55)
 
 [sub_resource type="Resource" id="prop_openbook_a"]
 script = ExtResource("5")
 id = "openbook_a"
-model = "res://assets/shared/items/openbook1.glb"
+substrate_prop_kind = "item_openbook_001"
 position = Vector3(0.1, 0.9, 2.85)
 
 [sub_resource type="Resource" id="prop_openbook_b"]
 script = ExtResource("5")
 id = "openbook_b"
-model = "res://assets/shared/items/openbook2.glb"
+content_prop_kind = "library_openbook_b"
 position = Vector3(-0.45, 0.9, 2.45)
 
 [sub_resource type="Resource" id="prop_page_a"]
 script = ExtResource("5")
 id = "page_a"
-model = "res://assets/shared/items/page1.glb"
+substrate_prop_kind = "item_page_001"
 position = Vector3(0.45, 0.9, 2.3)
 rotation_y = 12.0
 
 [sub_resource type="Resource" id="prop_page_b"]
 script = ExtResource("5")
 id = "page_b"
-model = "res://assets/shared/items/page4.glb"
+content_prop_kind = "library_page_b"
 position = Vector3(-0.15, 0.9, 2.1)
 rotation_y = -18.0
 
 [sub_resource type="Resource" id="prop_gear_1"]
 script = ExtResource("5")
 id = "gear_1"
-model = "res://assets/upper_floor/library/gear_mx_1.glb"
+content_prop_kind = "library_gear_1"
 position = Vector3(2.6, 0.82, -3.3)
 
 [sub_resource type="Resource" id="prop_gear_2"]
 script = ExtResource("5")
 id = "gear_2"
-model = "res://assets/upper_floor/library/gear_mx_2.glb"
+content_prop_kind = "library_gear_2"
 position = Vector3(3.2, 0.82, -3.8)
 
 [sub_resource type="Resource" id="prop_gear_3"]
 script = ExtResource("5")
 id = "gear_3"
-model = "res://assets/upper_floor/library/gear_mx_3.glb"
+content_prop_kind = "library_gear_3"
 position = Vector3(3.8, 0.82, -3.2)
 
 ; === Entry Trigger ===
@@ -542,9 +542,6 @@ spatial_class = "interior_room"
 exposure_faces = PackedStringArray("west")
 outlook_zones = {"west": "estate_side_outlook"}
 window_view_mode = "local_outlook"
-wall_texture = "wall3_texture"
-floor_texture = "floor1_texture"
-ceiling_texture = "ceiling2_texture"
 wall_north = PackedStringArray("wall", "wall", "wall", "wall")
 wall_south = PackedStringArray("wall", "wall", "doorway:library_to_upper_hallway", "wall")
 wall_east = PackedStringArray("wall", "wall", "wall", "wall", "wall")

@@ -124,27 +124,27 @@ flickering = false
 [sub_resource type="Resource" id="prop_gravel"]
 script = ExtResource("5")
 id = "gravel_pile"
-model = "res://assets/attic/stairwell/gravel_pile_hr_1.glb"
+content_prop_kind = "attic_stairs_gravel_pile"
 position = Vector3(0.0, 0, 0.2)
 
 [sub_resource type="Resource" id="prop_plank_a"]
 script = ExtResource("5")
 id = "broken_plank_a"
-model = "res://assets/attic/stairwell/wooden_plank_4.glb"
+substrate_prop_kind = "attic_broken_plank"
 position = Vector3(-0.7, 0, -0.4)
 rotation_y = 20.0
 
 [sub_resource type="Resource" id="prop_plank_b"]
 script = ExtResource("5")
 id = "broken_plank_b"
-model = "res://assets/attic/stairwell/wooden_plank_5.glb"
+content_prop_kind = "attic_stairs_broken_plank_b"
 position = Vector3(0.8, 0, 1.1)
 rotation_y = -35.0
 
 [sub_resource type="Resource" id="prop_plank_c"]
 script = ExtResource("5")
 id = "broken_plank_c"
-model = "res://assets/attic/stairwell/wooden_plank_4.glb"
+substrate_prop_kind = "attic_broken_plank"
 position = Vector3(1.15, 0.0, -1.1)
 rotation_y = 72.0
 scale = 0.8
@@ -152,14 +152,14 @@ scale = 0.8
 [sub_resource type="Resource" id="prop_lamp"]
 script = ExtResource("5")
 id = "dead_lamp"
-model = "res://assets/attic/stairwell/lamp_mx_1_a_off.glb"
+substrate_prop_kind = "attic_lamp_tall_off"
 position = Vector3(-1.2, 1.9, -0.8)
 rotation_y = 35.0
 
 [sub_resource type="Resource" id="prop_window"]
 script = ExtResource("5")
 id = "stairwell_window"
-model = "res://assets/shared/structure/window_clean.glb"
+substrate_prop_kind = "window_frame"
 position = Vector3(1.55, 1.9, 0.95)
 rotation_y = 270.0
 scale = 1.05
@@ -167,7 +167,7 @@ scale = 1.05
 [sub_resource type="Resource" id="prop_window_ray"]
 script = ExtResource("5")
 id = "stairwell_window_ray"
-model = "res://assets/shared/structure/window_ray.glb"
+substrate_prop_kind = "window_ray"
 position = Vector3(1.2, 1.95, 0.8)
 rotation_y = 270.0
 scale = 1.1
@@ -175,7 +175,7 @@ scale = 1.1
 [sub_resource type="Resource" id="prop_banister_base"]
 script = ExtResource("5")
 id = "attic_banister_base"
-model = "res://assets/shared/structure/banisterbase.glb"
+substrate_prop_kind = "newel_post"
 position = Vector3(-0.85, 0.0, 1.55)
 rotation_y = 0.0
 scale = 0.8
@@ -183,7 +183,7 @@ scale = 0.8
 [sub_resource type="Resource" id="prop_bucket"]
 script = ExtResource("5")
 id = "leak_bucket"
-model = "res://assets/attic/storage/bucket_mx_1.glb"
+substrate_prop_kind = "attic_bucket_small"
 position = Vector3(1.15, 0.0, 1.95)
 rotation_y = -18.0
 scale = 0.75
@@ -191,7 +191,7 @@ scale = 0.75
 [sub_resource type="Resource" id="prop_mask"]
 script = ExtResource("5")
 id = "discarded_mask"
-model = "res://assets/attic/storage/mask_mx_3.glb"
+substrate_prop_kind = "attic_mask_ritual"
 position = Vector3(-1.1, 0.2, 1.55)
 rotation_y = 145.0
 scale = 0.7
@@ -199,14 +199,14 @@ scale = 0.7
 [sub_resource type="Resource" id="prop_page"]
 script = ExtResource("5")
 id = "loose_page"
-model = "res://assets/shared/items/page5.glb"
+substrate_prop_kind = "item_page_005"
 position = Vector3(0.35, 0.02, -0.9)
 rotation_y = -26.0
 
 [sub_resource type="Resource" id="prop_candle"]
 script = ExtResource("5")
 id = "spent_candle"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(-1.05, 0.02, 0.85)
 rotation_y = 18.0
 scale = 0.9
@@ -214,7 +214,7 @@ scale = 0.9
 [sub_resource type="Resource" id="prop_hook_bracket"]
 script = ExtResource("5")
 id = "hook_bracket"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-1.35, 1.7, -0.6)
 rotation_y = 90.0
 scale = 0.6
@@ -259,9 +259,6 @@ spatial_class = "threshold_room"
 exposure_faces = PackedStringArray("east")
 outlook_zones = {"east": "attic_window_moon_view"}
 window_view_mode = "local_outlook"
-wall_texture = "wall7_texture"
-floor_texture = "floor1_texture"
-ceiling_texture = "ceiling2_texture"
 wall_north = PackedStringArray("wall", "doorway:attic_stairs_to_attic_storage")
 wall_south = PackedStringArray("wall", "wall")
 wall_east = PackedStringArray("wall", "window", "wall")

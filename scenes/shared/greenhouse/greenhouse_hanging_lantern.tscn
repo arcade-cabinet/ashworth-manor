@@ -1,18 +1,6 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scenes/shared/shared_recipe_applicator.gd" id="1_ifyw2"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_brass"]
-albedo_color = Color(0.43, 0.31, 0.16, 1)
-metallic = 0.4
-roughness = 0.42
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_flame"]
-albedo_color = Color(1, 0.78, 0.36, 1)
-emission_enabled = true
-emission = Color(1, 0.72, 0.28, 1)
-emission_energy_multiplier = 6.0
-roughness = 0.18
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_chain"]
 top_radius = 0.01
@@ -35,21 +23,22 @@ height = 0.08
 
 [node name="GreenhouseHangingLantern" type="Node3D"]
 script = ExtResource("1_ifyw2")
-recipe_groups = {"glass/crystal_glass": PackedStringArray("GlassBody")}
+recipe_groups = {
+"glass/crystal_glass": PackedStringArray("GlassBody"),
+"surface/brass": PackedStringArray("Chain", "TopRing", "BottomRing"),
+"surface/warm_flame": PackedStringArray("Flame")
+}
 
 [node name="Chain" type="MeshInstance3D" parent="."]
 position = Vector3(0, -0.14, 0)
-material_override = SubResource("StandardMaterial3D_brass")
 mesh = SubResource("CylinderMesh_chain")
 
 [node name="TopRing" type="MeshInstance3D" parent="."]
 position = Vector3(0, -0.3, 0)
-material_override = SubResource("StandardMaterial3D_brass")
 mesh = SubResource("CylinderMesh_ring")
 
 [node name="BottomRing" type="MeshInstance3D" parent="."]
 position = Vector3(0, -0.56, 0)
-material_override = SubResource("StandardMaterial3D_brass")
 mesh = SubResource("CylinderMesh_ring")
 
 [node name="GlassBody" type="MeshInstance3D" parent="."]
@@ -58,5 +47,4 @@ mesh = SubResource("BoxMesh_glass_body")
 
 [node name="Flame" type="MeshInstance3D" parent="."]
 position = Vector3(0, -0.43, 0)
-material_override = SubResource("StandardMaterial3D_flame")
 mesh = SubResource("SphereMesh_flame")

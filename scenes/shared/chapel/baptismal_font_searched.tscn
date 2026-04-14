@@ -1,12 +1,6 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=6 format=3]
 
-[ext_resource type="Texture2D" path="res://assets/grounds/chapel/Horror_Stone_02-512x512.png" id="1_hr4ya"]
 [ext_resource type="Script" path="res://scenes/shared/shared_recipe_applicator.gd" id="2_k8qih"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stone"]
-albedo_texture = ExtResource("1_hr4ya")
-texture_filter = 0
-roughness = 0.95
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_base"]
 top_radius = 0.46
@@ -30,21 +24,21 @@ subdivide_depth = 12
 
 [node name="BaptismalFontSearched" type="Node3D"]
 script = ExtResource("2_k8qih")
-recipe_groups = {"liquid/font_searched": PackedStringArray("Water")}
+recipe_groups = {
+"liquid/font_searched": PackedStringArray("Water"),
+"surface/chapel_stone": PackedStringArray("Base", "Stem", "Basin")
+}
 
 [node name="Base" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.25, 0)
-material_override = SubResource("StandardMaterial3D_stone")
 mesh = SubResource("CylinderMesh_base")
 
 [node name="Stem" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.74, 0)
-material_override = SubResource("StandardMaterial3D_stone")
 mesh = SubResource("CylinderMesh_stem")
 
 [node name="Basin" type="MeshInstance3D" parent="."]
 position = Vector3(0, 1.14, 0)
-material_override = SubResource("StandardMaterial3D_stone")
 mesh = SubResource("CylinderMesh_basin")
 
 [node name="Water" type="MeshInstance3D" parent="."]

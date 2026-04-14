@@ -35,9 +35,7 @@ func _init_materials() -> void:
 	_stone = EstateMaterialKit.masonry_cap()
 	_trim_dark = EstateMaterialKit.oak_header()
 	_iron = EstateMaterialKit.wrought_iron()
-	_void = StandardMaterial3D.new()
-	_void.albedo_color = Color(0.03, 0.03, 0.05, 1.0)
-	_void.roughness = 1.0
+	_void = EstateMaterialKit.shadow_void_tinted(Color(0.03, 0.03, 0.05, 1.0))
 	_glass_dark = EstateMaterialKit.facade_dark_glass()
 
 

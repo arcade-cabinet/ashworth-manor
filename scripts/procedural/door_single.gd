@@ -7,17 +7,20 @@ extends Node3D
 ##   DoorSingle (this Node3D -- position at doorway center, floor level)
 ##   └── Pivot (Node3D -- offset to hinge edge)
 ##       └── Body (AnimatableBody3D -- sync_to_physics)
-##           ├── Panel (MeshInstance3D -- QuadMesh with door texture)
+##           ├── Panel (MeshInstance3D -- QuadMesh with recipe-owned surface)
 ##           └── Collision (CollisionShape3D -- matches panel size)
 ##   └── InteractArea (Area3D -- layer 4 for raycast detection)
 ##
 ## Place this at a doorway opening. The doorway GLB provides the frame.
 ## This script provides only the swinging panel.
 
+const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
+
 @export var panel_width: float = 0.9       # Slightly less than doorway width
 @export var panel_height: float = 2.1      # Slightly less than doorway height
 @export var panel_depth: float = 0.05      # Thin door panel
-@export var door_texture: Texture2D = null
+@export var panel_surface_ref: String = ""
+@export var legacy_door_texture: Texture2D = null # Retired compatibility-only texture input
 @export var open_angle: float = -90.0      # Degrees. Negative = swings inward
 @export var open_duration: float = 0.8     # Seconds to open/close
 @export var hinge_side: int = -1           # -1 = left hinge, +1 = right hinge
@@ -73,13 +76,10 @@ func _build_pivot_and_panel() -> void:
 	mi.name = "Panel"
 	var quad := QuadMesh.new()
 	quad.size = Vector2(panel_width, panel_height)
-	if door_texture:
-		var mat := StandardMaterial3D.new()
-		mat.albedo_texture = door_texture
-		mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
-		mat.cull_mode = BaseMaterial3D.CULL_DISABLED
-		quad.material = mat
 	mi.mesh = quad
+	var material := _resolve_panel_material()
+	if material != null:
+		mi.set_surface_override_material(0, material)
 	# Offset panel so hinge edge aligns with pivot
 	mi.position = Vector3(-hinge_side * panel_width / 2.0, panel_height / 2.0, 0)
 	_body.add_child(mi)
@@ -116,3 +116,12 @@ func _build_interact_area() -> void:
 	shape.position = Vector3(0, panel_height / 2.0, 0)
 	area.add_child(shape)
 	add_child(area)
+
+
+func _resolve_panel_material() -> Material:
+	var resolved_surface := EstateMaterialKit.resolve_surface_reference(panel_surface_ref, "recipe:surface/oak_dark")
+	if not resolved_surface.is_empty():
+		return EstateMaterialKit.build_surface_reference(resolved_surface, {"double_sided": true})
+	if legacy_door_texture != null:
+		return EstateMaterialKit.legacy_texture_surface(legacy_door_texture, true)
+	return null

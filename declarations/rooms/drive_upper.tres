@@ -111,7 +111,7 @@ flicker_pattern = "gas"
 [sub_resource type="Resource" id="prop_drive_road"]
 script = ExtResource("5")
 id = "drive_upper_road"
-scene_path = "res://scenes/shared/grounds/estate_carriage_road.tscn"
+substrate_prop_kind = "carriage_road"
 position = Vector3(0, 0, 0.4)
 rotation_y = 0.0
 scale_3d = Vector3(0.96, 1.0, 0.92)
@@ -119,14 +119,14 @@ scale_3d = Vector3(0.96, 1.0, 0.92)
 [sub_resource type="Resource" id="prop_drive_upper_forecourt_steps"]
 script = ExtResource("5")
 id = "drive_upper_forecourt_steps"
-scene_path = "res://scenes/shared/grounds/estate_forecourt_steps.tscn"
+substrate_prop_kind = "forecourt_steps"
 position = Vector3(0, 0, 4.6)
 scale_3d = Vector3(0.92, 1.0, 0.86)
 
 [sub_resource type="Resource" id="prop_hedge_left_far"]
 script = ExtResource("5")
 id = "drive_upper_hedge_left_far"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(-4.16, 0, -2.35)
 rotation_y = 0.0
 scale = 1.0
@@ -135,7 +135,7 @@ scale_3d = Vector3(1.14, 1.16, 0.86)
 [sub_resource type="Resource" id="prop_hedge_left_mid_mansion"]
 script = ExtResource("5")
 id = "drive_upper_hedge_left_mid_mansion"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(-4.16, 0, 1.15)
 rotation_y = 0.0
 scale = 1.0
@@ -144,7 +144,7 @@ scale_3d = Vector3(1.08, 1.12, 1.45)
 [sub_resource type="Resource" id="prop_hedge_left_mansion"]
 script = ExtResource("5")
 id = "drive_upper_hedge_left_mansion"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(-4.46, 0, 4.85)
 rotation_y = 0.0
 scale = 1.0
@@ -153,7 +153,7 @@ scale_3d = Vector3(1.0, 1.06, 0.78)
 [sub_resource type="Resource" id="prop_hedge_right_far"]
 script = ExtResource("5")
 id = "drive_upper_hedge_right_far"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(4.16, 0, -2.35)
 rotation_y = 180.0
 scale = 1.0
@@ -162,7 +162,7 @@ scale_3d = Vector3(1.14, 1.16, 0.86)
 [sub_resource type="Resource" id="prop_hedge_right_mid_mansion"]
 script = ExtResource("5")
 id = "drive_upper_hedge_right_mid_mansion"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(4.16, 0, 1.15)
 rotation_y = 180.0
 scale = 1.0
@@ -171,7 +171,7 @@ scale_3d = Vector3(1.08, 1.12, 1.45)
 [sub_resource type="Resource" id="prop_hedge_right_mansion"]
 script = ExtResource("5")
 id = "drive_upper_hedge_right_mansion"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(4.46, 0, 4.85)
 rotation_y = 180.0
 scale = 1.0
@@ -180,21 +180,21 @@ scale_3d = Vector3(1.0, 1.06, 0.78)
 [sub_resource type="Resource" id="prop_drive_stone_1"]
 script = ExtResource("5")
 id = "drive_upper_stone_1"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, -4.0)
 scale = 1.1
 
 [sub_resource type="Resource" id="prop_drive_stone_2"]
 script = ExtResource("5")
 id = "drive_upper_stone_2"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, 0.0)
 scale = 1.1
 
 [sub_resource type="Resource" id="prop_drive_stone_3"]
 script = ExtResource("5")
 id = "drive_upper_stone_3"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(-2.4, 0, 2.7)
 rotation_y = -6.0
 scale = 1.16
@@ -202,7 +202,7 @@ scale = 1.16
 [sub_resource type="Resource" id="prop_drive_stone_4"]
 script = ExtResource("5")
 id = "drive_upper_stone_4"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(2.4, 0, 2.7)
 rotation_y = 6.0
 scale = 1.16
@@ -210,14 +210,14 @@ scale = 1.16
 [sub_resource type="Resource" id="prop_drive_step_center"]
 script = ExtResource("5")
 id = "drive_upper_step_center"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, 4.6)
 scale = 1.05
 
 [sub_resource type="Resource" id="prop_drive_step_left"]
 script = ExtResource("5")
 id = "drive_upper_step_left"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(-1.8, 0, 4.2)
 rotation_y = -5.0
 scale = 1.15
@@ -225,7 +225,7 @@ scale = 1.15
 [sub_resource type="Resource" id="prop_drive_step_right"]
 script = ExtResource("5")
 id = "drive_upper_step_right"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(1.8, 0, 4.2)
 rotation_y = 5.0
 scale = 1.15
@@ -233,28 +233,28 @@ scale = 1.15
 [sub_resource type="Resource" id="prop_drive_upper_mansion_facade_shell"]
 script = ExtResource("5")
 id = "drive_upper_mansion_facade_shell"
-scene_path = "res://scenes/shared/grounds/estate_mansion_facade.tscn"
+substrate_prop_kind = "mansion_facade"
 position = Vector3(0, 0, 8.9)
 scale_3d = Vector3(1.06, 1.0, 1.0)
 
 [sub_resource type="Resource" id="prop_drive_upper_entry_portico"]
 script = ExtResource("5")
 id = "drive_upper_entry_portico"
-scene_path = "res://scenes/shared/grounds/estate_entry_portico.tscn"
+substrate_prop_kind = "entry_portico"
 position = Vector3(0, 0, 8.0)
 scale_3d = Vector3(1.0, 1.0, 1.0)
 
 [sub_resource type="Resource" id="prop_drive_upper_facade_door"]
 script = ExtResource("5")
 id = "drive_upper_facade_door"
-scene_path = "res://scenes/shared/grounds/estate_front_door.tscn"
+substrate_prop_kind = "front_door_assembly"
 position = Vector3(0, 0, 8.5)
 scale_3d = Vector3(1.0, 1.0, 1.0)
 
 [sub_resource type="Resource" id="prop_drive_upper_facade_lamp_left"]
 script = ExtResource("5")
 id = "drive_upper_facade_lamp_left"
-model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+substrate_prop_kind = "front_gate_lamp"
 position = Vector3(-2.25, 0, 8.1)
 rotation_y = 8.0
 scale = 0.74
@@ -262,7 +262,7 @@ scale = 0.74
 [sub_resource type="Resource" id="prop_drive_upper_facade_lamp_right"]
 script = ExtResource("5")
 id = "drive_upper_facade_lamp_right"
-model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+substrate_prop_kind = "front_gate_lamp"
 position = Vector3(2.25, 0, 8.1)
 rotation_y = -8.0
 scale = 0.74
@@ -270,7 +270,7 @@ scale = 0.74
 [sub_resource type="Resource" id="prop_statue_plinth_left"]
 script = ExtResource("5")
 id = "drive_upper_statue_plinth_left"
-model = "res://assets/shared/structure/pillar0_002.glb"
+substrate_prop_kind = "plinth_tall"
 position = Vector3(-9.2, 0, 0.9)
 rotation_y = 22.0
 scale = 0.72
@@ -278,7 +278,7 @@ scale = 0.72
 [sub_resource type="Resource" id="prop_statue_left"]
 script = ExtResource("5")
 id = "drive_upper_statue_left"
-model = "res://assets/shared/decor/statue.glb"
+substrate_prop_kind = "forecourt_statue"
 position = Vector3(-8.8, 1.0, 0.5)
 rotation_y = 14.0
 scale = 0.58
@@ -286,7 +286,7 @@ scale = 0.58
 [sub_resource type="Resource" id="prop_statue_plinth_right"]
 script = ExtResource("5")
 id = "drive_upper_statue_plinth_right"
-model = "res://assets/shared/structure/pillar0_003.glb"
+substrate_prop_kind = "plinth_tall"
 position = Vector3(9.3, 0, 1.2)
 rotation_y = -22.0
 scale = 0.72
@@ -294,7 +294,7 @@ scale = 0.72
 [sub_resource type="Resource" id="prop_statue_right"]
 script = ExtResource("5")
 id = "drive_upper_statue_right"
-model = "res://assets/shared/decor/statue.glb"
+substrate_prop_kind = "forecourt_statue"
 position = Vector3(8.9, 1.0, 0.7)
 rotation_y = -12.0
 scale = 0.58
@@ -302,13 +302,13 @@ scale = 0.58
 [sub_resource type="Resource" id="prop_rocks"]
 script = ExtResource("5")
 id = "drive_upper_rocks"
-model = "res://assets/grounds/front_gate/rocks.glb"
+substrate_prop_kind = "front_gate_rocks"
 position = Vector3(-10.1, 0, 5.4)
 
 [sub_resource type="Resource" id="prop_drive_upper_starfield"]
 script = ExtResource("5")
 id = "drive_upper_starfield"
-scene_path = "res://scenes/shared/grounds/estate_starfield.tscn"
+substrate_prop_kind = "starfield"
 position = Vector3(0, 0, 0)
 scale_3d = Vector3(1.0, 1.0, 1.0)
 
@@ -324,9 +324,6 @@ spatial_class = "exterior_ground"
 exposure_faces = PackedStringArray("north", "south", "east", "west", "roof")
 outlook_zones = {"north": "front_steps_commitment", "south": "gate_return_axis", "east": "hedge_wall_boundary", "west": "hedge_wall_boundary", "roof": "open_sky"}
 window_view_mode = "distant_backdrop"
-wall_texture = ""
-floor_texture = "res://assets/shared/pbr/grounds/estate_earth_color.jpg"
-ceiling_texture = ""
 wall_north = PackedStringArray()
 wall_south = PackedStringArray()
 wall_east = PackedStringArray()

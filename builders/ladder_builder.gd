@@ -8,6 +8,8 @@ const RUNG_SPACING := 0.3
 const RUNG_WIDTH := 0.6
 const RUNG_RADIUS := 0.025
 const RAIL_WIDTH := 0.04
+const DEFAULT_PRESENTATION_TYPE := "ladder_drop"
+const DEFAULT_MECHANISM_TYPE := "drop"
 
 ## Build a ladder from a Connection declaration.
 ## Returns Node3D with rails, rungs, and interaction zone.
@@ -65,10 +67,10 @@ static func build(connection: Connection, height: float = 2.4, rail_surface_ref:
 	area.set_meta("required_state", connection.required_state)
 	area.set_meta("blocked_text", connection.blocked_text)
 	area.set_meta("declaration", connection)
-	area.set_meta("presentation_type", connection.presentation_type)
-	area.set_meta("mechanism_type", connection.mechanism_type)
-	area.set_meta("mechanism_state", connection.mechanism_state)
-	area.set_meta("reveal_state", connection.reveal_state)
+	area.set_meta("presentation_type", _resolve_presentation_type(connection))
+	area.set_meta("mechanism_type", _resolve_mechanism_type(connection))
+	area.set_meta("mechanism_state", _resolve_mechanism_state(connection))
+	area.set_meta("reveal_state", _resolve_reveal_state(connection))
 
 	var area_shape := CollisionShape3D.new()
 	var area_box := BoxShape3D.new()
@@ -83,6 +85,26 @@ static func build(connection: Connection, height: float = 2.4, rail_surface_ref:
 	return ladder_root
 
 
+static func _resolve_presentation_type(connection: Connection) -> String:
+	return connection.presentation_type if not connection.presentation_type.is_empty() else DEFAULT_PRESENTATION_TYPE
+
+
+static func _resolve_mechanism_type(connection: Connection) -> String:
+	return connection.mechanism_type if not connection.mechanism_type.is_empty() else DEFAULT_MECHANISM_TYPE
+
+
+static func _resolve_mechanism_state(connection: Connection) -> String:
+	if not connection.mechanism_state.is_empty():
+		return connection.mechanism_state
+	return "locked" if connection.locked else "idle"
+
+
+static func _resolve_reveal_state(connection: Connection) -> String:
+	if not connection.reveal_state.is_empty():
+		return connection.reveal_state
+	return "visible"
+
+
 static func _make_rail(height: float, x_offset: float, surface_ref: String) -> MeshInstance3D:
 	var rail := MeshInstance3D.new()
 	var box := BoxMesh.new()
@@ -92,9 +114,7 @@ static func _make_rail(height: float, x_offset: float, surface_ref: String) -> M
 
 	var mat := EstateMaterialKit.build_surface_reference(surface_ref)
 	if mat == null:
-		mat = StandardMaterial3D.new()
-		mat.albedo_color = Color(0.35, 0.25, 0.15)
-		mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+		mat = EstateMaterialKit.fallback_metal()
 	rail.set_surface_override_material(0, mat)
 
 	return rail
@@ -110,9 +130,7 @@ static func _make_rung(index: int, surface_ref: String) -> MeshInstance3D:
 
 	var mat := EstateMaterialKit.build_surface_reference(surface_ref)
 	if mat == null:
-		mat = StandardMaterial3D.new()
-		mat.albedo_color = Color(0.4, 0.3, 0.2)
-		mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+		mat = EstateMaterialKit.fallback_metal()
 	rung.set_surface_override_material(0, mat)
 
 	return rung

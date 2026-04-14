@@ -173,7 +173,7 @@ type = "observation"
 position = Vector3(2.0, 0.85, 1.0)
 collision_size = Vector3(1.0, 0.8, 1.0)
 thread_active = PackedStringArray("elder", "sovereign")
-model = "res://assets/shared/items/music_box.glb"
+visual_kind = "music_box_display"
 responses = Array[Resource]([SubResource("resp_music_box_wound"), SubResource("resp_music_box_need_gate"), SubResource("resp_music_box_no_key"), SubResource("resp_music_box_default")])
 
 ; === Lights ===
@@ -242,153 +242,153 @@ flicker_pattern = "candle"
 [sub_resource type="Resource" id="prop_gate"]
 script = ExtResource("5")
 id = "crypt_gate_prop"
-scene_path = "res://scenes/shared/grounds/estate_iron_gate_closed.tscn"
+substrate_prop_kind = "iron_gate_closed"
 position = Vector3(0.0, 0, -4.0)
 scale_3d = Vector3(0.52, 0.88, 0.46)
 
 [sub_resource type="Resource" id="prop_gate_column_l"]
 script = ExtResource("5")
 id = "gate_column_l"
-scene_path = "res://scenes/shared/grounds/estate_gate_post_stone.tscn"
+substrate_prop_kind = "gate_post_stone"
 position = Vector3(-1.4, 0, -4.0)
 scale_3d = Vector3(0.72, 0.9, 0.72)
 
 [sub_resource type="Resource" id="prop_gate_column_r"]
 script = ExtResource("5")
 id = "gate_column_r"
-scene_path = "res://scenes/shared/grounds/estate_gate_post_stone.tscn"
+substrate_prop_kind = "gate_post_stone"
 position = Vector3(1.4, 0, -4.0)
 scale_3d = Vector3(0.72, 0.9, 0.72)
 
 [sub_resource type="Resource" id="prop_wall_n"]
 script = ExtResource("5")
 id = "wall_n"
-model = "res://assets/grounds/family_crypt/drystone_wall_capped.glb"
+substrate_prop_kind = "family_crypt_wall_capped"
 position = Vector3(0.0, 0, 4.0)
 
 [sub_resource type="Resource" id="prop_wall_w"]
 script = ExtResource("5")
 id = "wall_w"
-model = "res://assets/grounds/family_crypt/drystone_wall.glb"
+substrate_prop_kind = "family_crypt_wall"
 position = Vector3(-4.0, 0, 0.5)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_wall_e"]
 script = ExtResource("5")
 id = "wall_e"
-model = "res://assets/grounds/family_crypt/drystone_wall.glb"
+substrate_prop_kind = "family_crypt_wall"
 position = Vector3(4.0, 0, 0.5)
 rotation_y = 270.0
 
 [sub_resource type="Resource" id="prop_fence_w"]
 script = ExtResource("5")
 id = "fence_w"
-model = "res://assets/grounds/family_crypt/metal_fence_1.glb"
+substrate_prop_kind = "family_crypt_fence_run"
 position = Vector3(-3.0, 0, -4.0)
 
 [sub_resource type="Resource" id="prop_fence_e"]
 script = ExtResource("5")
 id = "fence_e"
-model = "res://assets/grounds/family_crypt/metal_fence_1.glb"
+substrate_prop_kind = "family_crypt_fence_run"
 position = Vector3(3.0, 0, -4.0)
 
 [sub_resource type="Resource" id="prop_grave_edmund"]
 script = ExtResource("5")
 id = "grave_edmund"
-model = "res://assets/grounds/family_crypt/drystone_column.glb"
+substrate_prop_kind = "family_crypt_grave_marker"
 position = Vector3(-2.0, 0, 1.5)
 scale = 0.85
 
 [sub_resource type="Resource" id="prop_grave_victoria"]
 script = ExtResource("5")
 id = "grave_victoria"
-model = "res://assets/grounds/family_crypt/drystone_column.glb"
+substrate_prop_kind = "family_crypt_grave_marker"
 position = Vector3(0.0, 0, 1.6)
 scale = 0.85
 
 [sub_resource type="Resource" id="prop_grave_blank"]
 script = ExtResource("5")
 id = "grave_blank"
-model = "res://assets/grounds/family_crypt/drystone_column.glb"
+substrate_prop_kind = "family_crypt_grave_marker"
 position = Vector3(2.0, 0, 1.4)
 scale = 0.75
 
 [sub_resource type="Resource" id="prop_debris_l"]
 script = ExtResource("5")
 id = "debris_l"
-model = "res://assets/grounds/family_crypt/debris_bricks_mx_1.glb"
+substrate_prop_kind = "family_crypt_debris_left"
 position = Vector3(-3.2, 0, 3.2)
 
 [sub_resource type="Resource" id="prop_debris_r"]
 script = ExtResource("5")
 id = "debris_r"
-model = "res://assets/grounds/family_crypt/debris_bricks_mx_2.glb"
+substrate_prop_kind = "family_crypt_debris_right"
 position = Vector3(3.0, 0, 2.8)
 
 [sub_resource type="Resource" id="prop_bottle"]
 script = ExtResource("5")
 id = "mourning_bottle"
-model = "res://assets/grounds/family_crypt/glass_bottle_mx_3.glb"
+substrate_prop_kind = "family_crypt_bottle"
 position = Vector3(-2.5, 0, 2.2)
 
 [sub_resource type="Resource" id="prop_scattered_bones"]
 script = ExtResource("5")
 id = "scattered_bones"
-model = "res://assets/grounds/family_crypt/scattered_bones.glb"
+substrate_prop_kind = "family_crypt_bones"
 position = Vector3(3.0, 0, -2.0)
 
 [sub_resource type="Resource" id="prop_grave_candle_holder"]
 script = ExtResource("5")
 id = "grave_candle_holder"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(2.0, 0.78, 1.4)
 
 [sub_resource type="Resource" id="prop_grave_candle"]
 script = ExtResource("5")
 id = "grave_candle"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(2.0, 0.78, 1.4)
 
 [sub_resource type="Resource" id="prop_gate_candle_holder"]
 script = ExtResource("5")
 id = "gate_candle_holder"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-0.95, 0.78, -2.85)
 
 [sub_resource type="Resource" id="prop_gate_candle"]
 script = ExtResource("5")
 id = "gate_candle"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(-0.95, 0.78, -2.85)
 
 [sub_resource type="Resource" id="prop_side_candle_holder_w"]
 script = ExtResource("5")
 id = "side_candle_holder_w"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-2.6, 0.78, 0.7)
 
 [sub_resource type="Resource" id="prop_side_candle_w"]
 script = ExtResource("5")
 id = "side_candle_w"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(-2.6, 0.78, 0.7)
 
 [sub_resource type="Resource" id="prop_side_candle_holder_e"]
 script = ExtResource("5")
 id = "side_candle_holder_e"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(2.8, 0.78, -0.15)
 
 [sub_resource type="Resource" id="prop_side_candle_e"]
 script = ExtResource("5")
 id = "side_candle_e"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(2.8, 0.78, -0.15)
 
 [sub_resource type="Resource" id="prop_music_box_cloth"]
 script = ExtResource("5")
 id = "music_box_cloth"
-model = "res://assets/shared/items/page5.glb"
+substrate_prop_kind = "item_page_005"
 position = Vector3(2.0, 0.79, 1.0)
 rotation_y = 15.0
 scale = 0.85
@@ -421,9 +421,6 @@ is_exterior = true
 spatial_class = "exterior_ground"
 exposure_faces = PackedStringArray("north", "south", "east", "west")
 window_view_mode = "local_outlook"
-wall_texture = "wall6_texture"
-floor_texture = "floor2_texture"
-ceiling_texture = ""
 wall_north = PackedStringArray("wall", "wall", "wall", "wall")
 wall_south = PackedStringArray("wall", "wall", "wall", "wall")
 wall_east = PackedStringArray("wall", "wall", "wall", "wall", "wall")

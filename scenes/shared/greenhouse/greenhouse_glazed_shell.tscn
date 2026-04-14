@@ -1,11 +1,6 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scenes/shared/shared_recipe_applicator.gd" id="1_eb7th"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_frame"]
-albedo_color = Color(0.28, 0.24, 0.18, 1)
-roughness = 0.56
-metallic = 0.18
 
 [sub_resource type="BoxMesh" id="BoxMesh_post"]
 size = Vector3(0.14, 2.4, 0.14)
@@ -24,146 +19,123 @@ size = Vector3(3.28, 0.03, 6.45)
 
 [node name="GreenhouseGlazedShell" type="Node3D"]
 script = ExtResource("1_eb7th")
-recipe_groups = {"glass/greenhouse_glass": PackedStringArray("NorthPaneLeft", "NorthPaneRight", "SouthPaneLeft", "SouthPaneRight", "WestPaneNorth", "WestPaneSouth", "EastPaneNorth", "EastPaneSouth", "RoofPaneWest", "RoofPaneEast", "BrokenShardA", "BrokenShardB")}
+recipe_groups = {
+"glass/greenhouse_glass": PackedStringArray("NorthPaneLeft", "NorthPaneRight", "SouthPaneLeft", "SouthPaneRight", "WestPaneNorth", "WestPaneSouth", "EastPaneNorth", "EastPaneSouth", "RoofPaneWest", "RoofPaneEast", "BrokenShardA", "BrokenShardB"),
+"surface/greenhouse_frame": PackedStringArray("CornerPostNW", "CornerPostNE", "CornerPostSW", "CornerPostSE", "MidPostWest", "MidPostEast", "NorthBeam", "SouthBeamLeft", "SouthBeamRight", "NorthSill", "SouthSillLeft", "SouthSillRight", "WestSill", "EastSill", "NorthMidRail", "SouthMidRailLeft", "SouthMidRailRight", "WestMidRail", "EastMidRail", "WestBeam", "EastBeam", "RidgeBeam", "RoofRibNorthWest", "RoofRibSouthWest", "RoofRibNorthEast", "RoofRibSouthEast")
+}
 
 [node name="CornerPostNW" type="MeshInstance3D" parent="."]
 position = Vector3(-3.2, 1.2, -3.2)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_post")
 
 [node name="CornerPostNE" type="MeshInstance3D" parent="."]
 position = Vector3(3.2, 1.2, -3.2)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_post")
 
 [node name="CornerPostSW" type="MeshInstance3D" parent="."]
 position = Vector3(-3.2, 1.2, 3.2)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_post")
 
 [node name="CornerPostSE" type="MeshInstance3D" parent="."]
 position = Vector3(3.2, 1.2, 3.2)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_post")
 
 [node name="MidPostWest" type="MeshInstance3D" parent="."]
 position = Vector3(-3.2, 1.2, 0)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_post")
 
 [node name="MidPostEast" type="MeshInstance3D" parent="."]
 position = Vector3(3.2, 1.2, 0)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_post")
 
 [node name="NorthBeam" type="MeshInstance3D" parent="."]
 position = Vector3(0, 2.4, -3.2)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_long")
 
 [node name="SouthBeamLeft" type="MeshInstance3D" parent="."]
 position = Vector3(-2.05, 2.4, 3.2)
 scale = Vector3(0.36, 1, 1)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_long")
 
 [node name="SouthBeamRight" type="MeshInstance3D" parent="."]
 position = Vector3(2.05, 2.4, 3.2)
 scale = Vector3(0.36, 1, 1)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_long")
 
 [node name="NorthSill" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.52, -3.2)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_long")
 
 [node name="SouthSillLeft" type="MeshInstance3D" parent="."]
 position = Vector3(-2.05, 0.52, 3.2)
 scale = Vector3(0.36, 1, 1)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_long")
 
 [node name="SouthSillRight" type="MeshInstance3D" parent="."]
 position = Vector3(2.05, 0.52, 3.2)
 scale = Vector3(0.36, 1, 1)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_long")
 
 [node name="WestSill" type="MeshInstance3D" parent="."]
 position = Vector3(-3.2, 0.52, 0)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_deep")
 
 [node name="EastSill" type="MeshInstance3D" parent="."]
 position = Vector3(3.2, 0.52, 0)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_deep")
 
 [node name="NorthMidRail" type="MeshInstance3D" parent="."]
 position = Vector3(0, 1.46, -3.2)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_long")
 
 [node name="SouthMidRailLeft" type="MeshInstance3D" parent="."]
 position = Vector3(-2.05, 1.46, 3.2)
 scale = Vector3(0.36, 1, 1)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_long")
 
 [node name="SouthMidRailRight" type="MeshInstance3D" parent="."]
 position = Vector3(2.05, 1.46, 3.2)
 scale = Vector3(0.36, 1, 1)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_long")
 
 [node name="WestMidRail" type="MeshInstance3D" parent="."]
 position = Vector3(-3.2, 1.46, 0)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_deep")
 
 [node name="EastMidRail" type="MeshInstance3D" parent="."]
 position = Vector3(3.2, 1.46, 0)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_deep")
 
 [node name="WestBeam" type="MeshInstance3D" parent="."]
 position = Vector3(-3.2, 2.4, 0)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_deep")
 
 [node name="EastBeam" type="MeshInstance3D" parent="."]
 position = Vector3(3.2, 2.4, 0)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_deep")
 
 [node name="RidgeBeam" type="MeshInstance3D" parent="."]
 position = Vector3(0, 3.22, 0)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_deep")
 
 [node name="RoofRibNorthWest" type="MeshInstance3D" parent="."]
 position = Vector3(-0.8, 2.66, 0)
 rotation_degrees = Vector3(0, 0, -14.5)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_deep")
 
 [node name="RoofRibSouthWest" type="MeshInstance3D" parent="."]
 position = Vector3(-2.35, 2.26, 0)
 rotation_degrees = Vector3(0, 0, -14.5)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_deep")
 
 [node name="RoofRibNorthEast" type="MeshInstance3D" parent="."]
 position = Vector3(0.8, 2.66, 0)
 rotation_degrees = Vector3(0, 0, 14.5)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_deep")
 
 [node name="RoofRibSouthEast" type="MeshInstance3D" parent="."]
 position = Vector3(2.35, 2.26, 0)
 rotation_degrees = Vector3(0, 0, 14.5)
-material_override = SubResource("StandardMaterial3D_frame")
 mesh = SubResource("BoxMesh_beam_deep")
 
 [node name="NorthPaneLeft" type="MeshInstance3D" parent="."]

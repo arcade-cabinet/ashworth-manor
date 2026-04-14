@@ -76,7 +76,7 @@ id = "child_music_box"
 type = "observation"
 position = Vector3(1.15, 0.82, 1.55)
 collision_size = Vector3(0.9, 0.7, 0.9)
-model = "res://assets/shared/items/music_box.glb"
+visual_kind = "music_box_display"
 responses = Array[Resource]([SubResource("resp_music_box_done"), SubResource("resp_music_box_no_key"), SubResource("resp_music_box_default")])
 
 [sub_resource type="Resource" id="inter_drawings"]
@@ -152,14 +152,14 @@ flickering = false
 [sub_resource type="Resource" id="prop_bed"]
 script = ExtResource("5")
 id = "nursery_bed_prop"
-model = "res://assets/shared/furniture/bed.glb"
+substrate_prop_kind = "furniture_bed"
 position = Vector3(1.0, 0.0, 1.8)
 scale = 1.05
 
 [sub_resource type="Resource" id="prop_chair"]
 script = ExtResource("5")
 id = "nursery_chair_prop"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(-0.95, 0.0, 1.45)
 rotation_y = 18.0
 scale = 0.92
@@ -167,7 +167,7 @@ scale = 0.92
 [sub_resource type="Resource" id="prop_doll"]
 script = ExtResource("5")
 id = "nursery_doll_prop"
-model = "res://assets/horror/models/doll2.glb"
+content_prop_kind = "hidden_chamber_nursery_doll_prop"
 position = Vector3(-0.9, 0.74, 1.42)
 rotation_y = -8.0
 scale = 0.98
@@ -175,7 +175,7 @@ scale = 0.98
 [sub_resource type="Resource" id="prop_bedside_drawers"]
 script = ExtResource("5")
 id = "nursery_bedside_drawers"
-model = "res://assets/shared/furniture/drawers.glb"
+substrate_prop_kind = "furniture_drawers"
 position = Vector3(1.75, 0.0, 1.25)
 rotation_y = 270.0
 scale = 0.42
@@ -183,7 +183,7 @@ scale = 0.42
 [sub_resource type="Resource" id="prop_music_box_cloth"]
 script = ExtResource("5")
 id = "music_box_cloth"
-model = "res://assets/shared/items/page1.glb"
+substrate_prop_kind = "item_page_001"
 position = Vector3(1.15, 0.46, 1.56)
 rotation_y = 10.0
 scale = 0.92
@@ -191,27 +191,27 @@ scale = 0.92
 [sub_resource type="Resource" id="prop_pages_a"]
 script = ExtResource("5")
 id = "drawing_sheet_a"
-model = "res://assets/shared/items/page2.glb"
+substrate_prop_kind = "item_page_002"
 position = Vector3(-1.3, 0.02, -0.8)
 rotation_y = -18.0
 
 [sub_resource type="Resource" id="prop_pages_b"]
 script = ExtResource("5")
 id = "drawing_sheet_b"
-model = "res://assets/shared/items/page5.glb"
+substrate_prop_kind = "item_page_005"
 position = Vector3(-0.2, 0.02, -1.3)
 rotation_y = 9.0
 
 [sub_resource type="Resource" id="prop_dead_lamp"]
 script = ExtResource("5")
 id = "sealed_room_lamp"
-model = "res://assets/attic/hidden_chamber/lamp_mx_1_b_off.glb"
+content_prop_kind = "hidden_chamber_sealed_room_lamp"
 position = Vector3(1.8, 0.0, -1.1)
 
 [sub_resource type="Resource" id="prop_mirror_frame"]
 script = ExtResource("5")
 id = "nursery_mirror_frame"
-model = "res://assets/shared/decor/picture_blank_004.glb"
+substrate_prop_kind = "picture_frame_blank_004"
 position = Vector3(2.35, 1.1, 1.0)
 rotation_y = 270.0
 scale = 1.1
@@ -219,14 +219,14 @@ scale = 1.1
 [sub_resource type="Resource" id="prop_nursery_candle_holder"]
 script = ExtResource("5")
 id = "nursery_candle_holder"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(1.0, 0.78, 1.55)
 scale = 0.8
 
 [sub_resource type="Resource" id="prop_nursery_candle"]
 script = ExtResource("5")
 id = "nursery_candle_prop"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(1.0, 0.82, 1.55)
 scale = 0.8
 
@@ -262,9 +262,6 @@ floor_name = "attic"
 environment_preset = "attic"
 dimensions = Vector3(6, 3, 6)
 is_exterior = false
-wall_texture = "wall7_texture"
-floor_texture = "floor2_texture"
-ceiling_texture = "ceiling2_texture"
 wall_north = PackedStringArray("wall", "wall", "wall")
 wall_south = PackedStringArray("wall", "doorway:hidden_chamber_to_attic_storage", "wall")
 wall_east = PackedStringArray("wall", "wall", "wall")

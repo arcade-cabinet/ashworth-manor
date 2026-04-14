@@ -251,7 +251,7 @@ id = "bedroom_broken_bottle"
 type = "observation"
 position = Vector3(4.0, 0.1, -2.0)
 collision_size = Vector3(0.8, 0.5, 0.8)
-model = "res://assets/upper_floor/master_bedroom/glass_bottle_mx_3_broken.glb"
+visual_kind = "master_broken_bottle"
 responses = Array[Resource]([SubResource("resp_broken_bottle_default")])
 
 ; === Lights ===
@@ -284,92 +284,92 @@ flicker_pattern = "candle"
 [sub_resource type="Resource" id="prop_bed"]
 script = ExtResource("5")
 id = "master_bed_model"
-model = "res://assets/shared/furniture/master_bed.glb"
+content_prop_kind = "master_bedroom_master_bed_model"
 position = Vector3(-2, 0, 0)
 
 [sub_resource type="Resource" id="prop_wardrobe"]
 script = ExtResource("5")
 id = "wardrobe"
-model = "res://assets/shared/furniture/wardrobe.glb"
+content_prop_kind = "master_bedroom_wardrobe"
 position = Vector3(-4.5, 0, 4)
 
 [sub_resource type="Resource" id="prop_chair"]
 script = ExtResource("5")
 id = "reading_chair"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(3, 0, -3)
 
 [sub_resource type="Resource" id="prop_nightstand"]
 script = ExtResource("5")
 id = "nightstand"
-model = "res://assets/shared/furniture/drawers.glb"
+substrate_prop_kind = "furniture_drawers"
 position = Vector3(-4, 0, -4)
 scale = 0.6
 
 [sub_resource type="Resource" id="prop_rug"]
 script = ExtResource("5")
 id = "bedroom_rug"
-model = "res://assets/shared/decor/rug1.glb"
+substrate_prop_kind = "rug_1"
 position = Vector3(0.0, 0.01, 0.0)
 
 [sub_resource type="Resource" id="prop_lamp"]
 script = ExtResource("5")
 id = "bedside_lamp"
-model = "res://assets/upper_floor/master_bedroom/lamp_mx_4_on.glb"
+content_prop_kind = "master_bedroom_bedside_lamp"
 position = Vector3(-3.2, 0.8, -4.0)
 
 [sub_resource type="Resource" id="prop_luggage"]
 script = ExtResource("5")
 id = "packed_luggage"
-model = "res://assets/upper_floor/master_bedroom/luggage_mp_1.glb"
+content_prop_kind = "master_bedroom_packed_luggage"
 position = Vector3(4.0, 0, 3.0)
 
 [sub_resource type="Resource" id="prop_soap"]
 script = ExtResource("5")
 id = "washstand_soap"
-model = "res://assets/upper_floor/master_bedroom/soap_mx_2.glb"
+content_prop_kind = "master_bedroom_washstand_soap"
 position = Vector3(4.0, 0.8, -3.0)
 
 [sub_resource type="Resource" id="prop_bottle"]
 script = ExtResource("5")
 id = "dresser_bottle"
-model = "res://assets/upper_floor/master_bedroom/glass_bottle_mx_1.glb"
+content_prop_kind = "master_bedroom_dresser_bottle"
 position = Vector3(-2.0, 0.8, 4.0)
 
 [sub_resource type="Resource" id="prop_broken_bottle"]
 script = ExtResource("5")
 id = "broken_bottle_prop"
-model = "res://assets/upper_floor/master_bedroom/glass_bottle_mx_3_broken.glb"
+content_prop_kind = "master_bedroom_broken_bottle_prop"
 position = Vector3(4.0, 0, -2.0)
 
 [sub_resource type="Resource" id="prop_candle_holder_left"]
 script = ExtResource("5")
 id = "candle_holder_left"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-3.0, 0.8, 2.0)
 
 [sub_resource type="Resource" id="prop_candle_holder_right"]
 script = ExtResource("5")
 id = "candle_holder_right"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(3.0, 0.8, 2.0)
 
 [sub_resource type="Resource" id="prop_book0"]
 script = ExtResource("5")
 id = "book0_prop"
-model = "res://assets/shared/items/book0.glb"
+content_prop_kind = "master_bedroom_book0_prop"
 position = Vector3(-4.2, 0.8, -3.7)
 
 [sub_resource type="Resource" id="prop_book1"]
 script = ExtResource("5")
 id = "book1_prop"
-model = "res://assets/shared/items/book1.glb"
+content_prop_kind = "master_bedroom_book1_prop"
 position = Vector3(-3.8, 0.8, -4.2)
 
 [sub_resource type="Resource" id="prop_openbook"]
 script = ExtResource("5")
 id = "openbook_prop"
-model = "res://assets/shared/items/openbook0.glb"
+substrate_prop_kind = "item_openbook_000"
 position = Vector3(3.0, 0.82, 1.0)
 
 ; === Entry Trigger ===
@@ -413,9 +413,6 @@ floor_name = "upper_floor"
 environment_preset = "upper_floor"
 dimensions = Vector3(10, 2.4, 10)
 is_exterior = false
-wall_texture = "wall2_texture"
-floor_texture = "floor1_texture"
-ceiling_texture = "ceiling1_texture"
 wall_north = PackedStringArray("wall", "wall", "wall", "wall", "wall")
 wall_south = PackedStringArray("wall", "wall", "wall", "wall", "wall")
 wall_east = PackedStringArray("wall", "wall", "doorway:master_bedroom_to_upper_hallway", "wall", "wall")

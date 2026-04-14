@@ -223,7 +223,7 @@ type = "painting"
 position = Vector3(-4.5, 2, 0)
 wall = "west"
 collision_size = Vector3(1.5, 1.5, 1.5)
-model = "res://assets/shared/decor/picture_blank.glb"
+substrate_prop_kind = "picture_frame_blank_000"
 responses = Array[Resource]([SubResource("resp_portrait_diary"), SubResource("resp_portrait_default")])
 thread_responses = {"child": [SubResource("resp_portrait_captive")], "adult": [SubResource("resp_portrait_adult")], "elder": [SubResource("resp_portrait_sovereign")], "captive": [SubResource("resp_portrait_captive")], "mourning": [SubResource("resp_portrait_mourning")], "sovereign": [SubResource("resp_portrait_sovereign")]}
 
@@ -242,6 +242,7 @@ id = "music_box"
 type = "box"
 position = Vector3(-2, 0.8, -3)
 collision_size = Vector3(1.5, 1.5, 1.5)
+visual_kind = "music_box_display"
 responses = Array[Resource]([SubResource("resp_music_aware"), SubResource("resp_music_default")])
 thread_responses = {"child": [SubResource("resp_music_captive")], "adult": [SubResource("resp_music_adult")], "elder": [SubResource("resp_music_sovereign")], "captive": [SubResource("resp_music_captive")], "mourning": [SubResource("resp_music_mourning")], "sovereign": [SubResource("resp_music_sovereign")]}
 
@@ -260,9 +261,9 @@ id = "parlor_tea"
 type = "observation"
 position = Vector3(0, 0.0, -1)
 collision_size = Vector3(1.2, 0.9, 1.1)
-scene_path = "res://scenes/shared/parlor/parlor_tea_service_set.tscn"
+visual_kind = "parlor_tea_set"
 default_visual_state = "set"
-state_model_map = {"disturbed": "res://scenes/shared/parlor/parlor_tea_service_disturbed.tscn"}
+state_visual_kind_map = {"disturbed": "parlor_tea_disturbed"}
 visual_state_order = PackedStringArray("disturbed")
 visual_state_conditions = {"disturbed": "examined_parlor_tea"}
 responses = Array[Resource]([SubResource("resp_tea_ledger"), SubResource("resp_tea_default")])
@@ -309,14 +310,14 @@ flicker_pattern = "candle"
 [sub_resource type="Resource" id="prop_fireplace"]
 script = ExtResource("5")
 id = "fireplace"
-model = "res://assets/shared/decor/fireplace.glb"
+content_prop_kind = "parlor_fireplace"
 position = Vector3(0, 0, 4.2)
 scale = 0.35
 
 [sub_resource type="Resource" id="prop_settee_left"]
 script = ExtResource("5")
 id = "settee_left"
-model = "res://assets/shared/furniture/sofa.glb"
+substrate_prop_kind = "parlor_settee"
 position = Vector3(-2.2, 0, -1.8)
 rotation_y = 16.0
 scale = 1.05
@@ -324,7 +325,7 @@ scale = 1.05
 [sub_resource type="Resource" id="prop_settee_right"]
 script = ExtResource("5")
 id = "settee_right"
-model = "res://assets/shared/furniture/sofa.glb"
+substrate_prop_kind = "parlor_settee"
 position = Vector3(2.1, 0, -1.8)
 rotation_y = -18.0
 scale = 1.05
@@ -332,35 +333,35 @@ scale = 1.05
 [sub_resource type="Resource" id="prop_rug"]
 script = ExtResource("5")
 id = "parlor_rug"
-model = "res://assets/shared/decor/rug1.glb"
+substrate_prop_kind = "rug_1"
 position = Vector3(0, 0.01, -1.0)
 scale = 1.15
 
 [sub_resource type="Resource" id="prop_portrait_frame"]
 script = ExtResource("5")
 id = "lady_portrait_frame"
-model = "res://assets/shared/decor/picture_blank_001.glb"
+substrate_prop_kind = "picture_frame_blank_001"
 position = Vector3(-4.45, 2.0, 0)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_side_table_left"]
 script = ExtResource("5")
 id = "side_table_left"
-model = "res://assets/shared/furniture/table.glb"
+substrate_prop_kind = "furniture_table"
 position = Vector3(-2.0, 0, -3.0)
 scale = 0.32
 
 [sub_resource type="Resource" id="prop_side_table_right"]
 script = ExtResource("5")
 id = "side_table_right"
-model = "res://assets/shared/furniture/table.glb"
+substrate_prop_kind = "furniture_table"
 position = Vector3(2.0, 0, -3.0)
 scale = 0.32
 
 [sub_resource type="Resource" id="prop_writing_desk"]
 script = ExtResource("5")
 id = "writing_desk"
-model = "res://assets/shared/furniture/study_desk.glb"
+substrate_prop_kind = "furniture_study_desk"
 position = Vector3(-3.8, 0, -3.4)
 rotation_y = 22.0
 scale = 0.9
@@ -368,25 +369,25 @@ scale = 0.9
 [sub_resource type="Resource" id="prop_candle_holder_l"]
 script = ExtResource("5")
 id = "candle_holder_left"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-3.0, 0.82, 0.0)
 
 [sub_resource type="Resource" id="prop_candle_holder_r"]
 script = ExtResource("5")
 id = "candle_holder_right"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(3.0, 0.82, 0.0)
 
 [sub_resource type="Resource" id="prop_stool"]
 script = ExtResource("5")
 id = "stool"
-model = "res://assets/ground_floor/parlor/stool_mx_1.glb"
+content_prop_kind = "parlor_stool"
 position = Vector3(3.2, 0, 3.0)
 
 [sub_resource type="Resource" id="prop_dead_lamp"]
 script = ExtResource("5")
 id = "dead_lamp"
-model = "res://assets/ground_floor/parlor/lamp_mx_4_off.glb"
+content_prop_kind = "parlor_dead_lamp"
 position = Vector3(4.0, 0.82, -3.0)
 
 ; === Entry Trigger ===
@@ -461,7 +462,7 @@ script = ExtResource("10")
 flashback_id = "parlor_elizabeth_flashback"
 condition = "elizabeth_aware"
 once = true
-model = "res://assets/horror/models/bloodwraith.glb"
+visual_kind = "bloodwraith_apparition"
 model_position = Vector3(0, 0, -1)
 model_scale = 0.6
 duration = 5.0
@@ -479,9 +480,6 @@ floor_name = "ground_floor"
 environment_preset = "ground_floor"
 dimensions = Vector3(10, 2.4, 10)
 is_exterior = false
-wall_texture = "wall4_texture"
-floor_texture = "floor1_texture"
-ceiling_texture = "ceiling1_texture"
 wall_north = PackedStringArray("wall", "wall", "wall", "wall", "wall")
 wall_south = PackedStringArray("wall", "wall", "doorway:parlor_to_foyer", "wall", "wall")
 wall_east = PackedStringArray("wall", "wall", "wall", "wall", "wall")

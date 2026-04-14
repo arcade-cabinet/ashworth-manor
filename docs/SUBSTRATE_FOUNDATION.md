@@ -82,6 +82,15 @@ envelopes and thresholds. The active role keys are:
 `RoomAssembler` resolves those roles before falling back to legacy room or
 connection texture strings.
 
+For interior envelope surfaces, that fallback is now gone. Shared floor, wall,
+and ceiling materials resolve from room recipe overrides or environment role
+recipes only.
+
+The old room-level `floor_texture`, `wall_texture`, and `ceiling_texture`
+fields have now been removed from the declaration schema entirely. Where a room
+needs an ordinary window mesh, the shared window builder now owns that path
+directly via its built-in `window_clean` default.
+
 The shared declaration contract also verifies builder approval against actual
 room topology, not only against environment metadata. If a room's envelope or
 connections require `wall_builder`, `ceiling_builder`, `window_builder`,
@@ -117,6 +126,242 @@ room declares an explicit `bespoke_waiver`.
 Recipe validation is part of the declaration suite. The suite verifies that
 every registered recipe uses a supported family/kind and that every declared
 slot asset exists on disk.
+
+Shared builder fallbacks also now route through the recipe library rather than
+creating local one-off materials in builder files. The current explicit
+fallback recipes are:
+
+- `surface/fallback_wood`
+- `surface/fallback_metal`
+- `surface/shadow_void`
+
+Those defaults now back the remaining circulation/envelope fallback paths in
+stairs, ladders, windows, and portal shadow fills.
+
+Primary envelope builders now also default in recipe-id space instead of
+legacy texture-path space. The current recipe-first builder defaults are:
+
+- floor: `surface/oak_board`
+- ceiling: `surface/lining_tan`
+- wall: `surface/cloth_brown`
+- stairs: `surface/oak_board`, `surface/oak_header`, `surface/oak_dark`
+- door: oak frame/panel for normal doors, brick plus wrought iron for gates
+- window: native procedural frame geometry using the resolved window surface
+- trapdoor: `surface/oak_header` and `surface/oak_dark`
+
+Legacy texture/model selectors may still exist as compatibility hints for mesh
+selection, but the surface contract is now explicitly recipe-first.
+
+Repeated interactable scene sets are now moving under the same explicit
+substrate contract. For the current shared observation-state fixtures
+(`kitchen_bucket`, `gate_luggage`, `gate_lamp`, `greenhouse_pot`, `parlor_tea`,
+`baptismal_font`, and `wine_glass`), declarations now author `visual_kind`
+and `state_visual_kind_map` instead of direct shared `.tscn` scene paths.
+`InteractableVisuals` owns the mapping from those runtime visual kinds to the
+shared scene assets, and the declaration suite now fails if those repeated
+fixtures fall back to direct `scene_path` / `state_model_map` authoring.
+
+That interactable contract now covers the remaining front-gate lamp visual too.
+The `gate_lamp` observation no longer carries a raw grounds model path in room
+data; it resolves through the shared visual-kind registry as
+`front_gate_lamp_lit`, leaving the room declaration free of direct repeated
+lamp asset references.
+
+The remaining front-gate authored one-offs are now narrowed too. The
+`gate_bench` observation now uses the shared visual registry
+(`front_gate_bench`) instead of a direct grounds model path, and the small
+facade structure holdouts now route through substrate kinds:
+`front_gate_boundary_pole`, `front_gate_chimney_left`, and
+`front_gate_chimney_right`. That keeps even the narrow front-gate trim slice
+under explicit substrate ownership instead of silent direct model authoring.
+
+The same rule is now being applied to the family-crypt structure kit. The
+crypt's capped north wall, side walls, fence runs, and grave markers now author
+through substrate kinds (`family_crypt_wall_capped`, `family_crypt_wall`,
+`family_crypt_fence_run`, and `family_crypt_grave_marker`) instead of raw
+grounds model paths. That keeps repeated burial-grounds structure on the same
+substrate path as gates, boundary walls, and other exterior architecture.
+
+The garden shell is now following that same path too. The fountain base and
+water, gazebo shell, path segments, perimeter wall runs, northeast corner,
+fountain columns, and vases now author through garden-specific substrate kinds
+instead of direct grounds model paths. This keeps the repeated exterior shell
+grammar for the garden under the same builder-owned contract as the crypt and
+front approach.
+
+The garden observation layer is now aligned with that shell pass too. The
+`garden_fountain` and `garden_gazebo` observations no longer duplicate raw
+grounds model paths in room data; they resolve through the shared visual-kind
+registry (`garden_fountain` and `garden_gazebo`) on top of the substrate-owned
+shell props.
+
+The chapel wall shell is now on the same substrate path too. The north fancy
+column pair, the north center wall, and the side wall columns now author
+through chapel-specific substrate kinds instead of direct grounds model paths,
+keeping the chapel envelope under the same builder-owned architecture contract
+as the garden and crypt shells.
+
+The greenhouse shell language is now moving onto that same path too. The bench
+and shelf planks, the repeated dead hedge rows, the dead end cap, tall dead
+growth, winter growth pieces, and the nature cluster now author through
+greenhouse-specific substrate kinds instead of direct grounds model paths. That
+keeps the repeated planted/structural shell of the greenhouse under substrate
+ownership without conflating it with loose clutter.
+
+The same rule is now being applied to the repeated grounds scene kit.
+Common gate/boundary pieces (`gate_post`, `gate_post_stone`, `boundary_wall`,
+`iron_gate_closed`, and `fence_run`) now author as `substrate_prop_kind`
+instead of raw shared grounds scene paths in room declarations. `RoomAssembler`
+owns the substrate-kind mapping for those repeated exterior pieces, and the
+declaration suite now treats their old direct `scene_path` usage as migrated
+substrate territory rather than normal authoring.
+
+That grounds wrapper migration now extends to the repeated estate approach kit
+too. `hedgerow`, `carriage_road`, `outward_road`, `mansion_facade`,
+`entry_portico`, `front_door_assembly`, `forecourt_steps`, and `starfield`
+are now builder-owned substrate kinds in room declarations rather than direct
+shared grounds scene-path authoring.
+
+Mount payloads now participate in the same substrate-owned path too.
+`MountPayloadDecl` can carry `substrate_prop_kind`, and `RoomAssembler` now
+resolves that through the same shared substrate-kind builders it uses for room
+props. The current regression example is the front-gate sign payload, which no
+longer mounts via a raw shared scene path.
+
+The front-gate open iron gate prop now follows the same rule as the rest of the
+gate family. It is authored as a substrate kind rather than a direct shared
+grounds scene path, keeping the remaining front-gate declaration authoring
+consistent with the rest of the substrate sweep.
+
+That same declaration cleanup now covers the repeated raw front-gate approach
+imports too. The common estate-approach lamp, winter tree, winter bush, rocks,
+and angled iron-gate leaf are now authored through `substrate_prop_kind`
+instead of direct `.glb` model paths in `front_gate`, `front_steps`,
+`drive_lower`, and `drive_upper`. `RoomAssembler` owns those repeated grounds
+ids as substrate kinds, and the declaration suite now proves both the authored
+migrations and the builder-default path.
+
+The front-gate room resource itself is now stricter too. Those migrated
+grounds props are no longer dead subresources sitting outside the room payload;
+they are wired into the actual `props` array, so the runtime scene and the
+declaration contract finally agree about what the opening approach contains.
+
+That contract is now also enforced directly in the declaration suite. The suite
+contains explicit builder-default coverage proving that:
+
+- empty builder inputs still resolve to shared recipe defaults
+- gate defaults remain materially distinct from ordinary doors
+- recipe ids do not silently activate door/window model heuristics
+
+Legacy mesh-selection compatibility is now narrowed to builder-owned escape
+hatches only. Door/gate mesh compatibility survives only as an explicit
+builder input instead of a declaration-schema field, and hidden-door
+concealment is now fully owned by the shared builder default as well. That
+keeps compatibility selectors available without letting declaration data
+pretend they are part of the substrate contract.
+
+That reduction is now complete on the room and ordinary-threshold schema side:
+`RoomDeclaration` no longer carries a window mesh hint field, and `Connection`
+no longer carries door/gate frame or panel mesh hint fields. Ordinary windows
+and ordinary thresholds now rely on shared builder defaults directly.
+
+The same adoption has now reached stair newels too. `StairsBuilder` no longer
+depends on the imported `banisterbase.glb` in the default path; the normal
+stair run now uses native procedural newel geometry, with imported structure
+meshes no longer sitting in the common circulation builder path by default.
+
+The old texture-shaped compatibility selectors are gone from the ordinary
+builder path. Doors and windows no longer accept texture-path or
+`wall*_texture` tokens, and the common runtime no longer exposes normalized
+mesh-selector ids like `door_panel_03`, `doorway_frame_00`, or `window_clean`
+as part of the substrate contract.
+
+For ordinary windows, the builder now owns the common case directly:
+`WindowBuilder` always emits native procedural frame geometry. That removed the
+need for any room-side window hint field, so `RoomDeclaration` no longer
+carries one.
+
+The same cleanup now applies to doors generally. Authored `type = "door"`
+connections no longer carry mesh hints for their panels or frames; the shared
+door builder’s native default panel path now owns that case. Any future
+threshold exception now has to be introduced deliberately instead of surviving
+as passive compatibility carryover.
+
+The same reduction has now reached hidden doors too. The authored
+`storage_basement <-> carriage_house` hidden-door pair no longer serializes the
+default `secret_panel` presentation, `slide` mechanism, or the default
+concealment mesh. `ConnectionAssembly` owns those defaults at runtime, and the
+declaration suite now fails if authored hidden-door data carries those values
+without a real override.
+
+Trapdoors now follow the same rule more strictly too. The kitchen service hatch
+no longer serializes the default `lift` mechanism, and `TrapdoorBuilder` now
+records resolved presentation/mechanism metadata instead of raw declaration
+strings. That keeps authored trapdoor data focused on real overrides like the
+service-hatch presentation while leaving the default mechanism policy in the
+shared builder layer.
+
+The same cleanup now applies to ordinary doors and gates at the metadata layer.
+`DoorBuilder` now records resolved presentation/mechanism metadata instead of
+raw declaration strings, so default `door_threshold`, `gate_threshold`, and
+`swing` policy lives in the builder. The front entrance still carries the real
+`facade_door` presentation override, but no longer serializes the default
+`swing` mechanism in authored data.
+
+Resolved state ownership is now consistent across the threshold builders too.
+`DoorBuilder`, `TrapdoorBuilder`, `StairsBuilder`, and `LadderBuilder` now
+record resolved `mechanism_state` and `reveal_state` metadata instead of
+mirroring raw declaration defaults. That closes the mismatch where hidden-door
+areas could still advertise `visible` / `idle` even though the shared
+connection logic already treated them as concealed.
+
+The `Connection` schema is now neutral here as well. `mechanism_state` and
+`reveal_state` default to empty strings in the declaration resource instead of
+pre-populating `idle` / `visible`. That lets the shared builders and
+`ConnectionAssembly` own the effective default policy directly instead of
+having to detect and ignore legacy schema defaults.
+
+The last hidden-door geometry holdout is explicit now too. The dead
+`visible_model` field is gone, and the old `concealment_model` path has been
+removed from the declaration schema entirely. `ConnectionAssembly` now records
+the resolved concealment kind directly and builds the default hidden-door mask
+as native procedural geometry in the shared builder layer.
+
+Door and trapdoor builders now go one step further: threshold mesh/material
+compatibility no longer depends on `door_texture` or `frame_texture` at all.
+Those old connection-level fields have been removed from the declaration schema
+entirely, and the common `DoorBuilder` path is now procedural rather than an
+imported-mesh compatibility branch.
+
+The same rule now covers the remaining legacy procedural door scripts too.
+`scripts/procedural/door_single.gd` and `scripts/procedural/door_double.gd`
+now default to shared recipe refs and only fall back to raw `Texture2D`
+compatibility inputs if those older fields are explicitly populated. Even that
+compatibility path now resolves through a shared `EstateMaterialKit`
+constructor rather than local `StandardMaterial3D.new()` snippets. Those
+procedural scripts now name those inputs explicitly as `legacy_*` texture
+fields so they no longer read like first-class authoring channels.
+
+The same cleanup now covers the remaining shared grounds-side shadow and glow
+exceptions. `estate_front_door.gd`, `estate_entry_portico.gd`,
+`estate_mansion_facade.gd`, `estate_outward_road.gd`, and
+`estate_starfield.gd` no longer create local `StandardMaterial3D` instances for
+void fills, village window glow, fog banks, or stars. Those paths now resolve
+through shared `EstateMaterialKit` helpers instead.
+
+That same rule now reaches the runtime assembler too. `RoomAssembler` no longer
+hand-builds local materials for procedural moon props or world-label boards and
+hangers; those runtime visuals now resolve through `EstateMaterialKit` as well.
+It also now intercepts declaration-authored `window_clean.glb` and
+`window_ray.glb` prop uses and replaces those repeated structure props with
+shared procedural window and glow-plane visuals at assembly time.
+The same runtime seam now covers the repeated circulation structure props too:
+`stairs0.glb`, `stairbanister.glb`, and `banisterbase.glb` prop uses are now
+replaced by shared procedural stair, rail, and newel geometry during assembly.
+Those repeated structure props are now also represented explicitly in authored
+room data via `PropDecl.substrate_prop_kind` instead of normal imported-model
+authoring. The declaration suite now rejects those old shared structure model
+ids unless they have been migrated to their substrate kind.
 
 ## Foliage Shader
 
@@ -164,6 +409,32 @@ substrate contract, and it shifts the shared pond water scenes off direct
 material-resource pinning and onto the shared liquid recipe path too. The old
 `resources/glass/*` and `resources/water/*` assets are now compatibility
 wrappers rather than the primary authored path.
+
+## Recipe-Driven Shared Fixtures
+
+The shared recipe path now also owns representative non-prop fixture wrappers
+that had been carrying bespoke embedded material stacks. The converted scene
+families are:
+
+- greenhouse shell and hanging lantern
+- greenhouse lily pedestal and both lily-pot states
+- parlor tea-service states
+- chapel baptismal font states
+
+Those scenes now resolve their repeated surfaces through shared recipe ids
+instead of scene-local `StandardMaterial3D` blocks. The declaration suite also
+contains an explicit regression guard for those wrappers so they cannot drift
+back to embedded per-scene materials without failing validation.
+
+That regression protection now extends to the grounds-side shared scripts named
+above and to the legacy procedural door scripts: the declaration suite asserts
+those files do not contain local `StandardMaterial3D.new()` construction
+either.
+
+The contract is now broader than a few named scripts. Outside the actual
+material factory layer (`estate_material_kit.gd` and `pbr_texture_kit.gd`),
+local `StandardMaterial3D.new()` construction is now treated as a regression
+across `builders/`, `engine/`, `scenes/shared/`, and `scripts/procedural/`.
 
 ## Stable Mount Families
 
@@ -228,3 +499,135 @@ changes between `adult/child` and `elder` route contexts.
   - Does the material and lighting read as finished?
 - No critical room or route finale may bypass the shared substrate without an
   explicit waiver.
+
+## Recent Adoption
+
+- Repeated authored structure props now migrate through `substrate_prop_kind`
+  instead of raw shared structure model ids for:
+  - window frames and window rays
+  - stair runs, banister runs, and newel posts
+  - front-drive stone slabs
+  - exterior statue plinths
+  - foyer round pillars
+  - the front facade door leaf
+  - repeated mansion facade and trim pieces:
+    wall panels, window panels, wing panels, wall columns, doorway trim,
+    roof panels, roof molding, and foyer frieze trim
+- `RoomAssembler` now owns the common procedural path for those repeated
+  structure pieces, with declaration-authored raw structure model ids kept only
+  as compatibility interception.
+- Authored room declarations no longer directly reference
+  `res://assets/shared/structure/*.glb` for common substrate pieces.
+- The front facade and foyer trim kit no longer depend on repeated
+  `res://assets/mansion_psx/models/SM_*.glb` prop authoring either.
+- Remaining architectural or threshold props that still bypass
+  `substrate_prop_kind` must now carry an explicit waiver reason in the
+  declaration. Silent exceptions are no longer allowed.
+- The first waiver reductions are now landed too:
+  - `front_gate_menu_sign` -> `front_gate_sign`
+  - `greenhouse_glass_shell` -> `greenhouse_shell`
+  - `greenhouse_hanging_lantern` -> `greenhouse_lantern`
+- There are currently no active declaration waivers in the authored room set.
+- Declaration channels are now stricter too:
+  scene assets must use `scene_path`; the `model` field is reserved for asset
+  models and may not point at `.tscn` files.
+- The greenhouse repeated fixture pair is now on the same substrate path:
+  `bucket_mx_2.glb` -> `greenhouse_bucket_small` and
+  `glass_bottle_mx_2.glb` -> `greenhouse_bottle`.
+  The affected authored props are `bucket_left`, `fertilizer_bottle`,
+  `greenhouse_bottle_secondary`, and `greenhouse_bucket_center`.
+- The remaining alternate greenhouse bucket variant is now aligned too:
+  `bucket_mx_3.glb` -> `greenhouse_bucket_large` for `bucket_right`.
+- The repeated forecourt statue family is now substrate-owned too:
+  `statue.glb` -> `forecourt_statue` across the front-gate, front-steps, and
+  drive-upper exterior approach rooms.
+- The garden shell now owns its repeated furnishing and bed set too:
+  `bench01.glb`, `bench02.glb`, `table.glb`,
+  `flowerbed_2x2_empty.glb`, and `flowerbed_1x2_empty.glb`
+  now author through garden-specific substrate kinds.
+- The family crypt shell now owns its repeated debris language too:
+  `debris_bricks_mx_1.glb`, `debris_bricks_mx_2.glb`,
+  `glass_bottle_mx_3.glb`, and `scattered_bones.glb`
+  now author through family-crypt-specific substrate kinds.
+- The chapel shell now owns its repeated grounds fixture set too:
+  `bucket_mx_1.glb`, `glass_bottle_mx_1.glb`, `lamp_mx_3_off.glb`,
+  and `loose_bones.glb` now author through chapel-specific substrate kinds,
+  and the chapel saint statue now rides the shared `forecourt_statue` kind.
+- The carriage-house shell now owns its repeated support kit too:
+  mattress, shed shell pieces, loose boards, shovel, luggage, and dead lamp
+  now author through carriage-house-specific substrate kinds.
+- The shared candle kit is now substrate-owned too:
+  `candle_holder.glb` and `candle0.glb` now author through the shared
+  `candle_holder_fixture` and `candle_single` substrate kinds across the room
+  declarations.
+- The shared blank-frame kit is now substrate-owned too:
+  the `picture_blank*.glb` frame variants now author through explicit shared
+  `picture_frame_blank_*` substrate kinds across the room declarations.
+- The shared rug kit is now substrate-owned too:
+  `rug0.glb`, `rug1.glb`, and `rug2.glb`
+  now author through explicit shared `rug_0`, `rug_1`, and `rug_2`
+  substrate kinds across the room declarations.
+- The shared furniture kit is now substrate-owned too:
+  `table.glb`, `study_desk.glb`, `drawers.glb`, `chair.glb`, and
+  `bookcase.glb` now author through explicit shared furniture substrate kinds
+  across the room declarations.
+- The shared bed and chandelier fixtures are now substrate-owned too:
+  `bed.glb` and `chandelier.glb` now author through explicit
+  `furniture_bed` and `chandelier_fixture` substrate kinds across the room
+  declarations.
+- The shared loose-page and open-book display kit is now substrate-owned too:
+  `page1.glb`, `page2.glb`, `page5.glb`, `openbook0.glb`, and `openbook1.glb`
+  now author through explicit shared item-display substrate kinds across the
+  room declarations.
+- Music boxes are intentionally not part of that tranche yet:
+  they still sat on the legacy interactable visual path because there was no
+  real shared music-box asset or visual registry entry to promote.
+- That music-box gap is now closed on the interactable side:
+  the repeated music-box observations now resolve through the shared
+  `music_box_display` visual kind instead of pointing at the dead
+  `res://assets/shared/items/music_box.glb` path.
+- The remaining direct authored interactable model refs were normalized too:
+  luggage, lamps, poster/mask, binding book, artifact, porcelain doll, and
+  the broken bottle observation now resolve through explicit `visual_kind`
+  entries instead of raw model paths in the room declarations.
+- Another repeated support-prop slice is substrate-owned now:
+  the attic stairwell lamp, attic bucket, attic ritual mask, and foyer stand
+  now author through explicit substrate kinds instead of raw model paths
+  across the room declarations.
+- Another repeated service/dressing slice is substrate-owned now:
+  dining plates, dining water glasses, parlor settees, and the repeated
+  wine-cellar bottle/barrel props now author through explicit substrate kinds
+  instead of raw model paths across the room declarations.
+- The remaining repeated attic/storage support props are substrate-owned too:
+  `wooden_plank_4.glb`, `wooden_crate_2_a.glb`, and `lamp_mx_2_off.glb`
+  now author through explicit substrate kinds instead of raw model paths
+  across the room declarations.
+- The remaining repeated flashback apparition seam is normalized too:
+  the foyer, attic-storage, and parlor bloodwraith flashbacks no longer
+  author `res://assets/horror/models/bloodwraith.glb` directly; they now
+  author through the shared `bloodwraith_apparition` flashback visual kind
+  and resolve the concrete model path in `TriggerEngine`.
+- The declaration suite now enforces the next floor on that cleanup:
+  any non-empty raw `PropDecl.model` path that appears in more than one room
+  now fails validation, so repeated shared families cannot quietly fall back
+  to direct model-path authoring.
+- Shared imported clutter/content props now route through explicit
+  `content_prop_kind` ids instead of raw GLB model paths. `ContentPropRegistry`
+  owns the mapping from those stable kinds to concrete assets, grouped under
+  typed families such as `tool_clutter`, `service_infrastructure`,
+  `table_service`, `study_dressing`, `personal_effects`, and
+  `storage_clutter`.
+- That content taxonomy is contractual too:
+  the declaration suite asserts the current room-to-family mapping directly, so
+  a room cannot silently drift from `kitchen -> tool_clutter` or
+  `boiler_room -> service_infrastructure` without an intentional contract
+  change, and room declarations now target zero direct raw prop model usage.
+- The remaining direct-asset declaration channels now have the same rule:
+  `InteractableDecl` and `MountPayloadDecl` carry explicit
+  `direct_visual_reason` / `direct_payload_reason` fields, and the declaration
+  suite fails if direct model/scene authoring appears there without one of
+  those reasons.
+- The current authored content is stricter than that fallback:
+  room declarations now have zero active direct interactable-visual exceptions
+  and zero active direct mount-payload exceptions. Those reason fields exist as
+  escape hatches, but the shipped authored set does not currently need them.

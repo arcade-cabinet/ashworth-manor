@@ -4,13 +4,14 @@ extends RefCounted
 
 const TILE_SIZE := 2.0
 const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
+const DEFAULT_FLOOR_SURFACE := "recipe:surface/oak_board"
 
 ## Build floor from room dimensions and texture.
 ## Returns Node3D with tiled QuadMesh + StaticBody3D collision.
 static func build(
 	room_width: float,
 	room_depth: float,
-	texture_path: String,
+	surface_ref: String,
 	footstep_surface: String
 ) -> Node3D:
 	var floor_root := Node3D.new()
@@ -21,7 +22,7 @@ static func build(
 	var offset_x := (tiles_x * TILE_SIZE) * 0.5 - TILE_SIZE * 0.5
 	var offset_z := (tiles_z * TILE_SIZE) * 0.5 - TILE_SIZE * 0.5
 
-	var mat := _create_material(texture_path)
+	var mat := _create_material(surface_ref)
 
 	for ix in range(tiles_x):
 		for iz in range(tiles_z):
@@ -60,10 +61,9 @@ static func build(
 	return floor_root
 
 
-static func _create_material(texture_path: String) -> StandardMaterial3D:
-	if texture_path.is_empty():
-		return null
-	var mat := EstateMaterialKit.build_surface_reference(texture_path, {
+static func _create_material(surface_ref: String) -> StandardMaterial3D:
+	var resolved_surface := EstateMaterialKit.resolve_surface_reference(surface_ref, DEFAULT_FLOOR_SURFACE)
+	var mat := EstateMaterialKit.build_surface_reference(resolved_surface, {
 		"uv1_scale": Vector3.ONE,
 		"roughness": 1.0,
 	})

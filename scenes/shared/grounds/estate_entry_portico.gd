@@ -28,9 +28,7 @@ func _build() -> void:
 	var trim := EstateMaterialKit.oak_header()
 	var door := EstateMaterialKit.oak_dark()
 	var brass := EstateMaterialKit.brass()
-	var shadow := StandardMaterial3D.new()
-	shadow.albedo_color = Color(0.03, 0.025, 0.03, 1.0)
-	shadow.roughness = 1.0
+	var shadow := EstateMaterialKit.shadow_void_tinted(Color(0.03, 0.025, 0.03, 1.0))
 	var glass := EstateMaterialKit.door_lamplit_glass()
 
 	var width := portico_width * _baked_scale.x

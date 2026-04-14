@@ -3,6 +3,8 @@ class_name InteractableDecl
 extends Resource
 ## An interactive object in a room -- painting, note, mirror, clock, switch, etc.
 
+const DirectDeclarationAssetPolicy = preload("res://engine/direct_declaration_asset_policy.gd")
+
 @export var id: String = ""
 @export var type: String = ""                # painting, note, mirror, clock, switch, box, doll, ritual, observation, photo
 @export var scene_role: String = "dynamic_setpiece" # dynamic_setpiece, portable_item, threshold_control, observation
@@ -23,9 +25,13 @@ extends Resource
 @export var scene_path: String = ""          # Optional authored PackedScene for composite visuals
 @export var inactive_model: String = ""      # Optional inert/closed/empty GLB visual for inactive state
 @export var inactive_scene_path: String = "" # Optional inert/closed/empty scene visual
+@export var visual_kind: String = ""         # Shared runtime-owned visual kind for repeated scene/model sets
+@export var direct_visual_reason: String = "" # required when a live visual intentionally bypasses visual_kind
+@export var inactive_visual_kind: String = "" # Shared inactive visual kind for repeated sets
 @export var texture: String = ""             # For procedural visual (door/window texture)
 @export var default_visual_state: String = "" # empty, filled, open, closed, lit, extinguished, etc.
 @export var state_model_map: Dictionary = {}  # {"filled": "res://.../teapot_full.glb" or ".tscn"}
+@export var state_visual_kind_map: Dictionary = {} # {"filled": "kitchen_bucket_rippled", ...}
 @export var visual_state_order: PackedStringArray = []
 @export var visual_state_conditions: Dictionary = {} # {"filled": "has_teapot_water", "searched": "found_gate_key_font"}
 
@@ -58,3 +64,11 @@ extends Resource
 
 # Connection behavior (for locked_door type)
 @export var target_room: String = ""
+
+
+func uses_direct_visual() -> bool:
+	return DirectDeclarationAssetPolicy.uses_direct_interactable_visual(self)
+
+
+func has_valid_direct_visual_contract() -> bool:
+	return DirectDeclarationAssetPolicy.has_valid_direct_interactable_visual_reason(self)

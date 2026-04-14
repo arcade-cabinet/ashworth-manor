@@ -19,21 +19,15 @@ extends Resource
 # Threshold presentation / mechanism
 @export var presentation_type: String = ""   # facade_door, interior_door, gate_path, ladder_drop, trapdoor_hatch, secret_panel, etc.
 @export var mechanism_type: String = ""      # swing, slide, lift, drop, crawl, threshold
-@export var mechanism_state: String = "idle" # idle, locked, concealed, revealed, open
-@export var reveal_state: String = "visible" # visible, concealed, revealed
+@export var mechanism_state: String = ""     # "" = builder/runtime default; idle, locked, concealed, revealed, open
+@export var reveal_state: String = ""        # "" = builder/runtime default; visible, concealed, revealed
 @export var interaction_size: Vector3 = Vector3.ZERO
-@export var visible_model: String = ""
-@export var concealment_model: String = ""
 
 # Lock
 @export var locked: bool = false
 @export var key_id: String = ""
 @export var required_state: String = ""      # State expression gate for traversal
 @export var blocked_text: String = ""        # Text shown when required_state fails
-
-# Visual
-@export var door_texture: String = ""        # From retro textures pack
-@export var frame_texture: String = ""       # Frame material
 
 # Audio
 @export var open_sfx: String = ""

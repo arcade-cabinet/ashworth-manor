@@ -132,7 +132,7 @@ type = "painting"
 position = Vector3(1.5, 2, 4)
 wall = "east"
 collision_size = Vector3(1.5, 1.5, 1.5)
-model = "res://assets/shared/decor/picture_blank.glb"
+substrate_prop_kind = "picture_frame_blank_000"
 responses = Array[Resource]([SubResource("resp_children_default")])
 thread_responses = {"child": [SubResource("resp_children_captive")], "adult": [SubResource("resp_children_adult")], "elder": [SubResource("resp_children_sovereign")], "captive": [SubResource("resp_children_captive")], "mourning": [SubResource("resp_children_mourning")], "sovereign": [SubResource("resp_children_sovereign")]}
 
@@ -143,7 +143,7 @@ type = "note"
 position = Vector3(-1.5, 1.5, 6)
 wall = "west"
 collision_size = Vector3(1.5, 1.5, 1.5)
-model = "res://assets/upper_floor/hallway/poster_cx_11.glb"
+visual_kind = "hallway_poster_notice"
 responses = Array[Resource]([SubResource("resp_poster_default")])
 thread_responses = {"child": [SubResource("resp_poster_captive")], "adult": [SubResource("resp_poster_adult")], "elder": [SubResource("resp_poster_sovereign")], "captive": [SubResource("resp_poster_captive")], "mourning": [SubResource("resp_poster_mourning")], "sovereign": [SubResource("resp_poster_sovereign")]}
 
@@ -154,7 +154,7 @@ type = "observation"
 position = Vector3(-1.5, 1.8, 1)
 wall = "west"
 collision_size = Vector3(0.8, 0.8, 0.8)
-model = "res://assets/upper_floor/hallway/mask_mx_1.glb"
+visual_kind = "hallway_mask_display"
 responses = Array[Resource]([SubResource("resp_mask_aware"), SubResource("resp_mask_default")])
 
 [sub_resource type="Resource" id="inter_attic_door"]
@@ -224,20 +224,20 @@ flickering = false
 [sub_resource type="Resource" id="prop_rug"]
 script = ExtResource("5")
 id = "hallway_runner"
-model = "res://assets/shared/decor/rug2.glb"
+substrate_prop_kind = "rug_2"
 position = Vector3(0, 0.01, 0)
 scale = 0.5
 
 [sub_resource type="Resource" id="prop_children_frame"]
 script = ExtResource("5")
 id = "children_frame"
-model = "res://assets/shared/decor/picture_blank_003.glb"
+substrate_prop_kind = "picture_frame_blank_003"
 position = Vector3(1.5, 1.6, 3.8)
 
 [sub_resource type="Resource" id="prop_side_table_south"]
 script = ExtResource("5")
 id = "side_table_south"
-model = "res://assets/shared/furniture/drawers.glb"
+substrate_prop_kind = "furniture_drawers"
 position = Vector3(-1.4, 0, -3.0)
 rotation_y = 90.0
 scale = 0.8
@@ -245,7 +245,7 @@ scale = 0.8
 [sub_resource type="Resource" id="prop_side_table_north"]
 script = ExtResource("5")
 id = "side_table_north"
-model = "res://assets/shared/furniture/drawers.glb"
+substrate_prop_kind = "furniture_drawers"
 position = Vector3(1.4, 0, 3.2)
 rotation_y = 270.0
 scale = 0.8
@@ -253,46 +253,46 @@ scale = 0.8
 [sub_resource type="Resource" id="prop_lamp_lit"]
 script = ExtResource("5")
 id = "lamp_lit"
-model = "res://assets/upper_floor/hallway/lamp_mx_1_a_on.glb"
+content_prop_kind = "upper_hallway_lamp_lit"
 position = Vector3(-1.45, 0.85, -3.0)
 
 [sub_resource type="Resource" id="prop_lamp_dead"]
 script = ExtResource("5")
 id = "lamp_dead"
-model = "res://assets/upper_floor/hallway/lamp_mx_1_b_off.glb"
+content_prop_kind = "upper_hallway_lamp_dead"
 position = Vector3(1.45, 0.85, 3.2)
 
 [sub_resource type="Resource" id="prop_stand"]
 script = ExtResource("5")
 id = "hall_stand"
-model = "res://assets/upper_floor/hallway/stand_mx_2.glb"
+content_prop_kind = "upper_hallway_hall_stand"
 position = Vector3(1.45, 0, -4.5)
 
 [sub_resource type="Resource" id="prop_sconce_model_north"]
 script = ExtResource("5")
 id = "sconce_model_north"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-1.6, 1.9, 4.8)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_sconce_model_south"]
 script = ExtResource("5")
 id = "sconce_model_south"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(1.6, 1.9, -1.2)
 rotation_y = 270.0
 
 [sub_resource type="Resource" id="prop_window"]
 script = ExtResource("5")
 id = "hall_window"
-model = "res://assets/shared/structure/window_clean.glb"
+substrate_prop_kind = "window_frame"
 position = Vector3(1.85, 1.5, 1.0)
 rotation_y = 270.0
 
 [sub_resource type="Resource" id="prop_window_ray"]
 script = ExtResource("5")
 id = "hall_window_ray"
-model = "res://assets/shared/structure/window_ray.glb"
+substrate_prop_kind = "window_ray"
 position = Vector3(1.65, 1.4, 1.0)
 rotation_y = 270.0
 
@@ -376,9 +376,6 @@ floor_name = "upper_floor"
 environment_preset = "upper_floor"
 dimensions = Vector3(4, 2.4, 16)
 is_exterior = false
-wall_texture = "wall1_texture"
-floor_texture = "floor1_texture"
-ceiling_texture = "ceiling1_texture"
 wall_north = PackedStringArray("wall", "doorway:upper_hallway_to_attic_stairs")
 wall_south = PackedStringArray("wall", "wall")
 wall_east = PackedStringArray("wall", "wall", "wall", "wall", "doorway:upper_hallway_to_guest_room", "wall", "wall", "wall")

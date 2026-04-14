@@ -280,7 +280,7 @@ type = "painting"
 position = Vector3(-6, 2, 0)
 wall = "west"
 collision_size = Vector3(1.5, 1.5, 1.5)
-model = "res://assets/shared/decor/picture_blank.glb"
+substrate_prop_kind = "picture_frame_blank_000"
 responses = Array[Resource]([SubResource("resp_portrait_truth"), SubResource("resp_portrait_default")])
 thread_responses = {"child": [SubResource("resp_portrait_captive")], "adult": [SubResource("resp_portrait_adult")], "elder": [SubResource("resp_portrait_sovereign")], "captive": [SubResource("resp_portrait_captive")], "mourning": [SubResource("resp_portrait_mourning")], "sovereign": [SubResource("resp_portrait_sovereign")]}
 
@@ -290,7 +290,7 @@ id = "porcelain_doll"
 type = "doll"
 position = Vector3(-2, 0.6, 4)
 collision_size = Vector3(1.5, 1.5, 1.5)
-model = "res://assets/horror/models/doll1.glb"
+visual_kind = "attic_porcelain_doll"
 responses = Array[Resource]([SubResource("resp_doll_letter"), SubResource("resp_doll_default")])
 thread_responses = {"child": [SubResource("resp_doll_captive")], "adult": [SubResource("resp_doll_mourning")], "elder": [SubResource("resp_doll_sovereign")], "captive": [SubResource("resp_doll_captive")], "mourning": [SubResource("resp_doll_mourning")], "sovereign": [SubResource("resp_doll_sovereign")]}
 
@@ -335,7 +335,7 @@ id = "attic_music_box"
 type = "observation"
 position = Vector3(-3.0, 0.85, 2.0)
 collision_size = Vector3(1.0, 0.8, 1.0)
-model = "res://assets/shared/items/music_box.glb"
+visual_kind = "music_box_display"
 responses = Array[Resource]([SubResource("resp_music_box_wound"), SubResource("resp_music_box_no_lantern"), SubResource("resp_music_box_no_key"), SubResource("resp_music_box_default")])
 thread_responses = {"child": [SubResource("resp_music_box_child_done"), SubResource("resp_music_box_child")], "elder": [SubResource("resp_music_box_elder_done"), SubResource("resp_music_box_elder")], "captive": [SubResource("resp_music_box_child_done"), SubResource("resp_music_box_child")], "sovereign": [SubResource("resp_music_box_elder_done"), SubResource("resp_music_box_elder")]}
 
@@ -401,122 +401,122 @@ flickering = false
 [sub_resource type="Resource" id="prop_trunk"]
 script = ExtResource("5")
 id = "elizabeth_trunk_prop"
-model = "res://assets/shared/furniture/drawers.glb"
+substrate_prop_kind = "furniture_drawers"
 position = Vector3(2, 0, 3)
 scale = 0.5
 
 [sub_resource type="Resource" id="prop_chair"]
 script = ExtResource("5")
 id = "child_chair"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(-2, 0, 4)
 scale = 0.7
 
 [sub_resource type="Resource" id="prop_cot"]
 script = ExtResource("5")
 id = "attic_cot"
-model = "res://assets/shared/furniture/bed.glb"
+substrate_prop_kind = "furniture_bed"
 position = Vector3(4, 0, 2)
 scale = 0.7
 
 [sub_resource type="Resource" id="prop_mattress"]
 script = ExtResource("5")
 id = "old_mattress"
-model = "res://assets/attic/storage/old_mattress_mx_1.glb"
+content_prop_kind = "attic_storage_old_mattress"
 position = Vector3(4.8, 0, 2.8)
 rotation_y = 12.0
 
 [sub_resource type="Resource" id="prop_bucket"]
 script = ExtResource("5")
 id = "attic_bucket"
-model = "res://assets/attic/storage/bucket_mx_1.glb"
+substrate_prop_kind = "attic_bucket_small"
 position = Vector3(5.2, 0, -0.8)
 
 [sub_resource type="Resource" id="prop_soap"]
 script = ExtResource("5")
 id = "attic_soap"
-model = "res://assets/attic/storage/soap_mx_1.glb"
+content_prop_kind = "attic_storage_attic_soap"
 position = Vector3(5.2, 0.45, -0.7)
 
 [sub_resource type="Resource" id="prop_dead_lamp"]
 script = ExtResource("5")
 id = "dead_lamp"
-model = "res://assets/attic/storage/lamp_mx_4_off.glb"
+content_prop_kind = "attic_storage_dead_lamp"
 position = Vector3(1.6, 0, -1.2)
 
 [sub_resource type="Resource" id="prop_mask"]
 script = ExtResource("5")
 id = "ritual_mask_prop"
-model = "res://assets/attic/storage/mask_mx_3.glb"
+substrate_prop_kind = "attic_mask_ritual"
 position = Vector3(5.7, 1.7, 0.2)
 rotation_y = 270.0
 
 [sub_resource type="Resource" id="prop_mining"]
 script = ExtResource("5")
 id = "stored_tools"
-model = "res://assets/attic/storage/mining_props.glb"
+content_prop_kind = "attic_storage_stored_tools"
 position = Vector3(5.2, 0, 1.6)
 scale = 0.9
 
 [sub_resource type="Resource" id="prop_bat"]
 script = ExtResource("5")
 id = "rafter_bat"
-model = "res://assets/attic/storage/bat.glb"
+content_prop_kind = "attic_storage_rafter_bat"
 position = Vector3(0.5, 2.8, 4.8)
 
 [sub_resource type="Resource" id="prop_candle"]
 script = ExtResource("5")
 id = "doll_candle"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(-1.2, 0.82, 4.1)
 scale = 0.8
 
 [sub_resource type="Resource" id="prop_desk_candle_holder"]
 script = ExtResource("5")
 id = "desk_candle_holder"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-3.0, 0.78, 2.0)
 scale = 0.85
 
 [sub_resource type="Resource" id="prop_desk_candle"]
 script = ExtResource("5")
 id = "desk_candle"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(-3.0, 0.82, 2.0)
 scale = 0.85
 
 [sub_resource type="Resource" id="prop_picture_frame"]
 script = ExtResource("5")
 id = "portrait_frame"
-model = "res://assets/shared/decor/picture_blank_005.glb"
+substrate_prop_kind = "picture_frame_blank_005"
 position = Vector3(-5.8, 1.8, 0.0)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_book"]
 script = ExtResource("5")
 id = "child_book"
-model = "res://assets/shared/items/book2.glb"
+content_prop_kind = "attic_storage_child_book"
 position = Vector3(3.4, 0.58, 2.4)
 rotation_y = -18.0
 
 [sub_resource type="Resource" id="prop_page_a"]
 script = ExtResource("5")
 id = "drawing_page_a"
-model = "res://assets/shared/items/page2.glb"
+substrate_prop_kind = "item_page_002"
 position = Vector3(2.2, 0.58, 3.4)
 rotation_y = 8.0
 
 [sub_resource type="Resource" id="prop_page_b"]
 script = ExtResource("5")
 id = "drawing_page_b"
-model = "res://assets/shared/items/page5.glb"
+substrate_prop_kind = "item_page_005"
 position = Vector3(3.0, 0.58, 2.9)
 rotation_y = -24.0
 
 [sub_resource type="Resource" id="prop_writing_desk"]
 script = ExtResource("5")
 id = "writing_desk"
-model = "res://assets/shared/furniture/drawers.glb"
+substrate_prop_kind = "furniture_drawers"
 position = Vector3(-3.0, 0, 2.0)
 scale = 0.7
 
@@ -562,7 +562,7 @@ script = ExtResource("10")
 flashback_id = "attic_elizabeth_flashback"
 condition = "read_elizabeth_letter"
 once = true
-model = "res://assets/horror/models/bloodwraith.glb"
+visual_kind = "bloodwraith_apparition"
 model_position = Vector3(-2, 0, 4)
 model_scale = 0.5
 duration = 6.0
@@ -580,9 +580,6 @@ floor_name = "attic"
 environment_preset = "attic"
 dimensions = Vector3(14, 4, 12)
 is_exterior = false
-wall_texture = "wall7_texture"
-floor_texture = "floor1_texture"
-ceiling_texture = "ceiling2_texture"
 wall_north = PackedStringArray("wall", "wall", "wall", "wall", "wall", "wall", "wall")
 wall_south = PackedStringArray("wall", "wall", "wall", "doorway:attic_storage_to_attic_stairs", "wall", "wall", "wall")
 wall_east = PackedStringArray("wall", "wall", "wall", "wall", "wall", "wall")

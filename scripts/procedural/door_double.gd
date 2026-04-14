@@ -3,12 +3,16 @@ extends Node3D
 ## Double doors -- two panels swing outward simultaneously.
 ## Used for formal entrances (Foyer↔Dining Room).
 
+const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
+
 @export var frame_width: float = 2.0
 @export var frame_height: float = 2.2
 @export var frame_thickness: float = 0.12
 @export var post_width: float = 0.08
-@export var door_texture: Texture2D = null
-@export var frame_texture: Texture2D = null
+@export var panel_surface_ref: String = ""
+@export var frame_surface_ref: String = ""
+@export var legacy_door_texture: Texture2D = null # Retired compatibility-only texture input
+@export var legacy_frame_texture: Texture2D = null # Retired compatibility-only texture input
 @export var open_angle: float = 90.0
 @export var open_speed: float = 0.9
 @export var target_room: String = ""
@@ -71,13 +75,10 @@ func _add_panel(parent: Node3D, w: float, pos: Vector3) -> void:
 	mi.name = "Panel"
 	var quad := QuadMesh.new()
 	quad.size = Vector2(w, frame_height)
-	if door_texture:
-		var mat := StandardMaterial3D.new()
-		mat.albedo_texture = door_texture
-		mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
-		mat.cull_mode = BaseMaterial3D.CULL_DISABLED
-		quad.material = mat
 	mi.mesh = quad
+	var material := _resolve_panel_material()
+	if material != null:
+		mi.set_surface_override_material(0, material)
 	mi.position = pos
 	parent.add_child(mi)
 
@@ -87,12 +88,10 @@ func _add_beam(beam_name: String, size: Vector3, pos: Vector3) -> void:
 	mi.name = beam_name
 	var box := BoxMesh.new()
 	box.size = size
-	if frame_texture:
-		var mat := StandardMaterial3D.new()
-		mat.albedo_texture = frame_texture
-		mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
-		box.material = mat
 	mi.mesh = box
+	var material := _resolve_frame_material()
+	if material != null:
+		mi.set_surface_override_material(0, material)
 	mi.position = pos
 	add_child(mi)
 
@@ -111,3 +110,21 @@ func _build_interaction_area() -> void:
 	shape.position = Vector3(0, frame_height / 2.0, 0)
 	area.add_child(shape)
 	add_child(area)
+
+
+func _resolve_panel_material() -> Material:
+	var resolved_surface := EstateMaterialKit.resolve_surface_reference(panel_surface_ref, "recipe:surface/oak_dark")
+	if not resolved_surface.is_empty():
+		return EstateMaterialKit.build_surface_reference(resolved_surface, {"double_sided": true})
+	if legacy_door_texture != null:
+		return EstateMaterialKit.legacy_texture_surface(legacy_door_texture, true)
+	return null
+
+
+func _resolve_frame_material() -> Material:
+	var resolved_surface := EstateMaterialKit.resolve_surface_reference(frame_surface_ref, "recipe:surface/oak_header")
+	if not resolved_surface.is_empty():
+		return EstateMaterialKit.build_surface_reference(resolved_surface)
+	if legacy_frame_texture != null:
+		return EstateMaterialKit.legacy_texture_surface(legacy_frame_texture)
+	return null

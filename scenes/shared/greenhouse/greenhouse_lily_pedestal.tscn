@@ -1,8 +1,6 @@
 [gd_scene load_steps=5 format=3]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_base"]
-albedo_color = Color(0.22, 0.18, 0.14, 1)
-roughness = 0.86
+[ext_resource type="Script" path="res://scenes/shared/shared_recipe_applicator.gd" id="1_aaxu5"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_foot"]
 top_radius = 0.26
@@ -23,18 +21,17 @@ height = 0.05
 radial_segments = 16
 
 [node name="GreenhouseLilyPedestal" type="Node3D"]
+script = ExtResource("1_aaxu5")
+recipe_groups = {"surface/pedestal_stone": PackedStringArray("Foot", "Column", "Top")}
 
 [node name="Foot" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.04, 0)
-material_override = SubResource("StandardMaterial3D_base")
 mesh = SubResource("CylinderMesh_foot")
 
 [node name="Column" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.34, 0)
-material_override = SubResource("StandardMaterial3D_base")
 mesh = SubResource("CylinderMesh_column")
 
 [node name="Top" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.625, 0)
-material_override = SubResource("StandardMaterial3D_base")
 mesh = SubResource("CylinderMesh_top")

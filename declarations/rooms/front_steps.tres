@@ -151,14 +151,14 @@ flicker_pattern = "gas"
 [sub_resource type="Resource" id="prop_step_center"]
 script = ExtResource("5")
 id = "front_steps_center"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, -1.6)
 scale = 1.08
 
 [sub_resource type="Resource" id="prop_step_left"]
 script = ExtResource("5")
 id = "front_steps_left"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(-1.8, 0, -1.9)
 rotation_y = -5.0
 scale = 1.14
@@ -166,7 +166,7 @@ scale = 1.14
 [sub_resource type="Resource" id="prop_step_right"]
 script = ExtResource("5")
 id = "front_steps_right"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(1.8, 0, -1.9)
 rotation_y = 5.0
 scale = 1.14
@@ -174,21 +174,21 @@ scale = 1.14
 [sub_resource type="Resource" id="prop_step_far"]
 script = ExtResource("5")
 id = "front_steps_far"
-model = "res://assets/shared/structure/floor3.glb"
+substrate_prop_kind = "stone_slab"
 position = Vector3(0, 0, 0.8)
 scale = 1.08
 
 [sub_resource type="Resource" id="prop_forecourt_steps_shell"]
 script = ExtResource("5")
 id = "front_steps_forecourt_steps_shell"
-scene_path = "res://scenes/shared/grounds/estate_forecourt_steps.tscn"
+substrate_prop_kind = "forecourt_steps"
 position = Vector3(0, 0, 0.3)
 scale_3d = Vector3(1.0, 1.0, 1.02)
 
 [sub_resource type="Resource" id="prop_statue_plinth_left"]
 script = ExtResource("5")
 id = "front_steps_statue_plinth_left"
-model = "res://assets/shared/structure/pillar0_002.glb"
+substrate_prop_kind = "plinth_tall"
 position = Vector3(-9.2, 0, -0.8)
 rotation_y = 22.0
 scale = 0.72
@@ -196,7 +196,7 @@ scale = 0.72
 [sub_resource type="Resource" id="prop_statue_left"]
 script = ExtResource("5")
 id = "front_steps_statue_left"
-model = "res://assets/shared/decor/statue.glb"
+substrate_prop_kind = "forecourt_statue"
 position = Vector3(-8.8, 1.0, -1.2)
 rotation_y = 14.0
 scale = 0.58
@@ -204,7 +204,7 @@ scale = 0.58
 [sub_resource type="Resource" id="prop_statue_plinth_right"]
 script = ExtResource("5")
 id = "front_steps_statue_plinth_right"
-model = "res://assets/shared/structure/pillar0_003.glb"
+substrate_prop_kind = "plinth_tall"
 position = Vector3(9.3, 0, -0.5)
 rotation_y = -22.0
 scale = 0.72
@@ -212,7 +212,7 @@ scale = 0.72
 [sub_resource type="Resource" id="prop_statue_right"]
 script = ExtResource("5")
 id = "front_steps_statue_right"
-model = "res://assets/shared/decor/statue.glb"
+substrate_prop_kind = "forecourt_statue"
 position = Vector3(8.9, 1.0, -0.9)
 rotation_y = -12.0
 scale = 0.58
@@ -220,21 +220,21 @@ scale = 0.58
 [sub_resource type="Resource" id="prop_mansion_facade_shell"]
 script = ExtResource("5")
 id = "front_steps_mansion_facade_shell"
-scene_path = "res://scenes/shared/grounds/estate_mansion_facade.tscn"
+substrate_prop_kind = "mansion_facade"
 position = Vector3(0, 0, 4.9)
 scale_3d = Vector3(1.0, 1.0, 1.0)
 
 [sub_resource type="Resource" id="prop_front_steps_entry_portico"]
 script = ExtResource("5")
 id = "front_steps_entry_portico"
-scene_path = "res://scenes/shared/grounds/estate_entry_portico.tscn"
+substrate_prop_kind = "entry_portico"
 position = Vector3(0, 0, 4.3)
 scale_3d = Vector3(1.0, 1.0, 1.0)
 
 [sub_resource type="Resource" id="prop_facade_wall_center"]
 script = ExtResource("5")
 id = "front_steps_facade_wall_center"
-model = "res://assets/mansion_psx/models/SM_Door_Wall.glb"
+substrate_prop_kind = "manor_wall_panel"
 position = Vector3(0, 0, 4.9)
 rotation_y = 90.0
 scale = 1.0
@@ -242,7 +242,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_wall_left"]
 script = ExtResource("5")
 id = "front_steps_facade_wall_left"
-model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+substrate_prop_kind = "manor_window_panel"
 position = Vector3(-4.6, 0, 5.4)
 rotation_y = 180.0
 scale = 1.0
@@ -250,7 +250,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_wall_right"]
 script = ExtResource("5")
 id = "front_steps_facade_wall_right"
-model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+substrate_prop_kind = "manor_window_panel"
 position = Vector3(4.6, 0, 5.4)
 rotation_y = 180.0
 scale = 1.0
@@ -258,7 +258,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_wing_left"]
 script = ExtResource("5")
 id = "front_steps_facade_wing_left"
-model = "res://assets/mansion_psx/models/SM_Big_Wall.glb"
+substrate_prop_kind = "manor_wing_panel"
 position = Vector3(-9.0, 0, 5.9)
 rotation_y = 180.0
 scale = 1.0
@@ -266,7 +266,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_wing_right"]
 script = ExtResource("5")
 id = "front_steps_facade_wing_right"
-model = "res://assets/mansion_psx/models/SM_Big_Wall.glb"
+substrate_prop_kind = "manor_wing_panel"
 position = Vector3(9.0, 0, 5.9)
 rotation_y = 180.0
 scale = 1.0
@@ -274,7 +274,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_pillar_left"]
 script = ExtResource("5")
 id = "front_steps_facade_pillar_left"
-model = "res://assets/mansion_psx/models/SM_Wall_Column.glb"
+substrate_prop_kind = "manor_wall_column"
 position = Vector3(-2.3, 0, 4.8)
 rotation_y = 180.0
 scale = 1.0
@@ -282,7 +282,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_pillar_right"]
 script = ExtResource("5")
 id = "front_steps_facade_pillar_right"
-model = "res://assets/mansion_psx/models/SM_Wall_Column.glb"
+substrate_prop_kind = "manor_wall_column"
 position = Vector3(2.3, 0, 4.8)
 rotation_y = 180.0
 scale = 1.0
@@ -290,7 +290,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_upper_center"]
 script = ExtResource("5")
 id = "front_steps_facade_upper_center"
-model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+substrate_prop_kind = "manor_window_panel"
 position = Vector3(0, 4.05, 5.15)
 rotation_y = 180.0
 scale = 1.0
@@ -298,7 +298,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_upper_left"]
 script = ExtResource("5")
 id = "front_steps_facade_upper_left"
-model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+substrate_prop_kind = "manor_window_panel"
 position = Vector3(-4.6, 4.05, 5.55)
 rotation_y = 180.0
 scale = 1.0
@@ -306,7 +306,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_upper_right"]
 script = ExtResource("5")
 id = "front_steps_facade_upper_right"
-model = "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+substrate_prop_kind = "manor_window_panel"
 position = Vector3(4.6, 4.05, 5.55)
 rotation_y = 180.0
 scale = 1.0
@@ -314,7 +314,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_roof_left"]
 script = ExtResource("5")
 id = "front_steps_facade_roof_left"
-model = "res://assets/mansion_psx/models/SM_Roof.glb"
+substrate_prop_kind = "manor_roof_panel"
 position = Vector3(-4.6, 8.08, 5.65)
 rotation_y = 180.0
 scale = 1.0
@@ -322,7 +322,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_roof_center"]
 script = ExtResource("5")
 id = "front_steps_facade_roof_center"
-model = "res://assets/mansion_psx/models/SM_Roof.glb"
+substrate_prop_kind = "manor_roof_panel"
 position = Vector3(0, 8.08, 5.25)
 rotation_y = 180.0
 scale = 1.0
@@ -330,7 +330,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_roof_right"]
 script = ExtResource("5")
 id = "front_steps_facade_roof_right"
-model = "res://assets/mansion_psx/models/SM_Roof.glb"
+substrate_prop_kind = "manor_roof_panel"
 position = Vector3(4.6, 8.08, 5.65)
 rotation_y = 180.0
 scale = 1.0
@@ -338,7 +338,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_doorway"]
 script = ExtResource("5")
 id = "front_steps_facade_doorway"
-model = "res://assets/mansion_psx/models/SM_Door_Frame.glb"
+substrate_prop_kind = "doorway_trim"
 position = Vector3(0, 0, 4.9)
 rotation_y = 90.0
 scale = 1.0
@@ -346,14 +346,14 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_door"]
 script = ExtResource("5")
 id = "front_steps_facade_door"
-scene_path = "res://scenes/shared/grounds/estate_front_door.tscn"
+substrate_prop_kind = "front_door_assembly"
 position = Vector3(0, 0, 4.6)
 scale_3d = Vector3(1.0, 1.0, 1.0)
 
 [sub_resource type="Resource" id="prop_facade_lamp_left"]
 script = ExtResource("5")
 id = "front_steps_facade_lamp_left"
-model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+substrate_prop_kind = "front_gate_lamp"
 position = Vector3(-2.2, 0, 4.05)
 rotation_y = 8.0
 scale = 0.76
@@ -361,7 +361,7 @@ scale = 0.76
 [sub_resource type="Resource" id="prop_facade_lamp_right"]
 script = ExtResource("5")
 id = "front_steps_facade_lamp_right"
-model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+substrate_prop_kind = "front_gate_lamp"
 position = Vector3(2.2, 0, 4.05)
 rotation_y = -8.0
 scale = 0.76
@@ -369,28 +369,28 @@ scale = 0.76
 [sub_resource type="Resource" id="prop_service_boundary_wall"]
 script = ExtResource("5")
 id = "front_steps_service_boundary_wall"
-scene_path = "res://scenes/shared/grounds/estate_boundary_wall.tscn"
+substrate_prop_kind = "boundary_wall"
 position = Vector3(-5.8, 0, 0.7)
 scale_3d = Vector3(0.92, 1.0, 0.98)
 
 [sub_resource type="Resource" id="prop_garden_boundary_wall"]
 script = ExtResource("5")
 id = "front_steps_garden_boundary_wall"
-scene_path = "res://scenes/shared/grounds/estate_boundary_wall.tscn"
+substrate_prop_kind = "boundary_wall"
 position = Vector3(5.8, 0, 0.7)
 scale_3d = Vector3(0.92, 1.0, 0.98)
 
 [sub_resource type="Resource" id="prop_service_gate_inner_pillar"]
 script = ExtResource("5")
 id = "front_steps_service_gate_inner_pillar"
-scene_path = "res://scenes/shared/grounds/estate_gate_post.tscn"
+substrate_prop_kind = "gate_post"
 position = Vector3(-7.9, 0, 0.7)
 scale_3d = Vector3(0.82, 0.96, 0.82)
 
 [sub_resource type="Resource" id="prop_service_gate"]
 script = ExtResource("5")
 id = "front_steps_service_gate_prop"
-scene_path = "res://scenes/shared/grounds/estate_iron_gate_closed.tscn"
+substrate_prop_kind = "iron_gate_closed"
 position = Vector3(-9.2, 0, 0.7)
 rotation_y = 90.0
 scale_3d = Vector3(0.48, 0.84, 0.48)
@@ -398,14 +398,14 @@ scale_3d = Vector3(0.48, 0.84, 0.48)
 [sub_resource type="Resource" id="prop_service_gate_outer_pillar"]
 script = ExtResource("5")
 id = "front_steps_service_gate_outer_pillar"
-scene_path = "res://scenes/shared/grounds/estate_gate_post.tscn"
+substrate_prop_kind = "gate_post"
 position = Vector3(-10.5, 0, 0.7)
 scale_3d = Vector3(0.82, 0.96, 0.82)
 
 [sub_resource type="Resource" id="prop_service_fence_stub"]
 script = ExtResource("5")
 id = "front_steps_service_fence_stub"
-scene_path = "res://scenes/shared/grounds/estate_fence_run.tscn"
+substrate_prop_kind = "fence_run"
 position = Vector3(-11.8, 0, 0.7)
 rotation_y = 90.0
 scale_3d = Vector3(0.9, 0.94, 0.94)
@@ -413,7 +413,7 @@ scale_3d = Vector3(0.9, 0.94, 0.94)
 [sub_resource type="Resource" id="prop_service_hedge_stub"]
 script = ExtResource("5")
 id = "front_steps_service_hedge_stub"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(-13.6, 0, 0.8)
 rotation_y = 90.0
 scale = 1.0
@@ -422,14 +422,14 @@ scale_3d = Vector3(1.04, 1.0, 1.34)
 [sub_resource type="Resource" id="prop_garden_gate_inner_pillar"]
 script = ExtResource("5")
 id = "front_steps_garden_gate_inner_pillar"
-scene_path = "res://scenes/shared/grounds/estate_gate_post.tscn"
+substrate_prop_kind = "gate_post"
 position = Vector3(7.9, 0, 0.7)
 scale_3d = Vector3(0.82, 0.96, 0.82)
 
 [sub_resource type="Resource" id="prop_garden_gate"]
 script = ExtResource("5")
 id = "front_steps_garden_gate_prop"
-scene_path = "res://scenes/shared/grounds/estate_iron_gate_closed.tscn"
+substrate_prop_kind = "iron_gate_closed"
 position = Vector3(9.2, 0, 0.7)
 rotation_y = 270.0
 scale_3d = Vector3(0.48, 0.84, 0.48)
@@ -437,14 +437,14 @@ scale_3d = Vector3(0.48, 0.84, 0.48)
 [sub_resource type="Resource" id="prop_garden_gate_outer_pillar"]
 script = ExtResource("5")
 id = "front_steps_garden_gate_outer_pillar"
-scene_path = "res://scenes/shared/grounds/estate_gate_post.tscn"
+substrate_prop_kind = "gate_post"
 position = Vector3(10.5, 0, 0.7)
 scale_3d = Vector3(0.82, 0.96, 0.82)
 
 [sub_resource type="Resource" id="prop_garden_fence_stub"]
 script = ExtResource("5")
 id = "front_steps_garden_fence_stub"
-scene_path = "res://scenes/shared/grounds/estate_fence_run.tscn"
+substrate_prop_kind = "fence_run"
 position = Vector3(11.8, 0, 0.7)
 rotation_y = 270.0
 scale_3d = Vector3(0.9, 0.94, 0.94)
@@ -452,7 +452,7 @@ scale_3d = Vector3(0.9, 0.94, 0.94)
 [sub_resource type="Resource" id="prop_garden_hedge_stub"]
 script = ExtResource("5")
 id = "front_steps_garden_hedge_stub"
-model = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(13.6, 0, 0.8)
 rotation_y = 270.0
 scale = 1.0
@@ -470,9 +470,6 @@ spatial_class = "threshold_room"
 exposure_faces = PackedStringArray("south", "east", "west", "roof")
 outlook_zones = {"north": "front_door_threshold", "south": "ceremonial_drive_return", "east": "side_path_gate_east", "west": "side_path_gate_west", "roof": "open_sky"}
 window_view_mode = "facade_view"
-wall_texture = ""
-floor_texture = "res://assets/shared/pbr/grounds/estate_earth_color.jpg"
-ceiling_texture = ""
 wall_north = PackedStringArray()
 wall_south = PackedStringArray()
 wall_east = PackedStringArray()
@@ -487,7 +484,7 @@ entry_anchors = Array[Resource]([SubResource("anchor_entry_from_drive"), SubReso
 focal_anchors = Array[Resource]([SubResource("anchor_focus_front_door"), SubResource("anchor_focus_forecourt")])
 interactables = Array[Resource]([SubResource("inter_front_door"), SubResource("inter_front_lamp"), SubResource("inter_service_gate"), SubResource("inter_garden_gate")])
 lights = Array[Resource]([SubResource("light_moonlight"), SubResource("light_doorway_glow"), SubResource("light_lamp_left"), SubResource("light_lamp_right")])
-props = Array[Resource]([SubResource("prop_forecourt_steps_shell"), SubResource("prop_statue_plinth_left"), SubResource("prop_statue_left"), SubResource("prop_statue_plinth_right"), SubResource("prop_statue_right"), SubResource("prop_mansion_facade_shell"), SubResource("prop_front_steps_entry_portico"), SubResource("prop_facade_door"), SubResource("prop_facade_lamp_left"), SubResource("prop_facade_lamp_right"), SubResource("prop_service_boundary_wall"), SubResource("prop_service_gate_inner_pillar"), SubResource("prop_service_gate"), SubResource("prop_service_gate_outer_pillar"), SubResource("prop_service_fence_stub"), SubResource("prop_service_hedge_stub"), SubResource("prop_garden_boundary_wall"), SubResource("prop_garden_gate_inner_pillar"), SubResource("prop_garden_gate"), SubResource("prop_garden_gate_outer_pillar"), SubResource("prop_garden_fence_stub"), SubResource("prop_garden_hedge_stub")])
+props = Array[Resource]([SubResource("prop_step_center"), SubResource("prop_step_left"), SubResource("prop_step_right"), SubResource("prop_step_far"), SubResource("prop_forecourt_steps_shell"), SubResource("prop_statue_plinth_left"), SubResource("prop_statue_left"), SubResource("prop_statue_plinth_right"), SubResource("prop_statue_right"), SubResource("prop_mansion_facade_shell"), SubResource("prop_front_steps_entry_portico"), SubResource("prop_facade_door"), SubResource("prop_facade_lamp_left"), SubResource("prop_facade_lamp_right"), SubResource("prop_service_boundary_wall"), SubResource("prop_service_gate_inner_pillar"), SubResource("prop_service_gate"), SubResource("prop_service_gate_outer_pillar"), SubResource("prop_service_fence_stub"), SubResource("prop_service_hedge_stub"), SubResource("prop_garden_boundary_wall"), SubResource("prop_garden_gate_inner_pillar"), SubResource("prop_garden_gate"), SubResource("prop_garden_gate_outer_pillar"), SubResource("prop_garden_fence_stub"), SubResource("prop_garden_hedge_stub")])
 on_entry = Array[Resource]([])
 on_exit = Array[Resource]([])
 ambient_events = Array[Resource]([])

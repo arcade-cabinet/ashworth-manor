@@ -1,23 +1,6 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scenes/shared/shared_recipe_applicator.gd" id="1_b0kwa"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_table"]
-albedo_color = Color(0.26666668, 0.16078432, 0.09019608, 1)
-roughness = 0.92
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tray"]
-albedo_color = Color(0.35686275, 0.23529412, 0.12156863, 1)
-roughness = 0.82
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ceramic"]
-albedo_color = Color(0.87058824, 0.83137256, 0.7529412, 1)
-roughness = 0.78
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_brass"]
-albedo_color = Color(0.5882353, 0.45490196, 0.23137255, 1)
-metallic = 0.35
-roughness = 0.42
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_table_top"]
 top_radius = 0.42
@@ -72,36 +55,36 @@ size = Vector3(0.02, 0.02, 0.06)
 
 [node name="ParlorTeaServiceSet" type="Node3D"]
 script = ExtResource("1_b0kwa")
-recipe_groups = {"liquid/tea_still": PackedStringArray("TeaUsed", "TeaUntouched")}
+recipe_groups = {
+"liquid/tea_still": PackedStringArray("TeaUsed", "TeaUntouched"),
+"surface/brass": PackedStringArray("TeapotLid", "TeapotHandleTop", "TeapotHandleBottom", "TeapotHandleSide"),
+"surface/oak_dark": PackedStringArray("TeaTableTop", "TeaTablePedestal", "TeaTableBase"),
+"surface/tea_ceramic": PackedStringArray("SaucerUsed", "CupUsed", "SaucerUntouched", "CupUntouched", "TeapotBody", "TeapotSpout"),
+"surface/tea_tray": PackedStringArray("Tray")
+}
 
 [node name="TeaTableTop" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.34, 0)
-material_override = SubResource("StandardMaterial3D_table")
 mesh = SubResource("CylinderMesh_table_top")
 
 [node name="TeaTablePedestal" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.17, 0)
-material_override = SubResource("StandardMaterial3D_table")
 mesh = SubResource("CylinderMesh_table_pedestal")
 
 [node name="TeaTableBase" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.02, 0)
-material_override = SubResource("StandardMaterial3D_table")
 mesh = SubResource("CylinderMesh_table_base")
 
 [node name="Tray" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.385, 0)
-material_override = SubResource("StandardMaterial3D_tray")
 mesh = SubResource("BoxMesh_tray")
 
 [node name="SaucerUsed" type="MeshInstance3D" parent="."]
 position = Vector3(0.11, 0.404, -0.075)
-material_override = SubResource("StandardMaterial3D_ceramic")
 mesh = SubResource("CylinderMesh_saucer")
 
 [node name="CupUsed" type="MeshInstance3D" parent="."]
 position = Vector3(0.11, 0.443, -0.075)
-material_override = SubResource("StandardMaterial3D_ceramic")
 mesh = SubResource("CylinderMesh_cup")
 
 [node name="TeaUsed" type="MeshInstance3D" parent="."]
@@ -110,12 +93,10 @@ mesh = SubResource("CylinderMesh_tea_surface")
 
 [node name="SaucerUntouched" type="MeshInstance3D" parent="."]
 position = Vector3(0.13, 0.404, 0.085)
-material_override = SubResource("StandardMaterial3D_ceramic")
 mesh = SubResource("CylinderMesh_saucer")
 
 [node name="CupUntouched" type="MeshInstance3D" parent="."]
 position = Vector3(0.13, 0.443, 0.085)
-material_override = SubResource("StandardMaterial3D_ceramic")
 mesh = SubResource("CylinderMesh_cup")
 
 [node name="TeaUntouched" type="MeshInstance3D" parent="."]
@@ -124,31 +105,25 @@ mesh = SubResource("CylinderMesh_tea_surface")
 
 [node name="TeapotBody" type="MeshInstance3D" parent="."]
 position = Vector3(-0.09, 0.45, 0.01)
-material_override = SubResource("StandardMaterial3D_ceramic")
 mesh = SubResource("SphereMesh_pot_body")
 
 [node name="TeapotLid" type="MeshInstance3D" parent="."]
 position = Vector3(-0.09, 0.535, 0.01)
-material_override = SubResource("StandardMaterial3D_brass")
 mesh = SubResource("SphereMesh_pot_lid")
 
 [node name="TeapotSpout" type="MeshInstance3D" parent="."]
 position = Vector3(-0.18, 0.46, -0.01)
 rotation = Vector3(0, 0, -0.38)
-material_override = SubResource("StandardMaterial3D_ceramic")
 mesh = SubResource("BoxMesh_pot_spout")
 
 [node name="TeapotHandleTop" type="MeshInstance3D" parent="."]
 position = Vector3(0.0, 0.48, 0.01)
-material_override = SubResource("StandardMaterial3D_brass")
 mesh = SubResource("BoxMesh_handle_top")
 
 [node name="TeapotHandleBottom" type="MeshInstance3D" parent="."]
 position = Vector3(0.0, 0.43, 0.01)
-material_override = SubResource("StandardMaterial3D_brass")
 mesh = SubResource("BoxMesh_handle_top")
 
 [node name="TeapotHandleSide" type="MeshInstance3D" parent="."]
 position = Vector3(0.0, 0.455, 0.035)
-material_override = SubResource("StandardMaterial3D_brass")
 mesh = SubResource("BoxMesh_handle_side")

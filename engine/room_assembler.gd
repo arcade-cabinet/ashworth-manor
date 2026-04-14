@@ -14,7 +14,9 @@ const ConnectionAssembly = preload("res://builders/connection_assembly.gd")
 const EstateEnvironmentRegistry = preload("res://builders/estate_environment_registry.gd")
 const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
 const EstateSubstrateRegistry = preload("res://builders/estate_substrate_registry.gd")
+const ContentPropRegistry = preload("res://engine/content_prop_registry.gd")
 const InteractableVisuals = preload("res://engine/interactable_visuals.gd")
+const WindowBuilder = preload("res://builders/window_builder.gd")
 const MODEL_SCALE_OVERRIDES := {
 	"res://assets/shared/furniture/bookcase.glb": 0.32,
 	"res://assets/shared/furniture/table.glb": 0.52,
@@ -28,6 +30,294 @@ const MODEL_SCALE_OVERRIDES := {
 	"res://assets/shared/structure/window_ray.glb": 0.38,
 	"res://assets/shared/decor/statue.glb": 0.22,
 	"res://assets/shared/decor/candle_holder.glb": 0.52,
+}
+const PROCEDURAL_WINDOW_MODEL := "res://assets/shared/structure/window_clean.glb"
+const PROCEDURAL_WINDOW_RAY_MODEL := "res://assets/shared/structure/window_ray.glb"
+const PROCEDURAL_STAIRCASE_MODEL := "res://assets/shared/structure/stairs0.glb"
+const PROCEDURAL_BANISTER_MODEL := "res://assets/shared/structure/stairbanister.glb"
+const PROCEDURAL_NEWEL_MODEL := "res://assets/shared/structure/banisterbase.glb"
+const PROCEDURAL_STONE_SLAB_MODEL := "res://assets/shared/structure/floor3.glb"
+const PROCEDURAL_PLINTH_LEFT_MODEL := "res://assets/shared/structure/pillar0_002.glb"
+const PROCEDURAL_PLINTH_RIGHT_MODEL := "res://assets/shared/structure/pillar0_003.glb"
+const PROCEDURAL_FOYER_PILLAR_MODEL := "res://assets/shared/structure/pillar1.glb"
+const PROCEDURAL_FACADE_DOOR_MODEL := "res://assets/shared/structure/door1.glb"
+const PSX_DOOR_WALL_MODEL := "res://assets/mansion_psx/models/SM_Door_Wall.glb"
+const PSX_WINDOW_WALL_MODEL := "res://assets/mansion_psx/models/SM_Window_Wall.glb"
+const PSX_BIG_WALL_MODEL := "res://assets/mansion_psx/models/SM_Big_Wall.glb"
+const PSX_WALL_COLUMN_MODEL := "res://assets/mansion_psx/models/SM_Wall_Column.glb"
+const PSX_DOOR_FRAME_MODEL := "res://assets/mansion_psx/models/SM_Door_Frame.glb"
+const PSX_ROOF_MODEL := "res://assets/mansion_psx/models/SM_Roof.glb"
+const PSX_BIG_ROOF_MOLDING_MODEL := "res://assets/mansion_psx/models/SM_Big_Roof_Molding.glb"
+const PSX_BIG_WALL_MOLDING_MODEL := "res://assets/mansion_psx/models/SM_Big_Wall_Molding.glb"
+const FRONT_GATE_SIGN_SCENE := "res://scenes/shared/front_gate/front_gate_menu_sign.tscn"
+const GREENHOUSE_GLASS_SHELL_SCENE := "res://scenes/shared/greenhouse/greenhouse_glazed_shell.tscn"
+const GREENHOUSE_HANGING_LANTERN_SCENE := "res://scenes/shared/greenhouse/greenhouse_hanging_lantern.tscn"
+const ESTATE_GATE_POST_SCENE := "res://scenes/shared/grounds/estate_gate_post.tscn"
+const ESTATE_GATE_POST_STONE_SCENE := "res://scenes/shared/grounds/estate_gate_post_stone.tscn"
+const ESTATE_BOUNDARY_WALL_SCENE := "res://scenes/shared/grounds/estate_boundary_wall.tscn"
+const ESTATE_IRON_GATE_SCENE := "res://scenes/shared/grounds/estate_iron_gate.tscn"
+const ESTATE_IRON_GATE_CLOSED_SCENE := "res://scenes/shared/grounds/estate_iron_gate_closed.tscn"
+const ESTATE_FENCE_RUN_SCENE := "res://scenes/shared/grounds/estate_fence_run.tscn"
+const ESTATE_HEDGEROW_SCENE := "res://scenes/shared/grounds/estate_hedgerow.tscn"
+const ESTATE_CARRIAGE_ROAD_SCENE := "res://scenes/shared/grounds/estate_carriage_road.tscn"
+const ESTATE_OUTWARD_ROAD_SCENE := "res://scenes/shared/grounds/estate_outward_road.tscn"
+const ESTATE_MANSION_FACADE_SCENE := "res://scenes/shared/grounds/estate_mansion_facade.tscn"
+const ESTATE_ENTRY_PORTICO_SCENE := "res://scenes/shared/grounds/estate_entry_portico.tscn"
+const ESTATE_FRONT_DOOR_SCENE := "res://scenes/shared/grounds/estate_front_door.tscn"
+const ESTATE_FORECOURT_STEPS_SCENE := "res://scenes/shared/grounds/estate_forecourt_steps.tscn"
+const ESTATE_STARFIELD_SCENE := "res://scenes/shared/grounds/estate_starfield.tscn"
+const FRONT_GATE_LAMP_MODEL := "res://assets/grounds/front_gate/lamp_mx_1_a_off.glb"
+const FRONT_GATE_TREE_01_MODEL := "res://assets/grounds/front_gate/tree01_winter.glb"
+const FRONT_GATE_TREE_02_MODEL := "res://assets/grounds/front_gate/tree02_winter.glb"
+const FRONT_GATE_TREE_03_MODEL := "res://assets/grounds/front_gate/tree03_winter.glb"
+const FRONT_GATE_TREE_04_MODEL := "res://assets/grounds/front_gate/tree04_winter.glb"
+const FRONT_GATE_BUSH_01_MODEL := "res://assets/grounds/front_gate/bush01_winter.glb"
+const FRONT_GATE_BUSH_02_MODEL := "res://assets/grounds/front_gate/bush02_winter.glb"
+const FRONT_GATE_BUSH_03_MODEL := "res://assets/grounds/front_gate/bush03_winter.glb"
+const FRONT_GATE_BUSH_04_MODEL := "res://assets/grounds/front_gate/bush04_winter.glb"
+const FRONT_GATE_ROCKS_MODEL := "res://assets/grounds/front_gate/rocks.glb"
+const FRONT_GATE_IRON_GATE_LEAF_MODEL := "res://assets/grounds/front_gate/iron_gate.glb"
+const FRONT_GATE_BOUNDARY_POLE_MODEL := "res://assets/grounds/front_gate/brick_wall_pole.glb"
+const FRONT_GATE_CHIMNEY_LEFT_MODEL := "res://assets/grounds/front_gate/chimney_a_2.glb"
+const FRONT_GATE_CHIMNEY_RIGHT_MODEL := "res://assets/grounds/front_gate/chimney_a_3.glb"
+const FAMILY_CRYPT_WALL_CAPPED_MODEL := "res://assets/grounds/family_crypt/drystone_wall_capped.glb"
+const FAMILY_CRYPT_WALL_MODEL := "res://assets/grounds/family_crypt/drystone_wall.glb"
+const FAMILY_CRYPT_FENCE_MODEL := "res://assets/grounds/family_crypt/metal_fence_1.glb"
+const FAMILY_CRYPT_COLUMN_MODEL := "res://assets/grounds/family_crypt/drystone_column.glb"
+const FAMILY_CRYPT_DEBRIS_LEFT_MODEL := "res://assets/grounds/family_crypt/debris_bricks_mx_1.glb"
+const FAMILY_CRYPT_DEBRIS_RIGHT_MODEL := "res://assets/grounds/family_crypt/debris_bricks_mx_2.glb"
+const FAMILY_CRYPT_BOTTLE_MODEL := "res://assets/grounds/family_crypt/glass_bottle_mx_3.glb"
+const FAMILY_CRYPT_BONES_MODEL := "res://assets/grounds/family_crypt/scattered_bones.glb"
+const GARDEN_FOUNTAIN_MODEL := "res://assets/grounds/garden/fountain01_round.glb"
+const GARDEN_FOUNTAIN_WATER_MODEL := "res://assets/grounds/garden/fountain01_round_water.glb"
+const GARDEN_GAZEBO_MODEL := "res://assets/grounds/garden/gazebo.glb"
+const GARDEN_PATH_WEST_MODEL := "res://assets/grounds/garden/basic_5x1.glb"
+const GARDEN_PATH_CENTER_MODEL := "res://assets/grounds/garden/basic_3x1.glb"
+const GARDEN_PATH_NORTH_MODEL := "res://assets/grounds/garden/basic_1x3.glb"
+const GARDEN_PATH_CRYPT_MODEL := "res://assets/grounds/garden/basic_2x1.glb"
+const GARDEN_NORTH_WALL_W_MODEL := "res://assets/grounds/garden/stone_wall2.glb"
+const GARDEN_NORTH_WALL_E_MODEL := "res://assets/grounds/garden/stone_wall1.glb"
+const GARDEN_EAST_WALL_S_MODEL := "res://assets/grounds/garden/stone_wall3.glb"
+const GARDEN_EAST_WALL_N_MODEL := "res://assets/grounds/garden/stone_wall4.glb"
+const GARDEN_CORNER_NE_MODEL := "res://assets/grounds/garden/stone_corner.glb"
+const GARDEN_COLUMN_L_MODEL := "res://assets/grounds/garden/column1.glb"
+const GARDEN_COLUMN_R_MODEL := "res://assets/grounds/garden/column2.glb"
+const GARDEN_VASE_L_MODEL := "res://assets/grounds/garden/vase_empty.glb"
+const GARDEN_VASE_R_MODEL := "res://assets/grounds/garden/vase1.glb"
+const GARDEN_BENCH_WEST_MODEL := "res://assets/grounds/garden/bench01.glb"
+const GARDEN_GAZEBO_TABLE_MODEL := "res://assets/grounds/garden/table.glb"
+const GARDEN_BENCH_NORTH_MODEL := "res://assets/grounds/garden/bench02.glb"
+const GARDEN_FLOWERBED_WEST_MODEL := "res://assets/grounds/garden/flowerbed_2x2_empty.glb"
+const GARDEN_FLOWERBED_EAST_MODEL := "res://assets/grounds/garden/flowerbed_1x2_empty.glb"
+const CHAPEL_WALL_COLUMN_FANCY_MODEL := "res://assets/grounds/chapel/plaster_wall_column_fancy.glb"
+const CHAPEL_WALL_MODEL := "res://assets/grounds/chapel/plaster_wall.glb"
+const CHAPEL_WALL_COLUMN_MODEL := "res://assets/grounds/chapel/plaster_wall_column.glb"
+const CHAPEL_BUCKET_MODEL := "res://assets/grounds/chapel/bucket_mx_1.glb"
+const CHAPEL_BOTTLE_MODEL := "res://assets/grounds/chapel/glass_bottle_mx_1.glb"
+const CHAPEL_LAMP_MODEL := "res://assets/grounds/chapel/lamp_mx_3_off.glb"
+const CHAPEL_BONES_MODEL := "res://assets/grounds/chapel/loose_bones.glb"
+const CARRIAGE_HOUSE_MATTRESS_MODEL := "res://assets/grounds/carriage_house/old_mattress_mx_1.glb"
+const CARRIAGE_HOUSE_SHED_A_MODEL := "res://assets/grounds/carriage_house/shed_ax_1.glb"
+const CARRIAGE_HOUSE_SHED_B_MODEL := "res://assets/grounds/carriage_house/shed_ax_2.glb"
+const CARRIAGE_HOUSE_SHED_C_MODEL := "res://assets/grounds/carriage_house/shed_ax_3.glb"
+const CARRIAGE_HOUSE_SHED_D_MODEL := "res://assets/grounds/carriage_house/shed_ax_4.glb"
+const CARRIAGE_HOUSE_BOARD_1_MODEL := "res://assets/grounds/carriage_house/wooden_board_1.glb"
+const CARRIAGE_HOUSE_BOARD_2_MODEL := "res://assets/grounds/carriage_house/wooden_board_2.glb"
+const CARRIAGE_HOUSE_SHOVEL_MODEL := "res://assets/grounds/carriage_house/shovel_mx_1.glb"
+const CARRIAGE_HOUSE_LUGGAGE_MODEL := "res://assets/grounds/carriage_house/luggage_mp_1.glb"
+const CARRIAGE_HOUSE_LAMP_MODEL := "res://assets/grounds/carriage_house/lamp_mx_2_off.glb"
+const CANDLE_HOLDER_MODEL := "res://assets/shared/decor/candle_holder.glb"
+const CANDLE_SINGLE_MODEL := "res://assets/shared/items/candle0.glb"
+const PICTURE_FRAME_000_MODEL := "res://assets/shared/decor/picture_blank.glb"
+const PICTURE_FRAME_001_MODEL := "res://assets/shared/decor/picture_blank_001.glb"
+const PICTURE_FRAME_002_MODEL := "res://assets/shared/decor/picture_blank_002.glb"
+const PICTURE_FRAME_003_MODEL := "res://assets/shared/decor/picture_blank_003.glb"
+const PICTURE_FRAME_004_MODEL := "res://assets/shared/decor/picture_blank_004.glb"
+const PICTURE_FRAME_005_MODEL := "res://assets/shared/decor/picture_blank_005.glb"
+const PICTURE_FRAME_006_MODEL := "res://assets/shared/decor/picture_blank_006.glb"
+const RUG_0_MODEL := "res://assets/shared/decor/rug0.glb"
+const RUG_1_MODEL := "res://assets/shared/decor/rug1.glb"
+const RUG_2_MODEL := "res://assets/shared/decor/rug2.glb"
+const FURNITURE_TABLE_MODEL := "res://assets/shared/furniture/table.glb"
+const FURNITURE_STUDY_DESK_MODEL := "res://assets/shared/furniture/study_desk.glb"
+const FURNITURE_DRAWERS_MODEL := "res://assets/shared/furniture/drawers.glb"
+const FURNITURE_CHAIR_MODEL := "res://assets/shared/furniture/chair.glb"
+const FURNITURE_BOOKCASE_MODEL := "res://assets/shared/furniture/bookcase.glb"
+const FURNITURE_BED_MODEL := "res://assets/shared/furniture/bed.glb"
+const CHANDELIER_MODEL := "res://assets/shared/decor/chandelier.glb"
+const ITEM_PAGE_001_MODEL := "res://assets/shared/items/page1.glb"
+const ITEM_PAGE_002_MODEL := "res://assets/shared/items/page2.glb"
+const ITEM_PAGE_005_MODEL := "res://assets/shared/items/page5.glb"
+const ITEM_OPENBOOK_000_MODEL := "res://assets/shared/items/openbook0.glb"
+const ITEM_OPENBOOK_001_MODEL := "res://assets/shared/items/openbook1.glb"
+const ATTIC_LAMP_TALL_OFF_MODEL := "res://assets/attic/stairwell/lamp_mx_1_a_off.glb"
+const ATTIC_BUCKET_SMALL_MODEL := "res://assets/attic/storage/bucket_mx_1.glb"
+const ATTIC_MASK_RITUAL_MODEL := "res://assets/attic/storage/mask_mx_3.glb"
+const COAT_STAND_MODEL := "res://assets/ground_floor/foyer/stand_mx_1.glb"
+const DINING_PLATE_MODEL := "res://assets/ground_floor/dining_room/dining_plate.glb"
+const DINING_WATER_GLASS_MODEL := "res://assets/ground_floor/dining_room/water_glass.glb"
+const PARLOR_SETTEE_MODEL := "res://assets/shared/furniture/sofa.glb"
+const WINE_CELLAR_BOTTLES_MODEL := "res://assets/deep_basement/wine_cellar/bottles.glb"
+const WINE_CELLAR_BARREL_MODEL := "res://assets/deep_basement/wine_cellar/barrel.glb"
+const ATTIC_BROKEN_PLANK_MODEL := "res://assets/attic/stairwell/wooden_plank_4.glb"
+const STORAGE_CRATE_MEDIUM_A_MODEL := "res://assets/basement/storage/wooden_crate_2_a.glb"
+const STORAGE_LAMP_SMALL_OFF_MODEL := "res://assets/basement/storage/lamp_mx_2_off.glb"
+const GREENHOUSE_PLANK_BENCH_MODEL := "res://assets/grounds/greenhouse/wooden_plank_1.glb"
+const GREENHOUSE_PLANK_SHELF_MODEL := "res://assets/grounds/greenhouse/wooden_plank_2.glb"
+const GREENHOUSE_DEAD_ROW_MODEL := "res://assets/grounds/greenhouse/bush_long_dead.glb"
+const GREENHOUSE_DEAD_END_MODEL := "res://assets/grounds/greenhouse/bush_end_dead.glb"
+const GREENHOUSE_TALL_DEAD_MODEL := "res://assets/grounds/greenhouse/bush_tall_dead.glb"
+const GREENHOUSE_WINTER_GROWTH_MODEL := "res://assets/grounds/greenhouse/bush05_winter.glb"
+const GREENHOUSE_WINTER_GROWTH_BACK_MODEL := "res://assets/grounds/greenhouse/bush06_winter.glb"
+const GREENHOUSE_NATURE_CLUSTER_MODEL := "res://assets/grounds/greenhouse/nature.glb"
+const GREENHOUSE_BUCKET_SMALL_MODEL := "res://assets/grounds/greenhouse/bucket_mx_2.glb"
+const GREENHOUSE_BUCKET_LARGE_MODEL := "res://assets/grounds/greenhouse/bucket_mx_3.glb"
+const GREENHOUSE_BOTTLE_MODEL := "res://assets/grounds/greenhouse/glass_bottle_mx_2.glb"
+const FORECOURT_STATUE_MODEL := "res://assets/shared/decor/statue.glb"
+const LEGACY_PROCEDURAL_PROP_KINDS := {
+	PROCEDURAL_WINDOW_MODEL: "window_frame",
+	PROCEDURAL_WINDOW_RAY_MODEL: "window_ray",
+	PROCEDURAL_STAIRCASE_MODEL: "stair_run",
+	PROCEDURAL_BANISTER_MODEL: "banister_run",
+	PROCEDURAL_NEWEL_MODEL: "newel_post",
+	PROCEDURAL_STONE_SLAB_MODEL: "stone_slab",
+	PROCEDURAL_PLINTH_LEFT_MODEL: "plinth_tall",
+	PROCEDURAL_PLINTH_RIGHT_MODEL: "plinth_tall",
+	PROCEDURAL_FOYER_PILLAR_MODEL: "round_pillar",
+	PROCEDURAL_FACADE_DOOR_MODEL: "facade_door_leaf",
+	PSX_DOOR_WALL_MODEL: "manor_wall_panel",
+	PSX_WINDOW_WALL_MODEL: "manor_window_panel",
+	PSX_BIG_WALL_MODEL: "manor_wing_panel",
+	PSX_WALL_COLUMN_MODEL: "manor_wall_column",
+	PSX_DOOR_FRAME_MODEL: "doorway_trim",
+	PSX_ROOF_MODEL: "manor_roof_panel",
+	PSX_BIG_ROOF_MOLDING_MODEL: "manor_roof_molding",
+	PSX_BIG_WALL_MOLDING_MODEL: "manor_frieze",
+	FRONT_GATE_SIGN_SCENE: "front_gate_sign",
+	GREENHOUSE_GLASS_SHELL_SCENE: "greenhouse_shell",
+	GREENHOUSE_HANGING_LANTERN_SCENE: "greenhouse_lantern",
+	ESTATE_GATE_POST_SCENE: "gate_post",
+	ESTATE_GATE_POST_STONE_SCENE: "gate_post_stone",
+	ESTATE_BOUNDARY_WALL_SCENE: "boundary_wall",
+	ESTATE_IRON_GATE_SCENE: "iron_gate_open",
+	ESTATE_IRON_GATE_CLOSED_SCENE: "iron_gate_closed",
+	ESTATE_FENCE_RUN_SCENE: "fence_run",
+	ESTATE_HEDGEROW_SCENE: "hedgerow",
+	ESTATE_CARRIAGE_ROAD_SCENE: "carriage_road",
+	ESTATE_OUTWARD_ROAD_SCENE: "outward_road",
+	ESTATE_MANSION_FACADE_SCENE: "mansion_facade",
+	ESTATE_ENTRY_PORTICO_SCENE: "entry_portico",
+	ESTATE_FRONT_DOOR_SCENE: "front_door_assembly",
+	ESTATE_FORECOURT_STEPS_SCENE: "forecourt_steps",
+	ESTATE_STARFIELD_SCENE: "starfield",
+	FRONT_GATE_LAMP_MODEL: "front_gate_lamp",
+	FRONT_GATE_TREE_01_MODEL: "front_gate_tree_01",
+	FRONT_GATE_TREE_02_MODEL: "front_gate_tree_02",
+	FRONT_GATE_TREE_03_MODEL: "front_gate_tree_03",
+	FRONT_GATE_TREE_04_MODEL: "front_gate_tree_04",
+	FRONT_GATE_BUSH_01_MODEL: "front_gate_bush_01",
+	FRONT_GATE_BUSH_02_MODEL: "front_gate_bush_02",
+	FRONT_GATE_BUSH_03_MODEL: "front_gate_bush_03",
+	FRONT_GATE_BUSH_04_MODEL: "front_gate_bush_04",
+	FRONT_GATE_ROCKS_MODEL: "front_gate_rocks",
+	FRONT_GATE_IRON_GATE_LEAF_MODEL: "iron_gate_leaf_angled",
+	FRONT_GATE_BOUNDARY_POLE_MODEL: "front_gate_boundary_pole",
+	FRONT_GATE_CHIMNEY_LEFT_MODEL: "front_gate_chimney_left",
+	FRONT_GATE_CHIMNEY_RIGHT_MODEL: "front_gate_chimney_right",
+	FAMILY_CRYPT_WALL_CAPPED_MODEL: "family_crypt_wall_capped",
+	FAMILY_CRYPT_WALL_MODEL: "family_crypt_wall",
+	FAMILY_CRYPT_FENCE_MODEL: "family_crypt_fence_run",
+	FAMILY_CRYPT_COLUMN_MODEL: "family_crypt_grave_marker",
+	FAMILY_CRYPT_DEBRIS_LEFT_MODEL: "family_crypt_debris_left",
+	FAMILY_CRYPT_DEBRIS_RIGHT_MODEL: "family_crypt_debris_right",
+	FAMILY_CRYPT_BOTTLE_MODEL: "family_crypt_bottle",
+	FAMILY_CRYPT_BONES_MODEL: "family_crypt_bones",
+	GARDEN_FOUNTAIN_MODEL: "garden_fountain_base",
+	GARDEN_FOUNTAIN_WATER_MODEL: "garden_fountain_water",
+	GARDEN_GAZEBO_MODEL: "garden_gazebo_shell",
+	GARDEN_PATH_WEST_MODEL: "garden_path_west",
+	GARDEN_PATH_CENTER_MODEL: "garden_path_center",
+	GARDEN_PATH_NORTH_MODEL: "garden_path_north",
+	GARDEN_PATH_CRYPT_MODEL: "garden_path_crypt",
+	GARDEN_NORTH_WALL_W_MODEL: "garden_north_wall_w",
+	GARDEN_NORTH_WALL_E_MODEL: "garden_north_wall_e",
+	GARDEN_EAST_WALL_S_MODEL: "garden_east_wall_s",
+	GARDEN_EAST_WALL_N_MODEL: "garden_east_wall_n",
+	GARDEN_CORNER_NE_MODEL: "garden_corner_ne",
+	GARDEN_COLUMN_L_MODEL: "garden_column_l",
+	GARDEN_COLUMN_R_MODEL: "garden_column_r",
+	GARDEN_VASE_L_MODEL: "garden_vase_l",
+	GARDEN_VASE_R_MODEL: "garden_vase_r",
+	GARDEN_BENCH_WEST_MODEL: "garden_bench_west",
+	GARDEN_GAZEBO_TABLE_MODEL: "garden_gazebo_table",
+	GARDEN_BENCH_NORTH_MODEL: "garden_bench_north",
+	GARDEN_FLOWERBED_WEST_MODEL: "garden_beds_west",
+	GARDEN_FLOWERBED_EAST_MODEL: "garden_beds_east",
+	CHAPEL_WALL_COLUMN_FANCY_MODEL: "chapel_wall_column_fancy",
+	CHAPEL_WALL_MODEL: "chapel_wall_center",
+	CHAPEL_WALL_COLUMN_MODEL: "chapel_wall_column",
+	CHAPEL_BUCKET_MODEL: "chapel_bucket",
+	CHAPEL_BOTTLE_MODEL: "chapel_bottle",
+	CHAPEL_LAMP_MODEL: "chapel_dead_lamp",
+	CHAPEL_BONES_MODEL: "chapel_bones",
+	CARRIAGE_HOUSE_MATTRESS_MODEL: "carriage_house_mattress",
+	CARRIAGE_HOUSE_SHED_A_MODEL: "carriage_house_shed_a",
+	CARRIAGE_HOUSE_SHED_B_MODEL: "carriage_house_shed_b",
+	CARRIAGE_HOUSE_SHED_C_MODEL: "carriage_house_shed_c",
+	CARRIAGE_HOUSE_SHED_D_MODEL: "carriage_house_shed_d",
+	CARRIAGE_HOUSE_BOARD_1_MODEL: "carriage_house_board_1",
+	CARRIAGE_HOUSE_BOARD_2_MODEL: "carriage_house_board_2",
+	CARRIAGE_HOUSE_SHOVEL_MODEL: "carriage_house_shovel",
+	CARRIAGE_HOUSE_LUGGAGE_MODEL: "carriage_house_luggage",
+	CARRIAGE_HOUSE_LAMP_MODEL: "carriage_house_dead_lamp",
+	CANDLE_HOLDER_MODEL: "candle_holder_fixture",
+	CANDLE_SINGLE_MODEL: "candle_single",
+	PICTURE_FRAME_000_MODEL: "picture_frame_blank_000",
+	PICTURE_FRAME_001_MODEL: "picture_frame_blank_001",
+	PICTURE_FRAME_002_MODEL: "picture_frame_blank_002",
+	PICTURE_FRAME_003_MODEL: "picture_frame_blank_003",
+	PICTURE_FRAME_004_MODEL: "picture_frame_blank_004",
+	PICTURE_FRAME_005_MODEL: "picture_frame_blank_005",
+	PICTURE_FRAME_006_MODEL: "picture_frame_blank_006",
+	RUG_0_MODEL: "rug_0",
+	RUG_1_MODEL: "rug_1",
+	RUG_2_MODEL: "rug_2",
+	FURNITURE_TABLE_MODEL: "furniture_table",
+	FURNITURE_STUDY_DESK_MODEL: "furniture_study_desk",
+	FURNITURE_DRAWERS_MODEL: "furniture_drawers",
+	FURNITURE_CHAIR_MODEL: "furniture_chair",
+	FURNITURE_BOOKCASE_MODEL: "furniture_bookcase",
+	FURNITURE_BED_MODEL: "furniture_bed",
+	CHANDELIER_MODEL: "chandelier_fixture",
+	ITEM_PAGE_001_MODEL: "item_page_001",
+	ITEM_PAGE_002_MODEL: "item_page_002",
+	ITEM_PAGE_005_MODEL: "item_page_005",
+	ITEM_OPENBOOK_000_MODEL: "item_openbook_000",
+	ITEM_OPENBOOK_001_MODEL: "item_openbook_001",
+	ATTIC_LAMP_TALL_OFF_MODEL: "attic_lamp_tall_off",
+	ATTIC_BUCKET_SMALL_MODEL: "attic_bucket_small",
+	ATTIC_MASK_RITUAL_MODEL: "attic_mask_ritual",
+	COAT_STAND_MODEL: "coat_stand",
+	DINING_PLATE_MODEL: "dining_plate_place",
+	DINING_WATER_GLASS_MODEL: "dining_water_glass",
+	PARLOR_SETTEE_MODEL: "parlor_settee",
+	WINE_CELLAR_BOTTLES_MODEL: "wine_cellar_bottles",
+	WINE_CELLAR_BARREL_MODEL: "wine_cellar_barrel",
+	ATTIC_BROKEN_PLANK_MODEL: "attic_broken_plank",
+	STORAGE_CRATE_MEDIUM_A_MODEL: "storage_crate_medium_a",
+	STORAGE_LAMP_SMALL_OFF_MODEL: "storage_lamp_small_off",
+	GREENHOUSE_PLANK_BENCH_MODEL: "greenhouse_plank_bench",
+	GREENHOUSE_PLANK_SHELF_MODEL: "greenhouse_plank_shelf",
+	GREENHOUSE_DEAD_ROW_MODEL: "greenhouse_dead_row",
+	GREENHOUSE_DEAD_END_MODEL: "greenhouse_dead_end",
+	GREENHOUSE_TALL_DEAD_MODEL: "greenhouse_tall_dead",
+	GREENHOUSE_WINTER_GROWTH_MODEL: "greenhouse_winter_growth",
+	GREENHOUSE_WINTER_GROWTH_BACK_MODEL: "greenhouse_winter_growth_back",
+	GREENHOUSE_NATURE_CLUSTER_MODEL: "greenhouse_nature_cluster",
+	GREENHOUSE_BUCKET_SMALL_MODEL: "greenhouse_bucket_small",
+	GREENHOUSE_BUCKET_LARGE_MODEL: "greenhouse_bucket_large",
+	GREENHOUSE_BOTTLE_MODEL: "greenhouse_bottle",
+	FORECOURT_STATUE_MODEL: "forecourt_statue",
 }
 
 
@@ -93,8 +383,8 @@ func assemble(room_decl: RoomDeclaration) -> Node3D:
 	var h := room_decl.dimensions.y
 	var d := room_decl.dimensions.z
 	var resolved_floor_surface := _resolve_floor_surface_ref(room_decl, env_decl)
-	var resolved_wall_surface := _resolve_surface_ref(room_decl, env_decl, "wall", room_decl.wall_texture)
-	var resolved_ceiling_surface := _resolve_surface_ref(room_decl, env_decl, "ceiling", room_decl.ceiling_texture)
+	var resolved_wall_surface := _resolve_surface_ref(room_decl, env_decl, "wall", "")
+	var resolved_ceiling_surface := _resolve_surface_ref(room_decl, env_decl, "ceiling", "")
 	var resolved_threshold_surface := _resolve_surface_ref(room_decl, env_decl, "threshold", "")
 	var resolved_door_surface := _resolve_surface_ref(room_decl, env_decl, "door", "")
 	var resolved_gate_leaf_surface := _resolve_surface_ref(room_decl, env_decl, "gate_leaf", resolved_door_surface)
@@ -213,12 +503,27 @@ func assemble(room_decl: RoomDeclaration) -> Node3D:
 	)
 	root.add_child(connections)
 
+	var prop_surface_context := _build_prop_surface_context(
+		resolved_floor_surface,
+		resolved_wall_surface,
+		resolved_ceiling_surface,
+		resolved_threshold_surface,
+		resolved_door_surface,
+		resolved_gate_leaf_surface,
+		resolved_window_surface,
+		resolved_stair_tread_surface,
+		resolved_stair_structure_surface,
+		resolved_stair_rail_surface,
+		resolved_ladder_rail_surface,
+		resolved_ladder_rung_surface
+	)
+
 	# --- Props ---
 	var props := Node3D.new()
 	props.name = "Props"
-	_build_props(room_decl.props, props)
+	_build_props(room_decl.props, props, prop_surface_context)
 	root.add_child(props)
-	_build_mount_payloads(room_decl, root, props)
+	_build_mount_payloads(room_decl, root, props, prop_surface_context)
 
 	# --- Audio ---
 	var audio := Node3D.new()
@@ -230,7 +535,7 @@ func assemble(room_decl: RoomDeclaration) -> Node3D:
 
 
 func _resolve_floor_surface_ref(room_decl: RoomDeclaration, env_decl: EnvironmentDeclaration) -> String:
-	var explicit_surface := _resolve_surface_ref(room_decl, env_decl, "floor", room_decl.floor_texture)
+	var explicit_surface := _resolve_surface_ref(room_decl, env_decl, "floor", "")
 	if not room_decl.is_exterior:
 		return explicit_surface
 	if room_decl.material_recipe_overrides.has("terrain"):
@@ -297,7 +602,7 @@ func _build_windows(room_decl: RoomDeclaration, parent: Node3D, window_surface: 
 		for i in range(segment_count):
 			if layout[i].begins_with("window"):
 				var local_x := (i * 2.0) - (segment_count * 2.0 * 0.5) + 1.0
-				var window := WindowBuilder.build(layout[i], room_decl.wall_texture, window_surface)
+				var window := WindowBuilder.build(layout[i], window_surface)
 				window.position = WallBuilder._get_segment_position(
 					direction, local_x, room_decl.dimensions.x, room_decl.dimensions.z
 				)
@@ -412,9 +717,9 @@ func _build_connection_areas(room_decl: RoomDeclaration, parent: Node3D, thresho
 				parent.add_child(path_threshold)
 
 
-func _build_props(props: Array[PropDecl], parent: Node3D) -> void:
+func _build_props(props: Array[PropDecl], parent: Node3D, prop_surface_context: Dictionary = {}) -> void:
 	for prop_decl in props:
-		var procedural_prop := _build_procedural_prop(prop_decl)
+		var procedural_prop := _build_procedural_prop(prop_decl, prop_surface_context)
 		if procedural_prop != null:
 			parent.add_child(procedural_prop)
 			continue
@@ -431,15 +736,14 @@ func _build_props(props: Array[PropDecl], parent: Node3D) -> void:
 		inst.position = prop_decl.position
 		inst.rotation_degrees.y = prop_decl.rotation_y
 		var resolved_scale := prop_decl.scale
-		if scene_path == prop_decl.model:
-			resolved_scale *= _get_model_scale_override(prop_decl.model)
+		resolved_scale *= _get_model_scale_override(scene_path)
 		var final_scale := prop_decl.scale_3d * resolved_scale
 		if final_scale != Vector3.ONE:
 			inst.scale = final_scale
 		parent.add_child(inst)
 
 
-func _build_mount_payloads(room_decl: RoomDeclaration, root: Node3D, default_parent: Node3D) -> void:
+func _build_mount_payloads(room_decl: RoomDeclaration, root: Node3D, default_parent: Node3D, prop_surface_context: Dictionary = {}) -> void:
 	if room_decl.mount_payloads.is_empty():
 		return
 	var slot_map: Dictionary = {}
@@ -450,29 +754,30 @@ func _build_mount_payloads(room_decl: RoomDeclaration, root: Node3D, default_par
 	for payload in room_decl.mount_payloads:
 		if payload == null or not _payload_route_matches(payload):
 			continue
-		if not payload.state_condition.is_empty() and not GameManager.has_flag(payload.state_condition):
+		var game_manager := _game_manager()
+		if not payload.state_condition.is_empty() and (game_manager == null or not game_manager.has_method("has_flag") or not bool(game_manager.call("has_flag", payload.state_condition))):
 			continue
-		var inst := _instantiate_mount_payload(payload)
+		var inst := _instantiate_mount_payload(payload, prop_surface_context)
 		if inst == null:
 			continue
-		var slot := slot_map.get(payload.slot_id, null) as MountSlotDecl
-		if slot == null:
+		var mount_slot := slot_map.get(payload.slot_id, null) as MountSlotDecl
+		if mount_slot == null:
 			push_warning("Mount payload %s in room %s targets missing slot %s" % [payload.payload_id, room_decl.room_id, payload.slot_id])
 			continue
-		if not allowed_mount_families.has(slot.slot_family):
+		if not allowed_mount_families.has(mount_slot.slot_family):
 			push_warning(
 				"Mount payload %s in room %s uses disallowed slot family %s" %
-				[payload.payload_id, room_decl.room_id, slot.slot_family]
+				[payload.payload_id, room_decl.room_id, mount_slot.slot_family]
 			)
 			continue
-		var target_parent := _resolve_mount_parent(root, slot, default_parent)
+		var target_parent := _resolve_mount_parent(root, mount_slot, default_parent)
 		var final_position := payload.offset
 		var final_rotation := payload.rotation_degrees
 		var final_scale := payload.scale_3d
-		if slot != null:
-			final_position += slot.position
-			final_rotation += slot.rotation_degrees
-			final_scale = slot.scale_3d * payload.scale_3d
+		if mount_slot != null:
+			final_position += mount_slot.position
+			final_rotation += mount_slot.rotation_degrees
+			final_scale = mount_slot.scale_3d * payload.scale_3d
 		inst.name = payload.payload_id if not payload.payload_id.is_empty() else inst.name
 		inst.position = final_position
 		inst.rotation_degrees = final_rotation
@@ -486,10 +791,18 @@ func _build_mount_payloads(room_decl: RoomDeclaration, root: Node3D, default_par
 func _resolve_prop_scene_path(prop_decl: PropDecl) -> String:
 	if not prop_decl.scene_path.is_empty():
 		return prop_decl.scene_path
+	if not prop_decl.content_prop_kind.is_empty():
+		return ContentPropRegistry.path_for_kind(prop_decl.content_prop_kind)
 	return prop_decl.model
 
 
-func _instantiate_mount_payload(payload: MountPayloadDecl) -> Node3D:
+func _instantiate_mount_payload(payload: MountPayloadDecl, prop_surface_context: Dictionary = {}) -> Node3D:
+	if not payload.substrate_prop_kind.is_empty():
+		var prop_decl := PropDecl.new()
+		prop_decl.id = payload.payload_id
+		prop_decl.scene_role = payload.scene_role
+		prop_decl.substrate_prop_kind = payload.substrate_prop_kind
+		return _build_procedural_prop(prop_decl, prop_surface_context)
 	var scene_path := payload.scene_path if not payload.scene_path.is_empty() else payload.model
 	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
 		return null
@@ -516,16 +829,17 @@ func _payload_route_matches(payload: MountPayloadDecl) -> bool:
 	if payload.route_modes.is_empty():
 		return true
 	var active_modes := PackedStringArray()
-	if GameManager.has_method("get_active_route"):
-		var active_route := String(GameManager.get_active_route())
+	var game_manager := _game_manager()
+	if game_manager != null and game_manager.has_method("get_active_route"):
+		var active_route := String(game_manager.call("get_active_route"))
 		if not active_route.is_empty() and not active_modes.has(active_route):
 			active_modes.append(active_route)
-	if GameManager.has_method("get_route_mode"):
-		var route_mode := String(GameManager.get_route_mode())
+	if game_manager != null and game_manager.has_method("get_route_mode"):
+		var route_mode := String(game_manager.call("get_route_mode"))
 		if not route_mode.is_empty() and not active_modes.has(route_mode):
 			active_modes.append(route_mode)
-	if GameManager.has_method("get_state"):
-		var macro_thread := String(GameManager.get_state("macro_thread", ""))
+	if game_manager != null and game_manager.has_method("get_state"):
+		var macro_thread := String(game_manager.call("get_state", "macro_thread", ""))
 		if not macro_thread.is_empty() and not active_modes.has(macro_thread):
 			active_modes.append(macro_thread)
 	for route_mode in payload.route_modes:
@@ -555,6 +869,72 @@ func _resolve_allowed_mount_families(region_decl: RegionDecl, env_decl: Environm
 		if allowed and not resolved.has(family):
 			resolved.append(family)
 	return resolved
+
+
+func _build_prop_surface_context(
+	resolved_floor_surface: String,
+	resolved_wall_surface: String,
+	resolved_ceiling_surface: String,
+	resolved_threshold_surface: String,
+	resolved_door_surface: String,
+	resolved_gate_leaf_surface: String,
+	resolved_window_surface: String,
+	resolved_stair_tread_surface: String,
+	resolved_stair_structure_surface: String,
+	resolved_stair_rail_surface: String,
+	resolved_ladder_rail_surface: String,
+	resolved_ladder_rung_surface: String
+) -> Dictionary:
+	var trim_surface := resolved_threshold_surface if not resolved_threshold_surface.is_empty() else resolved_door_surface
+	if trim_surface.is_empty():
+		trim_surface = resolved_wall_surface
+	if trim_surface.is_empty():
+		trim_surface = "recipe:surface/oak_header"
+	var wood_surface := resolved_door_surface if not resolved_door_surface.is_empty() else trim_surface
+	if wood_surface.is_empty():
+		wood_surface = resolved_stair_structure_surface
+	if wood_surface.is_empty():
+		wood_surface = "recipe:surface/oak_dark"
+	var masonry_surface := resolved_wall_surface if not resolved_wall_surface.is_empty() else resolved_ceiling_surface
+	if masonry_surface.is_empty():
+		masonry_surface = "recipe:surface/cloth_brown"
+	var stone_surface := resolved_threshold_surface if not resolved_threshold_surface.is_empty() else resolved_floor_surface
+	if stone_surface.is_empty():
+		stone_surface = "recipe:surface/stone_dark"
+	var rail_surface := resolved_stair_rail_surface if not resolved_stair_rail_surface.is_empty() else resolved_ladder_rail_surface
+	if rail_surface.is_empty():
+		rail_surface = wood_surface
+	var tread_surface := resolved_stair_tread_surface if not resolved_stair_tread_surface.is_empty() else resolved_ladder_rung_surface
+	if tread_surface.is_empty():
+		tread_surface = resolved_floor_surface
+	if tread_surface.is_empty():
+		tread_surface = "recipe:surface/oak_board"
+	var structure_surface := resolved_stair_structure_surface if not resolved_stair_structure_surface.is_empty() else trim_surface
+	if structure_surface.is_empty():
+		structure_surface = wood_surface
+	var roof_surface := resolved_ceiling_surface if not resolved_ceiling_surface.is_empty() else wood_surface
+	var window_surface := resolved_window_surface if not resolved_window_surface.is_empty() else trim_surface
+	if window_surface.is_empty():
+		window_surface = wood_surface
+	return {
+		"wood_surface": wood_surface,
+		"trim_surface": trim_surface,
+		"masonry_surface": masonry_surface,
+		"stone_surface": stone_surface,
+		"brass_surface": "recipe:surface/brass_dim",
+		"glazing_surface": "recipe:glass/door_lamplit",
+		"rail_surface": rail_surface,
+		"tread_surface": tread_surface,
+		"structure_surface": structure_surface,
+		"roof_surface": roof_surface,
+		"window_surface": window_surface,
+		"gate_leaf_surface": resolved_gate_leaf_surface if not resolved_gate_leaf_surface.is_empty() else wood_surface,
+	}
+
+
+func _surface_slot(prop_surface_context: Dictionary, key: String, fallback: String = "") -> String:
+	var value := String(prop_surface_context.get(key, ""))
+	return value if not value.is_empty() else fallback
 
 
 func _get_vertical_connection_span(room_decl: RoomDeclaration, conn: Connection) -> float:
@@ -625,16 +1005,15 @@ func _build_world_label_board(decl: InteractableDecl) -> Node3D:
 		decl.visual_effects.get("world_label_board_offset", Vector3(0, 0, -0.03)),
 		Vector3(0, 0, -0.03)
 	)
-	var board_mat := StandardMaterial3D.new()
 	var board_texture_path := String(decl.visual_effects.get("world_label_board_texture", "res://assets/grounds/front_gate/bench_mx_1_planks_hr_2.png"))
-	if ResourceLoader.exists(board_texture_path):
-		board_mat.albedo_texture = load(board_texture_path)
-	board_mat.albedo_color = _coerce_color(
+	var board_color := _coerce_color(
 		decl.visual_effects.get("world_label_board_color", Color(0.31, 0.20, 0.12, 1.0)),
 		Color(0.31, 0.20, 0.12, 1.0)
 	)
-	board_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	board_mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	var board_texture: Texture2D = null
+	if ResourceLoader.exists(board_texture_path):
+		board_texture = load(board_texture_path) as Texture2D
+	var board_mat := EstateMaterialKit.legacy_texture_unshaded(board_texture, board_color)
 	board.set_surface_override_material(0, board_mat)
 	root.add_child(board)
 
@@ -646,19 +1025,570 @@ func _build_world_label_board(decl: InteractableDecl) -> Node3D:
 		hanger_mesh.size = Vector3(0.03, hanger_height, 0.03)
 		hanger.mesh = hanger_mesh
 		hanger.position = Vector3(float(hanger_x), board.position.y + hanger_height * 0.5 + board_size.y * 0.5, board.position.z)
-		var hanger_mat := StandardMaterial3D.new()
-		hanger_mat.albedo_color = _coerce_color(
+		var hanger_mat := EstateMaterialKit.flat_unshaded(_coerce_color(
 			decl.visual_effects.get("world_label_hanger_color", Color(0.22, 0.16, 0.11, 1.0)),
 			Color(0.22, 0.16, 0.11, 1.0)
-		)
-		hanger_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		))
 		hanger.set_surface_override_material(0, hanger_mat)
 		root.add_child(hanger)
 
 	return root
 
 
-func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
+func _build_procedural_prop(prop_decl: PropDecl, prop_surface_context: Dictionary = {}) -> Node3D:
+	var substrate_kind := prop_decl.substrate_prop_kind
+	if substrate_kind.is_empty():
+		substrate_kind = String(LEGACY_PROCEDURAL_PROP_KINDS.get(prop_decl.model, ""))
+	var wood_surface := _surface_slot(prop_surface_context, "wood_surface")
+	var trim_surface := _surface_slot(prop_surface_context, "trim_surface", wood_surface)
+	var masonry_surface := _surface_slot(prop_surface_context, "masonry_surface")
+	var stone_surface := _surface_slot(prop_surface_context, "stone_surface")
+	var brass_surface := _surface_slot(prop_surface_context, "brass_surface")
+	var glazing_surface := _surface_slot(prop_surface_context, "glazing_surface")
+	var rail_surface := _surface_slot(prop_surface_context, "rail_surface", wood_surface)
+	var tread_surface := _surface_slot(prop_surface_context, "tread_surface")
+	var structure_surface := _surface_slot(prop_surface_context, "structure_surface", trim_surface)
+	var roof_surface := _surface_slot(prop_surface_context, "roof_surface", wood_surface)
+	var window_surface := _surface_slot(prop_surface_context, "window_surface", wood_surface)
+	if substrate_kind == "window_frame":
+		var window := WindowBuilder.build("window", window_surface)
+		window.name = prop_decl.id if not prop_decl.id.is_empty() else "WindowProp"
+		window.position = prop_decl.position
+		window.rotation_degrees.y = prop_decl.rotation_y
+		window.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_WINDOW_MODEL)
+		return window
+	if substrate_kind == "window_ray":
+		var ray_root := Node3D.new()
+		ray_root.name = prop_decl.id if not prop_decl.id.is_empty() else "WindowRayProp"
+		var ray := MeshInstance3D.new()
+		ray.name = "WindowRay"
+		var quad := QuadMesh.new()
+		quad.size = Vector2(1.0, 2.4)
+		ray.mesh = quad
+		ray.position = Vector3(0, 1.2, -0.02)
+		ray.rotation_degrees.x = -8.0
+		ray.set_surface_override_material(0, EstateMaterialKit.fog_glow(Color(0.78, 0.84, 0.96, 0.18), 0.92))
+		ray_root.add_child(ray)
+		ray_root.position = prop_decl.position
+		ray_root.rotation_degrees.y = prop_decl.rotation_y
+		ray_root.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_WINDOW_RAY_MODEL)
+		return ray_root
+	if substrate_kind == "stair_run":
+		var staircase := Node3D.new()
+		staircase.name = prop_decl.id if not prop_decl.id.is_empty() else "StaircaseProp"
+		var width := 2.8
+		var step_count := 8
+		var step_height := 0.24
+		var step_depth := 0.44
+		for step_index in range(step_count):
+			var step := _make_prop_box(
+				Vector3(width, 0.08, step_depth),
+				Vector3(0, step_index * step_height + 0.04, step_index * step_depth + step_depth * 0.5),
+				tread_surface
+			)
+			step.name = "Step_%d" % step_index
+			staircase.add_child(step)
+			var riser := _make_prop_box(
+				Vector3(width, step_height, 0.05),
+				Vector3(0, step_index * step_height + step_height * 0.5, step_index * step_depth + 0.03),
+				structure_surface
+			)
+			riser.name = "Riser_%d" % step_index
+			staircase.add_child(riser)
+		var run_depth := step_count * step_depth
+		var rise := step_count * step_height
+		var left_stringer := _make_prop_box(
+			Vector3(0.1, rise + 0.08, run_depth + 0.2),
+			Vector3(-width * 0.5 - 0.06, (rise + 0.08) * 0.5, (run_depth + 0.2) * 0.5),
+			structure_surface
+		)
+		left_stringer.name = "StringerLeft"
+		staircase.add_child(left_stringer)
+		var right_stringer := _make_prop_box(
+			Vector3(0.1, rise + 0.08, run_depth + 0.2),
+			Vector3(width * 0.5 + 0.06, (rise + 0.08) * 0.5, (run_depth + 0.2) * 0.5),
+			structure_surface
+		)
+		right_stringer.name = "StringerRight"
+		staircase.add_child(right_stringer)
+		staircase.position = prop_decl.position
+		staircase.rotation_degrees.y = prop_decl.rotation_y
+		staircase.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_STAIRCASE_MODEL)
+		return staircase
+	if substrate_kind == "banister_run":
+		var banister := Node3D.new()
+		banister.name = prop_decl.id if not prop_decl.id.is_empty() else "BanisterProp"
+		var post_count := 4
+		var run_length := 2.4
+		for post_index in range(post_count):
+			var t := float(post_index) / float(post_count - 1)
+			var post := _make_prop_box(
+				Vector3(0.12, 0.92, 0.12),
+				Vector3(0, 0.46 + t * 0.78, t * run_length),
+				rail_surface
+			)
+			post.name = "Post_%d" % post_index
+			banister.add_child(post)
+		var rail := _make_prop_box(
+			Vector3(0.1, 0.1, run_length + 0.15),
+			Vector3(0, 1.18, run_length * 0.5),
+			rail_surface
+		)
+		rail.rotation_degrees.x = -20.0
+		rail.name = "Rail"
+		banister.add_child(rail)
+		banister.position = prop_decl.position
+		banister.rotation_degrees.y = prop_decl.rotation_y
+		banister.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_BANISTER_MODEL)
+		return banister
+	if substrate_kind == "newel_post":
+		var newel := Node3D.new()
+		newel.name = prop_decl.id if not prop_decl.id.is_empty() else "NewelProp"
+		var base := _make_prop_box(Vector3(0.28, 0.18, 0.28), Vector3(0, 0.09, 0), rail_surface)
+		base.name = "Base"
+		newel.add_child(base)
+		var shaft := _make_prop_box(Vector3(0.18, 0.82, 0.18), Vector3(0, 0.59, 0), rail_surface)
+		shaft.name = "Shaft"
+		newel.add_child(shaft)
+		var cap := _make_prop_box(Vector3(0.3, 0.12, 0.3), Vector3(0, 1.06, 0), rail_surface)
+		cap.name = "Cap"
+		newel.add_child(cap)
+		newel.position = prop_decl.position
+		newel.rotation_degrees.y = prop_decl.rotation_y
+		newel.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_NEWEL_MODEL)
+		return newel
+	if substrate_kind == "stone_slab":
+		var slab := Node3D.new()
+		slab.name = prop_decl.id if not prop_decl.id.is_empty() else "StoneSlabProp"
+		var top := _make_prop_box(Vector3(2.2, 0.22, 2.2), Vector3(0, 0.11, 0), stone_surface)
+		top.name = "Top"
+		slab.add_child(top)
+		var base := _make_prop_box(Vector3(2.0, 0.18, 2.0), Vector3(0, 0.03, 0), stone_surface)
+		base.name = "Base"
+		slab.add_child(base)
+		slab.position = prop_decl.position
+		slab.rotation_degrees.y = prop_decl.rotation_y
+		slab.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_STONE_SLAB_MODEL)
+		return slab
+	if substrate_kind == "plinth_tall":
+		var plinth := Node3D.new()
+		plinth.name = prop_decl.id if not prop_decl.id.is_empty() else "PlinthProp"
+		var pedestal_base := _make_prop_box(Vector3(1.22, 0.24, 1.22), Vector3(0, 0.12, 0), stone_surface)
+		pedestal_base.name = "Base"
+		plinth.add_child(pedestal_base)
+		var pedestal_body := _make_prop_box(Vector3(0.9, 1.18, 0.9), Vector3(0, 0.83, 0), stone_surface)
+		pedestal_body.name = "Body"
+		plinth.add_child(pedestal_body)
+		var pedestal_cap := _make_prop_box(Vector3(1.08, 0.18, 1.08), Vector3(0, 1.5, 0), stone_surface)
+		pedestal_cap.name = "Cap"
+		plinth.add_child(pedestal_cap)
+		plinth.position = prop_decl.position
+		plinth.rotation_degrees.y = prop_decl.rotation_y
+		plinth.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_PLINTH_LEFT_MODEL)
+		return plinth
+	if substrate_kind == "round_pillar":
+		var pillar := Node3D.new()
+		pillar.name = prop_decl.id if not prop_decl.id.is_empty() else "RoundPillarProp"
+		var pillar_base := _make_prop_box(Vector3(0.62, 0.2, 0.62), Vector3(0, 0.1, 0), trim_surface)
+		pillar_base.name = "Base"
+		pillar.add_child(pillar_base)
+		var shaft := MeshInstance3D.new()
+		shaft.name = "Shaft"
+		var shaft_mesh := CylinderMesh.new()
+		shaft_mesh.top_radius = 0.18
+		shaft_mesh.bottom_radius = 0.22
+		shaft_mesh.height = 2.7
+		shaft.mesh = shaft_mesh
+		shaft.position = Vector3(0, 1.55, 0)
+		var shaft_material := EstateMaterialKit.build_surface_reference(trim_surface)
+		if shaft_material != null:
+			shaft.set_surface_override_material(0, shaft_material)
+		pillar.add_child(shaft)
+		var pillar_cap := _make_prop_box(Vector3(0.76, 0.2, 0.76), Vector3(0, 2.95, 0), trim_surface)
+		pillar_cap.name = "Cap"
+		pillar.add_child(pillar_cap)
+		pillar.position = prop_decl.position
+		pillar.rotation_degrees.y = prop_decl.rotation_y
+		pillar.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_FOYER_PILLAR_MODEL)
+		return pillar
+	if substrate_kind == "facade_door_leaf":
+		var door_leaf := Node3D.new()
+		door_leaf.name = prop_decl.id if not prop_decl.id.is_empty() else "FacadeDoorLeafProp"
+		var panel := _make_prop_box(Vector3(1.02, 2.12, 0.14), Vector3(0, 1.06, 0), wood_surface)
+		panel.name = "DoorLeaf"
+		door_leaf.add_child(panel)
+		var mullion := _make_prop_box(Vector3(0.1, 1.96, 0.04), Vector3(0, 1.04, -0.05), brass_surface)
+		mullion.name = "CenterMullion"
+		door_leaf.add_child(mullion)
+		for glass_x in [-0.24, 0.24]:
+			var glazing := _make_prop_box(Vector3(0.28, 0.52, 0.03), Vector3(glass_x, 1.64, -0.06), glazing_surface)
+			glazing.name = "Glazing_%s" % ("L" if glass_x < 0 else "R")
+			door_leaf.add_child(glazing)
+		var handle := _make_prop_box(Vector3(0.06, 0.22, 0.06), Vector3(0.3, 1.05, -0.09), brass_surface)
+		handle.name = "Handle"
+		door_leaf.add_child(handle)
+		door_leaf.position = prop_decl.position
+		door_leaf.rotation_degrees.y = prop_decl.rotation_y
+		door_leaf.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_FACADE_DOOR_MODEL)
+		return door_leaf
+	if substrate_kind == "manor_wall_panel":
+		var wall_panel := Node3D.new()
+		wall_panel.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorWallPanelProp"
+		var backing := _make_prop_box(Vector3(4.4, 4.1, 0.34), Vector3(0, 2.05, 0), masonry_surface)
+		backing.name = "Backing"
+		wall_panel.add_child(backing)
+		var plinth := _make_prop_box(Vector3(4.5, 0.26, 0.42), Vector3(0, 0.13, -0.02), trim_surface)
+		plinth.name = "Plinth"
+		wall_panel.add_child(plinth)
+		wall_panel.position = prop_decl.position
+		wall_panel.rotation_degrees.y = prop_decl.rotation_y
+		wall_panel.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PSX_DOOR_WALL_MODEL)
+		return wall_panel
+	if substrate_kind == "manor_window_panel":
+		var window_panel := Node3D.new()
+		window_panel.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorWindowPanelProp"
+		var backing_panel := _make_prop_box(Vector3(4.4, 4.1, 0.34), Vector3(0, 2.05, 0), masonry_surface)
+		backing_panel.name = "Backing"
+		window_panel.add_child(backing_panel)
+		var sill := _make_prop_box(Vector3(1.8, 0.16, 0.2), Vector3(0, 1.56, -0.11), trim_surface)
+		sill.name = "Sill"
+		window_panel.add_child(sill)
+		var lintel := _make_prop_box(Vector3(1.9, 0.14, 0.18), Vector3(0, 3.24, -0.08), trim_surface)
+		lintel.name = "Lintel"
+		window_panel.add_child(lintel)
+		window_panel.position = prop_decl.position
+		window_panel.rotation_degrees.y = prop_decl.rotation_y
+		window_panel.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PSX_WINDOW_WALL_MODEL)
+		return window_panel
+	if substrate_kind == "manor_wing_panel":
+		var wing_panel := Node3D.new()
+		wing_panel.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorWingPanelProp"
+		var wing := _make_prop_box(Vector3(8.0, 4.2, 0.42), Vector3(0, 2.1, 0), masonry_surface)
+		wing.name = "Wing"
+		wing_panel.add_child(wing)
+		var plinth_band := _make_prop_box(Vector3(8.1, 0.24, 0.48), Vector3(0, 0.12, -0.02), trim_surface)
+		plinth_band.name = "Plinth"
+		wing_panel.add_child(plinth_band)
+		wing_panel.position = prop_decl.position
+		wing_panel.rotation_degrees.y = prop_decl.rotation_y
+		wing_panel.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PSX_BIG_WALL_MODEL)
+		return wing_panel
+	if substrate_kind == "manor_wall_column":
+		var column := Node3D.new()
+		column.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorWallColumnProp"
+		var column_base := _make_prop_box(Vector3(0.66, 0.2, 0.44), Vector3(0, 0.1, 0), trim_surface)
+		column_base.name = "Base"
+		column.add_child(column_base)
+		var column_shaft := _make_prop_box(Vector3(0.44, 3.38, 0.28), Vector3(0, 1.89, 0), trim_surface)
+		column_shaft.name = "Shaft"
+		column.add_child(column_shaft)
+		var column_cap := _make_prop_box(Vector3(0.72, 0.2, 0.38), Vector3(0, 3.58, 0), trim_surface)
+		column_cap.name = "Cap"
+		column.add_child(column_cap)
+		column.position = prop_decl.position
+		column.rotation_degrees.y = prop_decl.rotation_y
+		column.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PSX_WALL_COLUMN_MODEL)
+		return column
+	if substrate_kind == "doorway_trim":
+		var trim_root := Node3D.new()
+		trim_root.name = prop_decl.id if not prop_decl.id.is_empty() else "DoorwayTrimProp"
+		var left_jamb := _make_prop_box(Vector3(0.22, 3.08, 0.18), Vector3(-1.03, 1.54, 0), trim_surface)
+		left_jamb.name = "LeftJamb"
+		trim_root.add_child(left_jamb)
+		var right_jamb := _make_prop_box(Vector3(0.22, 3.08, 0.18), Vector3(1.03, 1.54, 0), trim_surface)
+		right_jamb.name = "RightJamb"
+		trim_root.add_child(right_jamb)
+		var lintel_piece := _make_prop_box(Vector3(2.34, 0.2, 0.18), Vector3(0, 3.06, 0), trim_surface)
+		lintel_piece.name = "Lintel"
+		trim_root.add_child(lintel_piece)
+		trim_root.position = prop_decl.position
+		trim_root.rotation_degrees.y = prop_decl.rotation_y
+		trim_root.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PSX_DOOR_FRAME_MODEL)
+		return trim_root
+	if substrate_kind == "manor_roof_panel":
+		var roof_root := Node3D.new()
+		roof_root.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorRoofPanelProp"
+		var roof_plane := _make_prop_box(Vector3(4.4, 0.18, 2.4), Vector3(0, 0, 0), roof_surface)
+		roof_plane.name = "RoofPlane"
+		roof_plane.rotation_degrees.x = -32.0
+		roof_root.add_child(roof_plane)
+		roof_root.position = prop_decl.position
+		roof_root.rotation_degrees.y = prop_decl.rotation_y
+		roof_root.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PSX_ROOF_MODEL)
+		return roof_root
+	if substrate_kind == "manor_roof_molding":
+		var molding_root := Node3D.new()
+		molding_root.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorRoofMoldingProp"
+		var molding := _make_prop_box(Vector3(4.5, 0.18, 0.32), Vector3(0, 0, 0), trim_surface)
+		molding.name = "Molding"
+		molding.rotation_degrees.x = -18.0
+		molding_root.add_child(molding)
+		molding_root.position = prop_decl.position
+		molding_root.rotation_degrees.y = prop_decl.rotation_y
+		molding_root.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PSX_BIG_ROOF_MOLDING_MODEL)
+		return molding_root
+	if substrate_kind == "manor_frieze":
+		var frieze_root := Node3D.new()
+		frieze_root.name = prop_decl.id if not prop_decl.id.is_empty() else "ManorFriezeProp"
+		var frieze := _make_prop_box(Vector3(4.6, 0.22, 0.26), Vector3(0, 0, 0), trim_surface)
+		frieze.name = "Frieze"
+		frieze_root.add_child(frieze)
+		frieze_root.position = prop_decl.position
+		frieze_root.rotation_degrees.y = prop_decl.rotation_y
+		frieze_root.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PSX_BIG_WALL_MOLDING_MODEL)
+		return frieze_root
+	if substrate_kind == "front_gate_sign":
+		return _instantiate_substrate_scene(FRONT_GATE_SIGN_SCENE, prop_decl)
+	if substrate_kind == "greenhouse_shell":
+		return _instantiate_substrate_scene(GREENHOUSE_GLASS_SHELL_SCENE, prop_decl)
+	if substrate_kind == "greenhouse_lantern":
+		return _instantiate_substrate_scene(GREENHOUSE_HANGING_LANTERN_SCENE, prop_decl)
+	if substrate_kind == "greenhouse_pedestal":
+		return _instantiate_substrate_scene("res://scenes/shared/greenhouse/greenhouse_lily_pedestal.tscn", prop_decl)
+	if substrate_kind == "gate_post":
+		return _instantiate_substrate_scene(ESTATE_GATE_POST_SCENE, prop_decl)
+	if substrate_kind == "gate_post_stone":
+		return _instantiate_substrate_scene(ESTATE_GATE_POST_STONE_SCENE, prop_decl)
+	if substrate_kind == "boundary_wall":
+		return _instantiate_substrate_scene(ESTATE_BOUNDARY_WALL_SCENE, prop_decl)
+	if substrate_kind == "iron_gate_open":
+		return _instantiate_substrate_scene(ESTATE_IRON_GATE_SCENE, prop_decl)
+	if substrate_kind == "iron_gate_closed":
+		return _instantiate_substrate_scene(ESTATE_IRON_GATE_CLOSED_SCENE, prop_decl)
+	if substrate_kind == "fence_run":
+		return _instantiate_substrate_scene(ESTATE_FENCE_RUN_SCENE, prop_decl)
+	if substrate_kind == "hedgerow":
+		return _instantiate_substrate_scene(ESTATE_HEDGEROW_SCENE, prop_decl)
+	if substrate_kind == "carriage_road":
+		return _instantiate_substrate_scene(ESTATE_CARRIAGE_ROAD_SCENE, prop_decl)
+	if substrate_kind == "outward_road":
+		return _instantiate_substrate_scene(ESTATE_OUTWARD_ROAD_SCENE, prop_decl)
+	if substrate_kind == "mansion_facade":
+		return _instantiate_substrate_scene(ESTATE_MANSION_FACADE_SCENE, prop_decl)
+	if substrate_kind == "entry_portico":
+		return _instantiate_substrate_scene(ESTATE_ENTRY_PORTICO_SCENE, prop_decl)
+	if substrate_kind == "front_door_assembly":
+		return _instantiate_substrate_scene(ESTATE_FRONT_DOOR_SCENE, prop_decl)
+	if substrate_kind == "forecourt_steps":
+		return _instantiate_substrate_scene(ESTATE_FORECOURT_STEPS_SCENE, prop_decl)
+	if substrate_kind == "starfield":
+		return _instantiate_substrate_scene(ESTATE_STARFIELD_SCENE, prop_decl)
+	if substrate_kind == "front_gate_lamp":
+		return _instantiate_substrate_scene(FRONT_GATE_LAMP_MODEL, prop_decl)
+	if substrate_kind == "front_gate_tree_01":
+		return _instantiate_substrate_scene(FRONT_GATE_TREE_01_MODEL, prop_decl)
+	if substrate_kind == "front_gate_tree_02":
+		return _instantiate_substrate_scene(FRONT_GATE_TREE_02_MODEL, prop_decl)
+	if substrate_kind == "front_gate_tree_03":
+		return _instantiate_substrate_scene(FRONT_GATE_TREE_03_MODEL, prop_decl)
+	if substrate_kind == "front_gate_tree_04":
+		return _instantiate_substrate_scene(FRONT_GATE_TREE_04_MODEL, prop_decl)
+	if substrate_kind == "front_gate_bush_01":
+		return _instantiate_substrate_scene(FRONT_GATE_BUSH_01_MODEL, prop_decl)
+	if substrate_kind == "front_gate_bush_02":
+		return _instantiate_substrate_scene(FRONT_GATE_BUSH_02_MODEL, prop_decl)
+	if substrate_kind == "front_gate_bush_03":
+		return _instantiate_substrate_scene(FRONT_GATE_BUSH_03_MODEL, prop_decl)
+	if substrate_kind == "front_gate_bush_04":
+		return _instantiate_substrate_scene(FRONT_GATE_BUSH_04_MODEL, prop_decl)
+	if substrate_kind == "front_gate_rocks":
+		return _instantiate_substrate_scene(FRONT_GATE_ROCKS_MODEL, prop_decl)
+	if substrate_kind == "iron_gate_leaf_angled":
+		return _instantiate_substrate_scene(FRONT_GATE_IRON_GATE_LEAF_MODEL, prop_decl)
+	if substrate_kind == "front_gate_boundary_pole":
+		return _instantiate_substrate_scene(FRONT_GATE_BOUNDARY_POLE_MODEL, prop_decl)
+	if substrate_kind == "front_gate_chimney_left":
+		return _instantiate_substrate_scene(FRONT_GATE_CHIMNEY_LEFT_MODEL, prop_decl)
+	if substrate_kind == "front_gate_chimney_right":
+		return _instantiate_substrate_scene(FRONT_GATE_CHIMNEY_RIGHT_MODEL, prop_decl)
+	if substrate_kind == "family_crypt_wall_capped":
+		return _instantiate_substrate_scene(FAMILY_CRYPT_WALL_CAPPED_MODEL, prop_decl)
+	if substrate_kind == "family_crypt_wall":
+		return _instantiate_substrate_scene(FAMILY_CRYPT_WALL_MODEL, prop_decl)
+	if substrate_kind == "family_crypt_fence_run":
+		return _instantiate_substrate_scene(FAMILY_CRYPT_FENCE_MODEL, prop_decl)
+	if substrate_kind == "family_crypt_grave_marker":
+		return _instantiate_substrate_scene(FAMILY_CRYPT_COLUMN_MODEL, prop_decl)
+	if substrate_kind == "family_crypt_debris_left":
+		return _instantiate_substrate_scene(FAMILY_CRYPT_DEBRIS_LEFT_MODEL, prop_decl)
+	if substrate_kind == "family_crypt_debris_right":
+		return _instantiate_substrate_scene(FAMILY_CRYPT_DEBRIS_RIGHT_MODEL, prop_decl)
+	if substrate_kind == "family_crypt_bottle":
+		return _instantiate_substrate_scene(FAMILY_CRYPT_BOTTLE_MODEL, prop_decl)
+	if substrate_kind == "family_crypt_bones":
+		return _instantiate_substrate_scene(FAMILY_CRYPT_BONES_MODEL, prop_decl)
+	if substrate_kind == "garden_fountain_base":
+		return _instantiate_substrate_scene(GARDEN_FOUNTAIN_MODEL, prop_decl)
+	if substrate_kind == "garden_fountain_water":
+		return _instantiate_substrate_scene(GARDEN_FOUNTAIN_WATER_MODEL, prop_decl)
+	if substrate_kind == "garden_gazebo_shell":
+		return _instantiate_substrate_scene(GARDEN_GAZEBO_MODEL, prop_decl)
+	if substrate_kind == "garden_path_west":
+		return _instantiate_substrate_scene(GARDEN_PATH_WEST_MODEL, prop_decl)
+	if substrate_kind == "garden_path_center":
+		return _instantiate_substrate_scene(GARDEN_PATH_CENTER_MODEL, prop_decl)
+	if substrate_kind == "garden_path_north":
+		return _instantiate_substrate_scene(GARDEN_PATH_NORTH_MODEL, prop_decl)
+	if substrate_kind == "garden_path_crypt":
+		return _instantiate_substrate_scene(GARDEN_PATH_CRYPT_MODEL, prop_decl)
+	if substrate_kind == "garden_north_wall_w":
+		return _instantiate_substrate_scene(GARDEN_NORTH_WALL_W_MODEL, prop_decl)
+	if substrate_kind == "garden_north_wall_e":
+		return _instantiate_substrate_scene(GARDEN_NORTH_WALL_E_MODEL, prop_decl)
+	if substrate_kind == "garden_east_wall_s":
+		return _instantiate_substrate_scene(GARDEN_EAST_WALL_S_MODEL, prop_decl)
+	if substrate_kind == "garden_east_wall_n":
+		return _instantiate_substrate_scene(GARDEN_EAST_WALL_N_MODEL, prop_decl)
+	if substrate_kind == "garden_corner_ne":
+		return _instantiate_substrate_scene(GARDEN_CORNER_NE_MODEL, prop_decl)
+	if substrate_kind == "garden_column_l":
+		return _instantiate_substrate_scene(GARDEN_COLUMN_L_MODEL, prop_decl)
+	if substrate_kind == "garden_column_r":
+		return _instantiate_substrate_scene(GARDEN_COLUMN_R_MODEL, prop_decl)
+	if substrate_kind == "garden_vase_l":
+		return _instantiate_substrate_scene(GARDEN_VASE_L_MODEL, prop_decl)
+	if substrate_kind == "garden_vase_r":
+		return _instantiate_substrate_scene(GARDEN_VASE_R_MODEL, prop_decl)
+	if substrate_kind == "garden_bench_west":
+		return _instantiate_substrate_scene(GARDEN_BENCH_WEST_MODEL, prop_decl)
+	if substrate_kind == "garden_gazebo_table":
+		return _instantiate_substrate_scene(GARDEN_GAZEBO_TABLE_MODEL, prop_decl)
+	if substrate_kind == "garden_bench_north":
+		return _instantiate_substrate_scene(GARDEN_BENCH_NORTH_MODEL, prop_decl)
+	if substrate_kind == "garden_beds_west":
+		return _instantiate_substrate_scene(GARDEN_FLOWERBED_WEST_MODEL, prop_decl)
+	if substrate_kind == "garden_beds_east":
+		return _instantiate_substrate_scene(GARDEN_FLOWERBED_EAST_MODEL, prop_decl)
+	if substrate_kind == "chapel_wall_column_fancy":
+		return _instantiate_substrate_scene(CHAPEL_WALL_COLUMN_FANCY_MODEL, prop_decl)
+	if substrate_kind == "chapel_wall_center":
+		return _instantiate_substrate_scene(CHAPEL_WALL_MODEL, prop_decl)
+	if substrate_kind == "chapel_wall_column":
+		return _instantiate_substrate_scene(CHAPEL_WALL_COLUMN_MODEL, prop_decl)
+	if substrate_kind == "chapel_bucket":
+		return _instantiate_substrate_scene(CHAPEL_BUCKET_MODEL, prop_decl)
+	if substrate_kind == "chapel_bottle":
+		return _instantiate_substrate_scene(CHAPEL_BOTTLE_MODEL, prop_decl)
+	if substrate_kind == "chapel_dead_lamp":
+		return _instantiate_substrate_scene(CHAPEL_LAMP_MODEL, prop_decl)
+	if substrate_kind == "chapel_bones":
+		return _instantiate_substrate_scene(CHAPEL_BONES_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_mattress":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_MATTRESS_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_shed_a":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_SHED_A_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_shed_b":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_SHED_B_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_shed_c":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_SHED_C_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_shed_d":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_SHED_D_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_board_1":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_BOARD_1_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_board_2":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_BOARD_2_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_shovel":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_SHOVEL_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_luggage":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_LUGGAGE_MODEL, prop_decl)
+	if substrate_kind == "carriage_house_dead_lamp":
+		return _instantiate_substrate_scene(CARRIAGE_HOUSE_LAMP_MODEL, prop_decl)
+	if substrate_kind == "candle_holder_fixture":
+		return _instantiate_substrate_scene(CANDLE_HOLDER_MODEL, prop_decl)
+	if substrate_kind == "candle_single":
+		return _instantiate_substrate_scene(CANDLE_SINGLE_MODEL, prop_decl)
+	if substrate_kind == "picture_frame_blank_000":
+		return _instantiate_substrate_scene(PICTURE_FRAME_000_MODEL, prop_decl)
+	if substrate_kind == "picture_frame_blank_001":
+		return _instantiate_substrate_scene(PICTURE_FRAME_001_MODEL, prop_decl)
+	if substrate_kind == "picture_frame_blank_002":
+		return _instantiate_substrate_scene(PICTURE_FRAME_002_MODEL, prop_decl)
+	if substrate_kind == "picture_frame_blank_003":
+		return _instantiate_substrate_scene(PICTURE_FRAME_003_MODEL, prop_decl)
+	if substrate_kind == "picture_frame_blank_004":
+		return _instantiate_substrate_scene(PICTURE_FRAME_004_MODEL, prop_decl)
+	if substrate_kind == "picture_frame_blank_005":
+		return _instantiate_substrate_scene(PICTURE_FRAME_005_MODEL, prop_decl)
+	if substrate_kind == "picture_frame_blank_006":
+		return _instantiate_substrate_scene(PICTURE_FRAME_006_MODEL, prop_decl)
+	if substrate_kind == "rug_0":
+		return _instantiate_substrate_scene(RUG_0_MODEL, prop_decl)
+	if substrate_kind == "rug_1":
+		return _instantiate_substrate_scene(RUG_1_MODEL, prop_decl)
+	if substrate_kind == "rug_2":
+		return _instantiate_substrate_scene(RUG_2_MODEL, prop_decl)
+	if substrate_kind == "furniture_table":
+		return _instantiate_substrate_scene(FURNITURE_TABLE_MODEL, prop_decl)
+	if substrate_kind == "furniture_study_desk":
+		return _instantiate_substrate_scene(FURNITURE_STUDY_DESK_MODEL, prop_decl)
+	if substrate_kind == "furniture_drawers":
+		return _instantiate_substrate_scene(FURNITURE_DRAWERS_MODEL, prop_decl)
+	if substrate_kind == "furniture_chair":
+		return _instantiate_substrate_scene(FURNITURE_CHAIR_MODEL, prop_decl)
+	if substrate_kind == "furniture_bookcase":
+		return _instantiate_substrate_scene(FURNITURE_BOOKCASE_MODEL, prop_decl)
+	if substrate_kind == "furniture_bed":
+		return _instantiate_substrate_scene(FURNITURE_BED_MODEL, prop_decl)
+	if substrate_kind == "chandelier_fixture":
+		return _instantiate_substrate_scene(CHANDELIER_MODEL, prop_decl)
+	if substrate_kind == "item_page_001":
+		return _instantiate_substrate_scene(ITEM_PAGE_001_MODEL, prop_decl)
+	if substrate_kind == "item_page_002":
+		return _instantiate_substrate_scene(ITEM_PAGE_002_MODEL, prop_decl)
+	if substrate_kind == "item_page_005":
+		return _instantiate_substrate_scene(ITEM_PAGE_005_MODEL, prop_decl)
+	if substrate_kind == "item_openbook_000":
+		return _instantiate_substrate_scene(ITEM_OPENBOOK_000_MODEL, prop_decl)
+	if substrate_kind == "item_openbook_001":
+		return _instantiate_substrate_scene(ITEM_OPENBOOK_001_MODEL, prop_decl)
+	if substrate_kind == "attic_lamp_tall_off":
+		return _instantiate_substrate_scene(ATTIC_LAMP_TALL_OFF_MODEL, prop_decl)
+	if substrate_kind == "attic_bucket_small":
+		return _instantiate_substrate_scene(ATTIC_BUCKET_SMALL_MODEL, prop_decl)
+	if substrate_kind == "attic_mask_ritual":
+		return _instantiate_substrate_scene(ATTIC_MASK_RITUAL_MODEL, prop_decl)
+	if substrate_kind == "coat_stand":
+		return _instantiate_substrate_scene(COAT_STAND_MODEL, prop_decl)
+	if substrate_kind == "dining_plate_place":
+		return _instantiate_substrate_scene(DINING_PLATE_MODEL, prop_decl)
+	if substrate_kind == "dining_water_glass":
+		return _instantiate_substrate_scene(DINING_WATER_GLASS_MODEL, prop_decl)
+	if substrate_kind == "parlor_settee":
+		return _instantiate_substrate_scene(PARLOR_SETTEE_MODEL, prop_decl)
+	if substrate_kind == "wine_cellar_bottles":
+		return _instantiate_substrate_scene(WINE_CELLAR_BOTTLES_MODEL, prop_decl)
+	if substrate_kind == "wine_cellar_barrel":
+		return _instantiate_substrate_scene(WINE_CELLAR_BARREL_MODEL, prop_decl)
+	if substrate_kind == "attic_broken_plank":
+		return _instantiate_substrate_scene(ATTIC_BROKEN_PLANK_MODEL, prop_decl)
+	if substrate_kind == "storage_crate_medium_a":
+		return _instantiate_substrate_scene(STORAGE_CRATE_MEDIUM_A_MODEL, prop_decl)
+	if substrate_kind == "storage_lamp_small_off":
+		return _instantiate_substrate_scene(STORAGE_LAMP_SMALL_OFF_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_plank_bench":
+		return _instantiate_substrate_scene(GREENHOUSE_PLANK_BENCH_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_plank_shelf":
+		return _instantiate_substrate_scene(GREENHOUSE_PLANK_SHELF_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_dead_row":
+		return _instantiate_substrate_scene(GREENHOUSE_DEAD_ROW_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_dead_end":
+		return _instantiate_substrate_scene(GREENHOUSE_DEAD_END_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_tall_dead":
+		return _instantiate_substrate_scene(GREENHOUSE_TALL_DEAD_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_winter_growth":
+		return _instantiate_substrate_scene(GREENHOUSE_WINTER_GROWTH_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_winter_growth_back":
+		return _instantiate_substrate_scene(GREENHOUSE_WINTER_GROWTH_BACK_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_nature_cluster":
+		return _instantiate_substrate_scene(GREENHOUSE_NATURE_CLUSTER_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_bucket_small":
+		return _instantiate_substrate_scene(GREENHOUSE_BUCKET_SMALL_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_bucket_large":
+		return _instantiate_substrate_scene(GREENHOUSE_BUCKET_LARGE_MODEL, prop_decl)
+	if substrate_kind == "greenhouse_bottle":
+		return _instantiate_substrate_scene(GREENHOUSE_BOTTLE_MODEL, prop_decl)
+	if substrate_kind == "forecourt_statue":
+		return _instantiate_substrate_scene(FORECOURT_STATUE_MODEL, prop_decl)
 	if prop_decl.tags.has("procedural_moon"):
 		var moon := MeshInstance3D.new()
 		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"
@@ -666,18 +1596,41 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		mesh.radius = 0.54
 		mesh.height = 1.08
 		moon.mesh = mesh
-		var material := StandardMaterial3D.new()
-		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-		material.albedo_color = Color(0.76, 0.8, 0.88, 1.0)
-		material.emission_enabled = true
-		material.emission = Color(0.44, 0.5, 0.64, 1.0)
-		material.emission_energy_multiplier = 0.46
+		var material := EstateMaterialKit.emissive_unshaded(Color(0.76, 0.8, 0.88, 1.0), 0.46)
 		moon.set_surface_override_material(0, material)
 		moon.position = prop_decl.position
 		moon.rotation_degrees.y = prop_decl.rotation_y
 		moon.scale = Vector3.ONE * maxf(0.1, prop_decl.scale)
 		return moon
 	return null
+
+
+func _instantiate_substrate_scene(scene_path: String, prop_decl: PropDecl) -> Node3D:
+	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
+		return null
+	var scene := load(scene_path) as PackedScene
+	if scene == null:
+		return null
+	var inst := scene.instantiate() as Node3D
+	if inst == null:
+		return null
+	inst.name = prop_decl.id if not prop_decl.id.is_empty() else "SubstrateSceneProp"
+	inst.position = prop_decl.position
+	inst.rotation_degrees.y = prop_decl.rotation_y
+	inst.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale
+	return inst
+
+
+func _make_prop_box(size: Vector3, pos: Vector3, surface_ref: String) -> MeshInstance3D:
+	var mesh_inst := MeshInstance3D.new()
+	var box := BoxMesh.new()
+	box.size = size
+	mesh_inst.mesh = box
+	mesh_inst.position = pos
+	var material := EstateMaterialKit.build_surface_reference(surface_ref)
+	if material != null:
+		mesh_inst.set_surface_override_material(0, material)
+	return mesh_inst
 
 
 func _coerce_vector3(value: Variant, fallback: Vector3) -> Vector3:
@@ -748,7 +1701,15 @@ func _is_secret_passage_revealed(passage: SecretPassageDecl) -> bool:
 		return true
 	if passage.reveal_condition.is_empty():
 		return true
-	return GameManager.has_flag(passage.reveal_condition)
+	var game_manager := _game_manager()
+	return game_manager != null and game_manager.has_method("has_flag") and bool(game_manager.call("has_flag", passage.reveal_condition))
+
+
+func _game_manager() -> Node:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null or tree.root == null:
+		return null
+	return tree.root.get_node_or_null("GameManager")
 
 
 func _collect_areas(node: Node) -> Array[Area3D]:

@@ -170,98 +170,98 @@ flicker_pattern = "candle"
 [sub_resource type="Resource" id="prop_rack_left"]
 script = ExtResource("5")
 id = "rack_left"
-model = "res://assets/shared/furniture/bookcase.glb"
+substrate_prop_kind = "furniture_bookcase"
 position = Vector3(-3.5, 0, 0.0)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_rack_right"]
 script = ExtResource("5")
 id = "rack_right"
-model = "res://assets/shared/furniture/bookcase.glb"
+substrate_prop_kind = "furniture_bookcase"
 position = Vector3(3.5, 0, 0.0)
 rotation_y = 270.0
 
 [sub_resource type="Resource" id="prop_bottles_left"]
 script = ExtResource("5")
 id = "bottles_left"
-model = "res://assets/deep_basement/wine_cellar/bottles.glb"
+substrate_prop_kind = "wine_cellar_bottles"
 position = Vector3(-3.2, 0.2, -0.8)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_bottles_right"]
 script = ExtResource("5")
 id = "bottles_right"
-model = "res://assets/deep_basement/wine_cellar/bottles.glb"
+substrate_prop_kind = "wine_cellar_bottles"
 position = Vector3(3.2, 0.2, 0.6)
 rotation_y = 270.0
 
 [sub_resource type="Resource" id="prop_box"]
 script = ExtResource("5")
 id = "locked_box"
-model = "res://assets/deep_basement/wine_cellar/treasure_chest.glb"
+content_prop_kind = "wine_cellar_locked_box"
 position = Vector3(-3.4, 0, -2.0)
 scale = 0.6
 
 [sub_resource type="Resource" id="prop_barrel_1"]
 script = ExtResource("5")
 id = "barrel_1"
-model = "res://assets/deep_basement/wine_cellar/barrel.glb"
+substrate_prop_kind = "wine_cellar_barrel"
 position = Vector3(2.4, 0, -2.8)
 
 [sub_resource type="Resource" id="prop_barrel_2"]
 script = ExtResource("5")
 id = "barrel_2"
-model = "res://assets/deep_basement/wine_cellar/barrel.glb"
+substrate_prop_kind = "wine_cellar_barrel"
 position = Vector3(2.9, 0, -1.8)
 scale = 0.9
 
 [sub_resource type="Resource" id="prop_lamp"]
 script = ExtResource("5")
 id = "cellar_lamp"
-model = "res://assets/deep_basement/wine_cellar/lamp_mx_3_on.glb"
+content_prop_kind = "wine_cellar_cellar_lamp"
 position = Vector3(0.0, 0, 0.0)
 
 [sub_resource type="Resource" id="prop_bricks_l"]
 script = ExtResource("5")
 id = "bricks_l"
-model = "res://assets/deep_basement/wine_cellar/brick_mx_1.glb"
+content_prop_kind = "wine_cellar_bricks_l"
 position = Vector3(-2.6, 0, 3.0)
 
 [sub_resource type="Resource" id="prop_bricks_r"]
 script = ExtResource("5")
 id = "bricks_r"
-model = "res://assets/deep_basement/wine_cellar/brick_mx_2.glb"
+content_prop_kind = "wine_cellar_bricks_r"
 position = Vector3(2.8, 0, 2.4)
 
 [sub_resource type="Resource" id="prop_plank"]
 script = ExtResource("5")
 id = "plank"
-model = "res://assets/deep_basement/wine_cellar/wooden_plank_3.glb"
+content_prop_kind = "wine_cellar_plank"
 position = Vector3(0.8, 0, -3.4)
 rotation_y = 25.0
 
 [sub_resource type="Resource" id="prop_loose_bottle"]
 script = ExtResource("5")
 id = "loose_bottle"
-model = "res://assets/deep_basement/wine_cellar/glass_bottle_mx_3.glb"
+content_prop_kind = "wine_cellar_loose_bottle"
 position = Vector3(1.8, 0, 2.8)
 
 [sub_resource type="Resource" id="prop_box_candle"]
 script = ExtResource("5")
 id = "box_candle"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(-2.8, 0.82, -2.2)
 
 [sub_resource type="Resource" id="prop_bottle_cluster_a"]
 script = ExtResource("5")
 id = "bottle_cluster_a"
-model = "res://assets/deep_basement/wine_cellar/glass_bottle_mx_2.glb"
+content_prop_kind = "wine_cellar_bottle_cluster_a"
 position = Vector3(2.5, 0.0, 1.9)
 
 [sub_resource type="Resource" id="prop_bottle_cluster_b"]
 script = ExtResource("5")
 id = "bottle_cluster_b"
-model = "res://assets/deep_basement/wine_cellar/glass_bottle_mx_1.glb"
+content_prop_kind = "wine_cellar_bottle_cluster_b"
 position = Vector3(-2.1, 0.0, 2.5)
 
 [sub_resource type="Resource" id="act_visited"]
@@ -301,9 +301,6 @@ floor_name = "deep_basement"
 environment_preset = "deep_basement"
 dimensions = Vector3(8, 3, 10)
 is_exterior = false
-wall_texture = "wall6_texture"
-floor_texture = "floor3_texture"
-ceiling_texture = "ceiling2_texture"
 wall_north = PackedStringArray("wall", "wall", "wall", "wall")
 wall_south = PackedStringArray("wall", "wall", "wall", "wall")
 wall_east = PackedStringArray("wall", "wall", "wall", "wall", "wall")

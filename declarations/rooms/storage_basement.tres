@@ -241,101 +241,101 @@ flicker_pattern = "candle"
 [sub_resource type="Resource" id="prop_shelf_left"]
 script = ExtResource("5")
 id = "shelf_left"
-model = "res://assets/basement/storage/shelf_1.glb"
+content_prop_kind = "storage_basement_shelf_left"
 position = Vector3(-3.1, 0, 1.6)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_shelf_right"]
 script = ExtResource("5")
 id = "shelf_right"
-model = "res://assets/basement/storage/shelf_2.glb"
+content_prop_kind = "storage_basement_shelf_right"
 position = Vector3(3.2, 0, 1.4)
 rotation_y = 270.0
 
 [sub_resource type="Resource" id="prop_crate_1"]
 script = ExtResource("5")
 id = "crate_1"
-model = "res://assets/basement/storage/wooden_crate_1.glb"
+content_prop_kind = "storage_basement_crate_1"
 position = Vector3(-2.1, 0, -2.6)
 
 [sub_resource type="Resource" id="prop_crate_2"]
 script = ExtResource("5")
 id = "crate_2"
-model = "res://assets/basement/storage/wooden_crate_2_a.glb"
+substrate_prop_kind = "storage_crate_medium_a"
 position = Vector3(-1.2, 0, -3.0)
 rotation_y = 18.0
 
 [sub_resource type="Resource" id="prop_crate_3"]
 script = ExtResource("5")
 id = "crate_3"
-model = "res://assets/basement/storage/wooden_crate_2_b.glb"
+content_prop_kind = "storage_basement_crate_3"
 position = Vector3(1.8, 0, -2.8)
 rotation_y = -12.0
 
 [sub_resource type="Resource" id="prop_crate_4"]
 script = ExtResource("5")
 id = "crate_4"
-model = "res://assets/basement/storage/wooden_crate_2_c.glb"
+content_prop_kind = "storage_basement_crate_4"
 position = Vector3(2.7, 0, -1.8)
 rotation_y = 20.0
 
 [sub_resource type="Resource" id="prop_crate_5"]
 script = ExtResource("5")
 id = "crate_5"
-model = "res://assets/basement/storage/wooden_crate_3.glb"
+content_prop_kind = "storage_basement_crate_5"
 position = Vector3(-3.0, 0, -1.2)
 rotation_y = -25.0
 
 [sub_resource type="Resource" id="prop_crates_barrels"]
 script = ExtResource("5")
 id = "crates_barrels"
-model = "res://assets/basement/storage/crates_barrels.glb"
+content_prop_kind = "storage_basement_crates_barrels"
 position = Vector3(2.9, 0, -0.2)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_cage"]
 script = ExtResource("5")
 id = "iron_cage"
-model = "res://assets/basement/storage/cage.glb"
+content_prop_kind = "storage_basement_iron_cage"
 position = Vector3(3.0, 0, 3.0)
 rotation_y = 180.0
 
 [sub_resource type="Resource" id="prop_ladder"]
 script = ExtResource("5")
 id = "ladder"
-model = "res://assets/basement/storage/ladder.glb"
+content_prop_kind = "storage_basement_ladder"
 position = Vector3(-3.0, 0, 3.1)
 rotation_y = 180.0
 
 [sub_resource type="Resource" id="prop_mattress"]
 script = ExtResource("5")
 id = "old_mattress"
-model = "res://assets/basement/storage/old_mattress_mx_1.glb"
+content_prop_kind = "storage_basement_old_mattress"
 position = Vector3(2.7, 0, 2.0)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_bucket"]
 script = ExtResource("5")
 id = "bucket"
-model = "res://assets/basement/storage/bucket_mx_3.glb"
+content_prop_kind = "storage_basement_bucket"
 position = Vector3(-0.4, 0, 2.5)
 
 [sub_resource type="Resource" id="prop_dead_lamp"]
 script = ExtResource("5")
 id = "dead_lamp"
-model = "res://assets/basement/storage/lamp_mx_2_off.glb"
+substrate_prop_kind = "storage_lamp_small_off"
 position = Vector3(0.9, 0.82, -2.4)
 
 [sub_resource type="Resource" id="prop_debris"]
 script = ExtResource("5")
 id = "debris"
-model = "res://assets/basement/storage/debris_bricks_mx_1.glb"
+content_prop_kind = "storage_basement_debris"
 position = Vector3(-0.8, 0, -1.1)
 
 [sub_resource type="Resource" id="prop_hidden_service_stack"]
 script = ExtResource("5")
 id = "hidden_service_stack"
-model = "res://assets/basement/storage/wooden_crate_2_a.glb"
+substrate_prop_kind = "storage_crate_medium_a"
 position = Vector3(2.4, 0, 3.8)
 rotation_y = 32.0
 scale = 0.92
@@ -343,32 +343,32 @@ scale = 0.92
 [sub_resource type="Resource" id="prop_mattress_candle_holder"]
 script = ExtResource("5")
 id = "mattress_candle_holder"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(2.2, 0.78, 2.0)
 
 [sub_resource type="Resource" id="prop_mattress_candle"]
 script = ExtResource("5")
 id = "mattress_candle"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(2.2, 0.78, 2.0)
 
 [sub_resource type="Resource" id="prop_match_tin"]
 script = ExtResource("5")
 id = "match_tin"
-model = "res://assets/basement/storage/lamp_mx_2_off.glb"
+substrate_prop_kind = "storage_lamp_small_off"
 position = Vector3(1.1, 0.82, -2.2)
 scale = 0.3
 
 [sub_resource type="Resource" id="prop_sconce_stairs"]
 script = ExtResource("5")
 id = "sconce_stairs"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(0, 2.0, -3.5)
 
 [sub_resource type="Resource" id="prop_sconce_cage"]
 script = ExtResource("5")
 id = "sconce_cage"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(3.5, 2.0, 3.0)
 
 [sub_resource type="Resource" id="mount_slot_storage_sconce_stairs"]
@@ -390,14 +390,14 @@ script = ExtResource("12")
 payload_id = "storage_sconce_stairs_payload"
 slot_id = "storage_sconce_stairs"
 scene_role = "mounted_payload"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 
 [sub_resource type="Resource" id="mount_payload_storage_sconce_cage"]
 script = ExtResource("12")
 payload_id = "storage_sconce_cage_payload"
 slot_id = "storage_sconce_cage"
 scene_role = "mounted_payload"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 
 ; === Entry Trigger: Forced Fall ===
 
@@ -519,9 +519,6 @@ floor_name = "basement"
 environment_preset = "basement"
 dimensions = Vector3(8, 3, 8)
 is_exterior = false
-wall_texture = "wall8_texture"
-floor_texture = "floor2_texture"
-ceiling_texture = "ceiling2_texture"
 wall_north = PackedStringArray("wall", "wall", "wall", "wall")
 wall_south = PackedStringArray("wall", "wall", "wall", "wall")
 wall_east = PackedStringArray("wall", "wall", "doorway:storage_basement_to_boiler_room", "wall")

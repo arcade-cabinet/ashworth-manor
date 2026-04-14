@@ -11,6 +11,7 @@ const BRICK_TEXTURE := "res://assets/shared/pbr/masonry/brick_victorian_color.jp
 const BRICK_NORMAL := "res://assets/shared/pbr/masonry/brick_victorian_normal_gl.jpg"
 const BRICK_ROUGHNESS := "res://assets/shared/pbr/masonry/brick_victorian_roughness.jpg"
 const BRICK_AO := "res://assets/shared/pbr/masonry/brick_victorian_ao.jpg"
+const CHAPEL_STONE_TEXTURE := "res://assets/grounds/chapel/Horror_Stone_02-512x512.png"
 const EARTH_TEXTURE := "res://assets/shared/pbr/grounds/estate_earth_color.jpg"
 const EARTH_NORMAL := "res://assets/shared/pbr/grounds/estate_earth_normal_gl.jpg"
 const EARTH_ROUGHNESS := "res://assets/shared/pbr/grounds/estate_earth_roughness.jpg"
@@ -170,6 +171,137 @@ const RECIPE_LIBRARY := {
 			"roughness": 0.98,
 			"triplanar": true,
 			"uv1_scale": Vector3(2.2, 1.0, 2.2),
+		},
+	},
+	"surface/greenhouse_frame": {
+		"family": "surface",
+		"kind": "standard",
+		"slots": {},
+		"options": {
+			"albedo_color": Color(0.28, 0.24, 0.18, 1.0),
+			"roughness": 0.56,
+			"metallic": 0.18,
+		},
+	},
+	"surface/terracotta_pot": {
+		"family": "surface",
+		"kind": "standard",
+		"slots": {},
+		"options": {
+			"albedo_color": Color(0.49, 0.235, 0.11, 1.0),
+			"roughness": 0.88,
+			"metallic": 0.0,
+		},
+	},
+	"surface/soil_dark": {
+		"family": "surface",
+		"kind": "standard",
+		"slots": {},
+		"options": {
+			"albedo_color": Color(0.11, 0.07, 0.045, 1.0),
+			"roughness": 1.0,
+			"metallic": 0.0,
+		},
+	},
+	"surface/lily_petal": {
+		"family": "surface",
+		"kind": "standard",
+		"slots": {},
+		"options": {
+			"albedo_color": Color(0.96, 0.96, 0.91, 1.0),
+			"roughness": 0.72,
+			"emission_enabled": true,
+			"emission": Color(0.6, 0.52, 0.32, 1.0),
+			"emission_energy": 1.0,
+		},
+	},
+	"surface/linen_ash": {
+		"family": "surface",
+		"kind": "standard",
+		"slots": {},
+		"options": {
+			"albedo_color": Color(0.42, 0.39, 0.34, 1.0),
+			"roughness": 0.95,
+		},
+	},
+	"surface/tea_ceramic": {
+		"family": "surface",
+		"kind": "standard",
+		"slots": {},
+		"options": {
+			"albedo_color": Color(0.87, 0.831, 0.753, 1.0),
+			"roughness": 0.78,
+			"clearcoat_enabled": true,
+			"clearcoat": 0.1,
+			"clearcoat_roughness": 0.18,
+		},
+	},
+	"surface/tea_tray": {
+		"family": "surface",
+		"kind": "standard",
+		"slots": {},
+		"options": {
+			"albedo_color": Color(0.357, 0.235, 0.122, 1.0),
+			"roughness": 0.82,
+		},
+	},
+	"surface/chapel_stone": {
+		"family": "surface",
+		"kind": "standard",
+		"slots": {
+			"albedo": CHAPEL_STONE_TEXTURE,
+		},
+		"options": {
+			"roughness": 0.95,
+		},
+	},
+	"surface/pedestal_stone": {
+		"family": "surface",
+		"kind": "standard",
+		"slots": {},
+		"options": {
+			"albedo_color": Color(0.22, 0.18, 0.14, 1.0),
+			"roughness": 0.86,
+		},
+	},
+	"surface/warm_flame": {
+		"family": "surface",
+		"kind": "standard",
+		"slots": {},
+		"options": {
+			"albedo_color": Color(1.0, 0.78, 0.36, 1.0),
+			"roughness": 0.18,
+			"emission_enabled": true,
+			"emission": Color(1.0, 0.72, 0.28, 1.0),
+			"emission_energy": 6.0,
+		},
+	},
+	"surface/fallback_wood": {
+		"family": "surface",
+		"kind": "standard",
+		"slots": {},
+		"options": {
+			"albedo_color": Color(0.35, 0.27, 0.18, 1.0),
+			"roughness": 0.92,
+		},
+	},
+	"surface/fallback_metal": {
+		"family": "surface",
+		"kind": "standard",
+		"slots": {},
+		"options": {
+			"albedo_color": Color(0.18, 0.17, 0.18, 1.0),
+			"roughness": 0.7,
+			"metallic": 0.75,
+		},
+	},
+	"surface/shadow_void": {
+		"family": "surface",
+		"kind": "standard",
+		"slots": {},
+		"options": {
+			"albedo_color": Color(0.08, 0.08, 0.12, 1.0),
+			"roughness": 1.0,
 		},
 	},
 	"glass/window_glass": {
@@ -911,6 +1043,19 @@ const RECIPE_LIBRARY := {
 			"uv1_scale": Vector3(8.0, 2.4, 1.0),
 		},
 	},
+	"foliage/lily_leaf": {
+		"family": "foliage",
+		"kind": "standard",
+		"slots": {},
+		"options": {
+			"albedo_color": Color(0.28, 0.42, 0.22, 1.0),
+			"roughness": 0.86,
+			"double_sided": true,
+			"rim_enabled": true,
+			"rim": 0.02,
+			"rim_tint": 0.08,
+		},
+	},
 }
 
 const LEGACY_SURFACE_ALIASES := {
@@ -986,6 +1131,12 @@ static func build_surface_reference(surface_ref: String, options: Dictionary = {
 	return PBRTextureKit.build_material(surface_ref, options)
 
 
+static func resolve_surface_reference(surface_ref: String, fallback_surface_ref: String) -> String:
+	if not surface_ref.is_empty():
+		return surface_ref
+	return fallback_surface_ref
+
+
 static func brass() -> StandardMaterial3D:
 	return build("surface/brass") as StandardMaterial3D
 
@@ -1056,6 +1207,98 @@ static func crystal_glass() -> Material:
 
 static func greenhouse_glass() -> Material:
 	return build("glass/greenhouse_glass")
+
+
+static func fallback_wood() -> StandardMaterial3D:
+	return build("surface/fallback_wood") as StandardMaterial3D
+
+
+static func fallback_metal() -> StandardMaterial3D:
+	return build("surface/fallback_metal") as StandardMaterial3D
+
+
+static func shadow_void() -> StandardMaterial3D:
+	return build("surface/shadow_void") as StandardMaterial3D
+
+
+static func shadow_void_tinted(color: Color) -> StandardMaterial3D:
+	var material := shadow_void()
+	if material != null:
+		material = material.duplicate()
+		material.albedo_color = color
+	return material
+
+
+static func flat_unshaded(color: Color) -> StandardMaterial3D:
+	var material := StandardMaterial3D.new()
+	material.albedo_color = color
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.roughness = 1.0
+	material.metallic = 0.0
+	return material
+
+
+static func emissive_unshaded(
+	color: Color,
+	energy: float,
+	transparency: BaseMaterial3D.Transparency = BaseMaterial3D.TRANSPARENCY_DISABLED,
+	depth_draw_mode: BaseMaterial3D.DepthDrawMode = BaseMaterial3D.DEPTH_DRAW_OPAQUE_ONLY,
+	double_sided := false
+) -> StandardMaterial3D:
+	var material := StandardMaterial3D.new()
+	material.albedo_color = color
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.emission_enabled = true
+	material.emission = Color(color.r, color.g, color.b, 1.0)
+	material.emission_energy_multiplier = energy
+	material.roughness = 0.0
+	material.metallic = 0.0
+	material.transparency = transparency
+	material.depth_draw_mode = depth_draw_mode
+	if double_sided:
+		material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	return material
+
+
+static func window_glow(color: Color = Color(0.98, 0.8, 0.54, 1.0), energy := 3.1) -> StandardMaterial3D:
+	return emissive_unshaded(color, energy)
+
+
+static func fog_glow(color: Color, energy: float) -> StandardMaterial3D:
+	return emissive_unshaded(
+		color,
+		energy,
+		BaseMaterial3D.TRANSPARENCY_ALPHA,
+		BaseMaterial3D.DEPTH_DRAW_DISABLED,
+		true
+	)
+
+
+static func star_glow(major: bool, variance: float) -> StandardMaterial3D:
+	var tint := Color(0.92 + variance * 0.05, 0.94 + variance * 0.04, 1.0, 1.0)
+	return emissive_unshaded(tint, 1.0 if major else 0.68)
+
+
+static func legacy_texture_surface(texture: Texture2D, double_sided := false) -> StandardMaterial3D:
+	if texture == null:
+		return null
+	var material := StandardMaterial3D.new()
+	material.albedo_texture = texture
+	material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+	if double_sided:
+		material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	return material
+
+
+static func legacy_texture_unshaded(texture: Texture2D, color: Color, filter_mode: BaseMaterial3D.TextureFilter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC) -> StandardMaterial3D:
+	var material := legacy_texture_surface(texture)
+	if material == null:
+		material = flat_unshaded(color)
+	else:
+		material.albedo_color = color
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		material.texture_filter = filter_mode
+	return material
 
 
 static func pond_water() -> Material:

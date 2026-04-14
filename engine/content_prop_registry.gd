@@ -1,0 +1,162 @@
+class_name ContentPropRegistry
+extends RefCounted
+
+const ALLOWED_CONTENT_FAMILIES := {
+	"debris": true,
+	"stored_clutter": true,
+	"service_infrastructure": true,
+	"table_service": true,
+	"entry_dressing": true,
+	"personal_effects": true,
+	"occult_dressing": true,
+	"tool_clutter": true,
+	"study_dressing": true,
+	"hearth_dressing": true,
+	"storage_clutter": true,
+	"passage_dressing": true,
+}
+
+const EXPECTED_CONTENT_FAMILY_BY_ROOM := {
+	"attic_stairs": "debris",
+	"attic_storage": "stored_clutter",
+	"boiler_room": "service_infrastructure",
+	"dining_room": "table_service",
+	"foyer": "entry_dressing",
+	"guest_room": "personal_effects",
+	"hidden_chamber": "occult_dressing",
+	"kitchen": "tool_clutter",
+	"library": "study_dressing",
+	"master_bedroom": "personal_effects",
+	"parlor": "hearth_dressing",
+	"storage_basement": "storage_clutter",
+	"upper_hallway": "passage_dressing",
+	"wine_cellar": "storage_clutter",
+}
+
+const CONTENT_PROP_SPECS := {
+	"attic_stairs_gravel_pile": {"path": "res://assets/attic/stairwell/gravel_pile_hr_1.glb", "family": "debris"},
+	"attic_stairs_broken_plank_b": {"path": "res://assets/attic/stairwell/wooden_plank_5.glb", "family": "debris"},
+	"attic_storage_old_mattress": {"path": "res://assets/attic/storage/old_mattress_mx_1.glb", "family": "stored_clutter"},
+	"attic_storage_attic_soap": {"path": "res://assets/attic/storage/soap_mx_1.glb", "family": "stored_clutter"},
+	"attic_storage_dead_lamp": {"path": "res://assets/attic/storage/lamp_mx_4_off.glb", "family": "stored_clutter"},
+	"attic_storage_stored_tools": {"path": "res://assets/attic/storage/mining_props.glb", "family": "stored_clutter"},
+	"attic_storage_rafter_bat": {"path": "res://assets/attic/storage/bat.glb", "family": "stored_clutter"},
+	"attic_storage_child_book": {"path": "res://assets/shared/items/book2.glb", "family": "stored_clutter"},
+	"boiler_room_main_boiler": {"path": "res://assets/basement/boiler_room/boiler.glb", "family": "service_infrastructure"},
+	"boiler_room_pipes_ceiling": {"path": "res://assets/basement/boiler_room/pipes_hr_1.glb", "family": "service_infrastructure"},
+	"boiler_room_pipe_mid": {"path": "res://assets/basement/boiler_room/Pipe_V1_Straight.glb", "family": "service_infrastructure"},
+	"boiler_room_pipe_curve": {"path": "res://assets/basement/boiler_room/Pipe_V1_Curved.glb", "family": "service_infrastructure"},
+	"boiler_room_valve_model": {"path": "res://assets/basement/boiler_room/Valve.glb", "family": "service_infrastructure"},
+	"boiler_room_machinery_l": {"path": "res://assets/basement/boiler_room/Machinery_1.glb", "family": "service_infrastructure"},
+	"boiler_room_machinery_r": {"path": "res://assets/basement/boiler_room/Machinery_2.glb", "family": "service_infrastructure"},
+	"boiler_room_machinery_back": {"path": "res://assets/basement/boiler_room/Machinery_3.glb", "family": "service_infrastructure"},
+	"boiler_room_electrical_box": {"path": "res://assets/basement/boiler_room/electrical_equipment_1.glb", "family": "service_infrastructure"},
+	"boiler_room_electrical_aux": {"path": "res://assets/basement/boiler_room/electrical_equipment_2.glb", "family": "service_infrastructure"},
+	"boiler_room_toolbox": {"path": "res://assets/basement/boiler_room/toolbox.glb", "family": "service_infrastructure"},
+	"boiler_room_wrench_1": {"path": "res://assets/basement/boiler_room/wrench_mx_1.glb", "family": "service_infrastructure"},
+	"boiler_room_wrench_2": {"path": "res://assets/basement/boiler_room/wrench_mx_2.glb", "family": "service_infrastructure"},
+	"boiler_room_hammer": {"path": "res://assets/basement/boiler_room/hammer_mx_1.glb", "family": "service_infrastructure"},
+	"boiler_room_barrel_1": {"path": "res://assets/basement/boiler_room/metal_barrel_hr_1.glb", "family": "service_infrastructure"},
+	"boiler_room_barrel_2": {"path": "res://assets/basement/boiler_room/metal_barrel_hr_2.glb", "family": "service_infrastructure"},
+	"boiler_room_jerrycan": {"path": "res://assets/basement/boiler_room/jerrycan.glb", "family": "service_infrastructure"},
+	"boiler_room_walking_cane_model": {"path": "res://scenes/shared/items/walking_cane_display.tscn", "family": "service_infrastructure"},
+	"dining_room_table_lamp": {"path": "res://assets/ground_floor/dining_room/lamp_mx_1_b_on.glb", "family": "table_service"},
+	"dining_room_wine_bottle_1": {"path": "res://assets/ground_floor/dining_room/glass_bottle_mx_1.glb", "family": "table_service"},
+	"dining_room_wine_bottle_2": {"path": "res://assets/ground_floor/dining_room/glass_bottle_mx_2.glb", "family": "table_service"},
+	"dining_room_wine_bottle_3": {"path": "res://assets/ground_floor/dining_room/glass_bottle_mx_3.glb", "family": "table_service"},
+	"dining_room_serving_vessel": {"path": "res://assets/ground_floor/dining_room/serving_vessel.glb", "family": "table_service"},
+	"dining_room_dining_fork": {"path": "res://assets/ground_floor/dining_room/dining_fork.glb", "family": "table_service"},
+	"dining_room_dining_knife": {"path": "res://assets/ground_floor/dining_room/dining_knife.glb", "family": "table_service"},
+	"dining_room_dining_spoon": {"path": "res://assets/ground_floor/dining_room/dining_spoon.glb", "family": "table_service"},
+	"foyer_package": {"path": "res://assets/ground_floor/foyer/package_hr_1.glb", "family": "entry_dressing"},
+	"foyer_wall_map": {"path": "res://assets/ground_floor/foyer/map_mx_1.glb", "family": "entry_dressing"},
+	"guest_room_guest_luggage_prop": {"path": "res://assets/upper_floor/guest_room/luggage_mp_1.glb", "family": "personal_effects"},
+	"guest_room_guest_lamp_prop": {"path": "res://assets/upper_floor/guest_room/lamp_mx_3_off.glb", "family": "personal_effects"},
+	"guest_room_guest_bottle": {"path": "res://assets/upper_floor/guest_room/glass_bottle_mx_1.glb", "family": "personal_effects"},
+	"guest_room_guest_soap": {"path": "res://assets/upper_floor/guest_room/soap_mx_1.glb", "family": "personal_effects"},
+	"hidden_chamber_nursery_doll_prop": {"path": "res://assets/horror/models/doll2.glb", "family": "occult_dressing"},
+	"hidden_chamber_sealed_room_lamp": {"path": "res://assets/attic/hidden_chamber/lamp_mx_1_b_off.glb", "family": "occult_dressing"},
+	"kitchen_cutting_board": {"path": "res://assets/ground_floor/kitchen/wooden_board_3.glb", "family": "tool_clutter"},
+	"kitchen_rolling_pin": {"path": "res://assets/ground_floor/kitchen/rolling_pin_mx_1.glb", "family": "tool_clutter"},
+	"kitchen_dirty_plate": {"path": "res://assets/ground_floor/kitchen/dirty_plate.glb", "family": "tool_clutter"},
+	"kitchen_bowl_table": {"path": "res://assets/ground_floor/kitchen/bowl_02.glb", "family": "tool_clutter"},
+	"kitchen_empty_glass": {"path": "res://assets/ground_floor/kitchen/empty_glass.glb", "family": "tool_clutter"},
+	"kitchen_table_fork": {"path": "res://assets/ground_floor/kitchen/fork.glb", "family": "tool_clutter"},
+	"kitchen_butter_knife": {"path": "res://assets/ground_floor/kitchen/butter_knife.glb", "family": "tool_clutter"},
+	"kitchen_table_spoon": {"path": "res://assets/ground_floor/kitchen/spoon.glb", "family": "tool_clutter"},
+	"kitchen_knife_loose": {"path": "res://assets/ground_floor/kitchen/knife.glb", "family": "tool_clutter"},
+	"kitchen_knife_loose_2": {"path": "res://assets/ground_floor/kitchen/knife_001.glb", "family": "tool_clutter"},
+	"kitchen_knife_block": {"path": "res://assets/ground_floor/kitchen/knife_block.glb", "family": "tool_clutter"},
+	"kitchen_soap": {"path": "res://assets/ground_floor/kitchen/soap_mx_1.glb", "family": "tool_clutter"},
+	"kitchen_pan": {"path": "res://assets/ground_floor/kitchen/pan.glb", "family": "tool_clutter"},
+	"kitchen_clean_plate": {"path": "res://assets/ground_floor/kitchen/clean_plate.glb", "family": "tool_clutter"},
+	"kitchen_bowl_shelf": {"path": "res://assets/ground_floor/kitchen/bowl_01.glb", "family": "tool_clutter"},
+	"kitchen_pickles_jar": {"path": "res://assets/ground_floor/kitchen/pickles_jar_mp_1_medium.glb", "family": "tool_clutter"},
+	"kitchen_jam_jar": {"path": "res://assets/ground_floor/kitchen/jam_jar_mp_1_small.glb", "family": "tool_clutter"},
+	"kitchen_glass_of_water": {"path": "res://assets/ground_floor/kitchen/glass_of_water.glb", "family": "tool_clutter"},
+	"kitchen_sickle": {"path": "res://assets/ground_floor/kitchen/sickle_mx_1.glb", "family": "tool_clutter"},
+	"library_globe_body": {"path": "res://assets/medieval/models/Orb.glb", "family": "study_dressing"},
+	"library_books_scrolls": {"path": "res://assets/upper_floor/library/books_scrolls.glb", "family": "study_dressing"},
+	"library_wall_map": {"path": "res://assets/upper_floor/library/map_mx_1.glb", "family": "study_dressing"},
+	"library_ink_bottle": {"path": "res://assets/upper_floor/library/glass_bottle_mx_2.glb", "family": "study_dressing"},
+	"library_openbook_b": {"path": "res://assets/shared/items/openbook2.glb", "family": "study_dressing"},
+	"library_page_b": {"path": "res://assets/shared/items/page4.glb", "family": "study_dressing"},
+	"library_gear_1": {"path": "res://assets/upper_floor/library/gear_mx_1.glb", "family": "study_dressing"},
+	"library_gear_2": {"path": "res://assets/upper_floor/library/gear_mx_2.glb", "family": "study_dressing"},
+	"library_gear_3": {"path": "res://assets/upper_floor/library/gear_mx_3.glb", "family": "study_dressing"},
+	"master_bedroom_master_bed_model": {"path": "res://assets/shared/furniture/master_bed.glb", "family": "personal_effects"},
+	"master_bedroom_wardrobe": {"path": "res://assets/shared/furniture/wardrobe.glb", "family": "personal_effects"},
+	"master_bedroom_bedside_lamp": {"path": "res://assets/upper_floor/master_bedroom/lamp_mx_4_on.glb", "family": "personal_effects"},
+	"master_bedroom_packed_luggage": {"path": "res://assets/upper_floor/master_bedroom/luggage_mp_1.glb", "family": "personal_effects"},
+	"master_bedroom_washstand_soap": {"path": "res://assets/upper_floor/master_bedroom/soap_mx_2.glb", "family": "personal_effects"},
+	"master_bedroom_dresser_bottle": {"path": "res://assets/upper_floor/master_bedroom/glass_bottle_mx_1.glb", "family": "personal_effects"},
+	"master_bedroom_broken_bottle_prop": {"path": "res://assets/upper_floor/master_bedroom/glass_bottle_mx_3_broken.glb", "family": "personal_effects"},
+	"master_bedroom_book0_prop": {"path": "res://assets/shared/items/book0.glb", "family": "personal_effects"},
+	"master_bedroom_book1_prop": {"path": "res://assets/shared/items/book1.glb", "family": "personal_effects"},
+	"parlor_fireplace": {"path": "res://assets/shared/decor/fireplace.glb", "family": "hearth_dressing"},
+	"parlor_stool": {"path": "res://assets/ground_floor/parlor/stool_mx_1.glb", "family": "hearth_dressing"},
+	"parlor_dead_lamp": {"path": "res://assets/ground_floor/parlor/lamp_mx_4_off.glb", "family": "hearth_dressing"},
+	"storage_basement_shelf_left": {"path": "res://assets/basement/storage/shelf_1.glb", "family": "storage_clutter"},
+	"storage_basement_shelf_right": {"path": "res://assets/basement/storage/shelf_2.glb", "family": "storage_clutter"},
+	"storage_basement_crate_1": {"path": "res://assets/basement/storage/wooden_crate_1.glb", "family": "storage_clutter"},
+	"storage_basement_crate_3": {"path": "res://assets/basement/storage/wooden_crate_2_b.glb", "family": "storage_clutter"},
+	"storage_basement_crate_4": {"path": "res://assets/basement/storage/wooden_crate_2_c.glb", "family": "storage_clutter"},
+	"storage_basement_crate_5": {"path": "res://assets/basement/storage/wooden_crate_3.glb", "family": "storage_clutter"},
+	"storage_basement_crates_barrels": {"path": "res://assets/basement/storage/crates_barrels.glb", "family": "storage_clutter"},
+	"storage_basement_iron_cage": {"path": "res://assets/basement/storage/cage.glb", "family": "storage_clutter"},
+	"storage_basement_ladder": {"path": "res://assets/basement/storage/ladder.glb", "family": "storage_clutter"},
+	"storage_basement_old_mattress": {"path": "res://assets/basement/storage/old_mattress_mx_1.glb", "family": "storage_clutter"},
+	"storage_basement_bucket": {"path": "res://assets/basement/storage/bucket_mx_3.glb", "family": "storage_clutter"},
+	"storage_basement_debris": {"path": "res://assets/basement/storage/debris_bricks_mx_1.glb", "family": "storage_clutter"},
+	"upper_hallway_lamp_lit": {"path": "res://assets/upper_floor/hallway/lamp_mx_1_a_on.glb", "family": "passage_dressing"},
+	"upper_hallway_lamp_dead": {"path": "res://assets/upper_floor/hallway/lamp_mx_1_b_off.glb", "family": "passage_dressing"},
+	"upper_hallway_hall_stand": {"path": "res://assets/upper_floor/hallway/stand_mx_2.glb", "family": "passage_dressing"},
+	"wine_cellar_locked_box": {"path": "res://assets/deep_basement/wine_cellar/treasure_chest.glb", "family": "storage_clutter"},
+	"wine_cellar_cellar_lamp": {"path": "res://assets/deep_basement/wine_cellar/lamp_mx_3_on.glb", "family": "storage_clutter"},
+	"wine_cellar_bricks_l": {"path": "res://assets/deep_basement/wine_cellar/brick_mx_1.glb", "family": "storage_clutter"},
+	"wine_cellar_bricks_r": {"path": "res://assets/deep_basement/wine_cellar/brick_mx_2.glb", "family": "storage_clutter"},
+	"wine_cellar_plank": {"path": "res://assets/deep_basement/wine_cellar/wooden_plank_3.glb", "family": "storage_clutter"},
+	"wine_cellar_loose_bottle": {"path": "res://assets/deep_basement/wine_cellar/glass_bottle_mx_3.glb", "family": "storage_clutter"},
+	"wine_cellar_bottle_cluster_a": {"path": "res://assets/deep_basement/wine_cellar/glass_bottle_mx_2.glb", "family": "storage_clutter"},
+	"wine_cellar_bottle_cluster_b": {"path": "res://assets/deep_basement/wine_cellar/glass_bottle_mx_1.glb", "family": "storage_clutter"},
+}
+
+
+static func is_allowed_content_family(family: String) -> bool:
+	return ALLOWED_CONTENT_FAMILIES.has(family)
+
+
+static func expected_content_family_for_room(room_id: String) -> String:
+	return String(EXPECTED_CONTENT_FAMILY_BY_ROOM.get(room_id, ""))
+
+
+static func has_kind(kind: String) -> bool:
+	return CONTENT_PROP_SPECS.has(kind)
+
+
+static func path_for_kind(kind: String) -> String:
+	return String(CONTENT_PROP_SPECS.get(kind, {}).get("path", ""))
+
+
+static func family_for_kind(kind: String) -> String:
+	return String(CONTENT_PROP_SPECS.get(kind, {}).get("family", ""))

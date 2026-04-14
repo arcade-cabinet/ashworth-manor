@@ -83,7 +83,7 @@ class_name RoomRef extends Resource
 
 **Moment 7: Fiona is in the foyer. She sees walls, floor, ceiling, chandelier. She looks around.**
 
-The room was built from RoomDeclaration by the room_assembler. Walls are textured quads from `wall_texture`. Floor is tiled from `floor_texture`. Ceiling from `ceiling_texture`.
+The room was built from RoomDeclaration by the room_assembler. Shared envelope surfaces now resolve from environment role recipes and room recipe overrides, not from legacy `wall_texture`, `floor_texture`, or `ceiling_texture` fields.
 
 But what about the DOORWAY OPENINGS? The wall_north is `["wall", "wall", "doorway:to_parlor", "wall", "wall", "wall"]`. The wall_builder sees `doorway:to_parlor` and... does what? It needs to:
 1. Leave a gap in the wall geometry (no quad for this segment)
@@ -99,7 +99,7 @@ But the declaration only says `doorway:to_parlor`. Where does it get:
 
 Those details are in the Connection resource, not in the wall layout string. So the wall_builder needs to look up the Connection by ID to get the door details.
 
-GAP: The `wall_layout` string format needs to reference connection IDs, and the Connection declaration needs to be rich enough for the door_builder. Let me check... The Connection has `type` (door/double_door/heavy_door/etc), `door_texture`, `frame_texture`. That's enough for the door_builder. The wall_builder just needs the connection ID to look it up.
+GAP: The `wall_layout` string format needs to reference connection IDs, and the Connection declaration needs to be rich enough for the door_builder. The current declaration path uses `type` plus explicit builder-call compatibility inputs where old threshold meshes still need them; those are no longer serialized as declaration fields. The wall builder just needs the connection ID to look it up.
 
 Actually there's a SECOND gap: the wall_layout uses `doorway:to_parlor` but the Connection's ID field is `id: String`. Are these the same? The connection from foyer to parlor needs a consistent ID across:
 - wall_layout reference

@@ -151,9 +151,9 @@ id = "wine_glass"
 type = "observation"
 position = Vector3(-1, 0.78, -2)
 collision_size = Vector3(0.5, 0.5, 0.5)
-scene_path = "res://scenes/shared/dining_room/dining_wine_glass_still.tscn"
+visual_kind = "dining_wine_still"
 default_visual_state = "still"
-state_model_map = {"agitated": "res://scenes/shared/dining_room/dining_wine_glass_agitated.tscn"}
+state_visual_kind_map = {"agitated": "dining_wine_agitated"}
 visual_state_order = PackedStringArray("agitated")
 visual_state_conditions = {"agitated": "examined_wine_glass"}
 responses = Array[Resource]([SubResource("resp_wine_default")])
@@ -206,162 +206,162 @@ flicker_pattern = "candle"
 [sub_resource type="Resource" id="prop_table"]
 script = ExtResource("5")
 id = "dining_table"
-model = "res://assets/shared/furniture/table.glb"
+substrate_prop_kind = "furniture_table"
 position = Vector3(0, 0, 0)
 scale = 0.7
 
 [sub_resource type="Resource" id="prop_chandelier"]
 script = ExtResource("5")
 id = "dining_chandelier_model"
-model = "res://assets/shared/decor/chandelier.glb"
+substrate_prop_kind = "chandelier_fixture"
 position = Vector3(0, 2.2, 0)
 scale = 0.7
 
 [sub_resource type="Resource" id="prop_chair_l0"]
 script = ExtResource("5")
 id = "chair_l0"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(-1.55, 0, -2.0)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_chair_l1"]
 script = ExtResource("5")
 id = "chair_l1"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(-1.55, 0, 0.0)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_chair_l2"]
 script = ExtResource("5")
 id = "chair_l2"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(-1.55, 0, 2.0)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_chair_r0"]
 script = ExtResource("5")
 id = "chair_r0"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(1.55, 0, -2.0)
 rotation_y = -90.0
 
 [sub_resource type="Resource" id="prop_chair_r1"]
 script = ExtResource("5")
 id = "chair_r1"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(1.55, 0, 0.0)
 rotation_y = -90.0
 
 [sub_resource type="Resource" id="prop_chair_push"]
 script = ExtResource("5")
 id = "chair_pushed"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(2.2, 0, 2.0)
 rotation_y = -112.0
 
 [sub_resource type="Resource" id="prop_photo_frame"]
 script = ExtResource("5")
 id = "dinner_photo_frame"
-model = "res://assets/shared/decor/picture_blank_002.glb"
+substrate_prop_kind = "picture_frame_blank_002"
 position = Vector3(-3.85, 1.7, 0)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_lamp"]
 script = ExtResource("5")
 id = "table_lamp"
-model = "res://assets/ground_floor/dining_room/lamp_mx_1_b_on.glb"
+content_prop_kind = "dining_room_table_lamp"
 position = Vector3(-0.6, 0.78, 2.0)
 
 [sub_resource type="Resource" id="prop_bottle_1"]
 script = ExtResource("5")
 id = "wine_bottle_1"
-model = "res://assets/ground_floor/dining_room/glass_bottle_mx_1.glb"
+content_prop_kind = "dining_room_wine_bottle_1"
 position = Vector3(0.3, 0.78, -1.0)
 
 [sub_resource type="Resource" id="prop_bottle_2"]
 script = ExtResource("5")
 id = "wine_bottle_2"
-model = "res://assets/ground_floor/dining_room/glass_bottle_mx_2.glb"
+content_prop_kind = "dining_room_wine_bottle_2"
 position = Vector3(-0.2, 0.78, 0.5)
 
 [sub_resource type="Resource" id="prop_bottle_3"]
 script = ExtResource("5")
 id = "wine_bottle_3"
-model = "res://assets/ground_floor/dining_room/glass_bottle_mx_3.glb"
+content_prop_kind = "dining_room_wine_bottle_3"
 position = Vector3(0.1, 0.78, 1.5)
 
 [sub_resource type="Resource" id="prop_serving_vessel"]
 script = ExtResource("5")
 id = "serving_vessel"
-model = "res://assets/ground_floor/dining_room/serving_vessel.glb"
+content_prop_kind = "dining_room_serving_vessel"
 position = Vector3(-0.4, 0.78, -0.5)
 
 [sub_resource type="Resource" id="prop_plate_1"]
 script = ExtResource("5")
 id = "plate_1"
-model = "res://assets/ground_floor/dining_room/dining_plate.glb"
+substrate_prop_kind = "dining_plate_place"
 position = Vector3(-0.75, 0.78, -1.8)
 
 [sub_resource type="Resource" id="prop_plate_2"]
 script = ExtResource("5")
 id = "plate_2"
-model = "res://assets/ground_floor/dining_room/dining_plate.glb"
+substrate_prop_kind = "dining_plate_place"
 position = Vector3(0.75, 0.78, -1.8)
 
 [sub_resource type="Resource" id="prop_plate_3"]
 script = ExtResource("5")
 id = "plate_3"
-model = "res://assets/ground_floor/dining_room/dining_plate.glb"
+substrate_prop_kind = "dining_plate_place"
 position = Vector3(-0.75, 0.78, 0.0)
 
 [sub_resource type="Resource" id="prop_plate_4"]
 script = ExtResource("5")
 id = "plate_4"
-model = "res://assets/ground_floor/dining_room/dining_plate.glb"
+substrate_prop_kind = "dining_plate_place"
 position = Vector3(0.75, 0.78, 0.0)
 
 [sub_resource type="Resource" id="prop_plate_5"]
 script = ExtResource("5")
 id = "plate_5"
-model = "res://assets/ground_floor/dining_room/dining_plate.glb"
+substrate_prop_kind = "dining_plate_place"
 position = Vector3(-0.75, 0.78, 1.8)
 
 [sub_resource type="Resource" id="prop_plate_6"]
 script = ExtResource("5")
 id = "plate_6"
-model = "res://assets/ground_floor/dining_room/dining_plate.glb"
+substrate_prop_kind = "dining_plate_place"
 position = Vector3(0.75, 0.78, 1.8)
 
 [sub_resource type="Resource" id="prop_water_glass_1"]
 script = ExtResource("5")
 id = "water_glass_1"
-model = "res://assets/ground_floor/dining_room/water_glass.glb"
+substrate_prop_kind = "dining_water_glass"
 position = Vector3(1.0, 0.86, -0.2)
 
 [sub_resource type="Resource" id="prop_water_glass_2"]
 script = ExtResource("5")
 id = "water_glass_2"
-model = "res://assets/ground_floor/dining_room/water_glass.glb"
+substrate_prop_kind = "dining_water_glass"
 position = Vector3(1.0, 0.86, 1.9)
 
 [sub_resource type="Resource" id="prop_fork"]
 script = ExtResource("5")
 id = "dining_fork"
-model = "res://assets/ground_floor/dining_room/dining_fork.glb"
+content_prop_kind = "dining_room_dining_fork"
 position = Vector3(-1.15, 0.8, 0.0)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_knife"]
 script = ExtResource("5")
 id = "dining_knife"
-model = "res://assets/ground_floor/dining_room/dining_knife.glb"
+content_prop_kind = "dining_room_dining_knife"
 position = Vector3(1.15, 0.8, 0.0)
 rotation_y = 90.0
 
 [sub_resource type="Resource" id="prop_spoon"]
 script = ExtResource("5")
 id = "dining_spoon"
-model = "res://assets/ground_floor/dining_room/dining_spoon.glb"
+content_prop_kind = "dining_room_dining_spoon"
 position = Vector3(1.25, 0.8, 1.8)
 rotation_y = 90.0
 
@@ -410,9 +410,6 @@ floor_name = "ground_floor"
 environment_preset = "ground_floor"
 dimensions = Vector3(8, 2.4, 10)
 is_exterior = false
-wall_texture = "wall5_texture"
-floor_texture = "floor1_texture"
-ceiling_texture = "ceiling0_texture"
 wall_north = PackedStringArray("wall", "wall", "wall", "wall")
 wall_south = PackedStringArray("wall", "wall", "wall", "wall")
 wall_east = PackedStringArray("wall", "wall", "wall", "wall", "wall")

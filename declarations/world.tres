@@ -243,11 +243,8 @@ position_in_to = Vector3(-0.3, 0, -3.7)
 spawn_rotation_y = 12.0
 to_anchor_id = "entry_front_door"
 presentation_type = "facade_door"
-mechanism_type = "swing"
 locked = true
 key_id = "front_door_key"
-door_texture = "res://assets/shared/textures/retro/door_texture_01.png"
-frame_texture = "wall0_texture"
 
 [sub_resource type="Resource" id="conn_foyer_to_front_steps"]
 script = ExtResource("3")
@@ -262,9 +259,6 @@ spawn_rotation_y = 0.0
 to_anchor_id = "entry_front_door"
 focal_anchor_id = "focus_forecourt"
 presentation_type = "facade_door"
-mechanism_type = "swing"
-door_texture = "res://assets/shared/textures/retro/door_texture_01.png"
-frame_texture = "wall0_texture"
 
 [sub_resource type="Resource" id="conn_front_gate_to_garden"]
 script = ExtResource("3")
@@ -302,12 +296,7 @@ position_in_to = Vector3(0, 0, -2)
 spawn_rotation_y = 0.0
 to_anchor_id = "entry_secret_panel"
 focal_anchor_id = "focus_groom_nook"
-presentation_type = "secret_panel"
-mechanism_type = "slide"
-mechanism_state = "concealed"
-reveal_state = "concealed"
 interaction_size = Vector3(1.8, 2.0, 1.0)
-concealment_model = "res://assets/shared/structure/wall_7.glb"
 
 [sub_resource type="Resource" id="conn_carriage_house_to_front_gate"]
 script = ExtResource("3")
@@ -321,12 +310,7 @@ position_in_to = Vector3(1, 0, 3)
 spawn_rotation_y = 180.0
 to_anchor_id = "entry_stairs"
 focal_anchor_id = "focus_service_stack"
-presentation_type = "secret_panel"
-mechanism_type = "slide"
-mechanism_state = "concealed"
-reveal_state = "concealed"
 interaction_size = Vector3(1.8, 2.0, 1.0)
-concealment_model = "res://assets/shared/structure/wall_7.glb"
 
 ; -- Ground Floor --
 
@@ -342,7 +326,6 @@ position_in_to = Vector3(0, 0, -4)
 spawn_rotation_y = 0.0
 to_anchor_id = "entry_foyer"
 focal_anchor_id = "focus_fireplace"
-door_texture = "res://assets/shared/textures/retro/door_texture_01.png"
 
 [sub_resource type="Resource" id="conn_parlor_to_foyer"]
 script = ExtResource("3")
@@ -354,7 +337,6 @@ type = "door"
 position_in_from = Vector3(0, 1.5, -5)
 position_in_to = Vector3(0, 0, 3)
 spawn_rotation_y = 180.0
-door_texture = "res://assets/shared/textures/retro/door_texture_01.png"
 
 [sub_resource type="Resource" id="conn_foyer_to_dining_room"]
 script = ExtResource("3")
@@ -368,7 +350,6 @@ position_in_to = Vector3(0, 0, -7)
 spawn_rotation_y = 180.0
 to_anchor_id = "entry_foyer"
 focal_anchor_id = "focus_tableau"
-door_texture = "res://assets/shared/textures/retro/door_texture_02.png"
 
 [sub_resource type="Resource" id="conn_dining_room_to_foyer"]
 script = ExtResource("3")
@@ -380,7 +361,6 @@ type = "door"
 position_in_from = Vector3(-4, 1.2, 0)
 position_in_to = Vector3(4, 0, 0)
 spawn_rotation_y = 270.0
-door_texture = "res://assets/shared/textures/retro/door_texture_02.png"
 
 [sub_resource type="Resource" id="conn_foyer_to_kitchen"]
 script = ExtResource("3")
@@ -394,7 +374,6 @@ position_in_to = Vector3(0.7, 0, 2.6)
 spawn_rotation_y = 334.0
 to_anchor_id = "entry_foyer"
 focal_anchor_id = "focus_hearth"
-door_texture = "res://assets/shared/textures/retro/door_texture_03.png"
 
 [sub_resource type="Resource" id="conn_kitchen_to_foyer"]
 script = ExtResource("3")
@@ -406,7 +385,6 @@ type = "door"
 position_in_from = Vector3(4, 1.2, 0)
 position_in_to = Vector3(-4, 0, 0)
 spawn_rotation_y = 90.0
-door_texture = "res://assets/shared/textures/retro/door_texture_03.png"
 
 ; -- Vertical: Foyer <-> Upper Hallway --
 
@@ -450,7 +428,6 @@ position_in_to = Vector3(4, 0, 0)
 spawn_rotation_y = 270.0
 to_anchor_id = "entry_hall"
 focal_anchor_id = "focus_bed_axis"
-door_texture = "res://assets/shared/textures/retro/door_texture_04.png"
 
 [sub_resource type="Resource" id="conn_master_bedroom_to_upper_hallway"]
 script = ExtResource("3")
@@ -462,7 +439,6 @@ type = "door"
 position_in_from = Vector3(5, 1.2, 0)
 position_in_to = Vector3(-1, 0, -1)
 spawn_rotation_y = 90.0
-door_texture = "res://assets/shared/textures/retro/door_texture_04.png"
 
 [sub_resource type="Resource" id="conn_upper_hallway_to_library"]
 script = ExtResource("3")
@@ -476,7 +452,6 @@ position_in_to = Vector3(-1.4, 0, -2.8)
 spawn_rotation_y = 28.0
 to_anchor_id = "entry_hall"
 focal_anchor_id = "focus_lectern_cluster"
-door_texture = "res://assets/shared/textures/retro/door_texture_05.png"
 
 [sub_resource type="Resource" id="conn_library_to_upper_hallway"]
 script = ExtResource("3")
@@ -488,7 +463,6 @@ type = "door"
 position_in_from = Vector3(0, 1.2, -5)
 position_in_to = Vector3(-1, 0, 5)
 spawn_rotation_y = 90.0
-door_texture = "res://assets/shared/textures/retro/door_texture_05.png"
 
 [sub_resource type="Resource" id="conn_upper_hallway_to_guest_room"]
 script = ExtResource("3")
@@ -500,7 +474,6 @@ type = "door"
 position_in_from = Vector3(2, 1.2, 5)
 position_in_to = Vector3(0, 0, -3)
 spawn_rotation_y = 0.0
-door_texture = "res://assets/shared/textures/retro/door_texture_06.png"
 
 [sub_resource type="Resource" id="conn_guest_room_to_upper_hallway"]
 script = ExtResource("3")
@@ -512,7 +485,6 @@ type = "door"
 position_in_from = Vector3(0, 1.2, -4)
 position_in_to = Vector3(1, 0, 5)
 spawn_rotation_y = 270.0
-door_texture = "res://assets/shared/textures/retro/door_texture_06.png"
 
 ; -- Vertical: Upper Hallway <-> Attic (LOCKED) --
 
@@ -611,9 +583,7 @@ spawn_rotation_y = 180.0
 to_anchor_id = "entry_stairs"
 focal_anchor_id = "focus_service_stack"
 presentation_type = "service_hatch"
-mechanism_type = "lift"
 interaction_size = Vector3(1.25, 0.6, 1.25)
-door_texture = "res://assets/shared/textures/retro/door_texture_03.png"
 required_state = "current_light_tool == firebrand"
 blocked_text = "A service hatch is cut into the kitchen floor. Without a live brand, the black below feels deeper than the room."
 open_sfx = "res://assets/audio/sfx/impact/pl_impact_wood_04.ogg"

@@ -106,7 +106,7 @@ type = "photo"
 position = Vector3(-3.5, 1.6, 0)
 wall = "west"
 collision_size = Vector3(0.8, 0.8, 0.4)
-model = "res://assets/shared/decor/picture_blank_004.glb"
+substrate_prop_kind = "picture_frame_blank_004"
 responses = Array[Resource]([SubResource("resp_photo_truth"), SubResource("resp_photo_default")])
 
 [sub_resource type="Resource" id="inter_luggage"]
@@ -115,7 +115,7 @@ id = "guest_luggage"
 type = "observation"
 position = Vector3(3.0, 0.3, 2.0)
 collision_size = Vector3(1.0, 0.8, 0.8)
-model = "res://assets/upper_floor/guest_room/luggage_mp_1.glb"
+visual_kind = "guest_luggage_closed"
 responses = Array[Resource]([SubResource("resp_luggage_default")])
 
 [sub_resource type="Resource" id="inter_lamp"]
@@ -124,7 +124,7 @@ id = "guest_lamp"
 type = "observation"
 position = Vector3(3.0, 0.8, 0.0)
 collision_size = Vector3(0.8, 0.8, 0.8)
-model = "res://assets/upper_floor/guest_room/lamp_mx_3_off.glb"
+visual_kind = "guest_lamp_unlit"
 responses = Array[Resource]([SubResource("resp_lamp_default")])
 
 ; === Lights ===
@@ -157,82 +157,82 @@ flicker_pattern = "candle"
 [sub_resource type="Resource" id="prop_bed"]
 script = ExtResource("5")
 id = "guest_bed_model"
-model = "res://assets/shared/furniture/bed.glb"
+substrate_prop_kind = "furniture_bed"
 position = Vector3(2, 0, 0)
 
 [sub_resource type="Resource" id="prop_desk"]
 script = ExtResource("5")
 id = "guest_desk"
-model = "res://assets/shared/furniture/drawers.glb"
+substrate_prop_kind = "furniture_drawers"
 position = Vector3(-3.5, 0, -3)
 scale = 0.7
 
 [sub_resource type="Resource" id="prop_luggage"]
 script = ExtResource("5")
 id = "guest_luggage_prop"
-model = "res://assets/upper_floor/guest_room/luggage_mp_1.glb"
+content_prop_kind = "guest_room_guest_luggage_prop"
 position = Vector3(3.0, 0, 2.0)
 
 [sub_resource type="Resource" id="prop_lamp"]
 script = ExtResource("5")
 id = "guest_lamp_prop"
-model = "res://assets/upper_floor/guest_room/lamp_mx_3_off.glb"
+content_prop_kind = "guest_room_guest_lamp_prop"
 position = Vector3(3.0, 0.8, 0.0)
 
 [sub_resource type="Resource" id="prop_photo"]
 script = ExtResource("5")
 id = "helena_photo_frame"
-model = "res://assets/shared/decor/picture_blank_004.glb"
+substrate_prop_kind = "picture_frame_blank_004"
 position = Vector3(-3.5, 1.6, 0.0)
 
 [sub_resource type="Resource" id="prop_bottle"]
 script = ExtResource("5")
 id = "guest_bottle"
-model = "res://assets/upper_floor/guest_room/glass_bottle_mx_1.glb"
+content_prop_kind = "guest_room_guest_bottle"
 position = Vector3(-3.0, 0.8, -3.0)
 
 [sub_resource type="Resource" id="prop_soap"]
 script = ExtResource("5")
 id = "guest_soap"
-model = "res://assets/upper_floor/guest_room/soap_mx_1.glb"
+content_prop_kind = "guest_room_guest_soap"
 position = Vector3(3.0, 0.8, -3.0)
 
 [sub_resource type="Resource" id="prop_candle_holder"]
 script = ExtResource("5")
 id = "guest_candle_holder"
-model = "res://assets/shared/decor/candle_holder.glb"
+substrate_prop_kind = "candle_holder_fixture"
 position = Vector3(-2.0, 0.8, 0.0)
 
 [sub_resource type="Resource" id="prop_candle"]
 script = ExtResource("5")
 id = "guest_candle"
-model = "res://assets/shared/items/candle0.glb"
+substrate_prop_kind = "candle_single"
 position = Vector3(-2.0, 0.8, 0.0)
 
 [sub_resource type="Resource" id="prop_rug"]
 script = ExtResource("5")
 id = "guest_rug"
-model = "res://assets/shared/decor/rug2.glb"
+substrate_prop_kind = "rug_2"
 position = Vector3(1.4, 0.02, 0.3)
 scale = 0.9
 
 [sub_resource type="Resource" id="prop_chair"]
 script = ExtResource("5")
 id = "guest_chair"
-model = "res://assets/shared/furniture/chair.glb"
+substrate_prop_kind = "furniture_chair"
 position = Vector3(-2.8, 0.0, -1.9)
 rotation_y = 35.0
 
 [sub_resource type="Resource" id="prop_openbook"]
 script = ExtResource("5")
 id = "guest_openbook"
-model = "res://assets/shared/items/openbook1.glb"
+substrate_prop_kind = "item_openbook_001"
 position = Vector3(-3.25, 0.82, -2.75)
 
 [sub_resource type="Resource" id="prop_window_ray"]
 script = ExtResource("5")
 id = "guest_window_ray"
-model = "res://assets/shared/structure/window_ray.glb"
+substrate_prop_kind = "window_ray"
 position = Vector3(0.0, 0.0, 3.2)
 
 ; === Entry Trigger ===
@@ -266,9 +266,6 @@ floor_name = "upper_floor"
 environment_preset = "upper_floor"
 dimensions = Vector3(8, 2.4, 8)
 is_exterior = false
-wall_texture = "wall0_texture"
-floor_texture = "floor1_texture"
-ceiling_texture = "ceiling1_texture"
 wall_north = PackedStringArray("wall", "wall", "wall", "wall")
 wall_south = PackedStringArray("wall", "wall", "doorway:guest_room_to_upper_hallway", "wall")
 wall_east = PackedStringArray("wall", "wall", "wall", "wall")

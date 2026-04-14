@@ -14,6 +14,9 @@ var _state_machine: StateMachine
 var _fired_triggers: Dictionary = {}  # trigger_id -> true
 var _global_triggers: Array[GlobalTrigger] = []
 var _ambient_timers: Dictionary = {}  # event_id -> elapsed time
+const FLASHBACK_VISUAL_MODEL_PATHS := {
+	"bloodwraith_apparition": "res://assets/horror/models/bloodwraith.glb",
+}
 
 
 func _init(state_machine: StateMachine) -> void:
@@ -119,9 +122,10 @@ func check_flashbacks(room_decl: RoomDeclaration) -> Array[FlashbackDecl]:
 				sfx_requested.emit(flashback.stinger_sfx)
 			if flashback.fade_amount > 0:
 				psx_fade_requested.emit(flashback.fade_amount)
-			if not flashback.model.is_empty():
+			var flashback_model := _resolve_flashback_model_path(flashback)
+			if not flashback_model.is_empty():
 				model_spawn_requested.emit({
-					"model": flashback.model,
+					"model": flashback_model,
 					"position": flashback.model_position,
 					"scale": flashback.model_scale,
 					"duration": flashback.duration,
@@ -177,6 +181,12 @@ func _execute_action(action: ActionDecl) -> void:
 		psx_fade_requested.emit(action.psx_fade)
 
 	action_executed.emit(action)
+
+
+func _resolve_flashback_model_path(flashback: FlashbackDecl) -> String:
+	if not flashback.visual_kind.is_empty():
+		return String(FLASHBACK_VISUAL_MODEL_PATHS.get(flashback.visual_kind, ""))
+	return flashback.model
 
 
 # ===== Shaky Camera Integration (P5-08) =====
