@@ -205,12 +205,26 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_service_gate_inner_pillar", "kind": "gate_post"},
 		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_service_gate_prop", "kind": "iron_gate_closed"},
 		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_service_fence_stub", "kind": "fence_run"},
+		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_forecourt_steps_shell", "kind": "forecourt_steps"},
+		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_mansion_facade_shell", "kind": "mansion_facade"},
+		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_entry_portico", "kind": "entry_portico"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "gate_pillar_l", "kind": "gate_post"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "boundary_wall", "kind": "boundary_wall"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "front_gate_main_road", "kind": "carriage_road"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "front_gate_outward_road", "kind": "outward_road"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "front_gate_starfield", "kind": "starfield"},
 		{"room_path": "res://declarations/rooms/garden.tres", "id": "crypt_pillar_l", "kind": "gate_post_stone"},
 		{"room_path": "res://declarations/rooms/garden.tres", "id": "crypt_gate", "kind": "iron_gate_closed"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "gate_column_l", "kind": "gate_post_stone"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "crypt_gate_prop", "kind": "iron_gate_closed"},
+		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_road", "kind": "carriage_road"},
+		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_hedge_left_mid", "kind": "hedgerow"},
+		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_starfield", "kind": "starfield"},
+		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_road", "kind": "carriage_road"},
+		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_forecourt_steps", "kind": "forecourt_steps"},
+		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_mansion_facade_shell", "kind": "mansion_facade"},
+		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_entry_portico", "kind": "entry_portico"},
+		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_facade_door", "kind": "front_door_assembly"},
 	]
 	for entry in repeated_props:
 		var room = load(String(entry["room_path"]))
@@ -1003,6 +1017,54 @@ func _test_builder_default_contract() -> void:
 	fence_run_decl.substrate_prop_kind = "fence_run"
 	var fence_run := assembler._build_procedural_prop(fence_run_decl)
 	_ok("substrate fence run builds from shared substrate kind", fence_run != null)
+
+	var hedgerow_decl := PropDecl.new()
+	hedgerow_decl.id = "compat_hedgerow"
+	hedgerow_decl.substrate_prop_kind = "hedgerow"
+	var hedgerow := assembler._build_procedural_prop(hedgerow_decl)
+	_ok("substrate hedgerow builds from shared substrate kind", hedgerow != null)
+
+	var carriage_road_decl := PropDecl.new()
+	carriage_road_decl.id = "compat_carriage_road"
+	carriage_road_decl.substrate_prop_kind = "carriage_road"
+	var carriage_road := assembler._build_procedural_prop(carriage_road_decl)
+	_ok("substrate carriage road builds from shared substrate kind", carriage_road != null)
+
+	var outward_road_decl := PropDecl.new()
+	outward_road_decl.id = "compat_outward_road"
+	outward_road_decl.substrate_prop_kind = "outward_road"
+	var outward_road := assembler._build_procedural_prop(outward_road_decl)
+	_ok("substrate outward road builds from shared substrate kind", outward_road != null)
+
+	var mansion_facade_decl := PropDecl.new()
+	mansion_facade_decl.id = "compat_mansion_facade"
+	mansion_facade_decl.substrate_prop_kind = "mansion_facade"
+	var mansion_facade := assembler._build_procedural_prop(mansion_facade_decl)
+	_ok("substrate mansion facade builds from shared substrate kind", mansion_facade != null)
+
+	var entry_portico_decl := PropDecl.new()
+	entry_portico_decl.id = "compat_entry_portico"
+	entry_portico_decl.substrate_prop_kind = "entry_portico"
+	var entry_portico := assembler._build_procedural_prop(entry_portico_decl)
+	_ok("substrate entry portico builds from shared substrate kind", entry_portico != null)
+
+	var front_door_assembly_decl := PropDecl.new()
+	front_door_assembly_decl.id = "compat_front_door_assembly"
+	front_door_assembly_decl.substrate_prop_kind = "front_door_assembly"
+	var front_door_assembly := assembler._build_procedural_prop(front_door_assembly_decl)
+	_ok("substrate front door assembly builds from shared substrate kind", front_door_assembly != null)
+
+	var forecourt_steps_decl := PropDecl.new()
+	forecourt_steps_decl.id = "compat_forecourt_steps"
+	forecourt_steps_decl.substrate_prop_kind = "forecourt_steps"
+	var forecourt_steps := assembler._build_procedural_prop(forecourt_steps_decl)
+	_ok("substrate forecourt steps build from shared substrate kind", forecourt_steps != null)
+
+	var starfield_decl := PropDecl.new()
+	starfield_decl.id = "compat_starfield"
+	starfield_decl.substrate_prop_kind = "starfield"
+	var starfield := assembler._build_procedural_prop(starfield_decl)
+	_ok("substrate starfield builds from shared substrate kind", starfield != null)
 	floor.free()
 	ceiling.free()
 	wall.free()
@@ -1066,6 +1128,22 @@ func _test_builder_default_contract() -> void:
 		iron_gate_closed.free()
 	if fence_run != null:
 		fence_run.free()
+	if hedgerow != null:
+		hedgerow.free()
+	if carriage_road != null:
+		carriage_road.free()
+	if outward_road != null:
+		outward_road.free()
+	if mansion_facade != null:
+		mansion_facade.free()
+	if entry_portico != null:
+		entry_portico.free()
+	if front_door_assembly != null:
+		front_door_assembly.free()
+	if forecourt_steps != null:
+		forecourt_steps.free()
+	if starfield != null:
+		starfield.free()
 	print("[DONE] builder defaults")
 
 

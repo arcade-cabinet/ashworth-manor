@@ -89,6 +89,34 @@ after each iteration and it's included in prompts for context.
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
 
+## 2026-04-13 - Estate approach wrappers moved onto substrate kinds
+
+- Extended `engine/room_assembler.gd` with the repeated estate-approach
+  substrate kinds:
+  - `hedgerow`
+  - `carriage_road`
+  - `outward_road`
+  - `mansion_facade`
+  - `entry_portico`
+  - `front_door_assembly`
+  - `forecourt_steps`
+  - `starfield`
+- Migrated the repeated declaration side in:
+  - `declarations/rooms/front_steps.tres`
+  - `declarations/rooms/drive_lower.tres`
+  - `declarations/rooms/drive_upper.tres`
+  - `declarations/rooms/front_gate.tres`
+- There are now no remaining direct authored uses of these repeated shared
+  grounds wrapper scenes in room declarations.
+- Extended `test/generated/test_declarations.gd` so:
+  - the `grounds scene prop contract` covers these kinds too
+  - builder-default coverage proves the new substrate kinds build through
+    `RoomAssembler`
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+
 - Added shared helper constructors in `estate_material_kit.gd` for:
   - tinted shadow/void fills
   - unshaded emissive surfaces

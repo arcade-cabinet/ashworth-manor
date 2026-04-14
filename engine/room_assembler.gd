@@ -56,6 +56,14 @@ const ESTATE_GATE_POST_STONE_SCENE := "res://scenes/shared/grounds/estate_gate_p
 const ESTATE_BOUNDARY_WALL_SCENE := "res://scenes/shared/grounds/estate_boundary_wall.tscn"
 const ESTATE_IRON_GATE_CLOSED_SCENE := "res://scenes/shared/grounds/estate_iron_gate_closed.tscn"
 const ESTATE_FENCE_RUN_SCENE := "res://scenes/shared/grounds/estate_fence_run.tscn"
+const ESTATE_HEDGEROW_SCENE := "res://scenes/shared/grounds/estate_hedgerow.tscn"
+const ESTATE_CARRIAGE_ROAD_SCENE := "res://scenes/shared/grounds/estate_carriage_road.tscn"
+const ESTATE_OUTWARD_ROAD_SCENE := "res://scenes/shared/grounds/estate_outward_road.tscn"
+const ESTATE_MANSION_FACADE_SCENE := "res://scenes/shared/grounds/estate_mansion_facade.tscn"
+const ESTATE_ENTRY_PORTICO_SCENE := "res://scenes/shared/grounds/estate_entry_portico.tscn"
+const ESTATE_FRONT_DOOR_SCENE := "res://scenes/shared/grounds/estate_front_door.tscn"
+const ESTATE_FORECOURT_STEPS_SCENE := "res://scenes/shared/grounds/estate_forecourt_steps.tscn"
+const ESTATE_STARFIELD_SCENE := "res://scenes/shared/grounds/estate_starfield.tscn"
 const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PROCEDURAL_WINDOW_MODEL: "window_frame",
 	PROCEDURAL_WINDOW_RAY_MODEL: "window_ray",
@@ -83,6 +91,14 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	ESTATE_BOUNDARY_WALL_SCENE: "boundary_wall",
 	ESTATE_IRON_GATE_CLOSED_SCENE: "iron_gate_closed",
 	ESTATE_FENCE_RUN_SCENE: "fence_run",
+	ESTATE_HEDGEROW_SCENE: "hedgerow",
+	ESTATE_CARRIAGE_ROAD_SCENE: "carriage_road",
+	ESTATE_OUTWARD_ROAD_SCENE: "outward_road",
+	ESTATE_MANSION_FACADE_SCENE: "mansion_facade",
+	ESTATE_ENTRY_PORTICO_SCENE: "entry_portico",
+	ESTATE_FRONT_DOOR_SCENE: "front_door_assembly",
+	ESTATE_FORECOURT_STEPS_SCENE: "forecourt_steps",
+	ESTATE_STARFIELD_SCENE: "starfield",
 }
 
 
@@ -1033,6 +1049,22 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(ESTATE_IRON_GATE_CLOSED_SCENE, prop_decl)
 	if substrate_kind == "fence_run":
 		return _instantiate_substrate_scene(ESTATE_FENCE_RUN_SCENE, prop_decl)
+	if substrate_kind == "hedgerow":
+		return _instantiate_substrate_scene(ESTATE_HEDGEROW_SCENE, prop_decl)
+	if substrate_kind == "carriage_road":
+		return _instantiate_substrate_scene(ESTATE_CARRIAGE_ROAD_SCENE, prop_decl)
+	if substrate_kind == "outward_road":
+		return _instantiate_substrate_scene(ESTATE_OUTWARD_ROAD_SCENE, prop_decl)
+	if substrate_kind == "mansion_facade":
+		return _instantiate_substrate_scene(ESTATE_MANSION_FACADE_SCENE, prop_decl)
+	if substrate_kind == "entry_portico":
+		return _instantiate_substrate_scene(ESTATE_ENTRY_PORTICO_SCENE, prop_decl)
+	if substrate_kind == "front_door_assembly":
+		return _instantiate_substrate_scene(ESTATE_FRONT_DOOR_SCENE, prop_decl)
+	if substrate_kind == "forecourt_steps":
+		return _instantiate_substrate_scene(ESTATE_FORECOURT_STEPS_SCENE, prop_decl)
+	if substrate_kind == "starfield":
+		return _instantiate_substrate_scene(ESTATE_STARFIELD_SCENE, prop_decl)
 	if prop_decl.tags.has("procedural_moon"):
 		var moon := MeshInstance3D.new()
 		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"

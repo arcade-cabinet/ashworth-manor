@@ -99,6 +99,17 @@
   - those repeated exterior pieces should now author through
     `PropDecl.substrate_prop_kind`, not through direct shared grounds
     `scene_path` values
+- The repeated estate approach wrapper set now follows the same rule:
+  - `hedgerow`
+  - `carriage_road`
+  - `outward_road`
+  - `mansion_facade`
+  - `entry_portico`
+  - `front_door_assembly`
+  - `forecourt_steps`
+  - `starfield`
+  - those repeated exterior wrappers should also author through
+    `PropDecl.substrate_prop_kind`, not direct shared grounds `scene_path`
 - Shared builder fallbacks for stairs, ladders, windows, and portal shadow
   fills now resolve through explicit recipe ids (`fallback_wood`,
   `fallback_metal`, `shadow_void`) instead of local `StandardMaterial3D.new()`

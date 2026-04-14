@@ -580,7 +580,7 @@ scale = 0.76
 [sub_resource type="Resource" id="prop_hedge_left_near"]
 script = ExtResource("5")
 id = "drive_hedge_left_near"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(-6.1, 0, 6.6)
 rotation_y = 0.0
 scale = 1.0
@@ -598,7 +598,7 @@ scale_3d = Vector3(0.86, 1.0, 1.08)
 [sub_resource type="Resource" id="prop_hedge_left_far"]
 script = ExtResource("5")
 id = "drive_hedge_left_far"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(-6.35, 0, 4.5)
 rotation_y = -8.0
 scale = 1.18
@@ -606,7 +606,7 @@ scale = 1.18
 [sub_resource type="Resource" id="prop_hedge_left_mansion"]
 script = ExtResource("5")
 id = "drive_hedge_left_mansion"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(-7.0, 0, 11.6)
 rotation_y = -14.0
 scale = 1.08
@@ -614,7 +614,7 @@ scale = 1.08
 [sub_resource type="Resource" id="prop_hedge_left_mid_gate"]
 script = ExtResource("5")
 id = "drive_hedge_left_mid_gate"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(-5.86, 0, 8.8)
 rotation_y = 0.0
 scale = 1.0
@@ -632,7 +632,7 @@ scale_3d = Vector3(0.82, 1.0, 1.02)
 [sub_resource type="Resource" id="prop_hedge_left_mid_mansion"]
 script = ExtResource("5")
 id = "drive_hedge_left_mid_mansion"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(-6.25, 0, 8.2)
 rotation_y = -10.0
 scale = 1.08
@@ -640,7 +640,7 @@ scale = 1.08
 [sub_resource type="Resource" id="prop_hedge_right_near"]
 script = ExtResource("5")
 id = "drive_hedge_right_near"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(6.1, 0, 6.6)
 rotation_y = 180.0
 scale = 1.0
@@ -674,7 +674,7 @@ scale_3d = Vector3(0.7, 1.0, 0.86)
 [sub_resource type="Resource" id="prop_main_road"]
 script = ExtResource("5")
 id = "front_gate_main_road"
-scene_path = "res://scenes/shared/grounds/estate_carriage_road.tscn"
+substrate_prop_kind = "carriage_road"
 position = Vector3(0, 0, -10.8)
 rotation_y = 0.0
 scale_3d = Vector3(1.06, 1.0, 1.85)
@@ -682,14 +682,14 @@ scale_3d = Vector3(1.06, 1.0, 1.85)
 [sub_resource type="Resource" id="prop_outward_road"]
 script = ExtResource("5")
 id = "front_gate_outward_road"
-scene_path = "res://scenes/shared/grounds/estate_outward_road.tscn"
+substrate_prop_kind = "outward_road"
 position = Vector3(0, 0, -22.2)
 rotation_y = 0.0
 
 [sub_resource type="Resource" id="prop_hedge_right_far"]
 script = ExtResource("5")
 id = "drive_hedge_right_far"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(6.35, 0, 4.8)
 rotation_y = 172.0
 scale = 1.18
@@ -697,7 +697,7 @@ scale = 1.18
 [sub_resource type="Resource" id="prop_hedge_right_mansion"]
 script = ExtResource("5")
 id = "drive_hedge_right_mansion"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(7.0, 0, 11.8)
 rotation_y = 166.0
 scale = 1.08
@@ -705,7 +705,7 @@ scale = 1.08
 [sub_resource type="Resource" id="prop_hedge_right_mid_gate"]
 script = ExtResource("5")
 id = "drive_hedge_right_mid_gate"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(5.86, 0, 8.8)
 rotation_y = 180.0
 scale = 1.0
@@ -723,7 +723,7 @@ scale_3d = Vector3(0.82, 1.0, 1.02)
 [sub_resource type="Resource" id="prop_hedge_right_mid_mansion"]
 script = ExtResource("5")
 id = "drive_hedge_right_mid_mansion"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(6.25, 0, 8.5)
 rotation_y = 170.0
 scale = 1.08
@@ -760,7 +760,7 @@ rotation_y = 12.0
 script = ExtResource("5")
 id = "front_gate_starfield"
 scene_role = "sky_dressing"
-scene_path = "res://scenes/shared/grounds/estate_starfield.tscn"
+substrate_prop_kind = "starfield"
 position = Vector3(0, 0, 0)
 rotation_y = 0.0
 

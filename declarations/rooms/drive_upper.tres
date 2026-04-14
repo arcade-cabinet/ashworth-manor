@@ -111,7 +111,7 @@ flicker_pattern = "gas"
 [sub_resource type="Resource" id="prop_drive_road"]
 script = ExtResource("5")
 id = "drive_upper_road"
-scene_path = "res://scenes/shared/grounds/estate_carriage_road.tscn"
+substrate_prop_kind = "carriage_road"
 position = Vector3(0, 0, 0.4)
 rotation_y = 0.0
 scale_3d = Vector3(0.96, 1.0, 0.92)
@@ -119,14 +119,14 @@ scale_3d = Vector3(0.96, 1.0, 0.92)
 [sub_resource type="Resource" id="prop_drive_upper_forecourt_steps"]
 script = ExtResource("5")
 id = "drive_upper_forecourt_steps"
-scene_path = "res://scenes/shared/grounds/estate_forecourt_steps.tscn"
+substrate_prop_kind = "forecourt_steps"
 position = Vector3(0, 0, 4.6)
 scale_3d = Vector3(0.92, 1.0, 0.86)
 
 [sub_resource type="Resource" id="prop_hedge_left_far"]
 script = ExtResource("5")
 id = "drive_upper_hedge_left_far"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(-4.16, 0, -2.35)
 rotation_y = 0.0
 scale = 1.0
@@ -135,7 +135,7 @@ scale_3d = Vector3(1.14, 1.16, 0.86)
 [sub_resource type="Resource" id="prop_hedge_left_mid_mansion"]
 script = ExtResource("5")
 id = "drive_upper_hedge_left_mid_mansion"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(-4.16, 0, 1.15)
 rotation_y = 0.0
 scale = 1.0
@@ -144,7 +144,7 @@ scale_3d = Vector3(1.08, 1.12, 1.45)
 [sub_resource type="Resource" id="prop_hedge_left_mansion"]
 script = ExtResource("5")
 id = "drive_upper_hedge_left_mansion"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(-4.46, 0, 4.85)
 rotation_y = 0.0
 scale = 1.0
@@ -153,7 +153,7 @@ scale_3d = Vector3(1.0, 1.06, 0.78)
 [sub_resource type="Resource" id="prop_hedge_right_far"]
 script = ExtResource("5")
 id = "drive_upper_hedge_right_far"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(4.16, 0, -2.35)
 rotation_y = 180.0
 scale = 1.0
@@ -162,7 +162,7 @@ scale_3d = Vector3(1.14, 1.16, 0.86)
 [sub_resource type="Resource" id="prop_hedge_right_mid_mansion"]
 script = ExtResource("5")
 id = "drive_upper_hedge_right_mid_mansion"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(4.16, 0, 1.15)
 rotation_y = 180.0
 scale = 1.0
@@ -171,7 +171,7 @@ scale_3d = Vector3(1.08, 1.12, 1.45)
 [sub_resource type="Resource" id="prop_hedge_right_mansion"]
 script = ExtResource("5")
 id = "drive_upper_hedge_right_mansion"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(4.46, 0, 4.85)
 rotation_y = 180.0
 scale = 1.0
@@ -233,21 +233,21 @@ scale = 1.15
 [sub_resource type="Resource" id="prop_drive_upper_mansion_facade_shell"]
 script = ExtResource("5")
 id = "drive_upper_mansion_facade_shell"
-scene_path = "res://scenes/shared/grounds/estate_mansion_facade.tscn"
+substrate_prop_kind = "mansion_facade"
 position = Vector3(0, 0, 8.9)
 scale_3d = Vector3(1.06, 1.0, 1.0)
 
 [sub_resource type="Resource" id="prop_drive_upper_entry_portico"]
 script = ExtResource("5")
 id = "drive_upper_entry_portico"
-scene_path = "res://scenes/shared/grounds/estate_entry_portico.tscn"
+substrate_prop_kind = "entry_portico"
 position = Vector3(0, 0, 8.0)
 scale_3d = Vector3(1.0, 1.0, 1.0)
 
 [sub_resource type="Resource" id="prop_drive_upper_facade_door"]
 script = ExtResource("5")
 id = "drive_upper_facade_door"
-scene_path = "res://scenes/shared/grounds/estate_front_door.tscn"
+substrate_prop_kind = "front_door_assembly"
 position = Vector3(0, 0, 8.5)
 scale_3d = Vector3(1.0, 1.0, 1.0)
 
@@ -308,7 +308,7 @@ position = Vector3(-10.1, 0, 5.4)
 [sub_resource type="Resource" id="prop_drive_upper_starfield"]
 script = ExtResource("5")
 id = "drive_upper_starfield"
-scene_path = "res://scenes/shared/grounds/estate_starfield.tscn"
+substrate_prop_kind = "starfield"
 position = Vector3(0, 0, 0)
 scale_3d = Vector3(1.0, 1.0, 1.0)
 

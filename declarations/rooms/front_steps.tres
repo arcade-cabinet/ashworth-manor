@@ -181,7 +181,7 @@ scale = 1.08
 [sub_resource type="Resource" id="prop_forecourt_steps_shell"]
 script = ExtResource("5")
 id = "front_steps_forecourt_steps_shell"
-scene_path = "res://scenes/shared/grounds/estate_forecourt_steps.tscn"
+substrate_prop_kind = "forecourt_steps"
 position = Vector3(0, 0, 0.3)
 scale_3d = Vector3(1.0, 1.0, 1.02)
 
@@ -220,14 +220,14 @@ scale = 0.58
 [sub_resource type="Resource" id="prop_mansion_facade_shell"]
 script = ExtResource("5")
 id = "front_steps_mansion_facade_shell"
-scene_path = "res://scenes/shared/grounds/estate_mansion_facade.tscn"
+substrate_prop_kind = "mansion_facade"
 position = Vector3(0, 0, 4.9)
 scale_3d = Vector3(1.0, 1.0, 1.0)
 
 [sub_resource type="Resource" id="prop_front_steps_entry_portico"]
 script = ExtResource("5")
 id = "front_steps_entry_portico"
-scene_path = "res://scenes/shared/grounds/estate_entry_portico.tscn"
+substrate_prop_kind = "entry_portico"
 position = Vector3(0, 0, 4.3)
 scale_3d = Vector3(1.0, 1.0, 1.0)
 
@@ -346,7 +346,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_door"]
 script = ExtResource("5")
 id = "front_steps_facade_door"
-scene_path = "res://scenes/shared/grounds/estate_front_door.tscn"
+substrate_prop_kind = "front_door_assembly"
 position = Vector3(0, 0, 4.6)
 scale_3d = Vector3(1.0, 1.0, 1.0)
 
@@ -413,7 +413,7 @@ scale_3d = Vector3(0.9, 0.94, 0.94)
 [sub_resource type="Resource" id="prop_service_hedge_stub"]
 script = ExtResource("5")
 id = "front_steps_service_hedge_stub"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(-13.6, 0, 0.8)
 rotation_y = 90.0
 scale = 1.0
@@ -452,7 +452,7 @@ scale_3d = Vector3(0.9, 0.94, 0.94)
 [sub_resource type="Resource" id="prop_garden_hedge_stub"]
 script = ExtResource("5")
 id = "front_steps_garden_hedge_stub"
-scene_path = "res://scenes/shared/grounds/estate_hedgerow.tscn"
+substrate_prop_kind = "hedgerow"
 position = Vector3(13.6, 0, 0.8)
 rotation_y = 270.0
 scale = 1.0

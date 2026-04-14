@@ -169,6 +169,12 @@ owns the substrate-kind mapping for those repeated exterior pieces, and the
 declaration suite now treats their old direct `scene_path` usage as migrated
 substrate territory rather than normal authoring.
 
+That grounds wrapper migration now extends to the repeated estate approach kit
+too. `hedgerow`, `carriage_road`, `outward_road`, `mansion_facade`,
+`entry_portico`, `front_door_assembly`, `forecourt_steps`, and `starfield`
+are now builder-owned substrate kinds in room declarations rather than direct
+shared grounds scene-path authoring.
+
 That contract is now also enforced directly in the declaration suite. The suite
 contains explicit builder-default coverage proving that:
 
