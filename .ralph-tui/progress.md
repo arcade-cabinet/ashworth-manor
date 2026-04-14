@@ -1488,6 +1488,11 @@ after each iteration and it's included in prompts for context.
     `foyer`, `attic_storage`, and `parlor`
   - `TriggerEngine` now resolves the shared flashback visual id back to the
     concrete runtime model path before emitting the spawn payload
+- The declaration suite now locks the current floor in:
+  - any non-empty raw `PropDecl.model` path that appears more than once across
+    room declarations now fails validation
+  - repeated shared families cannot regress back to direct model-path
+    authoring without tripping `test/generated/test_declarations.gd`
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload

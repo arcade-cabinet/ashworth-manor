@@ -818,6 +818,7 @@ func _test_substrate_contract() -> void:
 	_ok("world declaration loads for substrate contract", world != null)
 	if world == null:
 		return
+	var raw_model_usage: Dictionary = {}
 	for connection in world.connections:
 		if connection == null:
 			continue
@@ -878,6 +879,10 @@ func _test_substrate_contract() -> void:
 		for prop in room_decl.props:
 			if prop == null:
 				continue
+			if not prop.model.is_empty():
+				var raw_usage: Array = raw_model_usage.get(prop.model, [])
+				raw_usage.append("%s:%s" % [room_ref.room_id, prop.id])
+				raw_model_usage[prop.model] = raw_usage
 			var legacy_kind := String(legacy_candle_models.get(prop.model, ""))
 			if legacy_kind.is_empty():
 				legacy_kind = String(legacy_frame_models.get(prop.model, ""))
@@ -947,6 +952,12 @@ func _test_substrate_contract() -> void:
 				"%s:%s has no active substrate waiver" % [room_ref.room_id, prop.id],
 				prop.substrate_waiver_reason.is_empty()
 			)
+	for raw_model_path in raw_model_usage.keys():
+		var usage: Array = raw_model_usage[raw_model_path]
+		_ok(
+			"raw model path %s is not a repeated authored family (%s)" % [raw_model_path, ", ".join(PackedStringArray(usage))],
+			usage.size() == 1
+		)
 	print("[DONE] substrate contract")
 
 	var retired_structure_models := {

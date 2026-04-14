@@ -607,3 +607,7 @@ changes between `adult/child` and `elder` route contexts.
   author `res://assets/horror/models/bloodwraith.glb` directly; they now
   author through the shared `bloodwraith_apparition` flashback visual kind
   and resolve the concrete model path in `TriggerEngine`.
+- The declaration suite now enforces the next floor on that cleanup:
+  any non-empty raw `PropDecl.model` path that appears in more than one room
+  now fails validation, so repeated shared families cannot quietly fall back
+  to direct model-path authoring.

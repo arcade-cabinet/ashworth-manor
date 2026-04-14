@@ -1085,6 +1085,10 @@ independent execution drivers:
     through `visual_kind = "bloodwraith_apparition"` instead of direct
     `bloodwraith.glb` paths, while `TriggerEngine` resolves that shared
     flashback visual id back to the concrete model payload used at runtime
+  - the declaration contract is tighter now too:
+    any non-empty raw `PropDecl.model` path that appears more than once across
+    room declarations now fails `test_declarations.gd`, which locks the
+    repeated-shared-family cleanup in as a regression rule
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the
