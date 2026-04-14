@@ -1366,6 +1366,15 @@ after each iteration and it's included in prompts for context.
   - `scattered_bones.glb` -> `family_crypt_bones`
   - affected authored props:
     `debris_l`, `debris_r`, `mourning_bottle`, and `scattered_bones`
+- The chapel grounds fixture set is now migrated too:
+  - `bucket_mx_1.glb` -> `chapel_bucket`
+  - `glass_bottle_mx_1.glb` -> `chapel_bottle`
+  - `lamp_mx_3_off.glb` -> `chapel_dead_lamp`
+  - `loose_bones.glb` -> `chapel_bones`
+  - `statue.glb` -> `forecourt_statue`
+  - affected authored props:
+    `font_bucket`, `font_bottle`, `dead_lamp`, `loose_bones`, and
+    `saint_statue`
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload

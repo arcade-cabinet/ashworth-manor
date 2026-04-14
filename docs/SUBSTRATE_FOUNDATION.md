@@ -549,3 +549,7 @@ changes between `adult/child` and `elder` route contexts.
   `debris_bricks_mx_1.glb`, `debris_bricks_mx_2.glb`,
   `glass_bottle_mx_3.glb`, and `scattered_bones.glb`
   now author through family-crypt-specific substrate kinds.
+- The chapel shell now owns its repeated grounds fixture set too:
+  `bucket_mx_1.glb`, `glass_bottle_mx_1.glb`, `lamp_mx_3_off.glb`,
+  and `loose_bones.glb` now author through chapel-specific substrate kinds,
+  and the chapel saint statue now rides the shared `forecourt_statue` kind.

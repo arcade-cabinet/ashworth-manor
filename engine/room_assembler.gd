@@ -111,6 +111,10 @@ const GARDEN_FLOWERBED_EAST_MODEL := "res://assets/grounds/garden/flowerbed_1x2_
 const CHAPEL_WALL_COLUMN_FANCY_MODEL := "res://assets/grounds/chapel/plaster_wall_column_fancy.glb"
 const CHAPEL_WALL_MODEL := "res://assets/grounds/chapel/plaster_wall.glb"
 const CHAPEL_WALL_COLUMN_MODEL := "res://assets/grounds/chapel/plaster_wall_column.glb"
+const CHAPEL_BUCKET_MODEL := "res://assets/grounds/chapel/bucket_mx_1.glb"
+const CHAPEL_BOTTLE_MODEL := "res://assets/grounds/chapel/glass_bottle_mx_1.glb"
+const CHAPEL_LAMP_MODEL := "res://assets/grounds/chapel/lamp_mx_3_off.glb"
+const CHAPEL_BONES_MODEL := "res://assets/grounds/chapel/loose_bones.glb"
 const GREENHOUSE_PLANK_BENCH_MODEL := "res://assets/grounds/greenhouse/wooden_plank_1.glb"
 const GREENHOUSE_PLANK_SHELF_MODEL := "res://assets/grounds/greenhouse/wooden_plank_2.glb"
 const GREENHOUSE_DEAD_ROW_MODEL := "res://assets/grounds/greenhouse/bush_long_dead.glb"
@@ -205,6 +209,10 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	CHAPEL_WALL_COLUMN_FANCY_MODEL: "chapel_wall_column_fancy",
 	CHAPEL_WALL_MODEL: "chapel_wall_center",
 	CHAPEL_WALL_COLUMN_MODEL: "chapel_wall_column",
+	CHAPEL_BUCKET_MODEL: "chapel_bucket",
+	CHAPEL_BOTTLE_MODEL: "chapel_bottle",
+	CHAPEL_LAMP_MODEL: "chapel_dead_lamp",
+	CHAPEL_BONES_MODEL: "chapel_bones",
 	GREENHOUSE_PLANK_BENCH_MODEL: "greenhouse_plank_bench",
 	GREENHOUSE_PLANK_SHELF_MODEL: "greenhouse_plank_shelf",
 	GREENHOUSE_DEAD_ROW_MODEL: "greenhouse_dead_row",
@@ -1285,6 +1293,14 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(CHAPEL_WALL_MODEL, prop_decl)
 	if substrate_kind == "chapel_wall_column":
 		return _instantiate_substrate_scene(CHAPEL_WALL_COLUMN_MODEL, prop_decl)
+	if substrate_kind == "chapel_bucket":
+		return _instantiate_substrate_scene(CHAPEL_BUCKET_MODEL, prop_decl)
+	if substrate_kind == "chapel_bottle":
+		return _instantiate_substrate_scene(CHAPEL_BOTTLE_MODEL, prop_decl)
+	if substrate_kind == "chapel_dead_lamp":
+		return _instantiate_substrate_scene(CHAPEL_LAMP_MODEL, prop_decl)
+	if substrate_kind == "chapel_bones":
+		return _instantiate_substrate_scene(CHAPEL_BONES_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_bench":
 		return _instantiate_substrate_scene(GREENHOUSE_PLANK_BENCH_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_shelf":

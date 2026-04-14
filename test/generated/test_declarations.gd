@@ -298,6 +298,11 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_ne", "kind": "chapel_wall_column_fancy"},
 		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_w", "kind": "chapel_wall_column"},
 		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_e", "kind": "chapel_wall_column"},
+		{"room_path": "res://declarations/rooms/chapel.tres", "id": "font_bucket", "kind": "chapel_bucket"},
+		{"room_path": "res://declarations/rooms/chapel.tres", "id": "font_bottle", "kind": "chapel_bottle"},
+		{"room_path": "res://declarations/rooms/chapel.tres", "id": "dead_lamp", "kind": "chapel_dead_lamp"},
+		{"room_path": "res://declarations/rooms/chapel.tres", "id": "loose_bones", "kind": "chapel_bones"},
+		{"room_path": "res://declarations/rooms/chapel.tres", "id": "saint_statue", "kind": "forecourt_statue"},
 		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "plank_bench", "kind": "greenhouse_plank_bench"},
 		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "plank_shelf", "kind": "greenhouse_plank_shelf"},
 		{"room_path": "res://declarations/rooms/greenhouse.tres", "id": "dead_row_w", "kind": "greenhouse_dead_row"},
@@ -1410,6 +1415,30 @@ func _test_builder_default_contract() -> void:
 	var chapel_wall_column := assembler._build_procedural_prop(chapel_wall_column_decl)
 	_ok("substrate chapel wall column builds from shared substrate kind", chapel_wall_column != null)
 
+	var chapel_bucket_decl := PropDecl.new()
+	chapel_bucket_decl.id = "compat_chapel_bucket"
+	chapel_bucket_decl.substrate_prop_kind = "chapel_bucket"
+	var chapel_bucket := assembler._build_procedural_prop(chapel_bucket_decl)
+	_ok("substrate chapel bucket builds from shared substrate kind", chapel_bucket != null)
+
+	var chapel_bottle_decl := PropDecl.new()
+	chapel_bottle_decl.id = "compat_chapel_bottle"
+	chapel_bottle_decl.substrate_prop_kind = "chapel_bottle"
+	var chapel_bottle := assembler._build_procedural_prop(chapel_bottle_decl)
+	_ok("substrate chapel bottle builds from shared substrate kind", chapel_bottle != null)
+
+	var chapel_dead_lamp_decl := PropDecl.new()
+	chapel_dead_lamp_decl.id = "compat_chapel_dead_lamp"
+	chapel_dead_lamp_decl.substrate_prop_kind = "chapel_dead_lamp"
+	var chapel_dead_lamp := assembler._build_procedural_prop(chapel_dead_lamp_decl)
+	_ok("substrate chapel dead lamp builds from shared substrate kind", chapel_dead_lamp != null)
+
+	var chapel_bones_decl := PropDecl.new()
+	chapel_bones_decl.id = "compat_chapel_bones"
+	chapel_bones_decl.substrate_prop_kind = "chapel_bones"
+	var chapel_bones := assembler._build_procedural_prop(chapel_bones_decl)
+	_ok("substrate chapel bones build from shared substrate kind", chapel_bones != null)
+
 	var greenhouse_plank_bench_decl := PropDecl.new()
 	greenhouse_plank_bench_decl.id = "compat_greenhouse_plank_bench"
 	greenhouse_plank_bench_decl.substrate_prop_kind = "greenhouse_plank_bench"
@@ -1639,6 +1668,14 @@ func _test_builder_default_contract() -> void:
 		chapel_wall_center.free()
 	if chapel_wall_column != null:
 		chapel_wall_column.free()
+	if chapel_bucket != null:
+		chapel_bucket.free()
+	if chapel_bottle != null:
+		chapel_bottle.free()
+	if chapel_dead_lamp != null:
+		chapel_dead_lamp.free()
+	if chapel_bones != null:
+		chapel_bones.free()
 	if greenhouse_plank_bench != null:
 		greenhouse_plank_bench.free()
 	if greenhouse_plank_shelf != null:

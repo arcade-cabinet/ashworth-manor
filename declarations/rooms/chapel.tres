@@ -236,32 +236,32 @@ rotation_y = 65.0
 [sub_resource type="Resource" id="prop_font_bucket"]
 script = ExtResource("5")
 id = "font_bucket"
-model = "res://assets/grounds/chapel/bucket_mx_1.glb"
+substrate_prop_kind = "chapel_bucket"
 position = Vector3(1.7, 0, -3.3)
 
 [sub_resource type="Resource" id="prop_font_bottle"]
 script = ExtResource("5")
 id = "font_bottle"
-model = "res://assets/grounds/chapel/glass_bottle_mx_1.glb"
+substrate_prop_kind = "chapel_bottle"
 position = Vector3(-0.4, 0.85, 4.1)
 
 [sub_resource type="Resource" id="prop_dead_lamp"]
 script = ExtResource("5")
 id = "dead_lamp"
-model = "res://assets/grounds/chapel/lamp_mx_3_off.glb"
+substrate_prop_kind = "chapel_dead_lamp"
 position = Vector3(2.8, 0, -1.8)
 rotation_y = 35.0
 
 [sub_resource type="Resource" id="prop_loose_bones"]
 script = ExtResource("5")
 id = "loose_bones"
-model = "res://assets/grounds/chapel/loose_bones.glb"
+substrate_prop_kind = "chapel_bones"
 position = Vector3(-3.0, 0, -3.5)
 
 [sub_resource type="Resource" id="prop_saint_statue"]
 script = ExtResource("5")
 id = "saint_statue"
-model = "res://assets/shared/decor/statue.glb"
+substrate_prop_kind = "forecourt_statue"
 position = Vector3(2.8, 0, 3.2)
 scale = 0.8
 

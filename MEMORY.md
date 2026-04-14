@@ -1016,6 +1016,10 @@ independent execution drivers:
     `debris_l`, `debris_r`, `mourning_bottle`, and `scattered_bones`
     now author through family-crypt-specific substrate kinds instead of raw
     grounds model paths
+  - the chapel grounds fixture set moved too:
+    `font_bucket`, `font_bottle`, `dead_lamp`, and `loose_bones`
+    now author through chapel-specific substrate kinds, and `saint_statue`
+    now uses the shared `forecourt_statue` kind instead of raw model paths
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the
