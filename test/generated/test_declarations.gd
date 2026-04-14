@@ -5,6 +5,7 @@ extends SceneTree
 
 const RoomAnchorDeclScript = preload("res://engine/declarations/room_anchor_decl.gd")
 const RegionCompilerScript = preload("res://engine/region_compiler.gd")
+const DirectPropRegistry = preload("res://engine/direct_prop_registry.gd")
 const EstateMaterialKit = preload("res://builders/estate_material_kit.gd")
 const EstateEnvironmentRegistry = preload("res://builders/estate_environment_registry.gd")
 const EstateSubstrateRegistry = preload("res://builders/estate_substrate_registry.gd")
@@ -742,36 +743,6 @@ func _test_environments() -> void:
 
 func _test_substrate_contract() -> void:
 	_test_name = "SUBSTRATE"
-	var expected_direct_model_family_by_room := {
-		"attic_stairs": "debris",
-		"attic_storage": "stored_clutter",
-		"boiler_room": "service_infrastructure",
-		"dining_room": "table_service",
-		"foyer": "entry_dressing",
-		"guest_room": "personal_effects",
-		"hidden_chamber": "occult_dressing",
-		"kitchen": "tool_clutter",
-		"library": "study_dressing",
-		"master_bedroom": "personal_effects",
-		"parlor": "hearth_dressing",
-		"storage_basement": "storage_clutter",
-		"upper_hallway": "passage_dressing",
-		"wine_cellar": "storage_clutter",
-	}
-	var allowed_direct_model_families := {
-		"debris": true,
-		"stored_clutter": true,
-		"service_infrastructure": true,
-		"table_service": true,
-		"entry_dressing": true,
-		"personal_effects": true,
-		"occult_dressing": true,
-		"tool_clutter": true,
-		"study_dressing": true,
-		"hearth_dressing": true,
-		"storage_clutter": true,
-		"passage_dressing": true,
-	}
 	var legacy_candle_models := {
 		"res://assets/shared/decor/candle_holder.glb": "candle_holder_fixture",
 		"res://assets/shared/items/candle0.glb": "candle_single",
@@ -1046,7 +1017,7 @@ func _test_substrate_contract() -> void:
 				)
 				_ok(
 					"%s:%s direct model family allowed" % [room_ref.room_id, prop.id],
-					allowed_direct_model_families.has(prop.direct_model_family)
+					DirectPropRegistry.is_allowed_direct_model_family(prop.direct_model_family)
 				)
 				_ok(
 					"%s:%s direct model reason stays room-scoped" % [room_ref.room_id, prop.id],
@@ -1081,8 +1052,8 @@ func _test_substrate_contract() -> void:
 			"raw model path %s is not a repeated authored family (%s)" % [raw_model_path, ", ".join(PackedStringArray(usage))],
 			usage.size() == 1
 		)
-	for room_id in expected_direct_model_family_by_room.keys():
-		var expected_family := String(expected_direct_model_family_by_room[room_id])
+	for room_id in DirectPropRegistry.EXPECTED_DIRECT_MODEL_FAMILY_BY_ROOM.keys():
+		var expected_family := DirectPropRegistry.expected_direct_model_family_for_room(String(room_id))
 		var room_families: Dictionary = direct_model_families_by_room.get(room_id, {})
 		_ok("%s direct-model family set present" % room_id, not room_families.is_empty())
 		_ok("%s uses exactly one direct-model family" % room_id, room_families.size() == 1)
