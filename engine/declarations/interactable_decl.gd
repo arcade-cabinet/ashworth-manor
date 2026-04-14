@@ -3,6 +3,8 @@ class_name InteractableDecl
 extends Resource
 ## An interactive object in a room -- painting, note, mirror, clock, switch, etc.
 
+const DirectDeclarationAssetPolicy = preload("res://engine/direct_declaration_asset_policy.gd")
+
 @export var id: String = ""
 @export var type: String = ""                # painting, note, mirror, clock, switch, box, doll, ritual, observation, photo
 @export var scene_role: String = "dynamic_setpiece" # dynamic_setpiece, portable_item, threshold_control, observation
@@ -62,3 +64,11 @@ extends Resource
 
 # Connection behavior (for locked_door type)
 @export var target_room: String = ""
+
+
+func uses_direct_visual() -> bool:
+	return DirectDeclarationAssetPolicy.uses_direct_interactable_visual(self)
+
+
+func has_valid_direct_visual_contract() -> bool:
+	return DirectDeclarationAssetPolicy.has_valid_direct_interactable_visual_reason(self)

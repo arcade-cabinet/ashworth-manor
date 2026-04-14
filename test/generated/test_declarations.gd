@@ -323,20 +323,17 @@ func _test_interactable_visual_contract() -> void:
 					for interactable in room.interactables:
 						if interactable == null:
 							continue
-						var has_direct_visual: bool = (
-							(not interactable.model.is_empty() or not interactable.scene_path.is_empty())
-							and interactable.visual_kind.is_empty()
-						)
+						var has_direct_visual: bool = interactable.uses_direct_visual()
 						if has_direct_visual:
 							direct_visual_count += 1
 							_ok(
-								"%s:%s direct visual authoring declares reason" % [room.room_id, interactable.id],
-								not interactable.direct_visual_reason.is_empty()
+								"%s:%s direct visual contract valid" % [room.room_id, interactable.id],
+								interactable.has_valid_direct_visual_contract()
 							)
 						if not interactable.direct_visual_reason.is_empty():
 							_ok(
 								"%s:%s direct visual reason only appears on explicit direct visuals" % [room.room_id, interactable.id],
-								has_direct_visual
+								interactable.uses_direct_visual()
 							)
 			file_name = dir.get_next()
 	_ok("current authored interactables use zero direct visual exceptions", direct_visual_count == 0)
@@ -551,20 +548,17 @@ func _test_mount_payload_substrate_contract() -> void:
 					for payload in room.mount_payloads:
 						if payload == null:
 							continue
-						var has_direct_payload: bool = (
-							(not payload.scene_path.is_empty() or not payload.model.is_empty())
-							and payload.substrate_prop_kind.is_empty()
-						)
+						var has_direct_payload: bool = payload.uses_direct_asset()
 						if has_direct_payload:
 							direct_payload_count += 1
 							_ok(
-								"%s:%s direct payload authoring declares reason" % [room.room_id, payload.payload_id],
-								not payload.direct_payload_reason.is_empty()
+								"%s:%s direct payload contract valid" % [room.room_id, payload.payload_id],
+								payload.has_valid_direct_asset_contract()
 							)
 						if not payload.direct_payload_reason.is_empty():
 							_ok(
 								"%s:%s direct payload reason only appears on explicit direct payloads" % [room.room_id, payload.payload_id],
-								has_direct_payload
+								payload.uses_direct_asset()
 							)
 			file_name = dir.get_next()
 	_ok("current authored mount payloads use zero direct asset exceptions", direct_payload_count == 0)
