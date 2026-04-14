@@ -1359,6 +1359,13 @@ after each iteration and it's included in prompts for context.
   - `flowerbed_1x2_empty.glb` -> `garden_beds_east`
   - affected authored props:
     `bench_model`, `gazebo_table`, `bench_north`, `beds_west`, and `beds_east`
+- The family crypt debris language is now migrated too:
+  - `debris_bricks_mx_1.glb` -> `family_crypt_debris_left`
+  - `debris_bricks_mx_2.glb` -> `family_crypt_debris_right`
+  - `glass_bottle_mx_3.glb` -> `family_crypt_bottle`
+  - `scattered_bones.glb` -> `family_crypt_bones`
+  - affected authored props:
+    `debris_l`, `debris_r`, `mourning_bottle`, and `scattered_bones`
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload

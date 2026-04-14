@@ -316,25 +316,25 @@ scale = 0.75
 [sub_resource type="Resource" id="prop_debris_l"]
 script = ExtResource("5")
 id = "debris_l"
-model = "res://assets/grounds/family_crypt/debris_bricks_mx_1.glb"
+substrate_prop_kind = "family_crypt_debris_left"
 position = Vector3(-3.2, 0, 3.2)
 
 [sub_resource type="Resource" id="prop_debris_r"]
 script = ExtResource("5")
 id = "debris_r"
-model = "res://assets/grounds/family_crypt/debris_bricks_mx_2.glb"
+substrate_prop_kind = "family_crypt_debris_right"
 position = Vector3(3.0, 0, 2.8)
 
 [sub_resource type="Resource" id="prop_bottle"]
 script = ExtResource("5")
 id = "mourning_bottle"
-model = "res://assets/grounds/family_crypt/glass_bottle_mx_3.glb"
+substrate_prop_kind = "family_crypt_bottle"
 position = Vector3(-2.5, 0, 2.2)
 
 [sub_resource type="Resource" id="prop_scattered_bones"]
 script = ExtResource("5")
 id = "scattered_bones"
-model = "res://assets/grounds/family_crypt/scattered_bones.glb"
+substrate_prop_kind = "family_crypt_bones"
 position = Vector3(3.0, 0, -2.0)
 
 [sub_resource type="Resource" id="prop_grave_candle_holder"]

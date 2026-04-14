@@ -545,3 +545,7 @@ changes between `adult/child` and `elder` route contexts.
   `bench01.glb`, `bench02.glb`, `table.glb`,
   `flowerbed_2x2_empty.glb`, and `flowerbed_1x2_empty.glb`
   now author through garden-specific substrate kinds.
+- The family crypt shell now owns its repeated debris language too:
+  `debris_bricks_mx_1.glb`, `debris_bricks_mx_2.glb`,
+  `glass_bottle_mx_3.glb`, and `scattered_bones.glb`
+  now author through family-crypt-specific substrate kinds.

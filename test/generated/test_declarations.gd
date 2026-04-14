@@ -322,6 +322,10 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "grave_edmund", "kind": "family_crypt_grave_marker"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "grave_victoria", "kind": "family_crypt_grave_marker"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "grave_blank", "kind": "family_crypt_grave_marker"},
+		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "debris_l", "kind": "family_crypt_debris_left"},
+		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "debris_r", "kind": "family_crypt_debris_right"},
+		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "mourning_bottle", "kind": "family_crypt_bottle"},
+		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "scattered_bones", "kind": "family_crypt_bones"},
 		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_road", "kind": "carriage_road"},
 		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_hedge_left_mid", "kind": "hedgerow"},
 		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_tree_left", "kind": "front_gate_tree_01"},
@@ -1286,6 +1290,30 @@ func _test_builder_default_contract() -> void:
 	var crypt_grave := assembler._build_procedural_prop(crypt_grave_decl)
 	_ok("substrate family-crypt grave marker builds from shared substrate kind", crypt_grave != null)
 
+	var crypt_debris_left_decl := PropDecl.new()
+	crypt_debris_left_decl.id = "compat_family_crypt_debris_left"
+	crypt_debris_left_decl.substrate_prop_kind = "family_crypt_debris_left"
+	var crypt_debris_left := assembler._build_procedural_prop(crypt_debris_left_decl)
+	_ok("substrate family-crypt left debris builds from shared substrate kind", crypt_debris_left != null)
+
+	var crypt_debris_right_decl := PropDecl.new()
+	crypt_debris_right_decl.id = "compat_family_crypt_debris_right"
+	crypt_debris_right_decl.substrate_prop_kind = "family_crypt_debris_right"
+	var crypt_debris_right := assembler._build_procedural_prop(crypt_debris_right_decl)
+	_ok("substrate family-crypt right debris builds from shared substrate kind", crypt_debris_right != null)
+
+	var crypt_bottle_decl := PropDecl.new()
+	crypt_bottle_decl.id = "compat_family_crypt_bottle"
+	crypt_bottle_decl.substrate_prop_kind = "family_crypt_bottle"
+	var crypt_bottle := assembler._build_procedural_prop(crypt_bottle_decl)
+	_ok("substrate family-crypt bottle builds from shared substrate kind", crypt_bottle != null)
+
+	var crypt_bones_decl := PropDecl.new()
+	crypt_bones_decl.id = "compat_family_crypt_bones"
+	crypt_bones_decl.substrate_prop_kind = "family_crypt_bones"
+	var crypt_bones := assembler._build_procedural_prop(crypt_bones_decl)
+	_ok("substrate family-crypt bones build from shared substrate kind", crypt_bones != null)
+
 	var garden_fountain_decl := PropDecl.new()
 	garden_fountain_decl.id = "compat_garden_fountain_base"
 	garden_fountain_decl.substrate_prop_kind = "garden_fountain_base"
@@ -1571,6 +1599,14 @@ func _test_builder_default_contract() -> void:
 		crypt_fence.free()
 	if crypt_grave != null:
 		crypt_grave.free()
+	if crypt_debris_left != null:
+		crypt_debris_left.free()
+	if crypt_debris_right != null:
+		crypt_debris_right.free()
+	if crypt_bottle != null:
+		crypt_bottle.free()
+	if crypt_bones != null:
+		crypt_bones.free()
 	if garden_fountain != null:
 		garden_fountain.free()
 	if garden_water != null:

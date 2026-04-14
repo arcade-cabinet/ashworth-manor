@@ -1012,6 +1012,10 @@ independent execution drivers:
     `bench_model`, `gazebo_table`, `bench_north`, `beds_west`, and `beds_east`
     now author through garden-specific substrate kinds instead of raw grounds
     model paths
+  - the family crypt debris language moved too:
+    `debris_l`, `debris_r`, `mourning_bottle`, and `scattered_bones`
+    now author through family-crypt-specific substrate kinds instead of raw
+    grounds model paths
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

@@ -83,6 +83,10 @@ const FAMILY_CRYPT_WALL_CAPPED_MODEL := "res://assets/grounds/family_crypt/dryst
 const FAMILY_CRYPT_WALL_MODEL := "res://assets/grounds/family_crypt/drystone_wall.glb"
 const FAMILY_CRYPT_FENCE_MODEL := "res://assets/grounds/family_crypt/metal_fence_1.glb"
 const FAMILY_CRYPT_COLUMN_MODEL := "res://assets/grounds/family_crypt/drystone_column.glb"
+const FAMILY_CRYPT_DEBRIS_LEFT_MODEL := "res://assets/grounds/family_crypt/debris_bricks_mx_1.glb"
+const FAMILY_CRYPT_DEBRIS_RIGHT_MODEL := "res://assets/grounds/family_crypt/debris_bricks_mx_2.glb"
+const FAMILY_CRYPT_BOTTLE_MODEL := "res://assets/grounds/family_crypt/glass_bottle_mx_3.glb"
+const FAMILY_CRYPT_BONES_MODEL := "res://assets/grounds/family_crypt/scattered_bones.glb"
 const GARDEN_FOUNTAIN_MODEL := "res://assets/grounds/garden/fountain01_round.glb"
 const GARDEN_FOUNTAIN_WATER_MODEL := "res://assets/grounds/garden/fountain01_round_water.glb"
 const GARDEN_GAZEBO_MODEL := "res://assets/grounds/garden/gazebo.glb"
@@ -173,6 +177,10 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	FAMILY_CRYPT_WALL_MODEL: "family_crypt_wall",
 	FAMILY_CRYPT_FENCE_MODEL: "family_crypt_fence_run",
 	FAMILY_CRYPT_COLUMN_MODEL: "family_crypt_grave_marker",
+	FAMILY_CRYPT_DEBRIS_LEFT_MODEL: "family_crypt_debris_left",
+	FAMILY_CRYPT_DEBRIS_RIGHT_MODEL: "family_crypt_debris_right",
+	FAMILY_CRYPT_BOTTLE_MODEL: "family_crypt_bottle",
+	FAMILY_CRYPT_BONES_MODEL: "family_crypt_bones",
 	GARDEN_FOUNTAIN_MODEL: "garden_fountain_base",
 	GARDEN_FOUNTAIN_WATER_MODEL: "garden_fountain_water",
 	GARDEN_GAZEBO_MODEL: "garden_gazebo_shell",
@@ -1221,6 +1229,14 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(FAMILY_CRYPT_FENCE_MODEL, prop_decl)
 	if substrate_kind == "family_crypt_grave_marker":
 		return _instantiate_substrate_scene(FAMILY_CRYPT_COLUMN_MODEL, prop_decl)
+	if substrate_kind == "family_crypt_debris_left":
+		return _instantiate_substrate_scene(FAMILY_CRYPT_DEBRIS_LEFT_MODEL, prop_decl)
+	if substrate_kind == "family_crypt_debris_right":
+		return _instantiate_substrate_scene(FAMILY_CRYPT_DEBRIS_RIGHT_MODEL, prop_decl)
+	if substrate_kind == "family_crypt_bottle":
+		return _instantiate_substrate_scene(FAMILY_CRYPT_BOTTLE_MODEL, prop_decl)
+	if substrate_kind == "family_crypt_bones":
+		return _instantiate_substrate_scene(FAMILY_CRYPT_BONES_MODEL, prop_decl)
 	if substrate_kind == "garden_fountain_base":
 		return _instantiate_substrate_scene(GARDEN_FOUNTAIN_MODEL, prop_decl)
 	if substrate_kind == "garden_fountain_water":
