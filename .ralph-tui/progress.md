@@ -140,6 +140,24 @@ after each iteration and it's included in prompts for context.
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
 
+## 2026-04-13 - Open front-gate scene moved onto substrate kind
+
+- Added `iron_gate_open` to the shared grounds substrate-kind path in
+  `engine/room_assembler.gd`
+- Migrated the open gate prop in `declarations/rooms/front_gate.tres` off raw
+  `scene_path = "res://scenes/shared/grounds/estate_iron_gate.tscn"` and onto
+  `substrate_prop_kind = "iron_gate_open"`
+- Extended `test/generated/test_declarations.gd` so:
+  - the grounds scene prop contract now expects `iron_gate_center` to use the
+    substrate kind
+  - builder-default coverage proves `iron_gate_open` builds successfully
+- There are now no remaining direct authored uses of
+  `res://scenes/shared/grounds/estate_iron_gate.tscn` in room declarations.
+- Repo-local validation reran green:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+
 - Added shared helper constructors in `estate_material_kit.gd` for:
   - tinted shadow/void fills
   - unshaded emissive surfaces

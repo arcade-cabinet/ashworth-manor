@@ -212,6 +212,7 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_entry_portico", "kind": "entry_portico"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "gate_pillar_l", "kind": "gate_post"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "boundary_wall", "kind": "boundary_wall"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "iron_gate_center", "kind": "iron_gate_open"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "front_gate_main_road", "kind": "carriage_road"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "front_gate_outward_road", "kind": "outward_road"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "front_gate_starfield", "kind": "starfield"},
@@ -1035,6 +1036,12 @@ func _test_builder_default_contract() -> void:
 	var iron_gate_closed := assembler._build_procedural_prop(iron_gate_closed_decl)
 	_ok("substrate closed iron gate builds from shared substrate kind", iron_gate_closed != null)
 
+	var iron_gate_open_decl := PropDecl.new()
+	iron_gate_open_decl.id = "compat_iron_gate_open"
+	iron_gate_open_decl.substrate_prop_kind = "iron_gate_open"
+	var iron_gate_open := assembler._build_procedural_prop(iron_gate_open_decl)
+	_ok("substrate open iron gate builds from shared substrate kind", iron_gate_open != null)
+
 	var fence_run_decl := PropDecl.new()
 	fence_run_decl.id = "compat_fence_run"
 	fence_run_decl.substrate_prop_kind = "fence_run"
@@ -1162,6 +1169,8 @@ func _test_builder_default_contract() -> void:
 		boundary_wall.free()
 	if iron_gate_closed != null:
 		iron_gate_closed.free()
+	if iron_gate_open != null:
+		iron_gate_open.free()
 	if fence_run != null:
 		fence_run.free()
 	if hedgerow != null:

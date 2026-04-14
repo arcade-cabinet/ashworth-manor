@@ -117,6 +117,9 @@
   - current regression example: the front-gate sign mount payload
 - The greenhouse lily pedestal is also now promoted into the same substrate
   kind path as the other greenhouse shared fixtures via `greenhouse_pedestal`
+- The front-gate open gate scene is now also promoted into the substrate-kind
+  path as `iron_gate_open`, leaving the remaining direct declaration-side
+  grounds scene authoring even narrower.
 - Shared builder fallbacks for stairs, ladders, windows, and portal shadow
   fills now resolve through explicit recipe ids (`fallback_wood`,
   `fallback_metal`, `shadow_void`) instead of local `StandardMaterial3D.new()`

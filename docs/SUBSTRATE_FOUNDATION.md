@@ -181,6 +181,11 @@ resolves that through the same shared substrate-kind builders it uses for room
 props. The current regression example is the front-gate sign payload, which no
 longer mounts via a raw shared scene path.
 
+The front-gate open iron gate prop now follows the same rule as the rest of the
+gate family. It is authored as a substrate kind rather than a direct shared
+grounds scene path, keeping the remaining front-gate declaration authoring
+consistent with the rest of the substrate sweep.
+
 That contract is now also enforced directly in the declaration suite. The suite
 contains explicit builder-default coverage proving that:
 

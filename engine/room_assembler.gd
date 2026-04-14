@@ -54,6 +54,7 @@ const GREENHOUSE_HANGING_LANTERN_SCENE := "res://scenes/shared/greenhouse/greenh
 const ESTATE_GATE_POST_SCENE := "res://scenes/shared/grounds/estate_gate_post.tscn"
 const ESTATE_GATE_POST_STONE_SCENE := "res://scenes/shared/grounds/estate_gate_post_stone.tscn"
 const ESTATE_BOUNDARY_WALL_SCENE := "res://scenes/shared/grounds/estate_boundary_wall.tscn"
+const ESTATE_IRON_GATE_SCENE := "res://scenes/shared/grounds/estate_iron_gate.tscn"
 const ESTATE_IRON_GATE_CLOSED_SCENE := "res://scenes/shared/grounds/estate_iron_gate_closed.tscn"
 const ESTATE_FENCE_RUN_SCENE := "res://scenes/shared/grounds/estate_fence_run.tscn"
 const ESTATE_HEDGEROW_SCENE := "res://scenes/shared/grounds/estate_hedgerow.tscn"
@@ -89,6 +90,7 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	ESTATE_GATE_POST_SCENE: "gate_post",
 	ESTATE_GATE_POST_STONE_SCENE: "gate_post_stone",
 	ESTATE_BOUNDARY_WALL_SCENE: "boundary_wall",
+	ESTATE_IRON_GATE_SCENE: "iron_gate_open",
 	ESTATE_IRON_GATE_CLOSED_SCENE: "iron_gate_closed",
 	ESTATE_FENCE_RUN_SCENE: "fence_run",
 	ESTATE_HEDGEROW_SCENE: "hedgerow",
@@ -1053,6 +1055,8 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(ESTATE_GATE_POST_STONE_SCENE, prop_decl)
 	if substrate_kind == "boundary_wall":
 		return _instantiate_substrate_scene(ESTATE_BOUNDARY_WALL_SCENE, prop_decl)
+	if substrate_kind == "iron_gate_open":
+		return _instantiate_substrate_scene(ESTATE_IRON_GATE_SCENE, prop_decl)
 	if substrate_kind == "iron_gate_closed":
 		return _instantiate_substrate_scene(ESTATE_IRON_GATE_CLOSED_SCENE, prop_decl)
 	if substrate_kind == "fence_run":
