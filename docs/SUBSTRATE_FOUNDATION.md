@@ -623,6 +623,10 @@ changes between `adult/child` and `elder` route contexts.
   a room cannot silently drift from `kitchen -> tool_clutter` or
   `boiler_room -> service_infrastructure` without an intentional contract
   change.
+- The declaration object owns that rule now too:
+  `DirectPropRegistry` centralizes the policy and `PropDecl` now exposes
+  helpers for determining whether a prop is in a valid direct-model state,
+  instead of leaving all of that logic embedded in the test file.
 - The remaining direct-asset declaration channels now have the same rule:
   `InteractableDecl` and `MountPayloadDecl` carry explicit
   `direct_visual_reason` / `direct_payload_reason` fields, and the declaration

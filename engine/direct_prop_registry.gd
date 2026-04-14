@@ -40,3 +40,7 @@ static func is_allowed_direct_model_family(family: String) -> bool:
 
 static func expected_direct_model_family_for_room(room_id: String) -> String:
 	return String(EXPECTED_DIRECT_MODEL_FAMILY_BY_ROOM.get(room_id, ""))
+
+
+static func is_valid_direct_model_reason(room_id: String, reason: String) -> bool:
+	return not reason.is_empty() and reason.begins_with("%s_" % room_id) and reason != "%s_set_dressing" % room_id

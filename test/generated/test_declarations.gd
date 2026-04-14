@@ -1008,34 +1008,18 @@ func _test_substrate_contract() -> void:
 				room_families[prop.direct_model_family] = true
 				direct_model_families_by_room[room_ref.room_id] = room_families
 				_ok(
-					"%s:%s direct model authoring declares family" % [room_ref.room_id, prop.id],
-					not prop.direct_model_family.is_empty()
-				)
-				_ok(
-					"%s:%s direct model authoring declares reason" % [room_ref.room_id, prop.id],
-					not prop.direct_model_reason.is_empty()
-				)
-				_ok(
-					"%s:%s direct model family allowed" % [room_ref.room_id, prop.id],
-					DirectPropRegistry.is_allowed_direct_model_family(prop.direct_model_family)
-				)
-				_ok(
-					"%s:%s direct model reason stays room-scoped" % [room_ref.room_id, prop.id],
-					prop.direct_model_reason.begins_with("%s_" % room_ref.room_id)
-				)
-				_ok(
-					"%s:%s direct model reason is not the generic placeholder" % [room_ref.room_id, prop.id],
-					prop.direct_model_reason != "%s_set_dressing" % room_ref.room_id
+					"%s:%s direct model contract valid" % [room_ref.room_id, prop.id],
+					prop.has_valid_direct_model_contract(room_ref.room_id)
 				)
 			if not prop.direct_model_reason.is_empty():
 				_ok(
 					"%s:%s direct model reason only appears on raw-model props" % [room_ref.room_id, prop.id],
-					not prop.model.is_empty() and prop.substrate_prop_kind.is_empty()
+					prop.uses_direct_model()
 				)
 			if not prop.direct_model_family.is_empty():
 				_ok(
 					"%s:%s direct model family only appears on raw-model props" % [room_ref.room_id, prop.id],
-					not prop.model.is_empty() and prop.substrate_prop_kind.is_empty()
+					prop.uses_direct_model()
 				)
 			if prop.scene_role in ["architectural_trim", "threshold_trim"] and prop.substrate_prop_kind.is_empty():
 				_ok(

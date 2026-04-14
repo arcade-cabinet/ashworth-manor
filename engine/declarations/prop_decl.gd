@@ -3,6 +3,8 @@ class_name PropDecl
 extends Resource
 ## A non-interactive model placed in a room (furniture, decoration).
 
+const DirectPropRegistry = preload("res://engine/direct_prop_registry.gd")
+
 @export var id: String = ""
 @export var scene_role: String = "static_model" # static_model, architectural_trim, threshold_trim, clue_dressing
 @export var substrate_prop_kind: String = "" # shared procedural/runtime-owned substrate prop kind
@@ -16,3 +18,16 @@ extends Resource
 @export var scale: float = 1.0
 @export var scale_3d: Vector3 = Vector3.ONE
 @export var tags: PackedStringArray = []
+
+
+func uses_direct_model() -> bool:
+	return not model.is_empty() and substrate_prop_kind.is_empty()
+
+
+func has_valid_direct_model_contract(room_id: String) -> bool:
+	if not uses_direct_model():
+		return direct_model_family.is_empty() and direct_model_reason.is_empty()
+	return (
+		DirectPropRegistry.is_allowed_direct_model_family(direct_model_family)
+		and DirectPropRegistry.is_valid_direct_model_reason(room_id, direct_model_reason)
+	)

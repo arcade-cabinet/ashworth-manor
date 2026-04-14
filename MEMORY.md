@@ -1099,6 +1099,10 @@ independent execution drivers:
     the declaration suite asserts the current mapping directly, so those direct
     prop exception families cannot drift room-by-room without an explicit
     contract update
+  - the declaration object now owns its side of that contract too:
+    `DirectPropRegistry` centralizes the policy and `PropDecl` exposes helpers
+    for whether a prop is using and satisfying a valid direct-model contract,
+    instead of keeping all of that logic inside `test_declarations.gd`
   - the same explicitness rule now exists for the remaining declaration-side
     direct asset channels too:
     `InteractableDecl` and `MountPayloadDecl` now have

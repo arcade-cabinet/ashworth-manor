@@ -1507,6 +1507,10 @@ after each iteration and it's included in prompts for context.
   - rooms cannot silently drift between families like
     `tool_clutter`, `service_infrastructure`, or `storage_clutter`
     without an explicit contract change
+- The policy now lives closer to the declaration object too:
+  - `DirectPropRegistry` centralizes allowed families and expected room mapping
+  - `PropDecl` now exposes helpers for direct-model contract validity
+  - the test suite consumes those helpers instead of duplicating the contract
 - The remaining declaration-side direct asset channels are guarded now too:
   - `InteractableDecl` now carries `direct_visual_reason`
   - `MountPayloadDecl` now carries `direct_payload_reason`
