@@ -541,3 +541,7 @@ changes between `adult/child` and `elder` route contexts.
 - The repeated forecourt statue family is now substrate-owned too:
   `statue.glb` -> `forecourt_statue` across the front-gate, front-steps, and
   drive-upper exterior approach rooms.
+- The garden shell now owns its repeated furnishing and bed set too:
+  `bench01.glb`, `bench02.glb`, `table.glb`,
+  `flowerbed_2x2_empty.glb`, and `flowerbed_1x2_empty.glb`
+  now author through garden-specific substrate kinds.

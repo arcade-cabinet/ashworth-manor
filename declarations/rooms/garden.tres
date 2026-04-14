@@ -235,7 +235,7 @@ position = Vector3(0, 0, 0)
 [sub_resource type="Resource" id="prop_bench_model"]
 script = ExtResource("5")
 id = "bench_model"
-model = "res://assets/grounds/garden/bench01.glb"
+substrate_prop_kind = "garden_bench_west"
 position = Vector3(-6, 0, -4)
 
 [sub_resource type="Resource" id="prop_gazebo_model"]
@@ -247,26 +247,26 @@ position = Vector3(-5, 0, -4)
 [sub_resource type="Resource" id="prop_gazebo_table"]
 script = ExtResource("5")
 id = "gazebo_table"
-model = "res://assets/grounds/garden/table.glb"
+substrate_prop_kind = "garden_gazebo_table"
 position = Vector3(-5, 0, -4)
 
 [sub_resource type="Resource" id="prop_bench_north"]
 script = ExtResource("5")
 id = "bench_north"
-model = "res://assets/grounds/garden/bench02.glb"
+substrate_prop_kind = "garden_bench_north"
 position = Vector3(2.5, 0, 6.5)
 rotation_y = 160.0
 
 [sub_resource type="Resource" id="prop_beds_west"]
 script = ExtResource("5")
 id = "beds_west"
-model = "res://assets/grounds/garden/flowerbed_2x2_empty.glb"
+substrate_prop_kind = "garden_beds_west"
 position = Vector3(-3.0, 0, 3.0)
 
 [sub_resource type="Resource" id="prop_beds_east"]
 script = ExtResource("5")
 id = "beds_east"
-model = "res://assets/grounds/garden/flowerbed_1x2_empty.glb"
+substrate_prop_kind = "garden_beds_east"
 position = Vector3(2.8, 0, 4.6)
 rotation_y = 90.0
 

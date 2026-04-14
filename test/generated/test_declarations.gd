@@ -288,6 +288,11 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/garden.tres", "id": "fountain_column_r", "kind": "garden_column_r"},
 		{"room_path": "res://declarations/rooms/garden.tres", "id": "vase_l", "kind": "garden_vase_l"},
 		{"room_path": "res://declarations/rooms/garden.tres", "id": "vase_r", "kind": "garden_vase_r"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "bench_model", "kind": "garden_bench_west"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "gazebo_table", "kind": "garden_gazebo_table"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "bench_north", "kind": "garden_bench_north"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "beds_west", "kind": "garden_beds_west"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "beds_east", "kind": "garden_beds_east"},
 		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_nw", "kind": "chapel_wall_column_fancy"},
 		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_n", "kind": "chapel_wall_center"},
 		{"room_path": "res://declarations/rooms/chapel.tres", "id": "wall_ne", "kind": "chapel_wall_column_fancy"},
@@ -1329,6 +1334,36 @@ func _test_builder_default_contract() -> void:
 	var garden_vase := assembler._build_procedural_prop(garden_vase_decl)
 	_ok("substrate garden vase builds from shared substrate kind", garden_vase != null)
 
+	var garden_bench_decl := PropDecl.new()
+	garden_bench_decl.id = "compat_garden_bench_west"
+	garden_bench_decl.substrate_prop_kind = "garden_bench_west"
+	var garden_bench := assembler._build_procedural_prop(garden_bench_decl)
+	_ok("substrate garden west bench builds from shared substrate kind", garden_bench != null)
+
+	var garden_gazebo_table_decl := PropDecl.new()
+	garden_gazebo_table_decl.id = "compat_garden_gazebo_table"
+	garden_gazebo_table_decl.substrate_prop_kind = "garden_gazebo_table"
+	var garden_gazebo_table := assembler._build_procedural_prop(garden_gazebo_table_decl)
+	_ok("substrate garden gazebo table builds from shared substrate kind", garden_gazebo_table != null)
+
+	var garden_bench_north_decl := PropDecl.new()
+	garden_bench_north_decl.id = "compat_garden_bench_north"
+	garden_bench_north_decl.substrate_prop_kind = "garden_bench_north"
+	var garden_bench_north := assembler._build_procedural_prop(garden_bench_north_decl)
+	_ok("substrate garden north bench builds from shared substrate kind", garden_bench_north != null)
+
+	var garden_beds_west_decl := PropDecl.new()
+	garden_beds_west_decl.id = "compat_garden_beds_west"
+	garden_beds_west_decl.substrate_prop_kind = "garden_beds_west"
+	var garden_beds_west := assembler._build_procedural_prop(garden_beds_west_decl)
+	_ok("substrate garden west flowerbed builds from shared substrate kind", garden_beds_west != null)
+
+	var garden_beds_east_decl := PropDecl.new()
+	garden_beds_east_decl.id = "compat_garden_beds_east"
+	garden_beds_east_decl.substrate_prop_kind = "garden_beds_east"
+	var garden_beds_east := assembler._build_procedural_prop(garden_beds_east_decl)
+	_ok("substrate garden east flowerbed builds from shared substrate kind", garden_beds_east != null)
+
 	var chapel_wall_fancy_decl := PropDecl.new()
 	chapel_wall_fancy_decl.id = "compat_chapel_wall_fancy"
 	chapel_wall_fancy_decl.substrate_prop_kind = "chapel_wall_column_fancy"
@@ -1552,6 +1587,16 @@ func _test_builder_default_contract() -> void:
 		garden_column.free()
 	if garden_vase != null:
 		garden_vase.free()
+	if garden_bench != null:
+		garden_bench.free()
+	if garden_gazebo_table != null:
+		garden_gazebo_table.free()
+	if garden_bench_north != null:
+		garden_bench_north.free()
+	if garden_beds_west != null:
+		garden_beds_west.free()
+	if garden_beds_east != null:
+		garden_beds_east.free()
 	if chapel_wall_fancy != null:
 		chapel_wall_fancy.free()
 	if chapel_wall_center != null:

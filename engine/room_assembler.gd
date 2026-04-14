@@ -99,6 +99,11 @@ const GARDEN_COLUMN_L_MODEL := "res://assets/grounds/garden/column1.glb"
 const GARDEN_COLUMN_R_MODEL := "res://assets/grounds/garden/column2.glb"
 const GARDEN_VASE_L_MODEL := "res://assets/grounds/garden/vase_empty.glb"
 const GARDEN_VASE_R_MODEL := "res://assets/grounds/garden/vase1.glb"
+const GARDEN_BENCH_WEST_MODEL := "res://assets/grounds/garden/bench01.glb"
+const GARDEN_GAZEBO_TABLE_MODEL := "res://assets/grounds/garden/table.glb"
+const GARDEN_BENCH_NORTH_MODEL := "res://assets/grounds/garden/bench02.glb"
+const GARDEN_FLOWERBED_WEST_MODEL := "res://assets/grounds/garden/flowerbed_2x2_empty.glb"
+const GARDEN_FLOWERBED_EAST_MODEL := "res://assets/grounds/garden/flowerbed_1x2_empty.glb"
 const CHAPEL_WALL_COLUMN_FANCY_MODEL := "res://assets/grounds/chapel/plaster_wall_column_fancy.glb"
 const CHAPEL_WALL_MODEL := "res://assets/grounds/chapel/plaster_wall.glb"
 const CHAPEL_WALL_COLUMN_MODEL := "res://assets/grounds/chapel/plaster_wall_column.glb"
@@ -184,6 +189,11 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	GARDEN_COLUMN_R_MODEL: "garden_column_r",
 	GARDEN_VASE_L_MODEL: "garden_vase_l",
 	GARDEN_VASE_R_MODEL: "garden_vase_r",
+	GARDEN_BENCH_WEST_MODEL: "garden_bench_west",
+	GARDEN_GAZEBO_TABLE_MODEL: "garden_gazebo_table",
+	GARDEN_BENCH_NORTH_MODEL: "garden_bench_north",
+	GARDEN_FLOWERBED_WEST_MODEL: "garden_beds_west",
+	GARDEN_FLOWERBED_EAST_MODEL: "garden_beds_east",
 	CHAPEL_WALL_COLUMN_FANCY_MODEL: "chapel_wall_column_fancy",
 	CHAPEL_WALL_MODEL: "chapel_wall_center",
 	CHAPEL_WALL_COLUMN_MODEL: "chapel_wall_column",
@@ -1243,6 +1253,16 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(GARDEN_VASE_L_MODEL, prop_decl)
 	if substrate_kind == "garden_vase_r":
 		return _instantiate_substrate_scene(GARDEN_VASE_R_MODEL, prop_decl)
+	if substrate_kind == "garden_bench_west":
+		return _instantiate_substrate_scene(GARDEN_BENCH_WEST_MODEL, prop_decl)
+	if substrate_kind == "garden_gazebo_table":
+		return _instantiate_substrate_scene(GARDEN_GAZEBO_TABLE_MODEL, prop_decl)
+	if substrate_kind == "garden_bench_north":
+		return _instantiate_substrate_scene(GARDEN_BENCH_NORTH_MODEL, prop_decl)
+	if substrate_kind == "garden_beds_west":
+		return _instantiate_substrate_scene(GARDEN_FLOWERBED_WEST_MODEL, prop_decl)
+	if substrate_kind == "garden_beds_east":
+		return _instantiate_substrate_scene(GARDEN_FLOWERBED_EAST_MODEL, prop_decl)
 	if substrate_kind == "chapel_wall_column_fancy":
 		return _instantiate_substrate_scene(CHAPEL_WALL_COLUMN_FANCY_MODEL, prop_decl)
 	if substrate_kind == "chapel_wall_center":

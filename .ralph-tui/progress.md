@@ -1351,6 +1351,14 @@ after each iteration and it's included in prompts for context.
     `statue_left`, `statue_right`,
     `front_steps_statue_left`, `front_steps_statue_right`,
     `drive_upper_statue_left`, and `drive_upper_statue_right`
+- The garden shell furnishing/bed set is now migrated too:
+  - `bench01.glb` -> `garden_bench_west`
+  - `table.glb` -> `garden_gazebo_table`
+  - `bench02.glb` -> `garden_bench_north`
+  - `flowerbed_2x2_empty.glb` -> `garden_beds_west`
+  - `flowerbed_1x2_empty.glb` -> `garden_beds_east`
+  - affected authored props:
+    `bench_model`, `gazebo_table`, `bench_north`, `beds_west`, and `beds_east`
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload
