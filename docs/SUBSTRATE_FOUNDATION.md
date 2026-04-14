@@ -538,3 +538,6 @@ changes between `adult/child` and `elder` route contexts.
   `greenhouse_bottle_secondary`, and `greenhouse_bucket_center`.
 - The remaining alternate greenhouse bucket variant is now aligned too:
   `bucket_mx_3.glb` -> `greenhouse_bucket_large` for `bucket_right`.
+- The repeated forecourt statue family is now substrate-owned too:
+  `statue.glb` -> `forecourt_statue` across the front-gate, front-steps, and
+  drive-upper exterior approach rooms.

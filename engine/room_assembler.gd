@@ -113,6 +113,7 @@ const GREENHOUSE_NATURE_CLUSTER_MODEL := "res://assets/grounds/greenhouse/nature
 const GREENHOUSE_BUCKET_SMALL_MODEL := "res://assets/grounds/greenhouse/bucket_mx_2.glb"
 const GREENHOUSE_BUCKET_LARGE_MODEL := "res://assets/grounds/greenhouse/bucket_mx_3.glb"
 const GREENHOUSE_BOTTLE_MODEL := "res://assets/grounds/greenhouse/glass_bottle_mx_2.glb"
+const FORECOURT_STATUE_MODEL := "res://assets/shared/decor/statue.glb"
 const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PROCEDURAL_WINDOW_MODEL: "window_frame",
 	PROCEDURAL_WINDOW_RAY_MODEL: "window_ray",
@@ -197,6 +198,7 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	GREENHOUSE_BUCKET_SMALL_MODEL: "greenhouse_bucket_small",
 	GREENHOUSE_BUCKET_LARGE_MODEL: "greenhouse_bucket_large",
 	GREENHOUSE_BOTTLE_MODEL: "greenhouse_bottle",
+	FORECOURT_STATUE_MODEL: "forecourt_statue",
 }
 
 
@@ -1269,6 +1271,8 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(GREENHOUSE_BUCKET_LARGE_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_bottle":
 		return _instantiate_substrate_scene(GREENHOUSE_BOTTLE_MODEL, prop_decl)
+	if substrate_kind == "forecourt_statue":
+		return _instantiate_substrate_scene(FORECOURT_STATUE_MODEL, prop_decl)
 	if prop_decl.tags.has("procedural_moon"):
 		var moon := MeshInstance3D.new()
 		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"

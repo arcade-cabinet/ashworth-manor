@@ -262,6 +262,8 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "gate_lamp_off", "kind": "front_gate_lamp"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "facade_lamp_left", "kind": "front_gate_lamp"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "facade_lamp_right", "kind": "front_gate_lamp"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "statue_left", "kind": "forecourt_statue"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "statue_right", "kind": "forecourt_statue"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "facade_chimney_left", "kind": "front_gate_chimney_left"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "facade_chimney_right", "kind": "front_gate_chimney_right"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "front_gate_main_road", "kind": "carriage_road"},
@@ -329,7 +331,11 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_facade_door", "kind": "front_door_assembly"},
 		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_facade_lamp_left", "kind": "front_gate_lamp"},
 		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_facade_lamp_right", "kind": "front_gate_lamp"},
+		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_statue_left", "kind": "forecourt_statue"},
+		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_statue_right", "kind": "forecourt_statue"},
 		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_rocks", "kind": "front_gate_rocks"},
+		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_statue_left", "kind": "forecourt_statue"},
+		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_statue_right", "kind": "forecourt_statue"},
 	]
 	for entry in repeated_props:
 		var room = load(String(entry["room_path"]))
@@ -1407,6 +1413,12 @@ func _test_builder_default_contract() -> void:
 	var greenhouse_bottle := assembler._build_procedural_prop(greenhouse_bottle_decl)
 	_ok("substrate greenhouse bottle fixture builds from shared substrate kind", greenhouse_bottle != null)
 
+	var forecourt_statue_decl := PropDecl.new()
+	forecourt_statue_decl.id = "compat_forecourt_statue"
+	forecourt_statue_decl.substrate_prop_kind = "forecourt_statue"
+	var forecourt_statue := assembler._build_procedural_prop(forecourt_statue_decl)
+	_ok("substrate forecourt statue builds from shared substrate kind", forecourt_statue != null)
+
 	var greenhouse_pedestal_decl := PropDecl.new()
 	greenhouse_pedestal_decl.id = "compat_greenhouse_pedestal"
 	greenhouse_pedestal_decl.substrate_prop_kind = "greenhouse_pedestal"
@@ -1568,6 +1580,8 @@ func _test_builder_default_contract() -> void:
 		greenhouse_bucket_large.free()
 	if greenhouse_bottle != null:
 		greenhouse_bottle.free()
+	if forecourt_statue != null:
+		forecourt_statue.free()
 	if greenhouse_pedestal != null:
 		greenhouse_pedestal.free()
 	if mounted_sign != null:

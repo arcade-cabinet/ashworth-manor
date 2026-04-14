@@ -1004,6 +1004,10 @@ independent execution drivers:
   - the remaining alternate greenhouse bucket moved too:
     `bucket_right` now uses `greenhouse_bucket_large` instead of the raw
     `bucket_mx_3.glb` model path
+  - the repeated forecourt statue family moved too:
+    the common `statue.glb` props in `front_gate`, `front_steps`, and
+    `drive_upper` now author through `forecourt_statue` instead of raw shared
+    model paths
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

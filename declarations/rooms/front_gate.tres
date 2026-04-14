@@ -1158,7 +1158,7 @@ scale = 0.72
 [sub_resource type="Resource" id="prop_statue_left"]
 script = ExtResource("5")
 id = "statue_left"
-model = "res://assets/shared/decor/statue.glb"
+substrate_prop_kind = "forecourt_statue"
 position = Vector3(-8.8, 1.0, 6.2)
 rotation_y = 14.0
 scale = 0.58
@@ -1174,7 +1174,7 @@ scale = 0.72
 [sub_resource type="Resource" id="prop_statue_right"]
 script = ExtResource("5")
 id = "statue_right"
-model = "res://assets/shared/decor/statue.glb"
+substrate_prop_kind = "forecourt_statue"
 position = Vector3(8.9, 1.0, 6.4)
 rotation_y = -12.0
 scale = 0.58

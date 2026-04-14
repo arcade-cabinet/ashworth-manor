@@ -1345,6 +1345,12 @@ after each iteration and it's included in prompts for context.
 - The remaining alternate greenhouse bucket is now migrated too:
   - `bucket_mx_3.glb` -> `greenhouse_bucket_large`
   - affected authored prop: `bucket_right`
+- The repeated forecourt statue family is now migrated too:
+  - `statue.glb` -> `forecourt_statue`
+  - affected authored props:
+    `statue_left`, `statue_right`,
+    `front_steps_statue_left`, `front_steps_statue_right`,
+    `drive_upper_statue_left`, and `drive_upper_statue_right`
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload
