@@ -83,6 +83,22 @@ const FAMILY_CRYPT_WALL_CAPPED_MODEL := "res://assets/grounds/family_crypt/dryst
 const FAMILY_CRYPT_WALL_MODEL := "res://assets/grounds/family_crypt/drystone_wall.glb"
 const FAMILY_CRYPT_FENCE_MODEL := "res://assets/grounds/family_crypt/metal_fence_1.glb"
 const FAMILY_CRYPT_COLUMN_MODEL := "res://assets/grounds/family_crypt/drystone_column.glb"
+const GARDEN_FOUNTAIN_MODEL := "res://assets/grounds/garden/fountain01_round.glb"
+const GARDEN_FOUNTAIN_WATER_MODEL := "res://assets/grounds/garden/fountain01_round_water.glb"
+const GARDEN_GAZEBO_MODEL := "res://assets/grounds/garden/gazebo.glb"
+const GARDEN_PATH_WEST_MODEL := "res://assets/grounds/garden/basic_5x1.glb"
+const GARDEN_PATH_CENTER_MODEL := "res://assets/grounds/garden/basic_3x1.glb"
+const GARDEN_PATH_NORTH_MODEL := "res://assets/grounds/garden/basic_1x3.glb"
+const GARDEN_PATH_CRYPT_MODEL := "res://assets/grounds/garden/basic_2x1.glb"
+const GARDEN_NORTH_WALL_W_MODEL := "res://assets/grounds/garden/stone_wall2.glb"
+const GARDEN_NORTH_WALL_E_MODEL := "res://assets/grounds/garden/stone_wall1.glb"
+const GARDEN_EAST_WALL_S_MODEL := "res://assets/grounds/garden/stone_wall3.glb"
+const GARDEN_EAST_WALL_N_MODEL := "res://assets/grounds/garden/stone_wall4.glb"
+const GARDEN_CORNER_NE_MODEL := "res://assets/grounds/garden/stone_corner.glb"
+const GARDEN_COLUMN_L_MODEL := "res://assets/grounds/garden/column1.glb"
+const GARDEN_COLUMN_R_MODEL := "res://assets/grounds/garden/column2.glb"
+const GARDEN_VASE_L_MODEL := "res://assets/grounds/garden/vase_empty.glb"
+const GARDEN_VASE_R_MODEL := "res://assets/grounds/garden/vase1.glb"
 const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PROCEDURAL_WINDOW_MODEL: "window_frame",
 	PROCEDURAL_WINDOW_RAY_MODEL: "window_ray",
@@ -137,6 +153,22 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	FAMILY_CRYPT_WALL_MODEL: "family_crypt_wall",
 	FAMILY_CRYPT_FENCE_MODEL: "family_crypt_fence_run",
 	FAMILY_CRYPT_COLUMN_MODEL: "family_crypt_grave_marker",
+	GARDEN_FOUNTAIN_MODEL: "garden_fountain_base",
+	GARDEN_FOUNTAIN_WATER_MODEL: "garden_fountain_water",
+	GARDEN_GAZEBO_MODEL: "garden_gazebo_shell",
+	GARDEN_PATH_WEST_MODEL: "garden_path_west",
+	GARDEN_PATH_CENTER_MODEL: "garden_path_center",
+	GARDEN_PATH_NORTH_MODEL: "garden_path_north",
+	GARDEN_PATH_CRYPT_MODEL: "garden_path_crypt",
+	GARDEN_NORTH_WALL_W_MODEL: "garden_north_wall_w",
+	GARDEN_NORTH_WALL_E_MODEL: "garden_north_wall_e",
+	GARDEN_EAST_WALL_S_MODEL: "garden_east_wall_s",
+	GARDEN_EAST_WALL_N_MODEL: "garden_east_wall_n",
+	GARDEN_CORNER_NE_MODEL: "garden_corner_ne",
+	GARDEN_COLUMN_L_MODEL: "garden_column_l",
+	GARDEN_COLUMN_R_MODEL: "garden_column_r",
+	GARDEN_VASE_L_MODEL: "garden_vase_l",
+	GARDEN_VASE_R_MODEL: "garden_vase_r",
 }
 
 
@@ -1149,6 +1181,38 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(FAMILY_CRYPT_FENCE_MODEL, prop_decl)
 	if substrate_kind == "family_crypt_grave_marker":
 		return _instantiate_substrate_scene(FAMILY_CRYPT_COLUMN_MODEL, prop_decl)
+	if substrate_kind == "garden_fountain_base":
+		return _instantiate_substrate_scene(GARDEN_FOUNTAIN_MODEL, prop_decl)
+	if substrate_kind == "garden_fountain_water":
+		return _instantiate_substrate_scene(GARDEN_FOUNTAIN_WATER_MODEL, prop_decl)
+	if substrate_kind == "garden_gazebo_shell":
+		return _instantiate_substrate_scene(GARDEN_GAZEBO_MODEL, prop_decl)
+	if substrate_kind == "garden_path_west":
+		return _instantiate_substrate_scene(GARDEN_PATH_WEST_MODEL, prop_decl)
+	if substrate_kind == "garden_path_center":
+		return _instantiate_substrate_scene(GARDEN_PATH_CENTER_MODEL, prop_decl)
+	if substrate_kind == "garden_path_north":
+		return _instantiate_substrate_scene(GARDEN_PATH_NORTH_MODEL, prop_decl)
+	if substrate_kind == "garden_path_crypt":
+		return _instantiate_substrate_scene(GARDEN_PATH_CRYPT_MODEL, prop_decl)
+	if substrate_kind == "garden_north_wall_w":
+		return _instantiate_substrate_scene(GARDEN_NORTH_WALL_W_MODEL, prop_decl)
+	if substrate_kind == "garden_north_wall_e":
+		return _instantiate_substrate_scene(GARDEN_NORTH_WALL_E_MODEL, prop_decl)
+	if substrate_kind == "garden_east_wall_s":
+		return _instantiate_substrate_scene(GARDEN_EAST_WALL_S_MODEL, prop_decl)
+	if substrate_kind == "garden_east_wall_n":
+		return _instantiate_substrate_scene(GARDEN_EAST_WALL_N_MODEL, prop_decl)
+	if substrate_kind == "garden_corner_ne":
+		return _instantiate_substrate_scene(GARDEN_CORNER_NE_MODEL, prop_decl)
+	if substrate_kind == "garden_column_l":
+		return _instantiate_substrate_scene(GARDEN_COLUMN_L_MODEL, prop_decl)
+	if substrate_kind == "garden_column_r":
+		return _instantiate_substrate_scene(GARDEN_COLUMN_R_MODEL, prop_decl)
+	if substrate_kind == "garden_vase_l":
+		return _instantiate_substrate_scene(GARDEN_VASE_L_MODEL, prop_decl)
+	if substrate_kind == "garden_vase_r":
+		return _instantiate_substrate_scene(GARDEN_VASE_R_MODEL, prop_decl)
 	if prop_decl.tags.has("procedural_moon"):
 		var moon := MeshInstance3D.new()
 		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"

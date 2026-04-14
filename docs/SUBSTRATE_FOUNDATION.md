@@ -182,6 +182,13 @@ through substrate kinds (`family_crypt_wall_capped`, `family_crypt_wall`,
 grounds model paths. That keeps repeated burial-grounds structure on the same
 substrate path as gates, boundary walls, and other exterior architecture.
 
+The garden shell is now following that same path too. The fountain base and
+water, gazebo shell, path segments, perimeter wall runs, northeast corner,
+fountain columns, and vases now author through garden-specific substrate kinds
+instead of direct grounds model paths. This keeps the repeated exterior shell
+grammar for the garden under the same builder-owned contract as the crypt and
+front approach.
+
 The same rule is now being applied to the repeated grounds scene kit.
 Common gate/boundary pieces (`gate_post`, `gate_post_stone`, `boundary_wall`,
 `iron_gate_closed`, and `fence_run`) now author as `substrate_prop_kind`

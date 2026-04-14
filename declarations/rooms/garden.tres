@@ -223,13 +223,13 @@ flicker_pattern = "candle"
 [sub_resource type="Resource" id="prop_fountain_model"]
 script = ExtResource("5")
 id = "fountain_model"
-model = "res://assets/grounds/garden/fountain01_round.glb"
+substrate_prop_kind = "garden_fountain_base"
 position = Vector3(0, 0, 0)
 
 [sub_resource type="Resource" id="prop_fountain_ice"]
 script = ExtResource("5")
 id = "fountain_ice"
-model = "res://assets/grounds/garden/fountain01_round_water.glb"
+substrate_prop_kind = "garden_fountain_water"
 position = Vector3(0, 0, 0)
 
 [sub_resource type="Resource" id="prop_bench_model"]
@@ -241,7 +241,7 @@ position = Vector3(-6, 0, -4)
 [sub_resource type="Resource" id="prop_gazebo_model"]
 script = ExtResource("5")
 id = "gazebo_model"
-model = "res://assets/grounds/garden/gazebo.glb"
+substrate_prop_kind = "garden_gazebo_shell"
 position = Vector3(-5, 0, -4)
 
 [sub_resource type="Resource" id="prop_gazebo_table"]
@@ -273,85 +273,85 @@ rotation_y = 90.0
 [sub_resource type="Resource" id="prop_path_west"]
 script = ExtResource("5")
 id = "path_west"
-model = "res://assets/grounds/garden/basic_5x1.glb"
+substrate_prop_kind = "garden_path_west"
 position = Vector3(-5, 0, 0)
 
 [sub_resource type="Resource" id="prop_path_center"]
 script = ExtResource("5")
 id = "path_center"
-model = "res://assets/grounds/garden/basic_3x1.glb"
+substrate_prop_kind = "garden_path_center"
 position = Vector3(-1, 0, 0)
 
 [sub_resource type="Resource" id="prop_path_north"]
 script = ExtResource("5")
 id = "path_north"
-model = "res://assets/grounds/garden/basic_1x3.glb"
+substrate_prop_kind = "garden_path_north"
 position = Vector3(0, 0, 4.5)
 
 [sub_resource type="Resource" id="prop_path_chapel"]
 script = ExtResource("5")
 id = "path_chapel"
-model = "res://assets/grounds/garden/basic_3x1.glb"
+substrate_prop_kind = "garden_path_center"
 position = Vector3(5.0, 0, 5.0)
 
 [sub_resource type="Resource" id="prop_path_crypt"]
 script = ExtResource("5")
 id = "path_crypt"
-model = "res://assets/grounds/garden/basic_2x1.glb"
+substrate_prop_kind = "garden_path_crypt"
 position = Vector3(5.0, 0, 7.0)
 
 [sub_resource type="Resource" id="prop_north_wall_w"]
 script = ExtResource("5")
 id = "north_wall_w"
-model = "res://assets/grounds/garden/stone_wall2.glb"
+substrate_prop_kind = "garden_north_wall_w"
 position = Vector3(-5.5, 0, 8.0)
 
 [sub_resource type="Resource" id="prop_north_wall_e"]
 script = ExtResource("5")
 id = "north_wall_e"
-model = "res://assets/grounds/garden/stone_wall1.glb"
+substrate_prop_kind = "garden_north_wall_e"
 position = Vector3(2.5, 0, 8.0)
 
 [sub_resource type="Resource" id="prop_east_wall_s"]
 script = ExtResource("5")
 id = "east_wall_s"
-model = "res://assets/grounds/garden/stone_wall3.glb"
+substrate_prop_kind = "garden_east_wall_s"
 position = Vector3(8.0, 0, 1.0)
 
 [sub_resource type="Resource" id="prop_east_wall_n"]
 script = ExtResource("5")
 id = "east_wall_n"
-model = "res://assets/grounds/garden/stone_wall4.glb"
+substrate_prop_kind = "garden_east_wall_n"
 position = Vector3(8.0, 0, 7.0)
 
 [sub_resource type="Resource" id="prop_corner_ne"]
 script = ExtResource("5")
 id = "corner_ne"
-model = "res://assets/grounds/garden/stone_corner.glb"
+substrate_prop_kind = "garden_corner_ne"
 position = Vector3(8.0, 0, 8.0)
 
 [sub_resource type="Resource" id="prop_column_l"]
 script = ExtResource("5")
 id = "fountain_column_l"
-model = "res://assets/grounds/garden/column1.glb"
+substrate_prop_kind = "garden_column_l"
 position = Vector3(-2.5, 0, -0.8)
 
 [sub_resource type="Resource" id="prop_column_r"]
 script = ExtResource("5")
 id = "fountain_column_r"
-model = "res://assets/grounds/garden/column2.glb"
+substrate_prop_kind = "garden_column_r"
 position = Vector3(2.5, 0, 0.8)
 
 [sub_resource type="Resource" id="prop_vase_l"]
 script = ExtResource("5")
 id = "vase_l"
-model = "res://assets/grounds/garden/vase_empty.glb"
+substrate_prop_kind = "garden_vase_l"
 position = Vector3(-2.5, 1.1, -0.8)
 
 [sub_resource type="Resource" id="prop_vase_r"]
 script = ExtResource("5")
 id = "vase_r"
-model = "res://assets/grounds/garden/vase1.glb"
+substrate_prop_kind = "garden_vase_r"
 position = Vector3(2.5, 1.1, 0.8)
 
 [sub_resource type="Resource" id="prop_crypt_pillar_l"]

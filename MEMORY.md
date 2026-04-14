@@ -980,6 +980,11 @@ independent execution drivers:
     `wall_n`, `wall_w`, `wall_e`, `fence_w`, `fence_e`, `grave_edmund`,
     `grave_victoria`, and `grave_blank` now author through substrate kinds
     instead of direct `drystone_*` / `metal_fence_1` model paths
+  - the garden shell kit moved too:
+    `fountain_model`, `fountain_ice`, `gazebo_model`, the repeated path
+    segments, the perimeter wall/corner pieces, and the fountain columns/vases
+    now author through garden-specific substrate kinds instead of direct
+    grounds model paths
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

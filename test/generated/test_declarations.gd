@@ -255,6 +255,23 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "front_gate_starfield", "kind": "starfield"},
 		{"room_path": "res://declarations/rooms/garden.tres", "id": "crypt_pillar_l", "kind": "gate_post_stone"},
 		{"room_path": "res://declarations/rooms/garden.tres", "id": "crypt_gate", "kind": "iron_gate_closed"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "fountain_model", "kind": "garden_fountain_base"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "fountain_ice", "kind": "garden_fountain_water"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "gazebo_model", "kind": "garden_gazebo_shell"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "path_west", "kind": "garden_path_west"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "path_center", "kind": "garden_path_center"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "path_north", "kind": "garden_path_north"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "path_chapel", "kind": "garden_path_center"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "path_crypt", "kind": "garden_path_crypt"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "north_wall_w", "kind": "garden_north_wall_w"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "north_wall_e", "kind": "garden_north_wall_e"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "east_wall_s", "kind": "garden_east_wall_s"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "east_wall_n", "kind": "garden_east_wall_n"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "corner_ne", "kind": "garden_corner_ne"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "fountain_column_l", "kind": "garden_column_l"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "fountain_column_r", "kind": "garden_column_r"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "vase_l", "kind": "garden_vase_l"},
+		{"room_path": "res://declarations/rooms/garden.tres", "id": "vase_r", "kind": "garden_vase_r"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "gate_column_l", "kind": "gate_post_stone"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "crypt_gate_prop", "kind": "iron_gate_closed"},
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "wall_n", "kind": "family_crypt_wall_capped"},
@@ -1225,6 +1242,54 @@ func _test_builder_default_contract() -> void:
 	var crypt_grave := assembler._build_procedural_prop(crypt_grave_decl)
 	_ok("substrate family-crypt grave marker builds from shared substrate kind", crypt_grave != null)
 
+	var garden_fountain_decl := PropDecl.new()
+	garden_fountain_decl.id = "compat_garden_fountain_base"
+	garden_fountain_decl.substrate_prop_kind = "garden_fountain_base"
+	var garden_fountain := assembler._build_procedural_prop(garden_fountain_decl)
+	_ok("substrate garden fountain base builds from shared substrate kind", garden_fountain != null)
+
+	var garden_water_decl := PropDecl.new()
+	garden_water_decl.id = "compat_garden_fountain_water"
+	garden_water_decl.substrate_prop_kind = "garden_fountain_water"
+	var garden_water := assembler._build_procedural_prop(garden_water_decl)
+	_ok("substrate garden fountain water builds from shared substrate kind", garden_water != null)
+
+	var garden_gazebo_decl := PropDecl.new()
+	garden_gazebo_decl.id = "compat_garden_gazebo_shell"
+	garden_gazebo_decl.substrate_prop_kind = "garden_gazebo_shell"
+	var garden_gazebo := assembler._build_procedural_prop(garden_gazebo_decl)
+	_ok("substrate garden gazebo shell builds from shared substrate kind", garden_gazebo != null)
+
+	var garden_path_decl := PropDecl.new()
+	garden_path_decl.id = "compat_garden_path_center"
+	garden_path_decl.substrate_prop_kind = "garden_path_center"
+	var garden_path := assembler._build_procedural_prop(garden_path_decl)
+	_ok("substrate garden path segment builds from shared substrate kind", garden_path != null)
+
+	var garden_wall_decl := PropDecl.new()
+	garden_wall_decl.id = "compat_garden_north_wall_w"
+	garden_wall_decl.substrate_prop_kind = "garden_north_wall_w"
+	var garden_wall := assembler._build_procedural_prop(garden_wall_decl)
+	_ok("substrate garden wall segment builds from shared substrate kind", garden_wall != null)
+
+	var garden_corner_decl := PropDecl.new()
+	garden_corner_decl.id = "compat_garden_corner_ne"
+	garden_corner_decl.substrate_prop_kind = "garden_corner_ne"
+	var garden_corner := assembler._build_procedural_prop(garden_corner_decl)
+	_ok("substrate garden corner builds from shared substrate kind", garden_corner != null)
+
+	var garden_column_decl := PropDecl.new()
+	garden_column_decl.id = "compat_garden_column_l"
+	garden_column_decl.substrate_prop_kind = "garden_column_l"
+	var garden_column := assembler._build_procedural_prop(garden_column_decl)
+	_ok("substrate garden column builds from shared substrate kind", garden_column != null)
+
+	var garden_vase_decl := PropDecl.new()
+	garden_vase_decl.id = "compat_garden_vase_l"
+	garden_vase_decl.substrate_prop_kind = "garden_vase_l"
+	var garden_vase := assembler._build_procedural_prop(garden_vase_decl)
+	_ok("substrate garden vase builds from shared substrate kind", garden_vase != null)
+
 	var greenhouse_pedestal_decl := PropDecl.new()
 	greenhouse_pedestal_decl.id = "compat_greenhouse_pedestal"
 	greenhouse_pedestal_decl.substrate_prop_kind = "greenhouse_pedestal"
@@ -1342,6 +1407,22 @@ func _test_builder_default_contract() -> void:
 		crypt_fence.free()
 	if crypt_grave != null:
 		crypt_grave.free()
+	if garden_fountain != null:
+		garden_fountain.free()
+	if garden_water != null:
+		garden_water.free()
+	if garden_gazebo != null:
+		garden_gazebo.free()
+	if garden_path != null:
+		garden_path.free()
+	if garden_wall != null:
+		garden_wall.free()
+	if garden_corner != null:
+		garden_corner.free()
+	if garden_column != null:
+		garden_column.free()
+	if garden_vase != null:
+		garden_vase.free()
 	if greenhouse_pedestal != null:
 		greenhouse_pedestal.free()
 	if mounted_sign != null:

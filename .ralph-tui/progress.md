@@ -1305,6 +1305,17 @@ after each iteration and it's included in prompts for context.
   - `metal_fence_1.glb` -> `family_crypt_fence_run`
   - `drystone_column.glb` -> `family_crypt_grave_marker`
   - affected room: `family_crypt`
+- The garden shell kit is now migrated too:
+  - `fountain01_round.glb` -> `garden_fountain_base`
+  - `fountain01_round_water.glb` -> `garden_fountain_water`
+  - `gazebo.glb` -> `garden_gazebo_shell`
+  - `basic_5x1.glb` -> `garden_path_west`
+  - `basic_3x1.glb` -> `garden_path_center`
+  - `basic_1x3.glb` -> `garden_path_north`
+  - `basic_2x1.glb` -> `garden_path_crypt`
+  - `stone_wall1-4.glb` / `stone_corner.glb` -> garden wall/corner substrate kinds
+  - `column1.glb` / `column2.glb` / `vase_empty.glb` / `vase1.glb` -> garden column/vase substrate kinds
+  - affected room: `garden`
 - Verification after the waiver-contract pass:
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
