@@ -186,6 +186,19 @@ gate family. It is authored as a substrate kind rather than a direct shared
 grounds scene path, keeping the remaining front-gate declaration authoring
 consistent with the rest of the substrate sweep.
 
+That same declaration cleanup now covers the repeated raw front-gate approach
+imports too. The common estate-approach lamp, winter tree, winter bush, rocks,
+and angled iron-gate leaf are now authored through `substrate_prop_kind`
+instead of direct `.glb` model paths in `front_gate`, `front_steps`,
+`drive_lower`, and `drive_upper`. `RoomAssembler` owns those repeated grounds
+ids as substrate kinds, and the declaration suite now proves both the authored
+migrations and the builder-default path.
+
+The front-gate room resource itself is now stricter too. Those migrated
+grounds props are no longer dead subresources sitting outside the room payload;
+they are wired into the actual `props` array, so the runtime scene and the
+declaration contract finally agree about what the opening approach contains.
+
 That contract is now also enforced directly in the declaration suite. The suite
 contains explicit builder-default coverage proving that:
 

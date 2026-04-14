@@ -254,7 +254,7 @@ scale_3d = Vector3(1.0, 1.0, 1.0)
 [sub_resource type="Resource" id="prop_drive_upper_facade_lamp_left"]
 script = ExtResource("5")
 id = "drive_upper_facade_lamp_left"
-model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+substrate_prop_kind = "front_gate_lamp"
 position = Vector3(-2.25, 0, 8.1)
 rotation_y = 8.0
 scale = 0.74
@@ -262,7 +262,7 @@ scale = 0.74
 [sub_resource type="Resource" id="prop_drive_upper_facade_lamp_right"]
 script = ExtResource("5")
 id = "drive_upper_facade_lamp_right"
-model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+substrate_prop_kind = "front_gate_lamp"
 position = Vector3(2.25, 0, 8.1)
 rotation_y = -8.0
 scale = 0.74
@@ -302,7 +302,7 @@ scale = 0.58
 [sub_resource type="Resource" id="prop_rocks"]
 script = ExtResource("5")
 id = "drive_upper_rocks"
-model = "res://assets/grounds/front_gate/rocks.glb"
+substrate_prop_kind = "front_gate_rocks"
 position = Vector3(-10.1, 0, 5.4)
 
 [sub_resource type="Resource" id="prop_drive_upper_starfield"]

@@ -471,7 +471,7 @@ scale_3d = Vector3(0.94, 1.0, 1.0)
 [sub_resource type="Resource" id="prop_gate_center_r"]
 script = ExtResource("5")
 id = "iron_gate_center_r"
-model = "res://assets/grounds/front_gate/iron_gate.glb"
+substrate_prop_kind = "iron_gate_leaf_angled"
 position = Vector3(3.0, 0, 0.15)
 rotation_y = 242.0
 scale = 0.56
@@ -479,14 +479,14 @@ scale = 0.56
 [sub_resource type="Resource" id="prop_tree1"]
 script = ExtResource("5")
 id = "tree1"
-model = "res://assets/grounds/front_gate/tree01_winter.glb"
+substrate_prop_kind = "front_gate_tree_01"
 position = Vector3(-6.7, 0, -13.8)
 scale = 1.04
 
 [sub_resource type="Resource" id="prop_tree2"]
 script = ExtResource("5")
 id = "tree2"
-model = "res://assets/grounds/front_gate/tree02_winter.glb"
+substrate_prop_kind = "front_gate_tree_02"
 position = Vector3(6.8, 0, -13.1)
 rotation_y = 30.0
 scale = 1.04
@@ -494,7 +494,7 @@ scale = 1.04
 [sub_resource type="Resource" id="prop_tree3"]
 script = ExtResource("5")
 id = "tree3"
-model = "res://assets/grounds/front_gate/tree03_winter.glb"
+substrate_prop_kind = "front_gate_tree_03"
 position = Vector3(-9.6, 0, -20.1)
 rotation_y = -24.0
 scale = 0.96
@@ -502,7 +502,7 @@ scale = 0.96
 [sub_resource type="Resource" id="prop_tree4"]
 script = ExtResource("5")
 id = "tree4"
-model = "res://assets/grounds/front_gate/tree04_winter.glb"
+substrate_prop_kind = "front_gate_tree_04"
 position = Vector3(9.8, 0, -19.6)
 rotation_y = 44.0
 scale = 0.96
@@ -510,7 +510,7 @@ scale = 0.96
 [sub_resource type="Resource" id="prop_tree5"]
 script = ExtResource("5")
 id = "tree5"
-model = "res://assets/grounds/front_gate/tree01_winter.glb"
+substrate_prop_kind = "front_gate_tree_01"
 position = Vector3(-16.0, 0, 15.2)
 rotation_y = 20.0
 scale = 0.72
@@ -518,7 +518,7 @@ scale = 0.72
 [sub_resource type="Resource" id="prop_tree6"]
 script = ExtResource("5")
 id = "tree6"
-model = "res://assets/grounds/front_gate/tree02_winter.glb"
+substrate_prop_kind = "front_gate_tree_02"
 position = Vector3(16.1, 0, 15.6)
 rotation_y = -35.0
 scale = 0.76
@@ -526,7 +526,7 @@ scale = 0.76
 [sub_resource type="Resource" id="prop_tree7"]
 script = ExtResource("5")
 id = "tree7"
-model = "res://assets/grounds/front_gate/tree03_winter.glb"
+substrate_prop_kind = "front_gate_tree_03"
 position = Vector3(15.1, 0, 5.3)
 rotation_y = 40.0
 scale = 0.88
@@ -534,21 +534,21 @@ scale = 0.88
 [sub_resource type="Resource" id="prop_bush1"]
 script = ExtResource("5")
 id = "bush1"
-model = "res://assets/grounds/front_gate/bush01_winter.glb"
+substrate_prop_kind = "front_gate_bush_01"
 position = Vector3(-4.4, 0, -11.8)
 scale = 0.92
 
 [sub_resource type="Resource" id="prop_bush2"]
 script = ExtResource("5")
 id = "bush2"
-model = "res://assets/grounds/front_gate/bush02_winter.glb"
+substrate_prop_kind = "front_gate_bush_02"
 position = Vector3(4.6, 0, -11.2)
 scale = 0.92
 
 [sub_resource type="Resource" id="prop_bush3"]
 script = ExtResource("5")
 id = "bush3"
-model = "res://assets/grounds/front_gate/bush03_winter.glb"
+substrate_prop_kind = "front_gate_bush_03"
 position = Vector3(-3.2, 0, -12.6)
 rotation_y = -8.0
 scale = 0.94
@@ -556,7 +556,7 @@ scale = 0.94
 [sub_resource type="Resource" id="prop_bush4"]
 script = ExtResource("5")
 id = "bush4"
-model = "res://assets/grounds/front_gate/bush04_winter.glb"
+substrate_prop_kind = "front_gate_bush_04"
 position = Vector3(6.9, 0, 2.4)
 rotation_y = 18.0
 scale = 0.94
@@ -564,7 +564,7 @@ scale = 0.94
 [sub_resource type="Resource" id="prop_bush5"]
 script = ExtResource("5")
 id = "bush5"
-model = "res://assets/grounds/front_gate/bush01_winter.glb"
+substrate_prop_kind = "front_gate_bush_01"
 position = Vector3(-10.8, 0, -16.2)
 rotation_y = -10.0
 scale = 0.76
@@ -572,7 +572,7 @@ scale = 0.76
 [sub_resource type="Resource" id="prop_bush6"]
 script = ExtResource("5")
 id = "bush6"
-model = "res://assets/grounds/front_gate/bush02_winter.glb"
+substrate_prop_kind = "front_gate_bush_02"
 position = Vector3(11.1, 0, -16.0)
 rotation_y = 35.0
 scale = 0.76
@@ -731,13 +731,13 @@ scale = 1.08
 [sub_resource type="Resource" id="prop_rocks"]
 script = ExtResource("5")
 id = "rocks"
-model = "res://assets/grounds/front_gate/rocks.glb"
+substrate_prop_kind = "front_gate_rocks"
 position = Vector3(-10.1, 0, 10.9)
 
 [sub_resource type="Resource" id="prop_off_lamp"]
 script = ExtResource("5")
 id = "gate_lamp_off"
-model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+substrate_prop_kind = "front_gate_lamp"
 position = Vector3(3.2, 0, -0.98)
 
 [sub_resource type="Resource" id="prop_moon_disc"]
@@ -790,7 +790,7 @@ script = ExtResource("12")
 payload_id = "gate_lamp_off_payload"
 slot_id = "gate_lamp_anchor"
 scene_role = "clue_dressing"
-model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+substrate_prop_kind = "front_gate_lamp"
 offset = Vector3(0, 0, -0.02)
 
 [sub_resource type="Resource" id="prop_drive_stone_1"]
@@ -1131,7 +1131,7 @@ scale = 1.06
 [sub_resource type="Resource" id="prop_facade_lamp_left"]
 script = ExtResource("5")
 id = "facade_lamp_left"
-model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+substrate_prop_kind = "front_gate_lamp"
 position = Vector3(-2.2, 0, 11.66)
 rotation_y = 8.0
 scale = 0.76
@@ -1139,7 +1139,7 @@ scale = 0.76
 [sub_resource type="Resource" id="prop_facade_lamp_right"]
 script = ExtResource("5")
 id = "facade_lamp_right"
-model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+substrate_prop_kind = "front_gate_lamp"
 position = Vector3(2.2, 0, 11.66)
 rotation_y = -8.0
 scale = 0.76
@@ -1342,7 +1342,7 @@ entry_anchors = Array[Resource]([SubResource("anchor_entry_opening"), SubResourc
 focal_anchors = Array[Resource]([SubResource("anchor_focus_mansion"), SubResource("anchor_focus_gate_sign")])
 interactables = Array[Resource]([SubResource("inter_gate_sign_new_game"), SubResource("inter_gate_sign_load_game"), SubResource("inter_gate_sign_settings"), SubResource("inter_gate_plaque"), SubResource("inter_gate_luggage"), SubResource("inter_gate_bench"), SubResource("inter_iron_gate"), SubResource("inter_gate_lamp")])
 lights = Array[Resource]([SubResource("light_moonlight"), SubResource("light_gate_lamp"), SubResource("light_village_lamp_near"), SubResource("light_village_lamp_far")])
-props = Array[Resource]([SubResource("prop_gate_pillar_l"), SubResource("prop_gate_pillar_r"), SubResource("prop_gate_center"), SubResource("prop_boundary_wall"), SubResource("prop_boundary_corner"), SubResource("prop_fence"), SubResource("prop_fence_r"), SubResource("prop_road_wall_left"), SubResource("prop_road_wall_right"), SubResource("prop_main_road"), SubResource("prop_outward_road"), SubResource("prop_hedge_left_gate"), SubResource("prop_hedge_left_mid_gate"), SubResource("prop_hedge_left_near"), SubResource("prop_hedge_right_gate"), SubResource("prop_hedge_right_mid_gate"), SubResource("prop_hedge_right_near"), SubResource("prop_moon_disc"), SubResource("prop_front_gate_starfield")])
+props = Array[Resource]([SubResource("prop_gate_pillar_l"), SubResource("prop_gate_pillar_r"), SubResource("prop_gate_center"), SubResource("prop_gate_center_r"), SubResource("prop_boundary_wall"), SubResource("prop_boundary_corner"), SubResource("prop_fence"), SubResource("prop_fence_r"), SubResource("prop_road_wall_left"), SubResource("prop_road_wall_right"), SubResource("prop_main_road"), SubResource("prop_outward_road"), SubResource("prop_tree1"), SubResource("prop_tree2"), SubResource("prop_tree3"), SubResource("prop_tree4"), SubResource("prop_tree5"), SubResource("prop_tree6"), SubResource("prop_tree7"), SubResource("prop_bush1"), SubResource("prop_bush2"), SubResource("prop_bush3"), SubResource("prop_bush4"), SubResource("prop_bush5"), SubResource("prop_bush6"), SubResource("prop_hedge_left_gate"), SubResource("prop_hedge_left_mid_gate"), SubResource("prop_hedge_left_near"), SubResource("prop_hedge_right_gate"), SubResource("prop_hedge_right_mid_gate"), SubResource("prop_hedge_right_near"), SubResource("prop_rocks"), SubResource("prop_off_lamp"), SubResource("prop_moon_disc"), SubResource("prop_menu_sign"), SubResource("prop_front_gate_starfield"), SubResource("prop_drive_stone_1"), SubResource("prop_drive_stone_0"), SubResource("prop_drive_stone_2"), SubResource("prop_drive_stone_3"), SubResource("prop_facade_lamp_left"), SubResource("prop_facade_lamp_right"), SubResource("prop_statue_plinth_left"), SubResource("prop_statue_left"), SubResource("prop_statue_plinth_right"), SubResource("prop_statue_right")])
 mount_slots = Array[Resource]([SubResource("mount_slot_gate_sign_anchor"), SubResource("mount_slot_gate_lamp_anchor")])
 mount_payloads = Array[Resource]([SubResource("mount_payload_gate_menu_sign"), SubResource("mount_payload_gate_lamp_off")])
 on_entry = Array[Resource]([SubResource("trig_first_entry")])

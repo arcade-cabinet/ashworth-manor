@@ -959,3 +959,16 @@ independent execution drivers:
     `front_steps`, and `front_gate` were moved off `model = *.tscn` misuse and
     onto `scene_path`
   - the declaration suite now fails if any `PropDecl.model` ends with `.tscn`
+  - the next repeated estate-approach import slice is migrated too:
+    common front-gate lamps, winter trees, winter bushes, rocks, and the
+    angled iron-gate leaf now author through `substrate_prop_kind` instead of
+    direct `.glb` model paths
+  - affected rooms:
+    `front_gate`, `front_steps`, `drive_lower`, and `drive_upper`
+  - `RoomAssembler` now owns substrate kinds for those repeated grounds assets,
+    and declaration coverage proves they build through the shared substrate path
+  - the front-gate lamp mount payload also moved onto `substrate_prop_kind`
+  - a real declaration bug was fixed during that pass:
+    the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
+    subresources outside the room's `props` array, and are now wired into the
+    actual authored room payload

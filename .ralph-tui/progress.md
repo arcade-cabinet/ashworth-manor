@@ -1264,6 +1264,28 @@ after each iteration and it's included in prompts for context.
   they now live under the substrate contract instead of exception handling
 - Current authored waiver count: `0`
 - Current authored `.tscn` misuse in `PropDecl.model`: `0`
+- The repeated raw front-gate approach imports are now under substrate kinds
+  too:
+  - `lamp_mx_1_b_on.glb` -> `front_gate_lamp`
+  - `tree01_winter.glb` -> `front_gate_tree_01`
+  - `tree02_winter.glb` -> `front_gate_tree_02`
+  - `tree03_winter.glb` -> `front_gate_tree_03`
+  - `tree04_winter.glb` -> `front_gate_tree_04`
+  - `bush01_winter.glb` -> `front_gate_bush_01`
+  - `bush02_winter.glb` -> `front_gate_bush_02`
+  - `bush03_winter.glb` -> `front_gate_bush_03`
+  - `bush04_winter.glb` -> `front_gate_bush_04`
+  - `rocks.glb` -> `front_gate_rocks`
+  - `iron_gate.glb` -> `iron_gate_leaf_angled`
+- Affected declarations:
+  - `front_gate`
+  - `front_steps`
+  - `drive_lower`
+  - `drive_upper`
+- The front-gate lamp mount payload now uses `substrate_prop_kind` too, and
+  the front-gate room payload now actually includes the migrated tree/bush/rock
+  and facade-lamp props in its `props` array instead of leaving them as dead
+  subresources
 - Verification after the waiver-contract pass:
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`

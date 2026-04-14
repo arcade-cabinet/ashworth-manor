@@ -353,7 +353,7 @@ scale_3d = Vector3(1.0, 1.0, 1.0)
 [sub_resource type="Resource" id="prop_facade_lamp_left"]
 script = ExtResource("5")
 id = "front_steps_facade_lamp_left"
-model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+substrate_prop_kind = "front_gate_lamp"
 position = Vector3(-2.2, 0, 4.05)
 rotation_y = 8.0
 scale = 0.76
@@ -361,7 +361,7 @@ scale = 0.76
 [sub_resource type="Resource" id="prop_facade_lamp_right"]
 script = ExtResource("5")
 id = "front_steps_facade_lamp_right"
-model = "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+substrate_prop_kind = "front_gate_lamp"
 position = Vector3(2.2, 0, 4.05)
 rotation_y = -8.0
 scale = 0.76

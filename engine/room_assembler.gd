@@ -65,6 +65,17 @@ const ESTATE_ENTRY_PORTICO_SCENE := "res://scenes/shared/grounds/estate_entry_po
 const ESTATE_FRONT_DOOR_SCENE := "res://scenes/shared/grounds/estate_front_door.tscn"
 const ESTATE_FORECOURT_STEPS_SCENE := "res://scenes/shared/grounds/estate_forecourt_steps.tscn"
 const ESTATE_STARFIELD_SCENE := "res://scenes/shared/grounds/estate_starfield.tscn"
+const FRONT_GATE_LAMP_MODEL := "res://assets/grounds/front_gate/lamp_mx_1_b_on.glb"
+const FRONT_GATE_TREE_01_MODEL := "res://assets/grounds/front_gate/tree01_winter.glb"
+const FRONT_GATE_TREE_02_MODEL := "res://assets/grounds/front_gate/tree02_winter.glb"
+const FRONT_GATE_TREE_03_MODEL := "res://assets/grounds/front_gate/tree03_winter.glb"
+const FRONT_GATE_TREE_04_MODEL := "res://assets/grounds/front_gate/tree04_winter.glb"
+const FRONT_GATE_BUSH_01_MODEL := "res://assets/grounds/front_gate/bush01_winter.glb"
+const FRONT_GATE_BUSH_02_MODEL := "res://assets/grounds/front_gate/bush02_winter.glb"
+const FRONT_GATE_BUSH_03_MODEL := "res://assets/grounds/front_gate/bush03_winter.glb"
+const FRONT_GATE_BUSH_04_MODEL := "res://assets/grounds/front_gate/bush04_winter.glb"
+const FRONT_GATE_ROCKS_MODEL := "res://assets/grounds/front_gate/rocks.glb"
+const FRONT_GATE_IRON_GATE_LEAF_MODEL := "res://assets/grounds/front_gate/iron_gate.glb"
 const LEGACY_PROCEDURAL_PROP_KINDS := {
 	PROCEDURAL_WINDOW_MODEL: "window_frame",
 	PROCEDURAL_WINDOW_RAY_MODEL: "window_ray",
@@ -101,6 +112,17 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	ESTATE_FRONT_DOOR_SCENE: "front_door_assembly",
 	ESTATE_FORECOURT_STEPS_SCENE: "forecourt_steps",
 	ESTATE_STARFIELD_SCENE: "starfield",
+	FRONT_GATE_LAMP_MODEL: "front_gate_lamp",
+	FRONT_GATE_TREE_01_MODEL: "front_gate_tree_01",
+	FRONT_GATE_TREE_02_MODEL: "front_gate_tree_02",
+	FRONT_GATE_TREE_03_MODEL: "front_gate_tree_03",
+	FRONT_GATE_TREE_04_MODEL: "front_gate_tree_04",
+	FRONT_GATE_BUSH_01_MODEL: "front_gate_bush_01",
+	FRONT_GATE_BUSH_02_MODEL: "front_gate_bush_02",
+	FRONT_GATE_BUSH_03_MODEL: "front_gate_bush_03",
+	FRONT_GATE_BUSH_04_MODEL: "front_gate_bush_04",
+	FRONT_GATE_ROCKS_MODEL: "front_gate_rocks",
+	FRONT_GATE_IRON_GATE_LEAF_MODEL: "iron_gate_leaf_angled",
 }
 
 
@@ -1077,6 +1099,28 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(ESTATE_FORECOURT_STEPS_SCENE, prop_decl)
 	if substrate_kind == "starfield":
 		return _instantiate_substrate_scene(ESTATE_STARFIELD_SCENE, prop_decl)
+	if substrate_kind == "front_gate_lamp":
+		return _instantiate_substrate_scene(FRONT_GATE_LAMP_MODEL, prop_decl)
+	if substrate_kind == "front_gate_tree_01":
+		return _instantiate_substrate_scene(FRONT_GATE_TREE_01_MODEL, prop_decl)
+	if substrate_kind == "front_gate_tree_02":
+		return _instantiate_substrate_scene(FRONT_GATE_TREE_02_MODEL, prop_decl)
+	if substrate_kind == "front_gate_tree_03":
+		return _instantiate_substrate_scene(FRONT_GATE_TREE_03_MODEL, prop_decl)
+	if substrate_kind == "front_gate_tree_04":
+		return _instantiate_substrate_scene(FRONT_GATE_TREE_04_MODEL, prop_decl)
+	if substrate_kind == "front_gate_bush_01":
+		return _instantiate_substrate_scene(FRONT_GATE_BUSH_01_MODEL, prop_decl)
+	if substrate_kind == "front_gate_bush_02":
+		return _instantiate_substrate_scene(FRONT_GATE_BUSH_02_MODEL, prop_decl)
+	if substrate_kind == "front_gate_bush_03":
+		return _instantiate_substrate_scene(FRONT_GATE_BUSH_03_MODEL, prop_decl)
+	if substrate_kind == "front_gate_bush_04":
+		return _instantiate_substrate_scene(FRONT_GATE_BUSH_04_MODEL, prop_decl)
+	if substrate_kind == "front_gate_rocks":
+		return _instantiate_substrate_scene(FRONT_GATE_ROCKS_MODEL, prop_decl)
+	if substrate_kind == "iron_gate_leaf_angled":
+		return _instantiate_substrate_scene(FRONT_GATE_IRON_GATE_LEAF_MODEL, prop_decl)
 	if prop_decl.tags.has("procedural_moon"):
 		var moon := MeshInstance3D.new()
 		moon.name = prop_decl.id if not prop_decl.id.is_empty() else "Moon"

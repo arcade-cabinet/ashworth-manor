@@ -210,9 +210,29 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_forecourt_steps_shell", "kind": "forecourt_steps"},
 		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_mansion_facade_shell", "kind": "mansion_facade"},
 		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_entry_portico", "kind": "entry_portico"},
+		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_facade_lamp_left", "kind": "front_gate_lamp"},
+		{"room_path": "res://declarations/rooms/front_steps.tres", "id": "front_steps_facade_lamp_right", "kind": "front_gate_lamp"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "gate_pillar_l", "kind": "gate_post"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "boundary_wall", "kind": "boundary_wall"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "iron_gate_center", "kind": "iron_gate_open"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "iron_gate_center_r", "kind": "iron_gate_leaf_angled"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "tree1", "kind": "front_gate_tree_01"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "tree2", "kind": "front_gate_tree_02"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "tree3", "kind": "front_gate_tree_03"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "tree4", "kind": "front_gate_tree_04"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "tree5", "kind": "front_gate_tree_01"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "tree6", "kind": "front_gate_tree_02"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "tree7", "kind": "front_gate_tree_03"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "bush1", "kind": "front_gate_bush_01"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "bush2", "kind": "front_gate_bush_02"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "bush3", "kind": "front_gate_bush_03"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "bush4", "kind": "front_gate_bush_04"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "bush5", "kind": "front_gate_bush_01"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "bush6", "kind": "front_gate_bush_02"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "rocks", "kind": "front_gate_rocks"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "gate_lamp_off", "kind": "front_gate_lamp"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "facade_lamp_left", "kind": "front_gate_lamp"},
+		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "facade_lamp_right", "kind": "front_gate_lamp"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "front_gate_main_road", "kind": "carriage_road"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "front_gate_outward_road", "kind": "outward_road"},
 		{"room_path": "res://declarations/rooms/front_gate.tres", "id": "front_gate_starfield", "kind": "starfield"},
@@ -222,12 +242,19 @@ func _test_grounds_scene_prop_contract() -> void:
 		{"room_path": "res://declarations/rooms/family_crypt.tres", "id": "crypt_gate_prop", "kind": "iron_gate_closed"},
 		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_road", "kind": "carriage_road"},
 		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_hedge_left_mid", "kind": "hedgerow"},
+		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_tree_left", "kind": "front_gate_tree_01"},
+		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_tree_right", "kind": "front_gate_tree_02"},
+		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_bush_left", "kind": "front_gate_bush_03"},
+		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_bush_right", "kind": "front_gate_bush_04"},
 		{"room_path": "res://declarations/rooms/drive_lower.tres", "id": "drive_lower_starfield", "kind": "starfield"},
 		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_road", "kind": "carriage_road"},
 		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_forecourt_steps", "kind": "forecourt_steps"},
 		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_mansion_facade_shell", "kind": "mansion_facade"},
 		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_entry_portico", "kind": "entry_portico"},
 		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_facade_door", "kind": "front_door_assembly"},
+		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_facade_lamp_left", "kind": "front_gate_lamp"},
+		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_facade_lamp_right", "kind": "front_gate_lamp"},
+		{"room_path": "res://declarations/rooms/drive_upper.tres", "id": "drive_upper_rocks", "kind": "front_gate_rocks"},
 	]
 	for entry in repeated_props:
 		var room = load(String(entry["room_path"]))
@@ -253,6 +280,11 @@ func _test_mount_payload_substrate_contract() -> void:
 		if menu_payload != null:
 			_ok("front_gate menu payload uses substrate kind", menu_payload.substrate_prop_kind == "front_gate_sign")
 			_ok("front_gate menu payload clears direct scene path", menu_payload.scene_path.is_empty())
+		var lamp_payload := _find_mount_payload_by_id(front_gate.mount_payloads, "gate_lamp_off_payload")
+		_ok("front_gate lamp payload present", lamp_payload != null)
+		if lamp_payload != null:
+			_ok("front_gate lamp payload uses substrate kind", lamp_payload.substrate_prop_kind == "front_gate_lamp")
+			_ok("front_gate lamp payload clears direct model path", lamp_payload.model.is_empty())
 	var greenhouse := load("res://declarations/rooms/greenhouse.tres")
 	_ok("greenhouse loads", greenhouse != null)
 	if greenhouse != null:
@@ -1096,6 +1128,36 @@ func _test_builder_default_contract() -> void:
 	var starfield := assembler._build_procedural_prop(starfield_decl)
 	_ok("substrate starfield builds from shared substrate kind", starfield != null)
 
+	var front_gate_lamp_decl := PropDecl.new()
+	front_gate_lamp_decl.id = "compat_front_gate_lamp"
+	front_gate_lamp_decl.substrate_prop_kind = "front_gate_lamp"
+	var front_gate_lamp := assembler._build_procedural_prop(front_gate_lamp_decl)
+	_ok("substrate front-gate lamp builds from shared substrate kind", front_gate_lamp != null)
+
+	var front_gate_tree_decl := PropDecl.new()
+	front_gate_tree_decl.id = "compat_front_gate_tree_01"
+	front_gate_tree_decl.substrate_prop_kind = "front_gate_tree_01"
+	var front_gate_tree := assembler._build_procedural_prop(front_gate_tree_decl)
+	_ok("substrate front-gate winter tree builds from shared substrate kind", front_gate_tree != null)
+
+	var front_gate_bush_decl := PropDecl.new()
+	front_gate_bush_decl.id = "compat_front_gate_bush_01"
+	front_gate_bush_decl.substrate_prop_kind = "front_gate_bush_01"
+	var front_gate_bush := assembler._build_procedural_prop(front_gate_bush_decl)
+	_ok("substrate front-gate winter bush builds from shared substrate kind", front_gate_bush != null)
+
+	var front_gate_rocks_decl := PropDecl.new()
+	front_gate_rocks_decl.id = "compat_front_gate_rocks"
+	front_gate_rocks_decl.substrate_prop_kind = "front_gate_rocks"
+	var front_gate_rocks := assembler._build_procedural_prop(front_gate_rocks_decl)
+	_ok("substrate front-gate rocks build from shared substrate kind", front_gate_rocks != null)
+
+	var iron_gate_leaf_decl := PropDecl.new()
+	iron_gate_leaf_decl.id = "compat_iron_gate_leaf_angled"
+	iron_gate_leaf_decl.substrate_prop_kind = "iron_gate_leaf_angled"
+	var iron_gate_leaf := assembler._build_procedural_prop(iron_gate_leaf_decl)
+	_ok("substrate angled iron gate leaf builds from shared substrate kind", iron_gate_leaf != null)
+
 	var greenhouse_pedestal_decl := PropDecl.new()
 	greenhouse_pedestal_decl.id = "compat_greenhouse_pedestal"
 	greenhouse_pedestal_decl.substrate_prop_kind = "greenhouse_pedestal"
@@ -1189,6 +1251,16 @@ func _test_builder_default_contract() -> void:
 		forecourt_steps.free()
 	if starfield != null:
 		starfield.free()
+	if front_gate_lamp != null:
+		front_gate_lamp.free()
+	if front_gate_tree != null:
+		front_gate_tree.free()
+	if front_gate_bush != null:
+		front_gate_bush.free()
+	if front_gate_rocks != null:
+		front_gate_rocks.free()
+	if iron_gate_leaf != null:
+		iron_gate_leaf.free()
 	if greenhouse_pedestal != null:
 		greenhouse_pedestal.free()
 	if mounted_sign != null:
