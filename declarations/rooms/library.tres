@@ -379,7 +379,7 @@ scale = 0.52
 [sub_resource type="Resource" id="prop_globe_stand"]
 script = ExtResource("5")
 id = "globe_stand"
-model = "res://assets/ground_floor/foyer/stand_mx_1.glb"
+substrate_prop_kind = "coat_stand"
 position = Vector3(-2.2, 0, 2.2)
 scale = 1.1
 

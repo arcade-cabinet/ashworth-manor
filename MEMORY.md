@@ -1066,6 +1066,11 @@ independent execution drivers:
     `binding_book`, `library_artifact`, `porcelain_doll`, and
     `bedroom_broken_bottle` now resolve through explicit `visual_kind`
     entries instead of raw model paths in declaration content
+  - another repeated support-prop slice moved too:
+    `lamp_mx_1_a_off.glb`, `bucket_mx_1.glb`, `mask_mx_3.glb`, and
+    `stand_mx_1.glb` now author through `attic_lamp_tall_off`,
+    `attic_bucket_small`, `attic_mask_ritual`, and `coat_stand`
+    instead of direct model paths in the room set
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

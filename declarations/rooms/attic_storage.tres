@@ -429,7 +429,7 @@ rotation_y = 12.0
 [sub_resource type="Resource" id="prop_bucket"]
 script = ExtResource("5")
 id = "attic_bucket"
-model = "res://assets/attic/storage/bucket_mx_1.glb"
+substrate_prop_kind = "attic_bucket_small"
 position = Vector3(5.2, 0, -0.8)
 
 [sub_resource type="Resource" id="prop_soap"]
@@ -447,7 +447,7 @@ position = Vector3(1.6, 0, -1.2)
 [sub_resource type="Resource" id="prop_mask"]
 script = ExtResource("5")
 id = "ritual_mask_prop"
-model = "res://assets/attic/storage/mask_mx_3.glb"
+substrate_prop_kind = "attic_mask_ritual"
 position = Vector3(5.7, 1.7, 0.2)
 rotation_y = 270.0
 

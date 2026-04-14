@@ -1460,6 +1460,13 @@ after each iteration and it's included in prompts for context.
   - `library_artifact` -> `library_artifact_display`
   - `porcelain_doll` -> `attic_porcelain_doll`
   - `bedroom_broken_bottle` -> `master_broken_bottle`
+- Another repeated support-prop slice is now migrated too:
+  - `lamp_mx_1_a_off.glb` -> `attic_lamp_tall_off`
+  - `bucket_mx_1.glb` -> `attic_bucket_small`
+  - `mask_mx_3.glb` -> `attic_mask_ritual`
+  - `stand_mx_1.glb` -> `coat_stand`
+  - affected authored rooms include:
+    `foyer`, `attic_stairs`, `attic_storage`, and `library`
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload

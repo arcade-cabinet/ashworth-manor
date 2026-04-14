@@ -149,6 +149,10 @@ const ITEM_PAGE_002_MODEL := "res://assets/shared/items/page2.glb"
 const ITEM_PAGE_005_MODEL := "res://assets/shared/items/page5.glb"
 const ITEM_OPENBOOK_000_MODEL := "res://assets/shared/items/openbook0.glb"
 const ITEM_OPENBOOK_001_MODEL := "res://assets/shared/items/openbook1.glb"
+const ATTIC_LAMP_TALL_OFF_MODEL := "res://assets/attic/stairwell/lamp_mx_1_a_off.glb"
+const ATTIC_BUCKET_SMALL_MODEL := "res://assets/attic/storage/bucket_mx_1.glb"
+const ATTIC_MASK_RITUAL_MODEL := "res://assets/attic/storage/mask_mx_3.glb"
+const COAT_STAND_MODEL := "res://assets/ground_floor/foyer/stand_mx_1.glb"
 const GREENHOUSE_PLANK_BENCH_MODEL := "res://assets/grounds/greenhouse/wooden_plank_1.glb"
 const GREENHOUSE_PLANK_SHELF_MODEL := "res://assets/grounds/greenhouse/wooden_plank_2.glb"
 const GREENHOUSE_DEAD_ROW_MODEL := "res://assets/grounds/greenhouse/bush_long_dead.glb"
@@ -281,6 +285,10 @@ const LEGACY_PROCEDURAL_PROP_KINDS := {
 	ITEM_PAGE_005_MODEL: "item_page_005",
 	ITEM_OPENBOOK_000_MODEL: "item_openbook_000",
 	ITEM_OPENBOOK_001_MODEL: "item_openbook_001",
+	ATTIC_LAMP_TALL_OFF_MODEL: "attic_lamp_tall_off",
+	ATTIC_BUCKET_SMALL_MODEL: "attic_bucket_small",
+	ATTIC_MASK_RITUAL_MODEL: "attic_mask_ritual",
+	COAT_STAND_MODEL: "coat_stand",
 	GREENHOUSE_PLANK_BENCH_MODEL: "greenhouse_plank_bench",
 	GREENHOUSE_PLANK_SHELF_MODEL: "greenhouse_plank_shelf",
 	GREENHOUSE_DEAD_ROW_MODEL: "greenhouse_dead_row",
@@ -1437,6 +1445,14 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		return _instantiate_substrate_scene(ITEM_OPENBOOK_000_MODEL, prop_decl)
 	if substrate_kind == "item_openbook_001":
 		return _instantiate_substrate_scene(ITEM_OPENBOOK_001_MODEL, prop_decl)
+	if substrate_kind == "attic_lamp_tall_off":
+		return _instantiate_substrate_scene(ATTIC_LAMP_TALL_OFF_MODEL, prop_decl)
+	if substrate_kind == "attic_bucket_small":
+		return _instantiate_substrate_scene(ATTIC_BUCKET_SMALL_MODEL, prop_decl)
+	if substrate_kind == "attic_mask_ritual":
+		return _instantiate_substrate_scene(ATTIC_MASK_RITUAL_MODEL, prop_decl)
+	if substrate_kind == "coat_stand":
+		return _instantiate_substrate_scene(COAT_STAND_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_bench":
 		return _instantiate_substrate_scene(GREENHOUSE_PLANK_BENCH_MODEL, prop_decl)
 	if substrate_kind == "greenhouse_plank_shelf":

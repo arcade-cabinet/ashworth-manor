@@ -590,3 +590,7 @@ changes between `adult/child` and `elder` route contexts.
   luggage, lamps, poster/mask, binding book, artifact, porcelain doll, and
   the broken bottle observation now resolve through explicit `visual_kind`
   entries instead of raw model paths in the room declarations.
+- Another repeated support-prop slice is substrate-owned now:
+  the attic stairwell lamp, attic bucket, attic ritual mask, and foyer stand
+  now author through explicit substrate kinds instead of raw model paths
+  across the room declarations.

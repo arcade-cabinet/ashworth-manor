@@ -691,6 +691,12 @@ func _test_substrate_contract() -> void:
 		"res://assets/shared/items/openbook0.glb": "item_openbook_000",
 		"res://assets/shared/items/openbook1.glb": "item_openbook_001",
 	}
+	var legacy_support_models := {
+		"res://assets/attic/stairwell/lamp_mx_1_a_off.glb": "attic_lamp_tall_off",
+		"res://assets/attic/storage/bucket_mx_1.glb": "attic_bucket_small",
+		"res://assets/attic/storage/mask_mx_3.glb": "attic_mask_ritual",
+		"res://assets/ground_floor/foyer/stand_mx_1.glb": "coat_stand",
+	}
 	var substrate_ids := [
 		"grounds_twilight",
 		"forecourt_lamplit",
@@ -846,6 +852,8 @@ func _test_substrate_contract() -> void:
 				legacy_kind = String(legacy_furniture_models.get(prop.model, ""))
 			if legacy_kind.is_empty():
 				legacy_kind = String(legacy_item_display_models.get(prop.model, ""))
+			if legacy_kind.is_empty():
+				legacy_kind = String(legacy_support_models.get(prop.model, ""))
 			if not legacy_kind.is_empty():
 				_ok("%s prop %s clears raw repeated model path" % [room_ref.room_id, prop.id], prop.model.is_empty())
 				_ok("%s prop %s uses repeated substrate kind" % [room_ref.room_id, prop.id], prop.substrate_prop_kind == legacy_kind)
@@ -1726,6 +1734,30 @@ func _test_builder_default_contract() -> void:
 	var item_openbook_001 := assembler._build_procedural_prop(item_openbook_001_decl)
 	_ok("substrate openbook1 builds from shared substrate kind", item_openbook_001 != null)
 
+	var attic_lamp_tall_off_decl := PropDecl.new()
+	attic_lamp_tall_off_decl.id = "compat_attic_lamp_tall_off"
+	attic_lamp_tall_off_decl.substrate_prop_kind = "attic_lamp_tall_off"
+	var attic_lamp_tall_off := assembler._build_procedural_prop(attic_lamp_tall_off_decl)
+	_ok("substrate attic lamp builds from shared substrate kind", attic_lamp_tall_off != null)
+
+	var attic_bucket_small_decl := PropDecl.new()
+	attic_bucket_small_decl.id = "compat_attic_bucket_small"
+	attic_bucket_small_decl.substrate_prop_kind = "attic_bucket_small"
+	var attic_bucket_small := assembler._build_procedural_prop(attic_bucket_small_decl)
+	_ok("substrate attic bucket builds from shared substrate kind", attic_bucket_small != null)
+
+	var attic_mask_ritual_decl := PropDecl.new()
+	attic_mask_ritual_decl.id = "compat_attic_mask_ritual"
+	attic_mask_ritual_decl.substrate_prop_kind = "attic_mask_ritual"
+	var attic_mask_ritual := assembler._build_procedural_prop(attic_mask_ritual_decl)
+	_ok("substrate attic mask builds from shared substrate kind", attic_mask_ritual != null)
+
+	var coat_stand_decl := PropDecl.new()
+	coat_stand_decl.id = "compat_coat_stand"
+	coat_stand_decl.substrate_prop_kind = "coat_stand"
+	var coat_stand := assembler._build_procedural_prop(coat_stand_decl)
+	_ok("substrate coat stand builds from shared substrate kind", coat_stand != null)
+
 	var greenhouse_plank_bench_decl := PropDecl.new()
 	greenhouse_plank_bench_decl.id = "compat_greenhouse_plank_bench"
 	greenhouse_plank_bench_decl.substrate_prop_kind = "greenhouse_plank_bench"
@@ -2011,6 +2043,14 @@ func _test_builder_default_contract() -> void:
 		item_openbook_000.free()
 	if item_openbook_001 != null:
 		item_openbook_001.free()
+	if attic_lamp_tall_off != null:
+		attic_lamp_tall_off.free()
+	if attic_bucket_small != null:
+		attic_bucket_small.free()
+	if attic_mask_ritual != null:
+		attic_mask_ritual.free()
+	if coat_stand != null:
+		coat_stand.free()
 	if greenhouse_plank_bench != null:
 		greenhouse_plank_bench.free()
 	if greenhouse_plank_shelf != null:

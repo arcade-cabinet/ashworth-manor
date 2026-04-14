@@ -398,7 +398,7 @@ rotation_y = 180.0
 [sub_resource type="Resource" id="prop_coat_stand"]
 script = ExtResource("5")
 id = "coat_stand"
-model = "res://assets/ground_floor/foyer/stand_mx_1.glb"
+substrate_prop_kind = "coat_stand"
 position = Vector3(4.7, 0, 0.65)
 
 [sub_resource type="Resource" id="prop_package"]
@@ -424,13 +424,13 @@ scale = 0.9
 [sub_resource type="Resource" id="prop_table_lamp"]
 script = ExtResource("5")
 id = "table_lamp"
-model = "res://assets/attic/stairwell/lamp_mx_1_a_off.glb"
+substrate_prop_kind = "attic_lamp_tall_off"
 position = Vector3(-5, 0.8, -3)
 
 [sub_resource type="Resource" id="prop_table_lamp_east"]
 script = ExtResource("5")
 id = "table_lamp_east"
-model = "res://assets/attic/stairwell/lamp_mx_1_a_off.glb"
+substrate_prop_kind = "attic_lamp_tall_off"
 position = Vector3(4.95, 0.8, -1.4)
 
 [sub_resource type="Resource" id="prop_pillar_l"]
@@ -597,7 +597,7 @@ script = ExtResource("13")
 payload_id = "foyer_table_lamp_west_payload"
 slot_id = "drawers_west_table"
 scene_role = "mounted_payload"
-model = "res://assets/attic/stairwell/lamp_mx_1_a_off.glb"
+substrate_prop_kind = "attic_lamp_tall_off"
 offset = Vector3(0, 0.8, 1.0)
 
 [sub_resource type="Resource" id="mount_payload_table_lamp_east"]
@@ -605,7 +605,7 @@ script = ExtResource("13")
 payload_id = "foyer_table_lamp_east_payload"
 slot_id = "drawers_east_table"
 scene_role = "mounted_payload"
-model = "res://assets/attic/stairwell/lamp_mx_1_a_off.glb"
+substrate_prop_kind = "attic_lamp_tall_off"
 offset = Vector3(0, 0.8, 0.05)
 
 [sub_resource type="Resource" id="mount_payload_wall_picture_east"]

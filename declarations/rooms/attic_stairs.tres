@@ -152,7 +152,7 @@ scale = 0.8
 [sub_resource type="Resource" id="prop_lamp"]
 script = ExtResource("5")
 id = "dead_lamp"
-model = "res://assets/attic/stairwell/lamp_mx_1_a_off.glb"
+substrate_prop_kind = "attic_lamp_tall_off"
 position = Vector3(-1.2, 1.9, -0.8)
 rotation_y = 35.0
 
@@ -183,7 +183,7 @@ scale = 0.8
 [sub_resource type="Resource" id="prop_bucket"]
 script = ExtResource("5")
 id = "leak_bucket"
-model = "res://assets/attic/storage/bucket_mx_1.glb"
+substrate_prop_kind = "attic_bucket_small"
 position = Vector3(1.15, 0.0, 1.95)
 rotation_y = -18.0
 scale = 0.75
@@ -191,7 +191,7 @@ scale = 0.75
 [sub_resource type="Resource" id="prop_mask"]
 script = ExtResource("5")
 id = "discarded_mask"
-model = "res://assets/attic/storage/mask_mx_3.glb"
+substrate_prop_kind = "attic_mask_ritual"
 position = Vector3(-1.1, 0.2, 1.55)
 rotation_y = 145.0
 scale = 0.7
