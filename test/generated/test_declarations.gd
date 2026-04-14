@@ -1008,7 +1008,11 @@ func _test_substrate_contract() -> void:
 				)
 				_ok(
 					"%s:%s direct model reason stays room-scoped" % [room_ref.room_id, prop.id],
-					prop.direct_model_reason == "%s_set_dressing" % room_ref.room_id
+					prop.direct_model_reason.begins_with("%s_" % room_ref.room_id)
+				)
+				_ok(
+					"%s:%s direct model reason is not the generic placeholder" % [room_ref.room_id, prop.id],
+					prop.direct_model_reason != "%s_set_dressing" % room_ref.room_id
 				)
 			if not prop.direct_model_reason.is_empty():
 				_ok(

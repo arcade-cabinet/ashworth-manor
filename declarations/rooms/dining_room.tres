@@ -270,35 +270,35 @@ rotation_y = 90.0
 script = ExtResource("5")
 id = "table_lamp"
 model = "res://assets/ground_floor/dining_room/lamp_mx_1_b_on.glb"
-direct_model_reason = "dining_room_set_dressing"
+direct_model_reason = "dining_room_table_service"
 position = Vector3(-0.6, 0.78, 2.0)
 
 [sub_resource type="Resource" id="prop_bottle_1"]
 script = ExtResource("5")
 id = "wine_bottle_1"
 model = "res://assets/ground_floor/dining_room/glass_bottle_mx_1.glb"
-direct_model_reason = "dining_room_set_dressing"
+direct_model_reason = "dining_room_table_service"
 position = Vector3(0.3, 0.78, -1.0)
 
 [sub_resource type="Resource" id="prop_bottle_2"]
 script = ExtResource("5")
 id = "wine_bottle_2"
 model = "res://assets/ground_floor/dining_room/glass_bottle_mx_2.glb"
-direct_model_reason = "dining_room_set_dressing"
+direct_model_reason = "dining_room_table_service"
 position = Vector3(-0.2, 0.78, 0.5)
 
 [sub_resource type="Resource" id="prop_bottle_3"]
 script = ExtResource("5")
 id = "wine_bottle_3"
 model = "res://assets/ground_floor/dining_room/glass_bottle_mx_3.glb"
-direct_model_reason = "dining_room_set_dressing"
+direct_model_reason = "dining_room_table_service"
 position = Vector3(0.1, 0.78, 1.5)
 
 [sub_resource type="Resource" id="prop_serving_vessel"]
 script = ExtResource("5")
 id = "serving_vessel"
 model = "res://assets/ground_floor/dining_room/serving_vessel.glb"
-direct_model_reason = "dining_room_set_dressing"
+direct_model_reason = "dining_room_table_service"
 position = Vector3(-0.4, 0.78, -0.5)
 
 [sub_resource type="Resource" id="prop_plate_1"]
@@ -353,7 +353,7 @@ position = Vector3(1.0, 0.86, 1.9)
 script = ExtResource("5")
 id = "dining_fork"
 model = "res://assets/ground_floor/dining_room/dining_fork.glb"
-direct_model_reason = "dining_room_set_dressing"
+direct_model_reason = "dining_room_table_service"
 position = Vector3(-1.15, 0.8, 0.0)
 rotation_y = 90.0
 
@@ -361,7 +361,7 @@ rotation_y = 90.0
 script = ExtResource("5")
 id = "dining_knife"
 model = "res://assets/ground_floor/dining_room/dining_knife.glb"
-direct_model_reason = "dining_room_set_dressing"
+direct_model_reason = "dining_room_table_service"
 position = Vector3(1.15, 0.8, 0.0)
 rotation_y = 90.0
 
@@ -369,7 +369,7 @@ rotation_y = 90.0
 script = ExtResource("5")
 id = "dining_spoon"
 model = "res://assets/ground_floor/dining_room/dining_spoon.glb"
-direct_model_reason = "dining_room_set_dressing"
+direct_model_reason = "dining_room_table_service"
 position = Vector3(1.25, 0.8, 1.8)
 rotation_y = 90.0
 

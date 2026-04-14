@@ -254,21 +254,21 @@ scale = 0.8
 script = ExtResource("5")
 id = "lamp_lit"
 model = "res://assets/upper_floor/hallway/lamp_mx_1_a_on.glb"
-direct_model_reason = "upper_hallway_set_dressing"
+direct_model_reason = "upper_hallway_passage_dressing"
 position = Vector3(-1.45, 0.85, -3.0)
 
 [sub_resource type="Resource" id="prop_lamp_dead"]
 script = ExtResource("5")
 id = "lamp_dead"
 model = "res://assets/upper_floor/hallway/lamp_mx_1_b_off.glb"
-direct_model_reason = "upper_hallway_set_dressing"
+direct_model_reason = "upper_hallway_passage_dressing"
 position = Vector3(1.45, 0.85, 3.2)
 
 [sub_resource type="Resource" id="prop_stand"]
 script = ExtResource("5")
 id = "hall_stand"
 model = "res://assets/upper_floor/hallway/stand_mx_2.glb"
-direct_model_reason = "upper_hallway_set_dressing"
+direct_model_reason = "upper_hallway_passage_dressing"
 position = Vector3(1.45, 0, -4.5)
 
 [sub_resource type="Resource" id="prop_sconce_model_north"]

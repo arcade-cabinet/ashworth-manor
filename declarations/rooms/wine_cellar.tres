@@ -199,7 +199,7 @@ rotation_y = 270.0
 script = ExtResource("5")
 id = "locked_box"
 model = "res://assets/deep_basement/wine_cellar/treasure_chest.glb"
-direct_model_reason = "wine_cellar_set_dressing"
+direct_model_reason = "wine_cellar_storage_clutter"
 position = Vector3(-3.4, 0, -2.0)
 scale = 0.6
 
@@ -220,28 +220,28 @@ scale = 0.9
 script = ExtResource("5")
 id = "cellar_lamp"
 model = "res://assets/deep_basement/wine_cellar/lamp_mx_3_on.glb"
-direct_model_reason = "wine_cellar_set_dressing"
+direct_model_reason = "wine_cellar_storage_clutter"
 position = Vector3(0.0, 0, 0.0)
 
 [sub_resource type="Resource" id="prop_bricks_l"]
 script = ExtResource("5")
 id = "bricks_l"
 model = "res://assets/deep_basement/wine_cellar/brick_mx_1.glb"
-direct_model_reason = "wine_cellar_set_dressing"
+direct_model_reason = "wine_cellar_storage_clutter"
 position = Vector3(-2.6, 0, 3.0)
 
 [sub_resource type="Resource" id="prop_bricks_r"]
 script = ExtResource("5")
 id = "bricks_r"
 model = "res://assets/deep_basement/wine_cellar/brick_mx_2.glb"
-direct_model_reason = "wine_cellar_set_dressing"
+direct_model_reason = "wine_cellar_storage_clutter"
 position = Vector3(2.8, 0, 2.4)
 
 [sub_resource type="Resource" id="prop_plank"]
 script = ExtResource("5")
 id = "plank"
 model = "res://assets/deep_basement/wine_cellar/wooden_plank_3.glb"
-direct_model_reason = "wine_cellar_set_dressing"
+direct_model_reason = "wine_cellar_storage_clutter"
 position = Vector3(0.8, 0, -3.4)
 rotation_y = 25.0
 
@@ -249,7 +249,7 @@ rotation_y = 25.0
 script = ExtResource("5")
 id = "loose_bottle"
 model = "res://assets/deep_basement/wine_cellar/glass_bottle_mx_3.glb"
-direct_model_reason = "wine_cellar_set_dressing"
+direct_model_reason = "wine_cellar_storage_clutter"
 position = Vector3(1.8, 0, 2.8)
 
 [sub_resource type="Resource" id="prop_box_candle"]
@@ -262,14 +262,14 @@ position = Vector3(-2.8, 0.82, -2.2)
 script = ExtResource("5")
 id = "bottle_cluster_a"
 model = "res://assets/deep_basement/wine_cellar/glass_bottle_mx_2.glb"
-direct_model_reason = "wine_cellar_set_dressing"
+direct_model_reason = "wine_cellar_storage_clutter"
 position = Vector3(2.5, 0.0, 1.9)
 
 [sub_resource type="Resource" id="prop_bottle_cluster_b"]
 script = ExtResource("5")
 id = "bottle_cluster_b"
 model = "res://assets/deep_basement/wine_cellar/glass_bottle_mx_1.glb"
-direct_model_reason = "wine_cellar_set_dressing"
+direct_model_reason = "wine_cellar_storage_clutter"
 position = Vector3(-2.1, 0.0, 2.5)
 
 [sub_resource type="Resource" id="act_visited"]
