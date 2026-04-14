@@ -426,3 +426,6 @@ changes between `adult/child` and `elder` route contexts.
   `res://assets/shared/structure/*.glb` for common substrate pieces.
 - The front facade and foyer trim kit no longer depend on repeated
   `res://assets/mansion_psx/models/SM_*.glb` prop authoring either.
+- Remaining architectural or threshold props that still bypass
+  `substrate_prop_kind` must now carry an explicit waiver reason in the
+  declaration. Silent exceptions are no longer allowed.

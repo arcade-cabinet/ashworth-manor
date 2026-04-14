@@ -272,6 +272,7 @@ position = Vector3(0.0, 0.0, -2.6)
 script = ExtResource("5")
 id = "greenhouse_glass_shell"
 scene_role = "architectural_trim"
+substrate_waiver_reason = "shared greenhouse shell scene still carries bespoke glazing assembly"
 scene_path = "res://scenes/shared/greenhouse/greenhouse_glazed_shell.tscn"
 position = Vector3(0, 0, 0)
 
@@ -298,6 +299,7 @@ position = Vector3(1.15, 0.0, 0.65)
 script = ExtResource("5")
 id = "greenhouse_hanging_lantern"
 scene_role = "architectural_trim"
+substrate_waiver_reason = "shared greenhouse lantern scene remains a bespoke hanging fixture shell"
 scene_path = "res://scenes/shared/greenhouse/greenhouse_hanging_lantern.tscn"
 position = Vector3(0, 2.62, -1.95)
 

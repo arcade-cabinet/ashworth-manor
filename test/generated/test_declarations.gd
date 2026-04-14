@@ -470,6 +470,14 @@ func _test_substrate_contract() -> void:
 					"%s mount payload route mode %s supported" % [payload.payload_id, route_mode],
 					SUPPORTED_MOUNT_ROUTE_MODES.has(String(route_mode))
 				)
+		for prop in room_decl.props:
+			if prop == null:
+				continue
+			if prop.scene_role in ["architectural_trim", "threshold_trim"] and prop.substrate_prop_kind.is_empty():
+				_ok(
+					"%s:%s non-substrate architectural prop has explicit waiver" % [room_ref.room_id, prop.id],
+					not prop.substrate_waiver_reason.is_empty()
+				)
 	print("[DONE] substrate contract")
 
 	var retired_structure_models := {

@@ -1117,3 +1117,15 @@ after each iteration and it's included in prompts for context.
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
   - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`
+- The next contract gate is now explicit waivers rather than silent exceptions:
+  - `PropDecl` adds `substrate_waiver_reason`
+  - any `architectural_trim` / `threshold_trim` prop that bypasses
+    `substrate_prop_kind` must now declare a waiver reason
+- Current narrow waivers:
+  - `front_gate_menu_sign`
+  - `greenhouse_glass_shell`
+  - `greenhouse_hanging_lantern`
+- Verification after the waiver-contract pass:
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/generated/test_declarations.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_room_specs.gd`
+  - `/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script test/e2e/test_full_playthrough.gd`

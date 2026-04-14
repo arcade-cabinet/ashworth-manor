@@ -901,3 +901,10 @@ independent execution drivers:
     each replacement builds cleanly
   - authored room declarations no longer contain direct repeated
     `res://assets/mansion_psx/models/SM_*.glb` prop references in that slice
+  - a waiver contract now exists for the remaining architectural exceptions:
+    `PropDecl` has `substrate_waiver_reason`, and any
+    `architectural_trim` / `threshold_trim` prop that still bypasses
+    `substrate_prop_kind` must populate it
+  - current explicit waivers are narrow and named:
+    `front_gate_menu_sign`, `greenhouse_glass_shell`, and
+    `greenhouse_hanging_lantern`
