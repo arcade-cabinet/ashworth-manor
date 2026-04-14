@@ -387,6 +387,7 @@ scale = 1.1
 script = ExtResource("5")
 id = "globe_body"
 model = "res://assets/medieval/models/Orb.glb"
+direct_model_reason = "room_specific_set_dressing"
 position = Vector3(-2.2, 1.35, 2.2)
 scale = 0.42
 
@@ -394,12 +395,14 @@ scale = 0.42
 script = ExtResource("5")
 id = "books_scrolls"
 model = "res://assets/upper_floor/library/books_scrolls.glb"
+direct_model_reason = "room_specific_set_dressing"
 position = Vector3(0.0, 0.86, 2.3)
 
 [sub_resource type="Resource" id="prop_map"]
 script = ExtResource("5")
 id = "wall_map"
 model = "res://assets/upper_floor/library/map_mx_1.glb"
+direct_model_reason = "room_specific_set_dressing"
 position = Vector3(2.7, 1.55, 4.1)
 
 [sub_resource type="Resource" id="prop_candle_holder_left"]
@@ -420,6 +423,7 @@ rotation_y = 270.0
 script = ExtResource("5")
 id = "ink_bottle"
 model = "res://assets/upper_floor/library/glass_bottle_mx_2.glb"
+direct_model_reason = "room_specific_set_dressing"
 position = Vector3(0.95, 0.9, 2.55)
 
 [sub_resource type="Resource" id="prop_openbook_a"]
@@ -432,6 +436,7 @@ position = Vector3(0.1, 0.9, 2.85)
 script = ExtResource("5")
 id = "openbook_b"
 model = "res://assets/shared/items/openbook2.glb"
+direct_model_reason = "room_specific_set_dressing"
 position = Vector3(-0.45, 0.9, 2.45)
 
 [sub_resource type="Resource" id="prop_page_a"]
@@ -445,6 +450,7 @@ rotation_y = 12.0
 script = ExtResource("5")
 id = "page_b"
 model = "res://assets/shared/items/page4.glb"
+direct_model_reason = "room_specific_set_dressing"
 position = Vector3(-0.15, 0.9, 2.1)
 rotation_y = -18.0
 
@@ -452,18 +458,21 @@ rotation_y = -18.0
 script = ExtResource("5")
 id = "gear_1"
 model = "res://assets/upper_floor/library/gear_mx_1.glb"
+direct_model_reason = "room_specific_set_dressing"
 position = Vector3(2.6, 0.82, -3.3)
 
 [sub_resource type="Resource" id="prop_gear_2"]
 script = ExtResource("5")
 id = "gear_2"
 model = "res://assets/upper_floor/library/gear_mx_2.glb"
+direct_model_reason = "room_specific_set_dressing"
 position = Vector3(3.2, 0.82, -3.8)
 
 [sub_resource type="Resource" id="prop_gear_3"]
 script = ExtResource("5")
 id = "gear_3"
 model = "res://assets/upper_floor/library/gear_mx_3.glb"
+direct_model_reason = "room_specific_set_dressing"
 position = Vector3(3.8, 0.82, -3.2)
 
 ; === Entry Trigger ===

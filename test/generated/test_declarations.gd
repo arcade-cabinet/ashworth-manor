@@ -943,6 +943,16 @@ func _test_substrate_contract() -> void:
 				"%s:%s model field stays asset-like, not scene-like" % [room_ref.room_id, prop.id],
 				prop.model.is_empty() or not String(prop.model).ends_with(".tscn")
 			)
+			if not prop.model.is_empty() and prop.substrate_prop_kind.is_empty():
+				_ok(
+					"%s:%s direct model authoring declares reason" % [room_ref.room_id, prop.id],
+					not prop.direct_model_reason.is_empty()
+				)
+			if not prop.direct_model_reason.is_empty():
+				_ok(
+					"%s:%s direct model reason only appears on raw-model props" % [room_ref.room_id, prop.id],
+					not prop.model.is_empty() and prop.substrate_prop_kind.is_empty()
+				)
 			if prop.scene_role in ["architectural_trim", "threshold_trim"] and prop.substrate_prop_kind.is_empty():
 				_ok(
 					"%s:%s non-substrate architectural prop has explicit waiver" % [room_ref.room_id, prop.id],

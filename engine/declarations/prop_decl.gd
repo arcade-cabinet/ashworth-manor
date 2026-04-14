@@ -8,6 +8,7 @@ extends Resource
 @export var substrate_prop_kind: String = "" # shared procedural/runtime-owned substrate prop kind
 @export var substrate_waiver_reason: String = "" # required when architectural/threshold props bypass substrate kinds
 @export var model: String = ""               # GLB path
+@export var direct_model_reason: String = "" # required when a prop intentionally stays on a raw GLB path
 @export var scene_path: String = ""          # Optional authored PackedScene for composite props
 @export var position: Vector3 = Vector3.ZERO
 @export var rotation_y: float = 0.0

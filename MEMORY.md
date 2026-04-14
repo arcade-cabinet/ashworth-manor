@@ -1089,6 +1089,10 @@ independent execution drivers:
     any non-empty raw `PropDecl.model` path that appears more than once across
     room declarations now fails `test_declarations.gd`, which locks the
     repeated-shared-family cleanup in as a regression rule
+  - the remaining one-off raw room props are explicit now too:
+    `PropDecl` has `direct_model_reason`, and every intentionally direct GLB
+    room prop now declares that it is deliberate room-specific set dressing
+    instead of being an undocumented leftover
   - a real declaration bug was fixed during that pass:
     the migrated front-gate tree/bush/rock/lamp props had been sitting as dead
     subresources outside the room's `props` array, and are now wired into the

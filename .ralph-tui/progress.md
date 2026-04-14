@@ -1493,6 +1493,12 @@ after each iteration and it's included in prompts for context.
     room declarations now fails validation
   - repeated shared families cannot regress back to direct model-path
     authoring without tripping `test/generated/test_declarations.gd`
+- The remaining one-off raw room-prop paths are explicit now too:
+  - `PropDecl` now carries `direct_model_reason`
+  - every intentionally direct GLB prop in room declarations now marks itself
+    as deliberate `room_specific_set_dressing`
+  - the declaration suite fails if a raw room-prop model path lacks that
+    reason, or if the reason appears on a substrate-owned prop
 - A real authored payload bug was fixed in the same room:
   `greenhouse_bucket_center` had existed as a subresource but was missing from
   `greenhouse.props`; it now participates in the real room payload

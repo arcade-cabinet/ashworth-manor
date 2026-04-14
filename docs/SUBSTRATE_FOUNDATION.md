@@ -611,3 +611,8 @@ changes between `adult/child` and `elder` route contexts.
   any non-empty raw `PropDecl.model` path that appears in more than one room
   now fails validation, so repeated shared families cannot quietly fall back
   to direct model-path authoring.
+- One-off raw room-prop models are now explicit too:
+  if a prop intentionally stays on a direct GLB path instead of a substrate
+  kind, the declaration must carry `direct_model_reason`. The current authored
+  room set uses that field to mark deliberate room-specific set dressing rather
+  than silent substrate drift.
