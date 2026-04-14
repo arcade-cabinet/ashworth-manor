@@ -264,6 +264,10 @@ shared procedural window and glow-plane visuals at assembly time.
 The same runtime seam now covers the repeated circulation structure props too:
 `stairs0.glb`, `stairbanister.glb`, and `banisterbase.glb` prop uses are now
 replaced by shared procedural stair, rail, and newel geometry during assembly.
+Those repeated structure props are now also represented explicitly in authored
+room data via `PropDecl.substrate_prop_kind` instead of normal imported-model
+authoring. The declaration suite now rejects those old shared structure model
+ids unless they have been migrated to their substrate kind.
 
 ## Foliage Shader
 

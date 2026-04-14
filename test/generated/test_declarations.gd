@@ -472,6 +472,32 @@ func _test_substrate_contract() -> void:
 				)
 	print("[DONE] substrate contract")
 
+	var retired_structure_models := {
+		"res://assets/shared/structure/window_clean.glb": "window_frame",
+		"res://assets/shared/structure/window_ray.glb": "window_ray",
+		"res://assets/shared/structure/stairs0.glb": "stair_run",
+		"res://assets/shared/structure/stairbanister.glb": "banister_run",
+		"res://assets/shared/structure/banisterbase.glb": "newel_post",
+	}
+	var dir := DirAccess.open("res://declarations/rooms/")
+	if dir != null:
+		dir.list_dir_begin()
+		var file_name := dir.get_next()
+		while file_name != "":
+			if file_name.ends_with(".tres"):
+				var room := load("res://declarations/rooms/" + file_name)
+				if room != null and "props" in room:
+					for prop in room.props:
+						if prop == null:
+							continue
+						var expected_kind := String(retired_structure_models.get(prop.model, ""))
+						if not expected_kind.is_empty():
+							_ok(
+								"%s:%s migrated repeated structure prop to substrate kind" % [room.room_id, prop.id],
+								prop.substrate_prop_kind == expected_kind
+							)
+			file_name = dir.get_next()
+
 
 func _room_has_window_segments(room_decl: RoomDeclaration) -> bool:
 	for layout in [room_decl.wall_north, room_decl.wall_south, room_decl.wall_east, room_decl.wall_west]:

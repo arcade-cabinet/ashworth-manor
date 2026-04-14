@@ -103,6 +103,9 @@ after each iteration and it's included in prompts for context.
   `stairbanister.glb`, and `banisterbase.glb` props too, replacing those
   repeated imported circulation structure props with procedural stair / rail /
   newel geometry during assembly.
+- Added `PropDecl.substrate_prop_kind` and migrated the repeated room-authored
+  window/circulation structure props onto explicit substrate kinds instead of
+  ordinary imported-model authoring.
 - Removed the redundant ordinary-door mesh hints from authored world data:
   - parlor, dining room, kitchen, upper-floor bedroom/library/guest-room, and
     service-hatch doors now rely on the shared door builder’s native default

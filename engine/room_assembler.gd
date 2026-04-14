@@ -35,6 +35,13 @@ const PROCEDURAL_WINDOW_RAY_MODEL := "res://assets/shared/structure/window_ray.g
 const PROCEDURAL_STAIRCASE_MODEL := "res://assets/shared/structure/stairs0.glb"
 const PROCEDURAL_BANISTER_MODEL := "res://assets/shared/structure/stairbanister.glb"
 const PROCEDURAL_NEWEL_MODEL := "res://assets/shared/structure/banisterbase.glb"
+const LEGACY_PROCEDURAL_PROP_KINDS := {
+	PROCEDURAL_WINDOW_MODEL: "window_frame",
+	PROCEDURAL_WINDOW_RAY_MODEL: "window_ray",
+	PROCEDURAL_STAIRCASE_MODEL: "stair_run",
+	PROCEDURAL_BANISTER_MODEL: "banister_run",
+	PROCEDURAL_NEWEL_MODEL: "newel_post",
+}
 
 
 func _init(world: WorldDeclaration) -> void:
@@ -664,14 +671,17 @@ func _build_world_label_board(decl: InteractableDecl) -> Node3D:
 
 
 func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
-	if prop_decl.model == PROCEDURAL_WINDOW_MODEL:
+	var substrate_kind := prop_decl.substrate_prop_kind
+	if substrate_kind.is_empty():
+		substrate_kind = String(LEGACY_PROCEDURAL_PROP_KINDS.get(prop_decl.model, ""))
+	if substrate_kind == "window_frame":
 		var window := WindowBuilder.build("window", "recipe:surface/oak_dark")
 		window.name = prop_decl.id if not prop_decl.id.is_empty() else "WindowProp"
 		window.position = prop_decl.position
 		window.rotation_degrees.y = prop_decl.rotation_y
-		window.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(prop_decl.model)
+		window.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_WINDOW_MODEL)
 		return window
-	if prop_decl.model == PROCEDURAL_WINDOW_RAY_MODEL:
+	if substrate_kind == "window_ray":
 		var ray_root := Node3D.new()
 		ray_root.name = prop_decl.id if not prop_decl.id.is_empty() else "WindowRayProp"
 		var ray := MeshInstance3D.new()
@@ -685,9 +695,9 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		ray_root.add_child(ray)
 		ray_root.position = prop_decl.position
 		ray_root.rotation_degrees.y = prop_decl.rotation_y
-		ray_root.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(prop_decl.model)
+		ray_root.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_WINDOW_RAY_MODEL)
 		return ray_root
-	if prop_decl.model == PROCEDURAL_STAIRCASE_MODEL:
+	if substrate_kind == "stair_run":
 		var staircase := Node3D.new()
 		staircase.name = prop_decl.id if not prop_decl.id.is_empty() else "StaircaseProp"
 		var tread_surface := "recipe:surface/oak_board"
@@ -729,9 +739,9 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		staircase.add_child(right_stringer)
 		staircase.position = prop_decl.position
 		staircase.rotation_degrees.y = prop_decl.rotation_y
-		staircase.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(prop_decl.model)
+		staircase.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_STAIRCASE_MODEL)
 		return staircase
-	if prop_decl.model == PROCEDURAL_BANISTER_MODEL:
+	if substrate_kind == "banister_run":
 		var banister := Node3D.new()
 		banister.name = prop_decl.id if not prop_decl.id.is_empty() else "BanisterProp"
 		var rail_surface := "recipe:surface/oak_dark"
@@ -756,9 +766,9 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		banister.add_child(rail)
 		banister.position = prop_decl.position
 		banister.rotation_degrees.y = prop_decl.rotation_y
-		banister.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(prop_decl.model)
+		banister.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_BANISTER_MODEL)
 		return banister
-	if prop_decl.model == PROCEDURAL_NEWEL_MODEL:
+	if substrate_kind == "newel_post":
 		var newel := Node3D.new()
 		newel.name = prop_decl.id if not prop_decl.id.is_empty() else "NewelProp"
 		var rail_surface := "recipe:surface/oak_dark"
@@ -773,7 +783,7 @@ func _build_procedural_prop(prop_decl: PropDecl) -> Node3D:
 		newel.add_child(cap)
 		newel.position = prop_decl.position
 		newel.rotation_degrees.y = prop_decl.rotation_y
-		newel.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(prop_decl.model)
+		newel.scale = prop_decl.scale_3d * Vector3.ONE * prop_decl.scale * _get_model_scale_override(PROCEDURAL_NEWEL_MODEL)
 		return newel
 	if prop_decl.tags.has("procedural_moon"):
 		var moon := MeshInstance3D.new()

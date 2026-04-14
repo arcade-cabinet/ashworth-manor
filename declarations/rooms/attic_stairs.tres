@@ -159,7 +159,7 @@ rotation_y = 35.0
 [sub_resource type="Resource" id="prop_window"]
 script = ExtResource("5")
 id = "stairwell_window"
-model = "res://assets/shared/structure/window_clean.glb"
+substrate_prop_kind = "window_frame"
 position = Vector3(1.55, 1.9, 0.95)
 rotation_y = 270.0
 scale = 1.05
@@ -167,7 +167,7 @@ scale = 1.05
 [sub_resource type="Resource" id="prop_window_ray"]
 script = ExtResource("5")
 id = "stairwell_window_ray"
-model = "res://assets/shared/structure/window_ray.glb"
+substrate_prop_kind = "window_ray"
 position = Vector3(1.2, 1.95, 0.8)
 rotation_y = 270.0
 scale = 1.1
@@ -175,7 +175,7 @@ scale = 1.1
 [sub_resource type="Resource" id="prop_banister_base"]
 script = ExtResource("5")
 id = "attic_banister_base"
-model = "res://assets/shared/structure/banisterbase.glb"
+substrate_prop_kind = "newel_post"
 position = Vector3(-0.85, 0.0, 1.55)
 rotation_y = 0.0
 scale = 0.8

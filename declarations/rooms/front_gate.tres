@@ -933,7 +933,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_window_left"]
 script = ExtResource("5")
 id = "facade_window_left"
-model = "res://assets/shared/structure/window_clean.glb"
+substrate_prop_kind = "window_frame"
 position = Vector3(-4.6, 2.18, 12.98)
 rotation_y = 180.0
 scale = 1.22
@@ -941,7 +941,7 @@ scale = 1.22
 [sub_resource type="Resource" id="prop_facade_window_right"]
 script = ExtResource("5")
 id = "facade_window_right"
-model = "res://assets/shared/structure/window_clean.glb"
+substrate_prop_kind = "window_frame"
 position = Vector3(4.6, 2.18, 12.98)
 rotation_y = 180.0
 scale = 1.22
@@ -949,7 +949,7 @@ scale = 1.22
 [sub_resource type="Resource" id="prop_facade_window_ray_left"]
 script = ExtResource("5")
 id = "facade_window_ray_left"
-model = "res://assets/shared/structure/window_ray.glb"
+substrate_prop_kind = "window_ray"
 position = Vector3(-4.6, 2.06, 12.82)
 rotation_y = 180.0
 scale = 0.52
@@ -957,7 +957,7 @@ scale = 0.52
 [sub_resource type="Resource" id="prop_facade_window_ray_right"]
 script = ExtResource("5")
 id = "facade_window_ray_right"
-model = "res://assets/shared/structure/window_ray.glb"
+substrate_prop_kind = "window_ray"
 position = Vector3(4.6, 2.06, 12.82)
 rotation_y = 180.0
 scale = 0.52
@@ -965,7 +965,7 @@ scale = 0.52
 [sub_resource type="Resource" id="prop_facade_window_center"]
 script = ExtResource("5")
 id = "facade_window_center"
-model = "res://assets/shared/structure/window_clean.glb"
+substrate_prop_kind = "window_frame"
 position = Vector3(0, 6.1, 12.62)
 rotation_y = 180.0
 scale = 1.0
@@ -973,7 +973,7 @@ scale = 1.0
 [sub_resource type="Resource" id="prop_facade_window_ray_center"]
 script = ExtResource("5")
 id = "facade_window_ray_center"
-model = "res://assets/shared/structure/window_ray.glb"
+substrate_prop_kind = "window_ray"
 position = Vector3(0, 5.95, 12.45)
 rotation_y = 180.0
 scale = 0.38
@@ -981,7 +981,7 @@ scale = 0.38
 [sub_resource type="Resource" id="prop_facade_upper_window_left"]
 script = ExtResource("5")
 id = "facade_upper_window_left"
-model = "res://assets/shared/structure/window_clean.glb"
+substrate_prop_kind = "window_frame"
 position = Vector3(-4.6, 6.0, 13.05)
 rotation_y = 180.0
 scale = 1.02
@@ -989,7 +989,7 @@ scale = 1.02
 [sub_resource type="Resource" id="prop_facade_upper_window_right"]
 script = ExtResource("5")
 id = "facade_upper_window_right"
-model = "res://assets/shared/structure/window_clean.glb"
+substrate_prop_kind = "window_frame"
 position = Vector3(4.6, 6.0, 13.05)
 rotation_y = 180.0
 scale = 1.02

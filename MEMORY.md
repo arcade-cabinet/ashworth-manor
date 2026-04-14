@@ -111,6 +111,9 @@
 - `RoomAssembler` now also intercepts declaration-authored `stairs0.glb`,
   `stairbanister.glb`, and `banisterbase.glb` props and replaces them with
   procedural stair / rail / newel geometry during assembly.
+- Repeated window/circulation structure props now have explicit authored
+  substrate kinds in room data (`window_frame`, `window_ray`, `stair_run`,
+  `banister_run`, `newel_post`) instead of normal imported-model authoring.
 - Common windows no longer need per-room compatibility hints at all:
   `WindowBuilder` now emits native procedural frame geometry directly, and the
   room-side `legacy_window_model_hint` field has now been removed from the

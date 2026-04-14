@@ -265,7 +265,7 @@ scale = 0.7
 [sub_resource type="Resource" id="prop_window_ray"]
 script = ExtResource("5")
 id = "greenhouse_window_ray"
-model = "res://assets/shared/structure/window_ray.glb"
+substrate_prop_kind = "window_ray"
 position = Vector3(0.0, 0.0, -2.6)
 
 [sub_resource type="Resource" id="prop_glass_shell"]

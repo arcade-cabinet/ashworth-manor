@@ -448,7 +448,7 @@ position = Vector3(3, 0, -4)
 [sub_resource type="Resource" id="prop_stairs"]
 script = ExtResource("5")
 id = "staircase"
-model = "res://assets/shared/structure/stairs0.glb"
+substrate_prop_kind = "stair_run"
 position = Vector3(3.15, 0, 2.55)
 rotation_y = 90.0
 scale = 0.9
@@ -456,7 +456,7 @@ scale = 0.9
 [sub_resource type="Resource" id="prop_banister"]
 script = ExtResource("5")
 id = "stair_banister"
-model = "res://assets/shared/structure/stairbanister.glb"
+substrate_prop_kind = "banister_run"
 position = Vector3(2.55, 0, 2.35)
 rotation_y = 90.0
 scale = 0.42
@@ -464,7 +464,7 @@ scale = 0.42
 [sub_resource type="Resource" id="prop_banister_base"]
 script = ExtResource("5")
 id = "stair_banister_base"
-model = "res://assets/shared/structure/banisterbase.glb"
+substrate_prop_kind = "newel_post"
 position = Vector3(0.8, 0, 0.45)
 rotation_y = 270.0
 scale = 1.2
@@ -560,7 +560,7 @@ position = Vector3(1.85, 2.45, 4.72)
 [sub_resource type="Resource" id="prop_window_ray"]
 script = ExtResource("5")
 id = "window_ray"
-model = "res://assets/shared/structure/window_ray.glb"
+substrate_prop_kind = "window_ray"
 position = Vector3(0, 3, -5)
 scale = 1.2
 

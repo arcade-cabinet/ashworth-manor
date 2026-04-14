@@ -285,14 +285,14 @@ rotation_y = 270.0
 [sub_resource type="Resource" id="prop_window"]
 script = ExtResource("5")
 id = "hall_window"
-model = "res://assets/shared/structure/window_clean.glb"
+substrate_prop_kind = "window_frame"
 position = Vector3(1.85, 1.5, 1.0)
 rotation_y = 270.0
 
 [sub_resource type="Resource" id="prop_window_ray"]
 script = ExtResource("5")
 id = "hall_window_ray"
-model = "res://assets/shared/structure/window_ray.glb"
+substrate_prop_kind = "window_ray"
 position = Vector3(1.65, 1.4, 1.0)
 rotation_y = 270.0
 

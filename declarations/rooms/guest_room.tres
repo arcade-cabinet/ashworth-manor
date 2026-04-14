@@ -232,7 +232,7 @@ position = Vector3(-3.25, 0.82, -2.75)
 [sub_resource type="Resource" id="prop_window_ray"]
 script = ExtResource("5")
 id = "guest_window_ray"
-model = "res://assets/shared/structure/window_ray.glb"
+substrate_prop_kind = "window_ray"
 position = Vector3(0.0, 0.0, 3.2)
 
 ; === Entry Trigger ===

@@ -211,7 +211,7 @@ scale = 0.86
 [sub_resource type="Resource" id="prop_window"]
 script = ExtResource("5")
 id = "kitchen_window_frame"
-model = "res://assets/shared/structure/window_clean.glb"
+substrate_prop_kind = "window_frame"
 position = Vector3(-3.92, 1.55, 0.15)
 rotation_y = 0.0
 scale = 1.25
@@ -219,7 +219,7 @@ scale = 1.25
 [sub_resource type="Resource" id="prop_window_ray"]
 script = ExtResource("5")
 id = "kitchen_window_ray"
-model = "res://assets/shared/structure/window_ray.glb"
+substrate_prop_kind = "window_ray"
 position = Vector3(-3.45, 1.55, 0.15)
 rotation_y = 0.0
 scale = 1.4

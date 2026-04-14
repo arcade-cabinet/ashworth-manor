@@ -5,6 +5,7 @@ extends Resource
 
 @export var id: String = ""
 @export var scene_role: String = "static_model" # static_model, architectural_trim, threshold_trim, clue_dressing
+@export var substrate_prop_kind: String = "" # shared procedural/runtime-owned substrate prop kind
 @export var model: String = ""               # GLB path
 @export var scene_path: String = ""          # Optional authored PackedScene for composite props
 @export var position: Vector3 = Vector3.ZERO
