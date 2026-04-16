@@ -1,13 +1,13 @@
 # Changelog
 
-## 1.0.0 (2026-04-07)
+## 1.0.0 (2026-04-14)
 
 
 ### ⚠ BREAKING CHANGES
 
 * Rooms are now .tscn scenes, not runtime-generated from a monolithic room_data.gd dictionary.
 
-### redesign
+### Redesign
 
 * Scene-based room architecture ([f3d8462](https://github.com/arcade-cabinet/ashworth-manor/commit/f3d8462c4f57a97f5e9d9cdd4beafa51236e5f0e))
 
