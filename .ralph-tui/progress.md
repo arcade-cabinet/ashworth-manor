@@ -11,6 +11,8 @@ after each iteration and it's included in prompts for context.
   `docs/SUBSTRATE_FOUNDATION.md`.
 - The whole-game ship-scope contract remains
   `docs/batches/ashworth-master-task-graph.md`.
+- The canonical remaining-work PRD is now
+  `tasks/prd-post-merge-closeout-and-release-candidate.md`.
 - Current tranche status:
   - `SF-001` canonical substrate inventory and freeze contract — done
   - `SF-002` shared shader and material recipe library — in_progress
@@ -22,6 +24,18 @@ after each iteration and it's included in prompts for context.
   - `SF-008` route-state integration on top of the substrate — pending
   - `SF-009` visual QA and evidence rebuild — pending
   - `SF-010` whole-game sweep and rebaseline — pending
+
+## 2026-04-16 - Remaining-work PRD added after merged closeout tranche
+
+- Added `tasks/prd-post-merge-closeout-and-release-candidate.md` as the
+  canonical remaining-work PRD for work not finished in the PRD-authoring push.
+- That PRD consolidates the real remaining closeout scope after PR #6 and PR #7:
+  - source-map/status-truth reconciliation
+  - opening visual acceptance
+  - `SF-006` through `SF-010` substrate/evidence closeout
+  - packaged critical-path AVD validation
+  - Android release-signing, export, install, and launch proof
+  - final first-party placeholder cleanup
 
 ## 2026-04-13 - Grounds emissive and void materials moved onto shared kit helpers
 

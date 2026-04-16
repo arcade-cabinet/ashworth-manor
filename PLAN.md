@@ -8,6 +8,7 @@
 | **Substrate authority** | `docs/SUBSTRATE_FOUNDATION.md` — the single source of truth for the shared physical language |
 | **Active execution contract** | `docs/batches/hard-substrate-freeze.md` — the current substrate-first batch |
 | **Whole-game scope contract** | `docs/batches/ashworth-master-task-graph.md` — the master task graph for total ship scope |
+| **Remaining-work PRD** | `tasks/prd-post-merge-closeout-and-release-candidate.md` — the canonical PRD for all work still open after the merged closeout tranche |
 | **Source map** | `docs/INDEX.md` — master index to all docs, canonical and support |
 | **Architecture** | `STRUCTURE.md` — runtime architecture and canonical surface map |
 
@@ -103,6 +104,7 @@ completion around a single coherent shipped game:
 - [x] Android debug packaging, install, and direct launch proof exist
 - [x] Source-map and progress surfaces fully rebased onto the hard substrate freeze
 - [x] Targeted declaration/environment validation rerun against the new substrate layer
+- [x] Remaining-work PRD now exists in `tasks/prd-post-merge-closeout-and-release-candidate.md`
 - [ ] Grounds and whole-house substrate adoption sweep complete
 - [ ] Release-signed Android export complete
 - [ ] Helper-backed packaged critical-path flow device-verified
