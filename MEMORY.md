@@ -21,6 +21,9 @@
 - `docs/batches/ashworth-master-task-graph.md` remains the whole-game scope
   contract and supersedes the fragmented batch chain as the main ship-scope
   surface.
+- `tasks/prd-post-merge-closeout-and-release-candidate.md` is now the
+  canonical PRD for all work still outstanding after the merged closeout
+  tranche on `main`.
 - `docs/batches/ralph-remaining-stories-batch.md` is the active execution
   contract for the unfinished PRD surface after the recovered Ralph tranche.
 - `docs/batches/ralph-final-remaining-stories.md` is now the active execution
