@@ -80,13 +80,11 @@ jobs:
           done
           echo "Room registry valid"
 
-      - name: E2E playthrough test
+      - name: Declaration and E2E suites
         run: |
-          timeout 60 godot --headless --script test/e2e/run_e2e.gd 2>&1 | tee /tmp/e2e_output.txt
-          if grep -q "0 failed" /tmp/e2e_output.txt; then
-            echo "E2E tests passed"
-          else
-            echo "::error::E2E tests failed"
-            cat /tmp/e2e_output.txt
-            exit 1
-          fi
+          timeout 120 godot --headless --path . --script test/generated/test_declarations.gd
+          timeout 120 godot --headless --path . --script test/e2e/test_declared_interactions.gd
+          timeout 120 godot --headless --path . --script test/e2e/test_room_specs.gd
+          timeout 120 godot --headless --path . --script test/e2e/test_room_walkthrough.gd
+          timeout 120 godot --headless --path . --script test/e2e/test_full_playthrough.gd
+          timeout 120 godot --headless --path . --script test/e2e/test_opening_journey.gd
